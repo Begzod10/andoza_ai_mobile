@@ -1,188 +1,306 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 
-/// E7: Onboarding Welcome
-/// First-time user welcome and feature introduction
-class E7OnboardingWelcomeScreen extends ConsumerWidget {
+/// E7: Qanday ishlaydi? — 4 full-screen dark-gradient onboarding slides
+/// with segment progress + skip. Slide 2 is the delta-idea explainer and
+/// must visually agree with the real mechanic in
+/// design_selection_model.dart's [deriveStageStates] — a current-state
+/// swatch (existingStateGray, matching the excluded-stage color used
+/// everywhere else) becoming a finished-state swatch (delta.completed),
+/// with the "faqat FARQ hisoblanadi" pill. Slide 3 follows slide 1's same
+/// template per the spec (no independent reference frame exists for it).
+class E7OnboardingWelcomeScreen extends StatefulWidget {
   const E7OnboardingWelcomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  State<E7OnboardingWelcomeScreen> createState() =>
+      _E7OnboardingWelcomeScreenState();
+}
+
+class _E7OnboardingWelcomeScreenState extends State<E7OnboardingWelcomeScreen> {
+  final _controller = PageController();
+  int _index = 0;
+
+  static const _slideCount = 4;
+
+  void _next() {
+    if (_index < _slideCount - 1) {
+      _controller.nextPage(
+        duration: DesignTokens.animationNormal,
+        curve: Curves.easeOut,
+      );
+    } else {
+      context.go('/');
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: DesignTokens.darkBg,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Skip button
-              Padding(
-                padding: const EdgeInsets.all(DesignTokens.spacing16),
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: TextButton(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: DesignTokens.spacingMd,
+                vertical: DesignTokens.spacingSm,
+              ),
+              child: Row(
+                children: [
+                  for (var i = 0; i < _slideCount; i++)
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: DesignTokens.spacingXs,
+                        ),
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: i <= _index
+                              ? DesignTokens.accentOrange
+                              : DesignTokens.white.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(
+                            DesignTokens.radiusFull,
+                          ),
+                        ),
+                      ),
+                    ),
+                  const SizedBox(width: DesignTokens.spacingSm),
+                  TextButton(
                     onPressed: () => context.go('/'),
-                    child: const Text('Skip'),
+                    child: Text(
+                      'O\'tkazib yuborish',
+                      style: DesignTokens.caption.copyWith(
+                        color: DesignTokens.white.withValues(alpha: 0.7),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: PageView(
+                controller: _controller,
+                onPageChanged: (i) => setState(() => _index = i),
+                children: const [
+                  _MeasureSlide(),
+                  _DeltaSlide(),
+                  _DecorateSlide(),
+                  _PriceSlide(),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(DesignTokens.spacingLg),
+              child: SizedBox(
+                width: double.infinity,
+                height: DesignTokens.buttonHeightLarge,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: DesignTokens.accentOrange,
+                  ),
+                  onPressed: _next,
+                  child: Text(
+                    _index == _slideCount - 1 ? 'Boshlash' : 'Keyingi',
                   ),
                 ),
               ),
-
-              // Hero illustration
-              Container(
-                height: 300,
-                decoration: BoxDecoration(
-                  color: DesignTokens.primaryBlue.withValues(alpha: 0.1),
-                ),
-                child: Icon(
-                  Icons.home_repair_service,
-                  size: 120,
-                  color: DesignTokens.primaryBlue,
-                ),
-              ),
-              const SizedBox(height: DesignTokens.spacing32),
-
-              // Welcome text
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: DesignTokens.spacing16,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Welcome to Tamir!',
-                      style: DesignTokens.heading2.copyWith(
-                        color: DesignTokens.text,
-                      ),
-                    ),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    Text(
-                      'Your complete solution for room measurement, interior design, cost estimation, and contractor management.',
-                      style: DesignTokens.bodyMedium.copyWith(
-                        color: DesignTokens.textSecondary,
-                        height: 1.6,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: DesignTokens.spacing32),
-
-              // Features
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: DesignTokens.spacing16,
-                ),
-                child: Column(
-                  children: [
-                    _FeatureCard(
-                      icon: Icons.camera_alt_outlined,
-                      title: 'Measure Rooms',
-                      description:
-                          'Capture accurate room dimensions using your phone',
-                    ),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    _FeatureCard(
-                      icon: Icons.palette_outlined,
-                      title: 'Design Interiors',
-                      description:
-                          'Choose materials, colors, and layout options',
-                    ),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    _FeatureCard(
-                      icon: Icons.receipt_outlined,
-                      title: 'Get Estimates',
-                      description: 'Receive detailed cost breakdowns instantly',
-                    ),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    _FeatureCard(
-                      icon: Icons.shopping_bag_outlined,
-                      title: 'Shop Materials',
-                      description: 'Browse and purchase materials directly',
-                    ),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    _FeatureCard(
-                      icon: Icons.person_outline,
-                      title: 'Hire Contractors',
-                      description: 'Connect with verified professionals',
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: DesignTokens.spacing32),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(DesignTokens.spacing16),
-        child: ElevatedButton(
-          onPressed: () => context.go('/'),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(vertical: DesignTokens.spacing12),
-            child: Text('Get Started'),
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-class _FeatureCard extends StatelessWidget {
-  const _FeatureCard({
+class _SlideScaffold extends StatelessWidget {
+  const _SlideScaffold({
     required this.icon,
     required this.title,
     required this.description,
+    this.child,
   });
 
   final IconData icon;
   final String title;
   final String description;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(DesignTokens.spacing12),
-      decoration: BoxDecoration(
-        border: Border.all(color: DesignTokens.border),
-        borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-      ),
-      child: Row(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: DesignTokens.spacingXl),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 48,
-            height: 48,
+            width: 120,
+            height: 120,
             decoration: BoxDecoration(
-              color: DesignTokens.primaryBlue.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
+              color: DesignTokens.primaryBlue.withValues(alpha: 0.25),
+              shape: BoxShape.circle,
             ),
-            child: Icon(icon, color: DesignTokens.primaryBlue, size: 24),
+            child: Icon(icon, size: 56, color: DesignTokens.white),
           ),
-          const SizedBox(width: DesignTokens.spacing12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: DesignTokens.subtitle2.copyWith(
-                    color: DesignTokens.text,
-                  ),
-                ),
-                const SizedBox(height: DesignTokens.spacing4),
-                Text(
-                  description,
-                  style: DesignTokens.caption.copyWith(
-                    color: DesignTokens.textSecondary,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+          const SizedBox(height: DesignTokens.spacingXl),
+          Text(
+            title,
+            style: DesignTokens.heading2.copyWith(color: DesignTokens.white),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: DesignTokens.spacingMd),
+          Text(
+            description,
+            style: DesignTokens.body1.copyWith(
+              color: DesignTokens.white.withValues(alpha: 0.75),
+            ),
+            textAlign: TextAlign.center,
+          ),
+          if (child != null) ...[
+            const SizedBox(height: DesignTokens.spacingXl),
+            child!,
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _MeasureSlide extends StatelessWidget {
+  const _MeasureSlide();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _SlideScaffold(
+      icon: Icons.straighten,
+      title: 'Xonangizni o\'lchang',
+      description:
+          'Telefon kamerasi yoki LiDAR yordamida xonangiz o\'lchamlarini '
+          'aniq oling.',
+    );
+  }
+}
+
+/// Slide 2 — the delta idea, visually tied to the real mechanic.
+class _DeltaSlide extends StatelessWidget {
+  const _DeltaSlide();
+
+  @override
+  Widget build(BuildContext context) {
+    return _SlideScaffold(
+      icon: Icons.auto_awesome,
+      title: 'Hozirgi holatdan boshlaymiz',
+      description:
+          'Xonangizda allaqachon bor narsalar uchun to\'lamaysiz — '
+          'faqat kerakli qismini hisoblaymiz.',
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          _StateSwatch(color: DesignTokens.existingStateGray, label: 'Hozirgi'),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: DesignTokens.spacingMd),
+            child: Icon(Icons.arrow_forward, color: DesignTokens.white),
+          ),
+          _StateSwatch(color: DesignTokens.delta.completed, label: 'Tayyor'),
+          const SizedBox(width: DesignTokens.spacingMd),
+          Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: DesignTokens.spacingSm,
+              vertical: DesignTokens.spacingXs,
+            ),
+            decoration: BoxDecoration(
+              color: DesignTokens.accentOrange,
+              borderRadius: BorderRadius.circular(DesignTokens.radiusFull),
+            ),
+            child: Text(
+              'faqat FARQ hisoblanadi',
+              style: DesignTokens.caption.copyWith(
+                color: DesignTokens.white,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _StateSwatch extends StatelessWidget {
+  const _StateSwatch({required this.color, required this.label});
+
+  final Color color;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
+          ),
+        ),
+        const SizedBox(height: DesignTokens.spacingXs),
+        Text(
+          label,
+          style: DesignTokens.caption.copyWith(
+            color: DesignTokens.white.withValues(alpha: 0.75),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _DecorateSlide extends StatelessWidget {
+  const _DecorateSlide();
+
+  @override
+  Widget build(BuildContext context) {
+    return const _SlideScaffold(
+      icon: Icons.view_in_ar_outlined,
+      title: '3D\'da bezang',
+      description:
+          'Materiallarni to\'g\'ridan-to\'g\'ri xonaning 3D ko\'rinishiga '
+          'sudrab, natijani darhol ko\'ring.',
+    );
+  }
+}
+
+class _PriceSlide extends StatelessWidget {
+  const _PriceSlide();
+
+  @override
+  Widget build(BuildContext context) {
+    return _SlideScaffold(
+      icon: Icons.receipt_long_outlined,
+      title: 'Narxni ko\'ring, materialni oling',
+      description:
+          'Aniq smeta oling va kerakli materiallarni to\'g\'ridan-to\'g\'ri '
+          'ilovadan xarid qiling.',
+      child: Container(
+        padding: const EdgeInsets.all(DesignTokens.spacingMd),
+        decoration: BoxDecoration(
+          color: DesignTokens.white.withValues(alpha: 0.06),
+          borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+        ),
+        child: Text(
+          'Tejaldingiz 4.2 mln',
+          style: DesignTokens.subtitle2.copyWith(
+            color: DesignTokens.delta.completed,
+          ),
+        ),
       ),
     );
   }

@@ -49,7 +49,12 @@ class _E3LaborCostsScreenState extends ConsumerState<E3LaborCostsScreen> {
       await Future.delayed(const Duration(milliseconds: 500));
 
       if (mounted) {
-        context.go('/estimation/e10');
+        // This whole E1-E3 flow is pre-Step-11 reference content and gets
+        // fully rewritten against the real spec then (see
+        // plans/andozaai-design-rebuild.md Step 11) — '/estimation/e10' now
+        // belongs to the real E10 (Do'kon search results), so route home
+        // rather than leave this pointed at an unrelated screen.
+        context.go('/');
       }
     } catch (e) {
       if (mounted) {

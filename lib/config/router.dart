@@ -28,8 +28,8 @@ import '../screens/electrical/d10_final_confirmation_screen.dart';
 import '../screens/estimation/e1_estimation_intro_screen.dart';
 import '../screens/estimation/e2_material_costs_screen.dart';
 import '../screens/estimation/e3_labor_costs_screen.dart';
-import '../screens/estimation/e10_estimate_summary_screen.dart';
 import '../models/shop_model.dart';
+import '../screens/shop/e10_search_results_screen.dart';
 import '../screens/shop/s1_shop_home_screen.dart';
 import '../screens/shop/s2_project_materials_screen.dart';
 import '../screens/shop/s3_product_detail_screen.dart';
@@ -45,6 +45,7 @@ import '../screens/masters/u5_booking_confirmation_screen.dart';
 import '../screens/profile/e4_profile_settings_screen.dart';
 import '../screens/profile/e5_payment_methods_screen.dart';
 import '../screens/profile/e6_saved_estimates_screen.dart';
+import '../screens/profile/e11_saved_designs_screen.dart';
 import '../screens/onboarding/e7_onboarding_welcome_screen.dart';
 import '../screens/onboarding/e8_tutorial_tour_screen.dart';
 import '../screens/onboarding/e9_preferences_settings_screen.dart';
@@ -209,14 +210,21 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: '/estimation/e3',
             builder: (context, state) => const E3LaborCostsScreen(),
           ),
-          GoRoute(
-            path: '/estimation/e10',
-            builder: (context, state) => const E10EstimateSummaryScreen(),
-          ),
           // Shop Routes (S1-S7)
           GoRoute(
             path: '/shop/s1',
             builder: (context, state) => const S1ShopHomeScreen(),
+          ),
+          // E10 (Qidiruv natijalari) is a Do'kon search-results screen,
+          // not an estimate screen — the old /estimation/e10 path/file was
+          // a numbering collision with an unrelated "final estimate
+          // export" screen (see Step 8 in
+          // plans/andozaai-design-rebuild.md), retired in favor of this.
+          GoRoute(
+            path: '/shop/search',
+            builder: (context, state) => E10SearchResultsScreen(
+              initialQuery: state.extra as String? ?? '',
+            ),
           ),
           GoRoute(
             path: '/shop/s2',
@@ -278,6 +286,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/profile/e6',
             builder: (context, state) => const E6SavedEstimatesScreen(),
+          ),
+          GoRoute(
+            path: '/profile/e11',
+            builder: (context, state) => const E11SavedDesignsScreen(),
           ),
           // Onboarding Routes (E7-E8 — spec has no separate E9, see
           // plans/screen-mapping.md; the existing E9 settings screen moves

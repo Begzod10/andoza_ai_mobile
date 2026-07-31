@@ -97,6 +97,8 @@ class _S1ShopHomeScreenState extends ConsumerState<S1ShopHomeScreen> {
                 prefixIcon: Icon(Icons.search),
               ),
               onChanged: (value) => setState(() => _query = value),
+              onSubmitted: (value) =>
+                  context.push('/shop/search', extra: value),
             ),
           ),
           const SizedBox(height: DesignTokens.spacingMd),

@@ -2,381 +2,231 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../providers/auth_provider.dart';
 
-/// E4: Profile & Account Settings
-/// User profile information and account management
-class E4ProfileSettingsScreen extends ConsumerStatefulWidget {
+/// E4: Profil bosh — avatar, name, verified badge, three stat cards, and
+/// the profile menu list. The "tejaldi" savings figure is a Step-11
+/// pricing-layer placeholder (same caveat as U5's send-smeta figure) —
+/// backfilled once the real Smeta calculation lands.
+class E4ProfileSettingsScreen extends ConsumerWidget {
   const E4ProfileSettingsScreen({super.key});
 
   @override
-  ConsumerState<E4ProfileSettingsScreen> createState() =>
-      _E4ProfileSettingsScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentUser = ref.watch(currentUserProvider);
+    final name = currentUser.maybeWhen(
+      data: (user) => user?.firstName ?? user?.name ?? user?.username,
+      orElse: () => null,
+    );
+    final phone = currentUser.maybeWhen(
+      data: (user) => user?.phone,
+      orElse: () => null,
+    );
 
-class _E4ProfileSettingsScreenState
-    extends ConsumerState<E4ProfileSettingsScreen> {
-  final _nameController = TextEditingController(text: 'Dilshod Rakhimov');
-  final _emailController = TextEditingController(
-    text: 'dilshod.rakhimov@example.com',
-  );
-  final _phoneController = TextEditingController(text: '+998 99 123 45 67');
-  bool _isSaving = false;
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _emailController.dispose();
-    _phoneController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _saveChanges() async {
-    setState(() => _isSaving = true);
-    await Future.delayed(const Duration(milliseconds: 500));
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Profile updated successfully')),
-      );
-      setState(() => _isSaving = false);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: DesignTokens.backgroundLight,
       appBar: AppBar(
-        title: const Text('Profile Settings'),
-        automaticallyImplyLeading: true,
+        backgroundColor: DesignTokens.backgroundLight,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        title: Text('Profil', style: DesignTokens.heading3),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Profile picture section
-            Padding(
-              padding: const EdgeInsets.all(DesignTokens.spacing16),
-              child: Center(
-                child: Column(
+      body: ListView(
+        padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),
+        children: [
+          Center(
+            child: Column(
+              children: [
+                const CircleAvatar(
+                  radius: 44,
+                  backgroundColor: DesignTokens.primaryBlue,
+                  child: Icon(
+                    Icons.person,
+                    color: DesignTokens.white,
+                    size: 44,
+                  ),
+                ),
+                const SizedBox(height: DesignTokens.spacingMd),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: DesignTokens.primaryBlue.withValues(alpha: 0.1),
+                    Text(name ?? 'Foydalanuvchi', style: DesignTokens.heading3),
+                    const SizedBox(width: DesignTokens.spacingXs),
+                    InkWell(
+                      onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Tez kunda')),
                       ),
-                      child: Icon(
-                        Icons.person,
-                        color: DesignTokens.primaryBlue,
-                        size: 60,
+                      child: const Icon(
+                        Icons.edit_outlined,
+                        size: 18,
+                        color: DesignTokens.textGray,
                       ),
-                    ),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    TextButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(Icons.camera_alt_outlined),
-                      label: const Text('Change Photo'),
                     ),
                   ],
                 ),
-              ),
-            ),
-
-            // Personal information
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: DesignTokens.spacing16,
-              ),
-              child: Text(
-                'Personal Information',
-                style: DesignTokens.subtitle1.copyWith(
-                  color: DesignTokens.text,
+                if (phone != null)
+                  Text(
+                    phone,
+                    style: DesignTokens.body2.copyWith(
+                      color: DesignTokens.textGray,
+                    ),
+                  ),
+                const SizedBox(height: DesignTokens.spacingXs),
+                Text(
+                  '✓ Tasdiqlangan',
+                  style: DesignTokens.caption.copyWith(
+                    color: DesignTokens.successGreen,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
+              ],
             ),
-            const SizedBox(height: DesignTokens.spacing12),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: DesignTokens.spacing16,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Full Name',
-                    style: DesignTokens.bodyMedium.copyWith(
-                      color: DesignTokens.text,
-                    ),
-                  ),
-                  const SizedBox(height: DesignTokens.spacing8),
-                  TextField(
-                    controller: _nameController,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                          DesignTokens.radiusMd,
-                        ),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: DesignTokens.spacing12,
-                        vertical: DesignTokens.spacing12,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: DesignTokens.spacing16),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: DesignTokens.spacing16,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Email Address',
-                    style: DesignTokens.bodyMedium.copyWith(
-                      color: DesignTokens.text,
-                    ),
-                  ),
-                  const SizedBox(height: DesignTokens.spacing8),
-                  TextField(
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                          DesignTokens.radiusMd,
-                        ),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: DesignTokens.spacing12,
-                        vertical: DesignTokens.spacing12,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: DesignTokens.spacing16),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: DesignTokens.spacing16,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Phone Number',
-                    style: DesignTokens.bodyMedium.copyWith(
-                      color: DesignTokens.text,
-                    ),
-                  ),
-                  const SizedBox(height: DesignTokens.spacing8),
-                  TextField(
-                    controller: _phoneController,
-                    keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(
-                          DesignTokens.radiusMd,
-                        ),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: DesignTokens.spacing12,
-                        vertical: DesignTokens.spacing12,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: DesignTokens.spacing24),
-
-            // Account settings
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: DesignTokens.spacing16,
-              ),
-              child: Text(
-                'Account Settings',
-                style: DesignTokens.subtitle1.copyWith(
-                  color: DesignTokens.text,
-                ),
-              ),
-            ),
-            const SizedBox(height: DesignTokens.spacing12),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: DesignTokens.spacing16,
-              ),
-              child: Column(
-                children: [
-                  _SettingsTile(
-                    icon: Icons.lock_outlined,
-                    title: 'Change Password',
-                    subtitle: 'Update your password',
-                    onTap: () {},
-                  ),
-                  const SizedBox(height: DesignTokens.spacing12),
-                  _SettingsTile(
-                    icon: Icons.notifications_outlined,
-                    title: 'Notifications',
-                    subtitle: 'Manage notification preferences',
-                    onTap: () {},
-                  ),
-                  const SizedBox(height: DesignTokens.spacing12),
-                  _SettingsTile(
-                    icon: Icons.privacy_tip_outlined,
-                    title: 'Privacy & Security',
-                    subtitle: 'Control your privacy settings',
-                    onTap: () {},
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: DesignTokens.spacing24),
-
-            // Danger zone
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: DesignTokens.spacing16,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Danger Zone',
-                    style: DesignTokens.subtitle1.copyWith(color: Colors.red),
-                  ),
-                  const SizedBox(height: DesignTokens.spacing12),
-                  OutlinedButton(
-                    onPressed: () {},
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Colors.red),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: DesignTokens.spacing12,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.logout, color: Colors.red),
-                          const SizedBox(width: DesignTokens.spacing8),
-                          Text(
-                            'Sign Out',
-                            style: DesignTokens.bodyMedium.copyWith(
-                              color: Colors.red,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: DesignTokens.spacing12),
-                  OutlinedButton(
-                    onPressed: () {},
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Colors.red),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: DesignTokens.spacing12,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Icon(Icons.delete_outline, color: Colors.red),
-                          const SizedBox(width: DesignTokens.spacing8),
-                          Text(
-                            'Delete Account',
-                            style: DesignTokens.bodyMedium.copyWith(
-                              color: Colors.red,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: DesignTokens.spacing32),
-          ],
-        ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(DesignTokens.spacing16),
-        child: ElevatedButton(
-          onPressed: _isSaving ? () {} : _saveChanges,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: DesignTokens.spacing12,
-            ),
-            child: _isSaving
-                ? const SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : const Text('Save Changes'),
           ),
-        ),
+          const SizedBox(height: DesignTokens.spacingLg),
+          Row(
+            children: const [
+              Expanded(
+                child: _StatCard(value: '3', label: 'loyiha'),
+              ),
+              SizedBox(width: DesignTokens.spacingSm),
+              Expanded(
+                child: _StatCard(value: '5', label: 'buyurtma'),
+              ),
+              SizedBox(width: DesignTokens.spacingSm),
+              Expanded(
+                child: _StatCard(value: '4.2 mln', label: 'tejaldi'),
+              ),
+            ],
+          ),
+          const SizedBox(height: DesignTokens.spacingLg),
+          _MenuTile(
+            icon: Icons.architecture_outlined,
+            label: 'Loyihalarim',
+            onTap: () => context.push('/profile/e5'),
+          ),
+          _MenuTile(
+            icon: Icons.shopping_bag_outlined,
+            label: 'Buyurtmalarim',
+            onTap: () => context.push('/profile/e6'),
+          ),
+          _MenuTile(
+            icon: Icons.bookmark_border,
+            label: 'Saqlangan dizaynlar',
+            onTap: () => context.push('/profile/e11'),
+          ),
+          _MenuTile(
+            icon: Icons.location_on_outlined,
+            label: 'Manzillarim',
+            onTap: () => ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(const SnackBar(content: Text('Tez kunda'))),
+          ),
+          _MenuTile(
+            icon: Icons.credit_card_outlined,
+            label: 'To\'lov usullari',
+            onTap: () => context.push('/shop/s6'),
+          ),
+          _MenuTile(
+            icon: Icons.language_outlined,
+            label: 'Til',
+            onTap: () => ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(const SnackBar(content: Text('O\'zbekcha'))),
+          ),
+          _MenuTile(
+            icon: Icons.settings_outlined,
+            label: 'Sozlamalar',
+            onTap: () => context.push('/profile/settings'),
+          ),
+          _MenuTile(
+            icon: Icons.help_outline,
+            label: 'Yordam',
+            onTap: () => context.push('/onboarding/e8'),
+          ),
+          const SizedBox(height: DesignTokens.spacingSm),
+          _MenuTile(
+            icon: Icons.logout,
+            label: 'Chiqish',
+            isDestructive: true,
+            onTap: () => ref.read(authStateProvider.notifier).logout(),
+          ),
+        ],
       ),
     );
   }
 }
 
-class _SettingsTile extends StatelessWidget {
-  const _SettingsTile({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-    required this.onTap,
-  });
+class _StatCard extends StatelessWidget {
+  const _StatCard({required this.value, required this.label});
 
-  final IconData icon;
-  final String title;
-  final String subtitle;
-  final VoidCallback onTap;
+  final String value;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: DesignTokens.spacingMd),
+      decoration: BoxDecoration(
+        color: DesignTokens.white,
+        borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+        border: Border.all(color: DesignTokens.borderGray),
+      ),
+      child: Column(
+        children: [
+          Text(
+            value,
+            style: DesignTokens.subtitle1.copyWith(
+              color: DesignTokens.primaryBlue,
+            ),
+          ),
+          Text(
+            label,
+            style: DesignTokens.caption.copyWith(color: DesignTokens.textGray),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MenuTile extends StatelessWidget {
+  const _MenuTile({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+    this.isDestructive = false,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+  final bool isDestructive;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = isDestructive ? DesignTokens.errorRed : DesignTokens.textDark;
     return InkWell(
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(DesignTokens.spacing12),
-        decoration: BoxDecoration(
-          border: Border.all(color: DesignTokens.border),
-          borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-        ),
+      borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: DesignTokens.spacingSm),
         child: Row(
           children: [
-            Icon(icon, color: DesignTokens.primaryBlue),
-            const SizedBox(width: DesignTokens.spacing12),
+            Icon(
+              icon,
+              color: isDestructive
+                  ? DesignTokens.errorRed
+                  : DesignTokens.textGray,
+            ),
+            const SizedBox(width: DesignTokens.spacingMd),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: DesignTokens.subtitle2.copyWith(
-                      color: DesignTokens.text,
-                    ),
-                  ),
-                  const SizedBox(height: DesignTokens.spacing4),
-                  Text(
-                    subtitle,
-                    style: DesignTokens.caption.copyWith(
-                      color: DesignTokens.textSecondary,
-                    ),
-                  ),
-                ],
+              child: Text(
+                label,
+                style: DesignTokens.body2.copyWith(color: color),
               ),
             ),
-            Icon(Icons.chevron_right, color: DesignTokens.textSecondary),
+            if (!isDestructive)
+              const Icon(Icons.chevron_right, color: DesignTokens.textMuted),
           ],
         ),
       ),

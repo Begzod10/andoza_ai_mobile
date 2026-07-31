@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 import '../../models/design_selection_model.dart';
 import '../../providers/auth_provider.dart';
+import '../../widgets/empty_state_pattern.dart';
 import '../room_setup/new_project_sheet.dart';
 
 /// Riverpod provider for home screen state
@@ -321,46 +322,12 @@ class HomeEmptyBody extends StatelessWidget {
               ],
             ),
             const SizedBox(height: DesignTokens.spacingXl),
-            // Empty-state card.
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(DesignTokens.spacingLg),
-              decoration: BoxDecoration(
-                color: const Color(0xFFFBFCFD),
-                borderRadius: BorderRadius.circular(DesignTokens.radiusXl),
-                border: Border.all(color: const Color(0xFFD6DAE2), width: 2),
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    width: 96,
-                    height: 96,
-                    decoration: BoxDecoration(
-                      color: DesignTokens.borderGrayAlt,
-                      borderRadius: BorderRadius.circular(
-                        DesignTokens.radiusXl,
-                      ),
-                    ),
-                    child: const Icon(
-                      Icons.home_outlined,
-                      size: DesignTokens.iconXxl,
-                      color: DesignTokens.primaryBlue,
-                    ),
-                  ),
-                  const SizedBox(height: DesignTokens.spacingMd),
-                  Text(
-                    'Birinchi xonangizni qo\'shing',
-                    style: DesignTokens.subtitle1,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: DesignTokens.spacingSm),
-                  Text(
-                    'Hali loyiha yo\'q — pastdagi + tugmasini bosing',
-                    style: DesignTokens.body2,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
+            EmptyStatePattern(
+              icon: Icons.home_outlined,
+              title: 'Birinchi xonangizni qo\'shing',
+              message: 'Hali loyiha yo\'q — yangi loyiha boshlang',
+              actionLabel: '+ Loyiha qo\'shish',
+              onAction: () => showNewProjectSheet(context),
             ),
             const SizedBox(height: DesignTokens.spacingXl),
             // Tezkor amallar — 2x2 quick-action grid.
