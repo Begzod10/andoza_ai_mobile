@@ -2,204 +2,226 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../models/shop_model.dart';
+import '../../providers/cart_provider.dart';
+import '../../utils/currency.dart';
 
-/// S5: Shopping Cart
-/// Review cart items and proceed to checkout
-class S5ShoppingCartScreen extends ConsumerStatefulWidget {
+/// S5: Savat — items grouped by dealer (each block: dealer header, item
+/// rows with quantity steppers, then that dealer's delivery fee), footer
+/// with materials/delivery/grand total.
+class S5ShoppingCartScreen extends ConsumerWidget {
   const S5ShoppingCartScreen({super.key});
 
   @override
-  ConsumerState<S5ShoppingCartScreen> createState() =>
-      _S5ShoppingCartScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final grouped = ref.watch(cartByDealerProvider);
+    final lines = ref.watch(cartProvider);
+    final materialsTotal = cartMaterialsTotal(lines);
+    final deliveryTotal = grouped.keys.fold<int>(
+      0,
+      (sum, dealer) => sum + deliveryFeeFor(dealer),
+    );
+    final grandTotal = materialsTotal + deliveryTotal;
 
-class _S5ShoppingCartScreenState extends ConsumerState<S5ShoppingCartScreen> {
-  bool _isCheckingOut = false;
-
-  Future<void> _proceedCheckout() async {
-    setState(() => _isCheckingOut = true);
-    await Future.delayed(const Duration(milliseconds: 500));
-    if (mounted) {
-      context.go('/shop/s7');
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: DesignTokens.backgroundLight,
       appBar: AppBar(
-        title: const Text('Shopping Cart'),
-        automaticallyImplyLeading: true,
+        backgroundColor: DesignTokens.backgroundLight,
+        elevation: 0,
+        title: Text('Savat', style: DesignTokens.heading3),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(DesignTokens.spacing16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Cart items
-                    Text(
-                      'Cart Items (3)',
-                      style: DesignTokens.subtitle1.copyWith(
-                        color: DesignTokens.text,
-                      ),
+      body: lines.isEmpty
+          ? Center(
+              child: Text(
+                'Savat bo\'sh',
+                style: DesignTokens.body2.copyWith(
+                  color: DesignTokens.textGray,
+                ),
+              ),
+            )
+          : Column(
+              children: [
+                Expanded(
+                  child: ListView(
+                    padding: const EdgeInsets.all(
+                      DesignTokens.screenPaddingHorizontal,
                     ),
-                    const SizedBox(height: DesignTokens.spacing16),
-                    _CartItem(
-                      name: 'Premium Ceramic Tiles',
-                      quantity: 2,
-                      price: 850,
-                      unit: 'm²',
-                    ),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    _CartItem(
-                      name: 'Matte Wall Paint (1L)',
-                      quantity: 5,
-                      price: 180,
-                      unit: 'L',
-                    ),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    _CartItem(
-                      name: 'LED Ceiling Light 60W',
-                      quantity: 3,
-                      price: 45000,
-                      unit: 'unit',
-                    ),
-                    const SizedBox(height: DesignTokens.spacing24),
-
-                    // Order summary
-                    Text(
-                      'Order Summary',
-                      style: DesignTokens.subtitle1.copyWith(
-                        color: DesignTokens.text,
-                      ),
-                    ),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    _SummaryRow(label: 'Subtotal', value: '366,900 UZS'),
-                    const SizedBox(height: DesignTokens.spacing8),
-                    _SummaryRow(label: 'Shipping', value: '15,000 UZS'),
-                    const SizedBox(height: DesignTokens.spacing8),
-                    _SummaryRow(
-                      label: 'Discount (10%)',
-                      value: '-36,690 UZS',
-                      isDiscount: true,
-                    ),
-                    Divider(
-                      height: DesignTokens.spacing20,
-                      color: DesignTokens.border,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Total',
-                          style: DesignTokens.subtitle1.copyWith(
-                            color: DesignTokens.text,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    children: [
+                      for (final entry in grouped.entries) ...[
+                        _DealerBlock(
+                          dealer: entry.key,
+                          lines: entry.value,
+                          onQuantityChanged: (line, qty) => ref
+                              .read(cartProvider.notifier)
+                              .updateQuantity(
+                                line.product.id,
+                                line.dealer.id,
+                                qty,
+                              ),
+                          onRemove: (line) => ref
+                              .read(cartProvider.notifier)
+                              .remove(line.product.id, line.dealer.id),
                         ),
-                        Text(
-                          '345,210 UZS',
-                          style: DesignTokens.heading3.copyWith(
-                            color: DesignTokens.primaryBlue,
+                        const SizedBox(height: DesignTokens.spacingMd),
+                      ],
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(DesignTokens.spacingMd),
+                  decoration: BoxDecoration(
+                    color: DesignTokens.white,
+                    boxShadow: [DesignTokens.shadowNavBar],
+                  ),
+                  child: SafeArea(
+                    top: false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        _SummaryRow(
+                          label: 'Materiallar',
+                          value: formatSom(materialsTotal),
+                        ),
+                        const SizedBox(height: DesignTokens.spacingXs),
+                        _SummaryRow(
+                          label: 'Yetkazish',
+                          value: formatSom(deliveryTotal),
+                        ),
+                        const Divider(height: DesignTokens.spacingLg),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Umumiy summa', style: DesignTokens.subtitle1),
+                            Text(
+                              formatSom(grandTotal),
+                              style: DesignTokens.heading3.copyWith(
+                                color: DesignTokens.primaryBlue,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: DesignTokens.spacingMd),
+                        SizedBox(
+                          height: DesignTokens.buttonHeightLarge,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: DesignTokens.accentOrange,
+                            ),
+                            onPressed: () => context.push('/shop/s6'),
+                            child: const Text('Buyurtmani rasmiylashtirish'),
                           ),
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          // Checkout button
-          Container(
-            padding: const EdgeInsets.all(DesignTokens.spacing16),
-            decoration: BoxDecoration(
-              border: Border(top: BorderSide(color: DesignTokens.border)),
-            ),
-            child: ElevatedButton(
-              onPressed: _isCheckingOut ? () {} : _proceedCheckout,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: DesignTokens.spacing12,
-                ),
-                child: _isCheckingOut
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Text('Proceed to Checkout'),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _CartItem extends StatelessWidget {
-  const _CartItem({
-    required this.name,
-    required this.quantity,
-    required this.price,
-    required this.unit,
-  });
-
-  final String name;
-  final int quantity;
-  final int price;
-  final String unit;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(DesignTokens.spacing12),
-      decoration: BoxDecoration(
-        border: Border.all(color: DesignTokens.border),
-        borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-              color: DesignTokens.primaryBlue.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
-            ),
-          ),
-          const SizedBox(width: DesignTokens.spacing12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: DesignTokens.bodyMedium.copyWith(
-                    color: DesignTokens.text,
-                  ),
-                ),
-                const SizedBox(height: DesignTokens.spacing4),
-                Text(
-                  'Qty: $quantity $unit',
-                  style: DesignTokens.caption.copyWith(
-                    color: DesignTokens.textSecondary,
                   ),
                 ),
               ],
             ),
+    );
+  }
+}
+
+class _DealerBlock extends StatelessWidget {
+  const _DealerBlock({
+    required this.dealer,
+    required this.lines,
+    required this.onQuantityChanged,
+    required this.onRemove,
+  });
+
+  final Dealer dealer;
+  final List<CartLine> lines;
+  final void Function(CartLine line, double quantity) onQuantityChanged;
+  final void Function(CartLine line) onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(DesignTokens.spacingMd),
+      decoration: BoxDecoration(
+        color: DesignTokens.white,
+        borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+        border: Border.all(color: DesignTokens.borderGray),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: Text(dealer.name, style: DesignTokens.subtitle2),
+                    ),
+                    if (dealer.isOfficial) ...[
+                      const SizedBox(width: DesignTokens.spacingXs),
+                      const Icon(
+                        Icons.verified,
+                        size: 14,
+                        color: DesignTokens.primaryBlue,
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ],
           ),
-          Text(
-            '${price * quantity} UZS',
-            style: DesignTokens.subtitle2.copyWith(
-              color: DesignTokens.primaryBlue,
-              fontWeight: FontWeight.bold,
+          const Divider(height: DesignTokens.spacingLg),
+          for (final line in lines) ...[
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(line.product.name, style: DesignTokens.body2),
+                      Text(
+                        formatSom(line.lineTotal),
+                        style: DesignTokens.caption.copyWith(
+                          color: DesignTokens.textGray,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.remove_circle_outline, size: 20),
+                  onPressed: () => onQuantityChanged(line, line.quantity - 1),
+                ),
+                Text(formatQuantity(line.quantity), style: DesignTokens.body2),
+                IconButton(
+                  icon: const Icon(Icons.add_circle_outline, size: 20),
+                  onPressed: () => onQuantityChanged(line, line.quantity + 1),
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.close,
+                    size: 18,
+                    color: DesignTokens.textMuted,
+                  ),
+                  onPressed: () => onRemove(line),
+                ),
+              ],
             ),
+          ],
+          const SizedBox(height: DesignTokens.spacingXs),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Yetkazish',
+                style: DesignTokens.caption.copyWith(
+                  color: DesignTokens.textGray,
+                ),
+              ),
+              Text(
+                formatSom(deliveryFeeFor(dealer)),
+                style: DesignTokens.caption.copyWith(
+                  color: DesignTokens.textGray,
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -208,15 +230,10 @@ class _CartItem extends StatelessWidget {
 }
 
 class _SummaryRow extends StatelessWidget {
-  const _SummaryRow({
-    required this.label,
-    required this.value,
-    this.isDiscount = false,
-  });
+  const _SummaryRow({required this.label, required this.value});
 
   final String label;
   final String value;
-  final bool isDiscount;
 
   @override
   Widget build(BuildContext context) {
@@ -225,17 +242,9 @@ class _SummaryRow extends StatelessWidget {
       children: [
         Text(
           label,
-          style: DesignTokens.bodyMedium.copyWith(
-            color: DesignTokens.textSecondary,
-          ),
+          style: DesignTokens.body2.copyWith(color: DesignTokens.textGray),
         ),
-        Text(
-          value,
-          style: DesignTokens.bodyMedium.copyWith(
-            color: isDiscount ? DesignTokens.success : DesignTokens.text,
-            fontWeight: isDiscount ? FontWeight.bold : FontWeight.normal,
-          ),
-        ),
+        Text(value, style: DesignTokens.body2),
       ],
     );
   }

@@ -2,304 +2,228 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../models/shop_model.dart';
+import '../../utils/currency.dart';
 
-/// S7: Order Confirmation
-/// Order placed successfully with tracking and details
+/// S7: Buyurtma holati — vertical stepper (Qabul qilindi → Yig'ilmoqda →
+/// Yo'lda → Yetkazildi), dealer/courier contact row, order contents and
+/// total, secondary "Ustaga topshirish" to notify the craftsman once
+/// materials arrive.
 class S7OrderConfirmationScreen extends ConsumerWidget {
-  const S7OrderConfirmationScreen({super.key});
+  const S7OrderConfirmationScreen({this.order, super.key});
+
+  final ShopOrder? order;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final o =
+        order ??
+        const ShopOrder(
+          id: 'ORD-0000',
+          lines: [],
+          total: 0,
+          currentStep: OrderStep.accepted,
+          dealerName: '—',
+        );
+
     return Scaffold(
+      backgroundColor: DesignTokens.backgroundLight,
       appBar: AppBar(
-        title: const Text('Order Confirmed'),
+        backgroundColor: DesignTokens.backgroundLight,
+        elevation: 0,
         automaticallyImplyLeading: false,
+        title: Text('Buyurtma holati', style: DesignTokens.heading3),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(DesignTokens.spacing24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Success animation
-              Center(
-                child: Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: DesignTokens.success.withValues(alpha: 0.1),
-                  ),
-                  child: Icon(
-                    Icons.check_circle,
-                    size: 80,
-                    color: DesignTokens.success,
-                  ),
-                ),
-              ),
-              const SizedBox(height: DesignTokens.spacing24),
-
-              // Success message
-              Text(
-                'Order Placed Successfully!',
-                style: DesignTokens.heading3.copyWith(color: DesignTokens.text),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: DesignTokens.spacing12),
-              Text(
-                'Your order has been confirmed. You can track it using the order ID below.',
-                style: DesignTokens.bodyMedium.copyWith(
-                  color: DesignTokens.textSecondary,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: DesignTokens.spacing32),
-
-              // Order details
-              Container(
-                padding: const EdgeInsets.all(DesignTokens.spacing16),
-                decoration: BoxDecoration(
-                  border: Border.all(color: DesignTokens.border),
-                  borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Order Details',
-                      style: DesignTokens.subtitle1.copyWith(
-                        color: DesignTokens.text,
-                      ),
-                    ),
-                    const SizedBox(height: DesignTokens.spacing16),
-                    _DetailRow(label: 'Order ID', value: 'ORD-2026-345210'),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    _DetailRow(label: 'Order Date', value: 'July 30, 2026'),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    _DetailRow(label: 'Total Amount', value: '345,210 UZS'),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    _DetailRow(
-                      label: 'Estimated Delivery',
-                      value: '3-5 business days',
-                    ),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    _DetailRow(
-                      label: 'Status',
-                      value: 'Processing',
-                      isStatus: true,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: DesignTokens.spacing32),
-
-              // Delivery address
-              Container(
-                padding: const EdgeInsets.all(DesignTokens.spacing16),
-                decoration: BoxDecoration(
-                  border: Border.all(color: DesignTokens.border),
-                  borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Delivery Address',
-                      style: DesignTokens.subtitle1.copyWith(
-                        color: DesignTokens.text,
-                      ),
-                    ),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    Text(
-                      'Tashkent Region\n42 Main Street, Apt 5\n100000, Tashkent\nUzbekistan',
-                      style: DesignTokens.bodyMedium.copyWith(
-                        color: DesignTokens.textSecondary,
-                        height: 1.6,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: DesignTokens.spacing32),
-
-              // Order items
-              Text(
-                'Items (3)',
-                style: DesignTokens.subtitle1.copyWith(
-                  color: DesignTokens.text,
-                ),
-              ),
-              const SizedBox(height: DesignTokens.spacing12),
-              _OrderItem(name: 'Premium Ceramic Tiles', qty: '2 m²'),
-              const SizedBox(height: DesignTokens.spacing8),
-              _OrderItem(name: 'Matte Wall Paint (1L)', qty: '5 L'),
-              const SizedBox(height: DesignTokens.spacing8),
-              _OrderItem(name: 'LED Ceiling Light 60W', qty: '3 unit'),
-              const SizedBox(height: DesignTokens.spacing32),
-
-              // Next steps
-              Container(
-                padding: const EdgeInsets.all(DesignTokens.spacing16),
-                decoration: BoxDecoration(
-                  color: DesignTokens.primaryBlue.withValues(alpha: 0.05),
-                  borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-                  border: Border.all(
-                    color: DesignTokens.primaryBlue.withValues(alpha: 0.2),
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'What\'s Next?',
-                      style: DesignTokens.subtitle2.copyWith(
-                        color: DesignTokens.text,
-                      ),
-                    ),
-                    const SizedBox(height: DesignTokens.spacing8),
-                    Text(
-                      '1. You will receive a confirmation email shortly\n'
-                      '2. Track your order using ID: ORD-2026-345210\n'
-                      '3. Driver will contact before delivery\n'
-                      '4. Inspect items upon receipt',
-                      style: DesignTokens.caption.copyWith(
-                        color: DesignTokens.textSecondary,
-                        height: 1.6,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: DesignTokens.spacing32),
-
-              // Action buttons
-              ElevatedButton.icon(
-                onPressed: () => context.go('/shop/s1'),
-                icon: const Icon(Icons.shopping_bag_outlined),
-                label: const Text('Continue Shopping'),
-              ),
-              const SizedBox(height: DesignTokens.spacing12),
-              OutlinedButton.icon(
-                onPressed: () => context.go('/'),
-                icon: const Icon(Icons.home_outlined),
-                label: const Text('Back to Home'),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _DetailRow extends StatelessWidget {
-  const _DetailRow({
-    required this.label,
-    required this.value,
-    this.isStatus = false,
-  });
-
-  final String label;
-  final String value;
-  final bool isStatus;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          label,
-          style: DesignTokens.bodyMedium.copyWith(
-            color: DesignTokens.textSecondary,
-          ),
-        ),
-        if (isStatus)
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: DesignTokens.spacing8,
-              vertical: DesignTokens.spacing4,
-            ),
-            decoration: BoxDecoration(
-              color: DesignTokens.success.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
-              border: Border.all(
-                color: DesignTokens.success.withValues(alpha: 0.3),
-              ),
-            ),
-            child: Text(
-              value,
-              style: DesignTokens.caption.copyWith(
-                color: DesignTokens.success,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          )
-        else
-          Text(
-            value,
-            style: DesignTokens.subtitle2.copyWith(
-              color: DesignTokens.text,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-      ],
-    );
-  }
-}
-
-class _OrderItem extends StatelessWidget {
-  const _OrderItem({required this.name, required this.qty});
-
-  final String name;
-  final String qty;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(DesignTokens.spacing12),
-      decoration: BoxDecoration(
-        border: Border.all(color: DesignTokens.border),
-        borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
-      ),
-      child: Row(
+      body: ListView(
+        padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),
         children: [
+          Text(
+            o.id,
+            style: DesignTokens.caption.copyWith(color: DesignTokens.textGray),
+          ),
+          const SizedBox(height: DesignTokens.spacingLg),
           Container(
-            width: 50,
-            height: 50,
+            padding: const EdgeInsets.all(DesignTokens.spacingMd),
             decoration: BoxDecoration(
-              color: DesignTokens.primaryBlue.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
+              color: DesignTokens.white,
+              borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+              border: Border.all(color: DesignTokens.borderGray),
+            ),
+            child: Column(
+              children: [
+                for (final step in OrderStep.values)
+                  _StepRow(
+                    step: step,
+                    isLast: step == OrderStep.values.last,
+                    state: step.index < o.currentStep.index
+                        ? _StepState.done
+                        : step.index == o.currentStep.index
+                        ? _StepState.active
+                        : _StepState.upcoming,
+                  ),
+              ],
             ),
           ),
-          const SizedBox(width: DesignTokens.spacing12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          const SizedBox(height: DesignTokens.spacingLg),
+          Container(
+            padding: const EdgeInsets.all(DesignTokens.spacingMd),
+            decoration: BoxDecoration(
+              color: DesignTokens.white,
+              borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+              border: Border.all(color: DesignTokens.borderGray),
+            ),
+            child: Row(
               children: [
-                Text(
-                  name,
-                  style: DesignTokens.bodyMedium.copyWith(
-                    color: DesignTokens.text,
+                const CircleAvatar(
+                  backgroundColor: DesignTokens.primaryBlue,
+                  child: Icon(
+                    Icons.local_shipping_outlined,
+                    color: DesignTokens.white,
                   ),
                 ),
-                const SizedBox(height: DesignTokens.spacing4),
-                Text(
-                  qty,
-                  style: DesignTokens.caption.copyWith(
-                    color: DesignTokens.textSecondary,
-                  ),
+                const SizedBox(width: DesignTokens.spacingSm),
+                Expanded(
+                  child: Text(o.dealerName, style: DesignTokens.subtitle2),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.call_outlined),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: const Icon(Icons.message_outlined),
+                  onPressed: () {},
                 ),
               ],
             ),
           ),
-          Icon(
-            Icons.check_circle_outlined,
-            color: DesignTokens.success,
-            size: 20,
+          const SizedBox(height: DesignTokens.spacingLg),
+          Text('Buyurtma tarkibi', style: DesignTokens.subtitle2),
+          const SizedBox(height: DesignTokens.spacingSm),
+          for (final line in o.lines) ...[
+            _OrderItemRow(line: line),
+            const SizedBox(height: DesignTokens.spacingXs),
+          ],
+          const SizedBox(height: DesignTokens.spacingSm),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('Jami', style: DesignTokens.subtitle1),
+              Text(
+                formatSom(o.total),
+                style: DesignTokens.heading3.copyWith(
+                  color: DesignTokens.primaryBlue,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: DesignTokens.spacingXl),
+          SizedBox(
+            width: double.infinity,
+            height: DesignTokens.buttonHeightLarge,
+            child: OutlinedButton(
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Usta xabardor qilindi')),
+                );
+              },
+              child: const Text('Ustaga topshirish'),
+            ),
+          ),
+          const SizedBox(height: DesignTokens.spacingSm),
+          SizedBox(
+            width: double.infinity,
+            child: TextButton(
+              onPressed: () => context.go('/shop/s1'),
+              child: const Text('Do\'konga qaytish'),
+            ),
           ),
         ],
       ),
+    );
+  }
+}
+
+enum _StepState { done, active, upcoming }
+
+class _StepRow extends StatelessWidget {
+  const _StepRow({
+    required this.step,
+    required this.state,
+    required this.isLast,
+  });
+
+  final OrderStep step;
+  final _StepState state;
+  final bool isLast;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = switch (state) {
+      _StepState.done => DesignTokens.successGreen,
+      _StepState.active => DesignTokens.primaryBlue,
+      _StepState.upcoming => DesignTokens.textMuted,
+    };
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Column(
+            children: [
+              Container(
+                width: 20,
+                height: 20,
+                decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+                child: state == _StepState.done
+                    ? const Icon(
+                        Icons.check,
+                        size: 14,
+                        color: DesignTokens.white,
+                      )
+                    : null,
+              ),
+              if (!isLast) Expanded(child: Container(width: 2, color: color)),
+            ],
+          ),
+          const SizedBox(width: DesignTokens.spacingSm),
+          Padding(
+            padding: const EdgeInsets.only(bottom: DesignTokens.spacingMd),
+            child: Text(
+              step.label,
+              style: DesignTokens.body2.copyWith(
+                color: DesignTokens.textDark,
+                fontWeight: state == _StepState.active
+                    ? FontWeight.bold
+                    : FontWeight.normal,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _OrderItemRow extends StatelessWidget {
+  const _OrderItemRow({required this.line});
+
+  final CartLine line;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            '${line.product.name} · ${formatQuantity(line.quantity)} '
+            '${line.product.unit}',
+            style: DesignTokens.body2,
+          ),
+        ),
+        Text(
+          formatSom(line.lineTotal),
+          style: DesignTokens.caption.copyWith(color: DesignTokens.textGray),
+        ),
+      ],
     );
   }
 }

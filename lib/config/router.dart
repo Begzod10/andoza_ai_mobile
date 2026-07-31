@@ -12,7 +12,6 @@ import '../screens/room_setup/wall_measurements_screen.dart';
 import '../screens/room_setup/room_summary_screen.dart';
 import '../screens/scanning/lidar_scanning_screen.dart';
 import '../screens/scanning/photo_scanning_screen.dart';
-import '../screens/measurement/measurement_stubs.dart';
 import '../screens/design/b1_room_intro_screen.dart';
 import '../screens/design/b2_room_entry_screen.dart';
 import '../screens/design/b3_decoration_rail_screen.dart';
@@ -30,8 +29,13 @@ import '../screens/estimation/e1_estimation_intro_screen.dart';
 import '../screens/estimation/e2_material_costs_screen.dart';
 import '../screens/estimation/e3_labor_costs_screen.dart';
 import '../screens/estimation/e10_estimate_summary_screen.dart';
+import '../models/shop_model.dart';
 import '../screens/shop/s1_shop_home_screen.dart';
+import '../screens/shop/s2_project_materials_screen.dart';
+import '../screens/shop/s3_product_detail_screen.dart';
+import '../screens/shop/s4_dealer_comparison_screen.dart';
 import '../screens/shop/s5_shopping_cart_screen.dart';
+import '../screens/shop/s6_checkout_screen.dart';
 import '../screens/shop/s7_order_confirmation_screen.dart';
 import '../providers/masters_provider.dart';
 import '../screens/masters/u1_masters_intro_screen.dart';
@@ -216,24 +220,17 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/shop/s2',
-            builder: (context, state) => const MeasurementStub(
-              title: 'Product Catalog',
-              description: 'Browse products by category with filtering',
-            ),
+            builder: (context, state) => const S2ProjectMaterialsScreen(),
           ),
           GoRoute(
             path: '/shop/s3',
-            builder: (context, state) => const MeasurementStub(
-              title: 'Product Details',
-              description: 'View product specifications and reviews',
-            ),
+            builder: (context, state) =>
+                S3ProductDetailScreen(product: state.extra as Product),
           ),
           GoRoute(
             path: '/shop/s4',
-            builder: (context, state) => const MeasurementStub(
-              title: 'Product Detail',
-              description: 'Full product details with images and pricing',
-            ),
+            builder: (context, state) =>
+                S4DealerComparisonScreen(product: state.extra as Product),
           ),
           GoRoute(
             path: '/shop/s5',
@@ -241,14 +238,12 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/shop/s6',
-            builder: (context, state) => const MeasurementStub(
-              title: 'Checkout',
-              description: 'Order review and payment',
-            ),
+            builder: (context, state) => const S6CheckoutScreen(),
           ),
           GoRoute(
             path: '/shop/s7',
-            builder: (context, state) => const S7OrderConfirmationScreen(),
+            builder: (context, state) =>
+                S7OrderConfirmationScreen(order: state.extra as ShopOrder?),
           ),
           // Masters Routes — U2 has no standalone route, it's a bottom
           // sheet shown from U1 (see u1_masters_intro_screen.dart's
