@@ -1,142 +1,181 @@
 import 'package:flutter/material.dart';
 import '../../config/design_tokens.dart';
 import '../../models/electrical_model.dart';
+import '../../providers/electrical_provider.dart';
 
-/// Card displaying electrical totals and per-category subtotals
+/// D9: Elektr natijasi — real computed totals (wire length per device
+/// type, device count), quantities only, no prices anywhere on this card.
 class ElectricalTotalsCard extends StatelessWidget {
   const ElectricalTotalsCard({required this.layout, super.key});
 
   final ElectricalLayout layout;
 
-  int get _socketCount =>
-      layout.devices.where((d) => d.type == DeviceType.outlet).length;
+  int get _deviceCount =>
+      layout.devices.where((d) => d.type != DeviceType.breaker).length;
   int get _switchCount =>
       layout.devices.where((d) => d.type == DeviceType.lightSwitch).length;
   int get _lightCount =>
       layout.devices.where((d) => d.type == DeviceType.light).length;
-  int get _wiringLength =>
-      layout.wires.fold<int>(0, (sum, w) => sum + (w.to.dx.toInt()));
-  int get _pipeLength =>
-      layout.pipes.fold<int>(0, (sum, p) => sum + (p.to.dx.toInt()));
+  double get _totalWireMeters => computeTotalWireLengthMeters(layout);
+  double get _socketWireMeters =>
+      computeWireLengthMetersFor(layout, DeviceType.outlet);
+  double get _switchWireMeters =>
+      computeWireLengthMetersFor(layout, DeviceType.lightSwitch);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(DesignTokens.spacing16),
+      padding: const EdgeInsets.all(DesignTokens.spacingMd),
       decoration: BoxDecoration(
-        border: Border.all(color: DesignTokens.border),
-        borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-        color: DesignTokens.surface,
+        border: Border.all(color: DesignTokens.borderGray),
+        borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
+        color: DesignTokens.white,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Electrical Summary',
-            style: DesignTokens.subtitle1.copyWith(color: DesignTokens.text),
-          ),
-          const SizedBox(height: DesignTokens.spacing16),
-          GridView.count(
-            crossAxisCount: 2,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: DesignTokens.spacing12,
-            crossAxisSpacing: DesignTokens.spacing12,
+          Text('Elektr hisoblandi', style: DesignTokens.subtitle1),
+          const SizedBox(height: DesignTokens.spacingMd),
+          Row(
             children: [
-              _StatTile(
-                label: 'Sockets',
-                value: '$_socketCount',
-                icon: Icons.power_outlined,
+              Expanded(
+                child: _StatTile(
+                  label: 'jami sim',
+                  value: '${_totalWireMeters.toStringAsFixed(2)} m',
+                ),
               ),
-              _StatTile(
-                label: 'Switches',
-                value: '$_switchCount',
-                icon: Icons.light_mode_outlined,
-              ),
-              _StatTile(
-                label: 'Lights',
-                value: '$_lightCount',
-                icon: Icons.lightbulb_outline,
-              ),
-              _StatTile(
-                label: 'Wiring',
-                value: '${_wiringLength}m',
-                icon: Icons.cable,
+              const SizedBox(width: DesignTokens.spacingMd),
+              Expanded(
+                child: _StatTile(label: 'ta qurilma', value: '$_deviceCount'),
               ),
             ],
           ),
-          if (layout.pipes.isNotEmpty) ...[
-            const SizedBox(height: DesignTokens.spacing16),
-            const Divider(),
-            const SizedBox(height: DesignTokens.spacing12),
-            Text(
-              'Plumbing Summary',
-              style: DesignTokens.subtitle1.copyWith(color: DesignTokens.text),
-            ),
-            const SizedBox(height: DesignTokens.spacing12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _StatTile(
-                  label: 'Pipe Length',
-                  value: '${_pipeLength}m',
-                  icon: Icons.plumbing,
-                ),
-                _StatTile(
-                  label: 'Hot Water',
-                  value:
-                      '${layout.pipes.where((p) => p.type == PipeType.hot).length}',
-                  icon: Icons.local_fire_department_outlined,
-                ),
-              ],
-            ),
-          ],
+          const SizedBox(height: DesignTokens.spacingMd),
+          Table(
+            columnWidths: const {
+              0: FlexColumnWidth(2),
+              1: FlexColumnWidth(1),
+              2: FlexColumnWidth(1.5),
+            },
+            children: [
+              _headerRow(),
+              for (final device in layout.devices.where(
+                (d) => d.type != DeviceType.breaker,
+              ))
+                _deviceRow(device),
+            ],
+          ),
+          const SizedBox(height: DesignTokens.spacingMd),
+          Wrap(
+            spacing: DesignTokens.spacingSm,
+            runSpacing: DesignTokens.spacingSm,
+            children: [
+              _chip(
+                'Rozetka simlari ${_socketWireMeters.toStringAsFixed(2)} m',
+              ),
+              _chip('Kalit simlari ${_switchWireMeters.toStringAsFixed(2)} m'),
+              _chip('$_switchCount kalit · $_lightCount yoritish'),
+            ],
+          ),
         ],
+      ),
+    );
+  }
+
+  TableRow _headerRow() {
+    return TableRow(
+      children: [
+        _headerCell('Qurilma'),
+        _headerCell('Devor'),
+        _headerCell('Balandlik'),
+      ],
+    );
+  }
+
+  Widget _headerCell(String text) => Padding(
+    padding: const EdgeInsets.symmetric(vertical: DesignTokens.spacingXs),
+    child: Text(
+      text,
+      style: DesignTokens.caption.copyWith(
+        fontWeight: FontWeight.w700,
+        color: DesignTokens.textGray,
+      ),
+    ),
+  );
+
+  TableRow _deviceRow(ElectricalDevice device) {
+    return TableRow(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: DesignTokens.spacingXs),
+          child: Text(_deviceLabel(device.type), style: DesignTokens.caption),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: DesignTokens.spacingXs),
+          child: Text(device.wallId, style: DesignTokens.caption),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: DesignTokens.spacingXs),
+          child: Text(
+            '${device.heightCm.toStringAsFixed(0)} sm',
+            style: DesignTokens.caption,
+          ),
+        ),
+      ],
+    );
+  }
+
+  String _deviceLabel(DeviceType type) => switch (type) {
+    DeviceType.outlet => 'Rozetka',
+    DeviceType.lightSwitch => 'Kalit',
+    DeviceType.light => 'Yoritish',
+    DeviceType.breaker => 'Qutisi',
+  };
+
+  Widget _chip(String label) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: DesignTokens.spacingSm,
+        vertical: DesignTokens.spacingXs,
+      ),
+      decoration: BoxDecoration(
+        color: DesignTokens.primaryTint,
+        borderRadius: BorderRadius.circular(DesignTokens.radiusFull),
+      ),
+      child: Text(
+        label,
+        style: DesignTokens.caption.copyWith(color: DesignTokens.primaryBlue),
       ),
     );
   }
 }
 
 class _StatTile extends StatelessWidget {
-  const _StatTile({
-    required this.label,
-    required this.value,
-    required this.icon,
-  });
+  const _StatTile({required this.label, required this.value});
 
   final String label;
   final String value;
-  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(DesignTokens.spacing12),
+      padding: const EdgeInsets.all(DesignTokens.spacingMd),
       decoration: BoxDecoration(
-        color: DesignTokens.primaryBlue.withValues(alpha: 0.05),
-        border: Border.all(
-          color: DesignTokens.primaryBlue.withValues(alpha: 0.2),
-        ),
-        borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
+        color: DesignTokens.primaryTint,
+        borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: DesignTokens.primaryBlue, size: 24),
-          const SizedBox(height: DesignTokens.spacing8),
           Text(
             value,
             style: DesignTokens.heading3.copyWith(
               color: DesignTokens.primaryBlue,
             ),
           ),
-          const SizedBox(height: DesignTokens.spacing4),
+          const SizedBox(height: DesignTokens.spacingXs),
           Text(
             label,
-            style: DesignTokens.caption.copyWith(
-              color: DesignTokens.textSecondary,
-            ),
-            textAlign: TextAlign.center,
+            style: DesignTokens.caption.copyWith(color: DesignTokens.textGray),
           ),
         ],
       ),

@@ -23,12 +23,6 @@ import '../screens/interior/c7_walkthrough_screen.dart';
 import '../screens/interior/c8_topdown_plan_screen.dart';
 import '../screens/interior/c9_decoration_complete_screen.dart';
 import '../screens/electrical/d1_electrical_intro_screen.dart';
-import '../screens/electrical/d2_wire_routing_screen.dart';
-import '../screens/electrical/d3_advanced_routing_screen.dart';
-import '../screens/electrical/d4_routing_confirmation_screen.dart';
-import '../screens/electrical/d5_outlet_placement_screen.dart';
-import '../screens/electrical/d6_lighting_placement_screen.dart';
-import '../screens/electrical/d7_device_review_screen.dart';
 import '../screens/electrical/d8_electrical_summary_screen.dart';
 import '../screens/electrical/d9_cost_estimate_screen.dart';
 import '../screens/electrical/d10_final_confirmation_screen.dart';
@@ -179,34 +173,12 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: '/interior/c9',
             builder: (context, state) => const C9DecorationCompleteScreen(),
           ),
-          // Electrical System Routes (D1-D10)
+          // Electrical System Routes — D1-D7 consolidated into one
+          // continuous drag-to-place screen (see
+          // d1_electrical_intro_screen.dart's doc comment for why).
           GoRoute(
             path: '/electrical/d1',
             builder: (context, state) => const D1ElectricalIntroScreen(),
-          ),
-          GoRoute(
-            path: '/electrical/d2',
-            builder: (context, state) => const D2WireRoutingScreen(),
-          ),
-          GoRoute(
-            path: '/electrical/d3',
-            builder: (context, state) => const D3AdvancedRoutingScreen(),
-          ),
-          GoRoute(
-            path: '/electrical/d4',
-            builder: (context, state) => const D4RoutingConfirmationScreen(),
-          ),
-          GoRoute(
-            path: '/electrical/d5',
-            builder: (context, state) => const D5OutletPlacementScreen(),
-          ),
-          GoRoute(
-            path: '/electrical/d6',
-            builder: (context, state) => const D6LightingPlacementScreen(),
-          ),
-          GoRoute(
-            path: '/electrical/d7',
-            builder: (context, state) => const D7DeviceReviewScreen(),
           ),
           GoRoute(
             path: '/electrical/d8',
@@ -219,13 +191,6 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/electrical/d10',
             builder: (context, state) => const D10FinalConfirmationScreen(),
-          ),
-          GoRoute(
-            path: '/electrical/complete',
-            builder: (context, state) => const MeasurementStub(
-              title: 'Electrical Design Complete',
-              description: 'Your electrical system has been planned and saved',
-            ),
           ),
           // Estimation Routes (E1-E3, E10)
           GoRoute(
