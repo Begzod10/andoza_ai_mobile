@@ -7,27 +7,14 @@ import '../screens/auth/login_screen.dart';
 import '../screens/splash/splash_screen.dart';
 import '../screens/home/home_empty_screen.dart';
 import '../screens/home/home_with_projects_screen.dart';
-import '../screens/room_setup/room_selection_sheet.dart';
 import '../screens/room_setup/dimensions_entry_screen.dart';
 import '../screens/room_setup/wall_measurements_screen.dart';
 import '../screens/room_setup/door_window_modal.dart';
 import '../screens/room_setup/room_summary_screen.dart';
 import '../screens/scanning/lidar_scanning_screen.dart';
 import '../screens/scanning/photo_scanning_screen.dart';
-import '../screens/measurement/a1_start_screen.dart';
-import '../screens/measurement/a2_camera_screen.dart';
-import '../screens/measurement/a3_room_name_screen.dart';
-import '../screens/measurement/a4_dimensions_screen.dart';
-import '../screens/measurement/a5_furniture_screen.dart';
-import '../screens/measurement/a6_lidar_screen.dart';
-import '../screens/measurement/a7_photo_screen.dart';
-import '../screens/measurement/a8_review_screen.dart';
-import '../screens/measurement/a9_summary_screen.dart';
-import '../screens/measurement/measurement_stubs.dart' hide A2CameraScreen, A3RoomNameScreen, A4ManualDimensionsScreen, A5FurnitureScreen, A6LidarScreen, A7PhotoScreen, A8ReviewScreen, A9SummaryScreen;
+import '../screens/measurement/measurement_stubs.dart';
 import '../screens/design/b1_room_intro_screen.dart';
-import '../screens/design/b2_floor_selection_screen.dart';
-import '../screens/design/b3_paint_selection_screen.dart';
-import '../screens/design/b4_preview_screen.dart';
 import '../screens/electrical/d1_electrical_intro_screen.dart';
 import '../screens/electrical/d2_wire_routing_screen.dart';
 import '../screens/electrical/d3_advanced_routing_screen.dart';
@@ -92,10 +79,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/splash',
         builder: (context, state) => const SplashScreen(),
       ),
-      GoRoute(
-        path: '/login',
-        builder: (context, state) => const LoginScreen(),
-      ),
+      GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
       ShellRoute(
         builder: (context, state, child) => AppShell(child: child),
         routes: [
@@ -111,42 +95,6 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: '/profile',
             builder: (context, state) => const E4ProfileSettingsScreen(),
           ),
-          GoRoute(
-            path: '/measurement/a1',
-            builder: (context, state) => const A1StartScreen(),
-          ),
-          GoRoute(
-            path: '/measurement/a2',
-            builder: (context, state) => const A2CameraScreen(),
-          ),
-          GoRoute(
-            path: '/measurement/a3',
-            builder: (context, state) => const A3RoomNameScreen(),
-          ),
-          GoRoute(
-            path: '/measurement/a4',
-            builder: (context, state) => const A4ManualDimensionsScreen(),
-          ),
-          GoRoute(
-            path: '/measurement/a5',
-            builder: (context, state) => const A5FurnitureScreen(),
-          ),
-          GoRoute(
-            path: '/measurement/a6',
-            builder: (context, state) => const A6LidarScreen(),
-          ),
-          GoRoute(
-            path: '/measurement/a7',
-            builder: (context, state) => const A7PhotoScreen(),
-          ),
-          GoRoute(
-            path: '/measurement/a8',
-            builder: (context, state) => const A8ReviewScreen(),
-          ),
-          GoRoute(
-            path: '/measurement/a9',
-            builder: (context, state) => const A9SummaryScreen(),
-          ),
           // New AndozaAI Routes
           GoRoute(
             path: '/home/empty',
@@ -155,10 +103,6 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/home/projects',
             builder: (context, state) => const HomeWithProjectsScreen(),
-          ),
-          GoRoute(
-            path: '/setup/room-selection',
-            builder: (context, state) => const RoomSelectionSheet(),
           ),
           GoRoute(
             path: '/setup/dimensions',
@@ -184,22 +128,15 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: '/scanning/photo',
             builder: (context, state) => const PhotoScanningScreen(),
           ),
-          // Design Flow Routes (B1-B4)
+          // Batch B Routes (Room state & entering the 3D room) — B1 kept
+          // (matches spec), B1-alt/B2/B3 are genuinely missing and get
+          // built fresh in Step 5. B2-B4 route paths retired here since
+          // design/b2-b4_*.dart don't correspond to real spec screens
+          // (see plans/screen-mapping.md) — they remain as unrouted
+          // reference files for Step 9's in-3D rail screens to consult.
           GoRoute(
             path: '/design/b1',
             builder: (context, state) => const B1RoomIntroScreen(),
-          ),
-          GoRoute(
-            path: '/design/b2',
-            builder: (context, state) => const B2FloorSelectionScreen(),
-          ),
-          GoRoute(
-            path: '/design/b3',
-            builder: (context, state) => const B3PaintSelectionScreen(),
-          ),
-          GoRoute(
-            path: '/design/b4',
-            builder: (context, state) => const B4PreviewScreen(),
           ),
           GoRoute(
             path: '/design/complete',
@@ -348,7 +285,9 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: '/profile/e6',
             builder: (context, state) => const E6SavedEstimatesScreen(),
           ),
-          // Onboarding Routes (E7-E9)
+          // Onboarding Routes (E7-E8 — spec has no separate E9, see
+          // plans/screen-mapping.md; the existing E9 settings screen moves
+          // to /profile/settings, reachable from E4's menu, wired in Step 8)
           GoRoute(
             path: '/onboarding/e7',
             builder: (context, state) => const E7OnboardingWelcomeScreen(),
@@ -358,7 +297,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             builder: (context, state) => const E8TutorialTourScreen(),
           ),
           GoRoute(
-            path: '/onboarding/e9',
+            path: '/profile/settings',
             builder: (context, state) => const E9PreferencesSettingsScreen(),
           ),
         ],
