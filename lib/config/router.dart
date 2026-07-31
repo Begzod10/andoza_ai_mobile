@@ -16,6 +16,12 @@ import '../screens/measurement/measurement_stubs.dart';
 import '../screens/design/b1_room_intro_screen.dart';
 import '../screens/design/b2_room_entry_screen.dart';
 import '../screens/design/b3_decoration_rail_screen.dart';
+import '../screens/interior/c1_paint_wallpaper_screen.dart';
+import '../screens/interior/c4_floor_selection_screen.dart';
+import '../screens/interior/c5_furniture_placement_screen.dart';
+import '../screens/interior/c7_walkthrough_screen.dart';
+import '../screens/interior/c8_topdown_plan_screen.dart';
+import '../screens/interior/c9_decoration_complete_screen.dart';
 import '../screens/electrical/d1_electrical_intro_screen.dart';
 import '../screens/electrical/d2_wire_routing_screen.dart';
 import '../screens/electrical/d3_advanced_routing_screen.dart';
@@ -146,12 +152,32 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: '/design/b3',
             builder: (context, state) => const B3DecorationRailScreen(),
           ),
+          // Batch C Routes (decoration inside the 3D room) — C1-C3, C5-C6
+          // are each one continuous interactive screen (see
+          // c1_paint_wallpaper_screen.dart's doc comment for why).
           GoRoute(
-            path: '/design/complete',
-            builder: (context, state) => const MeasurementStub(
-              title: 'Design Complete',
-              description: 'Your design selections have been saved',
-            ),
+            path: '/interior/c1',
+            builder: (context, state) => const C1PaintWallpaperScreen(),
+          ),
+          GoRoute(
+            path: '/interior/c4',
+            builder: (context, state) => const C4FloorSelectionScreen(),
+          ),
+          GoRoute(
+            path: '/interior/c5',
+            builder: (context, state) => const C5FurniturePlacementScreen(),
+          ),
+          GoRoute(
+            path: '/interior/c7',
+            builder: (context, state) => const C7WalkthroughScreen(),
+          ),
+          GoRoute(
+            path: '/interior/c8',
+            builder: (context, state) => const C8TopdownPlanScreen(),
+          ),
+          GoRoute(
+            path: '/interior/c9',
+            builder: (context, state) => const C9DecorationCompleteScreen(),
           ),
           // Electrical System Routes (D1-D10)
           GoRoute(

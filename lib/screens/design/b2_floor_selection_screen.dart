@@ -82,7 +82,7 @@ class _B2FloorSelectionScreenState
         area: 20.0, // Placeholder area (from room dimensions)
       );
 
-      await ref
+      ref
           .read(activeDesignProvider.notifier)
           .selectMaterial(surfaceId: 'floor', material: material);
 

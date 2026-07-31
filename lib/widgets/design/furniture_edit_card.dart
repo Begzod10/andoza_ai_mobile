@@ -53,7 +53,7 @@ class _FurnitureEditCardState extends State<FurnitureEditCard> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Header
+          // Header — no price anywhere on this card, per spec's hard rule.
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -67,33 +67,10 @@ class _FurnitureEditCardState extends State<FurnitureEditCard> {
               ),
             ],
           ),
-          const SizedBox(height: DesignTokens.spacing24),
-
-          // Rotation slider
-          Text(
-            'Rotation',
-            style: DesignTokens.subtitle2.copyWith(color: DesignTokens.text),
-          ),
-          const SizedBox(height: DesignTokens.spacing12),
-          Slider(
-            value: _rotation,
-            min: 0,
-            max: 360,
-            divisions: 36,
-            label: '${_rotation.toStringAsFixed(0)}°',
-            onChanged: (value) => setState(() => _rotation = value),
-          ),
-          const SizedBox(height: DesignTokens.spacing24),
-
-          // Color selection
-          Text(
-            'Color',
-            style: DesignTokens.subtitle2.copyWith(color: DesignTokens.text),
-          ),
           const SizedBox(height: DesignTokens.spacing12),
           Wrap(
-            spacing: DesignTokens.spacing12,
-            children: ['Black', 'White', 'Brown', 'Gray'].map((color) {
+            spacing: DesignTokens.spacingSm,
+            children: ['Qora', 'Oq', 'Jigarrang'].map((color) {
               return ChoiceChip(
                 selected: _selectedColor == color,
                 label: Text(color),
@@ -101,27 +78,34 @@ class _FurnitureEditCardState extends State<FurnitureEditCard> {
               );
             }).toList(),
           ),
-          const SizedBox(height: DesignTokens.spacing32),
-
-          // Action buttons
+          const SizedBox(height: DesignTokens.spacing24),
           Row(
             children: [
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: widget.onDelete,
-                  icon: const Icon(Icons.delete),
-                  label: const Text('Delete'),
+                  icon: const Icon(Icons.close),
+                  label: const Text('O\'chirish'),
                 ),
               ),
               const SizedBox(width: DesignTokens.spacing12),
               Expanded(
                 child: ElevatedButton.icon(
-                  onPressed: _save,
-                  icon: const Icon(Icons.check),
-                  label: const Text('Save'),
+                  onPressed: () =>
+                      setState(() => _rotation = (_rotation + 90) % 360),
+                  icon: const Icon(Icons.rotate_right),
+                  label: const Text('Aylantirish'),
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: DesignTokens.spacing12),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: _save,
+              child: const Text('Saqlash'),
+            ),
           ),
         ],
       ),

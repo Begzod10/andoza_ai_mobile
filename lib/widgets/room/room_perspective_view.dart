@@ -17,6 +17,7 @@ class RoomPerspectiveView extends StatelessWidget {
     this.wallpaperColor,
     this.floorColor,
     this.onBackWallDrop,
+    this.onFloorDrop,
     super.key,
   });
 
@@ -31,6 +32,10 @@ class RoomPerspectiveView extends StatelessWidget {
   /// [RailItem] (e.g. a paint/wallpaper swatch from [Room3DRail]) — used
   /// by B3/C1-C3's drag-from-rail-onto-wall interaction.
   final ValueChanged<RailItem>? onBackWallDrop;
+
+  /// When set, the floor becomes a drop target — used by C4's floor-stage
+  /// drag interaction.
+  final ValueChanged<RailItem>? onFloorDrop;
 
   Color get _wallColor =>
       wallpaperColor ??
@@ -119,7 +124,8 @@ class RoomPerspectiveView extends StatelessWidget {
                 child: Container(color: _wallColor.withValues(alpha: 0.85)),
               ),
             ),
-            // Floor (perspective trapezoid).
+            // Floor (perspective trapezoid) — a drop target when
+            // [onFloorDrop] is set.
             Positioned(
               top: h * 0.68,
               left: 0,
@@ -127,7 +133,27 @@ class RoomPerspectiveView extends StatelessWidget {
               bottom: 0,
               child: ClipPath(
                 clipper: _FloorClipper(),
-                child: Container(color: floorColor ?? const Color(0xFFE7D9BF)),
+                child: onFloorDrop == null
+                    ? Container(color: floorColor ?? const Color(0xFFE7D9BF))
+                    : DragTarget<RailItem>(
+                        onWillAcceptWithDetails: (_) => true,
+                        onAcceptWithDetails: (details) =>
+                            onFloorDrop!(details.data),
+                        builder: (context, candidateData, rejectedData) {
+                          final isHovering = candidateData.isNotEmpty;
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: floorColor ?? const Color(0xFFE7D9BF),
+                              border: isHovering
+                                  ? Border.all(
+                                      color: DesignTokens.primaryBlue,
+                                      width: 3,
+                                    )
+                                  : null,
+                            ),
+                          );
+                        },
+                      ),
               ),
             ),
           ],

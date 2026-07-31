@@ -26,7 +26,7 @@ class _B4PreviewScreenState extends ConsumerState<B4PreviewScreen> {
     setState(() => _isCompleting = true);
 
     try {
-      await ref.read(activeDesignProvider.notifier).complete();
+      ref.read(activeDesignProvider.notifier).complete();
 
       if (mounted) {
         SuccessToast.show(context, 'Design saved successfully!');

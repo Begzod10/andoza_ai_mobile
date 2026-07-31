@@ -100,11 +100,8 @@ class _B3PaintSelectionScreenState
       );
 
       final notifier = ref.read(activeDesignProvider.notifier);
-      await notifier.selectMaterial(surfaceId: 'walls', material: wallMaterial);
-      await notifier.selectMaterial(
-        surfaceId: 'ceiling',
-        material: ceilingMaterial,
-      );
+      notifier.selectMaterial(surfaceId: 'walls', material: wallMaterial);
+      notifier.selectMaterial(surfaceId: 'ceiling', material: ceilingMaterial);
 
       if (mounted) {
         context.go('/design/b4');

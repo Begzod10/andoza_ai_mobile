@@ -28,9 +28,7 @@ class _B1RoomIntroScreenState extends ConsumerState<B1RoomIntroScreen> {
       floor: _floorOverride ?? _wallCondition,
       ceiling: _ceilingOverride ?? _wallCondition,
     );
-    ref
-        .read(activeDesignProvider.notifier)
-        .setRoomConditionLocal(roomCondition);
+    ref.read(activeDesignProvider.notifier).setRoomCondition(roomCondition);
     context.go('/design/b2');
   }
 
