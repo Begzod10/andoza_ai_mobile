@@ -18,12 +18,13 @@ class S7OrderConfirmationScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final o =
         order ??
-        const ShopOrder(
+        ShopOrder(
           id: 'ORD-0000',
-          lines: [],
+          lines: const [],
           total: 0,
           currentStep: OrderStep.accepted,
           dealerName: '—',
+          createdAt: DateTime.now(),
         );
 
     return Scaffold(

@@ -25,6 +25,7 @@ import '../screens/electrical/d1_electrical_intro_screen.dart';
 import '../screens/electrical/d8_electrical_summary_screen.dart';
 import '../screens/electrical/d9_cost_estimate_screen.dart';
 import '../screens/electrical/d10_final_confirmation_screen.dart';
+import '../models/estimate_model.dart';
 import '../screens/estimation/e1_estimation_intro_screen.dart';
 import '../screens/estimation/e2_material_costs_screen.dart';
 import '../screens/estimation/e3_labor_costs_screen.dart';
@@ -43,8 +44,8 @@ import '../screens/masters/u3_request_booking_screen.dart';
 import '../screens/masters/u4_review_rating_screen.dart';
 import '../screens/masters/u5_booking_confirmation_screen.dart';
 import '../screens/profile/e4_profile_settings_screen.dart';
-import '../screens/profile/e5_payment_methods_screen.dart';
-import '../screens/profile/e6_saved_estimates_screen.dart';
+import '../screens/profile/e5_projects_screen.dart';
+import '../screens/profile/e6_orders_screen.dart';
 import '../screens/profile/e11_saved_designs_screen.dart';
 import '../screens/onboarding/e7_onboarding_welcome_screen.dart';
 import '../screens/onboarding/e8_tutorial_tour_screen.dart';
@@ -93,9 +94,12 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: '/',
             builder: (context, state) => const HomeWithProjectsScreen(),
           ),
+          // No separate "history" concept in the spec — orders are the
+          // only history this app tracks, so /history shows the same
+          // real E6 order list as /profile/e6.
           GoRoute(
             path: '/history',
-            builder: (context, state) => const E6SavedEstimatesScreen(),
+            builder: (context, state) => const E6OrdersScreen(),
           ),
           GoRoute(
             path: '/profile',
@@ -197,14 +201,15 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: '/electrical/d10',
             builder: (context, state) => const D10FinalConfirmationScreen(),
           ),
-          // Estimation Routes (E1-E3, E10)
+          // Estimation Routes (E1-E3)
           GoRoute(
             path: '/estimation/e1',
             builder: (context, state) => const E1EstimationIntroScreen(),
           ),
           GoRoute(
             path: '/estimation/e2',
-            builder: (context, state) => const E2MaterialCostsScreen(),
+            builder: (context, state) =>
+                E2MaterialCostsScreen(stage: state.extra as EstimateStage),
           ),
           GoRoute(
             path: '/estimation/e3',
@@ -281,11 +286,11 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/profile/e5',
-            builder: (context, state) => const E5PaymentMethodsScreen(),
+            builder: (context, state) => const E5ProjectsScreen(),
           ),
           GoRoute(
             path: '/profile/e6',
-            builder: (context, state) => const E6SavedEstimatesScreen(),
+            builder: (context, state) => const E6OrdersScreen(),
           ),
           GoRoute(
             path: '/profile/e11',

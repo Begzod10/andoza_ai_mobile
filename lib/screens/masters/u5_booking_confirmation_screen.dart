@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../config/design_tokens.dart';
+import '../../providers/estimate_provider.dart';
 import '../../providers/masters_provider.dart';
+import '../../utils/currency.dart';
 
-/// U5: send-smeta sheet — "Loyihangizni [ism]ga yuborasizmi?"
-///
-/// PLACEHOLDER: the project-summary figure below (area + estimated total)
-/// is not yet backed by Step 11's real pricing layer — flagged explicitly
-/// per plans/andozaai-design-rebuild.md's Step 6 task 5, backfilled once
-/// Step 11 lands.
+/// U5: send-smeta sheet — "Loyihangizni [ism]ga yuborasizmi?" The
+/// project-summary figure is the real [estimateProvider] total (backfilled
+/// from Step 6's placeholder once Step 11's pricing layer landed).
 class U5BookingConfirmationScreen extends ConsumerStatefulWidget {
   const U5BookingConfirmationScreen({this.master, super.key});
 
@@ -32,6 +31,7 @@ class _U5BookingConfirmationScreenState
   @override
   Widget build(BuildContext context) {
     final m = widget.master ?? ref.watch(mockMastersProvider).first;
+    final estimate = ref.watch(estimateProvider);
 
     return Scaffold(
       backgroundColor: DesignTokens.backgroundLight,
@@ -59,9 +59,9 @@ class _U5BookingConfirmationScreenState
                   children: [
                     Text('Mehmonxona ta\'miri', style: DesignTokens.subtitle2),
                     const SizedBox(height: DesignTokens.spacingXs),
-                    // PLACEHOLDER — see class doc comment.
                     Text(
-                      'Smeta hisoblanmoqda…',
+                      '${estimate.roomArea.toStringAsFixed(1)} m² · '
+                      '${formatSom(estimate.totalPrice.round())}',
                       style: DesignTokens.body2.copyWith(
                         color: DesignTokens.textGray,
                       ),

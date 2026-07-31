@@ -2,37 +2,18 @@ import 'package:riverpod/riverpod.dart';
 import '../models/design_selection_model.dart';
 import '../models/electrical_model.dart';
 import '../models/shop_model.dart';
+import '../utils/project_areas.dart';
 import 'design_provider.dart';
 import 'electrical_provider.dart';
 import 'room_provider.dart';
 
-/// Real project floor/wall area, falling back to a typical single-room
-/// baseline when the user hasn't gone through Batch A yet — same
-/// semantic-default rationale as home_empty_screen.dart's [ProjectItem].
-class _ProjectAreas {
-  const _ProjectAreas({required this.floorArea, required this.wallArea});
+ProjectAreas _computeAreas(Ref ref) =>
+    computeProjectAreas(ref.watch(activeRoomProvider));
 
-  final double floorArea;
-  final double wallArea;
-}
-
-_ProjectAreas _computeAreas(Ref ref) {
-  final room = ref.watch(activeRoomProvider);
-  if (room == null) {
-    return const _ProjectAreas(floorArea: 18.0, wallArea: 48.0);
-  }
-  final floorArea = room.dimensions.width * room.dimensions.length;
-  final wallArea = room.walls.fold<double>(
-    0,
-    (sum, w) => sum + w.measurements.height * w.measurements.length,
-  );
-  return _ProjectAreas(
-    floorArea: floorArea > 0 ? floorArea : 18.0,
-    wallArea: wallArea > 0 ? wallArea : 48.0,
-  );
-}
-
-bool _stageExcluded(Ref ref, RenovationStage stage) {
+/// Whether the room's starting condition already excludes [stage] from
+/// the delta mechanic (shared with estimate_provider.dart so Do'kon
+/// quantities and Smeta pricing always agree on which stages are needed).
+bool stageExcluded(Ref ref, RenovationStage stage) {
   final design = ref.watch(activeDesignProvider);
   final condition = design?.roomCondition;
   if (condition == null) return false;
@@ -43,25 +24,49 @@ bool _stageExcluded(Ref ref, RenovationStage stage) {
   return states[stage.index] == StageDisplayState.excluded;
 }
 
-class _ElectricalNeed {
-  const _ElectricalNeed({required this.outletCount, required this.wireMeters});
+/// Real device/wire counts from the active electrical layout (Batch D),
+/// falling back to typical single-room defaults — shared by
+/// shop_provider.dart (Do'kon quantities) and estimate_provider.dart
+/// (Smeta pricing) so both agree on the same electrical scope.
+class ElectricalNeed {
+  const ElectricalNeed({
+    required this.outletCount,
+    required this.wireMeters,
+    required this.switchCount,
+    required this.lightCount,
+    required this.pipeCount,
+  });
 
   final int outletCount;
   final double wireMeters;
+  final int switchCount;
+  final int lightCount;
+  final int pipeCount;
 }
 
-_ElectricalNeed _computeElectricalNeed(Ref ref) {
+ElectricalNeed computeElectricalNeed(Ref ref) {
   final layout = ref.watch(electricalLayoutProvider);
   if (layout == null || layout.devices.isEmpty) {
-    return const _ElectricalNeed(outletCount: 8, wireMeters: 72.0);
+    return const ElectricalNeed(
+      outletCount: 8,
+      wireMeters: 72.0,
+      switchCount: 4,
+      lightCount: 6,
+      pipeCount: 4,
+    );
   }
-  final outletCount = layout.devices
-      .where((d) => d.type == DeviceType.outlet)
-      .length;
+  int countOf(DeviceType type) =>
+      layout.devices.where((d) => d.type == type).length;
+  final outletCount = countOf(DeviceType.outlet);
   final wireMeters = computeTotalWireLengthMeters(layout);
-  return _ElectricalNeed(
+  return ElectricalNeed(
     outletCount: outletCount > 0 ? outletCount : 8,
     wireMeters: wireMeters > 0 ? wireMeters : 72.0,
+    switchCount: countOf(DeviceType.lightSwitch) > 0
+        ? countOf(DeviceType.lightSwitch)
+        : 4,
+    lightCount: countOf(DeviceType.light) > 0 ? countOf(DeviceType.light) : 6,
+    pipeCount: layout.pipes.isNotEmpty ? layout.pipes.length : 4,
   );
 }
 
@@ -71,11 +76,11 @@ _ElectricalNeed _computeElectricalNeed(Ref ref) {
 /// material, so their products carry no project quantity).
 final shopCatalogProvider = Provider<List<Product>>((ref) {
   final areas = _computeAreas(ref);
-  final electrical = _computeElectricalNeed(ref);
+  final electrical = computeElectricalNeed(ref);
 
-  final shpaklovkaNeeded = !_stageExcluded(ref, RenovationStage.shpaklovka);
-  final boyoqOboiNeeded = !_stageExcluded(ref, RenovationStage.boyoqOboi);
-  final polNeeded = !_stageExcluded(ref, RenovationStage.pol);
+  final shpaklovkaNeeded = !stageExcluded(ref, RenovationStage.shpaklovka);
+  final boyoqOboiNeeded = !stageExcluded(ref, RenovationStage.boyoqOboi);
+  final polNeeded = !stageExcluded(ref, RenovationStage.pol);
 
   return [
     Product(

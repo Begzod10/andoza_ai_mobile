@@ -3,11 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 import '../../providers/auth_provider.dart';
+import '../../providers/estimate_provider.dart';
+import '../../providers/orders_provider.dart';
+import '../home/home_empty_screen.dart';
 
 /// E4: Profil bosh — avatar, name, verified badge, three stat cards, and
-/// the profile menu list. The "tejaldi" savings figure is a Step-11
-/// pricing-layer placeholder (same caveat as U5's send-smeta figure) —
-/// backfilled once the real Smeta calculation lands.
+/// the profile menu list. The "tejaldi" savings figure is the real
+/// [estimateProvider] total (backfilled from Step 8's placeholder once
+/// Step 11's pricing layer landed).
 class E4ProfileSettingsScreen extends ConsumerWidget {
   const E4ProfileSettingsScreen({super.key});
 
@@ -22,6 +25,9 @@ class E4ProfileSettingsScreen extends ConsumerWidget {
       data: (user) => user?.phone,
       orElse: () => null,
     );
+    final projectCount = ref.watch(homeStateProvider).projects.length;
+    final orderCount = ref.watch(ordersProvider).length;
+    final savings = estimateSavingsTotal(ref.watch(estimateProvider));
 
     return Scaffold(
       backgroundColor: DesignTokens.backgroundLight,
@@ -84,17 +90,20 @@ class E4ProfileSettingsScreen extends ConsumerWidget {
           ),
           const SizedBox(height: DesignTokens.spacingLg),
           Row(
-            children: const [
+            children: [
               Expanded(
-                child: _StatCard(value: '3', label: 'loyiha'),
+                child: _StatCard(value: '$projectCount', label: 'loyiha'),
               ),
-              SizedBox(width: DesignTokens.spacingSm),
+              const SizedBox(width: DesignTokens.spacingSm),
               Expanded(
-                child: _StatCard(value: '5', label: 'buyurtma'),
+                child: _StatCard(value: '$orderCount', label: 'buyurtma'),
               ),
-              SizedBox(width: DesignTokens.spacingSm),
+              const SizedBox(width: DesignTokens.spacingSm),
               Expanded(
-                child: _StatCard(value: '4.2 mln', label: 'tejaldi'),
+                child: _StatCard(
+                  value: '${(savings / 1000000).toStringAsFixed(1)} mln',
+                  label: 'tejaldi',
+                ),
               ),
             ],
           ),

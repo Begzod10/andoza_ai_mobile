@@ -2,365 +2,279 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
-import '../../models/room_model.dart';
+import '../../models/design_selection_model.dart';
+import '../../models/estimate_model.dart';
+import '../../providers/estimate_provider.dart';
 import '../../providers/room_provider.dart';
-import '../../widgets/design/stage_progress_line.dart';
+import '../../utils/currency.dart';
 
-/// E1: Estimation Overview
-/// Introduction to cost estimation process and summary of completed design/electrical
-class E1EstimationIntroScreen extends ConsumerStatefulWidget {
+const _stageLabels = {
+  RenovationStage.suvoq: 'Suvoq',
+  RenovationStage.shpaklovka: 'Shpaklovka',
+  RenovationStage.boyoqOboi: 'Bo\'yoq/Oboi',
+  RenovationStage.pol: 'Pol',
+  RenovationStage.mebel: 'Mebel',
+  RenovationStage.elektr: 'Elektr montaj',
+  RenovationStage.yoruglik: 'Yorug\'lik',
+  RenovationStage.santexnika: 'Santexnika',
+};
+
+/// E1: Remont smetasi — money appears for the first time here. Big blue
+/// total card (Materiallar/Ishchi kuchi split), a green delta-savings
+/// banner computed from actually-excluded stages (never hardcoded), and
+/// a stage list where excluded stages render gray/struck-through/
+/// "hisoblanmadi" — all driven by the real [estimateProvider].
+class E1EstimationIntroScreen extends ConsumerWidget {
   const E1EstimationIntroScreen({super.key});
 
   @override
-  ConsumerState<E1EstimationIntroScreen> createState() =>
-      _E1EstimationIntroScreenState();
-}
-
-class _E1EstimationIntroScreenState
-    extends ConsumerState<E1EstimationIntroScreen> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final estimate = ref.watch(estimateProvider);
     final room = ref.watch(activeRoomProvider);
-
-    if (room == null) {
-      return Scaffold(
-        appBar: AppBar(title: const Text('Estimation')),
-        body: const Center(child: CircularProgressIndicator()),
-      );
-    }
+    final materials = estimateMaterialsTotal(estimate);
+    final labor = estimateLaborTotal(estimate);
+    final savings = estimateSavingsTotal(estimate);
+    final savingsStage = estimate.stages.firstWhere(
+      (s) => s.isExcluded,
+      orElse: () => estimate.stages.first,
+    );
 
     return Scaffold(
+      backgroundColor: DesignTokens.backgroundLight,
       appBar: AppBar(
-        title: const Text('Cost Estimation'),
-        automaticallyImplyLeading: true,
+        backgroundColor: DesignTokens.backgroundLight,
+        elevation: 0,
+        title: Text(
+          'Remont smetasi · ${room?.name ?? 'Mehmonxona'}'
+          '${room != null ? ' · ${room.dimensions.width.toStringAsFixed(1)} × ${room.dimensions.length.toStringAsFixed(1)} m' : ''}',
+          style: DesignTokens.subtitle2,
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.tune),
+            tooltip: 'Smeta sozlash',
+            onPressed: () => context.push('/estimation/e3'),
+          ),
+        ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(DesignTokens.spacing24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Progress
-              StageProgressLine(currentStep: 0, totalSteps: 3),
-              const SizedBox(height: DesignTokens.spacing32),
-
-              // Header
-              Text(
-                'Get Your Cost Estimate',
-                style: DesignTokens.heading3.copyWith(color: DesignTokens.text),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.all(
+                DesignTokens.screenPaddingHorizontal,
               ),
-              const SizedBox(height: DesignTokens.spacing12),
-              Text(
-                'We\'ve collected all design and electrical details. Now let\'s calculate the total project cost.',
-                style: DesignTokens.bodyMedium.copyWith(
-                  color: DesignTokens.textSecondary,
+              children: [
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(DesignTokens.spacingLg),
+                  decoration: BoxDecoration(
+                    color: DesignTokens.primaryBlue,
+                    borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
+                    boxShadow: [DesignTokens.shadowElevated],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Taxminiy umumiy narx',
+                        style: DesignTokens.body2.copyWith(
+                          color: DesignTokens.white.withValues(alpha: 0.75),
+                        ),
+                      ),
+                      Text(
+                        formatSom(estimate.totalPrice.round()),
+                        style: DesignTokens.heading1.copyWith(
+                          color: DesignTokens.white,
+                        ),
+                      ),
+                      const SizedBox(height: DesignTokens.spacingMd),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: _TotalColumn(
+                              label: 'Materiallar',
+                              value: formatSom(materials.round()),
+                            ),
+                          ),
+                          Expanded(
+                            child: _TotalColumn(
+                              label: 'Ishchi kuchi',
+                              value: formatSom(labor.round()),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: DesignTokens.spacing32),
-
-              // Project summary card
-              Container(
-                padding: const EdgeInsets.all(DesignTokens.spacing16),
-                decoration: BoxDecoration(
-                  border: Border.all(color: DesignTokens.border),
-                  borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-                  color: DesignTokens.primaryBlue.withValues(alpha: 0.05),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Project Summary',
-                      style: DesignTokens.subtitle1.copyWith(
-                        color: DesignTokens.text,
+                if (savings > 0) ...[
+                  const SizedBox(height: DesignTokens.spacingMd),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(DesignTokens.spacingMd),
+                    decoration: BoxDecoration(
+                      color: DesignTokens.successGreen.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(
+                        DesignTokens.radiusMd,
+                      ),
+                      border: Border.all(
+                        color: DesignTokens.successGreen.withValues(alpha: 0.3),
                       ),
                     ),
-                    const SizedBox(height: DesignTokens.spacing16),
-                    _SummaryRow(
-                      label: 'Room',
-                      value: room.name,
-                      icon: Icons.door_front_door_outlined,
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.savings_outlined,
+                          color: DesignTokens.successGreen,
+                        ),
+                        const SizedBox(width: DesignTokens.spacingSm),
+                        Expanded(
+                          child: Text(
+                            '${_stageLabels[savingsStage.name]} allaqachon bor '
+                            'edi — ${formatSom(savings.round())} tejaldingiz',
+                            style: DesignTokens.body2.copyWith(
+                              color: DesignTokens.successGreen,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    _SummaryRow(
-                      label: 'Floor Area',
-                      value:
-                          '${(room.dimensions.width * room.dimensions.length).toStringAsFixed(1)} m²',
-                      icon: Icons.square_foot,
-                    ),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    _SummaryRow(
-                      label: 'Design Status',
-                      value: 'Complete',
-                      icon: Icons.check_circle_outline,
-                    ),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    _SummaryRow(
-                      label: 'Electrical Status',
-                      value: 'Complete',
-                      icon: Icons.check_circle_outline,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: DesignTokens.spacing32),
-
-              // Estimation steps
-              Text(
-                'Estimation Process',
-                style: DesignTokens.subtitle1.copyWith(
-                  color: DesignTokens.text,
-                ),
-              ),
-              const SizedBox(height: DesignTokens.spacing16),
-              _EstimationStep(
-                number: '1',
-                title: 'Material Costs',
-                description:
-                    'Calculate flooring, paint, fixtures, electrical components',
-                icon: Icons.shopping_cart_outlined,
-              ),
-              const SizedBox(height: DesignTokens.spacing12),
-              _EstimationStep(
-                number: '2',
-                title: 'Labor Costs',
-                description:
-                    'Estimate worker hours for installation and finishing',
-                icon: Icons.construction_outlined,
-              ),
-              const SizedBox(height: DesignTokens.spacing12),
-              _EstimationStep(
-                number: '3',
-                title: 'Final Summary',
-                description: 'Review total cost and breakdown by category',
-                icon: Icons.summarize_outlined,
-              ),
-              const SizedBox(height: DesignTokens.spacing32),
-
-              // Cost estimate preview
-              Container(
-                padding: const EdgeInsets.all(DesignTokens.spacing16),
-                decoration: BoxDecoration(
-                  color: DesignTokens.accentOrange.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-                  border: Border.all(
-                    color: DesignTokens.accentOrange.withValues(alpha: 0.3),
                   ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.info_outline,
-                          color: DesignTokens.accentOrange,
-                          size: 20,
-                        ),
-                        const SizedBox(width: DesignTokens.spacing8),
-                        Text(
-                          'Estimated Range',
-                          style: DesignTokens.subtitle2.copyWith(
-                            color: DesignTokens.accentOrange,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Design Work',
-                              style: DesignTokens.caption.copyWith(
-                                color: DesignTokens.textSecondary,
-                              ),
-                            ),
-                            const SizedBox(height: DesignTokens.spacing4),
-                            Text(
-                              '500,000-800,000',
-                              style: DesignTokens.subtitle2.copyWith(
-                                color: DesignTokens.text,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              'Electrical Work',
-                              style: DesignTokens.caption.copyWith(
-                                color: DesignTokens.textSecondary,
-                              ),
-                            ),
-                            const SizedBox(height: DesignTokens.spacing4),
-                            Text(
-                              '195,000-293,000',
-                              style: DesignTokens.subtitle2.copyWith(
-                                color: DesignTokens.text,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    Divider(
-                      color: DesignTokens.accentOrange.withValues(alpha: 0.3),
-                      height: DesignTokens.spacing20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Total Estimate',
-                          style: DesignTokens.subtitle1.copyWith(
-                            color: DesignTokens.text,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '695,000-1,093,000 UZS',
-                          style: DesignTokens.heading3.copyWith(
-                            color: DesignTokens.accentOrange,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: DesignTokens.spacing40),
-
-              // Action buttons
-              ElevatedButton(
-                onPressed: () => context.go('/estimation/e2'),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: DesignTokens.spacing12,
+                ],
+                const SizedBox(height: DesignTokens.spacingLg),
+                for (final stage in estimate.stages) ...[
+                  _StageRow(
+                    stage: stage,
+                    onTap: stage.isExcluded
+                        ? null
+                        : () => context.push('/estimation/e2', extra: stage),
                   ),
-                  child: Text('Calculate Material Costs'),
-                ),
-              ),
-              const SizedBox(height: DesignTokens.spacing12),
-              OutlinedButton.icon(
-                onPressed: () => context.go('/electrical/complete'),
-                icon: const Icon(Icons.arrow_back),
-                label: const Text('Back to Design'),
-              ),
-            ],
+                  const SizedBox(height: DesignTokens.spacingSm),
+                ],
+              ],
+            ),
           ),
-        ),
+          Container(
+            padding: const EdgeInsets.all(DesignTokens.spacingMd),
+            decoration: BoxDecoration(
+              color: DesignTokens.white,
+              boxShadow: [DesignTokens.shadowNavBar],
+            ),
+            child: SafeArea(
+              top: false,
+              child: Column(
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    height: DesignTokens.buttonHeightLarge,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: DesignTokens.accentOrange,
+                      ),
+                      onPressed: () => context.push('/shop/s5'),
+                      child: const Text('Do\'konlardan xarid qilish'),
+                    ),
+                  ),
+                  const SizedBox(height: DesignTokens.spacingSm),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton(
+                      onPressed: () => context.push('/masters/u1'),
+                      child: const Text('Ustaga yuborish'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
-class _SummaryRow extends StatelessWidget {
-  const _SummaryRow({
-    required this.label,
-    required this.value,
-    required this.icon,
-  });
+class _TotalColumn extends StatelessWidget {
+  const _TotalColumn({required this.label, required this.value});
 
   final String label;
   final String value;
-  final IconData icon;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, color: DesignTokens.primaryBlue, size: 20),
-        const SizedBox(width: DesignTokens.spacing12),
-        Expanded(
-          child: Text(
-            label,
-            style: DesignTokens.bodyMedium.copyWith(
-              color: DesignTokens.textSecondary,
-            ),
+        Text(
+          label,
+          style: DesignTokens.caption.copyWith(
+            color: DesignTokens.white.withValues(alpha: 0.7),
           ),
         ),
         Text(
           value,
-          style: DesignTokens.subtitle2.copyWith(
-            color: DesignTokens.text,
-            fontWeight: FontWeight.w600,
-          ),
+          style: DesignTokens.subtitle2.copyWith(color: DesignTokens.white),
         ),
       ],
     );
   }
 }
 
-class _EstimationStep extends StatelessWidget {
-  const _EstimationStep({
-    required this.number,
-    required this.title,
-    required this.description,
-    required this.icon,
-  });
+class _StageRow extends StatelessWidget {
+  const _StageRow({required this.stage, required this.onTap});
 
-  final String number;
-  final String title;
-  final String description;
-  final IconData icon;
+  final EstimateStage stage;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(DesignTokens.spacing16),
-      decoration: BoxDecoration(
-        border: Border.all(color: DesignTokens.border),
-        borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: DesignTokens.primaryBlue,
-            ),
-            child: Center(
+    final label = _stageLabels[stage.name] ?? stage.name.name;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+      child: Container(
+        padding: const EdgeInsets.all(DesignTokens.spacingMd),
+        decoration: BoxDecoration(
+          color: DesignTokens.white,
+          borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+          border: Border.all(color: DesignTokens.borderGray),
+        ),
+        child: Row(
+          children: [
+            Expanded(
               child: Text(
-                number,
-                style: DesignTokens.subtitle2.copyWith(
-                  color: DesignTokens.white,
-                  fontWeight: FontWeight.bold,
+                label,
+                style: DesignTokens.body2.copyWith(
+                  color: stage.isExcluded
+                      ? DesignTokens.textMuted
+                      : DesignTokens.textDark,
                 ),
               ),
             ),
-          ),
-          const SizedBox(width: DesignTokens.spacing16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: DesignTokens.subtitle2.copyWith(
-                    color: DesignTokens.text,
-                  ),
+            if (stage.isExcluded)
+              Text(
+                'sizda mavjud — hisoblanmadi',
+                style: DesignTokens.caption.copyWith(
+                  color: DesignTokens.textMuted,
                 ),
-                const SizedBox(height: DesignTokens.spacing4),
-                Text(
-                  description,
-                  style: DesignTokens.caption.copyWith(
-                    color: DesignTokens.textSecondary,
-                  ),
-                ),
-              ],
+              )
+            else
+              const Icon(Icons.chevron_right, color: DesignTokens.textMuted),
+            const SizedBox(width: DesignTokens.spacingSm),
+            Text(
+              stage.isExcluded ? '0 so\'m' : formatSom(stage.subtotal.round()),
+              style: DesignTokens.subtitle2.copyWith(
+                color: stage.isExcluded
+                    ? DesignTokens.textMuted
+                    : DesignTokens.primaryBlue,
+                decoration: stage.isExcluded
+                    ? TextDecoration.lineThrough
+                    : TextDecoration.none,
+              ),
             ),
-          ),
-          Icon(icon, color: DesignTokens.textSecondary, size: 24),
-        ],
+          ],
+        ),
       ),
     );
   }

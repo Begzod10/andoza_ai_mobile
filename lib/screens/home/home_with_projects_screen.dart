@@ -63,11 +63,7 @@ class HomeWithProjectsScreen extends ConsumerWidget {
   }
 
   void _openAllProjects(BuildContext context) {
-    // TODO: E5 "Loyihalarim" (also A2's "Barchasi" destination) is built
-    // in Step 11 of plans/andozaai-design-rebuild.md.
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(const SnackBar(content: Text('Barcha loyihalar tez orada')));
+    context.push('/profile/e5');
   }
 }
 

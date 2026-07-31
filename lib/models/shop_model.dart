@@ -154,6 +154,7 @@ class ShopOrder {
     required this.total,
     required this.currentStep,
     required this.dealerName,
+    required this.createdAt,
   });
 
   final String id;
@@ -161,4 +162,5 @@ class ShopOrder {
   final int total;
   final OrderStep currentStep;
   final String dealerName;
+  final DateTime createdAt;
 }

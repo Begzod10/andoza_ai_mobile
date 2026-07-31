@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 import '../../models/shop_model.dart';
 import '../../providers/cart_provider.dart';
+import '../../providers/orders_provider.dart';
 import '../../utils/currency.dart';
 
 enum _PaymentMethod { payme, click, uzum, cash }
@@ -61,8 +62,10 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
       total: total,
       currentStep: OrderStep.accepted,
       dealerName: lines.isEmpty ? '—' : lines.first.dealer.name,
+      createdAt: DateTime.now(),
     );
     ref.read(cartProvider.notifier).clear();
+    ref.read(ordersProvider.notifier).add(order);
     context.push('/shop/s7', extra: order);
   }
 
