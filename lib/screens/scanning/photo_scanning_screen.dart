@@ -1,91 +1,32 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 
-/// Photo scan state
+const _totalPoints = 8;
+
+/// 360° capture state — 8 points around a dashed circle, per spec.
 class PhotoScanState {
-  final bool isScanning;
-  final int photosCount;
-  final double angle;
-  final String instruction;
-  final List<String> capturedPhotos;
+  final int capturedPoints;
 
-  PhotoScanState({
-    required this.isScanning,
-    required this.photosCount,
-    required this.angle,
-    required this.instruction,
-    required this.capturedPhotos,
-  });
+  PhotoScanState({required this.capturedPoints});
 
-  PhotoScanState copyWith({
-    bool? isScanning,
-    int? photosCount,
-    double? angle,
-    String? instruction,
-    List<String>? capturedPhotos,
-  }) {
+  bool get isComplete => capturedPoints >= _totalPoints;
+
+  PhotoScanState copyWith({int? capturedPoints}) {
     return PhotoScanState(
-      isScanning: isScanning ?? this.isScanning,
-      photosCount: photosCount ?? this.photosCount,
-      angle: angle ?? this.angle,
-      instruction: instruction ?? this.instruction,
-      capturedPhotos: capturedPhotos ?? this.capturedPhotos,
+      capturedPoints: capturedPoints ?? this.capturedPoints,
     );
   }
 }
 
 class PhotoScanNotifier extends StateNotifier<PhotoScanState> {
-  PhotoScanNotifier()
-    : super(
-        PhotoScanState(
-          isScanning: false,
-          photosCount: 0,
-          angle: 0,
-          instruction: 'Start by positioning at north',
-          capturedPhotos: [],
-        ),
-      );
+  PhotoScanNotifier() : super(PhotoScanState(capturedPoints: 0));
 
-  void startScan() {
-    state = state.copyWith(isScanning: true, photosCount: 0, angle: 0);
-    _simulateScan();
-  }
-
-  void capturePhoto() {
-    if (state.photosCount < 12) {
-      final newPhotos = List<String>.from(state.capturedPhotos);
-      newPhotos.add('photo_${state.photosCount}');
-
-      state = state.copyWith(
-        photosCount: state.photosCount + 1,
-        capturedPhotos: newPhotos,
-      );
-
-      if (state.photosCount == 12) {
-        state = state.copyWith(
-          isScanning: false,
-          instruction: 'Scan complete!',
-        );
-      }
-    }
-  }
-
-  void _simulateScan() {
-    if (state.isScanning && state.photosCount < 12) {
-      Future.delayed(const Duration(milliseconds: 3000), () {
-        state = state.copyWith(
-          angle: ((state.photosCount + 1) / 12) * 360,
-          instruction:
-              'Rotate ${((state.photosCount + 1) * 30)} degrees and capture',
-        );
-      });
-    }
-  }
-
-  void stopScan() {
-    state = state.copyWith(isScanning: false);
+  void capturePoint() {
+    if (state.isComplete) return;
+    state = state.copyWith(capturedPoints: state.capturedPoints + 1);
   }
 }
 
@@ -94,354 +35,245 @@ final photoScanProvider =
       (ref) => PhotoScanNotifier(),
     );
 
-/// Photo Scanning Screen (A5)
-/// Captures 360° photos with guided positioning
-class PhotoScanningScreen extends ConsumerWidget {
-  const PhotoScanningScreen({Key? key}) : super(key: key);
+/// A5: 360° Foto skan — 8 points on a dashed circle; captured points show
+/// green with a checkmark, the current target pulses orange, the rest are
+/// translucent-white dots.
+class PhotoScanningScreen extends ConsumerStatefulWidget {
+  const PhotoScanningScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<PhotoScanningScreen> createState() =>
+      _PhotoScanningScreenState();
+}
+
+class _PhotoScanningScreenState extends ConsumerState<PhotoScanningScreen>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _pulseController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pulseController = AnimationController(
+      vsync: this,
+      duration: DesignTokens.animationCapturePulse,
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _pulseController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final scanState = ref.watch(photoScanProvider);
 
+    ref.listen<PhotoScanState>(photoScanProvider, (previous, next) {
+      if (next.isComplete && previous?.isComplete == false) {
+        context.push('/setup/wall-measurements');
+      }
+    });
+
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: DesignTokens.darkBg,
-        title: const Text('360° Photo Scan'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
       backgroundColor: DesignTokens.darkBg,
-      body: Column(
-        children: [
-          // Camera Preview with compass
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    DesignTokens.darkBg,
-                    DesignTokens.primaryBlue.withOpacity(0.1),
-                  ],
-                ),
-              ),
-              child: Stack(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(DesignTokens.spacingMd),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Camera placeholder
-                  Center(
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).pop(),
                     child: Container(
-                      width: 250,
-                      height: 250,
+                      width: 40,
+                      height: 40,
                       decoration: BoxDecoration(
-                        border: Border.all(
-                          color: DesignTokens.accentOrange,
-                          width: 2,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          DesignTokens.radiusLg,
-                        ),
+                        color: Colors.white.withValues(alpha: 0.16),
+                        shape: BoxShape.circle,
                       ),
-                      child: CustomPaint(
-                        painter: _CompassPainter(
-                          angle: scanState.angle,
-                          photosCount: scanState.photosCount,
-                        ),
-                      ),
+                      child: const Icon(Icons.close, color: DesignTokens.white),
                     ),
                   ),
-                  // Instruction overlay
-                  Positioned(
-                    bottom: DesignTokens.spacingLg,
-                    left: DesignTokens.spacingMd,
-                    right: DesignTokens.spacingMd,
-                    child: Container(
-                      padding: const EdgeInsets.all(DesignTokens.spacingMd),
-                      decoration: BoxDecoration(
-                        color: DesignTokens.darkBg.withOpacity(0.8),
-                        borderRadius: BorderRadius.circular(
-                          DesignTokens.radiusMd,
-                        ),
-                        border: Border.all(
-                          color: DesignTokens.accentOrange.withOpacity(0.5),
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          Text(
-                            scanState.instruction,
-                            style: DesignTokens.body1.copyWith(
-                              color: DesignTokens.white,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: DesignTokens.spacingSm),
-                          Text(
-                            'Photos: ${scanState.photosCount}/12',
-                            style: DesignTokens.subtitle2.copyWith(
-                              color: DesignTokens.accentOrange,
-                            ),
-                          ),
-                        ],
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: DesignTokens.spacingMd,
+                      vertical: DesignTokens.spacingSm,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.16),
+                      borderRadius: BorderRadius.circular(
+                        DesignTokens.radiusFull,
                       ),
                     ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.explore_outlined,
+                          color: DesignTokens.white,
+                          size: DesignTokens.iconSm,
+                        ),
+                        const SizedBox(width: DesignTokens.spacingSm),
+                        Text(
+                          '${scanState.capturedPoints}/$_totalPoints nuqta',
+                          style: DesignTokens.body2.copyWith(
+                            color: DesignTokens.white,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
+                  const SizedBox(width: 40),
                 ],
               ),
             ),
-          ),
-          // Control Panel
-          Container(
-            decoration: BoxDecoration(
-              color: DesignTokens.darkBg.withOpacity(0.95),
-              border: Border(
-                top: BorderSide(
-                  color: DesignTokens.borderGray.withOpacity(0.2),
+            Expanded(
+              child: Center(
+                child: AnimatedBuilder(
+                  animation: _pulseController,
+                  builder: (context, child) {
+                    return CustomPaint(
+                      size: const Size(280, 200),
+                      painter: _CaptureRingPainter(
+                        capturedPoints: scanState.capturedPoints,
+                        pulse: _pulseController.value,
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
-            padding: const EdgeInsets.all(DesignTokens.spacingMd),
-            child: Column(
-              children: [
-                // Progress indicator
-                if (scanState.photosCount > 0)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Photos Captured',
-                            style: DesignTokens.body2.copyWith(
-                              color: DesignTokens.white,
-                            ),
-                          ),
-                          Text(
-                            '${scanState.photosCount}/12',
-                            style: DesignTokens.subtitle2.copyWith(
-                              color: DesignTokens.accentOrange,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: DesignTokens.spacingSm),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(
-                          DesignTokens.radiusSm,
-                        ),
-                        child: LinearProgressIndicator(
-                          value: scanState.photosCount / 12,
-                          minHeight: 8,
-                          backgroundColor: DesignTokens.borderGray.withOpacity(
-                            0.3,
-                          ),
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            DesignTokens.successGreen,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: DesignTokens.spacingMd),
-                    ],
-                  ),
-                // Photo preview grid
-                if (scanState.capturedPhotos.isNotEmpty)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Captured Photos',
-                        style: DesignTokens.body2.copyWith(
-                          color: DesignTokens.white,
-                        ),
-                      ),
-                      const SizedBox(height: DesignTokens.spacingSm),
-                      SizedBox(
-                        height: 70,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: scanState.capturedPhotos.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                right: DesignTokens.spacingSm,
-                              ),
-                              child: Container(
-                                width: 70,
-                                decoration: BoxDecoration(
-                                  color: DesignTokens.borderGray.withOpacity(
-                                    0.3,
-                                  ),
-                                  borderRadius: BorderRadius.circular(
-                                    DesignTokens.radiusMd,
-                                  ),
-                                  border: Border.all(
-                                    color: DesignTokens.accentOrange
-                                        .withOpacity(0.5),
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Icon(
-                                    Icons.check_circle,
-                                    color: DesignTokens.successGreen,
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: DesignTokens.spacingMd),
-                    ],
-                  ),
-                // Action buttons
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(Icons.close),
-                        label: const Text('Cancel'),
-                      ),
-                    ),
-                    const SizedBox(width: DesignTokens.spacingMd),
-                    if (!scanState.isScanning)
-                      Expanded(
-                        child: ElevatedButton.icon(
-                          onPressed: scanState.photosCount > 0
-                              ? () {
-                                  Navigator.of(
-                                    context,
-                                  ).pushNamed('/dimensions-entry');
-                                }
-                              : null,
-                          icon: const Icon(Icons.arrow_forward),
-                          label: const Text('Next'),
-                        ),
-                      )
-                    else
-                      Expanded(
-                        child: ElevatedButton.icon(
-                          onPressed: () {
-                            ref.read(photoScanProvider.notifier).capturePhoto();
-                          },
-                          icon: const Icon(Icons.camera),
-                          label: const Text('Capture'),
-                        ),
-                      ),
-                  ],
-                ),
-                const SizedBox(height: DesignTokens.spacingMd),
-                if (!scanState.isScanning && scanState.photosCount == 0)
-                  SizedBox(
-                    width: double.infinity,
-                    height: DesignTokens.buttonHeightLarge,
-                    child: ElevatedButton.icon(
-                      onPressed: () {
-                        ref.read(photoScanProvider.notifier).startScan();
-                      },
-                      icon: const Icon(Icons.videocam),
-                      label: const Text('Start 360° Capture'),
-                    ),
-                  ),
-              ],
+            Text(
+              'Telefonni keyingi nuqtaga burang',
+              style: DesignTokens.body1.copyWith(color: DesignTokens.white),
             ),
-          ),
-        ],
+            const SizedBox(height: DesignTokens.spacingXl),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: DesignTokens.spacingXl,
+                vertical: DesignTokens.spacingLg,
+              ),
+              child: GestureDetector(
+                onTap: scanState.isComplete
+                    ? null
+                    : () => ref.read(photoScanProvider.notifier).capturePoint(),
+                child: Container(
+                  width: double.infinity,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    color: DesignTokens.white,
+                    borderRadius: BorderRadius.circular(
+                      DesignTokens.radiusFull,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 22,
+                        height: 22,
+                        decoration: const BoxDecoration(
+                          color: DesignTokens.accentOrange,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const SizedBox(width: DesignTokens.spacingSm),
+                      Text(
+                        'Suratga olish',
+                        style: DesignTokens.subtitle2.copyWith(
+                          color: DesignTokens.textDark,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-class _CompassPainter extends CustomPainter {
-  final double angle;
-  final int photosCount;
+/// Dashed ellipse with 8 point markers around it: captured = green with
+/// checkmark, current target = pulsing orange with an arrow, remaining =
+/// translucent white dots.
+class _CaptureRingPainter extends CustomPainter {
+  _CaptureRingPainter({required this.capturedPoints, required this.pulse});
 
-  _CompassPainter({required this.angle, required this.photosCount});
+  final int capturedPoints;
+  final double pulse;
 
   @override
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
-    final radius = size.width / 2 - 10;
+    final rx = size.width / 2 - 20;
+    final ry = size.height / 2 - 10;
 
-    // Draw compass circle
-    canvas.drawCircle(
-      center,
-      radius,
+    final dashPaint = Paint()
+      ..color = Colors.white.withValues(alpha: 0.3)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.5;
+    const dashCount = 60;
+    for (int i = 0; i < dashCount; i++) {
+      if (i.isOdd) continue;
+      final a1 = (i / dashCount) * 2 * pi;
+      final a2 = ((i + 1) / dashCount) * 2 * pi;
+      canvas.drawLine(
+        Offset(center.dx + rx * cos(a1), center.dy + ry * sin(a1)),
+        Offset(center.dx + rx * cos(a2), center.dy + ry * sin(a2)),
+        dashPaint,
+      );
+    }
+
+    for (int i = 0; i < _totalPoints; i++) {
+      final angle = (i / _totalPoints) * 2 * pi - pi / 2;
+      final pos = Offset(
+        center.dx + rx * cos(angle),
+        center.dy + ry * sin(angle),
+      );
+
+      if (i < capturedPoints) {
+        canvas.drawCircle(pos, 13, Paint()..color = const Color(0xFF159C5B));
+        _drawCheck(canvas, pos);
+      } else if (i == capturedPoints) {
+        canvas.drawCircle(
+          pos,
+          18 + pulse * 6,
+          Paint()..color = DesignTokens.accentOrange.withValues(alpha: 0.25),
+        );
+        canvas.drawCircle(pos, 18, Paint()..color = DesignTokens.accentOrange);
+      } else {
+        canvas.drawCircle(
+          pos,
+          10,
+          Paint()..color = Colors.white.withValues(alpha: 0.3),
+        );
+      }
+    }
+  }
+
+  void _drawCheck(Canvas canvas, Offset center) {
+    final path = Path()
+      ..moveTo(center.dx - 5, center.dy)
+      ..lineTo(center.dx - 1, center.dy + 4)
+      ..lineTo(center.dx + 6, center.dy - 5);
+    canvas.drawPath(
+      path,
       Paint()
-        ..color = const Color(0xFFF97316).withOpacity(0.1)
+        ..color = DesignTokens.white
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 2,
+        ..strokeWidth = 2
+        ..strokeCap = StrokeCap.round,
     );
-
-    // Draw cardinal directions
-    final textPainter = TextPainter(
-      textDirection: TextDirection.ltr,
-      textAlign: TextAlign.center,
-    );
-
-    const directions = ['N', 'E', 'S', 'W'];
-    for (int i = 0; i < 4; i++) {
-      final angle = (i * 90) * 3.14159 / 180;
-      final x = center.dx + radius * sin(angle);
-      final y = center.dy - radius * cos(angle);
-
-      textPainter.text = TextSpan(
-        text: directions[i],
-        style: const TextStyle(
-          color: Color(0xFFF97316),
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ),
-      );
-      textPainter.layout();
-      textPainter.paint(
-        canvas,
-        Offset(x - textPainter.width / 2, y - textPainter.height / 2),
-      );
-    }
-
-    // Draw rotation indicator
-    final rotationPaint = Paint()
-      ..color = const Color(0xFFF97316)
-      ..strokeWidth = 3;
-
-    final rotationAngle = angle * 3.14159 / 180;
-    final endX = center.dx + radius * sin(rotationAngle);
-    final endY = center.dy - radius * cos(rotationAngle);
-
-    canvas.drawLine(center, Offset(endX, endY), rotationPaint);
-
-    // Draw center point with photo count
-    canvas.drawCircle(center, 8, Paint()..color = const Color(0xFFF97316));
-
-    if (photosCount > 0) {
-      textPainter.text = TextSpan(
-        text: '$photosCount',
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 14,
-          fontWeight: FontWeight.bold,
-        ),
-      );
-      textPainter.layout();
-      textPainter.paint(
-        canvas,
-        Offset(
-          center.dx - textPainter.width / 2,
-          center.dy - textPainter.height / 2,
-        ),
-      );
-    }
   }
 
   @override
-  bool shouldRepaint(_CompassPainter oldDelegate) {
-    return oldDelegate.angle != angle || oldDelegate.photosCount != photosCount;
-  }
+  bool shouldRepaint(_CaptureRingPainter oldDelegate) =>
+      oldDelegate.capturedPoints != capturedPoints ||
+      oldDelegate.pulse != pulse;
 }

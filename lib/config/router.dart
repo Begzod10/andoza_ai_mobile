@@ -9,7 +9,6 @@ import '../screens/home/home_empty_screen.dart';
 import '../screens/home/home_with_projects_screen.dart';
 import '../screens/room_setup/dimensions_entry_screen.dart';
 import '../screens/room_setup/wall_measurements_screen.dart';
-import '../screens/room_setup/door_window_modal.dart';
 import '../screens/room_setup/room_summary_screen.dart';
 import '../screens/scanning/lidar_scanning_screen.dart';
 import '../screens/scanning/photo_scanning_screen.dart';
@@ -112,10 +111,9 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: '/setup/wall-measurements',
             builder: (context, state) => const WallMeasurementsScreen(),
           ),
-          GoRoute(
-            path: '/setup/door-window',
-            builder: (context, state) => const DoorWindowModal(),
-          ),
+          // A8 (Eshik/Deraza qo'shish) has no standalone route — it's only
+          // ever shown as a modal sheet with a real onAdd callback, from A7
+          // (wall_measurements_screen.dart's _showAddOpeningSheet).
           GoRoute(
             path: '/setup/summary',
             builder: (context, state) => const RoomSummaryScreen(),

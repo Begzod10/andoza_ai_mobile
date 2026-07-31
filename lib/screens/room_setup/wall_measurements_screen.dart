@@ -1,42 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../models/room_model.dart';
+import 'door_window_modal.dart';
 
-/// Wall information model
-class WallMeasurement {
+/// A single opening (door/window) placed on a wall, positioned by offset
+/// from the wall's start.
+class WallOpening {
   final String id;
-  final String name;
+  final OpeningType type;
+  final double width;
+  final double height;
+  final double offset;
+
+  const WallOpening({
+    required this.id,
+    required this.type,
+    required this.width,
+    required this.height,
+    required this.offset,
+  });
+}
+
+/// One measured wall — uses the canonical [WallType] enum (A-D) rather
+/// than a free-text name, per plans/screen-mapping.md's reconciliation note.
+class WallMeasurement {
+  final WallType type;
   final double length;
   final double height;
-  final String wallType;
-  final List<String> features;
+  final List<WallOpening> openings;
 
-  WallMeasurement({
-    required this.id,
-    required this.name,
+  const WallMeasurement({
+    required this.type,
     required this.length,
     required this.height,
-    required this.wallType,
-    required this.features,
+    this.openings = const [],
   });
 
   WallMeasurement copyWith({
-    String? id,
-    String? name,
     double? length,
     double? height,
-    String? wallType,
-    List<String>? features,
+    List<WallOpening>? openings,
   }) {
     return WallMeasurement(
-      id: id ?? this.id,
-      name: name ?? this.name,
+      type: type,
       length: length ?? this.length,
       height: height ?? this.height,
-      wallType: wallType ?? this.wallType,
-      features: features ?? this.features,
+      openings: openings ?? this.openings,
     );
   }
+
+  String get label => switch (type) {
+    WallType.wallA => 'Devor A',
+    WallType.wallB => 'Devor B',
+    WallType.wallC => 'Devor C',
+    WallType.wallD => 'Devor D',
+  };
 }
 
 final wallMeasurementsProvider =
@@ -46,47 +66,38 @@ final wallMeasurementsProvider =
 
 class WallMeasurementsNotifier extends StateNotifier<List<WallMeasurement>> {
   WallMeasurementsNotifier()
-    : super([
-        WallMeasurement(
-          id: 'wall-n',
-          name: 'North Wall',
-          length: 4.5,
-          height: 2.8,
-          wallType: 'exterior',
-          features: ['window'],
-        ),
-        WallMeasurement(
-          id: 'wall-e',
-          name: 'East Wall',
-          length: 3.5,
-          height: 2.8,
-          wallType: 'interior',
-          features: ['door'],
-        ),
+    : super(const [
+        WallMeasurement(type: WallType.wallA, length: 4.5, height: 2.8),
+        WallMeasurement(type: WallType.wallB, length: 3.2, height: 2.8),
+        WallMeasurement(type: WallType.wallC, length: 4.5, height: 2.8),
+        WallMeasurement(type: WallType.wallD, length: 3.2, height: 2.8),
       ]);
 
-  void updateWall(WallMeasurement wall) {
-    final index = state.indexWhere((w) => w.id == wall.id);
-    if (index >= 0) {
-      final newList = List<WallMeasurement>.from(state);
-      newList[index] = wall;
-      state = newList;
-    }
+  void updateWall(WallType type, {double? length, double? height}) {
+    state = [
+      for (final wall in state)
+        if (wall.type == type)
+          wall.copyWith(length: length, height: height)
+        else
+          wall,
+    ];
   }
 
-  void addWall(WallMeasurement wall) {
-    state = [...state, wall];
-  }
-
-  void removeWall(String id) {
-    state = state.where((w) => w.id != id).toList();
+  void addOpening(WallType type, WallOpening opening) {
+    state = [
+      for (final wall in state)
+        if (wall.type == type)
+          wall.copyWith(openings: [...wall.openings, opening])
+        else
+          wall,
+    ];
   }
 }
 
-/// Wall Measurements with Elevation (A7)
-/// Shows wall measurements and elevation data
+/// A7: Devor [A-D] o'lchovi — wall-by-wall elevation with a length slider,
+/// per-opening rows, and progress dots across the 4 walls.
 class WallMeasurementsScreen extends ConsumerStatefulWidget {
-  const WallMeasurementsScreen({Key? key}) : super(key: key);
+  const WallMeasurementsScreen({super.key});
 
   @override
   ConsumerState<WallMeasurementsScreen> createState() =>
@@ -95,234 +106,164 @@ class WallMeasurementsScreen extends ConsumerStatefulWidget {
 
 class _WallMeasurementsScreenState
     extends ConsumerState<WallMeasurementsScreen> {
-  late PageController _pageController;
   int _currentWallIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController();
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     final walls = ref.watch(wallMeasurementsProvider);
+    final wall = walls[_currentWallIndex];
+    final isLastWall = _currentWallIndex == walls.length - 1;
 
     return Scaffold(
+      backgroundColor: DesignTokens.backgroundLight,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: DesignTokens.backgroundLight,
-        title: const Text('Wall Measurements'),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
+          icon: const Icon(Icons.arrow_back, color: DesignTokens.textDark),
+          onPressed: () => Navigator.of(context).pop(),
         ),
+        title: Text(wall.label, style: DesignTokens.heading3),
       ),
-      backgroundColor: DesignTokens.backgroundLight,
-      body: Column(
-        children: [
-          // Info banner
-          Container(
-            margin: const EdgeInsets.all(DesignTokens.spacingMd),
-            padding: const EdgeInsets.all(DesignTokens.spacingMd),
-            decoration: BoxDecoration(
-              color: DesignTokens.accentOrange.withOpacity(0.1),
-              border: Border.all(
-                color: DesignTokens.accentOrange.withOpacity(0.3),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: DesignTokens.screenPaddingHorizontal,
               ),
-              borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-            ),
-            child: Row(
-              children: [
-                Icon(Icons.info_outlined, color: DesignTokens.accentOrange),
-                const SizedBox(width: DesignTokens.spacingMd),
-                Expanded(
-                  child: Text(
-                    'Review and adjust wall measurements and elevation for accurate modeling',
-                    style: DesignTokens.body2.copyWith(
-                      color: DesignTokens.textGray,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // Wall viewer with elevation
-          Expanded(
-            child: PageView.builder(
-              controller: _pageController,
-              onPageChanged: (index) {
-                setState(() => _currentWallIndex = index);
-              },
-              itemCount: walls.length,
-              itemBuilder: (context, index) {
-                return _WallElevationViewer(wall: walls[index]);
-              },
-            ),
-          ),
-          // Wall indicator and nav
-          Padding(
-            padding: const EdgeInsets.all(DesignTokens.spacingMd),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Page indicator
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '${_currentWallIndex + 1} of ${walls.length}',
-                      style: DesignTokens.body2.copyWith(
-                        color: DesignTokens.textGray,
-                      ),
-                    ),
-                    Row(
-                      children: List.generate(
-                        walls.length,
-                        (index) => Container(
-                          width: 8,
-                          height: 8,
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: DesignTokens.spacingSm,
-                          ),
-                          decoration: BoxDecoration(
-                            color: index == _currentWallIndex
-                                ? DesignTokens.primaryBlue
-                                : DesignTokens.borderGray,
-                            borderRadius: BorderRadius.circular(
-                              DesignTokens.radiusFull,
-                            ),
-                          ),
+              child: Row(
+                children: [
+                  for (var i = 0; i < walls.length; i++) ...[
+                    Expanded(
+                      child: Container(
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: i <= _currentWallIndex
+                              ? DesignTokens.primaryBlue
+                              : DesignTokens.borderGray,
+                          borderRadius: BorderRadius.circular(2),
                         ),
                       ),
                     ),
+                    if (i < walls.length - 1)
+                      const SizedBox(width: DesignTokens.spacingSm),
                   ],
+                ],
+              ),
+            ),
+            const SizedBox(height: DesignTokens.spacingMd),
+            Expanded(
+              child: Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: DesignTokens.screenPaddingHorizontal,
                 ),
-                const SizedBox(height: DesignTokens.spacingMd),
-                // Wall details panel
-                Container(
-                  padding: const EdgeInsets.all(DesignTokens.spacingMd),
-                  decoration: BoxDecoration(
-                    color: DesignTokens.white,
-                    border: Border.all(color: DesignTokens.borderGray),
-                    borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                decoration: BoxDecoration(
+                  color: DesignTokens.white,
+                  borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
+                  border: Border.all(color: DesignTokens.borderGray),
+                ),
+                child: CustomPaint(
+                  painter: _WallElevationPainter(wall: wall),
+                  size: Size.infinite,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(
+                DesignTokens.screenPaddingHorizontal,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                walls[_currentWallIndex].name,
-                                style: DesignTokens.subtitle1,
-                              ),
-                              const SizedBox(height: DesignTokens.spacingSm),
-                              Text(
-                                '${walls[_currentWallIndex].length.toStringAsFixed(2)}m × ${walls[_currentWallIndex].height.toStringAsFixed(2)}m',
-                                style: DesignTokens.body2.copyWith(
-                                  color: DesignTokens.textGray,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Chip(
-                            label: Text(
-                              walls[_currentWallIndex].wallType,
-                              style: DesignTokens.caption.copyWith(
-                                color: DesignTokens.white,
-                              ),
-                            ),
-                            backgroundColor:
-                                walls[_currentWallIndex].wallType == 'exterior'
-                                ? DesignTokens.accentOrange
-                                : DesignTokens.primaryBlue,
-                          ),
-                        ],
+                      Text('Uzunlik', style: DesignTokens.body2),
+                      Text(
+                        '${wall.length.toStringAsFixed(1)} m',
+                        style: DesignTokens.subtitle2.copyWith(
+                          color: DesignTokens.primaryBlue,
+                        ),
                       ),
-                      const SizedBox(height: DesignTokens.spacingMd),
-                      // Features
-                      if (walls[_currentWallIndex].features.isNotEmpty) ...[
-                        Text(
-                          'Features',
-                          style: DesignTokens.body2.copyWith(
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height: DesignTokens.spacingSm),
-                        Wrap(
-                          spacing: DesignTokens.spacingSm,
-                          runSpacing: DesignTokens.spacingSm,
-                          children: walls[_currentWallIndex].features
-                              .map(
-                                (feature) => Chip(
-                                  label: Text(feature),
-                                  backgroundColor: DesignTokens.borderGray,
-                                  labelStyle: DesignTokens.caption,
-                                ),
-                              )
-                              .toList(),
-                        ),
-                      ],
                     ],
                   ),
-                ),
-                const SizedBox(height: DesignTokens.spacingMd),
-                // Edit button
-                SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton.icon(
-                    onPressed: () {
-                      // Open edit dialog
-                      _showEditWallDialog(context, walls[_currentWallIndex]);
-                    },
-                    icon: const Icon(Icons.edit),
-                    label: const Text('Edit Wall'),
+                  Slider(
+                    value: wall.length.clamp(1.0, 10.0),
+                    min: 1,
+                    max: 10,
+                    activeColor: DesignTokens.primaryBlue,
+                    onChanged: (value) => ref
+                        .read(wallMeasurementsProvider.notifier)
+                        .updateWall(wall.type, length: value),
                   ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.of(context).pushNamed('/door-window-modal');
-        },
-        backgroundColor: DesignTokens.primaryBlue,
-        icon: const Icon(Icons.add),
-        label: const Text('Add Door/Window'),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(DesignTokens.spacingMd),
-        child: Row(
-          children: [
-            Expanded(
-              child: OutlinedButton.icon(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(Icons.arrow_back),
-                label: const Text('Back'),
-              ),
-            ),
-            const SizedBox(width: DesignTokens.spacingMd),
-            Expanded(
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/room-summary');
-                },
-                icon: const Icon(Icons.arrow_forward),
-                label: const Text('Next'),
+                  if (wall.openings.isNotEmpty) ...[
+                    const SizedBox(height: DesignTokens.spacingSm),
+                    Text('Eshik / derazalar', style: DesignTokens.subtitle2),
+                    const SizedBox(height: DesignTokens.spacingSm),
+                    for (final opening in wall.openings)
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: DesignTokens.spacingXs,
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              opening.type == OpeningType.single
+                                  ? Icons.door_front_door_outlined
+                                  : Icons.window_outlined,
+                              size: DesignTokens.iconSm,
+                              color: DesignTokens.textGray,
+                            ),
+                            const SizedBox(width: DesignTokens.spacingSm),
+                            Text(
+                              '${(opening.width * 100).toStringAsFixed(0)}×${(opening.height * 100).toStringAsFixed(0)} sm',
+                              style: DesignTokens.caption,
+                            ),
+                            const Spacer(),
+                            Text(
+                              'Chapdan ${opening.offset.toStringAsFixed(1)} m',
+                              style: DesignTokens.caption.copyWith(
+                                color: DesignTokens.textGray,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                  const SizedBox(height: DesignTokens.spacingSm),
+                  OutlinedButton.icon(
+                    onPressed: () => _showAddOpeningSheet(context, wall.type),
+                    icon: const Icon(Icons.add),
+                    label: const Text('Eshik/Deraza qo\'shish'),
+                  ),
+                  const SizedBox(height: DesignTokens.spacingMd),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: _currentWallIndex > 0
+                              ? () => setState(() => _currentWallIndex--)
+                              : () => Navigator.of(context).pop(),
+                          child: const Text('Ortga'),
+                        ),
+                      ),
+                      const SizedBox(width: DesignTokens.spacingMd),
+                      Expanded(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (isLastWall) {
+                              context.push('/setup/summary');
+                            } else {
+                              setState(() => _currentWallIndex++);
+                            }
+                          },
+                          child: Text(isLastWall ? 'Yakunlash' : 'Keyingi'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ],
@@ -331,37 +272,26 @@ class _WallMeasurementsScreenState
     );
   }
 
-  void _showEditWallDialog(BuildContext context, WallMeasurement wall) {
-    showDialog(
+  void _showAddOpeningSheet(BuildContext context, WallType wallType) {
+    showModalBottomSheet<void>(
       context: context,
-      builder: (context) => _WallEditDialog(
-        wall: wall,
-        onSave: (updatedWall) {
-          ref.read(wallMeasurementsProvider.notifier).updateWall(updatedWall);
-          Navigator.pop(context);
+      isScrollControlled: true,
+      builder: (sheetContext) => DoorWindowModal(
+        onAdd: (type, width, height, offset) {
+          ref
+              .read(wallMeasurementsProvider.notifier)
+              .addOpening(
+                wallType,
+                WallOpening(
+                  id: DateTime.now().microsecondsSinceEpoch.toString(),
+                  type: type,
+                  width: width,
+                  height: height,
+                  offset: offset,
+                ),
+              );
+          Navigator.of(sheetContext).pop();
         },
-      ),
-    );
-  }
-}
-
-class _WallElevationViewer extends StatelessWidget {
-  final WallMeasurement wall;
-
-  const _WallElevationViewer({required this.wall});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(DesignTokens.spacingMd),
-      decoration: BoxDecoration(
-        color: DesignTokens.white,
-        borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
-        border: Border.all(color: DesignTokens.borderGray),
-      ),
-      child: CustomPaint(
-        painter: _WallElevationPainter(wall: wall),
-        size: Size.infinite,
       ),
     );
   }
@@ -377,80 +307,58 @@ class _WallElevationPainter extends CustomPainter {
     const padding = 40.0;
     final width = size.width - (2 * padding);
     final height = size.height - (2 * padding);
-
-    // Scale factors
-    final scaleX = width / wall.length;
-    final scaleY = height / wall.height;
-
-    // Draw grid
-    final gridPaint = Paint()
-      ..color = DesignTokens.borderGray.withOpacity(0.3)
-      ..strokeWidth = 0.5;
-
-    // Horizontal lines
-    for (int i = 0; i <= 4; i++) {
-      final y = padding + (i * height / 4);
-      canvas.drawLine(
-        Offset(padding, y),
-        Offset(padding + width, y),
-        gridPaint,
-      );
-    }
-
-    // Vertical lines
-    for (int i = 0; i <= 4; i++) {
-      final x = padding + (i * width / 4);
-      canvas.drawLine(
-        Offset(x, padding),
-        Offset(x, padding + height),
-        gridPaint,
-      );
-    }
-
-    // Draw wall
-    final wallPaint = Paint()
-      ..color = DesignTokens.primaryBlue
-      ..strokeWidth = 3;
-
     final wallRect = Rect.fromLTWH(padding, padding, width, height);
 
     canvas.drawRect(
       wallRect,
-      Paint()..color = DesignTokens.primaryBlue.withOpacity(0.05),
+      Paint()..color = DesignTokens.primaryBlue.withValues(alpha: 0.05),
+    );
+    canvas.drawRect(
+      wallRect,
+      Paint()
+        ..color = const Color(0xFFEF4444)
+        ..strokeWidth = 3
+        ..style = PaintingStyle.stroke,
     );
 
-    canvas.drawRect(wallRect, wallPaint..style = PaintingStyle.stroke);
+    for (final opening in wall.openings) {
+      final openingX = padding + (opening.offset / wall.length) * width;
+      final openingWidth = (opening.width / wall.length) * width;
+      canvas.drawRect(
+        Rect.fromLTWH(openingX, padding, openingWidth, height),
+        Paint()..color = DesignTokens.accentOrange.withValues(alpha: 0.3),
+      );
+    }
 
-    // Draw dimension lines
-    final dimensionPaint = Paint()
-      ..color = DesignTokens.accentOrange
-      ..strokeWidth = 2;
-
-    // Width dimension
-    canvas.drawLine(
-      Offset(padding, padding + height + 20),
-      Offset(padding + width, padding + height + 20),
-      dimensionPaint,
+    // Human silhouette for scale (~1.7m relative to wall height).
+    final silhouetteHeight = (1.7 / wall.height) * height;
+    final silhouetteX = padding + width - 30;
+    final silhouetteTop = padding + height - silhouetteHeight;
+    canvas.drawOval(
+      Rect.fromLTWH(silhouetteX, silhouetteTop, 14, 14),
+      Paint()..color = DesignTokens.textMuted,
+    );
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(
+          silhouetteX - 3,
+          silhouetteTop + 14,
+          20,
+          silhouetteHeight - 14,
+        ),
+        const Radius.circular(6),
+      ),
+      Paint()..color = DesignTokens.textMuted,
     );
 
-    // Height dimension
-    canvas.drawLine(
-      Offset(padding - 20, padding),
-      Offset(padding - 20, padding + height),
-      dimensionPaint,
-    );
-
-    // Draw text labels
     final textPainter = TextPainter(
       textDirection: TextDirection.ltr,
       textAlign: TextAlign.center,
     );
-
-    // Width label
     textPainter.text = TextSpan(
-      text: '${wall.length.toStringAsFixed(2)}m',
+      text: '${wall.length.toStringAsFixed(1)} m',
       style: const TextStyle(
-        color: Color(0xFFF97316),
+        color: DesignTokens.accentOrange,
         fontSize: 12,
         fontWeight: FontWeight.bold,
       ),
@@ -460,111 +368,15 @@ class _WallElevationPainter extends CustomPainter {
       canvas,
       Offset(
         padding + (width / 2) - (textPainter.width / 2),
-        padding + height + 30,
+        padding + height + 12,
       ),
-    );
-
-    // Height label
-    textPainter.text = TextSpan(
-      text: '${wall.height.toStringAsFixed(2)}m',
-      style: const TextStyle(
-        color: Color(0xFFF97316),
-        fontSize: 12,
-        fontWeight: FontWeight.bold,
-      ),
-    );
-    textPainter.layout();
-    textPainter.paint(
-      canvas,
-      Offset(padding - 40, padding + (height / 2) - (textPainter.height / 2)),
     );
   }
 
   @override
   bool shouldRepaint(_WallElevationPainter oldDelegate) {
     return oldDelegate.wall.length != wall.length ||
-        oldDelegate.wall.height != wall.height;
-  }
-}
-
-class _WallEditDialog extends StatefulWidget {
-  final WallMeasurement wall;
-  final Function(WallMeasurement) onSave;
-
-  const _WallEditDialog({required this.wall, required this.onSave});
-
-  @override
-  State<_WallEditDialog> createState() => _WallEditDialogState();
-}
-
-class _WallEditDialogState extends State<_WallEditDialog> {
-  late TextEditingController _lengthController;
-  late TextEditingController _heightController;
-
-  @override
-  void initState() {
-    super.initState();
-    _lengthController = TextEditingController(
-      text: widget.wall.length.toString(),
-    );
-    _heightController = TextEditingController(
-      text: widget.wall.height.toString(),
-    );
-  }
-
-  @override
-  void dispose() {
-    _lengthController.dispose();
-    _heightController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: Text('Edit ${widget.wall.name}'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextField(
-            controller: _lengthController,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              labelText: 'Length (m)',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-              ),
-            ),
-          ),
-          const SizedBox(height: DesignTokens.spacingMd),
-          TextField(
-            controller: _heightController,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              labelText: 'Height (m)',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-              ),
-            ),
-          ),
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            final updatedWall = widget.wall.copyWith(
-              length: double.tryParse(_lengthController.text) ?? 0,
-              height: double.tryParse(_heightController.text) ?? 0,
-            );
-            widget.onSave(updatedWall);
-          },
-          child: const Text('Save'),
-        ),
-      ],
-    );
+        oldDelegate.wall.height != wall.height ||
+        oldDelegate.wall.openings.length != wall.openings.length;
   }
 }

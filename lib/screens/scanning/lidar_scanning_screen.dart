@@ -1,33 +1,37 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 
 /// LiDAR scanning state
 class LiDARScanState {
   final bool isScanning;
   final double progress;
-  final int pointsCollected;
-  final String status;
+  final int wallsFound;
+  final int doorsFound;
+  final int windowsFound;
 
   LiDARScanState({
     required this.isScanning,
     required this.progress,
-    required this.pointsCollected,
-    required this.status,
+    required this.wallsFound,
+    required this.doorsFound,
+    required this.windowsFound,
   });
 
   LiDARScanState copyWith({
     bool? isScanning,
     double? progress,
-    int? pointsCollected,
-    String? status,
+    int? wallsFound,
+    int? doorsFound,
+    int? windowsFound,
   }) {
     return LiDARScanState(
       isScanning: isScanning ?? this.isScanning,
       progress: progress ?? this.progress,
-      pointsCollected: pointsCollected ?? this.pointsCollected,
-      status: status ?? this.status,
+      wallsFound: wallsFound ?? this.wallsFound,
+      doorsFound: doorsFound ?? this.doorsFound,
+      windowsFound: windowsFound ?? this.windowsFound,
     );
   }
 }
@@ -38,31 +42,31 @@ class LiDARScanNotifier extends StateNotifier<LiDARScanState> {
         LiDARScanState(
           isScanning: false,
           progress: 0.0,
-          pointsCollected: 0,
-          status: 'Ready to scan',
+          wallsFound: 0,
+          doorsFound: 0,
+          windowsFound: 0,
         ),
       );
 
   void startScan() {
-    state = state.copyWith(isScanning: true, status: 'Scanning...');
+    state = state.copyWith(isScanning: true);
     _simulateScan();
-  }
-
-  void stopScan() {
-    state = state.copyWith(isScanning: false, status: 'Scan complete');
   }
 
   void _simulateScan() {
     int count = 0;
-    Future.delayed(const Duration(milliseconds: 100), () {
+    Future.delayed(const Duration(milliseconds: 60), () {
       if (state.isScanning && count < 100) {
         count++;
         state = state.copyWith(
           progress: count / 100,
-          pointsCollected: count * 1500,
-          status: 'Collecting point cloud data...',
+          wallsFound: (count / 33).floor().clamp(0, 3),
+          doorsFound: count > 40 ? 1 : 0,
+          windowsFound: (count / 45).floor().clamp(0, 2),
         );
         _simulateScan();
+      } else if (count >= 100) {
+        state = state.copyWith(isScanning: false);
       }
     });
   }
@@ -73,274 +77,159 @@ final liDARScanProvider =
       (ref) => LiDARScanNotifier(),
     );
 
-/// LiDAR Scanning Screen (A4)
-/// Shows real-time LiDAR scanning with progress and point cloud data
-class LiDARScanningScreen extends ConsumerWidget {
-  const LiDARScanningScreen({Key? key}) : super(key: key);
+/// A4: LiDAR skanerlash. Full-screen dark camera view with a green
+/// wireframe scan sweep, corner brackets, and a progress ring — the room's
+/// walls/eshik/deraza are counted live as the scan progresses.
+class LiDARScanningScreen extends ConsumerStatefulWidget {
+  const LiDARScanningScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LiDARScanningScreen> createState() =>
+      _LiDARScanningScreenState();
+}
+
+class _LiDARScanningScreenState extends ConsumerState<LiDARScanningScreen>
+    with TickerProviderStateMixin {
+  late final AnimationController _sweepController;
+  late final AnimationController _pulseController;
+
+  @override
+  void initState() {
+    super.initState();
+    _sweepController = AnimationController(
+      vsync: this,
+      duration: DesignTokens.animationScanSweep,
+    )..repeat();
+    _pulseController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    )..repeat(reverse: true);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(liDARScanProvider.notifier).startScan();
+    });
+  }
+
+  @override
+  void dispose() {
+    _sweepController.dispose();
+    _pulseController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final scanState = ref.watch(liDARScanProvider);
 
+    ref.listen<LiDARScanState>(liDARScanProvider, (previous, next) {
+      if (previous?.isScanning == true && !next.isScanning) {
+        context.push('/setup/wall-measurements');
+      }
+    });
+
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: DesignTokens.darkBg,
-        title: const Text('3D LiDAR Scan'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
       backgroundColor: DesignTokens.darkBg,
-      body: Column(
+      body: Stack(
         children: [
-          // Camera Preview Area
-          Expanded(
-            child: Container(
-              color: DesignTokens.darkBg,
-              child: Stack(
-                children: [
-                  // Placeholder for actual camera/LiDAR feed
-                  Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          DesignTokens.darkBg,
-                          DesignTokens.primaryBlue.withOpacity(0.1),
-                        ],
-                      ),
-                    ),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // Point cloud visualization placeholder
-                          Container(
-                            width: 200,
-                            height: 200,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(
-                                DesignTokens.radiusLg,
-                              ),
-                              border: Border.all(
-                                color: DesignTokens.accentOrange,
-                                width: 2,
-                              ),
-                            ),
-                            child: CustomPaint(
-                              painter: _PointCloudPainter(
-                                progress: scanState.progress,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: DesignTokens.spacingLg),
-                          if (!scanState.isScanning)
-                            Text(
-                              'Position device and tap to start',
-                              style: DesignTokens.body1.copyWith(
-                                color: DesignTokens.white,
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  // Grid overlay
-                  if (scanState.isScanning)
-                    Positioned.fill(
-                      child: Opacity(
-                        opacity: 0.1,
-                        child: GridView.count(
-                          crossAxisCount: 3,
-                          children: List.generate(9, (index) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: DesignTokens.accentOrange,
-                                ),
-                              ),
-                            );
-                          }),
-                        ),
-                      ),
-                    ),
-                  // Status indicator
-                  Positioned(
-                    top: DesignTokens.spacingLg,
-                    right: DesignTokens.spacingLg,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: DesignTokens.spacingMd,
-                        vertical: DesignTokens.spacingSm,
-                      ),
-                      decoration: BoxDecoration(
-                        color: scanState.isScanning
-                            ? DesignTokens.successGreen
-                            : DesignTokens.warningYellow,
-                        borderRadius: BorderRadius.circular(
-                          DesignTokens.radiusMd,
-                        ),
-                      ),
-                      child: Row(
-                        children: [
-                          if (scanState.isScanning)
-                            Container(
-                              width: 8,
-                              height: 8,
-                              decoration: BoxDecoration(
-                                color: DesignTokens.white,
-                                borderRadius: BorderRadius.circular(
-                                  DesignTokens.radiusFull,
-                                ),
-                              ),
-                              margin: const EdgeInsets.only(
-                                right: DesignTokens.spacingSm,
-                              ),
-                            ),
-                          Text(
-                            scanState.isScanning ? 'SCANNING' : 'READY',
-                            style: DesignTokens.caption.copyWith(
-                              color: DesignTokens.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+          Positioned.fill(
+            child: AnimatedBuilder(
+              animation: _sweepController,
+              builder: (context, child) => CustomPaint(
+                painter: _ScanOverlayPainter(_sweepController.value),
               ),
             ),
           ),
-          // Control Panel
-          Container(
-            decoration: BoxDecoration(
-              color: DesignTokens.darkBg.withOpacity(0.95),
-              border: Border(
-                top: BorderSide(
-                  color: DesignTokens.borderGray.withOpacity(0.2),
-                ),
-              ),
-            ),
-            padding: const EdgeInsets.all(DesignTokens.spacingMd),
+          SafeArea(
             child: Column(
               children: [
-                // Progress section
-                if (scanState.isScanning) ...[
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                Padding(
+                  padding: const EdgeInsets.all(DesignTokens.spacingMd),
+                  child: Row(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Scan Progress',
-                            style: DesignTokens.body2.copyWith(
-                              color: DesignTokens.white,
-                            ),
-                          ),
-                          Text(
-                            '${(scanState.progress * 100).toStringAsFixed(0)}%',
-                            style: DesignTokens.subtitle2.copyWith(
-                              color: DesignTokens.accentOrange,
-                            ),
-                          ),
-                        ],
+                      _RoundIconButton(
+                        icon: Icons.close,
+                        onTap: () => Navigator.of(context).pop(),
                       ),
-                      const SizedBox(height: DesignTokens.spacingSm),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(
-                          DesignTokens.radiusSm,
-                        ),
-                        child: LinearProgressIndicator(
-                          value: scanState.progress,
-                          minHeight: 8,
-                          backgroundColor: DesignTokens.borderGray.withOpacity(
-                            0.3,
-                          ),
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            DesignTokens.accentOrange,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: DesignTokens.spacingMd),
                     ],
                   ),
-                ],
-                // Stats
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: DesignTokens.spacingMd,
-                    vertical: DesignTokens.spacingMd,
-                  ),
-                  decoration: BoxDecoration(
-                    color: DesignTokens.primaryBlue.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                ),
+                const Spacer(),
+                SizedBox(
+                  width: 120,
+                  height: 120,
+                  child: Stack(
+                    alignment: Alignment.center,
                     children: [
-                      _StatColumn(
-                        icon: Icons.cloud_outlined,
-                        label: 'Points',
-                        value: '${scanState.pointsCollected}',
+                      CircularProgressIndicator(
+                        value: scanState.progress,
+                        strokeWidth: 6,
+                        backgroundColor: Colors.white.withValues(alpha: 0.16),
+                        valueColor: const AlwaysStoppedAnimation<Color>(
+                          DesignTokens.accentOrange,
+                        ),
                       ),
-                      _StatColumn(icon: Icons.speed, label: 'FPS', value: '30'),
-                      _StatColumn(
-                        icon: Icons.battery_full,
-                        label: 'Battery',
-                        value: '85%',
-                      ),
-                      _StatColumn(
-                        icon: Icons.thermostat,
-                        label: 'Temp',
-                        value: '35°C',
+                      Text(
+                        '${(scanState.progress * 100).toStringAsFixed(0)}%',
+                        style: DesignTokens.heading2.copyWith(
+                          color: DesignTokens.white,
+                        ),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: DesignTokens.spacingLg),
-                // Action buttons
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: () => Navigator.pop(context),
-                        icon: const Icon(Icons.close),
-                        label: const Text('Cancel'),
-                      ),
+                AnimatedBuilder(
+                  animation: _pulseController,
+                  builder: (context, child) => Opacity(
+                    opacity: 0.5 + 0.5 * _pulseController.value,
+                    child: child,
+                  ),
+                  child: Text(
+                    'Skanerlanyapti...',
+                    style: DesignTokens.subtitle1.copyWith(
+                      color: DesignTokens.white,
                     ),
-                    const SizedBox(width: DesignTokens.spacingMd),
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          if (!scanState.isScanning) {
-                            ref.read(liDARScanProvider.notifier).startScan();
-                          } else {
-                            ref.read(liDARScanProvider.notifier).stopScan();
-                            Future.delayed(
-                              const Duration(milliseconds: 500),
-                              () {
-                                Navigator.of(context).pushNamed('/photo-scan');
-                              },
-                            );
-                          }
-                        },
-                        icon: Icon(
-                          scanState.isScanning
-                              ? Icons.check_circle
-                              : Icons.fiber_manual_record,
-                        ),
-                        label: Text(
-                          scanState.isScanning ? 'Complete' : 'Start Scan',
-                        ),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
+                const Spacer(),
+                _HintPill(
+                  icon: Icons.screen_rotation_alt_outlined,
+                  label: 'Telefonni sekin harakatlantiring',
+                ),
+                const SizedBox(height: DesignTokens.spacingMd),
+                Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: DesignTokens.spacingMd,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: DesignTokens.spacingMd,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.08),
+                    borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _FoundStat(
+                        icon: Icons.crop_square_outlined,
+                        label: 'devor',
+                        count: scanState.wallsFound,
+                      ),
+                      _FoundStat(
+                        icon: Icons.door_front_door_outlined,
+                        label: 'eshik',
+                        count: scanState.doorsFound,
+                      ),
+                      _FoundStat(
+                        icon: Icons.window_outlined,
+                        label: 'deraza',
+                        count: scanState.windowsFound,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: DesignTokens.spacingLg),
               ],
             ),
           ),
@@ -350,66 +239,174 @@ class LiDARScanningScreen extends ConsumerWidget {
   }
 }
 
-class _StatColumn extends StatelessWidget {
+class _RoundIconButton extends StatelessWidget {
+  const _RoundIconButton({required this.icon, required this.onTap});
+
+  final IconData icon;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.16),
+          shape: BoxShape.circle,
+        ),
+        child: Icon(icon, color: DesignTokens.white, size: DesignTokens.iconMd),
+      ),
+    );
+  }
+}
+
+class _HintPill extends StatelessWidget {
+  const _HintPill({required this.icon, required this.label});
+
   final IconData icon;
   final String label;
-  final String value;
 
-  const _StatColumn({
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: DesignTokens.spacingMd,
+        vertical: DesignTokens.spacingSm,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.16),
+        borderRadius: BorderRadius.circular(DesignTokens.radiusFull),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: DesignTokens.white, size: DesignTokens.iconSm),
+          const SizedBox(width: DesignTokens.spacingSm),
+          Text(
+            label,
+            style: DesignTokens.body2.copyWith(color: DesignTokens.white),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _FoundStat extends StatelessWidget {
+  const _FoundStat({
     required this.icon,
     required this.label,
-    required this.value,
+    required this.count,
   });
+
+  final IconData icon;
+  final String label;
+  final int count;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Icon(icon, size: DesignTokens.iconMd, color: DesignTokens.accentOrange),
-        const SizedBox(height: DesignTokens.spacingSm),
+        Icon(icon, color: DesignTokens.white, size: DesignTokens.iconSm),
+        const SizedBox(height: DesignTokens.spacingXs),
         Text(
-          label,
-          style: DesignTokens.caption.copyWith(color: DesignTokens.textGray),
-        ),
-        const SizedBox(height: DesignTokens.spacingSm),
-        Text(
-          value,
-          style: DesignTokens.subtitle2.copyWith(color: DesignTokens.white),
+          '$count $label',
+          style: DesignTokens.caption.copyWith(color: DesignTokens.white),
         ),
       ],
     );
   }
 }
 
-class _PointCloudPainter extends CustomPainter {
-  final double progress;
+/// Faint perspective grid + sweeping green wireframe band + 4 corner
+/// brackets, per spec's A4 camera-view description.
+class _ScanOverlayPainter extends CustomPainter {
+  _ScanOverlayPainter(this.sweepProgress);
 
-  _PointCloudPainter({required this.progress});
+  final double sweepProgress;
+  static const _scanGreen = Color(0xFF34D399);
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = const Color(0xFFF97316)
-      ..strokeWidth = 2;
-
-    final center = Offset(size.width / 2, size.height / 2);
-    final maxRadius = size.width / 2 - 10;
-
-    // Draw rotating points as indication of scanning
-    final pointCount = (100 * progress).toInt();
-    for (int i = 0; i < pointCount; i++) {
-      final angle = (i / 100) * 2 * 3.14159 + (progress * 6.28318);
-      final radius = maxRadius * (1 - (i / 100) * 0.7);
-
-      final x = center.dx + radius * cos(angle);
-      final y = center.dy + radius * sin(angle);
-
-      canvas.drawCircle(Offset(x, y), 2, paint);
+    final gridPaint = Paint()
+      ..color = Colors.white.withValues(alpha: 0.04)
+      ..strokeWidth = 1;
+    const gridSpacing = 40.0;
+    for (double x = 0; x < size.width; x += gridSpacing) {
+      canvas.drawLine(Offset(x, 0), Offset(x, size.height), gridPaint);
     }
+    for (double y = 0; y < size.height; y += gridSpacing) {
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), gridPaint);
+    }
+
+    final sweepY = size.height * sweepProgress;
+    final sweepPaint = Paint()
+      ..shader = LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          _scanGreen.withValues(alpha: 0),
+          _scanGreen.withValues(alpha: 0.35),
+          _scanGreen.withValues(alpha: 0),
+        ],
+      ).createShader(Rect.fromLTWH(0, sweepY - 40, size.width, 80));
+    canvas.drawRect(Rect.fromLTWH(0, sweepY - 40, size.width, 80), sweepPaint);
+
+    const bracketLen = 34.0;
+    const inset = 24.0;
+    final bracketPaint = Paint()
+      ..color = _scanGreen
+      ..strokeWidth = 3
+      ..style = PaintingStyle.stroke;
+    // Top-left
+    canvas.drawLine(
+      const Offset(inset, inset),
+      const Offset(inset + bracketLen, inset),
+      bracketPaint,
+    );
+    canvas.drawLine(
+      const Offset(inset, inset),
+      const Offset(inset, inset + bracketLen),
+      bracketPaint,
+    );
+    // Top-right
+    canvas.drawLine(
+      Offset(size.width - inset, inset),
+      Offset(size.width - inset - bracketLen, inset),
+      bracketPaint,
+    );
+    canvas.drawLine(
+      Offset(size.width - inset, inset),
+      Offset(size.width - inset, inset + bracketLen),
+      bracketPaint,
+    );
+    // Bottom-left
+    canvas.drawLine(
+      Offset(inset, size.height - inset),
+      Offset(inset + bracketLen, size.height - inset),
+      bracketPaint,
+    );
+    canvas.drawLine(
+      Offset(inset, size.height - inset),
+      Offset(inset, size.height - inset - bracketLen),
+      bracketPaint,
+    );
+    // Bottom-right
+    canvas.drawLine(
+      Offset(size.width - inset, size.height - inset),
+      Offset(size.width - inset - bracketLen, size.height - inset),
+      bracketPaint,
+    );
+    canvas.drawLine(
+      Offset(size.width - inset, size.height - inset),
+      Offset(size.width - inset, size.height - inset - bracketLen),
+      bracketPaint,
+    );
   }
 
   @override
-  bool shouldRepaint(_PointCloudPainter oldDelegate) {
-    return oldDelegate.progress != progress;
-  }
+  bool shouldRepaint(_ScanOverlayPainter oldDelegate) =>
+      oldDelegate.sweepProgress != sweepProgress;
 }
