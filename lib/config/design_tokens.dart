@@ -223,26 +223,20 @@ class DesignTokens {
   static const double iconXl = 48.0;
   static const double iconXxl = 64.0;
 
-  // BACKWARD COMPATIBILITY ALIASES (Legacy naming)
+  // BACKWARD COMPATIBILITY ALIASES (Legacy naming) — only entries still
+  // referenced by not-yet-rebuilt screens are kept; confirmed via
+  // `grep -rn "DesignTokens\.<name>\b" lib/` before every Step 13 removal.
   // Colors
   static const Color primary = primaryBlue;
-  static const Color primaryLight = Color(0xFFEEF1F8);
-  static const Color primaryDark = primaryBlue;
   static const Color secondary = accentOrange;
   static const Color success = successGreen;
-  static const Color warning = warningYellow;
   static const Color error = errorRed;
   static const Color surface = white;
-  static const Color surfaceAlt = Color(0xFFF9FAFB);
-  static const Color surfaceDim = Color(0xFFF3F4F6);
   static const Color text = textDark;
   static const Color textSecondary = Color(0xFF6B7280);
-  static const Color textTertiary = Color(0xFF9CA3AF);
   static const Color border = Color(0xFFE5E7EB);
-  static const Color borderLight = Color(0xFFF3F4F6);
 
   // Typography (map to new names)
-  static const TextStyle headingXL = heading1;
   static const TextStyle headingLarge = heading2;
   static const TextStyle headingMedium = heading3;
   static const TextStyle headingSmall = subtitle2;
@@ -252,27 +246,17 @@ class DesignTokens {
   static const TextStyle labelMedium = button;
 
   // Spacing (map to new names)
-  static const double spacing2 = spacingXs;
   static const double spacing4 = spacingXs;
   static const double spacing8 = spacingSm;
   static const double spacing12 = spacingSm;
   static const double spacing16 = spacingMd;
-  static const double spacing20 = spacingMd;
   static const double spacing24 = spacingLg;
   static const double spacing32 = spacingXl;
   static const double spacing40 = spacingXxl;
 
   // Border radius (map to new names)
-  static const double radiusSmall = radiusSm;
   static const double radiusMedium = radiusMd;
   static const double radiusLarge = radiusLg;
-  static const double radiusXL = radiusXl;
-  static const double radiusRound = radiusFull;
-
-  // Shadows (recreate legacy shadows)
-  static const BoxShadow shadowSmall = shadowCard;
-  static const BoxShadow shadowMedium = shadowCard;
-  static const BoxShadow shadowLarge = shadowElevated;
 }
 
 /// Theme Data for the app
