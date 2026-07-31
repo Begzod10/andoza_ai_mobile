@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../models/design_selection_model.dart';
+import '../../models/room_model.dart' as room_model;
+import '../../providers/design_provider.dart';
+import '../../providers/room_provider.dart';
 import '../home/home_empty_screen.dart';
 import '../room_setup/new_project_sheet.dart';
 import 'wall_measurements_screen.dart';
@@ -178,17 +182,100 @@ class _RoomSummaryScreenState extends ConsumerState<RoomSummaryScreen>
   }
 
   void _continueToNextBatch(BuildContext context, WidgetRef ref) {
+    final walls = ref.read(wallMeasurementsProvider);
+    final roomId = DateTime.now().microsecondsSinceEpoch.toString();
+
+    final modelWalls = <room_model.Wall>[];
+    final doors = <room_model.Door>[];
+    final windows = <room_model.Window>[];
+
+    for (final wall in walls) {
+      final wallId = '${roomId}_${wall.type.name}';
+      modelWalls.add(
+        room_model.Wall(
+          id: wallId,
+          type: wall.type,
+          measurements: room_model.WallMeasurements(
+            height: wall.height,
+            length: wall.length,
+          ),
+        ),
+      );
+
+      for (final opening in wall.openings) {
+        final position = wall.length == 0
+            ? 0.0
+            : (opening.offset / wall.length).clamp(0.0, 1.0);
+        if (opening.type == room_model.OpeningType.dual) {
+          windows.add(
+            room_model.Window(
+              id: opening.id,
+              wallId: wallId,
+              position: position,
+              width: opening.width,
+              height: opening.height,
+              type: opening.type,
+            ),
+          );
+        } else {
+          doors.add(
+            room_model.Door(
+              id: opening.id,
+              wallId: wallId,
+              position: position,
+              width: opening.width,
+              height: opening.height,
+              type: opening.type,
+            ),
+          );
+        }
+      }
+    }
+
+    final wallA = walls.firstWhere(
+      (w) => w.type.name == 'wallA',
+      orElse: () => walls[0],
+    );
+    final wallB = walls.length > 1 ? walls[1] : walls[0];
+
+    final room = room_model.Room(
+      id: roomId,
+      name: 'Mehmonxona ta\'miri',
+      dimensions: room_model.RoomDimensions(
+        width: wallB.length,
+        length: wallA.length,
+        height: wallA.height,
+      ),
+      walls: modelWalls,
+      doors: doors,
+      windows: windows,
+      createdAt: DateTime.now(),
+    );
+    ref.read(activeRoomProvider.notifier).setLocal(room);
+
+    ref
+        .read(activeDesignProvider.notifier)
+        .setLocal(
+          DesignSelection(
+            id: '${roomId}_design',
+            roomId: roomId,
+            stage: DesignStage.floor,
+            renovationStage: RenovationStage.suvoq,
+          ),
+        );
+
     ref
         .read(homeStateProvider.notifier)
         .addProject(
           ProjectItem(
-            id: DateTime.now().microsecondsSinceEpoch.toString(),
-            name: 'Mehmonxona ta\'miri',
+            id: roomId,
+            name: room.name,
             location: '',
             roomCount: 1,
             createdAt: DateTime.now(),
           ),
         );
+
     context.go('/design/b1');
   }
 }

@@ -14,6 +14,8 @@ import '../screens/scanning/lidar_scanning_screen.dart';
 import '../screens/scanning/photo_scanning_screen.dart';
 import '../screens/measurement/measurement_stubs.dart';
 import '../screens/design/b1_room_intro_screen.dart';
+import '../screens/design/b2_room_entry_screen.dart';
+import '../screens/design/b3_decoration_rail_screen.dart';
 import '../screens/electrical/d1_electrical_intro_screen.dart';
 import '../screens/electrical/d2_wire_routing_screen.dart';
 import '../screens/electrical/d3_advanced_routing_screen.dart';
@@ -135,6 +137,14 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/design/b1',
             builder: (context, state) => const B1RoomIntroScreen(),
+          ),
+          GoRoute(
+            path: '/design/b2',
+            builder: (context, state) => const B2RoomEntryScreen(),
+          ),
+          GoRoute(
+            path: '/design/b3',
+            builder: (context, state) => const B3DecorationRailScreen(),
           ),
           GoRoute(
             path: '/design/complete',

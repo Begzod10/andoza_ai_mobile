@@ -86,6 +86,14 @@ class ActiveDesignNotifier extends StateNotifier<DesignSelection?> {
     }
   }
 
+  /// Local-only variant of [setRoomCondition] — no backend round-trip. Used
+  /// from B1, since the active design was itself created via [setLocal]
+  /// (no server id to PUT against yet).
+  void setRoomConditionLocal(RoomCondition condition) {
+    if (state == null) return;
+    state = state!.copyWith(roomCondition: condition);
+  }
+
   /// Add a furniture placement
   Future<void> addFurniture(FurniturePlacement furniture) async {
     if (state == null) return;
@@ -172,7 +180,11 @@ class ActiveDesignNotifier extends StateNotifier<DesignSelection?> {
   /// This is the precise 8-stage tracker consumed by every delta-aware
   /// stage-line/progress-bar widget — separate from the coarser [DesignStage]
   /// workflow field above, which only tracks floor/paint/furniture/completed.
-  Future<void> advanceRenovationStage() async {
+  /// Local-only — see [setRoomConditionLocal]'s doc for why: the backend
+  /// has no `/api/v1/designs` endpoint to persist this against yet, and
+  /// this method is called constantly throughout Batches B/C/D, so it must
+  /// not depend on that integration existing.
+  void advanceRenovationStage() {
     if (state == null) return;
 
     final current = state!.renovationStage;
@@ -181,13 +193,17 @@ class ActiveDesignNotifier extends StateNotifier<DesignSelection?> {
         : current;
     if (next == current) return;
 
-    try {
-      final updated = state!.copyWith(renovationStage: next);
-      state = updated;
-      await _repository.update(updated);
-    } catch (e) {
-      rethrow;
-    }
+    state = state!.copyWith(renovationStage: next);
+  }
+
+  /// Jumps directly to [stage], skipping intermediate stages — used when a
+  /// prior stage was never actionable (e.g. Batch B lands the user
+  /// directly on Bo'yoq/Oboi because Suvoq/Shpaklovka were either already
+  /// excluded by the room's condition or aren't separately worked in the
+  /// UI at all).
+  void setRenovationStageLocal(RenovationStage stage) {
+    if (state == null) return;
+    state = state!.copyWith(renovationStage: stage);
   }
 
   /// Mark design selection as completed
@@ -201,6 +217,15 @@ class ActiveDesignNotifier extends StateNotifier<DesignSelection?> {
     } catch (e) {
       rethrow;
     }
+  }
+
+  /// Sets the active design directly from local data, bypassing the
+  /// backend (no `/api/v1/designs` round-trip — that endpoint doesn't
+  /// exist on the backend yet). Used for the A9→B1 handoff; see
+  /// [ActiveRoomNotifier.setLocal] in room_provider.dart for the same
+  /// rationale.
+  void setLocal(DesignSelection design) {
+    state = design;
   }
 
   /// Clear the active design

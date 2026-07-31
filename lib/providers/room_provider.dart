@@ -63,6 +63,16 @@ class ActiveRoomNotifier extends StateNotifier<Room?> {
     }
   }
 
+  /// Sets the active room directly from locally-captured measurement data,
+  /// bypassing the backend (no `/api/v1/rooms` round-trip). The backend has
+  /// no room-creation flow wired up for the A9→B1 handoff yet — this keeps
+  /// the Batch B/C/D UI/UX exercisable without blocking on that
+  /// integration, consistent with Batches U/S also using local/mock data
+  /// for this rebuild pass.
+  void setLocal(Room room) {
+    state = room;
+  }
+
   /// Clear the active room
   void clear() {
     state = null;
