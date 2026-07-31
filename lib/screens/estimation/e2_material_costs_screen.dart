@@ -46,9 +46,9 @@ class _E2MaterialCostsScreenState extends ConsumerState<E2MaterialCostsScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
       }
     } finally {
       if (mounted) {
@@ -109,8 +109,9 @@ class _E2MaterialCostsScreenState extends ConsumerState<E2MaterialCostsScreen> {
                       padding: const EdgeInsets.all(DesignTokens.spacing12),
                       decoration: BoxDecoration(
                         color: DesignTokens.primaryBlue.withValues(alpha: 0.05),
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusSm),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusSm,
+                        ),
                       ),
                       child: Row(
                         children: [
@@ -187,11 +188,13 @@ class _E2MaterialCostsScreenState extends ConsumerState<E2MaterialCostsScreen> {
                       padding: const EdgeInsets.all(DesignTokens.spacing16),
                       decoration: BoxDecoration(
                         color: DesignTokens.primaryBlue.withValues(alpha: 0.1),
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusMd),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusMd,
+                        ),
                         border: Border.all(
-                          color: DesignTokens.primaryBlue
-                              .withValues(alpha: 0.3),
+                          color: DesignTokens.primaryBlue.withValues(
+                            alpha: 0.3,
+                          ),
                         ),
                       ),
                       child: Row(
@@ -222,9 +225,7 @@ class _E2MaterialCostsScreenState extends ConsumerState<E2MaterialCostsScreen> {
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacing16),
             decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(color: DesignTokens.border),
-              ),
+              border: Border(top: BorderSide(color: DesignTokens.border)),
             ),
             child: ElevatedButton(
               onPressed: _isSaving ? () {} : _continueToLabor,
@@ -271,8 +272,7 @@ class _MaterialItemState extends State<_MaterialItem> {
   @override
   void initState() {
     super.initState();
-    _controller =
-        TextEditingController(text: widget.cost.toStringAsFixed(0));
+    _controller = TextEditingController(text: widget.cost.toStringAsFixed(0));
   }
 
   @override
@@ -318,8 +318,7 @@ class _MaterialItemState extends State<_MaterialItem> {
           const SizedBox(height: DesignTokens.spacing12),
           TextField(
             controller: _controller,
-            keyboardType:
-                const TextInputType.numberWithOptions(decimal: true),
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
             onChanged: (value) {
               final numValue = double.tryParse(value) ?? 0.0;
               widget.onChanged(numValue);

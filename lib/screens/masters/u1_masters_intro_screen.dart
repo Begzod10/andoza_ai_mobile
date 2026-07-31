@@ -36,8 +36,7 @@ class _U1MastersIntroScreenState extends ConsumerState<U1MastersIntroScreen> {
                   hintText: 'Search contractors...',
                   prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(DesignTokens.radiusMd),
+                    borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
                   ),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: DesignTokens.spacing12,
@@ -78,8 +77,7 @@ class _U1MastersIntroScreenState extends ConsumerState<U1MastersIntroScreen> {
                     _FilterChip(
                       label: 'Flooring',
                       isSelected: _selectedFilter == 'flooring',
-                      onTap: () =>
-                          setState(() => _selectedFilter = 'flooring'),
+                      onTap: () => setState(() => _selectedFilter = 'flooring'),
                     ),
                     const SizedBox(width: DesignTokens.spacing8),
                     _FilterChip(
@@ -92,8 +90,7 @@ class _U1MastersIntroScreenState extends ConsumerState<U1MastersIntroScreen> {
                     _FilterChip(
                       label: 'Plumbing',
                       isSelected: _selectedFilter == 'plumbing',
-                      onTap: () =>
-                          setState(() => _selectedFilter = 'plumbing'),
+                      onTap: () => setState(() => _selectedFilter = 'plumbing'),
                     ),
                   ],
                 ),
@@ -186,9 +183,7 @@ class _FilterChip extends StatelessWidget {
       backgroundColor: DesignTokens.surface,
       selectedColor: DesignTokens.primaryBlue.withValues(alpha: 0.2),
       side: BorderSide(
-        color: isSelected
-            ? DesignTokens.primaryBlue
-            : DesignTokens.border,
+        color: isSelected ? DesignTokens.primaryBlue : DesignTokens.border,
       ),
     );
   }
@@ -231,8 +226,7 @@ class _ContractorCard extends StatelessWidget {
                   height: 60,
                   decoration: BoxDecoration(
                     color: DesignTokens.primaryBlue.withValues(alpha: 0.1),
-                    borderRadius:
-                        BorderRadius.circular(DesignTokens.radiusMd),
+                    borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
                   ),
                   child: Icon(
                     Icons.person,

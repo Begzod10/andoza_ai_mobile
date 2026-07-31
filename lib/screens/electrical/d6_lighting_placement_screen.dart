@@ -69,9 +69,9 @@ class _D6LightingPlacementScreenState
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
       }
     } finally {
       if (mounted) {
@@ -132,8 +132,9 @@ class _D6LightingPlacementScreenState
                       height: 280,
                       decoration: BoxDecoration(
                         border: Border.all(color: DesignTokens.border),
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusMd),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusMd,
+                        ),
                       ),
                       child: RoomCanvas(
                         room: room,
@@ -154,7 +155,8 @@ class _D6LightingPlacementScreenState
                     const SizedBox(height: DesignTokens.spacing12),
                     _LightingTypeCard(
                       title: 'Standard Pendant',
-                      description: 'Classic overhead fixtures\n15,000-25,000 UZS per unit',
+                      description:
+                          'Classic overhead fixtures\n15,000-25,000 UZS per unit',
                       icon: Icons.lightbulb_outline,
                       isSelected: _lightingType == 0,
                       onTap: () => setState(() => _lightingType = 0),
@@ -162,7 +164,8 @@ class _D6LightingPlacementScreenState
                     const SizedBox(height: DesignTokens.spacing12),
                     _LightingTypeCard(
                       title: 'Recessed Ceiling',
-                      description: 'Modern recessed lights\n20,000-35,000 UZS per unit',
+                      description:
+                          'Modern recessed lights\n20,000-35,000 UZS per unit',
                       icon: Icons.crop_square,
                       isSelected: _lightingType == 1,
                       onTap: () => setState(() => _lightingType = 1),
@@ -170,7 +173,8 @@ class _D6LightingPlacementScreenState
                     const SizedBox(height: DesignTokens.spacing12),
                     _LightingTypeCard(
                       title: 'Smart Lighting',
-                      description: 'WiFi-enabled RGB lights\n40,000-60,000 UZS per unit',
+                      description:
+                          'WiFi-enabled RGB lights\n40,000-60,000 UZS per unit',
                       icon: Icons.lightbulb,
                       isSelected: _lightingType == 2,
                       onTap: () => setState(() => _lightingType = 2),
@@ -185,10 +189,7 @@ class _D6LightingPlacementScreenState
                       ),
                     ),
                     const SizedBox(height: DesignTokens.spacing12),
-                    _SpecItem(
-                      label: 'Main Light',
-                      value: 'Ceiling center',
-                    ),
+                    _SpecItem(label: 'Main Light', value: 'Ceiling center'),
                     _SpecItem(
                       label: 'Entry Switch Height',
                       value: '120-140 cm from floor',
@@ -210,9 +211,7 @@ class _D6LightingPlacementScreenState
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacing16),
             decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(color: DesignTokens.border),
-              ),
+              border: Border(top: BorderSide(color: DesignTokens.border)),
             ),
             child: ElevatedButton(
               onPressed: _isSaving ? () {} : _continueToReview,
@@ -259,9 +258,7 @@ class _LightingTypeCard extends StatelessWidget {
         padding: const EdgeInsets.all(DesignTokens.spacing16),
         decoration: BoxDecoration(
           border: Border.all(
-            color: isSelected
-                ? DesignTokens.primaryBlue
-                : DesignTokens.border,
+            color: isSelected ? DesignTokens.primaryBlue : DesignTokens.border,
             width: isSelected ? 2.5 : 1.5,
           ),
           borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
@@ -318,10 +315,7 @@ class _LightingTypeCard extends StatelessWidget {
 }
 
 class _SpecItem extends StatelessWidget {
-  const _SpecItem({
-    required this.label,
-    required this.value,
-  });
+  const _SpecItem({required this.label, required this.value});
 
   final String label;
   final String value;

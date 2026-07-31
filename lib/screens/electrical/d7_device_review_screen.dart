@@ -67,9 +67,9 @@ class _D7DeviceReviewScreenState extends ConsumerState<D7DeviceReviewScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
       }
     } finally {
       if (mounted) {
@@ -176,9 +176,7 @@ class _D7DeviceReviewScreenState extends ConsumerState<D7DeviceReviewScreen> {
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacing16),
             decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(color: DesignTokens.border),
-              ),
+              border: Border(top: BorderSide(color: DesignTokens.border)),
             ),
             child: ElevatedButton(
               onPressed: _isSaving ? () {} : _continueToEstimate,
@@ -281,10 +279,7 @@ class _DeviceCard extends StatelessWidget {
 }
 
 class _RequirementItem extends StatelessWidget {
-  const _RequirementItem({
-    required this.title,
-    required this.spec,
-  });
+  const _RequirementItem({required this.title, required this.spec});
 
   final String title;
   final String spec;
@@ -298,9 +293,7 @@ class _RequirementItem extends StatelessWidget {
         children: [
           Text(
             title,
-            style: DesignTokens.bodyMedium.copyWith(
-              color: DesignTokens.text,
-            ),
+            style: DesignTokens.bodyMedium.copyWith(color: DesignTokens.text),
           ),
           Text(
             spec,

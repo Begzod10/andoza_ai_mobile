@@ -2,11 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 
 class ApiException implements Exception {
-  ApiException({
-    required this.message,
-    this.statusCode,
-    this.response,
-  });
+  ApiException({required this.message, this.statusCode, this.response});
 
   final String message;
   final int? statusCode;

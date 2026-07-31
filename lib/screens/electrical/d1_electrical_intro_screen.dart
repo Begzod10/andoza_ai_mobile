@@ -40,9 +40,7 @@ class _D1ElectricalIntroScreenState
               // Header
               Text(
                 'Plan Your Electrical System',
-                style: DesignTokens.heading3.copyWith(
-                  color: DesignTokens.text,
-                ),
+                style: DesignTokens.heading3.copyWith(color: DesignTokens.text),
               ),
               const SizedBox(height: DesignTokens.spacing12),
               Text(
@@ -63,7 +61,8 @@ class _D1ElectricalIntroScreenState
               const SizedBox(height: DesignTokens.spacing12),
               _LoadProfileCard(
                 title: 'Light Load (Residential)',
-                description: '5-10 amps per circuit\nIdeal for bedroom or office',
+                description:
+                    '5-10 amps per circuit\nIdeal for bedroom or office',
                 icon: Icons.lightbulb_outline,
                 isSelected: _selectedLoadIndex == 0,
                 onTap: () => setState(() => _selectedLoadIndex = 0),
@@ -71,7 +70,8 @@ class _D1ElectricalIntroScreenState
               const SizedBox(height: DesignTokens.spacing12),
               _LoadProfileCard(
                 title: 'Medium Load (Standard)',
-                description: '10-20 amps per circuit\nSuitable for kitchen or living room',
+                description:
+                    '10-20 amps per circuit\nSuitable for kitchen or living room',
                 icon: Icons.power_outlined,
                 isSelected: _selectedLoadIndex == 1,
                 onTap: () => setState(() => _selectedLoadIndex = 1),
@@ -79,7 +79,8 @@ class _D1ElectricalIntroScreenState
               const SizedBox(height: DesignTokens.spacing12),
               _LoadProfileCard(
                 title: 'Heavy Load (High Demand)',
-                description: '20+ amps per circuit\nFor appliances and intensive use',
+                description:
+                    '20+ amps per circuit\nFor appliances and intensive use',
                 icon: Icons.electric_bolt,
                 isSelected: _selectedLoadIndex == 2,
                 onTap: () => setState(() => _selectedLoadIndex = 2),
@@ -123,7 +124,9 @@ class _D1ElectricalIntroScreenState
               ElevatedButton(
                 onPressed: () => context.go('/electrical/d2'),
                 child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: DesignTokens.spacing12),
+                  padding: EdgeInsets.symmetric(
+                    vertical: DesignTokens.spacing12,
+                  ),
                   child: Text('Start Wire Routing'),
                 ),
               ),
@@ -164,9 +167,7 @@ class _LoadProfileCard extends StatelessWidget {
         padding: const EdgeInsets.all(DesignTokens.spacing16),
         decoration: BoxDecoration(
           border: Border.all(
-            color: isSelected
-                ? DesignTokens.primaryBlue
-                : DesignTokens.border,
+            color: isSelected ? DesignTokens.primaryBlue : DesignTokens.border,
             width: isSelected ? 2.5 : 1.5,
           ),
           borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
@@ -243,11 +244,7 @@ class _FeatureItem extends StatelessWidget {
             color: DesignTokens.primaryBlue.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
           ),
-          child: Icon(
-            icon,
-            size: 24,
-            color: DesignTokens.primaryBlue,
-          ),
+          child: Icon(icon, size: 24, color: DesignTokens.primaryBlue),
         ),
         const SizedBox(width: DesignTokens.spacing16),
         Expanded(

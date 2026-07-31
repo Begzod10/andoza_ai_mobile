@@ -218,9 +218,14 @@ class AndozaTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-          borderSide: const BorderSide(color: DesignTokens.primaryBlue, width: 2),
+          borderSide: const BorderSide(
+            color: DesignTokens.primaryBlue,
+            width: 2,
+          ),
         ),
-        hintStyle: DesignTokens.body2.copyWith(color: DesignTokens.disabledGray),
+        hintStyle: DesignTokens.body2.copyWith(
+          color: DesignTokens.disabledGray,
+        ),
       ),
       chipTheme: ChipThemeData(
         backgroundColor: DesignTokens.borderGray,

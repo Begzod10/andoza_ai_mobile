@@ -35,11 +35,9 @@ class _DragDropTargetState<T extends Object> extends State<DragDropTarget<T>> {
     return Draggable<T>(
       data: widget.data,
       feedback: widget.feedback ?? _DefaultFeedback(child: widget.child),
-      childWhenDragging: widget.childWhenDragging ??
-          Opacity(
-            opacity: 0.5,
-            child: widget.child,
-          ),
+      childWhenDragging:
+          widget.childWhenDragging ??
+          Opacity(opacity: 0.5, child: widget.child),
       onDragStarted: widget.onDragStarted,
       onDraggableCanceled: (velocity, offset) {
         setState(() => _isDropZoneActive = false);
@@ -78,9 +76,7 @@ class _DragDropTargetState<T extends Object> extends State<DragDropTarget<T>> {
 }
 
 class _DefaultFeedback extends StatelessWidget {
-  const _DefaultFeedback({
-    required this.child,
-  });
+  const _DefaultFeedback({required this.child});
 
   final Widget child;
 

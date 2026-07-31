@@ -58,9 +58,9 @@ class _D4RoutingConfirmationScreenState
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
       }
     } finally {
       if (mounted) {
@@ -128,8 +128,9 @@ class _D4RoutingConfirmationScreenState
                       height: 200,
                       decoration: BoxDecoration(
                         border: Border.all(color: DesignTokens.border),
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusMd),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusMd,
+                        ),
                       ),
                       child: WireRoutingView(
                         width: room.dimensions.width,
@@ -179,7 +180,8 @@ class _D4RoutingConfirmationScreenState
                     const SizedBox(height: DesignTokens.spacing16),
                     _CheckboxItem(
                       label: 'Wire routes are accurate and practical',
-                      description: 'All paths are feasible and minimize wall damage',
+                      description:
+                          'All paths are feasible and minimize wall damage',
                       value: _confirmAccuracy,
                       onChanged: (value) =>
                           setState(() => _confirmAccuracy = value ?? false),
@@ -187,7 +189,8 @@ class _D4RoutingConfirmationScreenState
                     const SizedBox(height: DesignTokens.spacing12),
                     _CheckboxItem(
                       label: 'Routes comply with electrical codes',
-                      description: 'Spacing, clearances, and safety standards met',
+                      description:
+                          'Spacing, clearances, and safety standards met',
                       value: _confirmCompliance,
                       onChanged: (value) =>
                           setState(() => _confirmCompliance = value ?? false),
@@ -199,11 +202,13 @@ class _D4RoutingConfirmationScreenState
                       padding: const EdgeInsets.all(DesignTokens.spacing12),
                       decoration: BoxDecoration(
                         color: DesignTokens.accentOrange.withValues(alpha: 0.1),
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusSm),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusSm,
+                        ),
                         border: Border.all(
-                          color: DesignTokens.accentOrange
-                              .withValues(alpha: 0.3),
+                          color: DesignTokens.accentOrange.withValues(
+                            alpha: 0.3,
+                          ),
                         ),
                       ),
                       child: Column(
@@ -249,15 +254,14 @@ class _D4RoutingConfirmationScreenState
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacing16),
             decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(color: DesignTokens.border),
-              ),
+              border: Border(top: BorderSide(color: DesignTokens.border)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 ElevatedButton(
-                  onPressed: (_confirmAccuracy && _confirmCompliance && !_isSaving)
+                  onPressed:
+                      (_confirmAccuracy && _confirmCompliance && !_isSaving)
                       ? _proceedToDevices
                       : null,
                   child: Padding(

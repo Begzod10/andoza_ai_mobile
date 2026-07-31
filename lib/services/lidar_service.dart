@@ -15,11 +15,11 @@ class LidarPoint {
   final double confidence;
 
   Map<String, dynamic> toMap() => {
-        'x': x,
-        'y': y,
-        'z': z,
-        'confidence': confidence,
-      };
+    'x': x,
+    'y': y,
+    'z': z,
+    'confidence': confidence,
+  };
 }
 
 class LidarScan {
@@ -36,11 +36,11 @@ class LidarScan {
   int get pointCount => points.length;
 
   Map<String, dynamic> toMap() => {
-        'pointCount': pointCount,
-        'timestamp': timestamp.toIso8601String(),
-        'duration': duration.inMilliseconds,
-        'points': points.map((p) => p.toMap()).toList(),
-      };
+    'pointCount': pointCount,
+    'timestamp': timestamp.toIso8601String(),
+    'duration': duration.inMilliseconds,
+    'points': points.map((p) => p.toMap()).toList(),
+  };
 }
 
 class LidarException implements Exception {
@@ -92,25 +92,22 @@ class LidarService {
         throw LidarException('No scan data available');
       }
 
-      final points = (result['points'] as List?)
-              ?.map((p) {
-                final map = p as Map;
-                return LidarPoint(
-                  x: (map['x'] as num).toDouble(),
-                  y: (map['y'] as num).toDouble(),
-                  z: (map['z'] as num).toDouble(),
-                  confidence: (map['confidence'] as num?)?.toDouble() ?? 1.0,
-                );
-              })
-              .toList() ??
+      final points =
+          (result['points'] as List?)?.map((p) {
+            final map = p as Map;
+            return LidarPoint(
+              x: (map['x'] as num).toDouble(),
+              y: (map['y'] as num).toDouble(),
+              z: (map['z'] as num).toDouble(),
+              confidence: (map['confidence'] as num?)?.toDouble() ?? 1.0,
+            );
+          }).toList() ??
           [];
 
       return LidarScan(
         points: points,
         timestamp: DateTime.parse(result['timestamp'] as String),
-        duration: Duration(
-          milliseconds: (result['duration'] as int?) ?? 0,
-        ),
+        duration: Duration(milliseconds: (result['duration'] as int?) ?? 0),
       );
     } on PlatformException catch (e) {
       throw LidarException(e.message ?? 'Failed to get scan data', e.code);

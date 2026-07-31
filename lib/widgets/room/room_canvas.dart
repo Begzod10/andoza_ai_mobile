@@ -143,9 +143,15 @@ class RoomCanvasPainter extends CustomPainter {
     // Draw room perimeter
     canvas.drawLine(Offset(0, 0), Offset(size.width, 0), wallPaint);
     canvas.drawLine(
-        Offset(size.width, 0), Offset(size.width, size.height), wallPaint);
-    canvas.drawLine(Offset(size.width, size.height), Offset(0, size.height),
-        wallPaint);
+      Offset(size.width, 0),
+      Offset(size.width, size.height),
+      wallPaint,
+    );
+    canvas.drawLine(
+      Offset(size.width, size.height),
+      Offset(0, size.height),
+      wallPaint,
+    );
     canvas.drawLine(Offset(0, size.height), Offset(0, 0), wallPaint);
   }
 
@@ -162,8 +168,7 @@ class RoomCanvasPainter extends CustomPainter {
         ..style = PaintingStyle.stroke;
 
       const arcRadius = 30.0;
-      final rect =
-          Rect.fromCircle(center: pos, radius: arcRadius);
+      final rect = Rect.fromCircle(center: pos, radius: arcRadius);
       canvas.drawArc(rect, 0, math.pi / 2, false, arcPaint);
 
       // Draw door handle
@@ -171,11 +176,7 @@ class RoomCanvasPainter extends CustomPainter {
         ..color = DesignTokens.primaryBlue
         ..style = PaintingStyle.fill;
 
-      canvas.drawCircle(
-        pos + Offset(arcRadius, 0),
-        4,
-        handlePaint,
-      );
+      canvas.drawCircle(pos + Offset(arcRadius, 0), 4, handlePaint);
     }
   }
 
@@ -208,7 +209,10 @@ class RoomCanvasPainter extends CustomPainter {
       textDirection: TextDirection.ltr,
     );
     textPainter.layout();
-    textPainter.paint(canvas, Offset(size.width / 2 - textPainter.width / 2, 10));
+    textPainter.paint(
+      canvas,
+      Offset(size.width / 2 - textPainter.width / 2, 10),
+    );
   }
 
   void _drawDimensions(Canvas canvas, Size size) {
@@ -229,7 +233,10 @@ class RoomCanvasPainter extends CustomPainter {
     final widthText = TextPainter(
       text: TextSpan(
         text: '${room.dimensions.width.toStringAsFixed(1)}m',
-        style: const TextStyle(color: DesignTokens.textSecondary, fontSize: fontSize),
+        style: const TextStyle(
+          color: DesignTokens.textSecondary,
+          fontSize: fontSize,
+        ),
       ),
       textDirection: TextDirection.ltr,
     );
@@ -249,7 +256,10 @@ class RoomCanvasPainter extends CustomPainter {
     final lengthText = TextPainter(
       text: TextSpan(
         text: '${room.dimensions.length.toStringAsFixed(1)}m',
-        style: const TextStyle(color: DesignTokens.textSecondary, fontSize: fontSize),
+        style: const TextStyle(
+          color: DesignTokens.textSecondary,
+          fontSize: fontSize,
+        ),
       ),
       textDirection: TextDirection.ltr,
     );

@@ -19,37 +19,43 @@ class _E8TutorialTourScreenState extends ConsumerState<E8TutorialTourScreen> {
   final List<_TutorialStep> _steps = [
     _TutorialStep(
       title: 'Capture Your Room',
-      description: 'Use your phone camera or LiDAR to accurately measure room dimensions. Start a new project from the home screen.',
+      description:
+          'Use your phone camera or LiDAR to accurately measure room dimensions. Start a new project from the home screen.',
       icon: Icons.camera_alt_outlined,
       highlightArea: 'measurement',
     ),
     _TutorialStep(
       title: 'Choose Your Design',
-      description: 'Select flooring materials, paint colors, and finishing options. Preview your choices in real-time.',
+      description:
+          'Select flooring materials, paint colors, and finishing options. Preview your choices in real-time.',
       icon: Icons.palette_outlined,
       highlightArea: 'design',
     ),
     _TutorialStep(
       title: 'Plan Your Electrical',
-      description: 'Map out electrical outlets, switches, and lighting placement. Get recommendations for safety and efficiency.',
+      description:
+          'Map out electrical outlets, switches, and lighting placement. Get recommendations for safety and efficiency.',
       icon: Icons.power_outlined,
       highlightArea: 'electrical',
     ),
     _TutorialStep(
       title: 'Get Cost Estimates',
-      description: 'Receive detailed cost breakdowns for materials and labor. Export estimates as PDF for sharing.',
+      description:
+          'Receive detailed cost breakdowns for materials and labor. Export estimates as PDF for sharing.',
       icon: Icons.receipt_outlined,
       highlightArea: 'estimation',
     ),
     _TutorialStep(
       title: 'Browse Materials',
-      description: 'Shop for all materials directly in the app. Compare prices and read reviews from other users.',
+      description:
+          'Shop for all materials directly in the app. Compare prices and read reviews from other users.',
       icon: Icons.shopping_bag_outlined,
       highlightArea: 'shop',
     ),
     _TutorialStep(
       title: 'Hire Contractors',
-      description: 'Connect with verified contractors in your area. View profiles, ratings, and request quotes.',
+      description:
+          'Connect with verified contractors in your area. View profiles, ratings, and request quotes.',
       icon: Icons.person_outline,
       highlightArea: 'masters',
     ),
@@ -114,15 +120,12 @@ class _E8TutorialTourScreenState extends ConsumerState<E8TutorialTourScreen> {
                   ),
                   const SizedBox(height: DesignTokens.spacing8),
                   ClipRRect(
-                    borderRadius:
-                        BorderRadius.circular(DesignTokens.radiusSm),
+                    borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
                     child: LinearProgressIndicator(
                       value: (_currentStep + 1) / _steps.length,
                       minHeight: 6,
-                      backgroundColor:
-                          DesignTokens.border,
-                      valueColor:
-                          AlwaysStoppedAnimation<Color>(
+                      backgroundColor: DesignTokens.border,
+                      valueColor: AlwaysStoppedAnimation<Color>(
                         DesignTokens.primaryBlue,
                       ),
                     ),
@@ -135,8 +138,7 @@ class _E8TutorialTourScreenState extends ConsumerState<E8TutorialTourScreen> {
             Container(
               height: 250,
               decoration: BoxDecoration(
-                color: DesignTokens.primaryBlue
-                    .withValues(alpha: 0.1),
+                color: DesignTokens.primaryBlue.withValues(alpha: 0.1),
               ),
               child: Icon(
                 step.icon,
@@ -180,8 +182,7 @@ class _E8TutorialTourScreenState extends ConsumerState<E8TutorialTourScreen> {
                   color: DesignTokens.accentOrange.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
                   border: Border.all(
-                    color: DesignTokens.accentOrange
-                        .withValues(alpha: 0.2),
+                    color: DesignTokens.accentOrange.withValues(alpha: 0.2),
                   ),
                 ),
                 child: Row(
@@ -233,9 +234,7 @@ class _E8TutorialTourScreenState extends ConsumerState<E8TutorialTourScreen> {
               child: ElevatedButton(
                 onPressed: _nextStep,
                 child: Text(
-                  _currentStep == _steps.length - 1
-                      ? 'Finish'
-                      : 'Next',
+                  _currentStep == _steps.length - 1 ? 'Finish' : 'Next',
                 ),
               ),
             ),

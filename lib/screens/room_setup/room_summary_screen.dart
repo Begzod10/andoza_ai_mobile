@@ -36,10 +36,7 @@ class RoomSummary {
 class RoomSummaryScreen extends ConsumerStatefulWidget {
   final RoomSummary? summary;
 
-  const RoomSummaryScreen({
-    Key? key,
-    this.summary,
-  }) : super(key: key);
+  const RoomSummaryScreen({Key? key, this.summary}) : super(key: key);
 
   @override
   ConsumerState<RoomSummaryScreen> createState() => _RoomSummaryScreenState();
@@ -60,17 +57,11 @@ class _RoomSummaryScreenState extends ConsumerState<RoomSummaryScreen>
     );
 
     _scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeOutBack,
-      ),
+      CurvedAnimation(parent: _animationController, curve: Curves.easeOutBack),
     );
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.easeIn,
-      ),
+      CurvedAnimation(parent: _animationController, curve: Curves.easeIn),
     );
 
     _animationController.forward();
@@ -85,7 +76,8 @@ class _RoomSummaryScreenState extends ConsumerState<RoomSummaryScreen>
   @override
   Widget build(BuildContext context) {
     // Mock summary data if not provided
-    final summary = widget.summary ??
+    final summary =
+        widget.summary ??
         RoomSummary(
           roomName: 'Living Room',
           roomType: 'Living Room',
@@ -181,10 +173,7 @@ class _RoomSummaryScreenState extends ConsumerState<RoomSummaryScreen>
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            summary.roomName,
-                            style: DesignTokens.heading3,
-                          ),
+                          Text(summary.roomName, style: DesignTokens.heading3),
                           const SizedBox(height: DesignTokens.spacingSm),
                           Container(
                             padding: const EdgeInsets.symmetric(
@@ -268,10 +257,7 @@ class _RoomSummaryScreenState extends ConsumerState<RoomSummaryScreen>
             ),
             const SizedBox(height: DesignTokens.spacingLg),
             // Details section
-            Text(
-              'Scan Details',
-              style: DesignTokens.subtitle1,
-            ),
+            Text('Scan Details', style: DesignTokens.subtitle1),
             const SizedBox(height: DesignTokens.spacingMd),
             _DetailRow(
               icon: Icons.calendar_today_outlined,
@@ -365,7 +351,7 @@ class _RoomSummaryScreenState extends ConsumerState<RoomSummaryScreen>
       'September',
       'October',
       'November',
-      'December'
+      'December',
     ];
     return months[month - 1];
   }
@@ -390,32 +376,22 @@ class _MetricCard extends StatelessWidget {
       padding: const EdgeInsets.all(DesignTokens.spacingMd),
       decoration: BoxDecoration(
         color: color.withOpacity(0.05),
-        border: Border.all(
-          color: color.withOpacity(0.2),
-        ),
+        border: Border.all(color: color.withOpacity(0.2)),
         borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            icon,
-            size: DesignTokens.iconLg,
-            color: color,
-          ),
+          Icon(icon, size: DesignTokens.iconLg, color: color),
           const SizedBox(height: DesignTokens.spacingSm),
           Text(
             label,
-            style: DesignTokens.caption.copyWith(
-              color: DesignTokens.textGray,
-            ),
+            style: DesignTokens.caption.copyWith(color: DesignTokens.textGray),
           ),
           const SizedBox(height: DesignTokens.spacingSm),
           Text(
             value,
-            style: DesignTokens.subtitle2.copyWith(
-              color: color,
-            ),
+            style: DesignTokens.subtitle2.copyWith(color: color),
             textAlign: TextAlign.center,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
@@ -443,11 +419,7 @@ class _DetailRow extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: DesignTokens.spacingMd),
       child: Row(
         children: [
-          Icon(
-            icon,
-            size: DesignTokens.iconMd,
-            color: DesignTokens.textGray,
-          ),
+          Icon(icon, size: DesignTokens.iconMd, color: DesignTokens.textGray),
           const SizedBox(width: DesignTokens.spacingMd),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -459,10 +431,7 @@ class _DetailRow extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: DesignTokens.spacingSm),
-              Text(
-                value,
-                style: DesignTokens.body1,
-              ),
+              Text(value, style: DesignTokens.body1),
             ],
           ),
         ],

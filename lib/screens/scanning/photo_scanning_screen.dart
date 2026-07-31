@@ -38,15 +38,15 @@ class PhotoScanState {
 
 class PhotoScanNotifier extends StateNotifier<PhotoScanState> {
   PhotoScanNotifier()
-      : super(
-          PhotoScanState(
-            isScanning: false,
-            photosCount: 0,
-            angle: 0,
-            instruction: 'Start by positioning at north',
-            capturedPhotos: [],
-          ),
-        );
+    : super(
+        PhotoScanState(
+          isScanning: false,
+          photosCount: 0,
+          angle: 0,
+          instruction: 'Start by positioning at north',
+          capturedPhotos: [],
+        ),
+      );
 
   void startScan() {
     state = state.copyWith(isScanning: true, photosCount: 0, angle: 0);
@@ -77,7 +77,8 @@ class PhotoScanNotifier extends StateNotifier<PhotoScanState> {
       Future.delayed(const Duration(milliseconds: 3000), () {
         state = state.copyWith(
           angle: ((state.photosCount + 1) / 12) * 360,
-          instruction: 'Rotate ${((state.photosCount + 1) * 30)} degrees and capture',
+          instruction:
+              'Rotate ${((state.photosCount + 1) * 30)} degrees and capture',
         );
       });
     }
@@ -88,9 +89,10 @@ class PhotoScanNotifier extends StateNotifier<PhotoScanState> {
   }
 }
 
-final photoScanProvider = StateNotifierProvider<PhotoScanNotifier, PhotoScanState>(
-  (ref) => PhotoScanNotifier(),
-);
+final photoScanProvider =
+    StateNotifierProvider<PhotoScanNotifier, PhotoScanState>(
+      (ref) => PhotoScanNotifier(),
+    );
 
 /// Photo Scanning Screen (A5)
 /// Captures 360° photos with guided positioning
@@ -228,12 +230,15 @@ class PhotoScanningScreen extends ConsumerWidget {
                       ),
                       const SizedBox(height: DesignTokens.spacingSm),
                       ClipRRect(
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusSm),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusSm,
+                        ),
                         child: LinearProgressIndicator(
                           value: scanState.photosCount / 12,
                           minHeight: 8,
-                          backgroundColor: DesignTokens.borderGray.withOpacity(0.3),
+                          backgroundColor: DesignTokens.borderGray.withOpacity(
+                            0.3,
+                          ),
                           valueColor: AlwaysStoppedAnimation<Color>(
                             DesignTokens.successGreen,
                           ),
@@ -267,7 +272,9 @@ class PhotoScanningScreen extends ConsumerWidget {
                               child: Container(
                                 width: 70,
                                 decoration: BoxDecoration(
-                                  color: DesignTokens.borderGray.withOpacity(0.3),
+                                  color: DesignTokens.borderGray.withOpacity(
+                                    0.3,
+                                  ),
                                   borderRadius: BorderRadius.circular(
                                     DesignTokens.radiusMd,
                                   ),
@@ -308,8 +315,9 @@ class PhotoScanningScreen extends ConsumerWidget {
                         child: ElevatedButton.icon(
                           onPressed: scanState.photosCount > 0
                               ? () {
-                                  Navigator.of(context)
-                                      .pushNamed('/dimensions-entry');
+                                  Navigator.of(
+                                    context,
+                                  ).pushNamed('/dimensions-entry');
                                 }
                               : null,
                           icon: const Icon(Icons.arrow_forward),
@@ -354,10 +362,7 @@ class _CompassPainter extends CustomPainter {
   final double angle;
   final int photosCount;
 
-  _CompassPainter({
-    required this.angle,
-    required this.photosCount,
-  });
+  _CompassPainter({required this.angle, required this.photosCount});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -413,11 +418,7 @@ class _CompassPainter extends CustomPainter {
     canvas.drawLine(center, Offset(endX, endY), rotationPaint);
 
     // Draw center point with photo count
-    canvas.drawCircle(
-      center,
-      8,
-      Paint()..color = const Color(0xFFF97316),
-    );
+    canvas.drawCircle(center, 8, Paint()..color = const Color(0xFFF97316));
 
     if (photosCount > 0) {
       textPainter.text = TextSpan(

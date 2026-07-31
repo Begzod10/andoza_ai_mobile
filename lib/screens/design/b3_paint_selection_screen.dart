@@ -20,7 +20,8 @@ class B3PaintSelectionScreen extends ConsumerStatefulWidget {
       _B3PaintSelectionScreenState();
 }
 
-class _B3PaintSelectionScreenState extends ConsumerState<B3PaintSelectionScreen> {
+class _B3PaintSelectionScreenState
+    extends ConsumerState<B3PaintSelectionScreen> {
   String? _wallPaintId;
   String? _ceilingPaintId;
   bool _isSaving = false;
@@ -67,7 +68,9 @@ class _B3PaintSelectionScreenState extends ConsumerState<B3PaintSelectionScreen>
   Future<void> _continueToPreviews() async {
     if (_wallPaintId == null || _ceilingPaintId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select colors for walls and ceiling')),
+        const SnackBar(
+          content: Text('Please select colors for walls and ceiling'),
+        ),
       );
       return;
     }
@@ -76,8 +79,9 @@ class _B3PaintSelectionScreenState extends ConsumerState<B3PaintSelectionScreen>
 
     try {
       final wallPaint = _paintColors.firstWhere((p) => p.id == _wallPaintId);
-      final ceilingPaint =
-          _paintColors.firstWhere((p) => p.id == _ceilingPaintId);
+      final ceilingPaint = _paintColors.firstWhere(
+        (p) => p.id == _ceilingPaintId,
+      );
 
       final wallMaterial = MaterialSelection(
         materialId: wallPaint.id,
@@ -107,9 +111,9 @@ class _B3PaintSelectionScreenState extends ConsumerState<B3PaintSelectionScreen>
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
       }
     } finally {
       if (mounted) {
@@ -176,8 +180,7 @@ class _B3PaintSelectionScreenState extends ConsumerState<B3PaintSelectionScreen>
                     _ColorGrid(
                       colors: _paintColors,
                       selectedId: _wallPaintId,
-                      onSelected: (id) =>
-                          setState(() => _wallPaintId = id),
+                      onSelected: (id) => setState(() => _wallPaintId = id),
                     ),
                     const SizedBox(height: DesignTokens.spacing32),
 
@@ -192,8 +195,7 @@ class _B3PaintSelectionScreenState extends ConsumerState<B3PaintSelectionScreen>
                     _ColorGrid(
                       colors: _paintColors,
                       selectedId: _ceilingPaintId,
-                      onSelected: (id) =>
-                          setState(() => _ceilingPaintId = id),
+                      onSelected: (id) => setState(() => _ceilingPaintId = id),
                     ),
                     const SizedBox(height: DesignTokens.spacing40),
 
@@ -208,8 +210,9 @@ class _B3PaintSelectionScreenState extends ConsumerState<B3PaintSelectionScreen>
                             ? const SizedBox(
                                 height: 20,
                                 width: 20,
-                                child:
-                                    CircularProgressIndicator(strokeWidth: 2),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
                               )
                             : const Text('Continue to Preview'),
                       ),
@@ -268,10 +271,7 @@ class _ColorGrid extends StatelessWidget {
                   height: 60,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(
-                      color: DesignTokens.border,
-                      width: 1,
-                    ),
+                    border: Border.all(color: DesignTokens.border, width: 1),
                     color: _getColorForMaterial(color.id),
                   ),
                   child: isSelected
@@ -292,8 +292,9 @@ class _ColorGrid extends StatelessWidget {
                     color.name,
                     style: DesignTokens.caption.copyWith(
                       color: DesignTokens.text,
-                      fontWeight:
-                          isSelected ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                     ),
                     textAlign: TextAlign.center,
                     maxLines: 2,

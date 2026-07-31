@@ -12,7 +12,8 @@ class E5PaymentMethodsScreen extends ConsumerStatefulWidget {
       _E5PaymentMethodsScreenState();
 }
 
-class _E5PaymentMethodsScreenState extends ConsumerState<E5PaymentMethodsScreen> {
+class _E5PaymentMethodsScreenState
+    extends ConsumerState<E5PaymentMethodsScreen> {
   String _selectedPayment = 'card1';
 
   @override
@@ -136,8 +137,9 @@ class _E5PaymentMethodsScreenState extends ConsumerState<E5PaymentMethodsScreen>
                     padding: const EdgeInsets.all(DesignTokens.spacing12),
                     decoration: BoxDecoration(
                       border: Border.all(color: DesignTokens.border),
-                      borderRadius:
-                          BorderRadius.circular(DesignTokens.radiusMd),
+                      borderRadius: BorderRadius.circular(
+                        DesignTokens.radiusMd,
+                      ),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -210,8 +212,7 @@ class _PaymentCard extends StatelessWidget {
         padding: const EdgeInsets.all(DesignTokens.spacing12),
         decoration: BoxDecoration(
           border: Border.all(
-            color:
-                isSelected ? DesignTokens.primaryBlue : DesignTokens.border,
+            color: isSelected ? DesignTokens.primaryBlue : DesignTokens.border,
             width: isSelected ? 2 : 1,
           ),
           borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
@@ -247,10 +248,7 @@ class _PaymentCard extends StatelessWidget {
                 ],
               ),
             ),
-            IconButton(
-              icon: const Icon(Icons.more_vert),
-              onPressed: onDelete,
-            ),
+            IconButton(icon: const Icon(Icons.more_vert), onPressed: onDelete),
           ],
         ),
       ),
@@ -301,8 +299,7 @@ class _BillingItem extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     color: DesignTokens.success.withValues(alpha: 0.1),
-                    borderRadius:
-                        BorderRadius.circular(DesignTokens.radiusSm),
+                    borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
                   ),
                   child: Text(
                     status,

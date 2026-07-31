@@ -78,15 +78,9 @@ class _S5ShoppingCartScreenState extends ConsumerState<S5ShoppingCartScreen> {
                       ),
                     ),
                     const SizedBox(height: DesignTokens.spacing12),
-                    _SummaryRow(
-                      label: 'Subtotal',
-                      value: '366,900 UZS',
-                    ),
+                    _SummaryRow(label: 'Subtotal', value: '366,900 UZS'),
                     const SizedBox(height: DesignTokens.spacing8),
-                    _SummaryRow(
-                      label: 'Shipping',
-                      value: '15,000 UZS',
-                    ),
+                    _SummaryRow(label: 'Shipping', value: '15,000 UZS'),
                     const SizedBox(height: DesignTokens.spacing8),
                     _SummaryRow(
                       label: 'Discount (10%)',
@@ -124,9 +118,7 @@ class _S5ShoppingCartScreenState extends ConsumerState<S5ShoppingCartScreen> {
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacing16),
             decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(color: DesignTokens.border),
-              ),
+              border: Border(top: BorderSide(color: DesignTokens.border)),
             ),
             child: ElevatedButton(
               onPressed: _isCheckingOut ? () {} : _proceedCheckout,

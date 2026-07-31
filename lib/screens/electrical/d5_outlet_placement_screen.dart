@@ -19,7 +19,8 @@ class D5OutletPlacementScreen extends ConsumerStatefulWidget {
       _D5OutletPlacementScreenState();
 }
 
-class _D5OutletPlacementScreenState extends ConsumerState<D5OutletPlacementScreen> {
+class _D5OutletPlacementScreenState
+    extends ConsumerState<D5OutletPlacementScreen> {
   late ElectricalLayout _layout;
   String? _selectedOutletId;
   bool _isSaving = false;
@@ -69,9 +70,9 @@ class _D5OutletPlacementScreenState extends ConsumerState<D5OutletPlacementScree
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
       }
     } finally {
       if (mounted) {
@@ -132,8 +133,9 @@ class _D5OutletPlacementScreenState extends ConsumerState<D5OutletPlacementScree
                       height: 300,
                       decoration: BoxDecoration(
                         border: Border.all(color: DesignTokens.border),
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusMd),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusMd,
+                        ),
                       ),
                       child: RoomCanvas(
                         room: room,
@@ -168,10 +170,7 @@ class _D5OutletPlacementScreenState extends ConsumerState<D5OutletPlacementScree
                       label: 'Gang Count',
                       value: '1-3 gangs per outlet',
                     ),
-                    _SpecItem(
-                      label: 'Wire Gauge',
-                      value: '2.5-4mm² (typical)',
-                    ),
+                    _SpecItem(label: 'Wire Gauge', value: '2.5-4mm² (typical)'),
                   ],
                 ),
               ),
@@ -181,9 +180,7 @@ class _D5OutletPlacementScreenState extends ConsumerState<D5OutletPlacementScree
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacing16),
             decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(color: DesignTokens.border),
-              ),
+              border: Border(top: BorderSide(color: DesignTokens.border)),
             ),
             child: ElevatedButton(
               onPressed: _isSaving ? () {} : _continueLights,
@@ -208,10 +205,7 @@ class _D5OutletPlacementScreenState extends ConsumerState<D5OutletPlacementScree
 }
 
 class _SpecItem extends StatelessWidget {
-  const _SpecItem({
-    required this.label,
-    required this.value,
-  });
+  const _SpecItem({required this.label, required this.value});
 
   final String label;
   final String value;

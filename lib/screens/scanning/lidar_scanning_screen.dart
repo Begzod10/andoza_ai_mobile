@@ -34,14 +34,14 @@ class LiDARScanState {
 
 class LiDARScanNotifier extends StateNotifier<LiDARScanState> {
   LiDARScanNotifier()
-      : super(
-          LiDARScanState(
-            isScanning: false,
-            progress: 0.0,
-            pointsCollected: 0,
-            status: 'Ready to scan',
-          ),
-        );
+    : super(
+        LiDARScanState(
+          isScanning: false,
+          progress: 0.0,
+          pointsCollected: 0,
+          status: 'Ready to scan',
+        ),
+      );
 
   void startScan() {
     state = state.copyWith(isScanning: true, status: 'Scanning...');
@@ -49,10 +49,7 @@ class LiDARScanNotifier extends StateNotifier<LiDARScanState> {
   }
 
   void stopScan() {
-    state = state.copyWith(
-      isScanning: false,
-      status: 'Scan complete',
-    );
+    state = state.copyWith(isScanning: false, status: 'Scan complete');
   }
 
   void _simulateScan() {
@@ -71,9 +68,10 @@ class LiDARScanNotifier extends StateNotifier<LiDARScanState> {
   }
 }
 
-final liDARScanProvider = StateNotifierProvider<LiDARScanNotifier, LiDARScanState>(
-  (ref) => LiDARScanNotifier(),
-);
+final liDARScanProvider =
+    StateNotifierProvider<LiDARScanNotifier, LiDARScanState>(
+      (ref) => LiDARScanNotifier(),
+    );
 
 /// LiDAR Scanning Screen (A4)
 /// Shows real-time LiDAR scanning with progress and point cloud data
@@ -182,8 +180,9 @@ class LiDARScanningScreen extends ConsumerWidget {
                         color: scanState.isScanning
                             ? DesignTokens.successGreen
                             : DesignTokens.warningYellow,
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusMd),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusMd,
+                        ),
                       ),
                       child: Row(
                         children: [
@@ -193,8 +192,9 @@ class LiDARScanningScreen extends ConsumerWidget {
                               height: 8,
                               decoration: BoxDecoration(
                                 color: DesignTokens.white,
-                                borderRadius:
-                                    BorderRadius.circular(DesignTokens.radiusFull),
+                                borderRadius: BorderRadius.circular(
+                                  DesignTokens.radiusFull,
+                                ),
                               ),
                               margin: const EdgeInsets.only(
                                 right: DesignTokens.spacingSm,
@@ -252,12 +252,15 @@ class LiDARScanningScreen extends ConsumerWidget {
                       ),
                       const SizedBox(height: DesignTokens.spacingSm),
                       ClipRRect(
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusSm),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusSm,
+                        ),
                         child: LinearProgressIndicator(
                           value: scanState.progress,
                           minHeight: 8,
-                          backgroundColor: DesignTokens.borderGray.withOpacity(0.3),
+                          backgroundColor: DesignTokens.borderGray.withOpacity(
+                            0.3,
+                          ),
                           valueColor: AlwaysStoppedAnimation<Color>(
                             DesignTokens.accentOrange,
                           ),
@@ -285,11 +288,7 @@ class LiDARScanningScreen extends ConsumerWidget {
                         label: 'Points',
                         value: '${scanState.pointsCollected}',
                       ),
-                      _StatColumn(
-                        icon: Icons.speed,
-                        label: 'FPS',
-                        value: '30',
-                      ),
+                      _StatColumn(icon: Icons.speed, label: 'FPS', value: '30'),
                       _StatColumn(
                         icon: Icons.battery_full,
                         label: 'Battery',
@@ -325,8 +324,7 @@ class LiDARScanningScreen extends ConsumerWidget {
                             Future.delayed(
                               const Duration(milliseconds: 500),
                               () {
-                                Navigator.of(context)
-                                    .pushNamed('/photo-scan');
+                                Navigator.of(context).pushNamed('/photo-scan');
                               },
                             );
                           }
@@ -367,24 +365,16 @@ class _StatColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Icon(
-          icon,
-          size: DesignTokens.iconMd,
-          color: DesignTokens.accentOrange,
-        ),
+        Icon(icon, size: DesignTokens.iconMd, color: DesignTokens.accentOrange),
         const SizedBox(height: DesignTokens.spacingSm),
         Text(
           label,
-          style: DesignTokens.caption.copyWith(
-            color: DesignTokens.textGray,
-          ),
+          style: DesignTokens.caption.copyWith(color: DesignTokens.textGray),
         ),
         const SizedBox(height: DesignTokens.spacingSm),
         Text(
           value,
-          style: DesignTokens.subtitle2.copyWith(
-            color: DesignTokens.white,
-          ),
+          style: DesignTokens.subtitle2.copyWith(color: DesignTokens.white),
         ),
       ],
     );
@@ -414,11 +404,7 @@ class _PointCloudPainter extends CustomPainter {
       final x = center.dx + radius * cos(angle);
       final y = center.dy + radius * sin(angle);
 
-      canvas.drawCircle(
-        Offset(x, y),
-        2,
-        paint,
-      );
+      canvas.drawCircle(Offset(x, y), 2, paint);
     }
   }
 

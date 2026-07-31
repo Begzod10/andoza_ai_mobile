@@ -49,15 +49,14 @@ class _DeviceRailState extends State<DeviceRail>
   @override
   Widget build(BuildContext context) {
     return ScaleTransition(
-      scale: Tween<double>(begin: 0.8, end: 1.0).animate(
-        CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-      ),
+      scale: Tween<double>(
+        begin: 0.8,
+        end: 1.0,
+      ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut)),
       child: Container(
         width: _isExpanded ? 280 : 60,
         decoration: BoxDecoration(
-          border: Border(
-            right: BorderSide(color: DesignTokens.border),
-          ),
+          border: Border(right: BorderSide(color: DesignTokens.border)),
         ),
         child: Column(
           children: [
@@ -65,9 +64,7 @@ class _DeviceRailState extends State<DeviceRail>
             Container(
               height: 60,
               decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: DesignTokens.border),
-                ),
+                border: Border(bottom: BorderSide(color: DesignTokens.border)),
               ),
               child: InkWell(
                 onTap: _toggleExpand,
@@ -143,10 +140,7 @@ class _DeviceRailState extends State<DeviceRail>
 }
 
 class _DeviceItemTile extends StatelessWidget {
-  const _DeviceItemTile({
-    required this.type,
-    required this.onTap,
-  });
+  const _DeviceItemTile({required this.type, required this.onTap});
 
   final DeviceType type;
   final VoidCallback onTap;
@@ -188,19 +182,12 @@ class _DeviceItemTile extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(
-              color: DesignTokens.border,
-              width: 0.5,
-            ),
+            bottom: BorderSide(color: DesignTokens.border, width: 0.5),
           ),
         ),
         child: Row(
           children: [
-            Icon(
-              _icon,
-              color: DesignTokens.primaryBlue,
-              size: 24,
-            ),
+            Icon(_icon, color: DesignTokens.primaryBlue, size: 24),
             const SizedBox(width: DesignTokens.spacing12),
             Expanded(
               child: Column(

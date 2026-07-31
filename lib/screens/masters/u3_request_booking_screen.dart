@@ -13,7 +13,8 @@ class U3RequestBookingScreen extends ConsumerStatefulWidget {
       _U3RequestBookingScreenState();
 }
 
-class _U3RequestBookingScreenState extends ConsumerState<U3RequestBookingScreen> {
+class _U3RequestBookingScreenState
+    extends ConsumerState<U3RequestBookingScreen> {
   final _scopeController = TextEditingController();
   final _budgetController = TextEditingController();
   final _dateController = TextEditingController();
@@ -61,10 +62,10 @@ class _U3RequestBookingScreenState extends ConsumerState<U3RequestBookingScreen>
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: DesignTokens.primaryBlue
-                            .withValues(alpha: 0.1),
+                        color: DesignTokens.primaryBlue.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(
-                            DesignTokens.radiusSm),
+                          DesignTokens.radiusSm,
+                        ),
                       ),
                       child: Icon(
                         Icons.person,
@@ -121,11 +122,9 @@ class _U3RequestBookingScreenState extends ConsumerState<U3RequestBookingScreen>
                 decoration: InputDecoration(
                   hintText: 'Describe your project scope and requirements...',
                   border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(DesignTokens.radiusMd),
+                    borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
                   ),
-                  contentPadding: const EdgeInsets.all(
-                      DesignTokens.spacing12),
+                  contentPadding: const EdgeInsets.all(DesignTokens.spacing12),
                 ),
               ),
               const SizedBox(height: DesignTokens.spacing16),
@@ -145,8 +144,7 @@ class _U3RequestBookingScreenState extends ConsumerState<U3RequestBookingScreen>
                   hintText: 'e.g., 5,000,000',
                   prefixText: '₽ ',
                   border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(DesignTokens.radiusMd),
+                    borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
                   ),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: DesignTokens.spacing12,
@@ -171,8 +169,7 @@ class _U3RequestBookingScreenState extends ConsumerState<U3RequestBookingScreen>
                   hintText: 'Select date',
                   prefixIcon: const Icon(Icons.calendar_today),
                   border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(DesignTokens.radiusMd),
+                    borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
                   ),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: DesignTokens.spacing12,
@@ -182,15 +179,12 @@ class _U3RequestBookingScreenState extends ConsumerState<U3RequestBookingScreen>
                 onTap: () async {
                   final date = await showDatePicker(
                     context: context,
-                    initialDate: DateTime.now().add(
-                        const Duration(days: 7)),
+                    initialDate: DateTime.now().add(const Duration(days: 7)),
                     firstDate: DateTime.now(),
-                    lastDate: DateTime.now()
-                        .add(const Duration(days: 180)),
+                    lastDate: DateTime.now().add(const Duration(days: 180)),
                   );
                   if (date != null) {
-                    _dateController.text =
-                        date.toString().split(' ')[0];
+                    _dateController.text = date.toString().split(' ')[0];
                   }
                 },
               ),
@@ -203,8 +197,7 @@ class _U3RequestBookingScreenState extends ConsumerState<U3RequestBookingScreen>
                   color: DesignTokens.primaryBlue.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
                   border: Border.all(
-                    color: DesignTokens.primaryBlue
-                        .withValues(alpha: 0.2),
+                    color: DesignTokens.primaryBlue.withValues(alpha: 0.2),
                   ),
                 ),
                 child: Column(

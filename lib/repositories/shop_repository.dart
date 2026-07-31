@@ -52,7 +52,9 @@ class Dealer {
       name: json['name'] as String,
       logoUrl: json['logo_url'] as String?,
       address: json['address'] as String?,
-      rating: json['rating'] != null ? (json['rating'] as num).toDouble() : null,
+      rating: json['rating'] != null
+          ? (json['rating'] as num).toDouble()
+          : null,
     );
   }
 

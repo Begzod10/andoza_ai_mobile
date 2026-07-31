@@ -43,16 +43,18 @@ class _B1RoomIntroScreenState extends ConsumerState<B1RoomIntroScreen> {
         ceiling: _ceilingCondition,
       );
 
-      await ref.read(activeDesignProvider.notifier).setRoomCondition(roomCondition);
+      await ref
+          .read(activeDesignProvider.notifier)
+          .setRoomCondition(roomCondition);
 
       if (mounted) {
         context.go('/design/b2');
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
       }
     } finally {
       if (mounted) {
@@ -95,9 +97,7 @@ class _B1RoomIntroScreenState extends ConsumerState<B1RoomIntroScreen> {
               // Introduction text
               Text(
                 'What is your room\'s current condition?',
-                style: DesignTokens.heading3.copyWith(
-                  color: DesignTokens.text,
-                ),
+                style: DesignTokens.heading3.copyWith(color: DesignTokens.text),
               ),
               const SizedBox(height: DesignTokens.spacing12),
               Text(
@@ -132,7 +132,9 @@ class _B1RoomIntroScreenState extends ConsumerState<B1RoomIntroScreen> {
               ElevatedButton(
                 onPressed: _isSaving ? () {} : _continueToFloor,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: DesignTokens.spacing12),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: DesignTokens.spacing12,
+                  ),
                   child: _isSaving
                       ? const SizedBox(
                           height: 20,
@@ -232,9 +234,7 @@ class _InfoChip extends StatelessWidget {
         const SizedBox(height: DesignTokens.spacing4),
         Text(
           value,
-          style: DesignTokens.subtitle2.copyWith(
-            color: DesignTokens.text,
-          ),
+          style: DesignTokens.subtitle2.copyWith(color: DesignTokens.text),
         ),
       ],
     );

@@ -28,9 +28,7 @@ class RoomConditionCard extends StatelessWidget {
         children: [
           Text(
             surface,
-            style: DesignTokens.subtitle2.copyWith(
-              color: DesignTokens.text,
-            ),
+            style: DesignTokens.subtitle2.copyWith(color: DesignTokens.text),
           ),
           const SizedBox(height: DesignTokens.spacing12),
           Wrap(

@@ -40,8 +40,7 @@ class _S1ShopHomeScreenState extends ConsumerState<S1ShopHomeScreen> {
                   hintText: 'Search materials...',
                   prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(DesignTokens.radiusMd),
+                    borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
                   ),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: DesignTokens.spacing12,
@@ -237,17 +236,11 @@ class _CategoryCard extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              icon,
-              size: 32,
-              color: DesignTokens.primaryBlue,
-            ),
+            Icon(icon, size: 32, color: DesignTokens.primaryBlue),
             const SizedBox(height: DesignTokens.spacing8),
             Text(
               label,
-              style: DesignTokens.caption.copyWith(
-                color: DesignTokens.text,
-              ),
+              style: DesignTokens.caption.copyWith(color: DesignTokens.text),
               textAlign: TextAlign.center,
             ),
           ],
@@ -338,10 +331,7 @@ class _ProductCard extends StatelessWidget {
                 ],
               ),
             ),
-            Icon(
-              Icons.chevron_right,
-              color: DesignTokens.textSecondary,
-            ),
+            Icon(Icons.chevron_right, color: DesignTokens.textSecondary),
           ],
         ),
       ),

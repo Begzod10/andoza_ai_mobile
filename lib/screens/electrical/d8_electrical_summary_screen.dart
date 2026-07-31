@@ -32,9 +32,9 @@ class _D8ElectricalSummaryScreenState
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
       }
     } finally {
       if (mounted) {
@@ -92,10 +92,7 @@ class _D8ElectricalSummaryScreenState
 
                     // Room info
                     _SectionHeader(title: 'Room Information'),
-                    _InfoRow(
-                      label: 'Room Name',
-                      value: room.name,
-                    ),
+                    _InfoRow(label: 'Room Name', value: room.name),
                     _InfoRow(
                       label: 'Dimensions',
                       value:
@@ -172,11 +169,13 @@ class _D8ElectricalSummaryScreenState
                       padding: const EdgeInsets.all(DesignTokens.spacing16),
                       decoration: BoxDecoration(
                         color: DesignTokens.primaryBlue.withValues(alpha: 0.05),
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusMd),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusMd,
+                        ),
                         border: Border.all(
-                          color: DesignTokens.primaryBlue
-                              .withValues(alpha: 0.2),
+                          color: DesignTokens.primaryBlue.withValues(
+                            alpha: 0.2,
+                          ),
                         ),
                       ),
                       child: Column(
@@ -221,9 +220,7 @@ class _D8ElectricalSummaryScreenState
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacing16),
             decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(color: DesignTokens.border),
-              ),
+              border: Border(top: BorderSide(color: DesignTokens.border)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -270,9 +267,7 @@ class _SectionHeader extends StatelessWidget {
       children: [
         Text(
           title,
-          style: DesignTokens.subtitle1.copyWith(
-            color: DesignTokens.text,
-          ),
+          style: DesignTokens.subtitle1.copyWith(color: DesignTokens.text),
         ),
         const SizedBox(height: DesignTokens.spacing12),
       ],
@@ -281,10 +276,7 @@ class _SectionHeader extends StatelessWidget {
 }
 
 class _InfoRow extends StatelessWidget {
-  const _InfoRow({
-    required this.label,
-    required this.value,
-  });
+  const _InfoRow({required this.label, required this.value});
 
   final String label;
   final String value;
@@ -337,9 +329,7 @@ class _SpecificationItem extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              style: DesignTokens.bodyMedium.copyWith(
-                color: DesignTokens.text,
-              ),
+              style: DesignTokens.bodyMedium.copyWith(color: DesignTokens.text),
             ),
           ),
           Text(
@@ -356,10 +346,7 @@ class _SpecificationItem extends StatelessWidget {
 }
 
 class _CostBreakdown extends StatelessWidget {
-  const _CostBreakdown({
-    required this.categories,
-    required this.total,
-  });
+  const _CostBreakdown({required this.categories, required this.total});
 
   final List<(String, String)> categories;
   final String total;

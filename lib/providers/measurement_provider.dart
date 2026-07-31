@@ -24,17 +24,16 @@ class Measurement {
   final DateTime? createdAt;
 
   factory Measurement.empty() => const Measurement(
-        roomName: null,
-        width: null,
-        length: null,
-        height: null,
-      );
+    roomName: null,
+    width: null,
+    length: null,
+    height: null,
+  );
 
   double? get area => width != null && length != null ? width! * length! : null;
-  double? get volume =>
-      width != null && length != null && height != null
-          ? width! * length! * height!
-          : null;
+  double? get volume => width != null && length != null && height != null
+      ? width! * length! * height!
+      : null;
 
   Measurement copyWith({
     String? id,
@@ -105,8 +104,8 @@ class MeasurementNotifier extends StateNotifier<Measurement> {
 // Provider for measurement state
 final measurementProvider =
     StateNotifierProvider<MeasurementNotifier, Measurement>((ref) {
-  return MeasurementNotifier();
-});
+      return MeasurementNotifier();
+    });
 
 // Computed: Check if measurement is complete
 final measurementCompleteProvider = Provider<bool>((ref) {
@@ -132,4 +131,6 @@ final measurementVolumeProvider = Provider<String>((ref) {
 });
 
 // Measurement method selection (camera or manual)
-final measurementMethodProvider = StateProvider<MeasurementMethod?>((ref) => null);
+final measurementMethodProvider = StateProvider<MeasurementMethod?>(
+  (ref) => null,
+);

@@ -12,8 +12,7 @@ class E3LaborCostsScreen extends ConsumerStatefulWidget {
   const E3LaborCostsScreen({super.key});
 
   @override
-  ConsumerState<E3LaborCostsScreen> createState() =>
-      _E3LaborCostsScreenState();
+  ConsumerState<E3LaborCostsScreen> createState() => _E3LaborCostsScreenState();
 }
 
 class _E3LaborCostsScreenState extends ConsumerState<E3LaborCostsScreen> {
@@ -54,9 +53,9 @@ class _E3LaborCostsScreenState extends ConsumerState<E3LaborCostsScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
       }
     } finally {
       if (mounted) {
@@ -117,8 +116,9 @@ class _E3LaborCostsScreenState extends ConsumerState<E3LaborCostsScreen> {
                       padding: const EdgeInsets.all(DesignTokens.spacing12),
                       decoration: BoxDecoration(
                         color: DesignTokens.primaryBlue.withValues(alpha: 0.05),
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusSm),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusSm,
+                        ),
                       ),
                       child: Row(
                         children: [
@@ -202,8 +202,9 @@ class _E3LaborCostsScreenState extends ConsumerState<E3LaborCostsScreen> {
                       padding: const EdgeInsets.all(DesignTokens.spacing16),
                       decoration: BoxDecoration(
                         border: Border.all(color: DesignTokens.border),
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusMd),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusMd,
+                        ),
                       ),
                       child: Column(
                         children: [
@@ -278,9 +279,7 @@ class _E3LaborCostsScreenState extends ConsumerState<E3LaborCostsScreen> {
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacing16),
             decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(color: DesignTokens.border),
-              ),
+              border: Border(top: BorderSide(color: DesignTokens.border)),
             ),
             child: ElevatedButton(
               onPressed: _isSaving ? () {} : _continueToSummary,
@@ -327,8 +326,7 @@ class _LaborItemState extends State<_LaborItem> {
   @override
   void initState() {
     super.initState();
-    _controller =
-        TextEditingController(text: widget.cost.toStringAsFixed(0));
+    _controller = TextEditingController(text: widget.cost.toStringAsFixed(0));
   }
 
   @override
@@ -381,8 +379,7 @@ class _LaborItemState extends State<_LaborItem> {
           const SizedBox(height: DesignTokens.spacing12),
           TextField(
             controller: _controller,
-            keyboardType:
-                const TextInputType.numberWithOptions(decimal: true),
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
             onChanged: (value) {
               final numValue = double.tryParse(value) ?? 0.0;
               widget.onCostChanged(numValue);

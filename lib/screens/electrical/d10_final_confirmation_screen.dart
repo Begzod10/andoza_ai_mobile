@@ -26,9 +26,7 @@ class _D10FinalConfirmationScreenState
   Future<void> _completeElectrical() async {
     if (!_confirmDesign || !_confirmSafety || !_confirmBudget) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please confirm all requirements'),
-        ),
+        const SnackBar(content: Text('Please confirm all requirements')),
       );
       return;
     }
@@ -47,9 +45,9 @@ class _D10FinalConfirmationScreenState
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
       }
     } finally {
       if (mounted) {
@@ -110,7 +108,10 @@ class _D10FinalConfirmationScreenState
                       title: 'Design Summary',
                       items: [
                         ('Room', room.name),
-                        ('Floor Area', '${(room.dimensions.width * room.dimensions.length).toStringAsFixed(1)} m²'),
+                        (
+                          'Floor Area',
+                          '${(room.dimensions.width * room.dimensions.length).toStringAsFixed(1)} m²',
+                        ),
                         ('Outlets Planned', '6-8 units'),
                         ('Switches Planned', '3-4 units'),
                         ('Light Fixtures', '3-4 fixtures'),
@@ -158,8 +159,7 @@ class _D10FinalConfirmationScreenState
                     const SizedBox(height: DesignTokens.spacing12),
                     _ConfirmationCheckbox(
                       label: 'Budget is acceptable',
-                      description:
-                          'Estimated cost is within acceptable range',
+                      description: 'Estimated cost is within acceptable range',
                       value: _confirmBudget,
                       onChanged: (v) =>
                           setState(() => _confirmBudget = v ?? false),
@@ -171,11 +171,13 @@ class _D10FinalConfirmationScreenState
                       padding: const EdgeInsets.all(DesignTokens.spacing12),
                       decoration: BoxDecoration(
                         color: DesignTokens.primaryBlue.withValues(alpha: 0.05),
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusSm),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusSm,
+                        ),
                         border: Border.all(
-                          color: DesignTokens.primaryBlue
-                              .withValues(alpha: 0.2),
+                          color: DesignTokens.primaryBlue.withValues(
+                            alpha: 0.2,
+                          ),
                         ),
                       ),
                       child: Column(
@@ -210,15 +212,14 @@ class _D10FinalConfirmationScreenState
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacing16),
             decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(color: DesignTokens.border),
-              ),
+              border: Border(top: BorderSide(color: DesignTokens.border)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 ElevatedButton(
-                  onPressed: (_confirmDesign &&
+                  onPressed:
+                      (_confirmDesign &&
                           _confirmSafety &&
                           _confirmBudget &&
                           !_isCompleting)
@@ -253,10 +254,7 @@ class _D10FinalConfirmationScreenState
 }
 
 class _SummarySection extends StatelessWidget {
-  const _SummarySection({
-    required this.title,
-    required this.items,
-  });
+  const _SummarySection({required this.title, required this.items});
 
   final String title;
   final List<(String, String)> items;
@@ -274,9 +272,7 @@ class _SummarySection extends StatelessWidget {
         children: [
           Text(
             title,
-            style: DesignTokens.subtitle1.copyWith(
-              color: DesignTokens.text,
-            ),
+            style: DesignTokens.subtitle1.copyWith(color: DesignTokens.text),
           ),
           const SizedBox(height: DesignTokens.spacing12),
           ...items.map((item) {

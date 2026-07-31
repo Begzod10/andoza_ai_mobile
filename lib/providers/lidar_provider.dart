@@ -66,6 +66,6 @@ class LidarScanNotifier extends StateNotifier<LidarScanState> {
 // LiDAR scanning state provider
 final lidarScanProvider =
     StateNotifierProvider<LidarScanNotifier, LidarScanState>((ref) {
-  final lidarService = ref.watch(lidarServiceProvider);
-  return LidarScanNotifier(lidarService);
-});
+      final lidarService = ref.watch(lidarServiceProvider);
+      return LidarScanNotifier(lidarService);
+    });

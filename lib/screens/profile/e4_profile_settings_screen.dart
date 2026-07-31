@@ -16,8 +16,9 @@ class E4ProfileSettingsScreen extends ConsumerStatefulWidget {
 class _E4ProfileSettingsScreenState
     extends ConsumerState<E4ProfileSettingsScreen> {
   final _nameController = TextEditingController(text: 'Dilshod Rakhimov');
-  final _emailController =
-      TextEditingController(text: 'dilshod.rakhimov@example.com');
+  final _emailController = TextEditingController(
+    text: 'dilshod.rakhimov@example.com',
+  );
   final _phoneController = TextEditingController(text: '+998 99 123 45 67');
   bool _isSaving = false;
 
@@ -62,8 +63,7 @@ class _E4ProfileSettingsScreenState
                       height: 100,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: DesignTokens.primaryBlue
-                            .withValues(alpha: 0.1),
+                        color: DesignTokens.primaryBlue.withValues(alpha: 0.1),
                       ),
                       child: Icon(
                         Icons.person,
@@ -113,8 +113,9 @@ class _E4ProfileSettingsScreenState
                     controller: _nameController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusMd),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusMd,
+                        ),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: DesignTokens.spacing12,
@@ -145,8 +146,9 @@ class _E4ProfileSettingsScreenState
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusMd),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusMd,
+                        ),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: DesignTokens.spacing12,
@@ -177,8 +179,9 @@ class _E4ProfileSettingsScreenState
                     keyboardType: TextInputType.phone,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusMd),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusMd,
+                        ),
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: DesignTokens.spacing12,
@@ -245,9 +248,7 @@ class _E4ProfileSettingsScreenState
                 children: [
                   Text(
                     'Danger Zone',
-                    style: DesignTokens.subtitle1.copyWith(
-                      color: Colors.red,
-                    ),
+                    style: DesignTokens.subtitle1.copyWith(color: Colors.red),
                   ),
                   const SizedBox(height: DesignTokens.spacing12),
                   OutlinedButton(
@@ -287,8 +288,7 @@ class _E4ProfileSettingsScreenState
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(Icons.delete_outline,
-                              color: Colors.red),
+                          const Icon(Icons.delete_outline, color: Colors.red),
                           const SizedBox(width: DesignTokens.spacing8),
                           Text(
                             'Delete Account',
@@ -376,10 +376,7 @@ class _SettingsTile extends StatelessWidget {
                 ],
               ),
             ),
-            Icon(
-              Icons.chevron_right,
-              color: DesignTokens.textSecondary,
-            ),
+            Icon(Icons.chevron_right, color: DesignTokens.textSecondary),
           ],
         ),
       ),

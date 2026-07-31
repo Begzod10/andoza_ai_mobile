@@ -4,18 +4,20 @@ import '../../models/electrical_model.dart';
 
 /// Card displaying electrical totals and per-category subtotals
 class ElectricalTotalsCard extends StatelessWidget {
-  const ElectricalTotalsCard({
-    required this.layout,
-    super.key,
-  });
+  const ElectricalTotalsCard({required this.layout, super.key});
 
   final ElectricalLayout layout;
 
-  int get _socketCount => layout.devices.where((d) => d.type == DeviceType.outlet).length;
-  int get _switchCount => layout.devices.where((d) => d.type == DeviceType.lightSwitch).length;
-  int get _lightCount => layout.devices.where((d) => d.type == DeviceType.light).length;
-  int get _wiringLength => layout.wires.fold<int>(0, (sum, w) => sum + (w.to.dx.toInt()));
-  int get _pipeLength => layout.pipes.fold<int>(0, (sum, p) => sum + (p.to.dx.toInt()));
+  int get _socketCount =>
+      layout.devices.where((d) => d.type == DeviceType.outlet).length;
+  int get _switchCount =>
+      layout.devices.where((d) => d.type == DeviceType.lightSwitch).length;
+  int get _lightCount =>
+      layout.devices.where((d) => d.type == DeviceType.light).length;
+  int get _wiringLength =>
+      layout.wires.fold<int>(0, (sum, w) => sum + (w.to.dx.toInt()));
+  int get _pipeLength =>
+      layout.pipes.fold<int>(0, (sum, p) => sum + (p.to.dx.toInt()));
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +33,7 @@ class ElectricalTotalsCard extends StatelessWidget {
         children: [
           Text(
             'Electrical Summary',
-            style: DesignTokens.subtitle1.copyWith(
-              color: DesignTokens.text,
-            ),
+            style: DesignTokens.subtitle1.copyWith(color: DesignTokens.text),
           ),
           const SizedBox(height: DesignTokens.spacing16),
           GridView.count(
@@ -71,9 +71,7 @@ class ElectricalTotalsCard extends StatelessWidget {
             const SizedBox(height: DesignTokens.spacing12),
             Text(
               'Plumbing Summary',
-              style: DesignTokens.subtitle1.copyWith(
-                color: DesignTokens.text,
-              ),
+              style: DesignTokens.subtitle1.copyWith(color: DesignTokens.text),
             ),
             const SizedBox(height: DesignTokens.spacing12),
             Row(
@@ -86,7 +84,8 @@ class ElectricalTotalsCard extends StatelessWidget {
                 ),
                 _StatTile(
                   label: 'Hot Water',
-                  value: '${layout.pipes.where((p) => p.type == PipeType.hot).length}',
+                  value:
+                      '${layout.pipes.where((p) => p.type == PipeType.hot).length}',
                   icon: Icons.local_fire_department_outlined,
                 ),
               ],
@@ -115,7 +114,9 @@ class _StatTile extends StatelessWidget {
       padding: const EdgeInsets.all(DesignTokens.spacing12),
       decoration: BoxDecoration(
         color: DesignTokens.primaryBlue.withValues(alpha: 0.05),
-        border: Border.all(color: DesignTokens.primaryBlue.withValues(alpha: 0.2)),
+        border: Border.all(
+          color: DesignTokens.primaryBlue.withValues(alpha: 0.2),
+        ),
         borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
       ),
       child: Column(

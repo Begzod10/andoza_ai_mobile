@@ -21,10 +21,13 @@ class Master {
       name: json['name'] as String,
       avatar: json['avatar'] as String?,
       specialty: json['specialty'] as String?,
-      rating: json['rating'] != null ? (json['rating'] as num).toDouble() : null,
+      rating: json['rating'] != null
+          ? (json['rating'] as num).toDouble()
+          : null,
       reviewCount: (json['review_count'] as num?)?.toInt() ?? 0,
-      latitude:
-          json['latitude'] != null ? (json['latitude'] as num).toDouble() : null,
+      latitude: json['latitude'] != null
+          ? (json['latitude'] as num).toDouble()
+          : null,
       longitude: json['longitude'] != null
           ? (json['longitude'] as num).toDouble()
           : null,
@@ -85,10 +88,10 @@ class MasterReview {
   final DateTime? createdAt;
 
   Map<String, dynamic> toJson() => {
-        'master_id': masterId,
-        'rating': rating,
-        if (comment != null) 'comment': comment,
-      };
+    'master_id': masterId,
+    'rating': rating,
+    if (comment != null) 'comment': comment,
+  };
 }
 
 abstract interface class MastersRepository {
@@ -104,7 +107,10 @@ abstract interface class MastersRepository {
   Future<List<MasterReview>> getReviews(String masterId);
 
   /// Shares an existing estimate with a master (e.g. to request a quote).
-  Future<void> sendEstimate({required String masterId, required String estimateId});
+  Future<void> sendEstimate({
+    required String masterId,
+    required String estimateId,
+  });
 
   /// Returns masters with open availability on all of [dates].
   Future<List<Master>> getAvailable(List<DateTime> dates);
@@ -133,11 +139,7 @@ class MastersRepositoryImpl implements MastersRepository {
     try {
       return await _apiClient.get<List<Master>>(
         '$_basePath/search',
-        queryParameters: {
-          'lat': lat,
-          'lng': lng,
-          'radius_km': radiusKm,
-        },
+        queryParameters: {'lat': lat, 'lng': lng, 'radius_km': radiusKm},
         fromJson: (json) => (json as List<dynamic>)
             .map((e) => Master.fromJson(e as Map<String, dynamic>))
             .toList(),

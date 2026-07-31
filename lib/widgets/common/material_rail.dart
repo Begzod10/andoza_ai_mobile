@@ -50,15 +50,14 @@ class _MaterialRailState extends State<MaterialRail>
   @override
   Widget build(BuildContext context) {
     return ScaleTransition(
-      scale: Tween<double>(begin: 0.8, end: 1.0).animate(
-        CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-      ),
+      scale: Tween<double>(
+        begin: 0.8,
+        end: 1.0,
+      ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut)),
       child: Container(
         width: _isExpanded ? 280 : 60,
         decoration: BoxDecoration(
-          border: Border(
-            left: BorderSide(color: DesignTokens.border),
-          ),
+          border: Border(left: BorderSide(color: DesignTokens.border)),
         ),
         child: Column(
           children: [
@@ -66,9 +65,7 @@ class _MaterialRailState extends State<MaterialRail>
             Container(
               height: 60,
               decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: DesignTokens.border),
-                ),
+                border: Border(bottom: BorderSide(color: DesignTokens.border)),
               ),
               child: InkWell(
                 onTap: _toggleExpand,
@@ -123,7 +120,9 @@ class _MaterialItemTile extends StatelessWidget {
           vertical: DesignTokens.spacing16,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? DesignTokens.primary.withValues(alpha: 0.1) : null,
+          color: isSelected
+              ? DesignTokens.primary.withValues(alpha: 0.1)
+              : null,
           border: Border(
             left: BorderSide(
               color: isSelected ? DesignTokens.primary : Colors.transparent,

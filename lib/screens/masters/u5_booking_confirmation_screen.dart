@@ -42,9 +42,7 @@ class U5BookingConfirmationScreen extends ConsumerWidget {
               // Success message
               Text(
                 'Request Submitted!',
-                style: DesignTokens.heading3.copyWith(
-                  color: DesignTokens.text,
-                ),
+                style: DesignTokens.heading3.copyWith(color: DesignTokens.text),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: DesignTokens.spacing12),
@@ -74,25 +72,13 @@ class U5BookingConfirmationScreen extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: DesignTokens.spacing16),
-                    _DetailRow(
-                      label: 'Request ID',
-                      value: 'REQ-2026-001847',
-                    ),
+                    _DetailRow(label: 'Request ID', value: 'REQ-2026-001847'),
                     const SizedBox(height: DesignTokens.spacing12),
-                    _DetailRow(
-                      label: 'Contractor',
-                      value: 'Alisher Karimov',
-                    ),
+                    _DetailRow(label: 'Contractor', value: 'Alisher Karimov'),
                     const SizedBox(height: DesignTokens.spacing12),
-                    _DetailRow(
-                      label: 'Service',
-                      value: 'Flooring & Tiles',
-                    ),
+                    _DetailRow(label: 'Service', value: 'Flooring & Tiles'),
                     const SizedBox(height: DesignTokens.spacing12),
-                    _DetailRow(
-                      label: 'Budget',
-                      value: '5,000,000 UZS',
-                    ),
+                    _DetailRow(label: 'Budget', value: '5,000,000 UZS'),
                     const SizedBox(height: DesignTokens.spacing12),
                     _DetailRow(
                       label: 'Requested Start',
@@ -132,19 +118,22 @@ class U5BookingConfirmationScreen extends ConsumerWidget {
                     _TimelineStep(
                       number: 1,
                       title: 'Contractor Reviews',
-                      description: 'The contractor will review your request within 24 hours',
+                      description:
+                          'The contractor will review your request within 24 hours',
                     ),
                     const SizedBox(height: DesignTokens.spacing12),
                     _TimelineStep(
                       number: 2,
                       title: 'Site Survey',
-                      description: 'They may contact you to schedule a site visit',
+                      description:
+                          'They may contact you to schedule a site visit',
                     ),
                     const SizedBox(height: DesignTokens.spacing12),
                     _TimelineStep(
                       number: 3,
                       title: 'Confirmation',
-                      description: 'Once confirmed, you\'ll receive a booking confirmation',
+                      description:
+                          'Once confirmed, you\'ll receive a booking confirmation',
                     ),
                     const SizedBox(height: DesignTokens.spacing12),
                     _TimelineStep(

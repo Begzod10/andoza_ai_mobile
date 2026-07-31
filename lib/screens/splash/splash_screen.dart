@@ -60,67 +60,40 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: DesignTokens.darkBg,
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              DesignTokens.primaryBlue,
-              DesignTokens.primaryBlue.withOpacity(0.8),
-              DesignTokens.accentOrange.withOpacity(0.6),
-            ],
+        decoration: const BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment.center,
+            radius: 1.1,
+            colors: [Color(0xFF1A2230), DesignTokens.darkBg],
           ),
         ),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Logo Animation
+              // Brand mark — large, centered, on the dark brand gradient.
               ScaleTransition(
                 scale: _scaleAnimation,
                 child: FadeTransition(
                   opacity: _fadeAnimation,
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      color: DesignTokens.white,
-                      borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
-                      boxShadow: [DesignTokens.shadowLg],
-                    ),
-                    child: Center(
-                      child: Text(
-                        'A',
-                        style: DesignTokens.heading1.copyWith(
-                          color: DesignTokens.accentOrange,
-                          fontSize: 56,
-                        ),
-                      ),
-                    ),
+                  child: Image.asset(
+                    'assets/images/andozaai-mark.png',
+                    width: 140,
+                    height: 140,
                   ),
                 ),
               ),
               const SizedBox(height: DesignTokens.spacingLg),
-              // Brand Text
+              // Brand wordmark — set in Inter, not the source mark's own font.
               FadeTransition(
                 opacity: _fadeAnimation,
-                child: Column(
-                  children: [
-                    Text(
-                      'AndozaAI',
-                      style: DesignTokens.heading2.copyWith(
-                        color: DesignTokens.white,
-                      ),
-                    ),
-                    const SizedBox(height: DesignTokens.spacingSm),
-                    Text(
-                      '3D Room Scanning & Analysis',
-                      style: DesignTokens.body1.copyWith(
-                        color: DesignTokens.white.withOpacity(0.8),
-                      ),
-                    ),
-                  ],
+                child: Text(
+                  'AndozaAI',
+                  style: DesignTokens.heading2.copyWith(
+                    color: DesignTokens.white,
+                  ),
                 ),
               ),
               const SizedBox(height: DesignTokens.spacingXxl),
@@ -132,7 +105,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   height: 40,
                   child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(
-                      DesignTokens.white.withOpacity(0.9),
+                      DesignTokens.white.withValues(alpha: 0.9),
                     ),
                     strokeWidth: 3,
                   ),

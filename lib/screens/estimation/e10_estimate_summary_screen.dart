@@ -44,9 +44,9 @@ class _E10EstimateSummaryScreenState
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
       }
     } finally {
       if (mounted) {
@@ -111,7 +111,10 @@ class _E10EstimateSummaryScreenState
                       title: 'Project Information',
                       items: [
                         ('Room', room.name),
-                        ('Area', '${(room.dimensions.width * room.dimensions.length).toStringAsFixed(1)} m²'),
+                        (
+                          'Area',
+                          '${(room.dimensions.width * room.dimensions.length).toStringAsFixed(1)} m²',
+                        ),
                         ('Date', 'July 30, 2026'),
                         ('Validity', '30 days from date'),
                       ],
@@ -149,11 +152,13 @@ class _E10EstimateSummaryScreenState
                       padding: const EdgeInsets.all(DesignTokens.spacing16),
                       decoration: BoxDecoration(
                         color: DesignTokens.accentOrange.withValues(alpha: 0.1),
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusMd),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusMd,
+                        ),
                         border: Border.all(
-                          color: DesignTokens.accentOrange
-                              .withValues(alpha: 0.3),
+                          color: DesignTokens.accentOrange.withValues(
+                            alpha: 0.3,
+                          ),
                         ),
                       ),
                       child: Column(
@@ -194,8 +199,9 @@ class _E10EstimateSummaryScreenState
                             ],
                           ),
                           Divider(
-                            color: DesignTokens.accentOrange
-                                .withValues(alpha: 0.3),
+                            color: DesignTokens.accentOrange.withValues(
+                              alpha: 0.3,
+                            ),
                             height: DesignTokens.spacing20,
                           ),
                           Row(
@@ -226,8 +232,9 @@ class _E10EstimateSummaryScreenState
                       padding: const EdgeInsets.all(DesignTokens.spacing12),
                       decoration: BoxDecoration(
                         color: DesignTokens.primaryBlue.withValues(alpha: 0.05),
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusSm),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusSm,
+                        ),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -264,11 +271,11 @@ class _E10EstimateSummaryScreenState
                               : DesignTokens.border,
                           width: _agreeTerms ? 2 : 1,
                         ),
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusSm),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusSm,
+                        ),
                         color: _agreeTerms
-                            ? DesignTokens.primaryBlue
-                                .withValues(alpha: 0.05)
+                            ? DesignTokens.primaryBlue.withValues(alpha: 0.05)
                             : DesignTokens.surface,
                       ),
                       child: Row(
@@ -301,17 +308,13 @@ class _E10EstimateSummaryScreenState
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacing16),
             decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(color: DesignTokens.border),
-              ),
+              border: Border(top: BorderSide(color: DesignTokens.border)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 ElevatedButton.icon(
-                  onPressed: (_agreeTerms && !_isExporting)
-                      ? _exportPDF
-                      : null,
+                  onPressed: (_agreeTerms && !_isExporting) ? _exportPDF : null,
                   icon: const Icon(Icons.download),
                   label: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -347,10 +350,7 @@ class _E10EstimateSummaryScreenState
 }
 
 class _InfoSection extends StatelessWidget {
-  const _InfoSection({
-    required this.title,
-    required this.items,
-  });
+  const _InfoSection({required this.title, required this.items});
 
   final String title;
   final List<(String, String)> items;
@@ -362,9 +362,7 @@ class _InfoSection extends StatelessWidget {
       children: [
         Text(
           title,
-          style: DesignTokens.subtitle1.copyWith(
-            color: DesignTokens.text,
-          ),
+          style: DesignTokens.subtitle1.copyWith(color: DesignTokens.text),
         ),
         const SizedBox(height: DesignTokens.spacing12),
         Container(
@@ -375,29 +373,31 @@ class _InfoSection extends StatelessWidget {
           ),
           child: Column(
             children: items
-                .map((item) => Padding(
-                      padding: const EdgeInsets.only(
-                        bottom: DesignTokens.spacing8,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            item.$1,
-                            style: DesignTokens.bodyMedium.copyWith(
-                              color: DesignTokens.textSecondary,
-                            ),
+                .map(
+                  (item) => Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: DesignTokens.spacing8,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          item.$1,
+                          style: DesignTokens.bodyMedium.copyWith(
+                            color: DesignTokens.textSecondary,
                           ),
-                          Text(
-                            item.$2,
-                            style: DesignTokens.subtitle2.copyWith(
-                              color: DesignTokens.text,
-                              fontWeight: FontWeight.w600,
-                            ),
+                        ),
+                        Text(
+                          item.$2,
+                          style: DesignTokens.subtitle2.copyWith(
+                            color: DesignTokens.text,
+                            fontWeight: FontWeight.w600,
                           ),
-                        ],
-                      ),
-                    ))
+                        ),
+                      ],
+                    ),
+                  ),
+                )
                 .toList(),
           ),
         ),
@@ -424,9 +424,7 @@ class _CostSection extends StatelessWidget {
       children: [
         Text(
           title,
-          style: DesignTokens.subtitle1.copyWith(
-            color: DesignTokens.text,
-          ),
+          style: DesignTokens.subtitle1.copyWith(color: DesignTokens.text),
         ),
         const SizedBox(height: DesignTokens.spacing12),
         Container(
@@ -438,30 +436,35 @@ class _CostSection extends StatelessWidget {
           child: Column(
             children: [
               ...items
-                  .map((item) => Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: DesignTokens.spacing8,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              item.$1,
-                              style: DesignTokens.bodySmall.copyWith(
-                                color: DesignTokens.text,
-                              ),
+                  .map(
+                    (item) => Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: DesignTokens.spacing8,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            item.$1,
+                            style: DesignTokens.bodySmall.copyWith(
+                              color: DesignTokens.text,
                             ),
-                            Text(
-                              item.$2,
-                              style: DesignTokens.caption.copyWith(
-                                color: DesignTokens.textSecondary,
-                              ),
+                          ),
+                          Text(
+                            item.$2,
+                            style: DesignTokens.caption.copyWith(
+                              color: DesignTokens.textSecondary,
                             ),
-                          ],
-                        ),
-                      ))
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
                   .toList(),
-              Divider(color: DesignTokens.border, height: DesignTokens.spacing12),
+              Divider(
+                color: DesignTokens.border,
+                height: DesignTokens.spacing12,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

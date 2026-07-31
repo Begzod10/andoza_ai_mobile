@@ -70,8 +70,9 @@ class ActiveRoomNotifier extends StateNotifier<Room?> {
 }
 
 /// Provider for the active room (created at A9→B1 transition)
-final activeRoomProvider =
-    StateNotifierProvider<ActiveRoomNotifier, Room?>((ref) {
+final activeRoomProvider = StateNotifierProvider<ActiveRoomNotifier, Room?>((
+  ref,
+) {
   return ActiveRoomNotifier(ref.watch(roomRepositoryProvider));
 });
 
@@ -81,8 +82,7 @@ final hasActiveRoomProvider = Provider<bool>((ref) {
 });
 
 /// Computed provider: active room dimensions
-final activeRoomDimensionsProvider =
-    Provider<RoomDimensions?>((ref) {
+final activeRoomDimensionsProvider = Provider<RoomDimensions?>((ref) {
   final room = ref.watch(activeRoomProvider);
   return room?.dimensions;
 });

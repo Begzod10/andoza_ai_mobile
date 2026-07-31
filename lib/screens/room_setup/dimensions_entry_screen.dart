@@ -41,12 +41,7 @@ class RoomDimensions {
 }
 
 final dimensionsProvider = StateProvider<RoomDimensions>((ref) {
-  return RoomDimensions(
-    width: 0,
-    length: 0,
-    height: 0,
-    unit: 'meters',
-  );
+  return RoomDimensions(width: 0, length: 0, height: 0, unit: 'meters');
 });
 
 /// Room Dimensions Manual Entry (A6)
@@ -102,23 +97,15 @@ class _DimensionsEntryScreenState extends ConsumerState<DimensionsEntryScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Header
-            Text(
-              'Enter Room Dimensions',
-              style: DesignTokens.heading2,
-            ),
+            Text('Enter Room Dimensions', style: DesignTokens.heading2),
             const SizedBox(height: DesignTokens.spacingSm),
             Text(
               'Manually specify the room measurements for precise 3D modeling',
-              style: DesignTokens.body1.copyWith(
-                color: DesignTokens.textGray,
-              ),
+              style: DesignTokens.body1.copyWith(color: DesignTokens.textGray),
             ),
             const SizedBox(height: DesignTokens.spacingLg),
             // Unit selector
-            Text(
-              'Unit',
-              style: DesignTokens.subtitle2,
-            ),
+            Text('Unit', style: DesignTokens.subtitle2),
             const SizedBox(height: DesignTokens.spacingSm),
             Row(
               children: [
@@ -127,9 +114,8 @@ class _DimensionsEntryScreenState extends ConsumerState<DimensionsEntryScreen> {
                     label: 'Meters',
                     isSelected: dimensions.unit == 'meters',
                     onTap: () {
-                      ref
-                          .read(dimensionsProvider.notifier)
-                          .state = dimensions.copyWith(unit: 'meters');
+                      ref.read(dimensionsProvider.notifier).state = dimensions
+                          .copyWith(unit: 'meters');
                     },
                   ),
                 ),
@@ -139,9 +125,8 @@ class _DimensionsEntryScreenState extends ConsumerState<DimensionsEntryScreen> {
                     label: 'Feet',
                     isSelected: dimensions.unit == 'feet',
                     onTap: () {
-                      ref
-                          .read(dimensionsProvider.notifier)
-                          .state = dimensions.copyWith(unit: 'feet');
+                      ref.read(dimensionsProvider.notifier).state = dimensions
+                          .copyWith(unit: 'feet');
                     },
                   ),
                 ),
@@ -149,10 +134,7 @@ class _DimensionsEntryScreenState extends ConsumerState<DimensionsEntryScreen> {
             ),
             const SizedBox(height: DesignTokens.spacingLg),
             // Input fields
-            Text(
-              'Dimensions',
-              style: DesignTokens.subtitle2,
-            ),
+            Text('Dimensions', style: DesignTokens.subtitle2),
             const SizedBox(height: DesignTokens.spacingMd),
             // Width
             _DimensionInput(
@@ -161,8 +143,8 @@ class _DimensionsEntryScreenState extends ConsumerState<DimensionsEntryScreen> {
               controller: _widthController,
               onChanged: (value) {
                 final width = double.tryParse(value) ?? 0;
-                ref.read(dimensionsProvider.notifier).state =
-                    dimensions.copyWith(width: width);
+                ref.read(dimensionsProvider.notifier).state = dimensions
+                    .copyWith(width: width);
               },
             ),
             const SizedBox(height: DesignTokens.spacingMd),
@@ -173,8 +155,8 @@ class _DimensionsEntryScreenState extends ConsumerState<DimensionsEntryScreen> {
               controller: _lengthController,
               onChanged: (value) {
                 final length = double.tryParse(value) ?? 0;
-                ref.read(dimensionsProvider.notifier).state =
-                    dimensions.copyWith(length: length);
+                ref.read(dimensionsProvider.notifier).state = dimensions
+                    .copyWith(length: length);
               },
             ),
             const SizedBox(height: DesignTokens.spacingMd),
@@ -185,8 +167,8 @@ class _DimensionsEntryScreenState extends ConsumerState<DimensionsEntryScreen> {
               controller: _heightController,
               onChanged: (value) {
                 final height = double.tryParse(value) ?? 0;
-                ref.read(dimensionsProvider.notifier).state =
-                    dimensions.copyWith(height: height);
+                ref.read(dimensionsProvider.notifier).state = dimensions
+                    .copyWith(height: height);
               },
             ),
             const SizedBox(height: DesignTokens.spacingXl),
@@ -202,10 +184,7 @@ class _DimensionsEntryScreenState extends ConsumerState<DimensionsEntryScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Room Summary',
-                      style: DesignTokens.subtitle2,
-                    ),
+                    Text('Room Summary', style: DesignTokens.subtitle2),
                     const SizedBox(height: DesignTokens.spacingMd),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -278,18 +257,14 @@ class _DimensionInput extends StatelessWidget {
       children: [
         Text(
           label,
-          style: DesignTokens.body2.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
+          style: DesignTokens.body2.copyWith(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: DesignTokens.spacingSm),
         TextField(
           controller: controller,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           inputFormatters: [
-            FilteringTextInputFormatter.allow(
-              RegExp(r'^\d+\.?\d{0,2}'),
-            ),
+            FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
           ],
           onChanged: onChanged,
           decoration: InputDecoration(
@@ -297,9 +272,7 @@ class _DimensionInput extends StatelessWidget {
             suffixText: unit,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-              borderSide: const BorderSide(
-                color: DesignTokens.borderGray,
-              ),
+              borderSide: const BorderSide(color: DesignTokens.borderGray),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
@@ -308,10 +281,7 @@ class _DimensionInput extends StatelessWidget {
                 width: 2,
               ),
             ),
-            prefixIcon: Icon(
-              Icons.straighten,
-              color: DesignTokens.textGray,
-            ),
+            prefixIcon: Icon(Icons.straighten, color: DesignTokens.textGray),
           ),
         ),
       ],
@@ -353,8 +323,7 @@ class _UnitButton extends StatelessWidget {
           child: Text(
             label,
             style: DesignTokens.subtitle2.copyWith(
-              color:
-                  isSelected ? DesignTokens.white : DesignTokens.textDark,
+              color: isSelected ? DesignTokens.white : DesignTokens.textDark,
             ),
           ),
         ),
@@ -367,10 +336,7 @@ class _SummaryItem extends StatelessWidget {
   final String label;
   final String value;
 
-  const _SummaryItem({
-    required this.label,
-    required this.value,
-  });
+  const _SummaryItem({required this.label, required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -378,15 +344,10 @@ class _SummaryItem extends StatelessWidget {
       children: [
         Text(
           label,
-          style: DesignTokens.caption.copyWith(
-            color: DesignTokens.textGray,
-          ),
+          style: DesignTokens.caption.copyWith(color: DesignTokens.textGray),
         ),
         const SizedBox(height: DesignTokens.spacingSm),
-        Text(
-          value,
-          style: DesignTokens.subtitle1,
-        ),
+        Text(value, style: DesignTokens.subtitle1),
       ],
     );
   }

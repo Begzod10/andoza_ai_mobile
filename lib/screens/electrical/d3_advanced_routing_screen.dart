@@ -48,9 +48,9 @@ class _D3AdvancedRoutingScreenState
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
       }
     } finally {
       if (mounted) {
@@ -111,8 +111,9 @@ class _D3AdvancedRoutingScreenState
                       height: 250,
                       decoration: BoxDecoration(
                         border: Border.all(color: DesignTokens.border),
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusMd),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusMd,
+                        ),
                       ),
                       child: WireRoutingView(
                         width: room.dimensions.width,
@@ -190,9 +191,7 @@ class _D3AdvancedRoutingScreenState
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacing16),
             decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(color: DesignTokens.border),
-              ),
+              border: Border(top: BorderSide(color: DesignTokens.border)),
             ),
             child: ElevatedButton(
               onPressed: _isSaving ? () {} : _continueToConfirmation,
@@ -241,9 +240,7 @@ class _RoutingOptionCard extends StatelessWidget {
         padding: const EdgeInsets.all(DesignTokens.spacing16),
         decoration: BoxDecoration(
           border: Border.all(
-            color: isSelected
-                ? DesignTokens.primaryBlue
-                : DesignTokens.border,
+            color: isSelected ? DesignTokens.primaryBlue : DesignTokens.border,
             width: isSelected ? 2.5 : 1.5,
           ),
           borderRadius: BorderRadius.circular(DesignTokens.radiusMd),

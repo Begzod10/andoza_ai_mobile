@@ -79,13 +79,15 @@ class E7OnboardingWelcomeScreen extends ConsumerWidget {
                     _FeatureCard(
                       icon: Icons.camera_alt_outlined,
                       title: 'Measure Rooms',
-                      description: 'Capture accurate room dimensions using your phone',
+                      description:
+                          'Capture accurate room dimensions using your phone',
                     ),
                     const SizedBox(height: DesignTokens.spacing12),
                     _FeatureCard(
                       icon: Icons.palette_outlined,
                       title: 'Design Interiors',
-                      description: 'Choose materials, colors, and layout options',
+                      description:
+                          'Choose materials, colors, and layout options',
                     ),
                     const SizedBox(height: DesignTokens.spacing12),
                     _FeatureCard(
@@ -155,11 +157,7 @@ class _FeatureCard extends StatelessWidget {
               color: DesignTokens.primaryBlue.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
             ),
-            child: Icon(
-              icon,
-              color: DesignTokens.primaryBlue,
-              size: 24,
-            ),
+            child: Icon(icon, color: DesignTokens.primaryBlue, size: 24),
           ),
           const SizedBox(width: DesignTokens.spacing12),
           Expanded(

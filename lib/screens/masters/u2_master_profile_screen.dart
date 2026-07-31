@@ -37,10 +37,12 @@ class U2MasterProfileScreen extends ConsumerWidget {
                           width: 80,
                           height: 80,
                           decoration: BoxDecoration(
-                            color: DesignTokens.primaryBlue
-                                .withValues(alpha: 0.1),
+                            color: DesignTokens.primaryBlue.withValues(
+                              alpha: 0.1,
+                            ),
                             borderRadius: BorderRadius.circular(
-                                DesignTokens.radiusMd),
+                              DesignTokens.radiusMd,
+                            ),
                           ),
                           child: Icon(
                             Icons.person,
@@ -192,7 +194,8 @@ class U2MasterProfileScreen extends ConsumerWidget {
                   _ReviewCard(
                     author: 'Diyor Mirzaev',
                     rating: 5,
-                    text: 'Excellent work! Finished on time and very professional.',
+                    text:
+                        'Excellent work! Finished on time and very professional.',
                   ),
                   const SizedBox(height: DesignTokens.spacing12),
                   _ReviewCard(
@@ -277,9 +280,7 @@ class _ServiceTag extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: DesignTokens.caption.copyWith(
-          color: DesignTokens.primaryBlue,
-        ),
+        style: DesignTokens.caption.copyWith(color: DesignTokens.primaryBlue),
       ),
     );
   }

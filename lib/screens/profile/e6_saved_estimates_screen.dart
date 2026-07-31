@@ -30,7 +30,8 @@ class E6SavedEstimatesScreen extends ConsumerWidget {
                         prefixIcon: const Icon(Icons.search),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(
-                              DesignTokens.radiusMd),
+                            DesignTokens.radiusMd,
+                          ),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: DesignTokens.spacing12,
@@ -40,10 +41,7 @@ class E6SavedEstimatesScreen extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(width: DesignTokens.spacing12),
-                  IconButton(
-                    icon: const Icon(Icons.tune),
-                    onPressed: () {},
-                  ),
+                  IconButton(icon: const Icon(Icons.tune), onPressed: () {}),
                 ],
               ),
             ),
@@ -164,8 +162,7 @@ class _EstimateCard extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     color: _getStatusColor().withValues(alpha: 0.1),
-                    borderRadius:
-                        BorderRadius.circular(DesignTokens.radiusSm),
+                    borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
                     border: Border.all(
                       color: _getStatusColor().withValues(alpha: 0.3),
                     ),

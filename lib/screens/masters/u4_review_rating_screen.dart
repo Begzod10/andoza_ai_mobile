@@ -51,8 +51,7 @@ class _U4ReviewRatingScreenState extends ConsumerState<U4ReviewRatingScreen> {
                   padding: const EdgeInsets.all(DesignTokens.spacing16),
                   decoration: BoxDecoration(
                     border: Border.all(color: DesignTokens.border),
-                    borderRadius:
-                        BorderRadius.circular(DesignTokens.radiusMd),
+                    borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
                   ),
                   child: Column(
                     children: [
@@ -60,10 +59,12 @@ class _U4ReviewRatingScreenState extends ConsumerState<U4ReviewRatingScreen> {
                         width: 80,
                         height: 80,
                         decoration: BoxDecoration(
-                          color: DesignTokens.primaryBlue
-                              .withValues(alpha: 0.1),
+                          color: DesignTokens.primaryBlue.withValues(
+                            alpha: 0.1,
+                          ),
                           borderRadius: BorderRadius.circular(
-                              DesignTokens.radiusMd),
+                            DesignTokens.radiusMd,
+                          ),
                         ),
                         child: Icon(
                           Icons.person,
@@ -125,9 +126,7 @@ class _U4ReviewRatingScreenState extends ConsumerState<U4ReviewRatingScreen> {
               const SizedBox(height: DesignTokens.spacing12),
               Center(
                 child: Text(
-                  _rating > 0
-                      ? 'Rating: $_rating / 5'
-                      : 'Tap to rate',
+                  _rating > 0 ? 'Rating: $_rating / 5' : 'Tap to rate',
                   style: DesignTokens.subtitle2.copyWith(
                     color: _rating > 0
                         ? DesignTokens.accentOrange
@@ -149,13 +148,12 @@ class _U4ReviewRatingScreenState extends ConsumerState<U4ReviewRatingScreen> {
                 controller: _reviewController,
                 maxLines: 5,
                 decoration: InputDecoration(
-                  hintText: 'Tell us about your experience with this contractor. What went well? Any suggestions?',
+                  hintText:
+                      'Tell us about your experience with this contractor. What went well? Any suggestions?',
                   border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(DesignTokens.radiusMd),
+                    borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
                   ),
-                  contentPadding: const EdgeInsets.all(
-                      DesignTokens.spacing12),
+                  contentPadding: const EdgeInsets.all(DesignTokens.spacing12),
                 ),
               ),
               const SizedBox(height: DesignTokens.spacing24),
@@ -167,8 +165,7 @@ class _U4ReviewRatingScreenState extends ConsumerState<U4ReviewRatingScreen> {
                   color: DesignTokens.primaryBlue.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
                   border: Border.all(
-                    color: DesignTokens.primaryBlue
-                        .withValues(alpha: 0.2),
+                    color: DesignTokens.primaryBlue.withValues(alpha: 0.2),
                   ),
                 ),
                 child: Column(
@@ -234,9 +231,7 @@ class _U4ReviewRatingScreenState extends ConsumerState<U4ReviewRatingScreen> {
                     width: 20,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        Colors.white,
-                      ),
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     ),
                   )
                 : const Text('Submit Review'),
@@ -266,9 +261,7 @@ class _RatingCriterionState extends State<_RatingCriterion> {
       children: [
         Text(
           widget.label,
-          style: DesignTokens.bodyMedium.copyWith(
-            color: DesignTokens.text,
-          ),
+          style: DesignTokens.bodyMedium.copyWith(color: DesignTokens.text),
         ),
         Row(
           children: List.generate(

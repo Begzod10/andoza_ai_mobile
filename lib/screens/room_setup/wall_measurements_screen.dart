@@ -41,29 +41,29 @@ class WallMeasurement {
 
 final wallMeasurementsProvider =
     StateNotifierProvider<WallMeasurementsNotifier, List<WallMeasurement>>(
-  (ref) => WallMeasurementsNotifier(),
-);
+      (ref) => WallMeasurementsNotifier(),
+    );
 
 class WallMeasurementsNotifier extends StateNotifier<List<WallMeasurement>> {
   WallMeasurementsNotifier()
-      : super([
-          WallMeasurement(
-            id: 'wall-n',
-            name: 'North Wall',
-            length: 4.5,
-            height: 2.8,
-            wallType: 'exterior',
-            features: ['window'],
-          ),
-          WallMeasurement(
-            id: 'wall-e',
-            name: 'East Wall',
-            length: 3.5,
-            height: 2.8,
-            wallType: 'interior',
-            features: ['door'],
-          ),
-        ]);
+    : super([
+        WallMeasurement(
+          id: 'wall-n',
+          name: 'North Wall',
+          length: 4.5,
+          height: 2.8,
+          wallType: 'exterior',
+          features: ['window'],
+        ),
+        WallMeasurement(
+          id: 'wall-e',
+          name: 'East Wall',
+          length: 3.5,
+          height: 2.8,
+          wallType: 'interior',
+          features: ['door'],
+        ),
+      ]);
 
   void updateWall(WallMeasurement wall) {
     final index = state.indexWhere((w) => w.id == wall.id);
@@ -140,10 +140,7 @@ class _WallMeasurementsScreenState
             ),
             child: Row(
               children: [
-                Icon(
-                  Icons.info_outlined,
-                  color: DesignTokens.accentOrange,
-                ),
+                Icon(Icons.info_outlined, color: DesignTokens.accentOrange),
                 const SizedBox(width: DesignTokens.spacingMd),
                 Expanded(
                   child: Text(
@@ -245,9 +242,8 @@ class _WallMeasurementsScreenState
                                 color: DesignTokens.white,
                               ),
                             ),
-                            backgroundColor: walls[_currentWallIndex]
-                                        .wallType ==
-                                    'exterior'
+                            backgroundColor:
+                                walls[_currentWallIndex].wallType == 'exterior'
                                 ? DesignTokens.accentOrange
                                 : DesignTokens.primaryBlue,
                           ),
@@ -287,10 +283,7 @@ class _WallMeasurementsScreenState
                   child: OutlinedButton.icon(
                     onPressed: () {
                       // Open edit dialog
-                      _showEditWallDialog(
-                        context,
-                        walls[_currentWallIndex],
-                      );
+                      _showEditWallDialog(context, walls[_currentWallIndex]);
                     },
                     icon: const Icon(Icons.edit),
                     label: const Text('Edit Wall'),
@@ -419,18 +412,14 @@ class _WallElevationPainter extends CustomPainter {
       ..color = DesignTokens.primaryBlue
       ..strokeWidth = 3;
 
-    final wallRect = Rect.fromLTWH(
-      padding,
-      padding,
-      width,
-      height,
+    final wallRect = Rect.fromLTWH(padding, padding, width, height);
+
+    canvas.drawRect(
+      wallRect,
+      Paint()..color = DesignTokens.primaryBlue.withOpacity(0.05),
     );
 
-    canvas.drawRect(wallRect, Paint()
-      ..color = DesignTokens.primaryBlue.withOpacity(0.05));
-
-    canvas.drawRect(wallRect, wallPaint
-      ..style = PaintingStyle.stroke);
+    canvas.drawRect(wallRect, wallPaint..style = PaintingStyle.stroke);
 
     // Draw dimension lines
     final dimensionPaint = Paint()
@@ -487,10 +476,7 @@ class _WallElevationPainter extends CustomPainter {
     textPainter.layout();
     textPainter.paint(
       canvas,
-      Offset(
-        padding - 40,
-        padding + (height / 2) - (textPainter.height / 2),
-      ),
+      Offset(padding - 40, padding + (height / 2) - (textPainter.height / 2)),
     );
   }
 
@@ -505,10 +491,7 @@ class _WallEditDialog extends StatefulWidget {
   final WallMeasurement wall;
   final Function(WallMeasurement) onSave;
 
-  const _WallEditDialog({
-    required this.wall,
-    required this.onSave,
-  });
+  const _WallEditDialog({required this.wall, required this.onSave});
 
   @override
   State<_WallEditDialog> createState() => _WallEditDialogState();
@@ -521,10 +504,12 @@ class _WallEditDialogState extends State<_WallEditDialog> {
   @override
   void initState() {
     super.initState();
-    _lengthController =
-        TextEditingController(text: widget.wall.length.toString());
-    _heightController =
-        TextEditingController(text: widget.wall.height.toString());
+    _lengthController = TextEditingController(
+      text: widget.wall.length.toString(),
+    );
+    _heightController = TextEditingController(
+      text: widget.wall.height.toString(),
+    );
   }
 
   @override

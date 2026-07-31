@@ -20,7 +20,8 @@ class B2FloorSelectionScreen extends ConsumerStatefulWidget {
       _B2FloorSelectionScreenState();
 }
 
-class _B2FloorSelectionScreenState extends ConsumerState<B2FloorSelectionScreen> {
+class _B2FloorSelectionScreenState
+    extends ConsumerState<B2FloorSelectionScreen> {
   String? _selectedMaterialId;
   bool _isSaving = false;
 
@@ -34,7 +35,8 @@ class _B2FloorSelectionScreenState extends ConsumerState<B2FloorSelectionScreen>
     MaterialItem(
       id: 'tile-porcelain-001',
       name: 'Porcelain Tile',
-      description: 'High-quality porcelain with modern finishes. 1000-1500 UZS/m²',
+      description:
+          'High-quality porcelain with modern finishes. 1000-1500 UZS/m²',
       imageUrl: 'assets/materials/porcelain.png',
     ),
     MaterialItem(
@@ -89,9 +91,9 @@ class _B2FloorSelectionScreenState extends ConsumerState<B2FloorSelectionScreen>
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
       }
     } finally {
       if (mounted) {
@@ -131,10 +133,7 @@ class _B2FloorSelectionScreenState extends ConsumerState<B2FloorSelectionScreen>
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(DesignTokens.spacing16),
-                    child: RoomCanvas(
-                      room: room,
-                      onItemSelected: (id) {},
-                    ),
+                    child: RoomCanvas(room: room, onItemSelected: (id) {}),
                   ),
                 ),
                 // Material selection rail
@@ -150,9 +149,7 @@ class _B2FloorSelectionScreenState extends ConsumerState<B2FloorSelectionScreen>
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacing16),
             decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(color: DesignTokens.border),
-              ),
+              border: Border(top: BorderSide(color: DesignTokens.border)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -166,7 +163,9 @@ class _B2FloorSelectionScreenState extends ConsumerState<B2FloorSelectionScreen>
                       padding: const EdgeInsets.all(DesignTokens.spacing12),
                       decoration: BoxDecoration(
                         color: DesignTokens.primaryBlue.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusMd,
+                        ),
                       ),
                       child: Text(
                         'Selected: ${_floorMaterials.firstWhere((m) => m.id == _selectedMaterialId).name}',

@@ -42,9 +42,7 @@ class S7OrderConfirmationScreen extends ConsumerWidget {
               // Success message
               Text(
                 'Order Placed Successfully!',
-                style: DesignTokens.heading3.copyWith(
-                  color: DesignTokens.text,
-                ),
+                style: DesignTokens.heading3.copyWith(color: DesignTokens.text),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: DesignTokens.spacing12),
@@ -74,20 +72,11 @@ class S7OrderConfirmationScreen extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: DesignTokens.spacing16),
-                    _DetailRow(
-                      label: 'Order ID',
-                      value: 'ORD-2026-345210',
-                    ),
+                    _DetailRow(label: 'Order ID', value: 'ORD-2026-345210'),
                     const SizedBox(height: DesignTokens.spacing12),
-                    _DetailRow(
-                      label: 'Order Date',
-                      value: 'July 30, 2026',
-                    ),
+                    _DetailRow(label: 'Order Date', value: 'July 30, 2026'),
                     const SizedBox(height: DesignTokens.spacing12),
-                    _DetailRow(
-                      label: 'Total Amount',
-                      value: '345,210 UZS',
-                    ),
+                    _DetailRow(label: 'Total Amount', value: '345,210 UZS'),
                     const SizedBox(height: DesignTokens.spacing12),
                     _DetailRow(
                       label: 'Estimated Delivery',
@@ -260,10 +249,7 @@ class _DetailRow extends StatelessWidget {
 }
 
 class _OrderItem extends StatelessWidget {
-  const _OrderItem({
-    required this.name,
-    required this.qty,
-  });
+  const _OrderItem({required this.name, required this.qty});
 
   final String name;
   final String qty;

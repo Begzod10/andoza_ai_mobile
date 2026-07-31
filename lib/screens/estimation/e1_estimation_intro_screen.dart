@@ -47,9 +47,7 @@ class _E1EstimationIntroScreenState
               // Header
               Text(
                 'Get Your Cost Estimate',
-                style: DesignTokens.heading3.copyWith(
-                  color: DesignTokens.text,
-                ),
+                style: DesignTokens.heading3.copyWith(color: DesignTokens.text),
               ),
               const SizedBox(height: DesignTokens.spacing12),
               Text(
@@ -118,14 +116,16 @@ class _E1EstimationIntroScreenState
               _EstimationStep(
                 number: '1',
                 title: 'Material Costs',
-                description: 'Calculate flooring, paint, fixtures, electrical components',
+                description:
+                    'Calculate flooring, paint, fixtures, electrical components',
                 icon: Icons.shopping_cart_outlined,
               ),
               const SizedBox(height: DesignTokens.spacing12),
               _EstimationStep(
                 number: '2',
                 title: 'Labor Costs',
-                description: 'Estimate worker hours for installation and finishing',
+                description:
+                    'Estimate worker hours for installation and finishing',
                 icon: Icons.construction_outlined,
               ),
               const SizedBox(height: DesignTokens.spacing12),
@@ -241,8 +241,9 @@ class _E1EstimationIntroScreenState
               ElevatedButton(
                 onPressed: () => context.go('/estimation/e2'),
                 child: const Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: DesignTokens.spacing12),
+                  padding: EdgeInsets.symmetric(
+                    vertical: DesignTokens.spacing12,
+                  ),
                   child: Text('Calculate Material Costs'),
                 ),
               ),
@@ -358,11 +359,7 @@ class _EstimationStep extends StatelessWidget {
               ],
             ),
           ),
-          Icon(
-            icon,
-            color: DesignTokens.textSecondary,
-            size: 24,
-          ),
+          Icon(icon, color: DesignTokens.textSecondary, size: 24),
         ],
       ),
     );

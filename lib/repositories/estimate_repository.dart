@@ -30,13 +30,13 @@ class EstimateLineItem {
   final double totalPrice;
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'description': description,
-        'quantity': quantity,
-        'unit': unit,
-        'unit_price': unitPrice,
-        'total_price': totalPrice,
-      };
+    'id': id,
+    'description': description,
+    'quantity': quantity,
+    'unit': unit,
+    'unit_price': unitPrice,
+    'total_price': totalPrice,
+  };
 }
 
 /// A phase of work (e.g. "Demolition", "Electrical") within an [Estimate].
@@ -69,12 +69,12 @@ class EstimateStage {
   final List<EstimateLineItem> lineItems;
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'order': order,
-        'cost': cost,
-        'line_items': lineItems.map((e) => e.toJson()).toList(),
-      };
+    'id': id,
+    'name': name,
+    'order': order,
+    'cost': cost,
+    'line_items': lineItems.map((e) => e.toJson()).toList(),
+  };
 }
 
 /// A repair/renovation cost estimate for a room, made up of ordered stages.
@@ -120,13 +120,13 @@ class Estimate {
   final DateTime? updatedAt;
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'room_id': roomId,
-        if (userId != null) 'user_id': userId,
-        'total_cost': totalCost,
-        'status': status,
-        'stages': stages.map((e) => e.toJson()).toList(),
-      };
+    'id': id,
+    'room_id': roomId,
+    if (userId != null) 'user_id': userId,
+    'total_cost': totalCost,
+    'status': status,
+    'stages': stages.map((e) => e.toJson()).toList(),
+  };
 }
 
 abstract interface class EstimateRepository {

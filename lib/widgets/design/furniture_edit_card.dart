@@ -43,7 +43,8 @@ class _FurnitureEditCardState extends State<FurnitureEditCard> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom + DesignTokens.spacing24,
+        bottom:
+            MediaQuery.of(context).viewInsets.bottom + DesignTokens.spacing24,
         left: DesignTokens.spacing24,
         right: DesignTokens.spacing24,
         top: DesignTokens.spacing24,
@@ -58,9 +59,7 @@ class _FurnitureEditCardState extends State<FurnitureEditCard> {
             children: [
               Text(
                 widget.furniture.name,
-                style: DesignTokens.heading3.copyWith(
-                  color: DesignTokens.text,
-                ),
+                style: DesignTokens.heading3.copyWith(color: DesignTokens.text),
               ),
               IconButton(
                 icon: const Icon(Icons.close),
@@ -73,9 +72,7 @@ class _FurnitureEditCardState extends State<FurnitureEditCard> {
           // Rotation slider
           Text(
             'Rotation',
-            style: DesignTokens.subtitle2.copyWith(
-              color: DesignTokens.text,
-            ),
+            style: DesignTokens.subtitle2.copyWith(color: DesignTokens.text),
           ),
           const SizedBox(height: DesignTokens.spacing12),
           Slider(
@@ -91,9 +88,7 @@ class _FurnitureEditCardState extends State<FurnitureEditCard> {
           // Color selection
           Text(
             'Color',
-            style: DesignTokens.subtitle2.copyWith(
-              color: DesignTokens.text,
-            ),
+            style: DesignTokens.subtitle2.copyWith(color: DesignTokens.text),
           ),
           const SizedBox(height: DesignTokens.spacing12),
           Wrap(

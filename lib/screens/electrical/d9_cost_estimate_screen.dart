@@ -30,9 +30,9 @@ class _D9CostEstimateScreenState extends ConsumerState<D9CostEstimateScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
       }
     } finally {
       if (mounted) {
@@ -109,7 +109,10 @@ class _D9CostEstimateScreenState extends ConsumerState<D9CostEstimateScreen> {
                     _EstimateSection(
                       title: 'Labor',
                       items: [
-                        ('Installation (per outlet/switch)', '5,000-8,000 per unit'),
+                        (
+                          'Installation (per outlet/switch)',
+                          '5,000-8,000 per unit',
+                        ),
                         ('Wire routing & installation', '40,000-60,000'),
                         ('Lighting fixture installation', '20,000-30,000'),
                         ('Testing & certification', '10,000-15,000'),
@@ -123,11 +126,13 @@ class _D9CostEstimateScreenState extends ConsumerState<D9CostEstimateScreen> {
                       padding: const EdgeInsets.all(DesignTokens.spacing16),
                       decoration: BoxDecoration(
                         color: DesignTokens.primaryBlue.withValues(alpha: 0.05),
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusMd),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusMd,
+                        ),
                         border: Border.all(
-                          color: DesignTokens.primaryBlue
-                              .withValues(alpha: 0.2),
+                          color: DesignTokens.primaryBlue.withValues(
+                            alpha: 0.2,
+                          ),
                         ),
                       ),
                       child: Column(
@@ -169,8 +174,9 @@ class _D9CostEstimateScreenState extends ConsumerState<D9CostEstimateScreen> {
                             ],
                           ),
                           Divider(
-                            color: DesignTokens.primaryBlue
-                                .withValues(alpha: 0.3),
+                            color: DesignTokens.primaryBlue.withValues(
+                              alpha: 0.3,
+                            ),
                             height: DesignTokens.spacing20,
                           ),
                           Row(
@@ -201,8 +207,9 @@ class _D9CostEstimateScreenState extends ConsumerState<D9CostEstimateScreen> {
                       padding: const EdgeInsets.all(DesignTokens.spacing12),
                       decoration: BoxDecoration(
                         color: DesignTokens.accentOrange.withValues(alpha: 0.1),
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusSm),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusSm,
+                        ),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -236,9 +243,7 @@ class _D9CostEstimateScreenState extends ConsumerState<D9CostEstimateScreen> {
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacing16),
             decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(color: DesignTokens.border),
-              ),
+              border: Border(top: BorderSide(color: DesignTokens.border)),
             ),
             child: ElevatedButton(
               onPressed: _isSaving ? () {} : _continueFinal,
@@ -286,9 +291,7 @@ class _EstimateSection extends StatelessWidget {
         children: [
           Text(
             title,
-            style: DesignTokens.subtitle1.copyWith(
-              color: DesignTokens.text,
-            ),
+            style: DesignTokens.subtitle1.copyWith(color: DesignTokens.text),
           ),
           const SizedBox(height: DesignTokens.spacing12),
           ...items.map((item) {

@@ -47,9 +47,10 @@ class DoorWindowFeature {
   }
 }
 
-final doorWindowFeaturesProvider = StateNotifierProvider<
-    DoorWindowNotifier,
-    List<DoorWindowFeature>>((ref) => DoorWindowNotifier());
+final doorWindowFeaturesProvider =
+    StateNotifierProvider<DoorWindowNotifier, List<DoorWindowFeature>>(
+      (ref) => DoorWindowNotifier(),
+    );
 
 class DoorWindowNotifier extends StateNotifier<List<DoorWindowFeature>> {
   DoorWindowNotifier() : super([]);
@@ -150,7 +151,9 @@ class _DoorWindowModalState extends ConsumerState<DoorWindowModal> {
                   child: Container(
                     width: 40,
                     height: 4,
-                    margin: const EdgeInsets.only(bottom: DesignTokens.spacingLg),
+                    margin: const EdgeInsets.only(
+                      bottom: DesignTokens.spacingLg,
+                    ),
                     decoration: BoxDecoration(
                       color: DesignTokens.borderGray,
                       borderRadius: BorderRadius.circular(2),
@@ -158,10 +161,7 @@ class _DoorWindowModalState extends ConsumerState<DoorWindowModal> {
                   ),
                 ),
                 // Title
-                Text(
-                  'Add Door or Window',
-                  style: DesignTokens.heading2,
-                ),
+                Text('Add Door or Window', style: DesignTokens.heading2),
                 const SizedBox(height: DesignTokens.spacingSm),
                 Text(
                   'Define the position and dimensions of doors and windows',
@@ -171,10 +171,7 @@ class _DoorWindowModalState extends ConsumerState<DoorWindowModal> {
                 ),
                 const SizedBox(height: DesignTokens.spacingLg),
                 // Type selection
-                Text(
-                  'Feature Type',
-                  style: DesignTokens.subtitle2,
-                ),
+                Text('Feature Type', style: DesignTokens.subtitle2),
                 const SizedBox(height: DesignTokens.spacingSm),
                 Row(
                   children: [
@@ -199,10 +196,7 @@ class _DoorWindowModalState extends ConsumerState<DoorWindowModal> {
                 ),
                 const SizedBox(height: DesignTokens.spacingLg),
                 // Form fields
-                Text(
-                  'Details',
-                  style: DesignTokens.subtitle2,
-                ),
+                Text('Details', style: DesignTokens.subtitle2),
                 const SizedBox(height: DesignTokens.spacingMd),
                 // Name
                 TextField(
@@ -211,8 +205,9 @@ class _DoorWindowModalState extends ConsumerState<DoorWindowModal> {
                     labelText: 'Name (e.g., Main Door, Bay Window)',
                     prefixIcon: const Icon(Icons.label_outline),
                     border: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(DesignTokens.radiusMd),
+                      borderRadius: BorderRadius.circular(
+                        DesignTokens.radiusMd,
+                      ),
                       borderSide: const BorderSide(
                         color: DesignTokens.borderGray,
                       ),
@@ -319,13 +314,15 @@ class _DoorWindowModalState extends ConsumerState<DoorWindowModal> {
                     spacing: DesignTokens.spacingSm,
                     runSpacing: DesignTokens.spacingSm,
                     children: ['glass', 'wood', 'plastic', 'metal']
-                        .map((material) => FilterChip(
-                          label: Text(material),
-                          selected: _selectedMaterial == material,
-                          onSelected: (selected) {
-                            setState(() => _selectedMaterial = material);
-                          },
-                        ))
+                        .map(
+                          (material) => FilterChip(
+                            label: Text(material),
+                            selected: _selectedMaterial == material,
+                            onSelected: (selected) {
+                              setState(() => _selectedMaterial = material);
+                            },
+                          ),
+                        )
                         .toList(),
                   ),
                   const SizedBox(height: DesignTokens.spacingMd),
@@ -345,21 +342,24 @@ class _DoorWindowModalState extends ConsumerState<DoorWindowModal> {
                         onPressed: _canSave()
                             ? () {
                                 final feature = DoorWindowFeature(
-                                  id:
-                                      '${_selectedType}-${DateTime.now().millisecondsSinceEpoch}',
+                                  id: '${_selectedType}-${DateTime.now().millisecondsSinceEpoch}',
                                   type: _selectedType,
                                   name: _nameController.text,
                                   width:
                                       double.tryParse(_widthController.text) ??
-                                          0,
-                                  height: double.tryParse(
-                                          _heightController.text) ??
                                       0,
-                                  positionX: double.tryParse(
-                                          _positionXController.text) ??
+                                  height:
+                                      double.tryParse(_heightController.text) ??
                                       0,
-                                  positionY: double.tryParse(
-                                          _positionYController.text) ??
+                                  positionX:
+                                      double.tryParse(
+                                        _positionXController.text,
+                                      ) ??
+                                      0,
+                                  positionY:
+                                      double.tryParse(
+                                        _positionYController.text,
+                                      ) ??
                                       0,
                                   material: _selectedMaterial,
                                 );

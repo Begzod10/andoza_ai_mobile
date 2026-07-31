@@ -49,9 +49,9 @@ class _D2WireRoutingScreenState extends ConsumerState<D2WireRoutingScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
       }
     } finally {
       if (mounted) {
@@ -96,14 +96,14 @@ class _D2WireRoutingScreenState extends ConsumerState<D2WireRoutingScreen> {
                       children: [
                         // Instructions
                         Container(
-                          padding: const EdgeInsets.all(
-                            DesignTokens.spacing12,
-                          ),
+                          padding: const EdgeInsets.all(DesignTokens.spacing12),
                           decoration: BoxDecoration(
-                            color: DesignTokens.primaryBlue
-                                .withValues(alpha: 0.05),
-                            borderRadius:
-                                BorderRadius.circular(DesignTokens.radiusMd),
+                            color: DesignTokens.primaryBlue.withValues(
+                              alpha: 0.05,
+                            ),
+                            borderRadius: BorderRadius.circular(
+                              DesignTokens.radiusMd,
+                            ),
                           ),
                           child: Row(
                             children: [
@@ -161,9 +161,7 @@ class _D2WireRoutingScreenState extends ConsumerState<D2WireRoutingScreen> {
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacing16),
             decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(color: DesignTokens.border),
-              ),
+              border: Border(top: BorderSide(color: DesignTokens.border)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

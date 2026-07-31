@@ -12,16 +12,12 @@ class AppConfig {
   );
 
   // LiDAR Configuration
-  static const bool lidarEnabled = String.fromEnvironment(
-    'LIDAR_ENABLED',
-    defaultValue: 'true',
-  ) == 'true';
+  static const bool lidarEnabled =
+      String.fromEnvironment('LIDAR_ENABLED', defaultValue: 'true') == 'true';
 
   // Debug Configuration
-  static const bool debugLogging = String.fromEnvironment(
-    'DEBUG_LOGGING',
-    defaultValue: 'true',
-  ) == 'true';
+  static const bool debugLogging =
+      String.fromEnvironment('DEBUG_LOGGING', defaultValue: 'true') == 'true';
 
   // App Configuration
   static const String appName = 'Tamir.Uy Mobile';

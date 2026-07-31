@@ -49,24 +49,21 @@ class _E9PreferencesSettingsScreenState
                     title: 'Push Notifications',
                     subtitle: 'Get updates about projects and contractors',
                     value: _notificationsEnabled,
-                    onChanged: (v) =>
-                        setState(() => _notificationsEnabled = v),
+                    onChanged: (v) => setState(() => _notificationsEnabled = v),
                   ),
                   const SizedBox(height: DesignTokens.spacing12),
                   _SwitchTile(
                     title: 'Email Digest',
                     subtitle: 'Weekly summary of your projects',
                     value: _emailDigest,
-                    onChanged: (v) =>
-                        setState(() => _emailDigest = v),
+                    onChanged: (v) => setState(() => _emailDigest = v),
                   ),
                   const SizedBox(height: DesignTokens.spacing12),
                   _SwitchTile(
                     title: 'Marketing Emails',
                     subtitle: 'News about new features and offers',
                     value: _marketingEmails,
-                    onChanged: (v) =>
-                        setState(() => _marketingEmails = v),
+                    onChanged: (v) => setState(() => _marketingEmails = v),
                   ),
                 ],
               ),
@@ -100,8 +97,7 @@ class _E9PreferencesSettingsScreenState
                     value: _theme,
                     items: ['Light', 'Dark', 'System'],
                     values: ['light', 'dark', 'system'],
-                    onChanged: (v) =>
-                        setState(() => _theme = v ?? 'light'),
+                    onChanged: (v) => setState(() => _theme = v ?? 'light'),
                   ),
                   const SizedBox(height: DesignTokens.spacing12),
                   _SwitchTile(
@@ -132,8 +128,7 @@ class _E9PreferencesSettingsScreenState
                     title: 'Auto-Save Projects',
                     subtitle: 'Automatically save your work as you progress',
                     value: _autoSave,
-                    onChanged: (v) =>
-                        setState(() => _autoSave = v),
+                    onChanged: (v) => setState(() => _autoSave = v),
                   ),
                   const SizedBox(height: DesignTokens.spacing12),
                   _SwitchTile(
@@ -202,8 +197,9 @@ class _E9PreferencesSettingsScreenState
                     padding: const EdgeInsets.all(DesignTokens.spacing12),
                     decoration: BoxDecoration(
                       border: Border.all(color: DesignTokens.border),
-                      borderRadius:
-                          BorderRadius.circular(DesignTokens.radiusMd),
+                      borderRadius: BorderRadius.circular(
+                        DesignTokens.radiusMd,
+                      ),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -350,19 +346,14 @@ class _DropdownTile extends StatelessWidget {
         children: [
           Text(
             title,
-            style: DesignTokens.subtitle2.copyWith(
-              color: DesignTokens.text,
-            ),
+            style: DesignTokens.subtitle2.copyWith(color: DesignTokens.text),
           ),
           DropdownButton<String>(
             value: value,
             underline: const SizedBox(),
             items: List.generate(
               items.length,
-              (i) => DropdownMenuItem(
-                value: values[i],
-                child: Text(items[i]),
-              ),
+              (i) => DropdownMenuItem(value: values[i], child: Text(items[i])),
             ),
             onChanged: onChanged,
           ),
@@ -419,10 +410,7 @@ class _ActionTile extends StatelessWidget {
                 ],
               ),
             ),
-            Icon(
-              Icons.chevron_right,
-              color: DesignTokens.textSecondary,
-            ),
+            Icon(Icons.chevron_right, color: DesignTokens.textSecondary),
           ],
         ),
       ),

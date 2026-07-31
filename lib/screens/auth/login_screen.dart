@@ -54,7 +54,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 decoration: InputDecoration(
                   hintText: 'Email',
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(DesignTokens.radiusLarge),
+                    borderRadius: BorderRadius.circular(
+                      DesignTokens.radiusLarge,
+                    ),
                   ),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: DesignTokens.spacing16,
@@ -69,7 +71,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 decoration: InputDecoration(
                   hintText: 'Password',
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(DesignTokens.radiusLarge),
+                    borderRadius: BorderRadius.circular(
+                      DesignTokens.radiusLarge,
+                    ),
                   ),
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: DesignTokens.spacing16,
@@ -88,7 +92,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     vertical: DesignTokens.spacing12,
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(DesignTokens.radiusLarge),
+                    borderRadius: BorderRadius.circular(
+                      DesignTokens.radiusLarge,
+                    ),
                   ),
                 ),
                 child: authState is AuthLoading
@@ -116,8 +122,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   padding: const EdgeInsets.all(DesignTokens.spacing12),
                   decoration: BoxDecoration(
                     color: DesignTokens.error.withOpacity(0.1),
-                    borderRadius:
-                        BorderRadius.circular(DesignTokens.radiusMedium),
+                    borderRadius: BorderRadius.circular(
+                      DesignTokens.radiusMedium,
+                    ),
                   ),
                   child: Text(
                     authState.message,

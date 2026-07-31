@@ -38,9 +38,9 @@ class _B4PreviewScreenState extends ConsumerState<B4PreviewScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
       }
     } finally {
       if (mounted) {
@@ -86,13 +86,11 @@ class _B4PreviewScreenState extends ConsumerState<B4PreviewScreen> {
                       height: 250,
                       decoration: BoxDecoration(
                         border: Border.all(color: DesignTokens.border),
-                        borderRadius:
-                            BorderRadius.circular(DesignTokens.radiusMd),
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusMd,
+                        ),
                       ),
-                      child: RoomCanvas(
-                        room: room,
-                        onItemSelected: (id) {},
-                      ),
+                      child: RoomCanvas(room: room, onItemSelected: (id) {}),
                     ),
                   ),
 
@@ -104,10 +102,7 @@ class _B4PreviewScreenState extends ConsumerState<B4PreviewScreen> {
                       children: [
                         // Room info
                         _SectionHeader(title: 'Room'),
-                        _SummaryRow(
-                          label: 'Name',
-                          value: room.name,
-                        ),
+                        _SummaryRow(label: 'Name', value: room.name),
                         _SummaryRow(
                           label: 'Dimensions',
                           value:
@@ -179,9 +174,7 @@ class _B4PreviewScreenState extends ConsumerState<B4PreviewScreen> {
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacing16),
             decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(color: DesignTokens.border),
-              ),
+              border: Border(top: BorderSide(color: DesignTokens.border)),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -240,9 +233,7 @@ class _SectionHeader extends StatelessWidget {
       children: [
         Text(
           title,
-          style: DesignTokens.subtitle1.copyWith(
-            color: DesignTokens.text,
-          ),
+          style: DesignTokens.subtitle1.copyWith(color: DesignTokens.text),
         ),
         const SizedBox(height: DesignTokens.spacing12),
       ],
@@ -251,10 +242,7 @@ class _SectionHeader extends StatelessWidget {
 }
 
 class _SummaryRow extends StatelessWidget {
-  const _SummaryRow({
-    required this.label,
-    required this.value,
-  });
+  const _SummaryRow({required this.label, required this.value});
 
   final String label;
   final String value;
@@ -274,9 +262,7 @@ class _SummaryRow extends StatelessWidget {
           ),
           Text(
             value,
-            style: DesignTokens.subtitle2.copyWith(
-              color: DesignTokens.text,
-            ),
+            style: DesignTokens.subtitle2.copyWith(color: DesignTokens.text),
           ),
         ],
       ),
@@ -291,14 +277,18 @@ class _CostEstimate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final totalCost = selections.values
-        .fold<double>(0, (sum, s) => sum + (s.price * s.area));
+    final totalCost = selections.values.fold<double>(
+      0,
+      (sum, s) => sum + (s.price * s.area),
+    );
 
     return Container(
       padding: const EdgeInsets.all(DesignTokens.spacing16),
       decoration: BoxDecoration(
         color: DesignTokens.primaryBlue.withValues(alpha: 0.05),
-        border: Border.all(color: DesignTokens.primaryBlue.withValues(alpha: 0.2)),
+        border: Border.all(
+          color: DesignTokens.primaryBlue.withValues(alpha: 0.2),
+        ),
         borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
       ),
       child: Column(
@@ -306,9 +296,7 @@ class _CostEstimate extends StatelessWidget {
         children: [
           Text(
             'Estimated Cost',
-            style: DesignTokens.subtitle1.copyWith(
-              color: DesignTokens.text,
-            ),
+            style: DesignTokens.subtitle1.copyWith(color: DesignTokens.text),
           ),
           const SizedBox(height: DesignTokens.spacing8),
           Text(
