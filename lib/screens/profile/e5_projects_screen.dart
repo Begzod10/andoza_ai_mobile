@@ -153,7 +153,9 @@ class _ProjectCard extends StatelessWidget {
         .length;
 
     return InkWell(
-      onTap: () => context.go('/design/b1'),
+      // Same "continue an already-assessed project → B2" rule as A2's
+      // Davom etish button (button-wiring table) — not back to B1.
+      onTap: () => context.go('/design/b2'),
       borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
       child: Container(
         padding: const EdgeInsets.all(DesignTokens.spacingMd),

@@ -73,18 +73,6 @@ class ProjectItem {
   );
 }
 
-/// A1: Bosh sahifa (bo'sh) — first-run home, empty state.
-/// Standalone-route wrapper; [HomeEmptyBody] is the actual content, shared
-/// with [HomeWithProjectsScreen] which supplies its own AppBar/nav.
-class HomeEmptyScreen extends ConsumerWidget {
-  const HomeEmptyScreen({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return const Scaffold(body: HomeEmptyBody());
-  }
-}
-
 /// One of the three "story circle" onboarding shortcuts on A1 — animated
 /// conic-gradient ring (2.5s spin) that greys out once tapped.
 class _StoryCircle extends StatefulWidget {

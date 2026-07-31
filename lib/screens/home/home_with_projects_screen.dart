@@ -150,7 +150,11 @@ class _ActiveProjectCard extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () => context.go('/design/b1'),
+              // Per the button-wiring table: an already-assessed project's
+              // "Davom etish" jumps straight into the 3D studio (B2), not
+              // back to B1's room-condition question (that's only for a
+              // brand-new project finishing A9 for the first time).
+              onPressed: () => context.go('/design/b2'),
               child: const Text('Davom etish'),
             ),
           ),

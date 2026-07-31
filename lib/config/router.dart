@@ -5,7 +5,6 @@ import '../providers/auth_provider.dart';
 import '../screens/app_shell.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/splash/splash_screen.dart';
-import '../screens/home/home_empty_screen.dart';
 import '../screens/home/home_with_projects_screen.dart';
 import '../screens/room_setup/dimensions_entry_screen.dart';
 import '../screens/room_setup/wall_measurements_screen.dart';
@@ -104,15 +103,6 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/profile',
             builder: (context, state) => const E4ProfileSettingsScreen(),
-          ),
-          // New AndozaAI Routes
-          GoRoute(
-            path: '/home/empty',
-            builder: (context, state) => const HomeEmptyScreen(),
-          ),
-          GoRoute(
-            path: '/home/projects',
-            builder: (context, state) => const HomeWithProjectsScreen(),
           ),
           GoRoute(
             path: '/setup/dimensions',
@@ -279,11 +269,8 @@ final routerProvider = Provider<GoRouter>((ref) {
             builder: (context, state) =>
                 U5BookingConfirmationScreen(master: state.extra as MockMaster?),
           ),
-          // Profile Routes (E4-E6)
-          GoRoute(
-            path: '/profile/e4',
-            builder: (context, state) => const E4ProfileSettingsScreen(),
-          ),
+          // Profile Routes (E5-E6, E11 — E4 lives at the shell's /profile
+          // root, no separate /profile/e4 alias needed)
           GoRoute(
             path: '/profile/e5',
             builder: (context, state) => const E5ProjectsScreen(),
