@@ -1,26 +1,62 @@
 import 'package:flutter/material.dart';
 
+/// Delta-mechanic semantic colors — used by every stage-line/progress-bar
+/// widget across Batches A/B/C/D/E to express "already existed, excluded
+/// from math" (skipped) vs "currently being worked on" (inProgress) vs
+/// "finished" (completed) vs "not reached yet" (upcoming).
+class _DeltaTokens {
+  const _DeltaTokens();
+
+  Color get completed => const Color(0xFF16A34A);
+  Color get inProgress => const Color(0xFF1E3A8A);
+  Color get upcoming => const Color(0xFFEEF1F8);
+  Color get skipped => const Color(0xFFC4CCE0);
+}
+
+/// Room-condition texture colors (korobka/suvoq/shpaklovka) — used by
+/// Batch B's texture-choice cards and anywhere the room's baseline state
+/// is displayed.
+class _RoomStateTokens {
+  const _RoomStateTokens();
+
+  Color get korobka => const Color(0xFFE7D9BF);
+  Color get suvoq => const Color(0xFFC9CFDD);
+  Color get shpaklovka => const Color(0xFFF3F4F6);
+}
+
 /// AndozaAI Design Tokens
-/// Central design system for consistent styling across all screens
+/// Central design system for consistent styling across all screens.
+/// Values are sourced from the approved design spec's "Updated design
+/// tokens" section — do not hand-pick replacement values per screen.
 class DesignTokens {
   // Color Palette
   static const Color primaryBlue = Color(0xFF1E3A8A);
   static const Color accentOrange = Color(0xFFF97316);
   static const Color backgroundLight = Color(0xFFF8FAFC);
-  static const Color darkBg = Color(0xFF1A2340);
+  static const Color darkBg = Color(0xFF0B0E13);
   static const Color textGray = Color(0xFF5A6785);
-  static const Color textDark = Color(0xFF1A1A1A);
+  static const Color textDark = Color(0xFF1A2340);
+  static const Color textMuted = Color(0xFF98A2BC);
   static const Color white = Color(0xFFFFFFFF);
   static const Color errorRed = Color(0xFFEF4444);
-  static const Color successGreen = Color(0xFF10B981);
+  static const Color successGreen = Color(0xFF16A34A);
   static const Color warningYellow = Color(0xFFFCD34D);
-  static const Color borderGray = Color(0xFFE2E8F0);
+  static const Color borderGray = Color(0xFFE2E7F2);
+  static const Color borderGrayAlt = Color(0xFFEEF1F8);
+  static const Color primaryTint = Color(0xFFEEF1F8);
+  static const Color existingStateGray = Color(0xFFC4CCE0);
   static const Color dividerGray = Color(0xFFCBD5E1);
   static const Color disabledGray = Color(0xFF94A3B8);
   static const Color shadowGray = Color(0xFF0F172A);
 
+  /// Delta-mechanic semantic colors: `DesignTokens.delta.completed`, etc.
+  static const delta = _DeltaTokens();
+
+  /// Room-condition texture colors: `DesignTokens.roomState.korobka`, etc.
+  static const roomState = _RoomStateTokens();
+
   // Typography
-  static const String fontFamily = 'Poppins';
+  static const String fontFamily = 'Inter';
 
   static const TextStyle heading1 = TextStyle(
     fontFamily: fontFamily,
@@ -94,13 +130,14 @@ class DesignTokens {
     height: 1.5,
   );
 
-  // Spacing
+  // Spacing (screen padding is 20px horizontal per spec)
   static const double spacingXs = 4.0;
   static const double spacingSm = 8.0;
   static const double spacingMd = 16.0;
   static const double spacingLg = 24.0;
   static const double spacingXl = 32.0;
   static const double spacingXxl = 48.0;
+  static const double screenPaddingHorizontal = 20.0;
 
   // Border Radius
   static const double radiusSm = 8.0;
@@ -109,29 +146,68 @@ class DesignTokens {
   static const double radiusXl = 20.0;
   static const double radiusFull = 999.0;
 
-  // Shadow
-  static const BoxShadow shadowSm = BoxShadow(
-    color: Color.fromRGBO(15, 23, 42, 0.08),
-    blurRadius: 4.0,
-    offset: Offset(0, 1),
+  /// Bottom-sheet top corners (24px per spec).
+  static const double radiusSheet = 24.0;
+
+  // Shadows — mapped from the spec's CSS box-shadow syntax
+  // (offsetY, blur, spread, rgba) to Flutter's BoxShadow.
+  /// Card shadow: `0 8px 20px -12px rgba(17,24,39,.16)`
+  static const BoxShadow shadowCard = BoxShadow(
+    color: Color.fromRGBO(17, 24, 39, 0.16),
+    blurRadius: 20.0,
+    spreadRadius: -12.0,
+    offset: Offset(0, 8),
   );
 
-  static const BoxShadow shadowMd = BoxShadow(
-    color: Color.fromRGBO(15, 23, 42, 0.12),
-    blurRadius: 8.0,
-    offset: Offset(0, 2),
+  /// Elevated/hero card shadow: `0 18px 40px -18px rgba(30,64,175,.28)`
+  static const BoxShadow shadowElevated = BoxShadow(
+    color: Color.fromRGBO(30, 64, 175, 0.28),
+    blurRadius: 40.0,
+    spreadRadius: -18.0,
+    offset: Offset(0, 18),
   );
 
-  static const BoxShadow shadowLg = BoxShadow(
-    color: Color.fromRGBO(15, 23, 42, 0.16),
-    blurRadius: 16.0,
-    offset: Offset(0, 4),
+  /// Nav bar top-edge shadow: `0 -10px 26px rgba(17,24,39,.06)`
+  static const BoxShadow shadowNavBar = BoxShadow(
+    color: Color.fromRGBO(17, 24, 39, 0.06),
+    blurRadius: 26.0,
+    offset: Offset(0, -10),
   );
+
+  /// FAB shadow: `0 14px 26px -6px rgba(30,64,175,.6)`
+  static const BoxShadow shadowFab = BoxShadow(
+    color: Color.fromRGBO(30, 64, 175, 0.6),
+    blurRadius: 26.0,
+    spreadRadius: -6.0,
+    offset: Offset(0, 14),
+  );
+
+  /// Primary button shadow: `0 14px 28px -10px rgba(30,64,175,.55)`
+  static const BoxShadow shadowPrimaryButton = BoxShadow(
+    color: Color.fromRGBO(30, 64, 175, 0.55),
+    blurRadius: 28.0,
+    spreadRadius: -10.0,
+    offset: Offset(0, 14),
+  );
+
+  // Legacy shadow names, recomputed to the same spec-accurate values above.
+  static const BoxShadow shadowSm = shadowCard;
+  static const BoxShadow shadowMd = shadowCard;
+  static const BoxShadow shadowLg = shadowElevated;
 
   // Animation Duration
   static const Duration animationFast = Duration(milliseconds: 150);
   static const Duration animationNormal = Duration(milliseconds: 300);
   static const Duration animationSlow = Duration(milliseconds: 500);
+
+  /// Story-circle conic ring rotation (2.5s per spec).
+  static const Duration animationStoryRing = Duration(milliseconds: 2500);
+
+  /// Green wireframe LiDAR scan sweep loop (~2.6s per spec).
+  static const Duration animationScanSweep = Duration(milliseconds: 2600);
+
+  /// 360° capture target-dot pulse (~1.4s per spec).
+  static const Duration animationCapturePulse = Duration(milliseconds: 1400);
 
   // Button Sizes
   static const double buttonHeightLarge = 56.0;
@@ -194,23 +270,9 @@ class DesignTokens {
   static const double radiusRound = radiusFull;
 
   // Shadows (recreate legacy shadows)
-  static final BoxShadow shadowSmall = BoxShadow(
-    color: const Color(0x00000000).withOpacity(0.05),
-    blurRadius: 2,
-    offset: const Offset(0, 1),
-  );
-
-  static final BoxShadow shadowMedium = BoxShadow(
-    color: const Color(0x00000000).withOpacity(0.1),
-    blurRadius: 4,
-    offset: const Offset(0, 2),
-  );
-
-  static final BoxShadow shadowLarge = BoxShadow(
-    color: const Color(0x00000000).withOpacity(0.15),
-    blurRadius: 8,
-    offset: const Offset(0, 4),
-  );
+  static const BoxShadow shadowSmall = shadowCard;
+  static const BoxShadow shadowMedium = shadowCard;
+  static const BoxShadow shadowLarge = shadowElevated;
 }
 
 /// Theme Data for the app
@@ -219,6 +281,7 @@ class AndozaTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.light,
+      fontFamily: DesignTokens.fontFamily,
       scaffoldBackgroundColor: DesignTokens.backgroundLight,
       primaryColor: DesignTokens.primaryBlue,
       colorScheme: ColorScheme.light(
@@ -283,9 +346,14 @@ class AndozaTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-          borderSide: const BorderSide(color: DesignTokens.primaryBlue, width: 2),
+          borderSide: const BorderSide(
+            color: DesignTokens.primaryBlue,
+            width: 2,
+          ),
         ),
-        hintStyle: DesignTokens.body2.copyWith(color: DesignTokens.disabledGray),
+        hintStyle: DesignTokens.body2.copyWith(
+          color: DesignTokens.disabledGray,
+        ),
       ),
       chipTheme: ChipThemeData(
         backgroundColor: DesignTokens.borderGray,
@@ -304,6 +372,7 @@ class AndozaTheme {
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
+      fontFamily: DesignTokens.fontFamily,
       scaffoldBackgroundColor: DesignTokens.darkBg,
       primaryColor: DesignTokens.primaryBlue,
       colorScheme: ColorScheme.dark(
@@ -311,7 +380,7 @@ class AndozaTheme {
         secondary: DesignTokens.accentOrange,
         tertiary: DesignTokens.accentOrange,
         background: DesignTokens.darkBg,
-        surface: const Color(0xFF1E2139),
+        surface: const Color(0xFF1A2230),
         error: DesignTokens.errorRed,
       ),
     );
