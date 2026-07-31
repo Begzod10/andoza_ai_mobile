@@ -28,28 +28,36 @@ Map<String, dynamic> _$$EstimateLineItemImplToJson(
 
 _$EstimateStageImpl _$$EstimateStageImplFromJson(Map<String, dynamic> json) =>
     _$EstimateStageImpl(
-      name: $enumDecode(_$EstimateStageNameEnumMap, json['name']),
+      name: $enumDecode(_$RenovationStageEnumMap, json['name']),
       lineItems:
           (json['lineItems'] as List<dynamic>?)
               ?.map((e) => EstimateLineItem.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const <EstimateLineItem>[],
       subtotal: (json['subtotal'] as num).toDouble(),
+      isExcluded: json['isExcluded'] as bool? ?? false,
+      counterfactualSubtotal:
+          (json['counterfactualSubtotal'] as num?)?.toDouble() ?? 0,
     );
 
 Map<String, dynamic> _$$EstimateStageImplToJson(_$EstimateStageImpl instance) =>
     <String, dynamic>{
-      'name': _$EstimateStageNameEnumMap[instance.name]!,
+      'name': _$RenovationStageEnumMap[instance.name]!,
       'lineItems': instance.lineItems,
       'subtotal': instance.subtotal,
+      'isExcluded': instance.isExcluded,
+      'counterfactualSubtotal': instance.counterfactualSubtotal,
     };
 
-const _$EstimateStageNameEnumMap = {
-  EstimateStageName.floor: 'FLOOR',
-  EstimateStageName.paint: 'PAINT',
-  EstimateStageName.furniture: 'FURNITURE',
-  EstimateStageName.electrical: 'ELECTRICAL',
-  EstimateStageName.mep: 'MEP',
+const _$RenovationStageEnumMap = {
+  RenovationStage.suvoq: 'SUVOQ',
+  RenovationStage.shpaklovka: 'SHPAKLOVKA',
+  RenovationStage.boyoqOboi: 'BOYOQ_OBOI',
+  RenovationStage.pol: 'POL',
+  RenovationStage.mebel: 'MEBEL',
+  RenovationStage.elektr: 'ELEKTR',
+  RenovationStage.yoruglik: 'YORUGLIK',
+  RenovationStage.santexnika: 'SANTEXNIKA',
 };
 
 _$EstimateImpl _$$EstimateImplFromJson(Map<String, dynamic> json) =>

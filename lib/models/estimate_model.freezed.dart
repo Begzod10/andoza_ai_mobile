@@ -272,9 +272,11 @@ EstimateStage _$EstimateStageFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$EstimateStage {
-  EstimateStageName get name => throw _privateConstructorUsedError;
+  RenovationStage get name => throw _privateConstructorUsedError;
   List<EstimateLineItem> get lineItems => throw _privateConstructorUsedError;
   double get subtotal => throw _privateConstructorUsedError;
+  bool get isExcluded => throw _privateConstructorUsedError;
+  double get counterfactualSubtotal => throw _privateConstructorUsedError;
 
   /// Serializes this EstimateStage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -294,9 +296,11 @@ abstract class $EstimateStageCopyWith<$Res> {
   ) = _$EstimateStageCopyWithImpl<$Res, EstimateStage>;
   @useResult
   $Res call({
-    EstimateStageName name,
+    RenovationStage name,
     List<EstimateLineItem> lineItems,
     double subtotal,
+    bool isExcluded,
+    double counterfactualSubtotal,
   });
 }
 
@@ -318,13 +322,15 @@ class _$EstimateStageCopyWithImpl<$Res, $Val extends EstimateStage>
     Object? name = null,
     Object? lineItems = null,
     Object? subtotal = null,
+    Object? isExcluded = null,
+    Object? counterfactualSubtotal = null,
   }) {
     return _then(
       _value.copyWith(
             name: null == name
                 ? _value.name
                 : name // ignore: cast_nullable_to_non_nullable
-                      as EstimateStageName,
+                      as RenovationStage,
             lineItems: null == lineItems
                 ? _value.lineItems
                 : lineItems // ignore: cast_nullable_to_non_nullable
@@ -332,6 +338,14 @@ class _$EstimateStageCopyWithImpl<$Res, $Val extends EstimateStage>
             subtotal: null == subtotal
                 ? _value.subtotal
                 : subtotal // ignore: cast_nullable_to_non_nullable
+                      as double,
+            isExcluded: null == isExcluded
+                ? _value.isExcluded
+                : isExcluded // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            counterfactualSubtotal: null == counterfactualSubtotal
+                ? _value.counterfactualSubtotal
+                : counterfactualSubtotal // ignore: cast_nullable_to_non_nullable
                       as double,
           )
           as $Val,
@@ -349,9 +363,11 @@ abstract class _$$EstimateStageImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    EstimateStageName name,
+    RenovationStage name,
     List<EstimateLineItem> lineItems,
     double subtotal,
+    bool isExcluded,
+    double counterfactualSubtotal,
   });
 }
 
@@ -372,13 +388,15 @@ class __$$EstimateStageImplCopyWithImpl<$Res>
     Object? name = null,
     Object? lineItems = null,
     Object? subtotal = null,
+    Object? isExcluded = null,
+    Object? counterfactualSubtotal = null,
   }) {
     return _then(
       _$EstimateStageImpl(
         name: null == name
             ? _value.name
             : name // ignore: cast_nullable_to_non_nullable
-                  as EstimateStageName,
+                  as RenovationStage,
         lineItems: null == lineItems
             ? _value._lineItems
             : lineItems // ignore: cast_nullable_to_non_nullable
@@ -386,6 +404,14 @@ class __$$EstimateStageImplCopyWithImpl<$Res>
         subtotal: null == subtotal
             ? _value.subtotal
             : subtotal // ignore: cast_nullable_to_non_nullable
+                  as double,
+        isExcluded: null == isExcluded
+            ? _value.isExcluded
+            : isExcluded // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        counterfactualSubtotal: null == counterfactualSubtotal
+            ? _value.counterfactualSubtotal
+            : counterfactualSubtotal // ignore: cast_nullable_to_non_nullable
                   as double,
       ),
     );
@@ -399,13 +425,15 @@ class _$EstimateStageImpl implements _EstimateStage {
     required this.name,
     final List<EstimateLineItem> lineItems = const <EstimateLineItem>[],
     required this.subtotal,
+    this.isExcluded = false,
+    this.counterfactualSubtotal = 0,
   }) : _lineItems = lineItems;
 
   factory _$EstimateStageImpl.fromJson(Map<String, dynamic> json) =>
       _$$EstimateStageImplFromJson(json);
 
   @override
-  final EstimateStageName name;
+  final RenovationStage name;
   final List<EstimateLineItem> _lineItems;
   @override
   @JsonKey()
@@ -417,10 +445,16 @@ class _$EstimateStageImpl implements _EstimateStage {
 
   @override
   final double subtotal;
+  @override
+  @JsonKey()
+  final bool isExcluded;
+  @override
+  @JsonKey()
+  final double counterfactualSubtotal;
 
   @override
   String toString() {
-    return 'EstimateStage(name: $name, lineItems: $lineItems, subtotal: $subtotal)';
+    return 'EstimateStage(name: $name, lineItems: $lineItems, subtotal: $subtotal, isExcluded: $isExcluded, counterfactualSubtotal: $counterfactualSubtotal)';
   }
 
   @override
@@ -434,7 +468,11 @@ class _$EstimateStageImpl implements _EstimateStage {
               _lineItems,
             ) &&
             (identical(other.subtotal, subtotal) ||
-                other.subtotal == subtotal));
+                other.subtotal == subtotal) &&
+            (identical(other.isExcluded, isExcluded) ||
+                other.isExcluded == isExcluded) &&
+            (identical(other.counterfactualSubtotal, counterfactualSubtotal) ||
+                other.counterfactualSubtotal == counterfactualSubtotal));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -444,6 +482,8 @@ class _$EstimateStageImpl implements _EstimateStage {
     name,
     const DeepCollectionEquality().hash(_lineItems),
     subtotal,
+    isExcluded,
+    counterfactualSubtotal,
   );
 
   /// Create a copy of EstimateStage
@@ -462,20 +502,26 @@ class _$EstimateStageImpl implements _EstimateStage {
 
 abstract class _EstimateStage implements EstimateStage {
   const factory _EstimateStage({
-    required final EstimateStageName name,
+    required final RenovationStage name,
     final List<EstimateLineItem> lineItems,
     required final double subtotal,
+    final bool isExcluded,
+    final double counterfactualSubtotal,
   }) = _$EstimateStageImpl;
 
   factory _EstimateStage.fromJson(Map<String, dynamic> json) =
       _$EstimateStageImpl.fromJson;
 
   @override
-  EstimateStageName get name;
+  RenovationStage get name;
   @override
   List<EstimateLineItem> get lineItems;
   @override
   double get subtotal;
+  @override
+  bool get isExcluded;
+  @override
+  double get counterfactualSubtotal;
 
   /// Create a copy of EstimateStage
   /// with the given fields replaced by the non-null parameter values.

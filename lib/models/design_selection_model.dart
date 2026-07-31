@@ -30,6 +30,74 @@ class RoomCondition with _$RoomCondition {
       _$RoomConditionFromJson(json);
 }
 
+/// Canonical 8-stage renovation timeline. Index order is load-bearing:
+/// Mebel (furniture) always comes before Elektr, per the product's hard
+/// rule that electrical is placed last, since socket/switch positions
+/// depend on where furniture ends up.
+enum RenovationStage {
+  @JsonValue('SUVOQ')
+  suvoq,
+  @JsonValue('SHPAKLOVKA')
+  shpaklovka,
+  @JsonValue('BOYOQ_OBOI')
+  boyoqOboi,
+  @JsonValue('POL')
+  pol,
+  @JsonValue('MEBEL')
+  mebel,
+  @JsonValue('ELEKTR')
+  elektr,
+  @JsonValue('YORUGLIK')
+  yoruglik,
+  @JsonValue('SANTEXNIKA')
+  santexnika,
+}
+
+/// How a single [RenovationStage] should render in any stage-line or
+/// progress-bar UI. [excluded] stages were already done before the app
+/// started and are never priced — this is the delta mechanic. The other
+/// three describe stages actually tracked through the app.
+enum StageDisplayState { excluded, completed, inProgress, upcoming }
+
+/// Derives the display state of every [RenovationStage] from the room's
+/// starting [condition] and how far the user has progressed
+/// ([currentStage]). Stages already satisfied by the room's pre-existing
+/// condition are [StageDisplayState.excluded] regardless of [currentStage]
+/// and must never be priced by any consumer of this function.
+List<StageDisplayState> deriveStageStates({
+  required RoomCondition condition,
+  required RenovationStage currentStage,
+}) {
+  final excluded = _excludedStages(condition);
+  return RenovationStage.values.map((stage) {
+    if (excluded.contains(stage)) return StageDisplayState.excluded;
+    if (stage.index < currentStage.index) return StageDisplayState.completed;
+    if (stage.index == currentStage.index) return StageDisplayState.inProgress;
+    return StageDisplayState.upcoming;
+  }).toList();
+}
+
+/// Wall-finish progression is linear — shpaklovka implies suvoq is already
+/// done too. Floor is independent: an existing covering excludes only the
+/// Pol stage. Furniture/electrical/lighting/plumbing (Mebel, Elektr,
+/// Yorug'lik, Santexnika) have no pre-existing baseline in the spec — they
+/// are always counted, never excluded.
+Set<RenovationStage> _excludedStages(RoomCondition condition) {
+  final excluded = <RenovationStage>{};
+  switch (condition.wall) {
+    case SurfaceCondition.puttied:
+      excluded.addAll([RenovationStage.suvoq, RenovationStage.shpaklovka]);
+    case SurfaceCondition.plastered:
+      excluded.add(RenovationStage.suvoq);
+    case SurfaceCondition.raw:
+      break;
+  }
+  if (condition.floor == SurfaceCondition.puttied) {
+    excluded.add(RenovationStage.pol);
+  }
+  return excluded;
+}
+
 /// A single furniture item placed in a room with position, rotation, and color.
 @freezed
 class FurniturePlacement with _$FurniturePlacement {
@@ -100,6 +168,7 @@ class DesignSelection with _$DesignSelection {
     Map<String, MaterialSelection> selections,
     RoomCondition? roomCondition,
     @Default(<FurniturePlacement>[]) List<FurniturePlacement> furniture,
+    @Default(RenovationStage.suvoq) RenovationStage renovationStage,
   }) = _DesignSelection;
 
   factory DesignSelection.fromJson(Map<String, dynamic> json) =>

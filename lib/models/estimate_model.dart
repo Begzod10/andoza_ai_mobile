@@ -1,21 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'design_selection_model.dart' show RenovationStage;
+
 part 'estimate_model.freezed.dart';
 part 'estimate_model.g.dart';
-
-/// Named phase of work an [EstimateStage] contributes pricing for.
-enum EstimateStageName {
-  @JsonValue('FLOOR')
-  floor,
-  @JsonValue('PAINT')
-  paint,
-  @JsonValue('FURNITURE')
-  furniture,
-  @JsonValue('ELECTRICAL')
-  electrical,
-  @JsonValue('MEP')
-  mep,
-}
 
 /// A single priced line within an [EstimateStage] (e.g. one material or
 /// labor item).
@@ -33,14 +21,24 @@ class EstimateLineItem with _$EstimateLineItem {
       _$EstimateLineItemFromJson(json);
 }
 
-/// A group of priced [EstimateLineItem]s belonging to one phase of work
-/// (floor, paint, furniture, electrical or MEP).
+/// A group of priced [EstimateLineItem]s belonging to one of the 8 canonical
+/// [RenovationStage]s.
+///
+/// [subtotal] is the real delta price the user is actually charged — it is
+/// `0` whenever [isExcluded] is `true` (the room already had this stage's
+/// work done before the app started, per the delta mechanic). [counterfactualSubtotal]
+/// holds what this stage *would* have cost starting from zero, and is what
+/// powers E1's green "tejaldingiz" (you saved) banner — it must be
+/// populated even when [isExcluded] is `true`, since the savings banner
+/// needs both figures simultaneously.
 @freezed
 class EstimateStage with _$EstimateStage {
   const factory EstimateStage({
-    required EstimateStageName name,
+    required RenovationStage name,
     @Default(<EstimateLineItem>[]) List<EstimateLineItem> lineItems,
     required double subtotal,
+    @Default(false) bool isExcluded,
+    @Default(0) double counterfactualSubtotal,
   }) = _EstimateStage;
 
   factory EstimateStage.fromJson(Map<String, dynamic> json) =>

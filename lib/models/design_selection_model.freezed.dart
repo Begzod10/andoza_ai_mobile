@@ -757,6 +757,7 @@ mixin _$DesignSelection {
       throw _privateConstructorUsedError;
   RoomCondition? get roomCondition => throw _privateConstructorUsedError;
   List<FurniturePlacement> get furniture => throw _privateConstructorUsedError;
+  RenovationStage get renovationStage => throw _privateConstructorUsedError;
 
   /// Serializes this DesignSelection to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -782,6 +783,7 @@ abstract class $DesignSelectionCopyWith<$Res> {
     Map<String, MaterialSelection> selections,
     RoomCondition? roomCondition,
     List<FurniturePlacement> furniture,
+    RenovationStage renovationStage,
   });
 
   $RoomConditionCopyWith<$Res>? get roomCondition;
@@ -808,6 +810,7 @@ class _$DesignSelectionCopyWithImpl<$Res, $Val extends DesignSelection>
     Object? selections = null,
     Object? roomCondition = freezed,
     Object? furniture = null,
+    Object? renovationStage = null,
   }) {
     return _then(
       _value.copyWith(
@@ -835,6 +838,10 @@ class _$DesignSelectionCopyWithImpl<$Res, $Val extends DesignSelection>
                 ? _value.furniture
                 : furniture // ignore: cast_nullable_to_non_nullable
                       as List<FurniturePlacement>,
+            renovationStage: null == renovationStage
+                ? _value.renovationStage
+                : renovationStage // ignore: cast_nullable_to_non_nullable
+                      as RenovationStage,
           )
           as $Val,
     );
@@ -871,6 +878,7 @@ abstract class _$$DesignSelectionImplCopyWith<$Res>
     Map<String, MaterialSelection> selections,
     RoomCondition? roomCondition,
     List<FurniturePlacement> furniture,
+    RenovationStage renovationStage,
   });
 
   @override
@@ -897,6 +905,7 @@ class __$$DesignSelectionImplCopyWithImpl<$Res>
     Object? selections = null,
     Object? roomCondition = freezed,
     Object? furniture = null,
+    Object? renovationStage = null,
   }) {
     return _then(
       _$DesignSelectionImpl(
@@ -924,6 +933,10 @@ class __$$DesignSelectionImplCopyWithImpl<$Res>
             ? _value._furniture
             : furniture // ignore: cast_nullable_to_non_nullable
                   as List<FurniturePlacement>,
+        renovationStage: null == renovationStage
+            ? _value.renovationStage
+            : renovationStage // ignore: cast_nullable_to_non_nullable
+                  as RenovationStage,
       ),
     );
   }
@@ -940,6 +953,7 @@ class _$DesignSelectionImpl implements _DesignSelection {
         const <String, MaterialSelection>{},
     this.roomCondition,
     final List<FurniturePlacement> furniture = const <FurniturePlacement>[],
+    this.renovationStage = RenovationStage.suvoq,
   }) : _selections = selections,
        _furniture = furniture;
 
@@ -973,8 +987,12 @@ class _$DesignSelectionImpl implements _DesignSelection {
   }
 
   @override
+  @JsonKey()
+  final RenovationStage renovationStage;
+
+  @override
   String toString() {
-    return 'DesignSelection(id: $id, roomId: $roomId, stage: $stage, selections: $selections, roomCondition: $roomCondition, furniture: $furniture)';
+    return 'DesignSelection(id: $id, roomId: $roomId, stage: $stage, selections: $selections, roomCondition: $roomCondition, furniture: $furniture, renovationStage: $renovationStage)';
   }
 
   @override
@@ -994,7 +1012,9 @@ class _$DesignSelectionImpl implements _DesignSelection {
             const DeepCollectionEquality().equals(
               other._furniture,
               _furniture,
-            ));
+            ) &&
+            (identical(other.renovationStage, renovationStage) ||
+                other.renovationStage == renovationStage));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1007,6 +1027,7 @@ class _$DesignSelectionImpl implements _DesignSelection {
     const DeepCollectionEquality().hash(_selections),
     roomCondition,
     const DeepCollectionEquality().hash(_furniture),
+    renovationStage,
   );
 
   /// Create a copy of DesignSelection
@@ -1034,6 +1055,7 @@ abstract class _DesignSelection implements DesignSelection {
     final Map<String, MaterialSelection> selections,
     final RoomCondition? roomCondition,
     final List<FurniturePlacement> furniture,
+    final RenovationStage renovationStage,
   }) = _$DesignSelectionImpl;
 
   factory _DesignSelection.fromJson(Map<String, dynamic> json) =
@@ -1051,6 +1073,8 @@ abstract class _DesignSelection implements DesignSelection {
   RoomCondition? get roomCondition;
   @override
   List<FurniturePlacement> get furniture;
+  @override
+  RenovationStage get renovationStage;
 
   /// Create a copy of DesignSelection
   /// with the given fields replaced by the non-null parameter values.

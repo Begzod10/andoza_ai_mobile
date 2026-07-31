@@ -129,9 +129,7 @@ class ActiveDesignNotifier extends StateNotifier<DesignSelection?> {
 
     try {
       final updated = state!.copyWith(
-        furniture: state!.furniture
-            .where((f) => f.id != furnitureId)
-            .toList(),
+        furniture: state!.furniture.where((f) => f.id != furnitureId).toList(),
       );
       state = updated;
       await _repository.update(updated);
@@ -165,6 +163,28 @@ class ActiveDesignNotifier extends StateNotifier<DesignSelection?> {
         state = updated;
         await _repository.update(updated);
       }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  /// Advance to the next canonical renovation stage (Suvoq → ... → Santexnika).
+  /// This is the precise 8-stage tracker consumed by every delta-aware
+  /// stage-line/progress-bar widget — separate from the coarser [DesignStage]
+  /// workflow field above, which only tracks floor/paint/furniture/completed.
+  Future<void> advanceRenovationStage() async {
+    if (state == null) return;
+
+    final current = state!.renovationStage;
+    final next = current.index < RenovationStage.values.length - 1
+        ? RenovationStage.values[current.index + 1]
+        : current;
+    if (next == current) return;
+
+    try {
+      final updated = state!.copyWith(renovationStage: next);
+      state = updated;
+      await _repository.update(updated);
     } catch (e) {
       rethrow;
     }
@@ -218,8 +238,8 @@ class ActiveDesignNotifier extends StateNotifier<DesignSelection?> {
 /// Provider for the active design selection
 final activeDesignProvider =
     StateNotifierProvider<ActiveDesignNotifier, DesignSelection?>((ref) {
-  return ActiveDesignNotifier(ref.watch(designRepositoryProvider));
-});
+      return ActiveDesignNotifier(ref.watch(designRepositoryProvider));
+    });
 
 /// Computed provider: is a design currently active?
 final hasActiveDesignProvider = Provider<bool>((ref) {
@@ -242,4 +262,20 @@ final materialSelectionsCountProvider = Provider<int>((ref) {
 final furnitureCountProvider = Provider<int>((ref) {
   final design = ref.watch(activeDesignProvider);
   return design?.furniture.length ?? 0;
+});
+
+/// Computed provider: the delta-mechanic display state of every one of the
+/// 8 canonical [RenovationStage]s for the active design, in stage order.
+/// Returns `null` when there's no active design or its baseline
+/// [RoomCondition] hasn't been set yet (Batch B not completed) — consumers
+/// must handle that case rather than assume a default condition.
+final renovationStageStatesProvider = Provider<List<StageDisplayState>?>((ref) {
+  final design = ref.watch(activeDesignProvider);
+  final condition = design?.roomCondition;
+  if (design == null || condition == null) return null;
+
+  return deriveStageStates(
+    condition: condition,
+    currentStage: design.renovationStage,
+  );
 });

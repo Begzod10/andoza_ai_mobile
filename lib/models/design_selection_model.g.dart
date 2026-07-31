@@ -98,6 +98,9 @@ _$DesignSelectionImpl _$$DesignSelectionImplFromJson(
           ?.map((e) => FurniturePlacement.fromJson(e as Map<String, dynamic>))
           .toList() ??
       const <FurniturePlacement>[],
+  renovationStage:
+      $enumDecodeNullable(_$RenovationStageEnumMap, json['renovationStage']) ??
+      RenovationStage.suvoq,
 );
 
 Map<String, dynamic> _$$DesignSelectionImplToJson(
@@ -109,6 +112,7 @@ Map<String, dynamic> _$$DesignSelectionImplToJson(
   'selections': instance.selections,
   'roomCondition': instance.roomCondition,
   'furniture': instance.furniture,
+  'renovationStage': _$RenovationStageEnumMap[instance.renovationStage]!,
 };
 
 const _$DesignStageEnumMap = {
@@ -116,4 +120,15 @@ const _$DesignStageEnumMap = {
   DesignStage.paint: 'PAINT',
   DesignStage.furniture: 'FURNITURE',
   DesignStage.completed: 'COMPLETED',
+};
+
+const _$RenovationStageEnumMap = {
+  RenovationStage.suvoq: 'SUVOQ',
+  RenovationStage.shpaklovka: 'SHPAKLOVKA',
+  RenovationStage.boyoqOboi: 'BOYOQ_OBOI',
+  RenovationStage.pol: 'POL',
+  RenovationStage.mebel: 'MEBEL',
+  RenovationStage.elektr: 'ELEKTR',
+  RenovationStage.yoruglik: 'YORUGLIK',
+  RenovationStage.santexnika: 'SANTEXNIKA',
 };
