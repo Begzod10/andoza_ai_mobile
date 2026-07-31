@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:latlong2/latlong.dart';
 import '../../config/design_tokens.dart';
+import '../../providers/masters_provider.dart';
 
-/// U1: Masters/Contractors Search & Discovery
-/// Browse and search for available contractors by specialty
+/// U1: Ustalar map view — craftsman pins color-coded by trade, search,
+/// profession filter chips, map/list toggle. Privacy rule: pins show
+/// approximate area only (no exact address) — enforced by only ever
+/// rendering [MockMaster.areaName] + distance, never a street address.
 class U1MastersIntroScreen extends ConsumerStatefulWidget {
   const U1MastersIntroScreen({super.key});
 
@@ -14,280 +19,268 @@ class U1MastersIntroScreen extends ConsumerStatefulWidget {
 }
 
 class _U1MastersIntroScreenState extends ConsumerState<U1MastersIntroScreen> {
-  String _searchQuery = '';
-  String _selectedFilter = 'all';
+  Trade? _filter;
+  String _query = '';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Find Contractors'),
-        automaticallyImplyLeading: false,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Search bar
-            Padding(
-              padding: const EdgeInsets.all(DesignTokens.spacing16),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search contractors...',
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: DesignTokens.spacing12,
-                    vertical: DesignTokens.spacing12,
-                  ),
-                ),
-                onChanged: (value) => setState(() => _searchQuery = value),
-              ),
-            ),
+    final masters = ref.watch(mockMastersProvider).where((m) {
+      if (_filter != null && m.trade != _filter) return false;
+      if (_query.isNotEmpty &&
+          !m.master.name.toLowerCase().contains(_query.toLowerCase())) {
+        return false;
+      }
+      return true;
+    }).toList();
 
-            // Filter chips
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: DesignTokens.spacing16,
+    return Scaffold(
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: FlutterMap(
+              options: const MapOptions(
+                initialCenter: LatLng(41.2995, 69.2401),
+                initialZoom: 12,
               ),
-              child: Text(
-                'Filter by Specialty',
-                style: DesignTokens.subtitle2.copyWith(
-                  color: DesignTokens.text,
+              children: [
+                TileLayer(
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  userAgentPackageName: 'com.tamir_uy.tamir_uy_mobile_flutter',
                 ),
-              ),
-            ),
-            const SizedBox(height: DesignTokens.spacing12),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: DesignTokens.spacing16,
-              ),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    _FilterChip(
-                      label: 'All',
-                      isSelected: _selectedFilter == 'all',
-                      onTap: () => setState(() => _selectedFilter = 'all'),
-                    ),
-                    const SizedBox(width: DesignTokens.spacing8),
-                    _FilterChip(
-                      label: 'Flooring',
-                      isSelected: _selectedFilter == 'flooring',
-                      onTap: () => setState(() => _selectedFilter = 'flooring'),
-                    ),
-                    const SizedBox(width: DesignTokens.spacing8),
-                    _FilterChip(
-                      label: 'Electrical',
-                      isSelected: _selectedFilter == 'electrical',
-                      onTap: () =>
-                          setState(() => _selectedFilter = 'electrical'),
-                    ),
-                    const SizedBox(width: DesignTokens.spacing8),
-                    _FilterChip(
-                      label: 'Plumbing',
-                      isSelected: _selectedFilter == 'plumbing',
-                      onTap: () => setState(() => _selectedFilter = 'plumbing'),
-                    ),
+                MarkerLayer(
+                  markers: [
+                    for (final m in masters)
+                      Marker(
+                        point: LatLng(m.master.latitude!, m.master.longitude!),
+                        width: 44,
+                        height: 44,
+                        child: GestureDetector(
+                          onTap: () => _showPinSheet(context, m),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Color(m.trade.colorValue),
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: DesignTokens.white,
+                                width: 2,
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                m.trade.emoji,
+                                style: const TextStyle(fontSize: 18),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                   ],
                 ),
-              ),
+              ],
             ),
-            const SizedBox(height: DesignTokens.spacing24),
-
-            // Contractors list
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: DesignTokens.spacing16,
-              ),
-              child: Text(
-                'Available Contractors (12)',
-                style: DesignTokens.subtitle1.copyWith(
-                  color: DesignTokens.text,
-                ),
-              ),
-            ),
-            const SizedBox(height: DesignTokens.spacing12),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: DesignTokens.spacing16,
-              ),
+          ),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(DesignTokens.spacingMd),
               child: Column(
                 children: [
-                  _ContractorCard(
-                    name: 'Alisher Karimov',
-                    specialty: 'Flooring & Tiles',
-                    rating: 4.9,
-                    reviewCount: 48,
-                    price: '50,000-80,000',
-                    onTap: () => context.go('/masters/u2'),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: DesignTokens.spacingMd,
+                    ),
+                    decoration: BoxDecoration(
+                      color: DesignTokens.white,
+                      borderRadius: BorderRadius.circular(
+                        DesignTokens.radiusFull,
+                      ),
+                      boxShadow: [DesignTokens.shadowCard],
+                    ),
+                    child: TextField(
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Qanday usta kerak?',
+                        prefixIcon: Icon(Icons.search),
+                      ),
+                      onChanged: (value) => setState(() => _query = value),
+                    ),
                   ),
-                  const SizedBox(height: DesignTokens.spacing12),
-                  _ContractorCard(
-                    name: 'Rashid Abdullaev',
-                    specialty: 'Electrical Systems',
-                    rating: 4.8,
-                    reviewCount: 35,
-                    price: '40,000-70,000',
-                    onTap: () => context.go('/masters/u2'),
-                  ),
-                  const SizedBox(height: DesignTokens.spacing12),
-                  _ContractorCard(
-                    name: 'Dilshod Usmonov',
-                    specialty: 'Painting & Finishing',
-                    rating: 4.7,
-                    reviewCount: 52,
-                    price: '30,000-50,000',
-                    onTap: () => context.go('/masters/u2'),
-                  ),
-                  const SizedBox(height: DesignTokens.spacing12),
-                  _ContractorCard(
-                    name: 'Mirza Rakhimov',
-                    specialty: 'General Renovation',
-                    rating: 4.6,
-                    reviewCount: 41,
-                    price: '60,000-100,000',
-                    onTap: () => context.go('/masters/u2'),
+                  const SizedBox(height: DesignTokens.spacingSm),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        _TradeChip(
+                          label: 'Barchasi',
+                          selected: _filter == null,
+                          onTap: () => setState(() => _filter = null),
+                        ),
+                        for (final trade in Trade.values)
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: DesignTokens.spacingSm,
+                            ),
+                            child: _TradeChip(
+                              label: '${trade.emoji} ${trade.label}',
+                              selected: _filter == trade,
+                              onTap: () => setState(() => _filter = trade),
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: DesignTokens.spacing32),
-          ],
-        ),
+          ),
+          Positioned(
+            right: DesignTokens.spacingMd,
+            top: 140,
+            child: SafeArea(
+              child: FloatingActionButton.small(
+                onPressed: () => context.push('/masters/u3'),
+                backgroundColor: DesignTokens.white,
+                child: const Icon(
+                  Icons.view_list,
+                  color: DesignTokens.primaryBlue,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
+    );
+  }
+
+  void _showPinSheet(BuildContext context, MockMaster m) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (_) => _PinSheet(master: m),
     );
   }
 }
 
-class _FilterChip extends StatelessWidget {
-  const _FilterChip({
+class _TradeChip extends StatelessWidget {
+  const _TradeChip({
     required this.label,
-    required this.isSelected,
+    required this.selected,
     required this.onTap,
   });
 
   final String label;
-  final bool isSelected;
+  final bool selected;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return FilterChip(
+    return ChoiceChip(
       label: Text(label),
-      selected: isSelected,
+      selected: selected,
       onSelected: (_) => onTap(),
-      backgroundColor: DesignTokens.surface,
-      selectedColor: DesignTokens.primaryBlue.withValues(alpha: 0.2),
-      side: BorderSide(
-        color: isSelected ? DesignTokens.primaryBlue : DesignTokens.border,
+      backgroundColor: DesignTokens.white,
+      selectedColor: DesignTokens.primaryBlue,
+      labelStyle: DesignTokens.caption.copyWith(
+        color: selected ? DesignTokens.white : DesignTokens.textDark,
       ),
     );
   }
 }
 
-class _ContractorCard extends StatelessWidget {
-  const _ContractorCard({
-    required this.name,
-    required this.specialty,
-    required this.rating,
-    required this.reviewCount,
-    required this.price,
-    required this.onTap,
-  });
+/// U2: selected-pin bottom sheet.
+class _PinSheet extends StatelessWidget {
+  const _PinSheet({required this.master});
 
-  final String name;
-  final String specialty;
-  final double rating;
-  final int reviewCount;
-  final String price;
-  final VoidCallback onTap;
+  final MockMaster master;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(DesignTokens.spacing12),
-        decoration: BoxDecoration(
-          border: Border.all(color: DesignTokens.border),
-          borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: DesignTokens.primaryBlue.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-                  ),
-                  child: Icon(
-                    Icons.person,
-                    color: DesignTokens.primaryBlue,
-                    size: 32,
-                  ),
-                ),
-                const SizedBox(width: DesignTokens.spacing12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        name,
-                        style: DesignTokens.subtitle2.copyWith(
-                          color: DesignTokens.text,
-                        ),
-                      ),
-                      const SizedBox(height: DesignTokens.spacing4),
-                      Text(
-                        specialty,
-                        style: DesignTokens.caption.copyWith(
-                          color: DesignTokens.textSecondary,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: DesignTokens.spacing12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Icon(
-                      Icons.star_outlined,
-                      size: 16,
-                      color: DesignTokens.accentOrange,
+    return Padding(
+      padding: const EdgeInsets.all(DesignTokens.spacingLg),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Stack(
+                children: [
+                  CircleAvatar(
+                    radius: 28,
+                    backgroundColor: Color(master.trade.colorValue),
+                    child: Text(
+                      master.master.name[0],
+                      style: const TextStyle(color: Colors.white, fontSize: 20),
                     ),
-                    const SizedBox(width: DesignTokens.spacing4),
-                    Text(
-                      '$rating ($reviewCount)',
-                      style: DesignTokens.caption.copyWith(
-                        color: DesignTokens.textSecondary,
+                  ),
+                  if (master.isOnline)
+                    Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        width: 14,
+                        height: 14,
+                        decoration: BoxDecoration(
+                          color: DesignTokens.successGreen,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: DesignTokens.white,
+                            width: 2,
+                          ),
+                        ),
                       ),
+                    ),
+                ],
+              ),
+              const SizedBox(width: DesignTokens.spacingMd),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(master.master.name, style: DesignTokens.subtitle1),
+                    Text(
+                      '${master.trade.emoji} ${master.trade.label}',
+                      style: DesignTokens.body2,
                     ),
                   ],
                 ),
-                Text(
-                  price,
-                  style: DesignTokens.subtitle2.copyWith(
-                    color: DesignTokens.primaryBlue,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+              ),
+            ],
+          ),
+          const SizedBox(height: DesignTokens.spacingMd),
+          Row(
+            children: [
+              const Icon(
+                Icons.star,
+                color: DesignTokens.accentOrange,
+                size: 16,
+              ),
+              Text(
+                ' ${master.master.rating} (${master.master.reviewCount} sharh)',
+                style: DesignTokens.caption,
+              ),
+              const SizedBox(width: DesignTokens.spacingMd),
+              const Icon(
+                Icons.location_on_outlined,
+                size: 16,
+                color: DesignTokens.textGray,
+              ),
+              Text(
+                ' ${master.areaName} · ~${master.master.distanceKm} km',
+                style: DesignTokens.caption,
+              ),
+            ],
+          ),
+          const SizedBox(height: DesignTokens.spacingLg),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                context.push('/masters/u4', extra: master);
+              },
+              child: const Text('Profilni ko\'rish'),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

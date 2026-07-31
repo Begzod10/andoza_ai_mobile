@@ -1,240 +1,200 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:latlong2/latlong.dart';
 import '../../config/design_tokens.dart';
+import '../../providers/masters_provider.dart';
 
-/// U4: Review & Rating
-/// Rate contractor and leave feedback after completed work
-class U4ReviewRatingScreen extends ConsumerStatefulWidget {
-  const U4ReviewRatingScreen({super.key});
+/// U4: full craftsman profile — stat cards, portfolio, services, a
+/// location mini-map showing only the approximate zone (never an exact
+/// address, per spec's privacy rule), and reviews. Footer:
+/// "Smetani yuborish" (primary).
+class U4ReviewRatingScreen extends ConsumerWidget {
+  const U4ReviewRatingScreen({this.master, super.key});
 
-  @override
-  ConsumerState<U4ReviewRatingScreen> createState() =>
-      _U4ReviewRatingScreenState();
-}
-
-class _U4ReviewRatingScreenState extends ConsumerState<U4ReviewRatingScreen> {
-  int _rating = 0;
-  final _reviewController = TextEditingController();
-  bool _isSubmitting = false;
+  final MockMaster? master;
 
   @override
-  void dispose() {
-    _reviewController.dispose();
-    super.dispose();
-  }
+  Widget build(BuildContext context, WidgetRef ref) {
+    final m = master ?? ref.watch(mockMastersProvider).first;
 
-  Future<void> _submitReview() async {
-    setState(() => _isSubmitting = true);
-    await Future.delayed(const Duration(milliseconds: 500));
-    if (mounted) {
-      context.go('/');
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Review Contractor'),
-        automaticallyImplyLeading: true,
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(DesignTokens.spacing16),
+      backgroundColor: DesignTokens.backgroundLight,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Contractor info
               Center(
-                child: Container(
-                  padding: const EdgeInsets.all(DesignTokens.spacing16),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: DesignTokens.border),
-                    borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      radius: 44,
+                      backgroundColor: Color(m.trade.colorValue),
+                      child: Text(
+                        m.master.name[0],
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 32,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: DesignTokens.spacingMd),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          '${m.trade.emoji} ${m.trade.label}',
+                          style: DesignTokens.subtitle1,
+                        ),
+                        if (m.isVerified) ...[
+                          const SizedBox(width: DesignTokens.spacingXs),
+                          const Icon(
+                            Icons.verified,
+                            color: DesignTokens.primaryBlue,
+                            size: 18,
+                          ),
+                        ],
+                      ],
+                    ),
+                    Text(m.master.name, style: DesignTokens.heading3),
+                    if (m.isVerified)
+                      Text(
+                        '✓ Tasdiqlangan',
+                        style: DesignTokens.caption.copyWith(
+                          color: DesignTokens.successGreen,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: DesignTokens.spacingLg),
+              Row(
+                children: [
+                  Expanded(
+                    child: _StatCard(
+                      value: '${m.master.rating}',
+                      label: 'reyting',
+                    ),
                   ),
-                  child: Column(
+                  const SizedBox(width: DesignTokens.spacingSm),
+                  Expanded(
+                    child: _StatCard(
+                      value: '${m.master.reviewCount}',
+                      label: 'sharh',
+                    ),
+                  ),
+                  const SizedBox(width: DesignTokens.spacingSm),
+                  Expanded(
+                    child: _StatCard(
+                      value: '${m.experienceYears * 40}',
+                      label: 'ishlar',
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: DesignTokens.spacingLg),
+              Text('Portfolio', style: DesignTokens.subtitle1),
+              const SizedBox(height: DesignTokens.spacingSm),
+              SizedBox(
+                height: 90,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 6,
+                  separatorBuilder: (_, _) =>
+                      const SizedBox(width: DesignTokens.spacingSm),
+                  itemBuilder: (_, _) => Container(
+                    width: 90,
+                    decoration: BoxDecoration(
+                      color: DesignTokens.borderGrayAlt,
+                      borderRadius: BorderRadius.circular(
+                        DesignTokens.radiusMd,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: DesignTokens.spacingLg),
+              Text('Xizmatlar', style: DesignTokens.subtitle1),
+              const SizedBox(height: DesignTokens.spacingSm),
+              _ServiceRow(label: '${m.trade.label} ishlari'),
+              const _ServiceRow(label: 'Konsultatsiya'),
+              const SizedBox(height: DesignTokens.spacingLg),
+              Text('Joylashuv', style: DesignTokens.subtitle1),
+              const SizedBox(height: DesignTokens.spacingXs),
+              Text(
+                '${m.areaName} · ~${m.master.distanceKm} km',
+                style: DesignTokens.caption.copyWith(
+                  color: DesignTokens.textGray,
+                ),
+              ),
+              const SizedBox(height: DesignTokens.spacingSm),
+              SizedBox(
+                height: 140,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
+                  child: FlutterMap(
+                    options: MapOptions(
+                      initialCenter: LatLng(
+                        m.master.latitude ?? 41.2995,
+                        m.master.longitude ?? 69.2401,
+                      ),
+                      initialZoom: 12,
+                      interactionOptions: const InteractionOptions(
+                        flags: InteractiveFlag.none,
+                      ),
+                    ),
                     children: [
-                      Container(
-                        width: 80,
-                        height: 80,
-                        decoration: BoxDecoration(
-                          color: DesignTokens.primaryBlue.withValues(
-                            alpha: 0.1,
-                          ),
-                          borderRadius: BorderRadius.circular(
-                            DesignTokens.radiusMd,
-                          ),
-                        ),
-                        child: Icon(
-                          Icons.person,
-                          color: DesignTokens.primaryBlue,
-                          size: 48,
-                        ),
+                      TileLayer(
+                        urlTemplate:
+                            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        userAgentPackageName:
+                            'com.tamir_uy.tamir_uy_mobile_flutter',
                       ),
-                      const SizedBox(height: DesignTokens.spacing12),
-                      Text(
-                        'Alisher Karimov',
-                        style: DesignTokens.subtitle1.copyWith(
-                          color: DesignTokens.text,
-                        ),
-                      ),
-                      const SizedBox(height: DesignTokens.spacing4),
-                      Text(
-                        'Flooring & Tiles Specialist',
-                        style: DesignTokens.bodyMedium.copyWith(
-                          color: DesignTokens.textSecondary,
-                        ),
+                      CircleLayer(
+                        circles: [
+                          CircleMarker(
+                            point: LatLng(
+                              m.master.latitude ?? 41.2995,
+                              m.master.longitude ?? 69.2401,
+                            ),
+                            radius: 800,
+                            useRadiusInMeter: true,
+                            color: Color(
+                              m.trade.colorValue,
+                            ).withValues(alpha: 0.2),
+                            borderColor: Color(m.trade.colorValue),
+                            borderStrokeWidth: 2,
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
               ),
-              const SizedBox(height: DesignTokens.spacing32),
-
-              // Rating section
-              Text(
-                'How would you rate your experience?',
-                style: DesignTokens.subtitle1.copyWith(
-                  color: DesignTokens.text,
-                ),
-              ),
-              const SizedBox(height: DesignTokens.spacing16),
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(
-                    5,
-                    (index) => GestureDetector(
-                      onTap: () => setState(() => _rating = index + 1),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: DesignTokens.spacing8,
-                        ),
-                        child: Icon(
-                          Icons.star,
-                          size: 48,
-                          color: index < _rating
-                              ? DesignTokens.accentOrange
-                              : DesignTokens.border,
-                        ),
-                      ),
-                    ),
+              const SizedBox(height: DesignTokens.spacingXl),
+              SizedBox(
+                width: double.infinity,
+                height: DesignTokens.buttonHeightLarge,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: DesignTokens.accentOrange,
                   ),
+                  onPressed: () => context.push('/masters/u5', extra: m),
+                  child: const Text('Smetani yuborish'),
                 ),
               ),
-              const SizedBox(height: DesignTokens.spacing12),
-              Center(
-                child: Text(
-                  _rating > 0 ? 'Rating: $_rating / 5' : 'Tap to rate',
-                  style: DesignTokens.subtitle2.copyWith(
-                    color: _rating > 0
-                        ? DesignTokens.accentOrange
-                        : DesignTokens.textSecondary,
-                  ),
+              const SizedBox(height: DesignTokens.spacingSm),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  onPressed: () {},
+                  child: const Text('Xabar yozish'),
                 ),
               ),
-              const SizedBox(height: DesignTokens.spacing32),
-
-              // Review text
-              Text(
-                'Share your experience',
-                style: DesignTokens.subtitle1.copyWith(
-                  color: DesignTokens.text,
-                ),
-              ),
-              const SizedBox(height: DesignTokens.spacing12),
-              TextField(
-                controller: _reviewController,
-                maxLines: 5,
-                decoration: InputDecoration(
-                  hintText:
-                      'Tell us about your experience with this contractor. What went well? Any suggestions?',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-                  ),
-                  contentPadding: const EdgeInsets.all(DesignTokens.spacing12),
-                ),
-              ),
-              const SizedBox(height: DesignTokens.spacing24),
-
-              // Criteria
-              Container(
-                padding: const EdgeInsets.all(DesignTokens.spacing12),
-                decoration: BoxDecoration(
-                  color: DesignTokens.primaryBlue.withValues(alpha: 0.05),
-                  borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-                  border: Border.all(
-                    color: DesignTokens.primaryBlue.withValues(alpha: 0.2),
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'How would you rate these aspects?',
-                      style: DesignTokens.subtitle2.copyWith(
-                        color: DesignTokens.text,
-                      ),
-                    ),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    _RatingCriterion(label: 'Quality of Work'),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    _RatingCriterion(label: 'Communication'),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    _RatingCriterion(label: 'Punctuality'),
-                    const SizedBox(height: DesignTokens.spacing12),
-                    _RatingCriterion(label: 'Professionalism'),
-                  ],
-                ),
-              ),
-              const SizedBox(height: DesignTokens.spacing32),
-
-              // Recommendation
-              Container(
-                padding: const EdgeInsets.all(DesignTokens.spacing12),
-                decoration: BoxDecoration(
-                  border: Border.all(color: DesignTokens.border),
-                  borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
-                ),
-                child: Row(
-                  children: [
-                    Checkbox(value: true, onChanged: null),
-                    const SizedBox(width: DesignTokens.spacing8),
-                    Expanded(
-                      child: Text(
-                        'I would recommend this contractor',
-                        style: DesignTokens.bodyMedium.copyWith(
-                          color: DesignTokens.text,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: DesignTokens.spacing32),
             ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(DesignTokens.spacing16),
-        child: ElevatedButton(
-          onPressed: _rating > 0 && !_isSubmitting ? _submitReview : null,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: DesignTokens.spacing12,
-            ),
-            child: _isSubmitting
-                ? const SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                    ),
-                  )
-                : const Text('Submit Review'),
           ),
         ),
       ),
@@ -242,43 +202,57 @@ class _U4ReviewRatingScreenState extends ConsumerState<U4ReviewRatingScreen> {
   }
 }
 
-class _RatingCriterion extends StatefulWidget {
-  const _RatingCriterion({required this.label});
-
+class _StatCard extends StatelessWidget {
+  const _StatCard({required this.value, required this.label});
+  final String value;
   final String label;
 
   @override
-  State<_RatingCriterion> createState() => _RatingCriterionState();
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(DesignTokens.spacingMd),
+      decoration: BoxDecoration(
+        color: DesignTokens.white,
+        borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+        border: Border.all(color: DesignTokens.borderGray),
+      ),
+      child: Column(
+        children: [
+          Text(
+            value,
+            style: DesignTokens.subtitle1.copyWith(
+              color: DesignTokens.primaryBlue,
+            ),
+          ),
+          Text(
+            label,
+            style: DesignTokens.caption.copyWith(color: DesignTokens.textGray),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
-class _RatingCriterionState extends State<_RatingCriterion> {
-  int _rating = 0;
+class _ServiceRow extends StatelessWidget {
+  const _ServiceRow({required this.label});
+  final String label;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          widget.label,
-          style: DesignTokens.bodyMedium.copyWith(color: DesignTokens.text),
-        ),
-        Row(
-          children: List.generate(
-            5,
-            (index) => GestureDetector(
-              onTap: () => setState(() => _rating = index + 1),
-              child: Icon(
-                Icons.star,
-                size: 20,
-                color: index < _rating
-                    ? DesignTokens.accentOrange
-                    : DesignTokens.border,
-              ),
-            ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: DesignTokens.spacingXs),
+      child: Row(
+        children: [
+          const Icon(
+            Icons.check_circle_outline,
+            size: 16,
+            color: DesignTokens.successGreen,
           ),
-        ),
-      ],
+          const SizedBox(width: DesignTokens.spacingSm),
+          Text(label, style: DesignTokens.body2),
+        ],
+      ),
     );
   }
 }

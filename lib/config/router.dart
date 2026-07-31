@@ -33,8 +33,8 @@ import '../screens/estimation/e10_estimate_summary_screen.dart';
 import '../screens/shop/s1_shop_home_screen.dart';
 import '../screens/shop/s5_shopping_cart_screen.dart';
 import '../screens/shop/s7_order_confirmation_screen.dart';
+import '../providers/masters_provider.dart';
 import '../screens/masters/u1_masters_intro_screen.dart';
-import '../screens/masters/u2_master_profile_screen.dart';
 import '../screens/masters/u3_request_booking_screen.dart';
 import '../screens/masters/u4_review_rating_screen.dart';
 import '../screens/masters/u5_booking_confirmation_screen.dart';
@@ -250,14 +250,12 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: '/shop/s7',
             builder: (context, state) => const S7OrderConfirmationScreen(),
           ),
-          // Masters Routes (U1-U5)
+          // Masters Routes — U2 has no standalone route, it's a bottom
+          // sheet shown from U1 (see u1_masters_intro_screen.dart's
+          // _PinSheet).
           GoRoute(
             path: '/masters/u1',
             builder: (context, state) => const U1MastersIntroScreen(),
-          ),
-          GoRoute(
-            path: '/masters/u2',
-            builder: (context, state) => const U2MasterProfileScreen(),
           ),
           GoRoute(
             path: '/masters/u3',
@@ -265,11 +263,13 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/masters/u4',
-            builder: (context, state) => const U4ReviewRatingScreen(),
+            builder: (context, state) =>
+                U4ReviewRatingScreen(master: state.extra as MockMaster?),
           ),
           GoRoute(
             path: '/masters/u5',
-            builder: (context, state) => const U5BookingConfirmationScreen(),
+            builder: (context, state) =>
+                U5BookingConfirmationScreen(master: state.extra as MockMaster?),
           ),
           // Profile Routes (E4-E6)
           GoRoute(
