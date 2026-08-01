@@ -43,3 +43,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Large session transcript — exceeds GitHub's 100 MB file limit; kept on
+# disk but never committed.
+docs/development/session-transcript.jsonl
