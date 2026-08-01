@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod/riverpod.dart';
 import '../providers/auth_provider.dart';
@@ -50,11 +50,14 @@ import '../screens/onboarding/e7_onboarding_welcome_screen.dart';
 import '../screens/onboarding/e8_tutorial_tour_screen.dart';
 import '../screens/onboarding/e9_preferences_settings_screen.dart';
 
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
+
 final routerProvider = Provider<GoRouter>((ref) {
   final refreshNotifier = _GoRouterRefreshNotifier(ref);
   ref.onDispose(refreshNotifier.dispose);
 
   return GoRouter(
+    navigatorKey: _rootNavigatorKey,
     initialLocation: '/splash',
     refreshListenable: refreshNotifier,
     redirect: (context, state) {
@@ -283,22 +286,33 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: '/profile/e11',
             builder: (context, state) => const E11SavedDesignsScreen(),
           ),
-          // Onboarding Routes (E7-E8 — spec has no separate E9, see
-          // plans/screen-mapping.md; the existing E9 settings screen moves
-          // to /profile/settings, reachable from E4's menu, wired in Step 8)
-          GoRoute(
-            path: '/onboarding/e7',
-            builder: (context, state) => const E7OnboardingWelcomeScreen(),
-          ),
-          GoRoute(
-            path: '/onboarding/e8',
-            builder: (context, state) => const E8TutorialTourScreen(),
-          ),
+          // Spec has no separate E9, see plans/screen-mapping.md; the
+          // existing E9 settings screen moves to /profile/settings,
+          // reachable from E4's menu, wired in Step 8.
           GoRoute(
             path: '/profile/settings',
             builder: (context, state) => const E9PreferencesSettingsScreen(),
           ),
         ],
+      ),
+      // E7/E8 are full-screen dark onboarding takeovers per spec — kept
+      // outside the ShellRoute so AppShell's bottom nav/FAB don't bleed
+      // through underneath them, with a real back-stack entry (reached
+      // via push, not go) so the system back button returns to the
+      // caller instead of exiting the app. parentNavigatorKey is required
+      // here: without it, a push() from a screen inside the ShellRoute's
+      // branch still resolves onto the shell's own nested Navigator
+      // (AppShell keeps rendering underneath) instead of the root one,
+      // regardless of this route being declared outside the ShellRoute.
+      GoRoute(
+        path: '/onboarding/e7',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const E7OnboardingWelcomeScreen(),
+      ),
+      GoRoute(
+        path: '/onboarding/e8',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const E8TutorialTourScreen(),
       ),
     ],
   );

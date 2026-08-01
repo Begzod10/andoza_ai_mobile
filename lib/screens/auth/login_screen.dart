@@ -42,7 +42,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Tamir.Uy',
+                'Andoza AI',
                 textAlign: TextAlign.center,
                 style: DesignTokens.headingLarge.copyWith(
                   color: DesignTokens.primary,

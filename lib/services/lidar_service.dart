@@ -114,6 +114,24 @@ class LidarService {
     }
   }
 
+  Future<Map<String, double>> scanRoom() async {
+    try {
+      final result = await platform.invokeMethod<Map>('scanRoom');
+      if (result == null) {
+        throw LidarException('No scan result');
+      }
+      return {
+        'width': (result['width'] as num?)?.toDouble() ?? 0,
+        'length': (result['length'] as num?)?.toDouble() ?? 0,
+        'height': (result['height'] as num?)?.toDouble() ?? 0,
+        'pointCount': (result['pointCount'] as num?)?.toDouble() ?? 0,
+        'durationMs': (result['durationMs'] as num?)?.toDouble() ?? 0,
+      };
+    } on PlatformException catch (e) {
+      throw LidarException(e.message ?? 'Failed to scan room', e.code);
+    }
+  }
+
   Future<Map<String, double>> getMeasurements() async {
     try {
       final result = await platform.invokeMethod<Map>('getMeasurements');

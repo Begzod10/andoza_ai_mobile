@@ -20,6 +20,6 @@ class AppConfig {
       String.fromEnvironment('DEBUG_LOGGING', defaultValue: 'true') == 'true';
 
   // App Configuration
-  static const String appName = 'Tamir.Uy Mobile';
+  static const String appName = 'Andoza AI Mobile';
   static const String appVersion = '0.1.0';
 }

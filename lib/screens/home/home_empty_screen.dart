@@ -217,20 +217,27 @@ class HomeGreetingHeader extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Xush kelibsiz',
-              style: DesignTokens.body2.copyWith(color: DesignTokens.textGray),
-            ),
-            const SizedBox(height: DesignTokens.spacingXs),
-            Text(
-              name != null ? 'Salom, $name! 👋' : 'Salom! 👋',
-              style: DesignTokens.heading2,
-            ),
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Xush kelibsiz',
+                style: DesignTokens.body2.copyWith(
+                  color: DesignTokens.textGray,
+                ),
+              ),
+              const SizedBox(height: DesignTokens.spacingXs),
+              Text(
+                name != null ? 'Salom, $name! 👋' : 'Salom! 👋',
+                style: DesignTokens.heading2,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         ),
+        const SizedBox(width: DesignTokens.spacingSm),
         Container(
           padding: const EdgeInsets.symmetric(
             horizontal: DesignTokens.spacingMd,
@@ -293,19 +300,19 @@ class HomeEmptyBody extends StatelessWidget {
                   icon: Icons.help_outline,
                   label: 'Qanday ishlaydi?',
                   seen: false,
-                  onTap: () => context.go('/onboarding/e7'),
+                  onTap: () => context.push('/onboarding/e7'),
                 ),
                 _StoryCircle(
                   icon: Icons.play_circle_outline,
                   label: 'Demo qo\'llanma',
                   seen: true,
-                  onTap: () => context.go('/onboarding/e8'),
+                  onTap: () => context.push('/onboarding/e8'),
                 ),
                 _StoryCircle(
                   icon: Icons.auto_awesome,
                   label: 'Demo',
                   seen: false,
-                  onTap: () => context.go('/onboarding/e8'),
+                  onTap: () => context.push('/onboarding/e8'),
                 ),
               ],
             ),

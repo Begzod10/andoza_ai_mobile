@@ -1,6 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Required for API calls to the backend. Flutter only adds INTERNET to the
+         debug/profile manifests, so release builds have no network access without
+         this line (login fails with "Connection failed"). -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- ARCore camera scanning (DepthScanActivity). -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- AR is optional so the app still installs on non-AR devices/emulators. -->
+    <uses-feature android:name="android.hardware.camera.ar" android:required="false" />
     <application
-        android:label="tamir_uy_mobile_flutter"
+        android:label="Andoza AI"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -30,6 +38,27 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <!-- Impeller has multiple documented crashes on Android emulators
+             (flutter/flutter#105323, #175562, #148481, #163421) during
+             route transitions/surface reconfiguration, matching a crash
+             reproduced here (host-side segfault in the emulator's own
+             RenderThread, right after login navigates while the IME hides).
+             Falling back to Skia works around it; this only affects
+             emulator rendering stability, not real devices. -->
+        <meta-data
+            android:name="io.flutter.embedding.android.EnableImpeller"
+            android:value="false" />
+        <!-- ARCore is optional: the app runs (reporting "unsupported") without it. -->
+        <meta-data
+            android:name="com.google.ar.core"
+            android:value="optional" />
+        <!-- Real ARCore room-scanning screen launched from LidarMethodChannel. -->
+        <activity
+            android:name=".DepthScanActivity"
+            android:exported="false"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:screenOrientation="locked"
+            android:theme="@style/LaunchTheme" />
     </application>
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and

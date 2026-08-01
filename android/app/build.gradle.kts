@@ -19,7 +19,8 @@ android {
         applicationId = "com.tamir_uy.tamir_uy_mobile_flutter"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        // ARCore requires API level 24 (Android 7.0) or higher.
+        minSdk = 24
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -42,4 +43,9 @@ kotlin {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    // Google ARCore — real depth/plane detection used by DepthScanActivity.
+    implementation("com.google.ar:core:1.42.0")
 }

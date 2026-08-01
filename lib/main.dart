@@ -15,7 +15,7 @@ class MyApp extends ConsumerWidget {
     final router = ref.watch(routerProvider);
 
     return MaterialApp.router(
-      title: 'Tamir.Uy Mobile',
+      title: 'Andoza AI Mobile',
       theme: AndozaTheme.lightTheme(),
       routerConfig: router,
     );

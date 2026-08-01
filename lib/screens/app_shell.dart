@@ -37,7 +37,6 @@ class _AppShellState extends ConsumerState<AppShell> {
     }
 
     return Scaffold(
-      extendBody: true,
       body: widget.child,
       bottomNavigationBar: _BottomNavWithFab(location: location),
     );

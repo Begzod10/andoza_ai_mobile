@@ -83,6 +83,31 @@ class WallMeasurementsNotifier extends StateNotifier<List<WallMeasurement>> {
     ];
   }
 
+  /// Applies dimensions from a real room scan. wallA / wallC are the
+  /// "length" walls, wallB / wallD are the "width" walls. Every wall's
+  /// height is set from [height]. Values are clamped to sane bounds so a
+  /// bad scan can't produce absurd measurements.
+  void applyScannedDimensions({
+    required double width,
+    required double length,
+    required double height,
+  }) {
+    final clampedLength = length.clamp(0.5, 30.0);
+    final clampedWidth = width.clamp(0.5, 30.0);
+    final clampedHeight = height.clamp(2.0, 5.0);
+
+    state = [
+      for (final wall in state)
+        wall.copyWith(
+          length: switch (wall.type) {
+            WallType.wallA || WallType.wallC => clampedLength,
+            WallType.wallB || WallType.wallD => clampedWidth,
+          },
+          height: clampedHeight,
+        ),
+    ];
+  }
+
   void addOpening(WallType type, WallOpening opening) {
     state = [
       for (final wall in state)

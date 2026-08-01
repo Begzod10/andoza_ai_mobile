@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../providers/lidar_provider.dart';
+import '../../services/lidar_service.dart';
+import '../room_setup/wall_measurements_screen.dart';
 
 /// LiDAR scanning state
 class LiDARScanState {
@@ -11,12 +14,17 @@ class LiDARScanState {
   final int doorsFound;
   final int windowsFound;
 
+  /// True while a real on-device ARCore scan is running (indeterminate
+  /// progress); false for the emulator simulation (0→100% timer).
+  final bool isRealScan;
+
   LiDARScanState({
     required this.isScanning,
     required this.progress,
     required this.wallsFound,
     required this.doorsFound,
     required this.windowsFound,
+    this.isRealScan = false,
   });
 
   LiDARScanState copyWith({
@@ -25,6 +33,7 @@ class LiDARScanState {
     int? wallsFound,
     int? doorsFound,
     int? windowsFound,
+    bool? isRealScan,
   }) {
     return LiDARScanState(
       isScanning: isScanning ?? this.isScanning,
@@ -32,6 +41,7 @@ class LiDARScanState {
       wallsFound: wallsFound ?? this.wallsFound,
       doorsFound: doorsFound ?? this.doorsFound,
       windowsFound: windowsFound ?? this.windowsFound,
+      isRealScan: isRealScan ?? this.isRealScan,
     );
   }
 }
@@ -48,24 +58,48 @@ class LiDARScanNotifier extends StateNotifier<LiDARScanState> {
         ),
       );
 
+  int _count = 0;
+
+  /// Emulator / demo path: timer-driven fake progress 0→100%.
   void startScan() {
-    state = state.copyWith(isScanning: true);
+    _count = 0;
+    state = state.copyWith(
+      isScanning: true,
+      progress: 0.0,
+      wallsFound: 0,
+      doorsFound: 0,
+      windowsFound: 0,
+      isRealScan: false,
+    );
     _simulateScan();
   }
 
+  /// Real-device path indicator: an indeterminate "launching AR" state
+  /// held while the screen awaits the native `scanRoom()` call.
+  void beginRealScan() {
+    state = state.copyWith(
+      isScanning: true,
+      progress: 0.0,
+      wallsFound: 0,
+      doorsFound: 0,
+      windowsFound: 0,
+      isRealScan: true,
+    );
+  }
+
   void _simulateScan() {
-    int count = 0;
     Future.delayed(const Duration(milliseconds: 60), () {
-      if (state.isScanning && count < 100) {
-        count++;
+      if (!state.isScanning) return;
+      if (_count < 100) {
+        _count++;
         state = state.copyWith(
-          progress: count / 100,
-          wallsFound: (count / 33).floor().clamp(0, 3),
-          doorsFound: count > 40 ? 1 : 0,
-          windowsFound: (count / 45).floor().clamp(0, 2),
+          progress: _count / 100,
+          wallsFound: (_count / 33).floor().clamp(0, 3),
+          doorsFound: _count > 40 ? 1 : 0,
+          windowsFound: (_count / 45).floor().clamp(0, 2),
         );
         _simulateScan();
-      } else if (count >= 100) {
+      } else {
         state = state.copyWith(isScanning: false);
       }
     });
@@ -106,8 +140,53 @@ class _LiDARScanningScreenState extends ConsumerState<LiDARScanningScreen>
     )..repeat(reverse: true);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(liDARScanProvider.notifier).startScan();
+      _start();
     });
+  }
+
+  /// Decides between the real on-device scan and the emulator simulation:
+  /// - LiDAR/ARCore available  → native `scanRoom()`, then apply the
+  ///   measured dimensions to [wallMeasurementsProvider] and navigate.
+  /// - not available (emulator) → keep the existing timer simulation.
+  Future<void> _start() async {
+    final lidarService = ref.read(lidarServiceProvider);
+    final available = await lidarService.isLidarAvailable();
+    if (!mounted) return;
+
+    if (!available) {
+      // Emulator demo — preserve the existing simulation exactly.
+      ref.read(liDARScanProvider.notifier).startScan();
+      return;
+    }
+
+    // Real device: show the "launching AR" state and await the scan.
+    ref.read(liDARScanProvider.notifier).beginRealScan();
+    try {
+      final r = await lidarService.scanRoom();
+      if (!mounted) return;
+      ref
+          .read(wallMeasurementsProvider.notifier)
+          .applyScannedDimensions(
+            width: r['width']!,
+            length: r['length']!,
+            height: r['height']!,
+          );
+      if (!mounted) return;
+      context.push('/setup/wall-measurements');
+    } on LidarException catch (e) {
+      if (!mounted) return;
+      if (e.code == 'CANCELLED') {
+        // User backed out of the AR session — just return.
+        Navigator.of(context).pop();
+      } else {
+        // Any other failure: fall back to the simulation so the user
+        // still reaches the wall-measurements step.
+        ref.read(liDARScanProvider.notifier).startScan();
+      }
+    } catch (_) {
+      if (!mounted) return;
+      ref.read(liDARScanProvider.notifier).startScan();
+    }
   }
 
   @override
@@ -161,19 +240,27 @@ class _LiDARScanningScreenState extends ConsumerState<LiDARScanningScreen>
                     alignment: Alignment.center,
                     children: [
                       CircularProgressIndicator(
-                        value: scanState.progress,
+                        // Real ARCore scan has no % progress → indeterminate.
+                        value: scanState.isRealScan ? null : scanState.progress,
                         strokeWidth: 6,
                         backgroundColor: Colors.white.withValues(alpha: 0.16),
                         valueColor: const AlwaysStoppedAnimation<Color>(
                           DesignTokens.accentOrange,
                         ),
                       ),
-                      Text(
-                        '${(scanState.progress * 100).toStringAsFixed(0)}%',
-                        style: DesignTokens.heading2.copyWith(
+                      if (!scanState.isRealScan)
+                        Text(
+                          '${(scanState.progress * 100).toStringAsFixed(0)}%',
+                          style: DesignTokens.heading2.copyWith(
+                            color: DesignTokens.white,
+                          ),
+                        )
+                      else
+                        const Icon(
+                          Icons.view_in_ar_outlined,
                           color: DesignTokens.white,
+                          size: DesignTokens.iconLg,
                         ),
-                      ),
                     ],
                   ),
                 ),
