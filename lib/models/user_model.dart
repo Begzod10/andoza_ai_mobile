@@ -3,7 +3,9 @@ class User {
   final String? email;
   final String? username;
   final String? name;
-  final String phone;
+  // Nullable: username/password accounts (no OTP) have no phone, and the
+  // backend returns null for them. Was non-null, which crashed login parsing.
+  final String? phone;
   final String? firstName;
   final String? lastName;
   final String? avatar;
@@ -14,7 +16,7 @@ class User {
     this.email,
     this.username,
     this.name,
-    required this.phone,
+    this.phone,
     this.firstName,
     this.lastName,
     this.avatar,
@@ -27,7 +29,7 @@ class User {
       email: json['email'] as String?,
       username: json['username'] as String?,
       name: json['name'] as String?,
-      phone: json['phone'] as String,
+      phone: json['phone'] as String?,
       firstName: json['firstName'] as String?,
       lastName: json['lastName'] as String?,
       avatar: json['avatar'] as String?,

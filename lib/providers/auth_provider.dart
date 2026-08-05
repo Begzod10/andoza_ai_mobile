@@ -47,7 +47,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
     try {
       final response = await _repository.login(email, password);
       state = AuthAuthenticated(user: response.user, token: response.token);
-    } on Exception catch (e) {
+    } catch (e) {
+      // Catch Error too (not just Exception): a malformed response can throw a
+      // TypeError/CastError during parsing, which would otherwise leave the
+      // state stuck in AuthLoading and hang the login button forever.
       state = AuthError(message: e.toString());
     }
   }
@@ -63,7 +66,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       if (user != null) {
         state = AuthAuthenticated(user: user, token: _repository.token ?? '');
       }
-    } on Exception {
+    } catch (_) {
       state = const AuthInitial();
     }
   }
@@ -72,7 +75,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     try {
       await _repository.restoreToken();
       await checkAuth();
-    } on Exception {
+    } catch (_) {
       state = const AuthInitial();
     }
   }
