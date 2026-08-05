@@ -1,0 +1,15 @@
+/// Barrel for the backend-mirroring API models (wire format).
+///
+/// These map 1:1 onto the FastAPI pydantic schemas and are kept separate from
+/// the app's client-side domain models under `lib/models/`.
+library;
+
+export 'apartment.dart';
+export 'catalog.dart';
+export 'delta.dart';
+export 'estimate.dart';
+export 'room_create.dart';
+export 'room_out.dart';
+export 'room_state.dart';
+export 'usta.dart';
+export 'wallpaper.dart';

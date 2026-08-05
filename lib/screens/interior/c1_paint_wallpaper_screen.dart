@@ -3,12 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 import '../../models/design_selection_model.dart';
+import '../../providers/catalog_provider.dart';
 import '../../providers/design_provider.dart';
+import '../../utils/catalog_rail.dart';
 import '../../widgets/common/success_toast.dart';
 import '../../widgets/design/stage_progress_line.dart';
 import '../../widgets/room/room_perspective_view.dart';
 import '../../widgets/room_3d_rail.dart';
 
+/// Hardcoded fallbacks — shown only while the backend catalog is loading, or
+/// if it's unreachable/empty, so the rail is never blank.
 const _paintSwatches = [
   RailItem(id: 'kok', label: 'Ko\'k', color: Color(0xFFBFD8F5)),
   RailItem(id: 'bej', label: 'Bej', color: Color(0xFFF5F0E6)),
@@ -61,6 +65,17 @@ class _C1PaintWallpaperScreenState
     SuccessToast.show(context, '✓ Hamma devorga qo\'llanildi');
   }
 
+  /// Real backend materials for [category], mapped to rail swatches. Falls back
+  /// to [fallback] while loading or if the catalog is unreachable/empty, so the
+  /// rail is always populated and never blocks on the network.
+  List<RailItem> _railItems(String category, List<RailItem> fallback) {
+    return ref.watch(materialsProvider(category)).maybeWhen(
+          data: (materials) =>
+              materials.isEmpty ? fallback : materialsToRailItems(materials),
+          orElse: () => fallback,
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
     final design = ref.watch(activeDesignProvider);
@@ -105,10 +120,19 @@ class _C1PaintWallpaperScreenState
             child: SafeArea(
               child: Room3DRail(
                 initiallyExpanded: true,
-                tabs: const [
-                  RailTab(label: 'Bo\'yoq', items: _paintSwatches),
-                  RailTab(label: 'Oboy', items: _wallpaperSwatches),
-                  RailTab(label: 'Kafel', items: _kafelSwatches),
+                tabs: [
+                  RailTab(
+                    label: 'Bo\'yoq',
+                    items: _railItems('boyoq', _paintSwatches),
+                  ),
+                  RailTab(
+                    label: 'Oboy',
+                    items: _railItems('oboy', _wallpaperSwatches),
+                  ),
+                  RailTab(
+                    label: 'Kafel',
+                    items: _railItems('plitka', _kafelSwatches),
+                  ),
                 ],
                 onItemSelected: _applySwatch,
               ),

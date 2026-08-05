@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../models/api/api.dart' show DeltaResponse, RoomStateValue;
 import '../../models/design_selection_model.dart';
 import '../../models/estimate_model.dart';
+import '../../providers/apartment_provider.dart';
 import '../../providers/estimate_provider.dart';
+import '../../providers/room_persistence_provider.dart';
 import '../../providers/room_provider.dart';
 import '../../utils/currency.dart';
 
@@ -24,20 +27,60 @@ const _stageLabels = {
 /// banner computed from actually-excluded stages (never hardcoded), and
 /// a stage list where excluded stages render gray/struck-through/
 /// "hisoblanmadi" — all driven by the real [estimateProvider].
-class E1EstimationIntroScreen extends ConsumerWidget {
+class E1EstimationIntroScreen extends ConsumerStatefulWidget {
   const E1EstimationIntroScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<E1EstimationIntroScreen> createState() =>
+      _E1EstimationIntroScreenState();
+}
+
+class _E1EstimationIntroScreenState
+    extends ConsumerState<E1EstimationIntroScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Persist the captured room to the backend so "tejaldingiz" can reflect the
+    // real server delta. Fire-and-forget: the UI shows the local estimate while
+    // this runs and falls back to it if the backend is unreachable.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(roomPersistenceProvider.notifier).ensurePersisted();
+    });
+  }
+
+  /// The stage label to show in the savings banner when using the backend
+  /// delta — the first completed stage beyond raw (korobka).
+  String _backendSavingsLabel(DeltaResponse delta) {
+    final done = delta.completedStages
+        .where((s) => s.stage != RoomStateValue.xom)
+        .toList();
+    return done.isNotEmpty ? done.first.labelUz : 'Ba\'zi ishlar';
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final estimate = ref.watch(estimateProvider);
     final room = ref.watch(activeRoomProvider);
     final materials = estimateMaterialsTotal(estimate);
     final labor = estimateLaborTotal(estimate);
-    final savings = estimateSavingsTotal(estimate);
+    final localSavings = estimateSavingsTotal(estimate);
     final savingsStage = estimate.stages.firstWhere(
       (s) => s.isExcluded,
       orElse: () => estimate.stages.first,
     );
+
+    // Prefer the backend's authoritative delta once the room is persisted;
+    // otherwise fall back to the local computation.
+    final persisted = ref.watch(roomPersistenceProvider).valueOrNull;
+    final backendDelta = persisted == null
+        ? null
+        : ref.watch(roomDeltaProvider(persisted.roomId)).valueOrNull;
+    final backendSavings = backendDelta?.deltaSavingsUzs;
+    final useBackend = backendSavings != null && backendSavings > 0;
+    final savings = useBackend ? backendSavings.toDouble() : localSavings;
+    final savingsLabel = useBackend
+        ? _backendSavingsLabel(backendDelta!)
+        : (_stageLabels[savingsStage.name] ?? 'Bosqich');
 
     return Scaffold(
       backgroundColor: DesignTokens.backgroundLight,
@@ -131,7 +174,7 @@ class E1EstimationIntroScreen extends ConsumerWidget {
                         const SizedBox(width: DesignTokens.spacingSm),
                         Expanded(
                           child: Text(
-                            '${_stageLabels[savingsStage.name]} allaqachon bor '
+                            '$savingsLabel allaqachon bor '
                             'edi — ${formatSom(savings.round())} tejaldingiz',
                             style: DesignTokens.body2.copyWith(
                               color: DesignTokens.successGreen,

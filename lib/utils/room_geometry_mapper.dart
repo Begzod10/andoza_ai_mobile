@@ -1,0 +1,65 @@
+import '../models/api/room_create.dart';
+import '../models/room_model.dart' as client;
+
+/// Clamps [v] to the inclusive range [lo, hi]. Used to keep captured
+/// measurements inside the backend's validation bounds so a room POST doesn't
+/// 422 on a slightly-out-of-range value.
+double _clamp(double v, double lo, double hi) =>
+    v < lo ? lo : (v > hi ? hi : v);
+
+String _wallLetter(client.WallType type) => switch (type) {
+      client.WallType.wallA => 'A',
+      client.WallType.wallB => 'B',
+      client.WallType.wallC => 'C',
+      client.WallType.wallD => 'D',
+    };
+
+/// Converts the app's captured [client.Room] into the backend [RoomCreate]
+/// request body.
+///
+/// - Ceiling height comes from the room's overall height (falls back to the
+///   first wall's height, then a 2.8 m default), clamped to 1.8–6.0 m.
+/// - Each wall's doors become `eshik` elements (sill 0) and windows become
+///   `deraza` elements (sill defaulted to 0.9 m, since the capture flow doesn't
+///   record a sill), positioned by their fractional position along the wall.
+/// - All lengths/dimensions are clamped to the backend's accepted ranges.
+RoomCreate roomToRoomCreate(client.Room room) {
+  final ceiling = _clamp(
+    room.dimensions.height > 0
+        ? room.dimensions.height
+        : (room.walls.isNotEmpty ? room.walls.first.measurements.height : 2.8),
+    1.8,
+    6.0,
+  );
+
+  final walls = <WallCreate>[
+    for (final wall in room.walls)
+      WallCreate(
+        id: _wallLetter(wall.type),
+        length: _clamp(wall.measurements.length, 0.51, 24.9),
+        elements: [
+          for (final door in room.doors.where((d) => d.wallId == wall.id))
+            WallElementCreate(
+              type: WallElementType.eshik,
+              width: _clamp(door.width, 0.3, 5.0),
+              height: _clamp(door.height, 0.3, 3.5),
+              position: _clamp(door.position, 0.0, 1.0),
+            ),
+          for (final window in room.windows.where((w) => w.wallId == wall.id))
+            WallElementCreate(
+              type: WallElementType.deraza,
+              width: _clamp(window.width, 0.3, 5.0),
+              height: _clamp(window.height, 0.3, 3.5),
+              sillHeight: 0.9,
+              position: _clamp(window.position, 0.0, 1.0),
+            ),
+        ],
+      ),
+  ];
+
+  return RoomCreate(
+    name: room.name.isEmpty ? 'Xona' : room.name,
+    ceilingH: ceiling,
+    geometry: RoomGeometryCreate(walls: walls),
+  );
+}

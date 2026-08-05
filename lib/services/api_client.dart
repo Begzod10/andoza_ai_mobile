@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
 
+import 'sse_client.dart';
+
 class ApiException implements Exception {
   ApiException({required this.message, this.statusCode, this.response});
 
@@ -15,6 +17,7 @@ class ApiException implements Exception {
 class ApiClient {
   ApiClient({
     required String baseUrl,
+    this.onUnauthorized,
     this.connectTimeout = const Duration(seconds: 10),
     this.receiveTimeout = const Duration(seconds: 30),
   }) {
@@ -30,6 +33,9 @@ class ApiClient {
       ),
     );
 
+    // Order matters: auth first (so the token is attached before logging),
+    // logging last.
+    _dio.interceptors.add(_AuthInterceptor(() => _authToken, onUnauthorized));
     _dio.interceptors.add(_LoggingInterceptor());
   }
 
@@ -37,12 +43,18 @@ class ApiClient {
   final Duration connectTimeout;
   final Duration receiveTimeout;
 
+  /// Invoked whenever the backend answers 401, so the app can drop to the
+  /// login screen from a single place instead of every call site.
+  final void Function()? onUnauthorized;
+
+  String? _authToken;
+
   void setAuthToken(String token) {
-    _dio.options.headers['Authorization'] = 'Bearer $token';
+    _authToken = token;
   }
 
   void clearAuthToken() {
-    _dio.options.headers.remove('Authorization');
+    _authToken = null;
   }
 
   Future<T> get<T>(
@@ -64,10 +76,15 @@ class ApiClient {
   Future<T> post<T>(
     String path, {
     required dynamic data,
+    Map<String, dynamic>? queryParameters,
     required T Function(dynamic) fromJson,
   }) async {
     try {
-      final response = await _dio.post<dynamic>(path, data: data);
+      final response = await _dio.post<dynamic>(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+      );
       return fromJson(response.data);
     } on DioException catch (e) {
       throw _handleDioError(e);
@@ -87,9 +104,53 @@ class ApiClient {
     }
   }
 
+  Future<T> patch<T>(
+    String path, {
+    required dynamic data,
+    required T Function(dynamic) fromJson,
+  }) async {
+    try {
+      final response = await _dio.patch<dynamic>(path, data: data);
+      return fromJson(response.data);
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
   Future<void> delete(String path) async {
     try {
       await _dio.delete<dynamic>(path);
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
+  /// Opens a Server-Sent Events stream (used by the AI builder). Yields one
+  /// [SseEvent] per server event until the response completes or the
+  /// subscription is cancelled. The auth token is attached via the interceptor
+  /// just like any other request.
+  Stream<SseEvent> stream(
+    String path, {
+    String method = 'POST',
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async* {
+    try {
+      final response = await _dio.request<ResponseBody>(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        options: Options(
+          method: method,
+          responseType: ResponseType.stream,
+          headers: {'Accept': 'text/event-stream'},
+          // SSE connections are long-lived; don't time out mid-stream.
+          receiveTimeout: Duration.zero,
+        ),
+      );
+      final body = response.data;
+      if (body == null) return;
+      yield* parseSseStream(body.stream.cast<List<int>>());
     } on DioException catch (e) {
       throw _handleDioError(e);
     }
@@ -114,8 +175,7 @@ class ApiClient {
 
   String _handleBadResponse(DioException error) {
     final statusCode = error.response?.statusCode;
-    final data = error.response?.data as Map<String, dynamic>?;
-    final errorMessage = data?['message'] ?? data?['error'] ?? 'Unknown error';
+    final errorMessage = _extractErrorMessage(error.response?.data);
 
     return switch (statusCode) {
       400 => 'Bad request: $errorMessage',
@@ -123,9 +183,55 @@ class ApiClient {
       403 => 'Forbidden',
       404 => 'Not found',
       409 => 'Conflict: $errorMessage',
+      422 => 'Validation error: $errorMessage',
       500 => 'Server error',
       _ => 'HTTP $statusCode: $errorMessage',
     };
+  }
+
+  /// FastAPI returns errors as `{"detail": "..."}` or, for validation
+  /// failures, `{"detail": [{"msg": "...", "loc": [...]}, ...]}`. Fall back to
+  /// the older `message`/`error` keys for anything non-FastAPI.
+  String _extractErrorMessage(dynamic data) {
+    if (data is Map<String, dynamic>) {
+      final detail = data['detail'] ?? data['message'] ?? data['error'];
+      if (detail is String) return detail;
+      if (detail is List && detail.isNotEmpty) {
+        final first = detail.first;
+        if (first is Map && first['msg'] != null) {
+          return first['msg'].toString();
+        }
+        return detail.join(', ');
+      }
+      if (detail != null) return detail.toString();
+    }
+    return 'Unknown error';
+  }
+}
+
+/// Attaches the bearer token to every outgoing request and routes 401s to a
+/// single [onUnauthorized] callback.
+class _AuthInterceptor extends Interceptor {
+  _AuthInterceptor(this._tokenGetter, this._onUnauthorized);
+
+  final String? Function() _tokenGetter;
+  final void Function()? _onUnauthorized;
+
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    final token = _tokenGetter();
+    if (token != null && token.isNotEmpty) {
+      options.headers['Authorization'] = 'Bearer $token';
+    }
+    handler.next(options);
+  }
+
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    if (err.response?.statusCode == 401) {
+      _onUnauthorized?.call();
+    }
+    handler.next(err);
   }
 }
 
