@@ -181,6 +181,25 @@ Each phase is independently shippable and testable against the live backend.
   were missing (persist 500'd) → `ALTER TABLE ADD COLUMN` with the model's
   server_defaults.
 
+### Phase 4 — DONE (2026-08-05)
+- Models: `models/api/decoration.dart` (walls/floor/ceiling/furniture),
+  `models/api/electrical.dart` (plan + device create/out).
+- Repos: `decoration_repository.dart` (GET/PUT), `electrical_repository.dart`
+  (GET/PUT plan). Providers in `design_persistence_provider.dart`.
+- **Loop-closing win**: `RoomPersistenceNotifier.setSurfaceMaterials()` PATCHes
+  the backend room's `surfaces` map (merging) and invalidates the delta +
+  estimate-preview providers. C1 now persists the chosen paint/wallpaper to
+  wall A (single tap) or all walls ("Hamma devorga"), but ONLY for real catalog
+  materials (UUID-guarded; fallback swatch slugs stay local-only).
+- **Proven live end-to-end**: a bare room's smeta preview = 0 UZS; after
+  assigning paint to its walls (the exact PATCH setSurfaceMaterials issues) the
+  smeta = 665,000 UZS. So a C1 material choice now flows through to the Phase 3
+  smeta and Phase 2 delta. Decoration + electrical PUT/GET verified live (200).
+- 2 new model tests vs captured payloads; 35 tests pass; analyze clean.
+- NOTE: decoration PUT and the electrical repo/providers are built + tested but
+  not yet wired into a save button on C4/C5/D1 — those screens can adopt them
+  incrementally. The high-value surface (C1 → smeta loop) is wired.
+
 ### ⚠️ Backend findings (this machine's local docker DB)
 1. **Schema drift from the git pull, now FIXED non-destructively.** The pulled
    code added `users.is_admin` and `rooms.deleted`, plus new tables, but the DB

@@ -5,6 +5,7 @@ import '../models/design_selection_model.dart';
 import '../utils/room_geometry_mapper.dart';
 import 'apartment_provider.dart';
 import 'design_provider.dart';
+import 'estimate_api_provider.dart';
 import 'room_provider.dart';
 
 /// A room that has been persisted to the backend, tying the local client-room
@@ -73,6 +74,41 @@ class RoomPersistenceNotifier
       );
     } catch (e, st) {
       state = AsyncValue.error(e, st);
+    }
+  }
+
+  /// Assigns [materialId] to the given [surfaces] (e.g. `['A','B','C','D']` or
+  /// `['floor']`) on the persisted backend room, merging with any existing
+  /// surface map. This is what makes the smeta and delta reflect the user's
+  /// real material choices (the engine prices from `room.surfaces`).
+  ///
+  /// No-op if nothing is persisted yet. Refreshes the estimate/delta providers
+  /// so dependent screens recompute. Returns silently on failure — surface
+  /// persistence is best-effort and must never block the design UI.
+  Future<void> setSurfaceMaterials({
+    required List<String> surfaces,
+    required String materialId,
+  }) async {
+    final persisted = state.valueOrNull;
+    if (persisted == null) return;
+    try {
+      final aptRepo = _ref.read(apartmentRepositoryProvider);
+      final merged = <String, dynamic>{
+        ...?persisted.room.surfaces,
+        for (final s in surfaces) s: materialId,
+      };
+      final updated = await aptRepo.updateRoom(
+        persisted.roomId,
+        surfaces: merged,
+      );
+      state = AsyncValue.data(
+        PersistedRoom(clientRoomId: persisted.clientRoomId, room: updated),
+      );
+      // Let the smeta/delta refetch with the new surfaces.
+      _ref.invalidate(roomDeltaProvider(persisted.roomId));
+      _ref.invalidate(estimatePreviewProvider(persisted.roomId));
+    } catch (_) {
+      // Best-effort: keep the current state on failure.
     }
   }
 

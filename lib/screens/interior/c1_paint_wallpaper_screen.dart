@@ -5,11 +5,18 @@ import '../../config/design_tokens.dart';
 import '../../models/design_selection_model.dart';
 import '../../providers/catalog_provider.dart';
 import '../../providers/design_provider.dart';
+import '../../providers/room_persistence_provider.dart';
 import '../../utils/catalog_rail.dart';
 import '../../widgets/common/success_toast.dart';
 import '../../widgets/design/stage_progress_line.dart';
 import '../../widgets/room/room_perspective_view.dart';
 import '../../widgets/room_3d_rail.dart';
+
+/// Rail ids that are real backend material UUIDs (vs. the hardcoded fallback
+/// swatch slugs like 'kok') can be persisted to the room's surfaces.
+final _uuidRe = RegExp(
+  r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
+);
 
 /// Hardcoded fallbacks — shown only while the backend catalog is loading, or
 /// if it's unreachable/empty, so the rail is never blank.
@@ -54,14 +61,45 @@ class _C1PaintWallpaperScreenState
     extends ConsumerState<C1PaintWallpaperScreen> {
   Color? _wallColor;
   bool _appliedToAll = false;
+  String? _selectedMaterialId;
+
+  @override
+  void initState() {
+    super.initState();
+    // Ensure the room exists on the backend so material choices can persist and
+    // feed the real smeta. Best-effort; the screen works offline regardless.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(roomPersistenceProvider.notifier).ensurePersisted();
+    });
+  }
+
+  /// Persists [materialId] to the given wall [surfaces] on the backend room, if
+  /// it's a real catalog material (fallback swatch slugs are local-only). This
+  /// is what makes the E1 smeta/delta reflect the chosen paint/wallpaper.
+  void _persist(List<String> surfaces, String materialId) {
+    if (!_uuidRe.hasMatch(materialId)) return;
+    ref.read(roomPersistenceProvider.notifier).setSurfaceMaterials(
+          surfaces: surfaces,
+          materialId: materialId,
+        );
+  }
 
   void _applySwatch(RailItem item) {
-    setState(() => _wallColor = item.color);
+    setState(() {
+      _wallColor = item.color;
+      _selectedMaterialId = item.id;
+    });
+    // Single-tap applies to wall A (the room's "back wall" in the preview).
+    _persist(const ['A'], item.id);
     SuccessToast.show(context, '✓ A devorga qo\'llanildi');
   }
 
   void _applyToAllWalls() {
     setState(() => _appliedToAll = true);
+    final materialId = _selectedMaterialId;
+    if (materialId != null) {
+      _persist(const ['A', 'B', 'C', 'D'], materialId);
+    }
     SuccessToast.show(context, '✓ Hamma devorga qo\'llanildi');
   }
 
