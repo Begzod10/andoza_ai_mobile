@@ -33,12 +33,24 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <!-- Deep links: andozaai://... routes straight to a go_router path
+                 (e.g. andozaai:///studio/{roomId} opens the 3D Studio). -->
+            <intent-filter android:autoVerify="false">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="andozaai"/>
+            </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <!-- Let Flutter/go_router handle incoming deep-link URIs as routes. -->
+        <meta-data
+            android:name="flutter_deeplinking_enabled"
+            android:value="true" />
         <!-- Impeller has multiple documented crashes on Android emulators
              (flutter/flutter#105323, #175562, #148481, #163421) during
              route transitions/surface reconfiguration, matching a crash
