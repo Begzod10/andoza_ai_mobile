@@ -223,6 +223,52 @@ Each phase is independently shippable and testable against the live backend.
   This reconfig disrupts host-browser access to the studio, so it wasn't done
   automatically.
 
+### Phase 7A — LIVE VERIFIED on the emulator (2026-08-06)
+Ran the full stack on the Pixel5 emulator (x86_64 build; note: build for
+`android-x64`, not arm64, or the app crashes with an EM_AARCH64/EM_X86_64 ABI
+mismatch). Reconfigured the frontend container with
+`VITE_API_URL=http://10.0.2.2:8000/api/v1` and added `http://10.0.2.2:5173` to
+the backend `CORS_ORIGINS_STR` (backend/.env; needs `up -d --force-recreate api`,
+a plain `restart` does NOT reload .env). Proven, with screenshots:
+- App launches (Andoza AI rebrand), login → `POST /auth/login 200`.
+- Room capture flow (manual dims 4×3×2.8 → walls → summary → korobka state).
+- C1 rail shows REAL backend materials (Tikkurila Euro 3 Oq / Optiva Kulrang /
+  Dulux Mos Sariq) once the catalog loads (first render briefly shows fallbacks).
+- Room-persistence bridge hits the backend (`GET /apartments 200`).
+- **WebView 3D Studio**: deep-linked `andozaai:///studio/{roomId}` → the native
+  "3D Studio" screen embeds the React/Three.js editor; the auth bridge works
+  (`GET /auth/me 200` via the seeded cookie/localStorage); after the CORS fix the
+  Studio loads the real room (`GET /rooms/{id} 200`, `materials 200`,
+  `wallpapers 200`) showing "Zal 4.5×3.6×2.8" with the correct stage state, and
+  the Three.js scene renders the room floor + orientation gizmo and orbits on drag.
+
+Two bugs found via the live run:
+1. App crashes on login (`type 'Null' is not a subtype of type 'String'`) when the
+   user's `phone` is null — `User.fromJson` requires phone. It's an uncaught
+   CastError (not an Exception), so the login button hangs. Should make phone
+   nullable or catch Error in AuthNotifier.login.
+2. Emulator/software-GL renders WebGL slowly; fine on real-device GPU.
+
+### Emulator run — how to reproduce
+```bash
+# frontend reachable from the device + CORS
+(cd tamir_uy && VITE_API_URL=http://10.0.2.2:8000/api/v1 \
+  sudo docker compose up -d --force-recreate --no-deps frontend)
+# add http://10.0.2.2:5173 to backend/.env CORS_ORIGINS_STR, then:
+(cd tamir_uy && sudo docker compose up -d --force-recreate --no-deps api)
+# build x64 (NOT arm64) + run
+flutter build apk --debug --target-platform android-x64 \
+  --dart-define=API_URL=http://10.0.2.2:8000/api/v1 \
+  --dart-define=API_BASE_URL=http://10.0.2.2:8000 \
+  --dart-define=STUDIO_BASE_URL=http://10.0.2.2:5173
+# open studio directly: adb shell am start -a android.intent.action.VIEW \
+#   -d "andozaai:///studio/<roomId>" com.tamir_uy.tamir_uy_mobile_flutter
+```
+NOTE: the frontend is currently left configured for the emulator
+(`VITE_API_URL=10.0.2.2`), which breaks host-browser studio access. To restore
+normal host dev: `VITE_API_URL=http://localhost:8000/api/v1 docker compose up -d
+--force-recreate --no-deps frontend`.
+
 ### ⚠️ Backend findings (this machine's local docker DB)
 1. **Schema drift from the git pull, now FIXED non-destructively.** The pulled
    code added `users.is_admin` and `rooms.deleted`, plus new tables, but the DB
