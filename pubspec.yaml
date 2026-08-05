@@ -60,6 +60,10 @@ dependencies:
   # Secure Storage
   flutter_secure_storage: ^9.2.0
 
+  # PDF export (smeta): write bytes to a temp file and open the share sheet
+  path_provider: ^2.1.4
+  share_plus: ^10.1.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -6,9 +6,11 @@ import '../../models/api/api.dart' show DeltaResponse, RoomStateValue;
 import '../../models/design_selection_model.dart';
 import '../../models/estimate_model.dart';
 import '../../providers/apartment_provider.dart';
+import '../../providers/estimate_api_provider.dart';
 import '../../providers/estimate_provider.dart';
 import '../../providers/room_persistence_provider.dart';
 import '../../providers/room_provider.dart';
+import '../../services/pdf_share_service.dart';
 import '../../utils/currency.dart';
 
 const _stageLabels = {
@@ -37,6 +39,8 @@ class E1EstimationIntroScreen extends ConsumerStatefulWidget {
 
 class _E1EstimationIntroScreenState
     extends ConsumerState<E1EstimationIntroScreen> {
+  bool _downloadingPdf = false;
+
   @override
   void initState() {
     super.initState();
@@ -46,6 +50,28 @@ class _E1EstimationIntroScreenState
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(roomPersistenceProvider.notifier).ensurePersisted();
     });
+  }
+
+  /// Downloads the server-generated smeta PDF for the persisted room and opens
+  /// the share sheet. Requires the room to be persisted (Phase 2 bridge).
+  Future<void> _downloadPdf(String roomId, String roomName) async {
+    setState(() => _downloadingPdf = true);
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      final bytes =
+          await ref.read(estimateRepositoryProvider).downloadPdf(roomId);
+      await sharePdfBytes(
+        bytes,
+        fileName: 'smeta_${roomName.replaceAll(' ', '_')}',
+        shareText: 'AndozaAI smeta — $roomName',
+      );
+    } catch (e) {
+      messenger.showSnackBar(
+        SnackBar(content: Text('PDF yuklab bo\'lmadi: $e')),
+      );
+    } finally {
+      if (mounted) setState(() => _downloadingPdf = false);
+    }
   }
 
   /// The stage label to show in the savings banner when using the backend
@@ -72,15 +98,24 @@ class _E1EstimationIntroScreenState
     // Prefer the backend's authoritative delta once the room is persisted;
     // otherwise fall back to the local computation.
     final persisted = ref.watch(roomPersistenceProvider).valueOrNull;
-    final backendDelta = persisted == null
+    final roomId = persisted?.roomId;
+    final backendDelta = roomId == null
         ? null
-        : ref.watch(roomDeltaProvider(persisted.roomId)).valueOrNull;
+        : ref.watch(roomDeltaProvider(roomId)).valueOrNull;
     final backendSavings = backendDelta?.deltaSavingsUzs;
     final useBackend = backendSavings != null && backendSavings > 0;
     final savings = useBackend ? backendSavings.toDouble() : localSavings;
     final savingsLabel = useBackend
         ? _backendSavingsLabel(backendDelta!)
         : (_stageLabels[savingsStage.name] ?? 'Bosqich');
+
+    // Real server smeta total once the room is persisted; the header keeps
+    // showing the local total until then (and if the backend is unreachable).
+    final backendEstimate = roomId == null
+        ? null
+        : ref.watch(estimatePreviewProvider(roomId)).valueOrNull;
+    final displayTotal =
+        backendEstimate?.totalUzs.toDouble() ?? estimate.totalPrice;
 
     return Scaffold(
       backgroundColor: DesignTokens.backgroundLight,
@@ -126,7 +161,7 @@ class _E1EstimationIntroScreenState
                         ),
                       ),
                       Text(
-                        formatSom(estimate.totalPrice.round()),
+                        formatSom(displayTotal.round()),
                         style: DesignTokens.heading1.copyWith(
                           color: DesignTokens.white,
                         ),
@@ -209,6 +244,33 @@ class _E1EstimationIntroScreenState
               top: false,
               child: Column(
                 children: [
+                  if (roomId != null) ...[
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        onPressed: _downloadingPdf
+                            ? null
+                            : () => _downloadPdf(
+                                  roomId,
+                                  room?.name ?? 'Xona',
+                                ),
+                        icon: _downloadingPdf
+                            ? const SizedBox(
+                                width: 16,
+                                height: 16,
+                                child:
+                                    CircularProgressIndicator(strokeWidth: 2),
+                              )
+                            : const Icon(Icons.picture_as_pdf_outlined),
+                        label: Text(
+                          _downloadingPdf
+                              ? 'Tayyorlanmoqda…'
+                              : 'PDF smetani yuklab olish',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: DesignTokens.spacingSm),
+                  ],
                   SizedBox(
                     width: double.infinity,
                     height: DesignTokens.buttonHeightLarge,

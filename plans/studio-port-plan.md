@@ -162,6 +162,25 @@ Each phase is independently shippable and testable against the live backend.
   local "you saved" figure until then. On-device screenshot of E1 with a real
   backend delta is deferred to the consolidated live pass.
 
+### Phase 3 — DONE (2026-08-05)
+- `repositories/estimate_repository.dart` (rewrite; deleted the dead one that
+  targeted non-existent `/estimates` paths): preview, create(persist), history,
+  getById, downloadPdf (raw bytes). `ApiClient.getBytes()` added.
+- `providers/estimate_api_provider.dart` (estimatePreview/history by roomId),
+  `services/pdf_share_service.dart` (writes PDF bytes to temp + share sheet).
+- Deps added: `path_provider`, `share_plus`.
+- E1 wire: shows the real server smeta total when the room is persisted (falls
+  back to local), plus a "PDF smetani yuklab olish" button that downloads the
+  ReportLab PDF and opens the share sheet.
+- Verified END-TO-END live: assigned a paint material to a room's walls →
+  preview total 840,000 with real priced lines ("Bo'yoq: Tikkurila Euro 3 Oq")
+  → persist (final/UZS) → history (1 item) → PDF (HTTP 200, valid %PDF-, 3.6KB).
+  8 new deserialization tests vs captured payloads; 33 tests pass; analyze clean;
+  **debug APK builds** (share_plus/path_provider native plugins link OK).
+- More DB drift fixed non-destructively: `estimates.currency` + `estimates.status`
+  were missing (persist 500'd) → `ALTER TABLE ADD COLUMN` with the model's
+  server_defaults.
+
 ### ⚠️ Backend findings (this machine's local docker DB)
 1. **Schema drift from the git pull, now FIXED non-destructively.** The pulled
    code added `users.is_admin` and `rooms.deleted`, plus new tables, but the DB

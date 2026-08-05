@@ -125,6 +125,24 @@ class ApiClient {
     }
   }
 
+  /// Fetches a binary response (e.g. a generated PDF) as raw bytes. The auth
+  /// token is attached via the interceptor like any other request.
+  Future<List<int>> getBytes(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    try {
+      final response = await _dio.get<List<int>>(
+        path,
+        queryParameters: queryParameters,
+        options: Options(responseType: ResponseType.bytes),
+      );
+      return response.data ?? const <int>[];
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
   /// Opens a Server-Sent Events stream (used by the AI builder). Yields one
   /// [SseEvent] per server event until the response completes or the
   /// subscription is cancelled. The auth token is attached via the interceptor
