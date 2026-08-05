@@ -11,6 +11,7 @@ import '../../widgets/common/success_toast.dart';
 import '../../widgets/design/stage_progress_line.dart';
 import '../../widgets/room/room_perspective_view.dart';
 import '../../widgets/room_3d_rail.dart';
+import 'wallpaper_library_sheet.dart';
 
 /// Rail ids that are real backend material UUIDs (vs. the hardcoded fallback
 /// swatch slugs like 'kok') can be persisted to the room's surfaces.
@@ -62,6 +63,7 @@ class _C1PaintWallpaperScreenState
   Color? _wallColor;
   bool _appliedToAll = false;
   String? _selectedMaterialId;
+  String? _wallpaperUrl;
 
   @override
   void initState() {
@@ -101,6 +103,17 @@ class _C1PaintWallpaperScreenState
       _persist(const ['A', 'B', 'C', 'D'], materialId);
     }
     SuccessToast.show(context, '✓ Hamma devorga qo\'llanildi');
+  }
+
+  /// Opens the shared wallpaper library. A picked wallpaper is applied to the
+  /// preview wall as a texture. (Uploaded wallpapers are image textures, not
+  /// catalog materials, so they aren't persisted to room.surfaces here — the
+  /// 3D Studio owns richer per-wall texture state.)
+  Future<void> _openWallpaperLibrary() async {
+    final wallpaper = await WallpaperLibrarySheet.show(context);
+    if (wallpaper == null || !mounted) return;
+    setState(() => _wallpaperUrl = wallpaper.url);
+    SuccessToast.show(context, '✓ Oboy tanlandi: ${wallpaper.name}');
   }
 
   /// Real backend materials for [category], mapped to rail swatches. Falls back
@@ -150,6 +163,42 @@ class _C1PaintWallpaperScreenState
                   stageStates: stageStates,
                   stageLabel: 'Bo\'yoq/Oboi bosqichi',
                 ),
+              ),
+            ),
+          ),
+          // Wallpaper-library trigger — a standalone button pinned bottom-left so
+          // it stays above the room drag-layer and the material rail overlay.
+          Positioned(
+            left: DesignTokens.spacingMd,
+            bottom: DesignTokens.spacingXl,
+            child: SafeArea(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  FloatingActionButton.extended(
+                    heroTag: 'wallpaperLib',
+                    onPressed: _openWallpaperLibrary,
+                    backgroundColor: DesignTokens.white,
+                    foregroundColor: DesignTokens.primaryBlue,
+                    icon: const Icon(Icons.collections_outlined),
+                    label: const Text('Oboy kutubxonasi'),
+                  ),
+                  if (_wallpaperUrl != null) ...[
+                    const SizedBox(width: DesignTokens.spacingSm),
+                    ClipRRect(
+                      borderRadius:
+                          BorderRadius.circular(DesignTokens.radiusMd),
+                      child: Image.network(
+                        _wallpaperUrl!,
+                        width: 44,
+                        height: 44,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, e, s) =>
+                            const SizedBox(width: 44, height: 44),
+                      ),
+                    ),
+                  ],
+                ],
               ),
             ),
           ),

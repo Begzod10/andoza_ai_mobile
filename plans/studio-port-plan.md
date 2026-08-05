@@ -269,6 +269,25 @@ NOTE: the frontend is currently left configured for the emulator
 normal host dev: `VITE_API_URL=http://localhost:8000/api/v1 docker compose up -d
 --force-recreate --no-deps frontend`.
 
+### Phase 5 — DONE + LIVE VERIFIED (2026-08-06)
+- `models/api/wallpaper.dart` (Phase 0), `wallpaper_repository.dart` (list +
+  multipart upload), `wallpaper_provider.dart`. `ApiClient.uploadFile()` for
+  `multipart/form-data` (uses dio `DioMediaType`).
+- `screens/interior/wallpaper_library_sheet.dart` — shared-library grid
+  (Image.network thumbnails) + "Rasm yuklash" upload via `image_picker`.
+- C1 entry: a bottom-left `FloatingActionButton.extended` "Oboy kutubxonasi".
+- Dep `image_picker`; its transitive AndroidX (core 1.18 / activity 1.12) demand
+  AGP 8.9.1+, so `android/app/build.gradle.kts` pins core→1.13.1, activity→1.9.3
+  via resolutionStrategy (avoids a full AGP/Gradle upgrade).
+- Verified live: multipart upload round-trip (`POST /wallpapers` 201 → `GET` shows
+  it → stored image fetchable 200); ON-DEVICE the FAB opens the sheet, which
+  fetches `GET /wallpapers 200` and renders the uploaded wallpaper thumbnail.
+  38 unit tests pass; analyze clean; APK builds.
+- GOTCHA discovered: the decoration flow's paint screen is `/design/b3`
+  (B3DecorationRailScreen), and ITS "Keyingi bosqich" leads to `/interior/c1`
+  (C1PaintWallpaperScreen, the one with real materials + the wallpaper FAB).
+  Don't confuse the two — the FAB/real-materials are on c1, one step past b3.
+
 ### ⚠️ Backend findings (this machine's local docker DB)
 1. **Schema drift from the git pull, now FIXED non-destructively.** The pulled
    code added `users.is_admin` and `rooms.deleted`, plus new tables, but the DB

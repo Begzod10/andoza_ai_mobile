@@ -125,6 +125,38 @@ class ApiClient {
     }
   }
 
+  /// Uploads a file as `multipart/form-data` under the field [fieldName].
+  /// [bytes] + [filename] describe the file; dio sets the multipart content
+  /// type (with boundary) automatically. Used for wallpaper image uploads.
+  Future<T> uploadFile<T>(
+    String path, {
+    required List<int> bytes,
+    required String filename,
+    String fieldName = 'file',
+    String? contentType,
+    required T Function(dynamic) fromJson,
+  }) async {
+    try {
+      final formData = FormData.fromMap({
+        fieldName: MultipartFile.fromBytes(
+          bytes,
+          filename: filename,
+          contentType: contentType == null
+              ? null
+              : DioMediaType.parse(contentType),
+        ),
+      });
+      final response = await _dio.post<dynamic>(
+        path,
+        data: formData,
+        options: Options(contentType: 'multipart/form-data'),
+      );
+      return fromJson(response.data);
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
   /// Fetches a binary response (e.g. a generated PDF) as raw bytes. The auth
   /// token is attached via the interceptor like any other request.
   Future<List<int>> getBytes(
