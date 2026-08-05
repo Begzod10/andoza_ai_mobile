@@ -4,6 +4,7 @@ import 'package:riverpod/riverpod.dart';
 import '../providers/auth_provider.dart';
 import '../screens/app_shell.dart';
 import '../screens/auth/login_screen.dart';
+import '../screens/studio/studio_webview_screen.dart';
 import '../screens/splash/splash_screen.dart';
 import '../screens/home/home_with_projects_screen.dart';
 import '../screens/room_setup/dimensions_entry_screen.dart';
@@ -193,6 +194,13 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/electrical/d10',
             builder: (context, state) => const D10FinalConfirmationScreen(),
+          ),
+          // 3D Studio (WebView-embedded web editor), keyed by backend room id.
+          GoRoute(
+            path: '/studio/:roomId',
+            builder: (context, state) => StudioWebViewScreen(
+              roomId: state.pathParameters['roomId']!,
+            ),
           ),
           // Estimation Routes (E1-E3)
           GoRoute(

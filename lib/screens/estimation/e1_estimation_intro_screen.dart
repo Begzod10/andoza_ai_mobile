@@ -245,29 +245,38 @@ class _E1EstimationIntroScreenState
               child: Column(
                 children: [
                   if (roomId != null) ...[
-                    SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton.icon(
-                        onPressed: _downloadingPdf
-                            ? null
-                            : () => _downloadPdf(
-                                  roomId,
-                                  room?.name ?? 'Xona',
-                                ),
-                        icon: _downloadingPdf
-                            ? const SizedBox(
-                                width: 16,
-                                height: 16,
-                                child:
-                                    CircularProgressIndicator(strokeWidth: 2),
-                              )
-                            : const Icon(Icons.picture_as_pdf_outlined),
-                        label: Text(
-                          _downloadingPdf
-                              ? 'Tayyorlanmoqda…'
-                              : 'PDF smetani yuklab olish',
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            onPressed: _downloadingPdf
+                                ? null
+                                : () => _downloadPdf(
+                                      roomId,
+                                      room?.name ?? 'Xona',
+                                    ),
+                            icon: _downloadingPdf
+                                ? const SizedBox(
+                                    width: 16,
+                                    height: 16,
+                                    child: CircularProgressIndicator(
+                                        strokeWidth: 2),
+                                  )
+                                : const Icon(Icons.picture_as_pdf_outlined),
+                            label: Text(
+                              _downloadingPdf ? 'Tayyorlanmoqda…' : 'PDF',
+                            ),
+                          ),
                         ),
-                      ),
+                        const SizedBox(width: DesignTokens.spacingSm),
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            onPressed: () => context.push('/studio/$roomId'),
+                            icon: const Icon(Icons.view_in_ar_outlined),
+                            label: const Text('3D Studio'),
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: DesignTokens.spacingSm),
                   ],

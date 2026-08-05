@@ -200,6 +200,29 @@ Each phase is independently shippable and testable against the live backend.
   not yet wired into a save button on C4/C5/D1 — those screens can adopt them
   incrementally. The high-value surface (C1 → smeta loop) is wired.
 
+### Phase 7A — WebView 3D Studio: app-side DONE, live verify PENDING (2026-08-05)
+- Dep `webview_flutter`; `AppConfig.studioBaseUrl` (dart-define STUDIO_BASE_URL,
+  default `http://10.0.2.2:5173`); `android:usesCleartextTraffic="true"` (WebView
+  respects Android cleartext policy, unlike the app's dart:io calls).
+- `screens/studio/studio_webview_screen.dart` — the auth bridge:
+  1. sets the `token` cookie for the shared host (cookies ignore port → covers
+     both the :5173 frontend and :8000 API),
+  2. seeds the Zustand `uy-tamir-auth` localStorage key ({state:{user,
+     isAuthenticated:true},version:0}) so the web app's RequireAuth guard passes,
+  3. two-step load: origin root → onPageFinished injects the flag → navigate to
+     `/studio/{roomId}`. Loading + error/retry overlays.
+- Route `/studio/:roomId`; entry button "3D Studio" on E1 (uses persisted roomId,
+  alongside the PDF button).
+- Verified: analyze clean; 35 tests pass; **debug APK builds** (webview native
+  plugin links).
+- ⚠️ LIVE VERIFY PENDING — needs the frontend served with a VITE_API_URL that is
+  reachable from the device. The docker frontend bakes `localhost:8000`, which
+  fails from inside the emulator WebView (localhost = the emulator). To demo:
+  serve the frontend with `VITE_API_URL=http://10.0.2.2:8000/api/v1` (emulator)
+  or `http://<LAN-IP>:8000/api/v1` (physical device), then open E1 → 3D Studio.
+  This reconfig disrupts host-browser access to the studio, so it wasn't done
+  automatically.
+
 ### ⚠️ Backend findings (this machine's local docker DB)
 1. **Schema drift from the git pull, now FIXED non-destructively.** The pulled
    code added `users.is_admin` and `rooms.deleted`, plus new tables, but the DB

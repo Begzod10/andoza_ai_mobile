@@ -11,6 +11,16 @@ class AppConfig {
     defaultValue: 'http://10.0.2.2:8000',
   );
 
+  /// Origin of the web "Studio" (React/Three.js) that the app embeds in a
+  /// WebView for 3D room editing. Default targets the emulator host loopback;
+  /// override with `--dart-define=STUDIO_BASE_URL=http://<lan-ip>:5173` for a
+  /// physical device. The frontend must be served with a VITE_API_URL that is
+  /// reachable from the device (see plans/studio-port-plan.md, Phase 7A).
+  static const String studioBaseUrl = String.fromEnvironment(
+    'STUDIO_BASE_URL',
+    defaultValue: 'http://10.0.2.2:5173',
+  );
+
   // LiDAR Configuration
   static const bool lidarEnabled =
       String.fromEnvironment('LIDAR_ENABLED', defaultValue: 'true') == 'true';
