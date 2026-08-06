@@ -12,6 +12,7 @@ import '../../providers/room_persistence_provider.dart';
 import '../../providers/room_provider.dart';
 import '../../services/pdf_share_service.dart';
 import '../../utils/currency.dart';
+import '../studio/ai_builder_sheet.dart';
 
 const _stageLabels = {
   RenovationStage.suvoq: 'Suvoq',
@@ -277,6 +278,15 @@ class _E1EstimationIntroScreenState
                           ),
                         ),
                       ],
+                    ),
+                    const SizedBox(height: DesignTokens.spacingSm),
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        onPressed: () => AiBuilderSheet.show(context, roomId),
+                        icon: const Icon(Icons.auto_awesome),
+                        label: const Text('AI dizayner'),
+                      ),
                     ),
                     const SizedBox(height: DesignTokens.spacingSm),
                   ],

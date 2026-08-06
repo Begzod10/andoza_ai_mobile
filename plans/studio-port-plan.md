@@ -288,6 +288,25 @@ normal host dev: `VITE_API_URL=http://localhost:8000/api/v1 docker compose up -d
   (C1PaintWallpaperScreen, the one with real materials + the wallpaper FAB).
   Don't confuse the two — the FAB/real-materials are on c1, one step past b3.
 
+### Phase 6 — DONE (SSE plumbing live-verified; real generation needs an LLM key) (2026-08-06)
+- `models/api/ai.dart`: `AiPatch` (freezed, mirrors RoomDraft.to_patch) + sealed
+  `AiBuildEvent` (thinking/toolCall/toolResult/done/error/unknown) + `SmetaAnswer`.
+- `ai_repository.dart`: `build()` maps the Phase-0 `ApiClient.stream()` SSE frames
+  to typed events; `smetaAsk()`. Provider in `ai_provider.dart`.
+- `screens/studio/ai_builder_sheet.dart`: prompt → streamed thinking/tool log →
+  done card with Apply/Discard. Apply persists the patch's ceiling_h + surfaces
+  via updateRoom and invalidates delta/estimate (furniture/lights/wall_lengths
+  are shown in the summary but owned by their own flows / the 3D Studio).
+- Entry: "AI dizayner" button on E1 (needs a persisted roomId).
+- Verified live: the SSE endpoint streams correctly — captured real frames
+  `{"type":"thinking",...}` then `{"type":"error", 401 invalid_api_key}` because
+  `OPENAI_API_KEY=sk-...` in tamir_uy/backend/.env is a PLACEHOLDER. So transport,
+  auth, framing and the parser all work end-to-end; a successful generation needs
+  a real OpenAI-compatible key server-side (AI_MODEL_BUILDER is set to a Gemini
+  model, so pair it with a Gemini key + OPENAI_BASE_URL, or use an OpenAI key).
+- 6 new event/patch parsing tests vs the real frames; 43 tests pass; analyze
+  clean; APK builds.
+
 ### ⚠️ Backend findings (this machine's local docker DB)
 1. **Schema drift from the git pull, now FIXED non-destructively.** The pulled
    code added `users.is_admin` and `rooms.deleted`, plus new tables, but the DB

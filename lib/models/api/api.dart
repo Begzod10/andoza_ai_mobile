@@ -4,6 +4,7 @@
 /// the app's client-side domain models under `lib/models/`.
 library;
 
+export 'ai.dart';
 export 'apartment.dart';
 export 'catalog.dart';
 export 'decoration.dart';
