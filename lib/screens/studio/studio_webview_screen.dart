@@ -29,7 +29,10 @@ class StudioWebViewScreen extends ConsumerStatefulWidget {
 }
 
 class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
-  late final WebViewController _controller;
+  // Nullable + built synchronously in _init before any await, so build() never
+  // reads it uninitialised (a late field would throw LateInitializationError on
+  // the first frame, before the async cookie/setup completes).
+  WebViewController? _controller;
   bool _seeded = false;
   bool _loading = true;
   String? _error;
@@ -39,10 +42,10 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
   @override
   void initState() {
     super.initState();
-    _bootstrap();
+    _init();
   }
 
-  Future<void> _bootstrap() async {
+  void _init() {
     final auth = ref.read(authStateProvider);
     if (auth is! AuthAuthenticated) {
       setState(() {
@@ -52,26 +55,21 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
       return;
     }
 
-    final host = Uri.parse(AppConfig.studioBaseUrl).host;
-
-    // 1. Set the auth cookie for the shared host so the frontend's
-    //    credentialed API calls are authenticated.
-    await WebViewCookieManager().setCookie(
-      WebViewCookie(name: 'token', value: auth.token, domain: host, path: '/'),
-    );
-
-    _controller = WebViewController()
+    // Construct the controller synchronously so build() always has one; the
+    // first load is kicked off from _bootstrap once the cookie is set.
+    final controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(DesignTokens.white)
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageFinished: (_) async {
-            // 2. On the first load of the origin, seed the auth flag then
-            //    navigate to the studio route (now past the RequireAuth guard).
+            // On the first load of the origin, seed the auth flag then navigate
+            // to the studio route (now past the RequireAuth guard).
             if (!_seeded) {
               _seeded = true;
-              await _controller.runJavaScript(_authSeedJs(auth.user));
-              await _controller.loadRequest(Uri.parse(_studioUrl));
+              // The field is assigned before any page load fires this callback.
+              await _controller!.runJavaScript(_authSeedJs(auth.user));
+              await _controller!.loadRequest(Uri.parse(_studioUrl));
               return;
             }
             if (mounted) setState(() => _loading = false);
@@ -88,12 +86,31 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
             }
           },
         ),
-      )
-      // First load: the origin root establishes the origin so localStorage is
-      // writable. It may bounce to /login (not yet seeded) — that's expected.
-      ..loadRequest(Uri.parse(AppConfig.studioBaseUrl));
+      );
+    setState(() => _controller = controller);
+    _bootstrap(auth, controller);
+  }
 
-    setState(() {});
+  Future<void> _bootstrap(
+    AuthAuthenticated auth,
+    WebViewController controller,
+  ) async {
+    final host = Uri.parse(AppConfig.studioBaseUrl).host;
+
+    // Set the auth cookie for the shared host so the frontend's credentialed
+    // API calls are authenticated (cookies ignore port, so one cookie covers
+    // both the frontend and the API when they share a host — the default). If
+    // STUDIO_BASE_URL is pointed at a different host than the API, this cookie
+    // won't reach the API and its calls will 401. Only the access token is
+    // seeded (no refresh_token cookie), so a session outliving the token's TTL
+    // would drop auth; fine for a normal editing session.
+    await WebViewCookieManager().setCookie(
+      WebViewCookie(name: 'token', value: auth.token, domain: host, path: '/'),
+    );
+
+    // First load: the origin root establishes the origin so localStorage is
+    // writable. It may bounce to /login (not yet seeded) — that's expected.
+    await controller.loadRequest(Uri.parse(AppConfig.studioBaseUrl));
   }
 
   /// JS that writes the Zustand `uy-tamir-auth` persisted state so the web
@@ -125,7 +142,8 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
       ),
       body: Stack(
         children: [
-          if (_error == null) WebViewWidget(controller: _controller),
+          if (_error == null && _controller != null)
+            WebViewWidget(controller: _controller!),
           if (_loading && _error == null)
             const Center(child: CircularProgressIndicator()),
           if (_error != null) _ErrorView(message: _error!, onRetry: _retry),
@@ -139,8 +157,9 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
       _error = null;
       _loading = true;
       _seeded = false;
+      _controller = null;
     });
-    _bootstrap();
+    _init();
   }
 }
 

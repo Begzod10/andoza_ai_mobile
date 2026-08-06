@@ -100,14 +100,24 @@ class _AiBuilderSheetState extends ConsumerState<AiBuilderSheet> {
     setState(() => _applying = true);
     final messenger = ScaffoldMessenger.of(context);
     try {
+      final repo = ref.read(apartmentRepositoryProvider);
+      final patchSurfaces = patch.surfaces;
       final hasRoomEdits = patch.ceilingH != null ||
-          (patch.surfaces != null && patch.surfaces!.isNotEmpty);
+          (patchSurfaces != null && patchSurfaces.isNotEmpty);
       if (hasRoomEdits) {
-        await ref.read(apartmentRepositoryProvider).updateRoom(
-              widget.roomId,
-              ceilingH: patch.ceilingH,
-              surfaces: patch.surfaces,
-            );
+        // Merge the AI's surface picks into the room's existing surfaces (a bare
+        // `surfaces:` on PATCH replaces the whole map, which would wipe walls
+        // the user already painted). Only fetch/merge when surfaces change.
+        Map<String, dynamic>? mergedSurfaces;
+        if (patchSurfaces != null && patchSurfaces.isNotEmpty) {
+          final current = await repo.getRoom(widget.roomId);
+          mergedSurfaces = {...?current.surfaces, ...patchSurfaces};
+        }
+        await repo.updateRoom(
+          widget.roomId,
+          ceilingH: patch.ceilingH,
+          surfaces: mergedSurfaces,
+        );
         // Refresh the smeta/delta so the change is reflected.
         ref.invalidate(roomDeltaProvider(widget.roomId));
         ref.invalidate(estimatePreviewProvider(widget.roomId));

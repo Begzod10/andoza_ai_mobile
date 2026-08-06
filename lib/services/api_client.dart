@@ -184,12 +184,18 @@ class ApiClient {
     String method = 'POST',
     dynamic data,
     Map<String, dynamic>? queryParameters,
+    CancelToken? cancelToken,
   }) async* {
+    // Own a token when the caller didn't supply one, so we can abort the
+    // underlying HTTP connection if the subscription is cancelled (otherwise dio
+    // keeps the SSE socket open until the server finishes).
+    final token = cancelToken ?? CancelToken();
     try {
       final response = await _dio.request<ResponseBody>(
         path,
         data: data,
         queryParameters: queryParameters,
+        cancelToken: token,
         options: Options(
           method: method,
           responseType: ResponseType.stream,
@@ -203,6 +209,10 @@ class ApiClient {
       yield* parseSseStream(body.stream.cast<List<int>>());
     } on DioException catch (e) {
       throw _handleDioError(e);
+    } finally {
+      // Runs when the stream completes OR the subscription is cancelled — either
+      // way, tear down the connection.
+      if (!token.isCancelled) token.cancel();
     }
   }
 

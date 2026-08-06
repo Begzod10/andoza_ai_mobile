@@ -32,6 +32,14 @@ RoomCreate roomToRoomCreate(client.Room room) {
     6.0,
   );
 
+  // An opening's height + sill must not exceed the ceiling, or the backend
+  // rejects the whole room (RoomCreate.check_element_heights → 422). Clamp each
+  // element's height to fit under the ceiling given its sill.
+  double openingHeight(double raw, double sill) =>
+      _clamp(raw, 0.3, (ceiling - sill - 0.01).clamp(0.3, 3.5));
+
+  const windowSill = 0.9;
+
   final walls = <WallCreate>[
     for (final wall in room.walls)
       WallCreate(
@@ -42,15 +50,15 @@ RoomCreate roomToRoomCreate(client.Room room) {
             WallElementCreate(
               type: WallElementType.eshik,
               width: _clamp(door.width, 0.3, 5.0),
-              height: _clamp(door.height, 0.3, 3.5),
+              height: openingHeight(door.height, 0.0),
               position: _clamp(door.position, 0.0, 1.0),
             ),
           for (final window in room.windows.where((w) => w.wallId == wall.id))
             WallElementCreate(
               type: WallElementType.deraza,
               width: _clamp(window.width, 0.3, 5.0),
-              height: _clamp(window.height, 0.3, 3.5),
-              sillHeight: 0.9,
+              height: openingHeight(window.height, windowSill),
+              sillHeight: windowSill,
               position: _clamp(window.position, 0.0, 1.0),
             ),
         ],

@@ -307,6 +307,31 @@ normal host dev: `VITE_API_URL=http://localhost:8000/api/v1 docker compose up -d
 - 6 new event/patch parsing tests vs the real frames; 43 tests pass; analyze
   clean; APK builds.
 
+### Post-implementation review + fixes (2026-08-06)
+A review agent audited all hand-written files vs the backend schemas. Wire
+formats, endpoint paths, SSE handling, and the persistence merges were all
+confirmed correct. Six issues found; fixed the substantive ones:
+- **HIGH** — `studio_webview_screen.dart`: `late final _controller` was read by
+  build() before the async cookie step assigned it → LateInitializationError on
+  the first frame (masked live by Flutter's build-error recovery + the fast
+  rebuild). Fixed: nullable controller built synchronously in `_init` before any
+  await, build() guarded on non-null. Re-verified live: 0 LateInitializationError,
+  Studio still renders.
+- **MED** — `ai_builder_sheet.dart`: applying an AI patch replaced the whole
+  `surfaces` map (wiping walls painted earlier). Fixed: fetch the room and merge
+  `{...current, ...patch.surfaces}` before updateRoom.
+- **MED** — `room_geometry_mapper.dart`: opening height clamped only to 0.3–3.5,
+  not against the ceiling → room POST could 422 (height+sill > ceiling). Fixed:
+  clamp height to `ceiling - sill - 0.01`; added a regression test.
+- **MED/LOW** — `api_client.stream()`: no CancelToken, so cancelling the Dart
+  subscription left the SSE socket open. Fixed: own/pass a CancelToken, cancel it
+  in a finally.
+- **LOW** — cross-host cookie / no refresh_token cookie in the WebView bridge:
+  documented as a deployment edge (comment added), no code change.
+- **LOW** — streamed/bytes error bodies lose the FastAPI `detail` (shows
+  "Unknown error"): left as-is (fiddly to decode stream error bodies safely; the
+  status code is still surfaced).
+
 ### ⚠️ Backend findings (this machine's local docker DB)
 1. **Schema drift from the git pull, now FIXED non-destructively.** The pulled
    code added `users.is_admin` and `rooms.deleted`, plus new tables, but the DB

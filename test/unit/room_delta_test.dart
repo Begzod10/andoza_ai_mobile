@@ -176,5 +176,52 @@ void main() {
       expect(body.ceilingH, 6.0); // 9 clamped to max
       expect(body.geometry.walls.first.length, 24.9); // 40 clamped
     });
+
+    test('clamps opening height under the ceiling so the POST cannot 422', () {
+      // Ceiling 2.5m, a window whose raw height (2.4) + sill (0.9) = 3.3 > 2.5.
+      // The backend rejects height + sill > ceiling; the mapper must clamp.
+      final room = client.Room(
+        id: 'r3',
+        name: 'Kichik',
+        createdAt: DateTime(2026, 1, 1),
+        dimensions: const client.RoomDimensions(width: 3, height: 2.5, length: 4),
+        walls: const [
+          client.Wall(
+            id: 'wA',
+            type: client.WallType.wallA,
+            measurements: client.WallMeasurements(height: 2.5, length: 4),
+          ),
+          client.Wall(
+            id: 'wB',
+            type: client.WallType.wallB,
+            measurements: client.WallMeasurements(height: 2.5, length: 3),
+          ),
+          client.Wall(
+            id: 'wC',
+            type: client.WallType.wallC,
+            measurements: client.WallMeasurements(height: 2.5, length: 4),
+          ),
+        ],
+        windows: const [
+          client.Window(
+            id: 'win1',
+            wallId: 'wA',
+            position: 0.5,
+            width: 1.4,
+            height: 2.4, // too tall for a 2.5m ceiling with a 0.9 sill
+            type: client.OpeningType.single,
+          ),
+        ],
+      );
+
+      final body = roomToRoomCreate(room);
+      final win = body.geometry.walls
+          .firstWhere((w) => w.id == 'A')
+          .elements
+          .single;
+      // height + sill must not exceed ceiling (2.5).
+      expect(win.sillHeight, 0.9);
+      expect(win.height + win.sillHeight, lessThanOrEqualTo(2.5));
+    });
   });
 }
