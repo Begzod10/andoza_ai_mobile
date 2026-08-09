@@ -58,6 +58,19 @@ class NewProjectSheet extends StatelessWidget {
           ),
           const SizedBox(height: DesignTokens.spacingLg),
           _EntryOption(
+            iconBackground: const Color(0xFFEDE7FB),
+            icon: Icons.view_in_ar,
+            iconColor: DesignTokens.primaryBlue,
+            title: '3D Sehrgar',
+            description:
+                'Interaktiv 3D ko\'rinishda xona o\'lchamlarini kiriting',
+            onTap: () {
+              Navigator.of(context).pop();
+              context.push('/wizard');
+            },
+          ),
+          const SizedBox(height: DesignTokens.spacingMd),
+          _EntryOption(
             iconBackground: DesignTokens.borderGrayAlt,
             icon: Icons.radar,
             iconColor: DesignTokens.primaryBlue,

@@ -9,19 +9,33 @@ import '../../config/design_tokens.dart';
 import '../../models/user_model.dart';
 import '../../providers/auth_provider.dart';
 
-/// Embeds the web "Studio" (React/Three.js 3D room editor) in a WebView for a
-/// given backend [roomId].
+/// Embeds a web page from the React/Three.js frontend (the 3D Studio or the
+/// room-capture wizard) in a WebView, authenticated as the current mobile user.
+///
+/// [path] is the frontend route to open once auth is bridged, e.g.
+/// `/studio/{roomId}` or `/wizard`. [title] is the app-bar label.
 ///
 /// Auth bridge: the web app authenticates via an HttpOnly `token` cookie
 /// (sent to the API with `credentials: "include"`) and gates its routes on a
 /// Zustand `uy-tamir-auth` localStorage flag. This screen reproduces both from
 /// the mobile session — it sets the cookie for the shared host (cookies ignore
 /// port, so one cookie covers both the :5173 frontend and :8000 API) and seeds
-/// the localStorage flag before navigating to `/studio/{roomId}`.
+/// the localStorage flag before navigating to [path].
 class StudioWebViewScreen extends ConsumerStatefulWidget {
-  const StudioWebViewScreen({required this.roomId, super.key});
+  const StudioWebViewScreen({
+    required this.path,
+    this.title = '3D Studio',
+    super.key,
+  });
 
-  final String roomId;
+  /// Convenience constructor for a specific room's 3D Studio.
+  // ignore: prefer_const_constructors_in_immutables
+  StudioWebViewScreen.studio({required String roomId, Key? key})
+      : this(path: '/studio/$roomId', title: '3D Studio', key: key);
+
+  /// The frontend route to open (e.g. `/wizard`, `/studio/{roomId}`).
+  final String path;
+  final String title;
 
   @override
   ConsumerState<StudioWebViewScreen> createState() =>
@@ -37,7 +51,7 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
   bool _loading = true;
   String? _error;
 
-  String get _studioUrl => '${AppConfig.studioBaseUrl}/studio/${widget.roomId}';
+  String get _targetUrl => '${AppConfig.studioBaseUrl}${widget.path}';
 
   @override
   void initState() {
@@ -69,7 +83,7 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
               _seeded = true;
               // The field is assigned before any page load fires this callback.
               await _controller!.runJavaScript(_authSeedJs(auth.user));
-              await _controller!.loadRequest(Uri.parse(_studioUrl));
+              await _controller!.loadRequest(Uri.parse(_targetUrl));
               return;
             }
             if (mounted) setState(() => _loading = false);
@@ -137,7 +151,7 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('3D Studio'),
+        title: Text(widget.title),
         backgroundColor: DesignTokens.white,
       ),
       body: Stack(

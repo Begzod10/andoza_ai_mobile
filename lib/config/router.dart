@@ -198,8 +198,19 @@ final routerProvider = Provider<GoRouter>((ref) {
           // 3D Studio (WebView-embedded web editor), keyed by backend room id.
           GoRoute(
             path: '/studio/:roomId',
-            builder: (context, state) => StudioWebViewScreen(
+            builder: (context, state) => StudioWebViewScreen.studio(
               roomId: state.pathParameters['roomId']!,
+            ),
+          ),
+          // Room-capture wizard — embeds the web frontend's polished isometric
+          // capture flow (ceiling height, per-wall length, doors/windows) via
+          // the same auth bridge. On finish it navigates to /studio inside the
+          // WebView. Standalone route (no roomId — the wizard creates the room).
+          GoRoute(
+            path: '/wizard',
+            builder: (context, state) => const StudioWebViewScreen(
+              path: '/wizard',
+              title: 'Yangi xona',
             ),
           ),
           // Estimation Routes (E1-E3)
