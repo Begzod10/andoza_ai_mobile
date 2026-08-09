@@ -195,24 +195,6 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: '/electrical/d10',
             builder: (context, state) => const D10FinalConfirmationScreen(),
           ),
-          // 3D Studio (WebView-embedded web editor), keyed by backend room id.
-          GoRoute(
-            path: '/studio/:roomId',
-            builder: (context, state) => StudioWebViewScreen.studio(
-              roomId: state.pathParameters['roomId']!,
-            ),
-          ),
-          // Room-capture wizard — embeds the web frontend's polished isometric
-          // capture flow (ceiling height, per-wall length, doors/windows) via
-          // the same auth bridge. On finish it navigates to /studio inside the
-          // WebView. Standalone route (no roomId — the wizard creates the room).
-          GoRoute(
-            path: '/wizard',
-            builder: (context, state) => const StudioWebViewScreen(
-              path: '/wizard',
-              title: 'Yangi xona',
-            ),
-          ),
           // Estimation Routes (E1-E3)
           GoRoute(
             path: '/estimation/e1',
@@ -332,6 +314,25 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/onboarding/e8',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const E8TutorialTourScreen(),
+      ),
+      // WebView screens must be full-screen (outside the ShellRoute) so the
+      // AppShell bottom nav/FAB don't paint over — and steal taps from — the
+      // web page's own bottom buttons. parentNavigatorKey routes the push to
+      // the root Navigator (see the E7/E8 note above).
+      GoRoute(
+        path: '/studio/:roomId',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => StudioWebViewScreen.studio(
+          roomId: state.pathParameters['roomId']!,
+        ),
+      ),
+      GoRoute(
+        path: '/wizard',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const StudioWebViewScreen(
+          path: '/wizard',
+          title: 'Yangi xona',
+        ),
       ),
     ],
   );
