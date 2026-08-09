@@ -4,6 +4,7 @@ import 'package:riverpod/riverpod.dart';
 import '../providers/auth_provider.dart';
 import '../screens/app_shell.dart';
 import '../screens/auth/login_screen.dart';
+import '../screens/room_setup/room_wizard_screen.dart';
 import '../screens/studio/studio_webview_screen.dart';
 import '../screens/splash/splash_screen.dart';
 import '../screens/home/home_with_projects_screen.dart';
@@ -326,13 +327,12 @@ final routerProvider = Provider<GoRouter>((ref) {
           roomId: state.pathParameters['roomId']!,
         ),
       ),
+      // Native room-capture wizard (full-screen, outside the ShellRoute so the
+      // bottom nav doesn't overlap its buttons). Replaced the WebView wizard.
       GoRoute(
         path: '/wizard',
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const StudioWebViewScreen(
-          path: '/wizard',
-          title: 'Yangi xona',
-        ),
+        builder: (context, state) => const RoomWizardScreen(),
       ),
     ],
   );

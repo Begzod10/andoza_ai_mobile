@@ -189,7 +189,7 @@ class _WallMeasurementsScreenState
                   border: Border.all(color: DesignTokens.borderGray),
                 ),
                 child: CustomPaint(
-                  painter: _WallElevationPainter(wall: wall),
+                  painter: WallElevationPainter(wall: wall),
                   size: Size.infinite,
                 ),
               ),
@@ -322,10 +322,10 @@ class _WallMeasurementsScreenState
   }
 }
 
-class _WallElevationPainter extends CustomPainter {
+class WallElevationPainter extends CustomPainter {
   final WallMeasurement wall;
 
-  _WallElevationPainter({required this.wall});
+  WallElevationPainter({required this.wall});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -399,7 +399,7 @@ class _WallElevationPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_WallElevationPainter oldDelegate) {
+  bool shouldRepaint(WallElevationPainter oldDelegate) {
     return oldDelegate.wall.length != wall.length ||
         oldDelegate.wall.height != wall.height ||
         oldDelegate.wall.openings.length != wall.openings.length;
