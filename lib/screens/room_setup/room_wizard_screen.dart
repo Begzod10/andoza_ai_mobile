@@ -7,6 +7,7 @@ import '../../models/design_selection_model.dart';
 import '../../models/room_model.dart';
 import '../../models/room_model.dart' as room_model;
 import '../../providers/design_provider.dart';
+import '../../providers/room_persistence_provider.dart';
 import '../../providers/room_provider.dart';
 import '../../widgets/room/isometric_room_view.dart';
 import '../home/home_empty_screen.dart';
@@ -27,6 +28,7 @@ class RoomWizardScreen extends ConsumerStatefulWidget {
 class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
   // Step 0 = ceiling, steps 1..4 = walls A–D, step 5 = summary.
   int _step = 0;
+  bool _openingStudio = false;
   final _ceilingController = TextEditingController();
 
   static const _ceilingPresets = [2.5, 2.7, 3.0, 3.2];
@@ -124,8 +126,9 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
                         )
                       : _SummaryStep(
                           walls: walls,
-                          onViewSmeta: () => _finish('/estimation/e1'),
-                          onStartDesign: () => _finish('/design/b1'),
+                          openingStudio: _openingStudio,
+                          onViewSmeta: _goSmeta,
+                          onStartDesign: _goStudio,
                         )),
             ),
           ),
@@ -196,9 +199,40 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
     );
   }
 
-  /// Builds the room from the captured walls, populates the app's providers
-  /// (same as the classic summary flow), then navigates to [destination].
-  void _finish(String destination) {
+  /// "Smeta ko'rish" — set up the room and show the smeta (E1 persists it and
+  /// computes the estimate).
+  void _goSmeta() {
+    _setupRoom();
+    context.go('/estimation/e1');
+  }
+
+  /// "Bezashni boshlash" — like the web wizard, open the 3D Studio. That needs a
+  /// real backend room id, so persist the room first, then navigate to
+  /// /studio/{id}. Falls back to the native design flow if the backend is
+  /// unreachable (offline).
+  Future<void> _goStudio() async {
+    _setupRoom();
+    setState(() => _openingStudio = true);
+    try {
+      final notifier = ref.read(roomPersistenceProvider.notifier);
+      await notifier.ensurePersisted();
+      final persisted = ref.read(roomPersistenceProvider).valueOrNull;
+      if (!mounted) return;
+      if (persisted != null) {
+        context.go('/studio/${persisted.roomId}');
+      } else {
+        context.go('/design/b1'); // offline fallback
+      }
+    } catch (_) {
+      if (mounted) context.go('/design/b1');
+    } finally {
+      if (mounted) setState(() => _openingStudio = false);
+    }
+  }
+
+  /// Builds the room from the captured walls and populates the app's providers
+  /// (same as the classic summary flow).
+  void _setupRoom() {
     final walls = ref.read(wallMeasurementsProvider);
     final roomId = DateTime.now().microsecondsSinceEpoch.toString();
 
@@ -280,8 +314,6 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
             createdAt: DateTime.now(),
           ),
         );
-
-    context.go(destination);
   }
 }
 
@@ -450,11 +482,13 @@ class _WallStep extends StatelessWidget {
 class _SummaryStep extends StatelessWidget {
   const _SummaryStep({
     required this.walls,
+    required this.openingStudio,
     required this.onViewSmeta,
     required this.onStartDesign,
   });
 
   final List<WallMeasurement> walls;
+  final bool openingStudio;
   final VoidCallback onViewSmeta;
   final VoidCallback onStartDesign;
 
@@ -512,16 +546,23 @@ class _SummaryStep extends StatelessWidget {
           width: double.infinity,
           height: DesignTokens.buttonHeightLarge,
           child: ElevatedButton(
-            onPressed: onViewSmeta,
+            onPressed: openingStudio ? null : onViewSmeta,
             child: const Text('Smeta ko\'rish'),
           ),
         ),
         const SizedBox(height: DesignTokens.spacingSm),
         SizedBox(
           width: double.infinity,
-          child: OutlinedButton(
-            onPressed: onStartDesign,
-            child: const Text('Bezashni boshlash'),
+          child: OutlinedButton.icon(
+            onPressed: openingStudio ? null : onStartDesign,
+            icon: openingStudio
+                ? const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  )
+                : const Icon(Icons.view_in_ar_outlined),
+            label: Text(openingStudio ? 'Ochilmoqda…' : 'Bezashni boshlash'),
           ),
         ),
       ],
