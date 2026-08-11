@@ -13,6 +13,7 @@ class LoginScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
+  bool _obscurePassword = true;
 
   @override
   void initState() {
@@ -67,7 +68,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               const SizedBox(height: DesignTokens.spacing16),
               TextField(
                 controller: _passwordController,
-                obscureText: true,
+                obscureText: _obscurePassword,
                 decoration: InputDecoration(
                   hintText: 'Password',
                   border: OutlineInputBorder(
@@ -78,6 +79,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: DesignTokens.spacing16,
                     vertical: DesignTokens.spacing12,
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _obscurePassword
+                          ? Icons.visibility_outlined
+                          : Icons.visibility_off_outlined,
+                    ),
+                    tooltip: _obscurePassword ? 'Show password' : 'Hide password',
+                    onPressed: () => setState(
+                      () => _obscurePassword = !_obscurePassword,
+                    ),
                   ),
                 ),
               ),
