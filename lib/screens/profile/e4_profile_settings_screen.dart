@@ -25,7 +25,10 @@ class E4ProfileSettingsScreen extends ConsumerWidget {
       data: (user) => user?.phone,
       orElse: () => null,
     );
-    final projectCount = ref.watch(homeStateProvider).projects.length;
+    final projectCount = ref.watch(projectsProvider).maybeWhen(
+      data: (projects) => projects.length,
+      orElse: () => 0,
+    );
     final orderCount = ref.watch(ordersProvider).length;
     final savings = estimateSavingsTotal(ref.watch(estimateProvider));
 

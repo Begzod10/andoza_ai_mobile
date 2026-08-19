@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../models/api/apartment.dart';
 import '../../models/design_selection_model.dart';
+import '../../providers/apartment_provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/empty_state_pattern.dart';
 import '../room_setup/new_project_sheet.dart';
@@ -10,6 +12,37 @@ import '../room_setup/new_project_sheet.dart';
 /// Riverpod provider for home screen state
 final homeStateProvider = StateNotifierProvider<HomeStateNotifier, HomeState>(
   (ref) => HomeStateNotifier(),
+);
+
+/// The merged project list the UI renders: the user's real backend
+/// apartments ([apartmentsProvider]) mapped to [ProjectItem]s, plus any
+/// locally-added ([homeStateProvider]) projects not yet present on the
+/// server. Dedup is by `id` with the server winning, so an optimistic add
+/// disappears cleanly once the refetch returns it.
+///
+/// Loading/error state is passed straight through from [apartmentsProvider]
+/// (via [AsyncValue.whenData]); invalidate [apartmentsProvider] to retry.
+final projectsProvider = Provider<AsyncValue<List<ProjectItem>>>((ref) {
+  final localProjects = ref.watch(homeStateProvider).projects;
+  return ref.watch(apartmentsProvider).whenData((apartments) {
+    final serverProjects = apartments.map(_apartmentToProject).toList();
+    final serverIds = serverProjects.map((p) => p.id).toSet();
+    final localOnly =
+        localProjects.where((p) => !serverIds.contains(p.id)).toList();
+    return [...serverProjects, ...localOnly];
+  });
+});
+
+/// Maps a backend [Apartment] to the UI's [ProjectItem]. The server has no
+/// concept of renovation stage or room condition yet, so [renovationStage]
+/// takes [ProjectItem]'s default ([RenovationStage.suvoq]) and
+/// [roomCondition] stays null ("not yet assessed").
+ProjectItem _apartmentToProject(Apartment a) => ProjectItem(
+  id: a.id,
+  name: a.name,
+  location: a.address ?? '',
+  roomCount: a.rooms.length,
+  createdAt: a.createdAt,
 );
 
 class HomeState {

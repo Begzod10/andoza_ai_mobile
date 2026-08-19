@@ -30,7 +30,10 @@ class _E5ProjectsScreenState extends ConsumerState<E5ProjectsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final projects = ref.watch(homeStateProvider).projects;
+    final projects = ref.watch(projectsProvider).maybeWhen(
+      data: (list) => list,
+      orElse: () => const <ProjectItem>[],
+    );
     final visible = switch (_filter) {
       _ProjectFilter.all => projects,
       _ProjectFilter.ongoing => projects.where((p) => !_isFinished(p)).toList(),

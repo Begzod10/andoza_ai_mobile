@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 import '../../models/design_selection_model.dart';
+import '../../providers/apartment_provider.dart';
 import '../../widgets/design/stage_progress_line.dart';
 import 'home_empty_screen.dart';
 
@@ -13,57 +14,109 @@ class HomeWithProjectsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final homeState = ref.watch(homeStateProvider);
+    return ref.watch(projectsProvider).when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (_, _) => _HomeErrorState(
+        onRetry: () => ref.invalidate(apartmentsProvider),
+      ),
+      data: (projects) {
+        if (projects.isEmpty) {
+          return const HomeEmptyBody();
+        }
 
-    if (homeState.projects.isEmpty) {
-      return const HomeEmptyBody();
-    }
+        final activeProject = projects.first;
+        final otherProjects = projects.skip(1).toList();
 
-    final activeProject = homeState.projects.first;
-    final otherProjects = homeState.projects.skip(1).toList();
-
-    return SafeArea(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(
-          horizontal: DesignTokens.screenPaddingHorizontal,
-          vertical: DesignTokens.spacingLg,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const HomeGreetingHeader(),
-            const SizedBox(height: DesignTokens.spacingLg),
-            _ActiveProjectCard(project: activeProject),
-            const SizedBox(height: DesignTokens.spacingXl),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        return SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: DesignTokens.screenPaddingHorizontal,
+              vertical: DesignTokens.spacingLg,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Loyihalaringiz', style: DesignTokens.subtitle1),
-                GestureDetector(
-                  onTap: () => _openAllProjects(context),
-                  child: Text(
-                    'Barchasi',
-                    style: DesignTokens.body2.copyWith(
-                      color: DesignTokens.primaryBlue,
-                      fontWeight: FontWeight.w600,
+                const HomeGreetingHeader(),
+                const SizedBox(height: DesignTokens.spacingLg),
+                _ActiveProjectCard(project: activeProject),
+                const SizedBox(height: DesignTokens.spacingXl),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Loyihalaringiz', style: DesignTokens.subtitle1),
+                    GestureDetector(
+                      onTap: () => _openAllProjects(context),
+                      child: Text(
+                        'Barchasi',
+                        style: DesignTokens.body2.copyWith(
+                          color: DesignTokens.primaryBlue,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
+                const SizedBox(height: DesignTokens.spacingMd),
+                for (final project in otherProjects) ...[
+                  _ProjectListRow(project: project),
+                  const SizedBox(height: DesignTokens.spacingSm),
+                ],
               ],
             ),
-            const SizedBox(height: DesignTokens.spacingMd),
-            for (final project in otherProjects) ...[
-              _ProjectListRow(project: project),
-              const SizedBox(height: DesignTokens.spacingSm),
-            ],
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
   void _openAllProjects(BuildContext context) {
     context.push('/profile/e5');
+  }
+}
+
+/// Shown when the backend project list fails to load. [onRetry] should
+/// invalidate [apartmentsProvider] to trigger a refetch.
+class _HomeErrorState extends StatelessWidget {
+  const _HomeErrorState({required this.onRetry});
+
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.cloud_off_outlined,
+                size: DesignTokens.iconXl,
+                color: DesignTokens.textGray,
+              ),
+              const SizedBox(height: DesignTokens.spacingMd),
+              Text(
+                'Loyihalarni yuklab bo\'lmadi',
+                style: DesignTokens.subtitle1,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: DesignTokens.spacingSm),
+              Text(
+                'Internet aloqasini tekshiring va qayta urinib ko\'ring',
+                style: DesignTokens.body2.copyWith(color: DesignTokens.textGray),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: DesignTokens.spacingLg),
+              ElevatedButton(
+                onPressed: onRetry,
+                child: const Text('Qayta urinish'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
