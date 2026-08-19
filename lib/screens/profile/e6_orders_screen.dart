@@ -23,7 +23,10 @@ class _E6OrdersScreenState extends ConsumerState<E6OrdersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final orders = ref.watch(ordersProvider);
+    final orders = ref.watch(serverOrdersProvider).maybeWhen(
+      data: (data) => data,
+      orElse: () => ref.watch(ordersProvider),
+    );
     final visible = _filter == null
         ? orders
         : orders.where((o) => o.currentStep == _filter).toList();
@@ -161,7 +164,12 @@ class _OrderCard extends StatelessWidget {
           children: [
             Row(
               children: [
-                Expanded(child: Text(order.id, style: DesignTokens.subtitle2)),
+                Expanded(
+                  child: Text(
+                    '#${order.id.length > 8 ? order.id.substring(0, 8).toUpperCase() : order.id}',
+                    style: DesignTokens.subtitle2,
+                  ),
+                ),
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: DesignTokens.spacingSm,

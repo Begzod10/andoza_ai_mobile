@@ -1,11 +1,21 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../models/api/api.dart';
 import '../../models/shop_model.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/orders_provider.dart';
 import '../../utils/currency.dart';
+
+/// Matches a canonical UUID — used to decide whether a cart product's id is a
+/// real backend material UUID (send as `material_id`) or a local/synthetic
+/// slug (send null).
+final _uuidRe = RegExp(
+  r'^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$',
+);
 
 enum _PaymentMethod { payme, click, uzum, cash }
 
@@ -56,17 +66,57 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
     setState(() => _isPlacing = true);
     await Future.delayed(const Duration(milliseconds: 500));
     if (!mounted) return;
+    final dealerName = lines.isEmpty ? '—' : lines.first.dealer.name;
     final order = ShopOrder(
       id: 'ORD-${lines.length}${total % 10000}',
       lines: lines,
       total: total,
       currentStep: OrderStep.accepted,
-      dealerName: lines.isEmpty ? '—' : lines.first.dealer.name,
+      dealerName: dealerName,
       createdAt: DateTime.now(),
     );
     ref.read(cartProvider.notifier).clear();
     ref.read(ordersProvider.notifier).add(order);
+    // Best-effort server persistence — never blocks the user; S7 shows the
+    // local optimistic order regardless of whether the POST succeeds.
+    unawaited(_persistOrder(order.id, dealerName, lines));
     context.push('/shop/s7', extra: order);
+  }
+
+  /// POSTs the placed order to `/orders`, then invalidates the server list so
+  /// E6/Profile refetch the authoritative history. Failures are surfaced via
+  /// a snackbar only — the user's flow is not interrupted.
+  Future<void> _persistOrder(
+    String localId,
+    String dealerName,
+    List<CartLine> lines,
+  ) async {
+    try {
+      await ref.read(ordersRepositoryProvider).createOrder(
+        dealerName: dealerName,
+        lines: [
+          for (final line in lines)
+            OrderLineCreate(
+              materialId: _uuidRe.hasMatch(line.product.id)
+                  ? line.product.id
+                  : null,
+              productName: line.product.name,
+              unit: line.product.unit,
+              unitPriceUzs: line.product.pricePerUnit,
+              quantity: line.quantity,
+            ),
+        ],
+      );
+      // Server now owns this order — drop the local optimistic copy so the
+      // merged history doesn't list it twice (local id vs server UUID).
+      ref.read(ordersProvider.notifier).remove(localId);
+      ref.invalidate(serverOrdersProvider);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Buyurtmani serverga saqlashda xatolik: $e')),
+      );
+    }
   }
 
   @override
