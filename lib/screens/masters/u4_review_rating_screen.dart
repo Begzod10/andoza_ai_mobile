@@ -125,7 +125,9 @@ class U4ReviewRatingScreen extends ConsumerWidget {
               Text('Joylashuv', style: DesignTokens.subtitle1),
               const SizedBox(height: DesignTokens.spacingXs),
               Text(
-                '${m.areaName} · ~${m.master.distanceKm} km',
+                m.master.distanceKm != null
+                    ? '${m.areaName} · ~${m.master.distanceKm} km'
+                    : m.areaName,
                 style: DesignTokens.caption.copyWith(
                   color: DesignTokens.textGray,
                 ),

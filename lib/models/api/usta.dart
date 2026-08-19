@@ -21,6 +21,8 @@ class Usta with _$Usta {
     @JsonKey(name: 'price_min') int? priceMin,
     @JsonKey(name: 'price_max') int? priceMax,
     @Default(false) bool verified,
+    @JsonKey(name: 'lat') double? lat,
+    @JsonKey(name: 'lng') double? lng,
   }) = _Usta;
 
   factory Usta.fromJson(Map<String, dynamic> json) => _$UstaFromJson(json);

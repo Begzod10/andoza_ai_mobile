@@ -1,5 +1,7 @@
 import 'package:riverpod/riverpod.dart';
+import '../models/api/usta.dart';
 import '../repositories/masters_repository.dart';
+import 'catalog_provider.dart';
 
 /// Trade categories per spec's exact color-per-trade mapping. No backend
 /// `/masters` endpoint exists — mock data only for this rebuild pass,
@@ -53,92 +55,70 @@ class MockMaster {
   final bool isVerified;
 }
 
+/// Ustalar shown on the U1 map / U3 list, built from the real backend
+/// `/ustalar` directory. Kept a synchronous [Provider] so the map/list
+/// consumers stay unchanged; while the request is loading (or on error) it
+/// yields an empty list rather than throwing.
 final mockMastersProvider = Provider<List<MockMaster>>((ref) {
-  return [
-    MockMaster(
-      master: const Master(
-        id: 'akmal',
-        name: 'Akmal Yusupov',
-        specialty: 'Elektrik',
-        rating: 4.8,
-        reviewCount: 127,
-        latitude: 41.2995,
-        longitude: 69.2401,
-        distanceKm: 2.1,
-      ),
-      trade: Trade.elektrik,
-      areaName: 'Chilonzor',
-      experienceYears: 8,
-      isOnline: true,
-      isVerified: true,
-    ),
-    MockMaster(
-      master: const Master(
-        id: 'dilnoza',
-        name: 'Dilnoza Rashidova',
-        specialty: 'Suvoqchi',
-        rating: 4.6,
-        reviewCount: 84,
-        latitude: 41.3111,
-        longitude: 69.2797,
-        distanceKm: 3.4,
-      ),
-      trade: Trade.suvoqchi,
-      areaName: 'Yunusobod',
-      experienceYears: 5,
-      isOnline: true,
-      isVerified: true,
-    ),
-    MockMaster(
-      master: const Master(
-        id: 'sherzod',
-        name: 'Sherzod Nazarov',
-        specialty: 'Kafelchi',
-        rating: 4.9,
-        reviewCount: 203,
-        latitude: 41.2856,
-        longitude: 69.2034,
-        distanceKm: 1.6,
-      ),
-      trade: Trade.kafelchi,
-      areaName: 'Sergeli',
-      experienceYears: 12,
-      isOnline: false,
-      isVerified: true,
-    ),
-    MockMaster(
-      master: const Master(
-        id: 'ravshan',
-        name: 'Ravshan Tursunov',
-        specialty: 'Santexnik',
-        rating: 4.5,
-        reviewCount: 61,
-        latitude: 41.3264,
-        longitude: 69.2298,
-        distanceKm: 4.2,
-      ),
-      trade: Trade.santexnik,
-      areaName: 'Mirzo Ulug\'bek',
-      experienceYears: 6,
-      isOnline: true,
-      isVerified: false,
-    ),
-    MockMaster(
-      master: const Master(
-        id: 'botir',
-        name: 'Botir Ergashev',
-        specialty: 'Duradgor',
-        rating: 4.7,
-        reviewCount: 95,
-        latitude: 41.2775,
-        longitude: 69.2843,
-        distanceKm: 5.0,
-      ),
-      trade: Trade.duradgor,
-      areaName: 'Shayxontohur',
-      experienceYears: 10,
-      isOnline: false,
-      isVerified: true,
-    ),
-  ];
+  return ref
+      .watch(ustalarProvider(_allUstalarFilter))
+      .maybeWhen(
+        data: (list) => list.map(_toMockMaster).toList(),
+        orElse: () => const <MockMaster>[],
+      );
 });
+
+/// No category/district filter → the full craftsmen directory.
+const UstaFilter _allUstalarFilter = (category: null, district: null);
+
+/// Maps a backend [Usta] onto the UI's [MockMaster] shape. Fields the server
+/// doesn't provide ([MockMaster.experienceYears], [MockMaster.isOnline]) are
+/// derived or defaulted; a null `lat`/`lng` flows through to [Master] and is
+/// guarded by the map consumer.
+MockMaster _toMockMaster(Usta usta) {
+  return MockMaster(
+    master: Master(
+      id: usta.id,
+      name: usta.name,
+      specialty: usta.category,
+      rating: usta.rating,
+      reviewCount: usta.jobsCount,
+      latitude: usta.lat,
+      longitude: usta.lng,
+      distanceKm: null,
+    ),
+    trade: _tradeFromCategory(usta.category),
+    areaName: usta.district ?? '',
+    // No experience field on the backend — approximate from completed jobs
+    // (~1 year per dozen), clamped to a sane range, falling back to 5.
+    experienceYears: usta.jobsCount > 0
+        ? (usta.jobsCount / 12).clamp(1, 25).round()
+        : 5,
+    // No presence signal on the backend yet — assume reachable.
+    isOnline: true,
+    isVerified: usta.verified,
+  );
+}
+
+/// Maps a server `category` slug onto the UI [Trade] enum. The enum has fewer
+/// members than the catalog, so several categories collapse onto the closest
+/// visual trade. Unknown/unmapped values default to [Trade.elektrik] so the
+/// pin still renders instead of crashing.
+Trade _tradeFromCategory(String category) {
+  switch (category.toLowerCase()) {
+    case 'elektrik':
+      return Trade.elektrik;
+    case 'santexnik':
+      return Trade.santexnik;
+    case 'malyar':
+      return Trade.suvoqchi;
+    case 'oboy':
+      return Trade.suvoqchi;
+    case 'laminat':
+      return Trade.kafelchi;
+    case 'brigada':
+      return Trade.duradgor;
+    default:
+      return Trade.elektrik;
+  }
+}

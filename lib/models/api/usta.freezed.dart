@@ -35,6 +35,10 @@ mixin _$Usta {
   @JsonKey(name: 'price_max')
   int? get priceMax => throw _privateConstructorUsedError;
   bool get verified => throw _privateConstructorUsedError;
+  @JsonKey(name: 'lat')
+  double? get lat => throw _privateConstructorUsedError;
+  @JsonKey(name: 'lng')
+  double? get lng => throw _privateConstructorUsedError;
 
   /// Serializes this Usta to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -62,6 +66,8 @@ abstract class $UstaCopyWith<$Res> {
     @JsonKey(name: 'price_min') int? priceMin,
     @JsonKey(name: 'price_max') int? priceMax,
     bool verified,
+    @JsonKey(name: 'lat') double? lat,
+    @JsonKey(name: 'lng') double? lng,
   });
 }
 
@@ -91,6 +97,8 @@ class _$UstaCopyWithImpl<$Res, $Val extends Usta>
     Object? priceMin = freezed,
     Object? priceMax = freezed,
     Object? verified = null,
+    Object? lat = freezed,
+    Object? lng = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -138,6 +146,14 @@ class _$UstaCopyWithImpl<$Res, $Val extends Usta>
                 ? _value.verified
                 : verified // ignore: cast_nullable_to_non_nullable
                       as bool,
+            lat: freezed == lat
+                ? _value.lat
+                : lat // ignore: cast_nullable_to_non_nullable
+                      as double?,
+            lng: freezed == lng
+                ? _value.lng
+                : lng // ignore: cast_nullable_to_non_nullable
+                      as double?,
           )
           as $Val,
     );
@@ -164,6 +180,8 @@ abstract class _$$UstaImplCopyWith<$Res> implements $UstaCopyWith<$Res> {
     @JsonKey(name: 'price_min') int? priceMin,
     @JsonKey(name: 'price_max') int? priceMax,
     bool verified,
+    @JsonKey(name: 'lat') double? lat,
+    @JsonKey(name: 'lng') double? lng,
   });
 }
 
@@ -190,6 +208,8 @@ class __$$UstaImplCopyWithImpl<$Res>
     Object? priceMin = freezed,
     Object? priceMax = freezed,
     Object? verified = null,
+    Object? lat = freezed,
+    Object? lng = freezed,
   }) {
     return _then(
       _$UstaImpl(
@@ -237,6 +257,14 @@ class __$$UstaImplCopyWithImpl<$Res>
             ? _value.verified
             : verified // ignore: cast_nullable_to_non_nullable
                   as bool,
+        lat: freezed == lat
+            ? _value.lat
+            : lat // ignore: cast_nullable_to_non_nullable
+                  as double?,
+        lng: freezed == lng
+            ? _value.lng
+            : lng // ignore: cast_nullable_to_non_nullable
+                  as double?,
       ),
     );
   }
@@ -257,6 +285,8 @@ class _$UstaImpl implements _Usta {
     @JsonKey(name: 'price_min') this.priceMin,
     @JsonKey(name: 'price_max') this.priceMax,
     this.verified = false,
+    @JsonKey(name: 'lat') this.lat,
+    @JsonKey(name: 'lng') this.lng,
   });
 
   factory _$UstaImpl.fromJson(Map<String, dynamic> json) =>
@@ -289,10 +319,16 @@ class _$UstaImpl implements _Usta {
   @override
   @JsonKey()
   final bool verified;
+  @override
+  @JsonKey(name: 'lat')
+  final double? lat;
+  @override
+  @JsonKey(name: 'lng')
+  final double? lng;
 
   @override
   String toString() {
-    return 'Usta(id: $id, name: $name, category: $category, district: $district, phone: $phone, telegram: $telegram, rating: $rating, jobsCount: $jobsCount, priceMin: $priceMin, priceMax: $priceMax, verified: $verified)';
+    return 'Usta(id: $id, name: $name, category: $category, district: $district, phone: $phone, telegram: $telegram, rating: $rating, jobsCount: $jobsCount, priceMin: $priceMin, priceMax: $priceMax, verified: $verified, lat: $lat, lng: $lng)';
   }
 
   @override
@@ -317,7 +353,9 @@ class _$UstaImpl implements _Usta {
             (identical(other.priceMax, priceMax) ||
                 other.priceMax == priceMax) &&
             (identical(other.verified, verified) ||
-                other.verified == verified));
+                other.verified == verified) &&
+            (identical(other.lat, lat) || other.lat == lat) &&
+            (identical(other.lng, lng) || other.lng == lng));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -335,6 +373,8 @@ class _$UstaImpl implements _Usta {
     priceMin,
     priceMax,
     verified,
+    lat,
+    lng,
   );
 
   /// Create a copy of Usta
@@ -364,6 +404,8 @@ abstract class _Usta implements Usta {
     @JsonKey(name: 'price_min') final int? priceMin,
     @JsonKey(name: 'price_max') final int? priceMax,
     final bool verified,
+    @JsonKey(name: 'lat') final double? lat,
+    @JsonKey(name: 'lng') final double? lng,
   }) = _$UstaImpl;
 
   factory _Usta.fromJson(Map<String, dynamic> json) = _$UstaImpl.fromJson;
@@ -393,6 +435,12 @@ abstract class _Usta implements Usta {
   int? get priceMax;
   @override
   bool get verified;
+  @override
+  @JsonKey(name: 'lat')
+  double? get lat;
+  @override
+  @JsonKey(name: 'lng')
+  double? get lng;
 
   /// Create a copy of Usta
   /// with the given fields replaced by the non-null parameter values.

@@ -50,30 +50,35 @@ class _U1MastersIntroScreenState extends ConsumerState<U1MastersIntroScreen> {
                 MarkerLayer(
                   markers: [
                     for (final m in masters)
-                      Marker(
-                        point: LatLng(m.master.latitude!, m.master.longitude!),
-                        width: 44,
-                        height: 44,
-                        child: GestureDetector(
-                          onTap: () => _showPinSheet(context, m),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Color(m.trade.colorValue),
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: DesignTokens.white,
-                                width: 2,
+                      if (m.master.latitude != null &&
+                          m.master.longitude != null)
+                        Marker(
+                          point: LatLng(
+                            m.master.latitude!,
+                            m.master.longitude!,
+                          ),
+                          width: 44,
+                          height: 44,
+                          child: GestureDetector(
+                            onTap: () => _showPinSheet(context, m),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Color(m.trade.colorValue),
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: DesignTokens.white,
+                                  width: 2,
+                                ),
                               ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                m.trade.emoji,
-                                style: const TextStyle(fontSize: 18),
+                              child: Center(
+                                child: Text(
+                                  m.trade.emoji,
+                                  style: const TextStyle(fontSize: 18),
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
                   ],
                 ),
               ],
@@ -264,7 +269,9 @@ class _PinSheet extends StatelessWidget {
                 color: DesignTokens.textGray,
               ),
               Text(
-                ' ${master.areaName} · ~${master.master.distanceKm} km',
+                master.master.distanceKm != null
+                    ? ' ${master.areaName} · ~${master.master.distanceKm} km'
+                    : ' ${master.areaName}',
                 style: DesignTokens.caption,
               ),
             ],

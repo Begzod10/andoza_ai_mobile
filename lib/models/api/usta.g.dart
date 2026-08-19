@@ -18,6 +18,8 @@ _$UstaImpl _$$UstaImplFromJson(Map<String, dynamic> json) => _$UstaImpl(
   priceMin: (json['price_min'] as num?)?.toInt(),
   priceMax: (json['price_max'] as num?)?.toInt(),
   verified: json['verified'] as bool? ?? false,
+  lat: (json['lat'] as num?)?.toDouble(),
+  lng: (json['lng'] as num?)?.toDouble(),
 );
 
 Map<String, dynamic> _$$UstaImplToJson(_$UstaImpl instance) =>
@@ -33,4 +35,6 @@ Map<String, dynamic> _$$UstaImplToJson(_$UstaImpl instance) =>
       'price_min': instance.priceMin,
       'price_max': instance.priceMax,
       'verified': instance.verified,
+      'lat': instance.lat,
+      'lng': instance.lng,
     };

@@ -106,7 +106,9 @@ class U3RequestBookingScreen extends ConsumerWidget {
                             ),
                             const SizedBox(width: DesignTokens.spacingSm),
                             Text(
-                              '${m.areaName} · ~${m.master.distanceKm} km',
+                              m.master.distanceKm != null
+                                  ? '${m.areaName} · ~${m.master.distanceKm} km'
+                                  : m.areaName,
                               style: DesignTokens.caption.copyWith(
                                 color: DesignTokens.textGray,
                               ),
