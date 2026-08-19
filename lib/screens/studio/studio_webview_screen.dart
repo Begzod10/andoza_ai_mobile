@@ -84,28 +84,31 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
       ..setBackgroundColor(DesignTokens.white)
       ..setNavigationDelegate(
         NavigationDelegate(
-          // Intercept a *hard* navigation to the web /login page (e.g. the web
-          // app does `window.location = '/login'` on logout / session end).
-          // Once the studio is up, don't let the WebView strand the user on the
-          // web login page — cancel it and pop back to the native app instead.
+          // The WebView is meant to host ONLY the 3D Studio. Intercept a *hard*
+          // navigation that leaves the studio (e.g. the web app's back button →
+          // /projects, or `window.location = '/login'` on session end): cancel
+          // it and pop back to the native app instead of stranding the user on
+          // a web page inside the WebView. Studio sub-pages (the tabs, e.g.
+          // /studio/{id}/mebelirovka) stay in the WebView.
           onNavigationRequest: (request) {
             if (_studioReady &&
                 request.isMainFrame &&
-                _isLoginUrl(request.url)) {
+                _hasLeftStudio(request.url)) {
               _returnToApp();
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
           },
-          // Client-side (SPA / React Router) redirects to /login don't fire a
-          // navigation request — they only change the URL. Catch them here so
-          // an in-app logout still returns the user to the native app.
+          // Client-side (SPA / React Router) navigations — the studio back
+          // button (→ /projects), an in-app logout (→ /login), etc. — don't
+          // fire a navigation request, they only change the URL. Catch them
+          // here so leaving the studio still returns the user to the native app.
           onUrlChange: (change) {
-            if (_studioReady && _isLoginUrl(change.url)) {
+            if (_studioReady && _hasLeftStudio(change.url)) {
               _returnToApp();
             }
           },
-          onPageFinished: (_) async {
+          onPageFinished: (url) async {
             // On the first load of the origin, seed the auth flag then navigate
             // to the studio route (now past the RequireAuth guard).
             if (!_seeded) {
@@ -115,10 +118,15 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
               await _controller!.loadRequest(Uri.parse(_targetUrl));
               return;
             }
-            // The studio route itself has now loaded; from here on a /login
-            // navigation is a real exit signal, not the pre-seed bounce.
-            _studioReady = true;
-            if (mounted) setState(() => _loading = false);
+            // Arm the leave-studio exit ONLY once an actual studio page has
+            // finished loading. During bootstrap the origin root bounces
+            // through '/', /projects and /login (multiple pageFinished events);
+            // those must not arm the exit, or the next bounce would pop us
+            // straight back out before the studio ever renders.
+            if (!_hasLeftStudio(url) && !_studioReady) {
+              _studioReady = true;
+            }
+            if (mounted && _loading) setState(() => _loading = false);
           },
           onWebResourceError: (err) {
             // Ignore sub-resource errors; only surface a hard main-frame fail.
@@ -159,11 +167,17 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
     await controller.loadRequest(Uri.parse(AppConfig.studioBaseUrl));
   }
 
-  /// Whether [url] points at the web app's `/login` route (any host/port).
-  bool _isLoginUrl(String? url) {
+  /// Whether [url] is a page *outside* the 3D Studio, i.e. the web app has
+  /// navigated away from it (back to `/projects`, `/login` on session end,
+  /// the `/apartments/...` menu entry, …). The studio route itself and its
+  /// tabs (`/studio`, `/studio/{id}`, `/studio/{id}/{tab}`) return false so
+  /// in-studio navigation stays in the WebView. A null/empty URL returns
+  /// false so a spurious url change never triggers an exit.
+  bool _hasLeftStudio(String? url) {
     if (url == null) return false;
     final path = Uri.tryParse(url)?.path ?? '';
-    return path == '/login' || path.endsWith('/login');
+    if (path.isEmpty) return false;
+    return path != '/studio' && !path.startsWith('/studio/');
   }
 
   /// Leave the WebView and return to the native app. Pops the studio route
