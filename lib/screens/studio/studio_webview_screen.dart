@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../config/app_config.dart';
@@ -48,6 +49,13 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
   // the first frame, before the async cookie/setup completes).
   WebViewController? _controller;
   bool _seeded = false;
+  // True once the studio route itself has finished loading. Until then, any
+  // bounce to /login is the expected pre-seed guard redirect and must be
+  // ignored; only a /login navigation *after* this point means the web
+  // session ended or the user exited, and should return us to the native app.
+  bool _studioReady = false;
+  // Guards against firing the return-to-app navigation more than once.
+  bool _exiting = false;
   bool _loading = true;
   String? _error;
 
@@ -76,6 +84,27 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
       ..setBackgroundColor(DesignTokens.white)
       ..setNavigationDelegate(
         NavigationDelegate(
+          // Intercept a *hard* navigation to the web /login page (e.g. the web
+          // app does `window.location = '/login'` on logout / session end).
+          // Once the studio is up, don't let the WebView strand the user on the
+          // web login page — cancel it and pop back to the native app instead.
+          onNavigationRequest: (request) {
+            if (_studioReady &&
+                request.isMainFrame &&
+                _isLoginUrl(request.url)) {
+              _returnToApp();
+              return NavigationDecision.prevent;
+            }
+            return NavigationDecision.navigate;
+          },
+          // Client-side (SPA / React Router) redirects to /login don't fire a
+          // navigation request — they only change the URL. Catch them here so
+          // an in-app logout still returns the user to the native app.
+          onUrlChange: (change) {
+            if (_studioReady && _isLoginUrl(change.url)) {
+              _returnToApp();
+            }
+          },
           onPageFinished: (_) async {
             // On the first load of the origin, seed the auth flag then navigate
             // to the studio route (now past the RequireAuth guard).
@@ -86,6 +115,9 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
               await _controller!.loadRequest(Uri.parse(_targetUrl));
               return;
             }
+            // The studio route itself has now loaded; from here on a /login
+            // navigation is a real exit signal, not the pre-seed bounce.
+            _studioReady = true;
             if (mounted) setState(() => _loading = false);
           },
           onWebResourceError: (err) {
@@ -125,6 +157,30 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
     // First load: the origin root establishes the origin so localStorage is
     // writable. It may bounce to /login (not yet seeded) — that's expected.
     await controller.loadRequest(Uri.parse(AppConfig.studioBaseUrl));
+  }
+
+  /// Whether [url] points at the web app's `/login` route (any host/port).
+  bool _isLoginUrl(String? url) {
+    if (url == null) return false;
+    final path = Uri.tryParse(url)?.path ?? '';
+    return path == '/login' || path.endsWith('/login');
+  }
+
+  /// Leave the WebView and return to the native app. Pops the studio route
+  /// when it was pushed (e.g. from E1); otherwise (entered via `context.go`
+  /// from the wizard) falls back to the native home. Runs at most once, and is
+  /// deferred so it never mutates navigation from inside a WebView callback.
+  void _returnToApp() {
+    if (_exiting || !mounted) return;
+    _exiting = true;
+    Future.microtask(() {
+      if (!mounted) return;
+      if (context.canPop()) {
+        context.pop();
+      } else {
+        context.go('/');
+      }
+    });
   }
 
   /// JS that writes the Zustand `uy-tamir-auth` persisted state so the web
@@ -171,6 +227,8 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
       _error = null;
       _loading = true;
       _seeded = false;
+      _studioReady = false;
+      _exiting = false;
       _controller = null;
     });
     _init();
