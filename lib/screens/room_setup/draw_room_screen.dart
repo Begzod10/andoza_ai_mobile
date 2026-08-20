@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,7 +32,7 @@ class DrawRoomScreen extends ConsumerStatefulWidget {
 }
 
 class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   /// Logical pixels per metre for the top-down canvas.
   static const double _ppm = 30.0;
   static const double _grabRadiusPx = 24.0;
@@ -59,6 +61,12 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
   )..addListener(() => setState(() {}));
   List<Vec2>? _animFrom;
   List<Vec2>? _animTo;
+
+  // Rejection "shake" when a drag would self-intersect the polygon.
+  late final AnimationController _shakeCtrl = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 300),
+  )..addListener(() => setState(() {}));
 
   // Undo / redo history (snapshots of corners + closed).
   final List<({List<Vec2> corners, bool closed})> _undoStack = [];
@@ -101,7 +109,27 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
   @override
   void dispose() {
     _anim.dispose();
+    _shakeCtrl.dispose();
     super.dispose();
+  }
+
+  /// A decaying horizontal shake offset (px) for the reject animation.
+  double get _shakeDx => _shakeCtrl.isAnimating
+      ? math.sin(_shakeCtrl.value * math.pi * 4) *
+          8 *
+          (1 - _shakeCtrl.value)
+      : 0;
+
+  void _triggerShake() {
+    HapticFeedback.mediumImpact();
+    _shakeCtrl.forward(from: 0);
+  }
+
+  /// Whether moving corner [i] to [moved] would make the polygon self-cross.
+  bool _wouldSelfIntersect(int i, Vec2 moved) {
+    final cand = List.of(_corners);
+    cand[i] = moved;
+    return isSelfIntersecting(cand);
   }
 
   /// Axis-aligned 4.0 × 3.0 m seed rectangle for the Vizual tab.
@@ -194,7 +222,12 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
 
   void _onPanUpdate(DragUpdateDetails d) {
     if (_dragIndex != null) {
-      setState(() => _corners[_dragIndex!] = _snap(_toWorld(d.localPosition)));
+      final moved = _snap(_toWorld(d.localPosition));
+      if (_wouldSelfIntersect(_dragIndex!, moved)) {
+        _triggerShake();
+        return;
+      }
+      setState(() => _corners[_dragIndex!] = moved);
     } else if (_freehandDrawing) {
       setState(() => _rawStrokeM.add(_toWorld(d.localPosition)));
     }
@@ -501,6 +534,10 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
         moved.distanceTo(next) < GeometryConfig.minWallM) {
       return;
     }
+    if (_wouldSelfIntersect(i, moved)) {
+      _triggerShake();
+      return;
+    }
     if (_corners[i] == moved) return; // sub-5cm jitter, no step
     setState(() => _corners[i] = moved);
     HapticFeedback.selectionClick();
@@ -687,9 +724,12 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
             onClear: _clear,
           ),
           Expanded(
-            child: _mode == _DrawMode.polygon
-                ? _buildIsoEditor()
-                : _build2dCanvas(wallLengths),
+            child: Transform.translate(
+              offset: Offset(_shakeDx, 0),
+              child: _mode == _DrawMode.polygon
+                  ? _buildIsoEditor()
+                  : _build2dCanvas(wallLengths),
+            ),
           ),
           _BottomPanel(
             plan: plan,
