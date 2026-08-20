@@ -38,17 +38,23 @@ final projectsProvider = Provider<AsyncValue<List<ProjectItem>>>((ref) {
 /// [RenovationStage] enum value at the matching 0-based position, so the
 /// card's "Bosqich N/8" mirrors the server exactly. [roomCondition] stays
 /// null ("not yet assessed") — the server has no room-condition concept yet.
-ProjectItem _apartmentToProject(Apartment a) => ProjectItem(
-  id: a.id,
-  name: a.name,
-  location: a.address ?? '',
-  roomCount: a.rooms.length,
-  createdAt: a.createdAt,
-  renovationStage: RenovationStage.values[(a.renovationStage - 1).clamp(
-    0,
-    RenovationStage.values.length - 1,
-  )],
-);
+ProjectItem _apartmentToProject(Apartment a) {
+  // Pick the most-recently-edited room to resume in the 3D Studio.
+  final rooms = [...a.rooms]
+    ..sort((r1, r2) => r2.updatedAt.compareTo(r1.updatedAt));
+  return ProjectItem(
+    id: a.id,
+    name: a.name,
+    location: a.address ?? '',
+    roomCount: a.rooms.length,
+    createdAt: a.createdAt,
+    renovationStage: RenovationStage.values[(a.renovationStage - 1).clamp(
+      0,
+      RenovationStage.values.length - 1,
+    )],
+    studioRoomId: rooms.isNotEmpty ? rooms.first.id : null,
+  );
+}
 
 class HomeState {
   final List<ProjectItem> projects;
@@ -91,6 +97,11 @@ class ProjectItem {
   final RoomCondition? roomCondition;
   final RenovationStage renovationStage;
 
+  /// The room to open in the 3D Studio when "Davom etish" is tapped — the
+  /// apartment's most-recently-edited room. Null for a local/optimistic
+  /// project that has no server room yet.
+  final String? studioRoomId;
+
   ProjectItem({
     required this.id,
     required this.name,
@@ -99,6 +110,7 @@ class ProjectItem {
     required this.createdAt,
     this.roomCondition,
     this.renovationStage = RenovationStage.suvoq,
+    this.studioRoomId,
   });
 
   /// Delta-mechanic display states for this project's progress bar. When

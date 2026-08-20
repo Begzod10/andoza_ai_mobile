@@ -230,16 +230,15 @@ class _ActiveProjectCard extends ConsumerWidget {
               // studio for this apartment's most-recently-edited room. Falls
               // back to the native design flow if the project has no rooms yet.
               onPressed: () {
-                final apartments =
-                    ref.read(apartmentsProvider).value ?? const [];
-                final matches =
-                    apartments.where((a) => a.id == project.id).toList();
-                if (matches.isNotEmpty && matches.first.rooms.isNotEmpty) {
-                  final rooms = [...matches.first.rooms]
-                    ..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
-                  context.push('/studio/${rooms.first.id}');
+                final roomId = project.studioRoomId;
+                if (roomId != null) {
+                  context.push('/studio/$roomId');
                 } else {
-                  context.go('/design/b2');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Bu loyihada hali xona yo\'q'),
+                    ),
+                  );
                 }
               },
               child: const Text('Davom etish'),
