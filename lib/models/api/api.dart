@@ -11,6 +11,7 @@ export 'decoration.dart';
 export 'delta.dart';
 export 'electrical.dart';
 export 'estimate.dart';
+export 'material_offer.dart';
 export 'order.dart';
 export 'room_create.dart';
 export 'room_out.dart';

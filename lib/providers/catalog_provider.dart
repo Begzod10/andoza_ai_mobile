@@ -33,6 +33,13 @@ final storesProvider = FutureProvider<List<Store>>((ref) {
   return ref.watch(catalogRepositoryProvider).getStores();
 });
 
+/// Real per-store offers for one material (S4 dealer comparison), cheapest
+/// first from the server.
+final materialOffersProvider =
+    FutureProvider.family<List<MaterialOffer>, String>((ref, materialId) {
+  return ref.watch(catalogRepositoryProvider).getMaterialOffers(materialId);
+});
+
 /// Filter key for the ustalar directory. A record so the FutureProvider.family
 /// gets structural equality for free (same category+district → same request).
 typedef UstaFilter = ({String? category, String? district});

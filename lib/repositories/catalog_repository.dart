@@ -53,6 +53,18 @@ class CatalogRepository {
     );
   }
 
+  /// Per-store offers for a single material (`GET /materials/{id}/offers`),
+  /// cheapest first. Each row is a real price/stock/delivery quote from one
+  /// store for [materialId] — what S4's dealer comparison lists.
+  Future<List<MaterialOffer>> getMaterialOffers(String materialId) {
+    return _client.get<List<MaterialOffer>>(
+      '/materials/$materialId/offers',
+      fromJson: (json) => (json as List<dynamic>)
+          .map((e) => MaterialOffer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+
   /// All active partner stores (ordered by tier then name on the server).
   Future<List<Store>> getStores() {
     return _client.get<List<Store>>(

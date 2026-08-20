@@ -279,6 +279,21 @@ List<Dealer> dealersForProduct(Product product) {
   ];
 }
 
+/// Maps a real backend [MaterialOffer] onto the UI's [Dealer] shape so the
+/// cart/checkout flow (which groups by `dealer.id` and prices off
+/// `dealer.pricePerUnit`) works unchanged. Gold/platinum partner tiers count
+/// as the "official" (verified) badge.
+Dealer dealerFromOffer(MaterialOffer offer) => Dealer(
+      id: offer.storeId,
+      name: offer.storeName,
+      isOfficial:
+          offer.storePartnerTier == 'gold' ||
+          offer.storePartnerTier == 'platinum',
+      district: offer.storeDistrict ?? '',
+      deliveryDays: offer.deliveryDays,
+      pricePerUnit: offer.priceUzs,
+    );
+
 /// Best dealer per the spec's S4 rule: cheapest wins; official dealer
 /// breaks ties in a way that favors trust over a marginal discount.
 Dealer bestDealer(List<Dealer> dealers) {

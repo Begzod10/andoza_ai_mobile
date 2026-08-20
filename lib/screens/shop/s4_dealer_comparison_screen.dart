@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../config/design_tokens.dart';
 import '../../models/shop_model.dart';
 import '../../providers/cart_provider.dart';
+import '../../providers/catalog_provider.dart';
 import '../../providers/shop_provider.dart';
 import '../../utils/currency.dart';
 
@@ -27,7 +28,19 @@ class _S4DealerComparisonScreenState
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
-    final dealers = dealersForProduct(product);
+
+    // Real per-store offers from the backend (cheapest first). If the list is
+    // empty or the request errors — e.g. product.id isn't a server material
+    // UUID — fall back to the synthetic dealers so the screen never breaks.
+    // Loading stays synthetic too, so the cards render immediately.
+    final offersAsync = ref.watch(materialOffersProvider(product.id));
+    final dealers = offersAsync.maybeWhen(
+      data: (offers) => offers.isEmpty
+          ? dealersForProduct(product)
+          : offers.map(dealerFromOffer).toList(),
+      orElse: () => dealersForProduct(product),
+    );
+    final isLoading = offersAsync.isLoading;
     final best = bestDealer(dealers);
 
     final visible = switch (_filter) {
@@ -107,6 +120,11 @@ class _S4DealerComparisonScreenState
             ),
           ),
           const SizedBox(height: DesignTokens.spacingMd),
+          if (isLoading)
+            const Padding(
+              padding: EdgeInsets.only(bottom: DesignTokens.spacingMd),
+              child: LinearProgressIndicator(minHeight: 2),
+            ),
           for (final dealer in visible) ...[
             _DealerCard(
               dealer: dealer,
