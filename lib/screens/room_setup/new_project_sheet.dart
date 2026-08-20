@@ -95,6 +95,20 @@ class NewProjectSheet extends StatelessWidget {
               context.push('/scanning/photo');
             },
           ),
+          const SizedBox(height: DesignTokens.spacingMd),
+          _EntryOption(
+            iconBackground: const Color(0xFFEAF7F0),
+            icon: Icons.draw_outlined,
+            iconColor: DesignTokens.successGreen,
+            title: 'O\'zingiz chizing',
+            description:
+                'Xonani barmog\'ingiz bilan chizing — o\'lchamlar chizganingizga '
+                'qarab o\'zi hisoblanadi',
+            onTap: () {
+              Navigator.of(context).pop();
+              context.push('/setup/draw');
+            },
+          ),
         ],
       ),
     );

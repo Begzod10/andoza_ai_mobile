@@ -5,6 +5,7 @@ import '../providers/auth_provider.dart';
 import '../screens/app_shell.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/room_setup/room_wizard_screen.dart';
+import '../screens/room_setup/draw_room_screen.dart';
 import '../screens/studio/studio_webview_screen.dart';
 import '../screens/splash/splash_screen.dart';
 import '../screens/home/home_with_projects_screen.dart';
@@ -333,6 +334,14 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/wizard',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const RoomWizardScreen(),
+      ),
+      // "Draw your own" — sketch the room by dragging a rectangle with live
+      // dimensions. Full-screen (outside the shell) so the drag has the whole
+      // canvas.
+      GoRoute(
+        path: '/setup/draw',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const DrawRoomScreen(),
       ),
     ],
   );
