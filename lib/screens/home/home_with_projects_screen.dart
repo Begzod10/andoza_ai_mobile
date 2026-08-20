@@ -120,13 +120,13 @@ class _HomeErrorState extends StatelessWidget {
   }
 }
 
-class _ActiveProjectCard extends StatelessWidget {
+class _ActiveProjectCard extends ConsumerWidget {
   const _ActiveProjectCard({required this.project});
 
   final ProjectItem project;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final stageStates = project.stageStates;
     final currentIndex = project.renovationStage.index;
     final excludedNames = [
@@ -171,11 +171,34 @@ class _ActiveProjectCard extends StatelessWidget {
           const SizedBox(height: DesignTokens.spacingMd),
           Text(project.name, style: DesignTokens.subtitle1),
           const SizedBox(height: DesignTokens.spacingMd),
-          StageProgressLine(
-            currentStep: currentIndex,
-            totalSteps: RenovationStage.values.length,
-            stageStates: stageStates,
-            stageLabel: stageLabel,
+          // Tapping the stage/progress area opens the stage picker sheet so
+          // the user can set which renovation stage this project is at.
+          InkWell(
+            onTap: () => _showStagePicker(context, ref, project),
+            borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: DesignTokens.spacingXs,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: StageProgressLine(
+                      currentStep: currentIndex,
+                      totalSteps: RenovationStage.values.length,
+                      stageStates: stageStates,
+                      stageLabel: stageLabel,
+                    ),
+                  ),
+                  const SizedBox(width: DesignTokens.spacingSm),
+                  const Icon(
+                    Icons.edit_outlined,
+                    size: DesignTokens.iconSm,
+                    color: DesignTokens.primaryBlue,
+                  ),
+                ],
+              ),
+            ),
           ),
           const SizedBox(height: DesignTokens.spacingSm),
           Row(
@@ -216,16 +239,182 @@ class _ActiveProjectCard extends StatelessWidget {
     );
   }
 
-  static String _stageLabel(RenovationStage stage) => switch (stage) {
-    RenovationStage.suvoq => 'suvoq',
-    RenovationStage.shpaklovka => 'shpaklovka',
-    RenovationStage.boyoqOboi => 'bo\'yoq/oboi',
-    RenovationStage.pol => 'pol',
-    RenovationStage.mebel => 'mebel',
-    RenovationStage.elektr => 'elektr',
-    RenovationStage.yoruglik => 'yorug\'lik',
-    RenovationStage.santexnika => 'santexnika',
-  };
+}
+
+/// Human-readable name for a [RenovationStage], shared by the active-project
+/// card and the stage-picker sheet.
+String _stageLabel(RenovationStage stage) => switch (stage) {
+  RenovationStage.suvoq => 'suvoq',
+  RenovationStage.shpaklovka => 'shpaklovka',
+  RenovationStage.boyoqOboi => 'bo\'yoq/oboi',
+  RenovationStage.pol => 'pol',
+  RenovationStage.mebel => 'mebel',
+  RenovationStage.elektr => 'elektr',
+  RenovationStage.yoruglik => 'yorug\'lik',
+  RenovationStage.santexnika => 'santexnika',
+};
+
+/// Opens the "Bosqichni tanlang" bottom sheet for [project], letting the user
+/// set its renovation stage. On select it PATCHes the apartment and
+/// invalidates [apartmentsProvider] so Home/E4/E5 refetch.
+Future<void> _showStagePicker(
+  BuildContext context,
+  WidgetRef ref,
+  ProjectItem project,
+) {
+  return showModalBottomSheet<void>(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    barrierColor: const Color(0x801E2439),
+    builder: (_) => _StagePickerSheet(project: project),
+  );
+}
+
+/// Bottom sheet listing all 8 renovation stages with the current one
+/// highlighted. Selecting one persists it via the apartment repository.
+class _StagePickerSheet extends ConsumerWidget {
+  const _StagePickerSheet({required this.project});
+
+  final ProjectItem project;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentStage = project.renovationStage;
+
+    return Container(
+      padding: const EdgeInsets.fromLTRB(
+        DesignTokens.screenPaddingHorizontal,
+        DesignTokens.spacingMd,
+        DesignTokens.screenPaddingHorizontal,
+        DesignTokens.spacingXl,
+      ),
+      decoration: const BoxDecoration(
+        color: DesignTokens.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(DesignTokens.radiusSheet),
+          topRight: Radius.circular(DesignTokens.radiusSheet),
+        ),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Container(
+              width: 44,
+              height: 5,
+              margin: const EdgeInsets.only(bottom: DesignTokens.spacingLg),
+              decoration: BoxDecoration(
+                color: DesignTokens.borderGray,
+                borderRadius: BorderRadius.circular(DesignTokens.radiusFull),
+              ),
+            ),
+          ),
+          Text('Bosqichni tanlang', style: DesignTokens.heading3),
+          const SizedBox(height: DesignTokens.spacingLg),
+          for (final stage in RenovationStage.values) ...[
+            _StageOption(
+              index: stage.index + 1,
+              label: _stageLabel(stage),
+              selected: stage == currentStage,
+              onTap: () => _selectStage(context, ref, stage),
+            ),
+            const SizedBox(height: DesignTokens.spacingSm),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Future<void> _selectStage(
+    BuildContext context,
+    WidgetRef ref,
+    RenovationStage stage,
+  ) async {
+    final navigator = Navigator.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      await ref
+          .read(apartmentRepositoryProvider)
+          .updateApartment(project.id, renovationStage: stage.index + 1);
+      ref.invalidate(apartmentsProvider);
+      navigator.pop();
+    } catch (_) {
+      navigator.pop();
+      messenger.showSnackBar(
+        const SnackBar(content: Text('Bosqichni saqlab bo\'lmadi')),
+      );
+    }
+  }
+}
+
+class _StageOption extends StatelessWidget {
+  const _StageOption({
+    required this.index,
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final int index;
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(DesignTokens.radiusXl),
+      child: Container(
+        padding: const EdgeInsets.all(DesignTokens.spacingMd),
+        decoration: BoxDecoration(
+          color: selected ? const Color(0xFFEEF2FF) : const Color(0xFFF7F8FA),
+          borderRadius: BorderRadius.circular(DesignTokens.radiusXl),
+          border: Border.all(
+            color: selected
+                ? DesignTokens.primaryBlue
+                : const Color(0xFFEDEFF3),
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 32,
+              height: 32,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: selected
+                    ? DesignTokens.primaryBlue
+                    : DesignTokens.borderGrayAlt,
+                borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+              ),
+              child: Text(
+                '$index',
+                style: DesignTokens.subtitle2.copyWith(
+                  color: selected ? DesignTokens.white : DesignTokens.textGray,
+                ),
+              ),
+            ),
+            const SizedBox(width: DesignTokens.spacingMd),
+            Expanded(
+              child: Text(
+                'Bosqich $index/8 · $label',
+                style: DesignTokens.subtitle2,
+              ),
+            ),
+            if (selected)
+              const Icon(
+                Icons.check_circle,
+                color: DesignTokens.primaryBlue,
+                size: DesignTokens.iconSm,
+              ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class _LegendDot extends StatelessWidget {

@@ -33,16 +33,21 @@ final projectsProvider = Provider<AsyncValue<List<ProjectItem>>>((ref) {
   });
 });
 
-/// Maps a backend [Apartment] to the UI's [ProjectItem]. The server has no
-/// concept of renovation stage or room condition yet, so [renovationStage]
-/// takes [ProjectItem]'s default ([RenovationStage.suvoq]) and
-/// [roomCondition] stays null ("not yet assessed").
+/// Maps a backend [Apartment] to the UI's [ProjectItem]. The backend's
+/// `renovation_stage` is a 1-based int (1..8); it maps to the
+/// [RenovationStage] enum value at the matching 0-based position, so the
+/// card's "Bosqich N/8" mirrors the server exactly. [roomCondition] stays
+/// null ("not yet assessed") — the server has no room-condition concept yet.
 ProjectItem _apartmentToProject(Apartment a) => ProjectItem(
   id: a.id,
   name: a.name,
   location: a.address ?? '',
   roomCount: a.rooms.length,
   createdAt: a.createdAt,
+  renovationStage: RenovationStage.values[(a.renovationStage - 1).clamp(
+    0,
+    RenovationStage.values.length - 1,
+  )],
 );
 
 class HomeState {

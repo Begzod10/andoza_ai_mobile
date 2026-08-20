@@ -18,6 +18,7 @@ class Apartment with _$Apartment {
     String? address,
     String? developer,
     @JsonKey(name: 'created_at') required DateTime createdAt,
+    @JsonKey(name: 'renovation_stage') @Default(1) int renovationStage,
     @Default(<RoomOut>[]) List<RoomOut> rooms,
   }) = _Apartment;
 

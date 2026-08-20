@@ -29,6 +29,8 @@ mixin _$Apartment {
   String? get developer => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   DateTime get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'renovation_stage')
+  int get renovationStage => throw _privateConstructorUsedError;
   List<RoomOut> get rooms => throw _privateConstructorUsedError;
 
   /// Serializes this Apartment to a JSON map.
@@ -53,6 +55,7 @@ abstract class $ApartmentCopyWith<$Res> {
     String? address,
     String? developer,
     @JsonKey(name: 'created_at') DateTime createdAt,
+    @JsonKey(name: 'renovation_stage') int renovationStage,
     List<RoomOut> rooms,
   });
 }
@@ -78,6 +81,7 @@ class _$ApartmentCopyWithImpl<$Res, $Val extends Apartment>
     Object? address = freezed,
     Object? developer = freezed,
     Object? createdAt = null,
+    Object? renovationStage = null,
     Object? rooms = null,
   }) {
     return _then(
@@ -106,6 +110,10 @@ class _$ApartmentCopyWithImpl<$Res, $Val extends Apartment>
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
                       as DateTime,
+            renovationStage: null == renovationStage
+                ? _value.renovationStage
+                : renovationStage // ignore: cast_nullable_to_non_nullable
+                      as int,
             rooms: null == rooms
                 ? _value.rooms
                 : rooms // ignore: cast_nullable_to_non_nullable
@@ -132,6 +140,7 @@ abstract class _$$ApartmentImplCopyWith<$Res>
     String? address,
     String? developer,
     @JsonKey(name: 'created_at') DateTime createdAt,
+    @JsonKey(name: 'renovation_stage') int renovationStage,
     List<RoomOut> rooms,
   });
 }
@@ -156,6 +165,7 @@ class __$$ApartmentImplCopyWithImpl<$Res>
     Object? address = freezed,
     Object? developer = freezed,
     Object? createdAt = null,
+    Object? renovationStage = null,
     Object? rooms = null,
   }) {
     return _then(
@@ -184,6 +194,10 @@ class __$$ApartmentImplCopyWithImpl<$Res>
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
                   as DateTime,
+        renovationStage: null == renovationStage
+            ? _value.renovationStage
+            : renovationStage // ignore: cast_nullable_to_non_nullable
+                  as int,
         rooms: null == rooms
             ? _value._rooms
             : rooms // ignore: cast_nullable_to_non_nullable
@@ -203,6 +217,7 @@ class _$ApartmentImpl implements _Apartment {
     this.address,
     this.developer,
     @JsonKey(name: 'created_at') required this.createdAt,
+    @JsonKey(name: 'renovation_stage') this.renovationStage = 1,
     final List<RoomOut> rooms = const <RoomOut>[],
   }) : _rooms = rooms;
 
@@ -223,6 +238,9 @@ class _$ApartmentImpl implements _Apartment {
   @override
   @JsonKey(name: 'created_at')
   final DateTime createdAt;
+  @override
+  @JsonKey(name: 'renovation_stage')
+  final int renovationStage;
   final List<RoomOut> _rooms;
   @override
   @JsonKey()
@@ -234,7 +252,7 @@ class _$ApartmentImpl implements _Apartment {
 
   @override
   String toString() {
-    return 'Apartment(id: $id, userId: $userId, name: $name, address: $address, developer: $developer, createdAt: $createdAt, rooms: $rooms)';
+    return 'Apartment(id: $id, userId: $userId, name: $name, address: $address, developer: $developer, createdAt: $createdAt, renovationStage: $renovationStage, rooms: $rooms)';
   }
 
   @override
@@ -250,6 +268,8 @@ class _$ApartmentImpl implements _Apartment {
                 other.developer == developer) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
+            (identical(other.renovationStage, renovationStage) ||
+                other.renovationStage == renovationStage) &&
             const DeepCollectionEquality().equals(other._rooms, _rooms));
   }
 
@@ -263,6 +283,7 @@ class _$ApartmentImpl implements _Apartment {
     address,
     developer,
     createdAt,
+    renovationStage,
     const DeepCollectionEquality().hash(_rooms),
   );
 
@@ -288,6 +309,7 @@ abstract class _Apartment implements Apartment {
     final String? address,
     final String? developer,
     @JsonKey(name: 'created_at') required final DateTime createdAt,
+    @JsonKey(name: 'renovation_stage') final int renovationStage,
     final List<RoomOut> rooms,
   }) = _$ApartmentImpl;
 
@@ -308,6 +330,9 @@ abstract class _Apartment implements Apartment {
   @override
   @JsonKey(name: 'created_at')
   DateTime get createdAt;
+  @override
+  @JsonKey(name: 'renovation_stage')
+  int get renovationStage;
   @override
   List<RoomOut> get rooms;
 

@@ -48,6 +48,25 @@ class ApartmentRepository {
     );
   }
 
+  /// Partial apartment update (renovation stage, name, or address). Only the
+  /// provided keys are sent. Returns the updated apartment.
+  Future<Apartment> updateApartment(
+    String id, {
+    int? renovationStage,
+    String? name,
+    String? address,
+  }) {
+    return _client.patch<Apartment>(
+      '/apartments/$id',
+      data: {
+        'renovation_stage': ?renovationStage,
+        'name': ?name,
+        'address': ?address,
+      },
+      fromJson: (json) => Apartment.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
   Future<void> deleteApartment(String apartmentId) {
     return _client.delete('/apartments/$apartmentId');
   }

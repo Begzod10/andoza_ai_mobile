@@ -14,6 +14,7 @@ _$ApartmentImpl _$$ApartmentImplFromJson(Map<String, dynamic> json) =>
       address: json['address'] as String?,
       developer: json['developer'] as String?,
       createdAt: DateTime.parse(json['created_at'] as String),
+      renovationStage: (json['renovation_stage'] as num?)?.toInt() ?? 1,
       rooms:
           (json['rooms'] as List<dynamic>?)
               ?.map((e) => RoomOut.fromJson(e as Map<String, dynamic>))
@@ -29,5 +30,6 @@ Map<String, dynamic> _$$ApartmentImplToJson(_$ApartmentImpl instance) =>
       'address': instance.address,
       'developer': instance.developer,
       'created_at': instance.createdAt.toIso8601String(),
+      'renovation_stage': instance.renovationStage,
       'rooms': instance.rooms,
     };
