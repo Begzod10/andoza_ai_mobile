@@ -95,19 +95,6 @@ class NewProjectSheet extends StatelessWidget {
               context.push('/scanning/photo');
             },
           ),
-          const SizedBox(height: DesignTokens.spacingMd),
-          _EntryOption(
-            iconBackground: const Color(0xFFEAF7F0),
-            icon: Icons.straighten,
-            iconColor: DesignTokens.successGreen,
-            title: 'Razmer / Plan yuklash',
-            description:
-                'O\'lchamlarni kiriting yoki floorplan rasmini yuklang',
-            onTap: () {
-              Navigator.of(context).pop();
-              context.push('/setup/dimensions');
-            },
-          ),
         ],
       ),
     );
