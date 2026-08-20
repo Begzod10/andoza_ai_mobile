@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -7,9 +8,14 @@ import '../../geometry/geometry_config.dart';
 import '../../geometry/room_geometry.dart';
 import '../../models/room_plan.dart';
 import '../../services/room_plan_handoff.dart';
+import '../../widgets/room/iso_projector.dart';
+import '../../widgets/room/isometric_room_view.dart';
 
 /// How the room outline is created.
 enum _DrawMode { freehand, polygon }
+
+/// Which axis a Vizual (isometric) corner-handle drag is locked to.
+enum _DragAxis { none, floor, height }
 
 /// "O'zingiz chizing" — sketch a room outline (any N-corner shape) with live
 /// per-wall measurements, in two modes: freehand tracing (auto-straightened via
@@ -58,11 +64,53 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
   final List<({List<Vec2> corners, bool closed})> _undoStack = [];
   final List<({List<Vec2> corners, bool closed})> _redoStack = [];
 
+  // --- Vizual (isometric 3D) editing ---------------------------------------
+  /// Orbit angle of the isometric view (radians).
+  double _orbit = 0;
+
+  /// Highlighted floor corner (the one being dragged), or null.
+  int? _activeCorner;
+
+  /// Full-drag horizontal travel ≈ half a turn of orbit.
+  static const double _orbitPerPx = 0.01;
+
+  /// Radius (px) to grab an isometric corner handle at drag start.
+  static const double _isoGrabPx = 28.0;
+
+  /// Last measured size of the isometric canvas (set by its LayoutBuilder).
+  Size _isoSize = Size.zero;
+
+  // Iso corner-drag bookkeeping (captured at drag start, held until release).
+  IsoProjector? _dragProj;
+  int? _dragCorner;
+  Vec2? _dragStartCornerM;
+  double _dragStartHeight = 0;
+  Offset _dragStartFocal = Offset.zero;
+  _DragAxis _dragAxis = _DragAxis.none;
+
+  @override
+  void initState() {
+    super.initState();
+    // Default mode is Vizual — seed a box so it is immediately editable.
+    if (_mode == _DrawMode.polygon && (_corners.isEmpty || !_closed)) {
+      _corners = _defaultBox();
+      _closed = true;
+    }
+  }
+
   @override
   void dispose() {
     _anim.dispose();
     super.dispose();
   }
+
+  /// Axis-aligned 4.0 × 3.0 m seed rectangle for the Vizual tab.
+  List<Vec2> _defaultBox() => [
+        const Vec2(0, 0),
+        const Vec2(4.0, 0),
+        const Vec2(4.0, 3.0),
+        const Vec2(0, 3.0),
+      ];
 
   // --- coordinate transform -------------------------------------------------
 
@@ -325,12 +373,22 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
   void _clear() {
     if (_corners.isNotEmpty || _closed) _pushUndo();
     setState(() {
-      _corners = [];
-      _closed = false;
       _dragIndex = null;
+      _dragCorner = null;
+      _activeCorner = null;
+      _orbit = 0;
       _rawCornersM = null;
       _regularizedM = null;
       _anim.stop();
+      // Vizual always needs an editable box (there is no tap-to-place there);
+      // Qo'lda clears to an empty drawing surface as before.
+      if (_mode == _DrawMode.polygon) {
+        _corners = _defaultBox();
+        _closed = true;
+      } else {
+        _corners = [];
+        _closed = false;
+      }
     });
   }
 
@@ -338,8 +396,238 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
     if (m == _mode) return;
     setState(() {
       _mode = m;
-      _clear();
+      _orbit = 0;
+      _activeCorner = null;
+      _dragCorner = null;
+      _dragIndex = null;
     });
+    if (m == _DrawMode.freehand) {
+      // Qo'lda starts from a clean surface (original behaviour).
+      _clear();
+    } else if (_corners.isEmpty || !_closed) {
+      // Vizual: keep any shape drawn in Qo'lda, else seed a default box.
+      _pushUndo();
+      setState(() {
+        _corners = _defaultBox();
+        _closed = true;
+      });
+    }
+  }
+
+  // --- Vizual (isometric) gestures -----------------------------------------
+
+  /// Build a projector for the current shape/height/orbit against the last
+  /// known iso canvas size, or null if the shape is not renderable.
+  IsoProjector? _buildProjector() {
+    if (_corners.length < 3 || _isoSize.isEmpty) return null;
+    return IsoProjector(
+      floorCornersM: [for (final c in _corners) Offset(c.x, c.y)],
+      heightM: _height,
+      canvasSize: _isoSize,
+      orbitRad: _orbit,
+    );
+  }
+
+  /// Nearest corner handle within [_isoGrabPx] of [p], or null.
+  int? _handleAt(Offset p, IsoProjector proj) {
+    int? best;
+    var bestD = _isoGrabPx;
+    for (var i = 0; i < proj.cornerCount; i++) {
+      final d = (proj.floorScreen(i) - p).distance;
+      if (d <= bestD) {
+        bestD = d;
+        best = i;
+      }
+    }
+    return best;
+  }
+
+  void _onIsoScaleStart(ScaleStartDetails d) {
+    _dragAxis = _DragAxis.none;
+    // Two fingers = orbit; a single finger far from any handle = no-op.
+    if (d.pointerCount >= 2) {
+      setState(() => _dragCorner = null);
+      return;
+    }
+    final proj = _buildProjector();
+    final i = proj == null ? null : _handleAt(d.localFocalPoint, proj);
+    if (i == null) {
+      setState(() => _dragCorner = null);
+      return;
+    }
+    _pushUndo();
+    setState(() {
+      _dragCorner = i;
+      _dragProj = proj;
+      _dragStartCornerM = _corners[i];
+      _dragStartHeight = _height;
+      _dragStartFocal = d.localFocalPoint;
+      _activeCorner = i;
+    });
+  }
+
+  void _onIsoScaleUpdate(ScaleUpdateDetails d) {
+    // Two-finger horizontal drag orbits the view.
+    if (d.pointerCount >= 2) {
+      setState(() => _orbit += d.focalPointDelta.dx * _orbitPerPx);
+      return;
+    }
+    if (_dragCorner == null || _dragProj == null) return;
+    final screenDelta = d.localFocalPoint - _dragStartFocal;
+    // Decide + lock the axis from the initial movement.
+    if (_dragAxis == _DragAxis.none) {
+      if (screenDelta.distance < 6) return;
+      _dragAxis = screenDelta.dx.abs() >= screenDelta.dy.abs()
+          ? _DragAxis.floor
+          : _DragAxis.height;
+    }
+    if (_dragAxis == _DragAxis.floor) {
+      _dragFloor(screenDelta);
+    } else {
+      _dragHeight(screenDelta);
+    }
+  }
+
+  /// Horizontal-locked drag: move the corner in the floor plane.
+  void _dragFloor(Offset screenDelta) {
+    final i = _dragCorner!;
+    final dM = _dragProj!.floorDeltaFromScreen(screenDelta);
+    final moved = _snap(_dragStartCornerM! + Vec2(dM.dx, dM.dy));
+    final n = _corners.length;
+    final prev = _corners[(i - 1 + n) % n];
+    final next = _corners[(i + 1) % n];
+    // Reject any move that would shrink an adjacent wall below the minimum.
+    if (moved.distanceTo(prev) < GeometryConfig.minWallM ||
+        moved.distanceTo(next) < GeometryConfig.minWallM) {
+      return;
+    }
+    if (_corners[i] == moved) return; // sub-5cm jitter, no step
+    setState(() => _corners[i] = moved);
+    HapticFeedback.selectionClick();
+  }
+
+  /// Vertical-locked drag: change the ceiling height.
+  void _dragHeight(Offset screenDelta) {
+    final mpp = _dragProj!.heightMetrePerScreenY;
+    final raw = _dragStartHeight + (-screenDelta.dy) * mpp;
+    final h = roundTo(raw, GeometryConfig.wallLengthStepM)
+        .clamp(GeometryConfig.minHeightM, GeometryConfig.maxHeightM)
+        .toDouble();
+    if ((h - _height).abs() < 1e-9) return; // no 5cm step crossed
+    setState(() => _height = h);
+    HapticFeedback.selectionClick();
+  }
+
+  void _onIsoScaleEnd(ScaleEndDetails d) {
+    setState(() {
+      _dragCorner = null;
+      _dragProj = null;
+      _dragAxis = _DragAxis.none;
+      _activeCorner = null;
+    });
+  }
+
+  /// Single-tap near an edge midpoint edits that wall's length numerically.
+  void _onIsoTapUp(TapUpDetails d) {
+    final proj = _buildProjector();
+    if (proj == null) return;
+    final n = proj.cornerCount;
+    for (var i = 0; i < n; i++) {
+      final mid = (proj.floorScreen(i) + proj.floorScreen((i + 1) % n)) / 2;
+      if ((mid - d.localPosition).distance <= 30) {
+        _editWallLength(i);
+        return;
+      }
+    }
+  }
+
+  Widget _isoHandle(bool active) {
+    return IgnorePointer(
+      child: Container(
+        width: 22,
+        height: 22,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: active ? DesignTokens.accentOrange : DesignTokens.primaryBlue,
+          border: Border.all(color: DesignTokens.white, width: 2.5),
+          boxShadow: const [DesignTokens.shadowCard],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIsoEditor() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        _isoSize = constraints.biggest;
+        final floorM = [for (final c in _corners) Offset(c.x, c.y)];
+        final proj = (_corners.length >= 3 && !_isoSize.isEmpty)
+            ? IsoProjector(
+                floorCornersM: floorM,
+                heightM: _height,
+                canvasSize: _isoSize,
+                orbitRad: _orbit,
+              )
+            : null;
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onScaleStart: _onIsoScaleStart,
+          onScaleUpdate: _onIsoScaleUpdate,
+          onScaleEnd: _onIsoScaleEnd,
+          onDoubleTap: () => setState(() => _orbit = 0),
+          onTapUp: _onIsoTapUp,
+          child: Container(
+            width: double.infinity,
+            color: DesignTokens.white,
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: IsometricRoomView.polygon(
+                    floorCornersM: floorM,
+                    heightM: _height,
+                    orbitRad: _orbit,
+                    activeCorner: _activeCorner,
+                  ),
+                ),
+                if (proj != null)
+                  for (var i = 0; i < _corners.length; i++)
+                    Positioned(
+                      left: proj.floorScreen(i).dx - 11,
+                      top: proj.floorScreen(i).dy - 11,
+                      child: _isoHandle(i == _activeCorner),
+                    ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _build2dCanvas(List<double> wallLengths) {
+    return GestureDetector(
+      onTapUp: _onTapUp,
+      onLongPressStart: _onLongPressStart,
+      onPanStart: _onPanStart,
+      onPanUpdate: _onPanUpdate,
+      onPanEnd: _onPanEnd,
+      child: Container(
+        width: double.infinity,
+        color: DesignTokens.white,
+        child: CustomPaint(
+          painter: _RoomPainter(
+            corners: [for (final c in _display) _toScreen(c)],
+            closed: _closed,
+            rawStroke: _freehandDrawing
+                ? [for (final p in _rawStrokeM) _toScreen(p)]
+                : const [],
+            ppm: _ppm,
+            wallLengths: wallLengths,
+            areaM2: _closed ? shoelaceArea(_display) : 0,
+          ),
+        ),
+      ),
+    );
   }
 
   // --- build ----------------------------------------------------------------
@@ -399,29 +687,9 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
             onClear: _clear,
           ),
           Expanded(
-            child: GestureDetector(
-              onTapUp: _onTapUp,
-              onLongPressStart: _onLongPressStart,
-              onPanStart: _onPanStart,
-              onPanUpdate: _onPanUpdate,
-              onPanEnd: _onPanEnd,
-              child: Container(
-                width: double.infinity,
-                color: DesignTokens.white,
-                child: CustomPaint(
-                  painter: _RoomPainter(
-                    corners: [for (final c in _display) _toScreen(c)],
-                    closed: _closed,
-                    rawStroke: _freehandDrawing
-                        ? [for (final p in _rawStrokeM) _toScreen(p)]
-                        : const [],
-                    ppm: _ppm,
-                    wallLengths: wallLengths,
-                    areaM2: _closed ? shoelaceArea(_display) : 0,
-                  ),
-                ),
-              ),
-            ),
+            child: _mode == _DrawMode.polygon
+                ? _buildIsoEditor()
+                : _build2dCanvas(wallLengths),
           ),
           _BottomPanel(
             plan: plan,
