@@ -208,13 +208,31 @@ class _PinSheet extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  CircleAvatar(
-                    radius: 28,
-                    backgroundColor: Color(master.trade.colorValue),
-                    child: Text(
-                      master.master.name[0],
-                      style: const TextStyle(color: Colors.white, fontSize: 20),
-                    ),
+                  Builder(
+                    builder: (context) {
+                      final initial = CircleAvatar(
+                        radius: 28,
+                        backgroundColor: Color(master.trade.colorValue),
+                        child: Text(
+                          master.master.name[0],
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                      );
+                      final url = master.master.avatar;
+                      if (url == null) return initial;
+                      return ClipOval(
+                        child: Image.network(
+                          url,
+                          width: 56,
+                          height: 56,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stack) => initial,
+                        ),
+                      );
+                    },
                   ),
                   if (master.isOnline)
                     Positioned(

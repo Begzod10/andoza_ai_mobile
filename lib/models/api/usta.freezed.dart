@@ -39,6 +39,8 @@ mixin _$Usta {
   double? get lat => throw _privateConstructorUsedError;
   @JsonKey(name: 'lng')
   double? get lng => throw _privateConstructorUsedError;
+  @JsonKey(name: 'avatar_url')
+  String? get avatarUrl => throw _privateConstructorUsedError;
 
   /// Serializes this Usta to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -68,6 +70,7 @@ abstract class $UstaCopyWith<$Res> {
     bool verified,
     @JsonKey(name: 'lat') double? lat,
     @JsonKey(name: 'lng') double? lng,
+    @JsonKey(name: 'avatar_url') String? avatarUrl,
   });
 }
 
@@ -99,6 +102,7 @@ class _$UstaCopyWithImpl<$Res, $Val extends Usta>
     Object? verified = null,
     Object? lat = freezed,
     Object? lng = freezed,
+    Object? avatarUrl = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -154,6 +158,10 @@ class _$UstaCopyWithImpl<$Res, $Val extends Usta>
                 ? _value.lng
                 : lng // ignore: cast_nullable_to_non_nullable
                       as double?,
+            avatarUrl: freezed == avatarUrl
+                ? _value.avatarUrl
+                : avatarUrl // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -182,6 +190,7 @@ abstract class _$$UstaImplCopyWith<$Res> implements $UstaCopyWith<$Res> {
     bool verified,
     @JsonKey(name: 'lat') double? lat,
     @JsonKey(name: 'lng') double? lng,
+    @JsonKey(name: 'avatar_url') String? avatarUrl,
   });
 }
 
@@ -210,6 +219,7 @@ class __$$UstaImplCopyWithImpl<$Res>
     Object? verified = null,
     Object? lat = freezed,
     Object? lng = freezed,
+    Object? avatarUrl = freezed,
   }) {
     return _then(
       _$UstaImpl(
@@ -265,6 +275,10 @@ class __$$UstaImplCopyWithImpl<$Res>
             ? _value.lng
             : lng // ignore: cast_nullable_to_non_nullable
                   as double?,
+        avatarUrl: freezed == avatarUrl
+            ? _value.avatarUrl
+            : avatarUrl // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -287,6 +301,7 @@ class _$UstaImpl implements _Usta {
     this.verified = false,
     @JsonKey(name: 'lat') this.lat,
     @JsonKey(name: 'lng') this.lng,
+    @JsonKey(name: 'avatar_url') this.avatarUrl,
   });
 
   factory _$UstaImpl.fromJson(Map<String, dynamic> json) =>
@@ -325,10 +340,13 @@ class _$UstaImpl implements _Usta {
   @override
   @JsonKey(name: 'lng')
   final double? lng;
+  @override
+  @JsonKey(name: 'avatar_url')
+  final String? avatarUrl;
 
   @override
   String toString() {
-    return 'Usta(id: $id, name: $name, category: $category, district: $district, phone: $phone, telegram: $telegram, rating: $rating, jobsCount: $jobsCount, priceMin: $priceMin, priceMax: $priceMax, verified: $verified, lat: $lat, lng: $lng)';
+    return 'Usta(id: $id, name: $name, category: $category, district: $district, phone: $phone, telegram: $telegram, rating: $rating, jobsCount: $jobsCount, priceMin: $priceMin, priceMax: $priceMax, verified: $verified, lat: $lat, lng: $lng, avatarUrl: $avatarUrl)';
   }
 
   @override
@@ -355,7 +373,9 @@ class _$UstaImpl implements _Usta {
             (identical(other.verified, verified) ||
                 other.verified == verified) &&
             (identical(other.lat, lat) || other.lat == lat) &&
-            (identical(other.lng, lng) || other.lng == lng));
+            (identical(other.lng, lng) || other.lng == lng) &&
+            (identical(other.avatarUrl, avatarUrl) ||
+                other.avatarUrl == avatarUrl));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -375,6 +395,7 @@ class _$UstaImpl implements _Usta {
     verified,
     lat,
     lng,
+    avatarUrl,
   );
 
   /// Create a copy of Usta
@@ -406,6 +427,7 @@ abstract class _Usta implements Usta {
     final bool verified,
     @JsonKey(name: 'lat') final double? lat,
     @JsonKey(name: 'lng') final double? lng,
+    @JsonKey(name: 'avatar_url') final String? avatarUrl,
   }) = _$UstaImpl;
 
   factory _Usta.fromJson(Map<String, dynamic> json) = _$UstaImpl.fromJson;
@@ -441,6 +463,9 @@ abstract class _Usta implements Usta {
   @override
   @JsonKey(name: 'lng')
   double? get lng;
+  @override
+  @JsonKey(name: 'avatar_url')
+  String? get avatarUrl;
 
   /// Create a copy of Usta
   /// with the given fields replaced by the non-null parameter values.

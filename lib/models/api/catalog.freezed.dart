@@ -36,6 +36,8 @@ mixin _$Material {
   String? get textureKey => throw _privateConstructorUsedError;
   @JsonKey(name: 'pbr_roughness')
   double get pbrRoughness => throw _privateConstructorUsedError;
+  @JsonKey(name: 'image_url')
+  String? get imageUrl => throw _privateConstructorUsedError;
 
   /// Serializes this Material to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -62,6 +64,7 @@ abstract class $MaterialCopyWith<$Res> {
     @JsonKey(name: 'color_hex') String? colorHex,
     @JsonKey(name: 'texture_key') String? textureKey,
     @JsonKey(name: 'pbr_roughness') double pbrRoughness,
+    @JsonKey(name: 'image_url') String? imageUrl,
   });
 }
 
@@ -89,6 +92,7 @@ class _$MaterialCopyWithImpl<$Res, $Val extends Material>
     Object? colorHex = freezed,
     Object? textureKey = freezed,
     Object? pbrRoughness = null,
+    Object? imageUrl = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -128,6 +132,10 @@ class _$MaterialCopyWithImpl<$Res, $Val extends Material>
                 ? _value.pbrRoughness
                 : pbrRoughness // ignore: cast_nullable_to_non_nullable
                       as double,
+            imageUrl: freezed == imageUrl
+                ? _value.imageUrl
+                : imageUrl // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -153,6 +161,7 @@ abstract class _$$MaterialImplCopyWith<$Res>
     @JsonKey(name: 'color_hex') String? colorHex,
     @JsonKey(name: 'texture_key') String? textureKey,
     @JsonKey(name: 'pbr_roughness') double pbrRoughness,
+    @JsonKey(name: 'image_url') String? imageUrl,
   });
 }
 
@@ -179,6 +188,7 @@ class __$$MaterialImplCopyWithImpl<$Res>
     Object? colorHex = freezed,
     Object? textureKey = freezed,
     Object? pbrRoughness = null,
+    Object? imageUrl = freezed,
   }) {
     return _then(
       _$MaterialImpl(
@@ -218,6 +228,10 @@ class __$$MaterialImplCopyWithImpl<$Res>
             ? _value.pbrRoughness
             : pbrRoughness // ignore: cast_nullable_to_non_nullable
                   as double,
+        imageUrl: freezed == imageUrl
+            ? _value.imageUrl
+            : imageUrl // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -236,6 +250,7 @@ class _$MaterialImpl implements _Material {
     @JsonKey(name: 'color_hex') this.colorHex,
     @JsonKey(name: 'texture_key') this.textureKey,
     @JsonKey(name: 'pbr_roughness') this.pbrRoughness = 1.0,
+    @JsonKey(name: 'image_url') this.imageUrl,
   });
 
   factory _$MaterialImpl.fromJson(Map<String, dynamic> json) =>
@@ -265,10 +280,13 @@ class _$MaterialImpl implements _Material {
   @override
   @JsonKey(name: 'pbr_roughness')
   final double pbrRoughness;
+  @override
+  @JsonKey(name: 'image_url')
+  final String? imageUrl;
 
   @override
   String toString() {
-    return 'Material(id: $id, storeId: $storeId, category: $category, nameUz: $nameUz, unit: $unit, priceUzs: $priceUzs, colorHex: $colorHex, textureKey: $textureKey, pbrRoughness: $pbrRoughness)';
+    return 'Material(id: $id, storeId: $storeId, category: $category, nameUz: $nameUz, unit: $unit, priceUzs: $priceUzs, colorHex: $colorHex, textureKey: $textureKey, pbrRoughness: $pbrRoughness, imageUrl: $imageUrl)';
   }
 
   @override
@@ -289,7 +307,9 @@ class _$MaterialImpl implements _Material {
             (identical(other.textureKey, textureKey) ||
                 other.textureKey == textureKey) &&
             (identical(other.pbrRoughness, pbrRoughness) ||
-                other.pbrRoughness == pbrRoughness));
+                other.pbrRoughness == pbrRoughness) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -305,6 +325,7 @@ class _$MaterialImpl implements _Material {
     colorHex,
     textureKey,
     pbrRoughness,
+    imageUrl,
   );
 
   /// Create a copy of Material
@@ -332,6 +353,7 @@ abstract class _Material implements Material {
     @JsonKey(name: 'color_hex') final String? colorHex,
     @JsonKey(name: 'texture_key') final String? textureKey,
     @JsonKey(name: 'pbr_roughness') final double pbrRoughness,
+    @JsonKey(name: 'image_url') final String? imageUrl,
   }) = _$MaterialImpl;
 
   factory _Material.fromJson(Map<String, dynamic> json) =
@@ -361,6 +383,9 @@ abstract class _Material implements Material {
   @override
   @JsonKey(name: 'pbr_roughness')
   double get pbrRoughness;
+  @override
+  @JsonKey(name: 'image_url')
+  String? get imageUrl;
 
   /// Create a copy of Material
   /// with the given fields replaced by the non-null parameter values.

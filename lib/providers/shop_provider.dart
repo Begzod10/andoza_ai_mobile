@@ -167,6 +167,7 @@ List<Product> _mapToProducts(
       pricePerUnit: m.priceUzs,
       unit: m.unit,
       isOfficialDealer: isOfficial,
+      imageUrl: m.imageUrl,
       projectQuantity: _projectQuantityFor(
         category,
         m.unit,

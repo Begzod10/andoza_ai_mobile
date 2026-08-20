@@ -80,6 +80,7 @@ MockMaster _toMockMaster(Usta usta) {
     master: Master(
       id: usta.id,
       name: usta.name,
+      avatar: usta.avatarUrl,
       specialty: usta.category,
       rating: usta.rating,
       reviewCount: usta.jobsCount,

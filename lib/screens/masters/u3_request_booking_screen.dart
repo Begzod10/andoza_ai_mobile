@@ -41,13 +41,28 @@ class U3RequestBookingScreen extends ConsumerWidget {
                 children: [
                   Stack(
                     children: [
-                      CircleAvatar(
-                        radius: 28,
-                        backgroundColor: Color(m.trade.colorValue),
-                        child: Text(
-                          m.master.name[0],
-                          style: const TextStyle(color: Colors.white),
-                        ),
+                      Builder(
+                        builder: (context) {
+                          final initial = CircleAvatar(
+                            radius: 28,
+                            backgroundColor: Color(m.trade.colorValue),
+                            child: Text(
+                              m.master.name[0],
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          );
+                          final url = m.master.avatar;
+                          if (url == null) return initial;
+                          return ClipOval(
+                            child: Image.network(
+                              url,
+                              width: 56,
+                              height: 56,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stack) => initial,
+                            ),
+                          );
+                        },
                       ),
                       if (m.isOnline)
                         Positioned(

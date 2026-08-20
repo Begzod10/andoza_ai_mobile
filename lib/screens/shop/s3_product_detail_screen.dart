@@ -45,18 +45,38 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
               children: [
                 AspectRatio(
                   aspectRatio: 1.4,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: DesignTokens.borderGrayAlt,
-                      borderRadius: BorderRadius.circular(
-                        DesignTokens.radiusLg,
-                      ),
-                    ),
-                    child: const Icon(
-                      Icons.image_outlined,
-                      size: DesignTokens.iconXxl,
-                      color: DesignTokens.textMuted,
-                    ),
+                  child: Builder(
+                    builder: (context) {
+                      final placeholder = Container(
+                        decoration: BoxDecoration(
+                          color: DesignTokens.borderGrayAlt,
+                          borderRadius: BorderRadius.circular(
+                            DesignTokens.radiusLg,
+                          ),
+                        ),
+                        child: const Icon(
+                          Icons.image_outlined,
+                          size: DesignTokens.iconXxl,
+                          color: DesignTokens.textMuted,
+                        ),
+                      );
+                      final url = product.imageUrl;
+                      if (url == null) return placeholder;
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                          DesignTokens.radiusLg,
+                        ),
+                        child: Image.network(
+                          url,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+                          loadingBuilder: (context, child, progress) =>
+                              progress == null ? child : placeholder,
+                          errorBuilder: (context, error, stack) => placeholder,
+                        ),
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(height: DesignTokens.spacingMd),

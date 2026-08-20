@@ -23,6 +23,7 @@ class Usta with _$Usta {
     @Default(false) bool verified,
     @JsonKey(name: 'lat') double? lat,
     @JsonKey(name: 'lng') double? lng,
+    @JsonKey(name: 'avatar_url') String? avatarUrl,
   }) = _Usta;
 
   factory Usta.fromJson(Map<String, dynamic> json) => _$UstaFromJson(json);

@@ -30,16 +30,31 @@ class U4ReviewRatingScreen extends ConsumerWidget {
               Center(
                 child: Column(
                   children: [
-                    CircleAvatar(
-                      radius: 44,
-                      backgroundColor: Color(m.trade.colorValue),
-                      child: Text(
-                        m.master.name[0],
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 32,
-                        ),
-                      ),
+                    Builder(
+                      builder: (context) {
+                        final initial = CircleAvatar(
+                          radius: 44,
+                          backgroundColor: Color(m.trade.colorValue),
+                          child: Text(
+                            m.master.name[0],
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 32,
+                            ),
+                          ),
+                        );
+                        final url = m.master.avatar;
+                        if (url == null) return initial;
+                        return ClipOval(
+                          child: Image.network(
+                            url,
+                            width: 88,
+                            height: 88,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stack) => initial,
+                          ),
+                        );
+                      },
                     ),
                     const SizedBox(height: DesignTokens.spacingMd),
                     Row(

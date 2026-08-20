@@ -19,6 +19,7 @@ class Material with _$Material {
     @JsonKey(name: 'color_hex') String? colorHex,
     @JsonKey(name: 'texture_key') String? textureKey,
     @JsonKey(name: 'pbr_roughness') @Default(1.0) double pbrRoughness,
+    @JsonKey(name: 'image_url') String? imageUrl,
   }) = _Material;
 
   factory Material.fromJson(Map<String, dynamic> json) =>

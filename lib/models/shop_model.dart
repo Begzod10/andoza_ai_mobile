@@ -47,6 +47,7 @@ class Product {
     this.dryingTime,
     this.washable,
     this.projectQuantity,
+    this.imageUrl,
   });
 
   final String id;
@@ -63,6 +64,10 @@ class Product {
   /// Real computed requirement for the active project, or null if this
   /// product isn't tied to the current renovation stage's material need.
   final double? projectQuantity;
+
+  /// Real product photo from the backend catalog, or null when the material
+  /// has no image — consumers fall back to the grey placeholder box.
+  final String? imageUrl;
 
   bool get isInProject => projectQuantity != null;
 }

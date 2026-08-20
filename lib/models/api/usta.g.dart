@@ -20,6 +20,7 @@ _$UstaImpl _$$UstaImplFromJson(Map<String, dynamic> json) => _$UstaImpl(
   verified: json['verified'] as bool? ?? false,
   lat: (json['lat'] as num?)?.toDouble(),
   lng: (json['lng'] as num?)?.toDouble(),
+  avatarUrl: json['avatar_url'] as String?,
 );
 
 Map<String, dynamic> _$$UstaImplToJson(_$UstaImpl instance) =>
@@ -37,4 +38,5 @@ Map<String, dynamic> _$$UstaImplToJson(_$UstaImpl instance) =>
       'verified': instance.verified,
       'lat': instance.lat,
       'lng': instance.lng,
+      'avatar_url': instance.avatarUrl,
     };

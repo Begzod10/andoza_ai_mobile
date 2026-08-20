@@ -17,6 +17,7 @@ _$MaterialImpl _$$MaterialImplFromJson(Map<String, dynamic> json) =>
       colorHex: json['color_hex'] as String?,
       textureKey: json['texture_key'] as String?,
       pbrRoughness: (json['pbr_roughness'] as num?)?.toDouble() ?? 1.0,
+      imageUrl: json['image_url'] as String?,
     );
 
 Map<String, dynamic> _$$MaterialImplToJson(_$MaterialImpl instance) =>
@@ -30,6 +31,7 @@ Map<String, dynamic> _$$MaterialImplToJson(_$MaterialImpl instance) =>
       'color_hex': instance.colorHex,
       'texture_key': instance.textureKey,
       'pbr_roughness': instance.pbrRoughness,
+      'image_url': instance.imageUrl,
     };
 
 _$PaginatedMaterialsImpl _$$PaginatedMaterialsImplFromJson(
