@@ -5,14 +5,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../config/design_tokens.dart';
-import '../../models/design_selection_model.dart';
-import '../../models/room_model.dart';
-import '../../models/room_model.dart' as room_model;
-import '../../providers/design_provider.dart';
-import '../../providers/room_persistence_provider.dart';
-import '../../providers/room_provider.dart';
-import '../home/home_empty_screen.dart';
-import 'wall_measurements_screen.dart';
+import '../../geometry/room_geometry.dart';
+import '../../models/room_plan.dart';
+import '../../services/room_plan_handoff.dart';
 
 /// How the room outline is created.
 enum _DrawMode {
@@ -350,83 +345,25 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen> {
 
   Future<void> _finish() async {
     setState(() => _saving = true);
-    final b = _boundingSize;
-    final w = double.parse(b.width.toStringAsFixed(2));
-    final l = double.parse(b.length.toStringAsFixed(2));
-    final notifier = ref.read(wallMeasurementsProvider.notifier);
-    notifier.updateWall(WallType.wallA, length: l, height: _height);
-    notifier.updateWall(WallType.wallB, length: w, height: _height);
-    notifier.updateWall(WallType.wallC, length: l, height: _height);
-    notifier.updateWall(WallType.wallD, length: w, height: _height);
-
-    _setupRoom();
-
+    // Canvas pixels → metres; build the unified RoomPlan and hand it off.
+    final corners = [
+      for (final p in _points) Vec2(p.dx / _pxPerMeter, p.dy / _pxPerMeter),
+    ];
+    final plan = RoomPlan.fromCorners(
+      corners,
+      ceilingHeightM: _height,
+      source:
+          _mode == _DrawMode.freehand ? RoomSource.sketch : RoomSource.drag,
+    );
     try {
-      await ref.read(roomPersistenceProvider.notifier).ensurePersisted();
-      final persisted = ref.read(roomPersistenceProvider).valueOrNull;
+      final roomId = await handoffRoomPlan(ref, plan);
       if (!mounted) return;
-      if (persisted != null) {
-        context.go('/studio/${persisted.roomId}');
-      } else {
-        context.go('/design/b1');
-      }
+      context.go(roomId != null ? '/studio/$roomId' : '/design/b1');
     } catch (_) {
       if (mounted) context.go('/design/b1');
     } finally {
       if (mounted) setState(() => _saving = false);
     }
-  }
-
-  void _setupRoom() {
-    final walls = ref.read(wallMeasurementsProvider);
-    final roomId = DateTime.now().microsecondsSinceEpoch.toString();
-
-    final modelWalls = <room_model.Wall>[
-      for (final wall in walls)
-        room_model.Wall(
-          id: '${roomId}_${wall.type.name}',
-          type: wall.type,
-          measurements: room_model.WallMeasurements(
-            height: wall.height,
-            length: wall.length,
-          ),
-        ),
-    ];
-
-    final wallA = walls.firstWhere((w) => w.type == WallType.wallA);
-    final wallB = walls.firstWhere((w) => w.type == WallType.wallB);
-
-    final room = room_model.Room(
-      id: roomId,
-      name: 'Mening xonam',
-      dimensions: room_model.RoomDimensions(
-        width: wallB.length,
-        length: wallA.length,
-        height: wallA.height,
-      ),
-      walls: modelWalls,
-      doors: const [],
-      windows: const [],
-      createdAt: DateTime.now(),
-    );
-    ref.read(activeRoomProvider.notifier).setLocal(room);
-    ref.read(activeDesignProvider.notifier).setLocal(
-          DesignSelection(
-            id: '${roomId}_design',
-            roomId: roomId,
-            stage: DesignStage.floor,
-            renovationStage: RenovationStage.suvoq,
-          ),
-        );
-    ref.read(homeStateProvider.notifier).addProject(
-          ProjectItem(
-            id: roomId,
-            name: room.name,
-            location: '',
-            roomCount: 1,
-            createdAt: DateTime.now(),
-          ),
-        );
   }
 }
 
