@@ -226,11 +226,22 @@ class _ActiveProjectCard extends ConsumerWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              // Per the button-wiring table: an already-assessed project's
-              // "Davom etish" jumps straight into the 3D studio (B2), not
-              // back to B1's room-condition question (that's only for a
-              // brand-new project finishing A9 for the first time).
-              onPressed: () => context.go('/design/b2'),
+              // "Davom etish" continues the project in the 3D Studio: open the
+              // studio for this apartment's most-recently-edited room. Falls
+              // back to the native design flow if the project has no rooms yet.
+              onPressed: () {
+                final apartments =
+                    ref.read(apartmentsProvider).value ?? const [];
+                final matches =
+                    apartments.where((a) => a.id == project.id).toList();
+                if (matches.isNotEmpty && matches.first.rooms.isNotEmpty) {
+                  final rooms = [...matches.first.rooms]
+                    ..sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+                  context.push('/studio/${rooms.first.id}');
+                } else {
+                  context.go('/design/b2');
+                }
+              },
               child: const Text('Davom etish'),
             ),
           ),
