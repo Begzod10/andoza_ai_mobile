@@ -193,7 +193,34 @@ List<Vec2> regularize(List<Vec2> poly) {
   for (var i = 0; i < n; i++) {
     out.add(walk[i] + gap * (i / n));
   }
-  return out;
+  // Drop straightened-out (collinear) vertices so a wobbly straight wall
+  // collapses to a single wall.
+  return removeCollinearVertices(out);
+}
+
+/// Remove vertices whose turn angle is below [tolDeg] (they lie on a straight
+/// wall). Keeps at least 3 corners.
+List<Vec2> removeCollinearVertices(List<Vec2> poly,
+    [double tolDeg = GeometryConfig.collinearToleranceDeg]) {
+  final n = poly.length;
+  if (n < 4) return List.of(poly);
+  final tol = _rad(tolDeg);
+  final keep = <Vec2>[];
+  for (var i = 0; i < n; i++) {
+    final prev = poly[(i - 1 + n) % n];
+    final cur = poly[i];
+    final next = poly[(i + 1) % n];
+    if (_turnAngle(prev, cur, next) > tol) keep.add(cur);
+  }
+  return keep.length >= 3 ? keep : List.of(poly);
+}
+
+/// Turn angle at [b] on the path a→b→c (radians; 0 = straight).
+double _turnAngle(Vec2 a, Vec2 b, Vec2 c) {
+  final v1 = b - a, v2 = c - b;
+  final l1 = v1.length, l2 = v2.length;
+  if (l1 == 0 || l2 == 0) return 0;
+  return math.acos((v1.dot(v2) / (l1 * l2)).clamp(-1.0, 1.0));
 }
 
 /// Full "raw finger stroke → clean polygon" pipeline used by freehand drawing:

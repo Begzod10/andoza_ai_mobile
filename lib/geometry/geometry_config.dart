@@ -30,6 +30,11 @@ class GeometryConfig {
   /// break the keep-free-angle requirement. Add 15.0 here to enable it.
   static const List<double> snapBasesDeg = [90.0, 45.0];
 
+  /// After angle-snapping, a vertex whose turn is smaller than this is treated
+  /// as a straight (collinear) point and removed — this is what turns a wobbly
+  /// straight wall into one clean wall.
+  static const double collinearToleranceDeg = 8.0;
+
   /// Wall lengths are rounded to this step (m) = 5 cm.
   static const double wallLengthStepM = 0.05;
 

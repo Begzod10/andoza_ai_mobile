@@ -74,6 +74,21 @@ void main() {
       expect(shoelaceArea(poly), closeTo(16, 3));
     });
 
+    test('a noticeably wobbly square collapses to ~4 corners', () {
+      // Wobble (0.15 m) exceeds the RDP epsilon, so RDP keeps spurious points;
+      // angle-snap + collinear removal must still collapse them to ~4 corners.
+      const a = Vec2(0, 0), b = Vec2(4, 0), c = Vec2(4, 4), d = Vec2(0, 4);
+      final raw = [
+        ..._edge(a, b, 4, 0.15),
+        ..._edge(b, c, 4, 0.15),
+        ..._edge(c, d, 4, 0.15),
+        ..._edge(d, a, 4, 0.15),
+        a,
+      ];
+      final poly = regularizeFreehand(raw);
+      expect(poly.length, inInclusiveRange(4, 5));
+    });
+
     test('an L-shape keeps its 6 corners and stays rectilinear', () {
       final l = [
         const Vec2(0, 0),
