@@ -4,131 +4,240 @@ import 'package:flutter/material.dart';
 
 import '../../config/design_tokens.dart';
 import '../../models/room_model.dart';
+import 'iso_projector.dart';
 
-/// An isometric preview of a rectangular room (open-top box) with the currently
-/// active wall highlighted — the signature visual of the capture wizard.
+/// An isometric preview of a room prism (open-top box). The default constructor
+/// renders a rectangular room — the signature visual of the capture wizard —
+/// while [IsometricRoomView.polygon] renders an arbitrary N-corner room with an
+/// orbit angle and per-edge length labels. Both share the same polygon renderer
+/// backed by [IsoProjector].
 ///
-/// [widthM] runs along walls B/D, [depthM] along walls A/C, [heightM] up.
-/// [activeWall] (if any) is drawn in the accent colour; pass null on the
-/// ceiling/summary steps to show the whole room neutrally.
+/// For the rectangle: [widthM] runs along walls B/D, [depthM] along walls A/C,
+/// [heightM] up, and [activeWall] (if any) is drawn in the accent colour.
 class IsometricRoomView extends StatelessWidget {
+  /// Rectangular room preview (unchanged wizard look: A/B/C/D wall labels).
   const IsometricRoomView({
     required this.widthM,
     required this.depthM,
     required this.heightM,
     this.activeWall,
     super.key,
-  });
+  })  : _floorCornersM = null,
+        orbitRad = 0,
+        showEdgeLengths = false,
+        activeCorner = null;
+
+  /// Arbitrary N-corner room preview. [floorCornersM] are the floor polygon
+  /// corners in METRES (x = Offset.dx, y = Offset.dy). Edges are labelled with
+  /// their length when [showEdgeLengths] is true. [orbitRad] rotates the floor
+  /// around its centroid.
+  const IsometricRoomView.polygon({
+    required List<Offset> floorCornersM,
+    required this.heightM,
+    this.orbitRad = 0,
+    this.showEdgeLengths = true,
+    this.activeCorner,
+    super.key,
+  })  :
+        // Private field can't be a named initialising formal.
+        // ignore: prefer_initializing_formals
+        _floorCornersM = floorCornersM,
+        widthM = 0,
+        depthM = 0,
+        activeWall = null;
 
   final double widthM;
   final double depthM;
   final double heightM;
   final WallType? activeWall;
+  final double orbitRad;
+  final bool showEdgeLengths;
+  final int? activeCorner;
+  final List<Offset>? _floorCornersM;
 
   @override
   Widget build(BuildContext context) {
+    if (_floorCornersM != null) {
+      // Polygon path: generic edge labels (lengths) + computed back walls.
+      return CustomPaint(
+        size: Size.infinite,
+        painter: _IsometricRoomPainter(
+          floorCornersM: _floorCornersM,
+          heightM: heightM,
+          orbitRad: orbitRad,
+          showEdgeLengths: showEdgeLengths,
+          activeCorner: activeCorner,
+        ),
+      );
+    }
+
+    // Rectangle path: reproduce the original wizard look exactly.
+    // Floor corners: C along y=0, B along x=width, A along y=depth, D along x=0.
+    final floor = <Offset>[
+      const Offset(0, 0),
+      Offset(widthM, 0),
+      Offset(widthM, depthM),
+      Offset(0, depthM),
+    ];
+    // Edge i connects corner i → corner i+1:
+    //   edge0 = wallC (near, y=0), edge1 = wallB (right, x=width),
+    //   edge2 = wallA (far, y=depth), edge3 = wallD (left, x=0).
+    const edgeWalls = [
+      WallType.wallC,
+      WallType.wallB,
+      WallType.wallA,
+      WallType.wallD,
+    ];
+    final labels = [for (final w in edgeWalls) _shortLabel(w)];
+    // Preserve the original's darker "back" pair: walls A and D.
+    final backEdges = <int>{
+      for (var i = 0; i < edgeWalls.length; i++)
+        if (edgeWalls[i] == WallType.wallA || edgeWalls[i] == WallType.wallD) i,
+    };
+    final activeEdges = <int>{
+      for (var i = 0; i < edgeWalls.length; i++)
+        if (activeWall != null && edgeWalls[i] == activeWall) i,
+    };
+
     return CustomPaint(
       size: Size.infinite,
       painter: _IsometricRoomPainter(
-        widthM: widthM,
-        depthM: depthM,
+        floorCornersM: floor,
         heightM: heightM,
-        activeWall: activeWall,
+        orbitRad: 0,
+        showEdgeLengths: false,
+        fixedLabels: labels,
+        fixedBackEdges: backEdges,
+        activeEdges: activeEdges,
       ),
     );
   }
+
+  static String _shortLabel(WallType t) => switch (t) {
+        WallType.wallA => 'A',
+        WallType.wallB => 'B',
+        WallType.wallC => 'C',
+        WallType.wallD => 'D',
+      };
 }
 
 class _IsometricRoomPainter extends CustomPainter {
   _IsometricRoomPainter({
-    required this.widthM,
-    required this.depthM,
+    required this.floorCornersM,
     required this.heightM,
-    required this.activeWall,
+    required this.orbitRad,
+    required this.showEdgeLengths,
+    this.fixedLabels,
+    this.fixedBackEdges,
+    this.activeEdges = const <int>{},
+    this.activeCorner,
   });
 
-  final double widthM;
-  final double depthM;
+  final List<Offset> floorCornersM;
   final double heightM;
-  final WallType? activeWall;
+  final double orbitRad;
+  final bool showEdgeLengths;
 
-  static const _cos30 = 0.8660254; // cos(30°)
-  static const _sin30 = 0.5; // sin(30°)
+  /// Explicit per-edge labels (rectangle path: A/B/C/D). When null, edge-length
+  /// labels are shown if [showEdgeLengths].
+  final List<String>? fixedLabels;
+
+  /// Explicit "back" (darker) edges (rectangle path). When null the back walls
+  /// are computed from screen depth.
+  final Set<int>? fixedBackEdges;
+
+  final Set<int> activeEdges;
+  final int? activeCorner;
 
   @override
   void paint(Canvas canvas, Size size) {
-    // Normalise so the largest floor dimension is 1.0, keeping aspect ratio.
-    final maxDim = math.max(widthM, depthM).clamp(0.1, double.infinity);
-    final w = widthM / maxDim;
-    final d = depthM / maxDim;
-    // Height is drawn shorter than reality so a tall room still fits nicely.
-    final h = (heightM / maxDim) * 0.85;
+    final n = floorCornersM.length;
+    if (n < 3) return;
 
-    // Pick a scale + origin that fits the projected box inside the canvas.
-    final projected = <Offset>[
-      for (final z in [0.0, h])
-        for (final p in [
-          const Offset(0, 0),
-          Offset(w, 0),
-          Offset(w, d),
-          Offset(0, d),
-        ])
-          _rawIso(p.dx, p.dy, z),
-    ];
-    var minX = double.infinity, maxX = -double.infinity;
-    var minY = double.infinity, maxY = -double.infinity;
-    for (final p in projected) {
-      minX = math.min(minX, p.dx);
-      maxX = math.max(maxX, p.dx);
-      minY = math.min(minY, p.dy);
-      maxY = math.max(maxY, p.dy);
-    }
-    const pad = 24.0;
-    final scale = math.min(
-      (size.width - 2 * pad) / (maxX - minX),
-      (size.height - 2 * pad) / (maxY - minY),
-    );
-    final origin = Offset(
-      pad - minX * scale + (size.width - 2 * pad - (maxX - minX) * scale) / 2,
-      pad - minY * scale + (size.height - 2 * pad - (maxY - minY) * scale) / 2,
+    final proj = IsoProjector(
+      floorCornersM: floorCornersM,
+      heightM: heightM,
+      canvasSize: size,
+      orbitRad: orbitRad,
     );
 
-    Offset iso(double x, double y, double z) => origin + _rawIso(x, y, z) * scale;
+    final floor = proj.floorScreenAll;
+    final top = proj.topScreenAll;
 
-    // Floor corners (z=0) and top corners (z=h).
-    final f00 = iso(0, 0, 0), f10 = iso(w, 0, 0), f11 = iso(w, d, 0), f01 = iso(0, d, 0);
-    final t00 = iso(0, 0, h), t10 = iso(w, 0, h), t11 = iso(w, d, h), t01 = iso(0, d, h);
-
-    // Floor.
+    // Floor fill.
     canvas.drawPath(
-      Path()..addPolygon([f00, f10, f11, f01], true),
+      Path()..addPolygon(floor, true),
       Paint()..color = DesignTokens.primaryBlue.withValues(alpha: 0.06),
     );
 
-    // Each wall = its two base corners + two top corners. Order matters for a
-    // convincing look: draw the two far/back walls (A along y=d, D along x=0),
-    // then the two near walls (B along x=w, C along y=0).
-    final walls = <WallType, List<Offset>>{
-      WallType.wallA: [f01, f11, t11, t01], // far wall (y = depth)
-      WallType.wallD: [f00, f01, t01, t00], // left wall (x = 0)
-      WallType.wallB: [f10, f11, t11, t10], // right wall (x = width)
-      WallType.wallC: [f00, f10, t10, t00], // near wall (y = 0)
-    };
+    // Build wall quads and their metadata.
+    final quads = <List<Offset>>[
+      for (var i = 0; i < n; i++)
+        [floor[i], floor[(i + 1) % n], top[(i + 1) % n], top[i]],
+    ];
+    Offset quadCentre(List<Offset> q) => Offset(
+          (q[0].dx + q[1].dx + q[2].dx + q[3].dx) / 4,
+          (q[0].dy + q[1].dy + q[2].dy + q[3].dy) / 4,
+        );
 
-    // Back walls first (A, D), then near walls (C, B) on top.
-    for (final type in [WallType.wallA, WallType.wallD, WallType.wallC, WallType.wallB]) {
-      _drawWall(canvas, walls[type]!, isActive: type == activeWall,
-          isBack: type == WallType.wallA || type == WallType.wallD);
-      _drawWallLabel(canvas, walls[type]!, _shortLabel(type),
-          isActive: type == activeWall);
+    // "Back" walls (darker/greener): explicit for the rectangle, otherwise the
+    // walls whose centre sits above (smaller screen-y than) the floor centroid.
+    Set<int> backEdges;
+    if (fixedBackEdges != null) {
+      backEdges = fixedBackEdges!;
+    } else {
+      final floorCentroidY =
+          floor.map((p) => p.dy).reduce((a, b) => a + b) / floor.length;
+      backEdges = {
+        for (var i = 0; i < n; i++)
+          if (quadCentre(quads[i]).dy < floorCentroidY) i,
+      };
+    }
+
+    // Draw walls back-to-front: ascending average screen-y so nearer walls
+    // (larger y) paint last and win any overlap.
+    final order = [for (var i = 0; i < n; i++) i]
+      ..sort((a, b) => quadCentre(quads[a]).dy.compareTo(quadCentre(quads[b]).dy));
+
+    for (final i in order) {
+      _drawWall(
+        canvas,
+        quads[i],
+        isActive: activeEdges.contains(i),
+        isBack: backEdges.contains(i),
+      );
+    }
+
+    // Labels drawn after all walls so they stay legible.
+    for (final i in order) {
+      final label = _labelFor(i, n);
+      if (label != null) {
+        _drawLabel(canvas, quadCentre(quads[i]), label,
+            isActive: activeEdges.contains(i));
+      }
     }
 
     // Dashed ceiling outline (open top).
-    _drawDashedPolygon(canvas, [t00, t10, t11, t01]);
+    _drawDashedPolygon(canvas, top);
+
+    // Optional active-corner highlight (polygon editing).
+    if (activeCorner != null && activeCorner! >= 0 && activeCorner! < n) {
+      canvas.drawCircle(
+        floor[activeCorner!],
+        5,
+        Paint()..color = DesignTokens.accentOrange,
+      );
+    }
   }
 
-  Offset _rawIso(double x, double y, double z) =>
-      Offset((x - y) * _cos30, (x + y) * _sin30 - z);
+  String? _labelFor(int i, int n) {
+    if (fixedLabels != null) {
+      return i < fixedLabels!.length ? fixedLabels![i] : null;
+    }
+    if (!showEdgeLengths) return null;
+    final lenM = (floorCornersM[(i + 1) % n] - floorCornersM[i]).distance;
+    return '${lenM.toStringAsFixed(2)} m';
+  }
 
   void _drawWall(Canvas canvas, List<Offset> quad,
       {required bool isActive, required bool isBack}) {
@@ -149,12 +258,8 @@ class _IsometricRoomPainter extends CustomPainter {
     );
   }
 
-  void _drawWallLabel(Canvas canvas, List<Offset> quad, String text,
+  void _drawLabel(Canvas canvas, Offset centre, String text,
       {required bool isActive}) {
-    final center = Offset(
-      (quad[0].dx + quad[1].dx + quad[2].dx + quad[3].dx) / 4,
-      (quad[0].dy + quad[1].dy + quad[2].dy + quad[3].dy) / 4,
-    );
     final tp = TextPainter(
       textDirection: TextDirection.ltr,
       text: TextSpan(
@@ -162,13 +267,12 @@ class _IsometricRoomPainter extends CustomPainter {
         style: TextStyle(
           fontSize: 11,
           fontWeight: FontWeight.w600,
-          color: isActive
-              ? DesignTokens.accentOrange
-              : DesignTokens.textMuted,
+          color:
+              isActive ? DesignTokens.accentOrange : DesignTokens.textMuted,
         ),
       ),
     )..layout();
-    tp.paint(canvas, center - Offset(tp.width / 2, tp.height / 2));
+    tp.paint(canvas, centre - Offset(tp.width / 2, tp.height / 2));
   }
 
   void _drawDashedPolygon(Canvas canvas, List<Offset> pts) {
@@ -180,6 +284,7 @@ class _IsometricRoomPainter extends CustomPainter {
     for (var i = 0; i < pts.length; i++) {
       final a = pts[i], b = pts[(i + 1) % pts.length];
       final total = (b - a).distance;
+      if (total == 0) continue;
       final dir = (b - a) / total;
       var t = 0.0;
       while (t < total) {
@@ -191,17 +296,23 @@ class _IsometricRoomPainter extends CustomPainter {
     }
   }
 
-  String _shortLabel(WallType t) => switch (t) {
-        WallType.wallA => 'A',
-        WallType.wallB => 'B',
-        WallType.wallC => 'C',
-        WallType.wallD => 'D',
-      };
-
   @override
   bool shouldRepaint(_IsometricRoomPainter old) =>
-      old.widthM != widthM ||
-      old.depthM != depthM ||
+      !_listEq(old.floorCornersM, floorCornersM) ||
       old.heightM != heightM ||
-      old.activeWall != activeWall;
+      old.orbitRad != orbitRad ||
+      old.showEdgeLengths != showEdgeLengths ||
+      !_setEq(old.activeEdges, activeEdges) ||
+      old.activeCorner != activeCorner;
+
+  static bool _listEq(List<Offset> a, List<Offset> b) {
+    if (a.length != b.length) return false;
+    for (var i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) return false;
+    }
+    return true;
+  }
+
+  static bool _setEq(Set<int> a, Set<int> b) =>
+      a.length == b.length && a.containsAll(b);
 }
