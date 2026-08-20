@@ -54,6 +54,10 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
   List<Vec2>? _animFrom;
   List<Vec2>? _animTo;
 
+  // Undo / redo history (snapshots of corners + closed).
+  final List<({List<Vec2> corners, bool closed})> _undoStack = [];
+  final List<({List<Vec2> corners, bool closed})> _redoStack = [];
+
   @override
   void dispose() {
     _anim.dispose();
@@ -102,7 +106,14 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
   // --- gestures -------------------------------------------------------------
 
   void _onTapUp(TapUpDetails d) {
-    if (_mode != _DrawMode.polygon || _closed) return;
+    // Once closed, tapping a wall-length label edits that wall numerically.
+    if (_closed) {
+      final e = _edgeLabelAt(d.localPosition);
+      if (e != null) _editWallLength(e);
+      return;
+    }
+    if (_mode != _DrawMode.polygon) return;
+    _pushUndo();
     setState(() {
       if (_corners.length >= 3 &&
           (_toScreen(_corners.first) - d.localPosition).distance <=
@@ -118,10 +129,14 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
     final pos = d.localPosition;
     if (_closed) {
       final v = _cornerAt(pos);
-      if (v != null) setState(() => _dragIndex = v);
+      if (v != null) {
+        _pushUndo();
+        setState(() => _dragIndex = v);
+      }
       return;
     }
     if (_mode == _DrawMode.freehand) {
+      _pushUndo();
       setState(() {
         _freehandDrawing = true;
         _rawStrokeM = [_toWorld(pos)];
@@ -160,7 +175,142 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
   }
 
   void _closeShape() {
-    if (_corners.length >= 3 && !_closed) setState(() => _closed = true);
+    if (_corners.length >= 3 && !_closed) {
+      _pushUndo();
+      setState(() => _closed = true);
+    }
+  }
+
+  // --- undo / redo ----------------------------------------------------------
+
+  void _pushUndo() {
+    _undoStack.add((corners: List.of(_corners), closed: _closed));
+    if (_undoStack.length > 60) _undoStack.removeAt(0);
+    _redoStack.clear();
+  }
+
+  void _undo() {
+    if (_undoStack.isEmpty) return;
+    setState(() {
+      _redoStack.add((corners: List.of(_corners), closed: _closed));
+      final s = _undoStack.removeLast();
+      _corners = List.of(s.corners);
+      _closed = s.closed;
+      _dragIndex = null;
+    });
+  }
+
+  void _redo() {
+    if (_redoStack.isEmpty) return;
+    setState(() {
+      _undoStack.add((corners: List.of(_corners), closed: _closed));
+      final s = _redoStack.removeLast();
+      _corners = List.of(s.corners);
+      _closed = s.closed;
+    });
+  }
+
+  // --- numeric + long-press editing ----------------------------------------
+
+  /// Index of the wall whose length-label is under [pos], or null.
+  int? _edgeLabelAt(Offset pos) {
+    final n = _corners.length;
+    if (!_closed || n < 3) return null;
+    for (var i = 0; i < n; i++) {
+      final a = _toScreen(_corners[i]);
+      final b = _toScreen(_corners[(i + 1) % n]);
+      final mid = Offset((a.dx + b.dx) / 2, (a.dy + b.dy) / 2);
+      if ((mid - pos).distance <= 30) return i;
+    }
+    return null;
+  }
+
+  /// Prompt for an exact wall length; moves the wall's far endpoint along the
+  /// wall direction to match.
+  Future<void> _editWallLength(int i) async {
+    final n = _corners.length;
+    final a = _corners[i];
+    final b = _corners[(i + 1) % n];
+    final ctrl =
+        TextEditingController(text: a.distanceTo(b).toStringAsFixed(2));
+    final value = await showDialog<double>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Devor uzunligi'),
+        content: TextField(
+          controller: ctrl,
+          autofocus: true,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          decoration: const InputDecoration(suffixText: 'm'),
+        ),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(ctx), child: const Text('Bekor')),
+          FilledButton(
+            onPressed: () => Navigator.pop(
+                ctx, double.tryParse(ctrl.text.replaceAll(',', '.'))),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+    if (value == null || value < GeometryConfig.minWallM) return;
+    _pushUndo();
+    setState(() {
+      final dir = (b - a).normalized;
+      _corners[(i + 1) % n] = a + dir * value;
+    });
+  }
+
+  void _onLongPressStart(LongPressStartDetails d) {
+    final pos = d.localPosition;
+    final v = _cornerAt(pos);
+    if (v != null) {
+      // Delete a corner (keep at least a triangle).
+      if (_corners.length > 3) {
+        _pushUndo();
+        setState(() => _corners.removeAt(v));
+      }
+      return;
+    }
+    if (_closed) {
+      // Add a corner on the nearest wall.
+      final e = _nearestEdge(pos);
+      if (e != null) {
+        _pushUndo();
+        setState(() =>
+            _corners.insert(e.index + 1, _snap(_toWorld(e.point))));
+      }
+    }
+  }
+
+  ({int index, Offset point})? _nearestEdge(Offset pos) {
+    final n = _corners.length;
+    if (n < 3) return null;
+    var best = 24.0;
+    int? bi;
+    var bp = pos;
+    for (var i = 0; i < n; i++) {
+      final a = _toScreen(_corners[i]);
+      final b = _toScreen(_corners[(i + 1) % n]);
+      final proj = _projectToSegment(pos, a, b);
+      final dist = (proj - pos).distance;
+      if (dist < best) {
+        best = dist;
+        bi = i;
+        bp = proj;
+      }
+    }
+    return bi == null ? null : (index: bi, point: bp);
+  }
+
+  Offset _projectToSegment(Offset p, Offset a, Offset b) {
+    final ab = b - a;
+    final len2 = ab.dx * ab.dx + ab.dy * ab.dy;
+    if (len2 == 0) return a;
+    var t = ((p.dx - a.dx) * ab.dx + (p.dy - a.dy) * ab.dy) / len2;
+    t = t.clamp(0.0, 1.0);
+    return Offset(a.dx + ab.dx * t, a.dy + ab.dy * t);
   }
 
   void _toggleRawAfter() {
@@ -172,24 +322,17 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
     });
   }
 
-  void _undo() {
+  void _clear() {
+    if (_corners.isNotEmpty || _closed) _pushUndo();
     setState(() {
-      if (_closed && _mode == _DrawMode.polygon) {
-        _closed = false;
-      } else if (_corners.isNotEmpty) {
-        _corners.removeLast();
-      }
+      _corners = [];
+      _closed = false;
+      _dragIndex = null;
+      _rawCornersM = null;
+      _regularizedM = null;
+      _anim.stop();
     });
   }
-
-  void _clear() => setState(() {
-        _corners = [];
-        _closed = false;
-        _dragIndex = null;
-        _rawCornersM = null;
-        _regularizedM = null;
-        _anim.stop();
-      });
 
   void _switchMode(_DrawMode m) {
     if (m == _mode) return;
@@ -249,13 +392,16 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
             canToggle: _rawCornersM != null && _closed,
             showRaw: _showRaw,
             onToggle: _toggleRawAfter,
-            canUndo: _corners.isNotEmpty || _closed,
+            canUndo: _undoStack.isNotEmpty,
             onUndo: _undo,
+            canRedo: _redoStack.isNotEmpty,
+            onRedo: _redo,
             onClear: _clear,
           ),
           Expanded(
             child: GestureDetector(
               onTapUp: _onTapUp,
+              onLongPressStart: _onLongPressStart,
               onPanStart: _onPanStart,
               onPanUpdate: _onPanUpdate,
               onPanEnd: _onPanEnd,
@@ -396,6 +542,8 @@ class _HintBar extends StatelessWidget {
     required this.onToggle,
     required this.canUndo,
     required this.onUndo,
+    required this.canRedo,
+    required this.onRedo,
     required this.onClear,
   });
 
@@ -407,6 +555,8 @@ class _HintBar extends StatelessWidget {
   final VoidCallback onToggle;
   final bool canUndo;
   final VoidCallback onUndo;
+  final bool canRedo;
+  final VoidCallback onRedo;
   final VoidCallback onClear;
 
   @override
@@ -425,44 +575,45 @@ class _HintBar extends StatelessWidget {
             text,
             style: DesignTokens.caption.copyWith(color: DesignTokens.textGray),
           ),
-          if (canClose || canToggle || canUndo)
-            Row(
-              children: [
-                if (canClose)
-                  FilledButton.icon(
-                    onPressed: onClose,
-                    icon: const Icon(Icons.check, size: 16),
-                    label: const Text('Yopish'),
-                    style: FilledButton.styleFrom(
-                        visualDensity: VisualDensity.compact),
-                  ),
-                if (canToggle)
-                  OutlinedButton.icon(
-                    onPressed: onToggle,
-                    icon: const Icon(Icons.compare_arrows, size: 16),
-                    label: Text(showRaw ? 'Toza' : 'Xom'),
-                    style: OutlinedButton.styleFrom(
-                        visualDensity: VisualDensity.compact),
-                  ),
-                const Spacer(),
-                if (canUndo) ...[
-                  TextButton.icon(
-                    onPressed: onUndo,
-                    icon: const Icon(Icons.undo, size: 16),
-                    label: const Text('Orqaga'),
-                    style: TextButton.styleFrom(
-                        visualDensity: VisualDensity.compact),
-                  ),
-                  TextButton.icon(
-                    onPressed: onClear,
-                    icon: const Icon(Icons.delete_outline, size: 16),
-                    label: const Text('Tozalash'),
-                    style: TextButton.styleFrom(
-                        visualDensity: VisualDensity.compact),
-                  ),
-                ],
-              ],
-            ),
+          Row(
+            children: [
+              if (canClose)
+                FilledButton.icon(
+                  onPressed: onClose,
+                  icon: const Icon(Icons.check, size: 16),
+                  label: const Text('Yopish'),
+                  style: FilledButton.styleFrom(
+                      visualDensity: VisualDensity.compact),
+                ),
+              if (canToggle)
+                OutlinedButton.icon(
+                  onPressed: onToggle,
+                  icon: const Icon(Icons.compare_arrows, size: 16),
+                  label: Text(showRaw ? 'Toza' : 'Xom'),
+                  style: OutlinedButton.styleFrom(
+                      visualDensity: VisualDensity.compact),
+                ),
+              const Spacer(),
+              IconButton(
+                onPressed: canUndo ? onUndo : null,
+                icon: const Icon(Icons.undo, size: 20),
+                tooltip: 'Orqaga',
+                visualDensity: VisualDensity.compact,
+              ),
+              IconButton(
+                onPressed: canRedo ? onRedo : null,
+                icon: const Icon(Icons.redo, size: 20),
+                tooltip: 'Oldinga',
+                visualDensity: VisualDensity.compact,
+              ),
+              IconButton(
+                onPressed: onClear,
+                icon: const Icon(Icons.delete_outline, size: 20),
+                tooltip: 'Tozalash',
+                visualDensity: VisualDensity.compact,
+              ),
+            ],
+          ),
         ],
       ),
     );
