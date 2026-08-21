@@ -33,6 +33,12 @@ migrate_working_dir/
 /build/
 /coverage/
 
+# Android release signing — NEVER commit the keystore or its passwords.
+android/key.properties
+*.jks
+*.keystore
+upload-keystore*
+
 # Symbolication related
 app.*.symbols
 

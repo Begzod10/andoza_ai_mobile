@@ -1,8 +1,24 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
+
+// Load release signing config from android/key.properties if it exists.
+// When the file (or the keystore it points at) is absent — e.g. on CI machines
+// or other checkouts without the upload key — we fall back to debug signing so
+// `flutter build`/`flutter run --release` still work.
+val keystoreProperties = Properties()
+val keystorePropertiesFile = rootProject.file("key.properties")
+val hasReleaseSigning =
+    keystorePropertiesFile.exists().also { exists ->
+        if (exists) {
+            keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+        }
+    } && keystoreProperties.getProperty("storeFile")?.let { file(it).exists() } == true
 
 android {
     namespace = "com.tamir_uy.tamir_uy_mobile_flutter"
@@ -26,11 +42,29 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        // Only define the release signing config when key.properties + keystore
+        // are present; otherwise referencing missing properties would fail.
+        if (hasReleaseSigning) {
+            create("release") {
+                storeFile = file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            // Sign with the upload key when it's available, otherwise fall back
+            // to the debug keys so builds still work on machines without it.
+            signingConfig =
+                if (hasReleaseSigning) {
+                    signingConfigs.getByName("release")
+                } else {
+                    signingConfigs.getByName("debug")
+                }
         }
     }
 }
