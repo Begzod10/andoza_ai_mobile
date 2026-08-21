@@ -25,7 +25,8 @@ class IsometricRoomView extends StatelessWidget {
   })  : _floorCornersM = null,
         orbitRad = 0,
         showEdgeLengths = false,
-        activeCorner = null;
+        activeCorner = null,
+        zoom = 1.0;
 
   /// Arbitrary N-corner room preview. [floorCornersM] are the floor polygon
   /// corners in METRES (x = Offset.dx, y = Offset.dy). Edges are labelled with
@@ -37,6 +38,7 @@ class IsometricRoomView extends StatelessWidget {
     this.orbitRad = 0,
     this.showEdgeLengths = true,
     this.activeCorner,
+    this.zoom = 1.0,
     super.key,
   })  :
         // Private field can't be a named initialising formal.
@@ -53,6 +55,9 @@ class IsometricRoomView extends StatelessWidget {
   final double orbitRad;
   final bool showEdgeLengths;
   final int? activeCorner;
+
+  /// Pinch-zoom multiplier passed straight through to the [IsoProjector].
+  final double zoom;
   final List<Offset>? _floorCornersM;
 
   @override
@@ -67,6 +72,7 @@ class IsometricRoomView extends StatelessWidget {
           orbitRad: orbitRad,
           showEdgeLengths: showEdgeLengths,
           activeCorner: activeCorner,
+          zoom: zoom,
         ),
       );
     }
@@ -131,12 +137,14 @@ class _IsometricRoomPainter extends CustomPainter {
     this.fixedBackEdges,
     this.activeEdges = const <int>{},
     this.activeCorner,
+    this.zoom = 1.0,
   });
 
   final List<Offset> floorCornersM;
   final double heightM;
   final double orbitRad;
   final bool showEdgeLengths;
+  final double zoom;
 
   /// Explicit per-edge labels (rectangle path: A/B/C/D). When null, edge-length
   /// labels are shown if [showEdgeLengths].
@@ -159,6 +167,7 @@ class _IsometricRoomPainter extends CustomPainter {
       heightM: heightM,
       canvasSize: size,
       orbitRad: orbitRad,
+      zoom: zoom,
     );
 
     final floor = proj.floorScreenAll;
@@ -301,6 +310,7 @@ class _IsometricRoomPainter extends CustomPainter {
       !_listEq(old.floorCornersM, floorCornersM) ||
       old.heightM != heightM ||
       old.orbitRad != orbitRad ||
+      old.zoom != zoom ||
       old.showEdgeLengths != showEdgeLengths ||
       !_setEq(old.activeEdges, activeEdges) ||
       old.activeCorner != activeCorner;

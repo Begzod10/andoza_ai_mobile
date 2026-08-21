@@ -23,6 +23,7 @@ class IsoProjector {
     this.orbitRad = 0,
     this.heightScale = 0.85,
     this.padPx = 24,
+    this.zoom = 1.0,
   })  : _floorM = List<Offset>.unmodifiable(floorCornersM),
         _cosO = math.cos(orbitRad),
         _sinO = math.sin(orbitRad) {
@@ -66,16 +67,27 @@ class IsoProjector {
     }
     final spanX = (rmaxX - rminX).clamp(1e-6, double.infinity);
     final spanY = (rmaxY - rminY).clamp(1e-6, double.infinity);
-    scale = math.min(
+    final fitScale = math.min(
       (canvasSize.width - 2 * padPx) / spanX,
       (canvasSize.height - 2 * padPx) / spanY,
     );
-    origin = Offset(
-      padPx - rminX * scale + (canvasSize.width - 2 * padPx - spanX * scale) / 2,
+    final fitOrigin = Offset(
       padPx -
-          rminY * scale +
-          (canvasSize.height - 2 * padPx - spanY * scale) / 2,
+          rminX * fitScale +
+          (canvasSize.width - 2 * padPx - spanX * fitScale) / 2,
+      padPx -
+          rminY * fitScale +
+          (canvasSize.height - 2 * padPx - spanY * fitScale) / 2,
     );
+
+    // Apply the user [zoom] about the canvas centre: multiply the auto-fit
+    // scale, and remap the origin so the canvas-centre point stays fixed while
+    // scaling. project(p) = origin + raw·scale, so with scale' = scale·zoom and
+    // origin' = centre + (origin - centre)·zoom the whole map scales about the
+    // centre. At zoom=1 both are unchanged, so handles/render are identical.
+    final centre = Offset(canvasSize.width / 2, canvasSize.height / 2);
+    scale = fitScale * zoom;
+    origin = centre + (fitOrigin - centre) * zoom;
 
     // Linear part of the z=0 floor map, by exact finite difference (the map is
     // affine, so these differences are exact). Columns of the 2×2 matrix M.
@@ -98,6 +110,10 @@ class IsoProjector {
   final double orbitRad;
   final double heightScale;
   final double padPx;
+
+  /// User zoom multiplier applied to the auto-fit [scale], centred on the
+  /// canvas. 1.0 = exact auto-fit (unchanged).
+  final double zoom;
 
   final List<Offset> _floorM;
   final double _cosO;

@@ -76,6 +76,15 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
   /// Orbit angle of the isometric view (radians).
   double _orbit = 0;
 
+  /// Pinch-zoom multiplier of the isometric view (1.0 = auto-fit).
+  double _zoom = 1.0;
+
+  /// Zoom captured at the start of a two-finger gesture, for relative pinch.
+  double _zoomStart = 1.0;
+
+  static const double _minZoom = 0.5;
+  static const double _maxZoom = 3.0;
+
   /// Highlighted floor corner (the one being dragged), or null.
   int? _activeCorner;
 
@@ -410,6 +419,7 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
       _dragCorner = null;
       _activeCorner = null;
       _orbit = 0;
+      _zoom = 1.0;
       _rawCornersM = null;
       _regularizedM = null;
       _anim.stop();
@@ -430,6 +440,7 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
     setState(() {
       _mode = m;
       _orbit = 0;
+      _zoom = 1.0;
       _activeCorner = null;
       _dragCorner = null;
       _dragIndex = null;
@@ -458,6 +469,7 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
       heightM: _height,
       canvasSize: _isoSize,
       orbitRad: _orbit,
+      zoom: _zoom,
     );
   }
 
@@ -477,8 +489,10 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
 
   void _onIsoScaleStart(ScaleStartDetails d) {
     _dragAxis = _DragAxis.none;
-    // Two fingers = orbit; a single finger far from any handle = no-op.
+    // Two fingers = orbit + pinch-zoom; capture the zoom baseline so the
+    // gesture's d.scale (relative to its own start) applies on top of it.
     if (d.pointerCount >= 2) {
+      _zoomStart = _zoom;
       setState(() => _dragCorner = null);
       return;
     }
@@ -500,9 +514,12 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
   }
 
   void _onIsoScaleUpdate(ScaleUpdateDetails d) {
-    // Two-finger horizontal drag orbits the view.
+    // Two-finger gesture: horizontal drag orbits, pinch zooms (about centre).
     if (d.pointerCount >= 2) {
-      setState(() => _orbit += d.focalPointDelta.dx * _orbitPerPx);
+      setState(() {
+        _orbit += d.focalPointDelta.dx * _orbitPerPx;
+        _zoom = (_zoomStart * d.scale).clamp(_minZoom, _maxZoom);
+      });
       return;
     }
     if (_dragCorner == null || _dragProj == null) return;
@@ -604,6 +621,7 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
                 heightM: _height,
                 canvasSize: _isoSize,
                 orbitRad: _orbit,
+                zoom: _zoom,
               )
             : null;
         return GestureDetector(
@@ -611,7 +629,10 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
           onScaleStart: _onIsoScaleStart,
           onScaleUpdate: _onIsoScaleUpdate,
           onScaleEnd: _onIsoScaleEnd,
-          onDoubleTap: () => setState(() => _orbit = 0),
+          onDoubleTap: () => setState(() {
+            _orbit = 0;
+            _zoom = 1.0;
+          }),
           onTapUp: _onIsoTapUp,
           child: Container(
             width: double.infinity,
@@ -624,6 +645,7 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
                     heightM: _height,
                     orbitRad: _orbit,
                     activeCorner: _activeCorner,
+                    zoom: _zoom,
                   ),
                 ),
                 if (proj != null)
