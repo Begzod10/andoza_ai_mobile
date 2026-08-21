@@ -12,7 +12,23 @@ final secureStorageProvider = Provider<SecureStorageService>((ref) {
 
 // API Client provider
 final apiClientProvider = Provider<ApiClient>((ref) {
-  return ApiClient(baseUrl: AppConfig.apiUrl);
+  final storage = ref.watch(secureStorageProvider);
+  return ApiClient(
+    baseUrl: AppConfig.apiUrl,
+    // Persist the rotated tokens after a silent refresh so a later app restart
+    // restores a still-valid refresh token (the backend rotates it each time).
+    onTokensRefreshed: (accessToken, refreshToken) async {
+      await storage.saveToken(accessToken);
+      if (refreshToken != null && refreshToken.isNotEmpty) {
+        await storage.saveRefreshToken(refreshToken);
+      }
+    },
+    // Drop the now-dead persisted tokens when a refresh fails.
+    onTokensCleared: () async {
+      await storage.deleteToken();
+      await storage.deleteRefreshToken();
+    },
+  );
 });
 
 // Repository provider

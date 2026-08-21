@@ -35,6 +35,14 @@ class AuthRepositoryImpl implements AuthRepository {
 
       _apiClient.setAuthToken(authResponse.token);
 
+      // Persist + seed the refresh token so the client can silently refresh the
+      // access token when it expires (drives auto-refresh-on-401).
+      final refreshToken = authResponse.refreshToken;
+      if (refreshToken != null && refreshToken.isNotEmpty) {
+        await _storage.saveRefreshToken(refreshToken);
+        _apiClient.setRefreshToken(refreshToken);
+      }
+
       return authResponse;
     } on ApiException catch (e) {
       throw AuthException(e.message);
@@ -74,6 +82,12 @@ class AuthRepositoryImpl implements AuthRepository {
     if (token != null) {
       _cachedToken = token;
       _apiClient.setAuthToken(token);
+    }
+    // Also restore the refresh token so an expired access token can be
+    // refreshed on the first 401 after an app restart.
+    final refreshToken = await _storage.getRefreshToken();
+    if (refreshToken != null) {
+      _apiClient.setRefreshToken(refreshToken);
     }
   }
 
