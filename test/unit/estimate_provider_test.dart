@@ -1,7 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tamir_uy_mobile_flutter/geometry/room_geometry.dart';
 import 'package:tamir_uy_mobile_flutter/models/design_selection_model.dart';
+import 'package:tamir_uy_mobile_flutter/models/room_plan.dart';
 import 'package:tamir_uy_mobile_flutter/providers/estimate_provider.dart';
 import 'package:tamir_uy_mobile_flutter/providers/shop_provider.dart';
+import 'package:tamir_uy_mobile_flutter/utils/project_areas.dart';
 
 const _areas = (floorArea: 18.0, wallArea: 48.0);
 const _electrical = ElectricalNeed(
@@ -148,6 +151,51 @@ void main() {
       final materials = estimateMaterialsTotal(estimate);
       final labor = estimateLaborTotal(estimate);
       expect(materials + labor, closeTo(estimate.totalPrice, 0.01));
+    });
+  });
+
+  group('computeProjectAreas — plan vs legacy Room', () {
+    List<Vec2> rect() =>
+        const [Vec2(0, 0), Vec2(4, 0), Vec2(4, 3), Vec2(0, 3)];
+
+    // An L-shape: 4×4 bounding box, true area 12 m².
+    List<Vec2> lShape() => const [
+          Vec2(0, 0),
+          Vec2(4, 0),
+          Vec2(4, 2),
+          Vec2(2, 2),
+          Vec2(2, 4),
+          Vec2(0, 4),
+        ];
+
+    test('rectangle: plan path is numerically identical to the Room path', () {
+      final plan = RoomPlan.fromCorners(
+        rect(),
+        ceilingHeightM: 2.8,
+        source: RoomSource.wizard,
+      );
+      // The current (legacy) computation uses the derived bounding Room.
+      final legacy = computeProjectAreas(plan.toLegacyRoom());
+      final viaPlan = computeProjectAreas(null, plan: plan);
+      expect(viaPlan.floorArea, closeTo(legacy.floorArea, 1e-9));
+      expect(viaPlan.wallArea, closeTo(legacy.wallArea, 1e-9));
+    });
+
+    test('L-shape: floorArea is the true polygon area, not the bounding box',
+        () {
+      final plan = RoomPlan.fromCorners(
+        lShape(),
+        ceilingHeightM: 2.8,
+        source: RoomSource.sketch,
+      );
+      final areas = computeProjectAreas(null, plan: plan);
+      expect(areas.floorArea, closeTo(plan.areaM2, 1e-9));
+      expect(areas.floorArea, closeTo(12.0, 1e-9));
+      // The bounding-box Room would report 16 m² — confirm the plan path wins.
+      final bounding = computeProjectAreas(plan.toLegacyRoom());
+      expect(bounding.floorArea, closeTo(16.0, 1e-9));
+      // Wall area follows the true perimeter, not the bounding perimeter.
+      expect(areas.wallArea, closeTo(plan.netWallAreaM2, 1e-9));
     });
   });
 }

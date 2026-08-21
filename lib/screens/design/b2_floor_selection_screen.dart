@@ -133,7 +133,11 @@ class _B2FloorSelectionScreenState
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(DesignTokens.spacing16),
-                    child: RoomCanvas(room: room, onItemSelected: (id) {}),
+                    child: RoomCanvas(
+                      room: room,
+                      plan: ref.watch(activeRoomPlanProvider),
+                      onItemSelected: (id) {},
+                    ),
                   ),
                 ),
                 // Material selection rail

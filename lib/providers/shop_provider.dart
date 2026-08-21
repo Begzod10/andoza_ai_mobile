@@ -9,8 +9,10 @@ import 'design_provider.dart';
 import 'electrical_provider.dart';
 import 'room_provider.dart';
 
-ProjectAreas _computeAreas(Ref ref) =>
-    computeProjectAreas(ref.watch(activeRoomProvider));
+ProjectAreas _computeAreas(Ref ref) => computeProjectAreas(
+      ref.watch(activeRoomProvider),
+      plan: ref.watch(activeRoomPlanProvider),
+    );
 
 /// Whether the room's starting condition already excludes [stage] from
 /// the delta mechanic (shared with estimate_provider.dart so Do'kon

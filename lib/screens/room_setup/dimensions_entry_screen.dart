@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 import '../../models/room_model.dart';
+import '../../models/room_plan.dart';
+import '../../providers/room_provider.dart';
 
 /// One manually-entered room, added via the "+" Xona qo'shish tile.
 class ManualRoomEntry {
@@ -312,6 +314,21 @@ class _ManualEntryTab extends ConsumerWidget {
                             length: length,
                             height: height,
                           ),
+                        ),
+                      );
+                  // The manual W/L/H entry is a plain box: land it as a
+                  // rectangle plan (in-app source of truth). The mirrored legacy
+                  // Room keeps downstream display working; the last-added room
+                  // wins as the active one.
+                  ref.read(activeRoomPlanProvider.notifier).setPlan(
+                        RoomPlan.rectangle(
+                          width: width,
+                          length: length,
+                          ceilingHeightM: height,
+                          source: RoomSource.wizard,
+                          name: nameController.text.isEmpty
+                              ? 'Xona'
+                              : nameController.text,
                         ),
                       );
                   Navigator.of(sheetContext).pop();

@@ -1,9 +1,38 @@
 import '../geometry/geometry_config.dart';
 import '../geometry/room_geometry.dart';
+import 'room_model.dart' as rm;
 
 /// Where a [RoomPlan] came from. The unified output of every room-capture
 /// method (so all four flows can produce the same contract).
 enum RoomSource { lidar, photo, wizard, sketch, drag }
+
+/// A door/window opening on a [RoomWall]. Mirrors the fields the backend
+/// [WallElementCreate] and the client [rm.Door]/[rm.Window] carry, kept as a
+/// plain value so the geometry layer stays Flutter/Freezed-free.
+class RoomOpening {
+  /// `'door'` or `'window'`.
+  final String type;
+
+  /// Opening width in metres.
+  final double width;
+
+  /// Opening height in metres.
+  final double height;
+
+  /// Fractional position along the wall (0..1).
+  final double position;
+
+  /// Sill height in metres (distance from the floor to the opening's bottom).
+  final double sillHeight;
+
+  const RoomOpening({
+    required this.type,
+    required this.width,
+    required this.height,
+    this.position = 0.5,
+    this.sillHeight = 0.0,
+  });
+}
 
 /// One wall of a [RoomPlan], referencing two corner indices.
 class RoomWall {
@@ -16,7 +45,11 @@ class RoomWall {
   /// Wall length in metres.
   final double lengthM;
 
-  const RoomWall(this.a, this.b, this.lengthM);
+  /// Openings (doors/windows) on this wall. Empty by default.
+  final List<RoomOpening> openings;
+
+  const RoomWall(this.a, this.b, this.lengthM,
+      {this.openings = const []});
 }
 
 /// The unified room contract: a closed, ordered polygon of corners (metres),
@@ -30,34 +63,172 @@ class RoomPlan {
   final double ceilingHeightM;
   final RoomSource source;
 
+  /// Human-readable room name, carried through to the legacy [rm.Room].
+  final String name;
+
   const RoomPlan({
     required this.corners,
     required this.walls,
     required this.ceilingHeightM,
     required this.source,
+    this.name = 'Xona',
   });
 
-  /// Build a plan from ordered corners, deriving the walls.
-  factory RoomPlan.fromCorners(
-    List<Vec2> corners, {
+  /// Build a plain axis-aligned rectangle plan from a [width] (walls B/D span)
+  /// and [length] (walls A/C span). Corners are laid out so the derived walls
+  /// line up with [toLegacyRoom]'s A–D mapping — wall index 0 = A, 1 = B, 2 = C,
+  /// 3 = D — with A/C running [length] and B/D running [width]. This is the
+  /// single rectangle-producing entry point shared by every capture flow whose
+  /// output is a box (the 3D wizard, LiDAR, photo, wall-measurements summary and
+  /// the manual dimensions entry), so they all agree on the same geometry.
+  ///
+  /// [wallOpenings], when given, must be 4 lists of openings for walls A, B, C,
+  /// D respectively.
+  factory RoomPlan.rectangle({
+    required double width,
+    required double length,
     required double ceilingHeightM,
     required RoomSource source,
+    String name = 'Xona',
+    List<List<RoomOpening>>? wallOpenings,
   }) {
+    final corners = <Vec2>[
+      const Vec2(0, 0),
+      Vec2(0, length),
+      Vec2(width, length),
+      Vec2(width, 0),
+    ];
     final walls = <RoomWall>[
-      for (var i = 0; i < corners.length; i++)
-        RoomWall(i, (i + 1) % corners.length,
-            corners[i].distanceTo(corners[(i + 1) % corners.length])),
+      for (var i = 0; i < 4; i++)
+        RoomWall(
+          i,
+          (i + 1) % 4,
+          corners[i].distanceTo(corners[(i + 1) % 4]),
+          openings: wallOpenings != null ? wallOpenings[i] : const [],
+        ),
     ];
     return RoomPlan(
       corners: List.unmodifiable(corners),
       walls: List.unmodifiable(walls),
       ceilingHeightM: ceilingHeightM,
       source: source,
+      name: name,
+    );
+  }
+
+  /// Build a plan from ordered corners, deriving the walls.
+  factory RoomPlan.fromCorners(
+    List<Vec2> corners, {
+    required double ceilingHeightM,
+    required RoomSource source,
+    String name = 'Xona',
+  }) {
+    final walls = <RoomWall>[
+      for (var i = 0; i < corners.length; i++)
+        RoomWall(i, (i + 1) % corners.length,
+            corners[i].distanceTo(corners[(i + 1) % corners.length]),
+            openings: const []),
+    ];
+    return RoomPlan(
+      corners: List.unmodifiable(corners),
+      walls: List.unmodifiable(walls),
+      ceilingHeightM: ceilingHeightM,
+      source: source,
+      name: name,
     );
   }
 
   double get areaM2 => shoelaceArea(corners);
   double get perimeterM => perimeter(corners);
+
+  /// Net wall (paintable) area: the full wall band ([perimeterM] × ceiling)
+  /// minus every opening's face area. Estimates use this so doors/windows don't
+  /// get charged as wall.
+  double get netWallAreaM2 {
+    final gross = perimeterM * ceilingHeightM;
+    var openingArea = 0.0;
+    for (final w in walls) {
+      for (final o in w.openings) {
+        openingArea += o.width * o.height;
+      }
+    }
+    final net = gross - openingArea;
+    return net < 0 ? 0 : net;
+  }
+
+  /// Adapts this plan onto the legacy rectangular [rm.Room] pipeline used by
+  /// display widgets. The room's dimensions/walls come from the axis-aligned
+  /// bounding box: 4 A–D walls where A/C run the bounding length and B/D the
+  /// bounding width, all at the ceiling height. Openings are mapped onto the
+  /// A–D walls only when this plan is itself a 4-wall shape (trivially
+  /// mappable); otherwise doors/windows are omitted.
+  rm.Room toLegacyRoom({String? id}) {
+    final rid = id ?? DateTime.now().microsecondsSinceEpoch.toString();
+    final b = boundingSize;
+    const types = [
+      rm.WallType.wallA,
+      rm.WallType.wallB,
+      rm.WallType.wallC,
+      rm.WallType.wallD,
+    ];
+    final lengths = [b.length, b.width, b.length, b.width];
+    final legacyWalls = <rm.Wall>[
+      for (var i = 0; i < 4; i++)
+        rm.Wall(
+          id: '${rid}_${types[i].name}',
+          type: types[i],
+          measurements: rm.WallMeasurements(
+            height: ceilingHeightM,
+            length: lengths[i],
+          ),
+        ),
+    ];
+
+    final doors = <rm.Door>[];
+    final windows = <rm.Window>[];
+    if (walls.length == 4) {
+      for (var i = 0; i < 4; i++) {
+        final wallId = legacyWalls[i].id;
+        var n = 0;
+        for (final o in walls[i].openings) {
+          final oid = '${wallId}_o${n++}';
+          if (o.type == 'window') {
+            windows.add(rm.Window(
+              id: oid,
+              wallId: wallId,
+              position: o.position,
+              width: o.width,
+              height: o.height,
+              type: rm.OpeningType.single,
+            ));
+          } else {
+            doors.add(rm.Door(
+              id: oid,
+              wallId: wallId,
+              position: o.position,
+              width: o.width,
+              height: o.height,
+              type: rm.OpeningType.single,
+            ));
+          }
+        }
+      }
+    }
+
+    return rm.Room(
+      id: rid,
+      name: name,
+      dimensions: rm.RoomDimensions(
+        width: b.width,
+        length: b.length,
+        height: ceilingHeightM,
+      ),
+      walls: legacyWalls,
+      doors: doors,
+      windows: windows,
+      createdAt: DateTime.now(),
+    );
+  }
 
   /// Axis-aligned bounding size — used by the adapter that maps a plan onto the
   /// existing rectangular room pipeline / 3D Studio.

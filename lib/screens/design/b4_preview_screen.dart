@@ -90,7 +90,11 @@ class _B4PreviewScreenState extends ConsumerState<B4PreviewScreen> {
                           DesignTokens.radiusMd,
                         ),
                       ),
-                      child: RoomCanvas(room: room, onItemSelected: (id) {}),
+                      child: RoomCanvas(
+                        room: room,
+                        plan: ref.watch(activeRoomPlanProvider),
+                        onItemSelected: (id) {},
+                      ),
                     ),
                   ),
 

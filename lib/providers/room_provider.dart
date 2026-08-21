@@ -1,5 +1,6 @@
 import 'package:riverpod/riverpod.dart';
 import '../models/room_model.dart';
+import '../models/room_plan.dart';
 import '../repositories/room_repository.dart';
 import 'auth_provider.dart';
 
@@ -84,6 +85,43 @@ final activeRoomProvider = StateNotifierProvider<ActiveRoomNotifier, Room?>((
   ref,
 ) {
   return ActiveRoomNotifier(ref.watch(roomRepositoryProvider));
+});
+
+/// Notifier for the active [RoomPlan] — the N-corner polygon that is the
+/// in-app source of truth for geometry/estimates. Whenever a plan is set it
+/// also pushes a derived legacy [Room] (its axis-aligned bounding box) into
+/// [activeRoomProvider], so every existing consumer of the legacy room keeps
+/// working unchanged while polygon-aware consumers read the true plan.
+class ActiveRoomPlanNotifier extends StateNotifier<RoomPlan?> {
+  ActiveRoomPlanNotifier(this._ref) : super(null);
+
+  final Ref _ref;
+
+  /// Set the active plan and mirror its bounding box into [activeRoomProvider].
+  ///
+  /// [legacyRoomId] pins the derived [Room]'s id (so a caller can keep the
+  /// design/home-project ids in sync with it); [legacyName] overrides the
+  /// mirrored room's display name without changing the plan itself (used to
+  /// preserve the historical drawn-room name so backend persistence is
+  /// unchanged).
+  void setPlan(RoomPlan plan, {String? legacyRoomId, String? legacyName}) {
+    state = plan;
+    var room = plan.toLegacyRoom(id: legacyRoomId);
+    if (legacyName != null) room = room.copyWith(name: legacyName);
+    _ref.read(activeRoomProvider.notifier).setLocal(room);
+  }
+
+  /// Clear the active plan. Leaves [activeRoomProvider] untouched so legacy
+  /// paths that set the room directly aren't disturbed.
+  void clear() {
+    state = null;
+  }
+}
+
+/// Provider for the active [RoomPlan] (the polygon source of truth).
+final activeRoomPlanProvider =
+    StateNotifierProvider<ActiveRoomPlanNotifier, RoomPlan?>((ref) {
+  return ActiveRoomPlanNotifier(ref);
 });
 
 /// Computed provider: is a room currently active?

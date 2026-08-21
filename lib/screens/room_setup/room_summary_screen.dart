@@ -3,12 +3,59 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 import '../../models/design_selection_model.dart';
-import '../../models/room_model.dart' as room_model;
+import '../../models/room_model.dart';
+import '../../models/room_plan.dart';
 import '../../providers/design_provider.dart';
 import '../../providers/room_provider.dart';
 import '../home/home_empty_screen.dart';
 import '../room_setup/new_project_sheet.dart';
 import 'wall_measurements_screen.dart';
+
+const _summaryRoomName = 'Mehmonxona ta\'miri';
+
+/// Builds the authoritative rectangle [RoomPlan] from the captured walls: a box
+/// whose width is wall B's run and length is wall A's run, carrying each wall's
+/// openings. This is the single source both the on-screen stats and the
+/// `/design/b1` handoff read, replacing the old duplicated inline area math.
+RoomPlan _planFromWalls(List<WallMeasurement> walls) {
+  final wallA = walls.firstWhere(
+    (w) => w.type == WallType.wallA,
+    orElse: () => walls[0],
+  );
+  final wallB = walls.length > 1 ? walls[1] : walls[0];
+  final width = wallB.length;
+  final length = wallA.length;
+
+  List<RoomOpening> openingsFor(WallType type, double edgeLen) {
+    final wall = walls.firstWhere(
+      (w) => w.type == type,
+      orElse: () => walls[0],
+    );
+    return [
+      for (final o in wall.openings)
+        RoomOpening(
+          type: o.type == OpeningType.dual ? 'window' : 'door',
+          width: o.width,
+          height: o.height,
+          position: edgeLen == 0 ? 0.0 : (o.offset / edgeLen).clamp(0.0, 1.0),
+        ),
+    ];
+  }
+
+  return RoomPlan.rectangle(
+    width: width,
+    length: length,
+    ceilingHeightM: wallA.height,
+    source: RoomSource.wizard,
+    name: _summaryRoomName,
+    wallOpenings: [
+      openingsFor(WallType.wallA, length),
+      openingsFor(WallType.wallB, width),
+      openingsFor(WallType.wallC, length),
+      openingsFor(WallType.wallD, width),
+    ],
+  );
+}
 
 /// A9: Xona xulosasi — computed from the actual measured walls (not
 /// hardcoded), per spec: netto wall area auto-subtracts openings.
@@ -47,30 +94,14 @@ class _RoomSummaryScreenState extends ConsumerState<RoomSummaryScreen>
   Widget build(BuildContext context) {
     final walls = ref.watch(wallMeasurementsProvider);
 
-    // Rectangular-room approximation: opposite walls (A/C, B/D) share the
-    // same run, so floor area = wallA.length * wallB.length.
-    final wallA = walls.firstWhere(
-      (w) => w.type.name == 'wallA',
-      orElse: () => walls[0],
-    );
-    final wallB = walls.length > 1 ? walls[1] : walls[0];
-    final floorArea = wallA.length * wallB.length;
-
-    final perimeter = walls.fold<double>(0, (sum, w) => sum + w.length);
-    final grossWallArea = walls.fold<double>(
-      0,
-      (sum, w) => sum + w.length * w.height,
-    );
-    final openingArea = walls.fold<double>(
-      0,
-      (sum, w) =>
-          sum + w.openings.fold<double>(0, (s, o) => s + o.width * o.height),
-    );
-    final nettoWallArea = grossWallArea - openingArea;
-    final openingCount = walls.fold<int>(
-      0,
-      (sum, w) => sum + w.openings.length,
-    );
+    // The rectangle plan is the single source of truth for the stats below —
+    // its getters replace the old duplicated inline area math.
+    final plan = _planFromWalls(walls);
+    final floorArea = plan.areaM2;
+    final perimeter = plan.perimeterM;
+    final nettoWallArea = plan.netWallAreaM2;
+    final openingCount =
+        plan.walls.fold<int>(0, (sum, w) => sum + w.openings.length);
 
     return Scaffold(
       backgroundColor: DesignTokens.backgroundLight,
@@ -185,73 +216,13 @@ class _RoomSummaryScreenState extends ConsumerState<RoomSummaryScreen>
     final walls = ref.read(wallMeasurementsProvider);
     final roomId = DateTime.now().microsecondsSinceEpoch.toString();
 
-    final modelWalls = <room_model.Wall>[];
-    final doors = <room_model.Door>[];
-    final windows = <room_model.Window>[];
-
-    for (final wall in walls) {
-      final wallId = '${roomId}_${wall.type.name}';
-      modelWalls.add(
-        room_model.Wall(
-          id: wallId,
-          type: wall.type,
-          measurements: room_model.WallMeasurements(
-            height: wall.height,
-            length: wall.length,
-          ),
-        ),
-      );
-
-      for (final opening in wall.openings) {
-        final position = wall.length == 0
-            ? 0.0
-            : (opening.offset / wall.length).clamp(0.0, 1.0);
-        if (opening.type == room_model.OpeningType.dual) {
-          windows.add(
-            room_model.Window(
-              id: opening.id,
-              wallId: wallId,
-              position: position,
-              width: opening.width,
-              height: opening.height,
-              type: opening.type,
-            ),
-          );
-        } else {
-          doors.add(
-            room_model.Door(
-              id: opening.id,
-              wallId: wallId,
-              position: position,
-              width: opening.width,
-              height: opening.height,
-              type: opening.type,
-            ),
-          );
-        }
-      }
-    }
-
-    final wallA = walls.firstWhere(
-      (w) => w.type.name == 'wallA',
-      orElse: () => walls[0],
-    );
-    final wallB = walls.length > 1 ? walls[1] : walls[0];
-
-    final room = room_model.Room(
-      id: roomId,
-      name: 'Mehmonxona ta\'miri',
-      dimensions: room_model.RoomDimensions(
-        width: wallB.length,
-        length: wallA.length,
-        height: wallA.height,
-      ),
-      walls: modelWalls,
-      doors: doors,
-      windows: windows,
-      createdAt: DateTime.now(),
-    );
-    ref.read(activeRoomProvider.notifier).setLocal(room);
+    // The rectangle plan is the in-app source of truth; setPlan mirrors a
+    // bounding legacy Room into activeRoomProvider so /design/b1 works unchanged.
+    ref.read(activeRoomPlanProvider.notifier).setPlan(
+          _planFromWalls(walls),
+          legacyRoomId: roomId,
+          legacyName: _summaryRoomName,
+        );
 
     ref
         .read(activeDesignProvider.notifier)
@@ -269,7 +240,7 @@ class _RoomSummaryScreenState extends ConsumerState<RoomSummaryScreen>
         .addProject(
           ProjectItem(
             id: roomId,
-            name: room.name,
+            name: _summaryRoomName,
             location: '',
             roomCount: 1,
             createdAt: DateTime.now(),

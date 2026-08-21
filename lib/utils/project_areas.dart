@@ -1,4 +1,5 @@
 import '../models/room_model.dart';
+import '../models/room_plan.dart';
 
 /// Real floor/wall area for the active room, falling back to a typical
 /// single-room baseline when the user hasn't gone through Batch A yet —
@@ -8,7 +9,22 @@ import '../models/room_model.dart';
 /// project size.
 typedef ProjectAreas = ({double floorArea, double wallArea});
 
-ProjectAreas computeProjectAreas(Room? room) {
+/// Prefers the polygon [RoomPlan] as the source of truth when present — its
+/// true [RoomPlan.areaM2] (shoelace) and [RoomPlan.netWallAreaM2] make
+/// L-shapes/trapezoids accurate — and falls back to the legacy [Room] path
+/// (bounding floor + summed wall band) when only a legacy room exists.
+///
+/// For an axis-aligned rectangle the two paths are numerically identical, so
+/// existing rectangular rooms' estimates are unchanged.
+ProjectAreas computeProjectAreas(Room? room, {RoomPlan? plan}) {
+  if (plan != null) {
+    final floorArea = plan.areaM2;
+    final wallArea = plan.netWallAreaM2;
+    return (
+      floorArea: floorArea > 0 ? floorArea : 18.0,
+      wallArea: wallArea > 0 ? wallArea : 48.0,
+    );
+  }
   if (room == null) {
     return (floorArea: 18.0, wallArea: 48.0);
   }

@@ -253,8 +253,9 @@ Estimate buildEstimate({
 /// electrical state and to E3's tier/DIY toggles.
 final estimateProvider = Provider<Estimate>((ref) {
   final room = ref.watch(activeRoomProvider);
+  final plan = ref.watch(activeRoomPlanProvider);
   final design = ref.watch(activeDesignProvider);
-  final areas = computeProjectAreas(room);
+  final areas = computeProjectAreas(room, plan: plan);
   final electrical = computeElectricalNeed(ref);
   final tier = ref.watch(qualityTierProvider);
   final diy = ref.watch(diyModeProvider);

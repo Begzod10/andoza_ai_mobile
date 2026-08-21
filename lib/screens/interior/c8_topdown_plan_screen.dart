@@ -28,6 +28,7 @@ class _C8TopdownPlanScreenState extends ConsumerState<C8TopdownPlanScreen> {
   @override
   Widget build(BuildContext context) {
     final room = ref.watch(activeRoomProvider);
+    final plan = ref.watch(activeRoomPlanProvider);
     final condition = ref.watch(activeDesignProvider)?.roomCondition;
 
     return Scaffold(
@@ -82,7 +83,7 @@ class _C8TopdownPlanScreenState extends ConsumerState<C8TopdownPlanScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(DesignTokens.spacingMd),
                 child: _mode == _ViewMode.topDown && room != null
-                    ? RoomCanvas(room: room, onItemSelected: (_) {})
+                    ? RoomCanvas(room: room, plan: plan, onItemSelected: (_) {})
                     : RoomPerspectiveView(
                         wallCondition: condition?.wall ?? SurfaceCondition.raw,
                       ),

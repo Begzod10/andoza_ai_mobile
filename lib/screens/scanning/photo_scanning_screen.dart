@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../models/room_plan.dart';
+import '../../providers/room_provider.dart';
 
 const _totalPoints = 8;
 
@@ -71,6 +73,17 @@ class _PhotoScanningScreenState extends ConsumerState<PhotoScanningScreen>
 
     ref.listen<PhotoScanState>(photoScanProvider, (previous, next) {
       if (next.isComplete && previous?.isComplete == false) {
+        // The 360° capture extracts no dimensions, so seed a default rectangle
+        // plan (the app's historical default box) as the in-app source of
+        // truth; the wall-measurements screen next refines it.
+        ref.read(activeRoomPlanProvider.notifier).setPlan(
+              RoomPlan.rectangle(
+                width: 3.2,
+                length: 4.5,
+                ceilingHeightM: 2.8,
+                source: RoomSource.photo,
+              ),
+            );
         context.push('/setup/wall-measurements');
       }
     });

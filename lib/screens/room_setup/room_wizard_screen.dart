@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 import '../../models/design_selection_model.dart';
 import '../../models/room_model.dart';
-import '../../models/room_model.dart' as room_model;
+import '../../models/room_plan.dart';
 import '../../providers/design_provider.dart';
 import '../../providers/room_persistence_provider.dart';
 import '../../providers/room_provider.dart';
@@ -33,10 +33,29 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
 
   static const _ceilingPresets = [2.5, 2.7, 3.0, 3.2];
 
+  // --- Authoritative data model: a 4-corner rectangle [RoomPlan] ------------
+  // The wizard is a plain box, so the plan is fully described by its width
+  // (walls B/D), length (walls A/C), ceiling height and per-wall openings. The
+  // A/B/C/D wall letters below are display-only labels on the plan's 4 edges
+  // (edge index i → wall WallType.values[i], matching RoomPlan.rectangle /
+  // toLegacyRoom). It no longer depends on wallMeasurementsProvider as its
+  // source of truth — it only reads it once, in initState, for the seeded
+  // defaults so behaviour is unchanged.
+  late double _width; // walls B/D span
+  late double _length; // walls A/C span
+  late double _height;
+  // Openings per wall, indexed 0=A, 1=B, 2=C, 3=D.
+  final List<List<RoomOpening>> _openings = [[], [], [], []];
+
   @override
   void initState() {
     super.initState();
-    _ceilingController.text = _ceiling.toStringAsFixed(2);
+    // Seeded defaults (the historical wallMeasurementsProvider A/B seed). The
+    // wizard owns its geometry outright now and no longer reads that provider.
+    _length = 4.5; // walls A/C span
+    _width = 3.2; // walls B/D span
+    _height = 2.8;
+    _ceilingController.text = _height.toStringAsFixed(2);
   }
 
   @override
@@ -45,25 +64,89 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
     super.dispose();
   }
 
-  double get _ceiling => ref.read(wallMeasurementsProvider).first.height;
   int get _totalSteps => 6; // ceiling + 4 walls + summary
 
+  /// The authoritative rectangle plan derived from the current dimensions and
+  /// per-wall openings.
+  RoomPlan get _plan => RoomPlan.rectangle(
+        width: _width,
+        length: _length,
+        ceilingHeightM: _height,
+        source: RoomSource.wizard,
+        name: _roomName,
+        wallOpenings: _openings,
+      );
+
+  static const _roomName = 'Mehmonxona ta\'miri';
+
+  /// The length of the plan edge for wall [index] (A/C = length, B/D = width).
+  double _wallLengthFor(int index) =>
+      (index == 0 || index == 2) ? _length : _width;
+
+  /// An ephemeral [WallMeasurement] view of wall [index], so the existing
+  /// [_WallStep] / [WallElevationPainter] render unchanged off the plan.
+  WallMeasurement _wallMeasurement(int index) {
+    final length = _wallLengthFor(index);
+    var seq = 0;
+    return WallMeasurement(
+      type: WallType.values[index],
+      length: length,
+      height: _height,
+      openings: [
+        for (final o in _openings[index])
+          WallOpening(
+            id: '${index}_${seq++}',
+            type: o.type == 'window' ? OpeningType.dual : OpeningType.single,
+            width: o.width,
+            height: o.height,
+            offset: o.position * length,
+          ),
+      ],
+    );
+  }
+
   void _setCeiling(double h) {
-    final clamped = h.clamp(2.0, 5.0);
-    for (final w in WallType.values) {
-      ref.read(wallMeasurementsProvider.notifier).updateWall(w, height: clamped);
-    }
-    setState(() {});
+    setState(() => _height = h.clamp(2.0, 5.0));
+  }
+
+  /// Edit wall [index]'s length. A/C set the length dimension, B/D the width —
+  /// both parallel edges move so the plan stays a plain axis rectangle (the
+  /// same box the persistence path expects; a single-corner move would turn it
+  /// into a trapezoid and change what gets persisted).
+  void _setWallLength(int index, double v) {
+    setState(() {
+      if (index == 0 || index == 2) {
+        _length = v;
+      } else {
+        _width = v;
+      }
+    });
+  }
+
+  void _addOpening(int index, OpeningType type, double width, double height,
+      double offset) {
+    final length = _wallLengthFor(index);
+    setState(() {
+      _openings[index] = [
+        ..._openings[index],
+        RoomOpening(
+          type: type == OpeningType.dual ? 'window' : 'door',
+          width: width,
+          height: height,
+          position: length == 0 ? 0.0 : (offset / length).clamp(0.0, 1.0),
+        ),
+      ];
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final walls = ref.watch(wallMeasurementsProvider);
-    final wallB = walls.firstWhere((w) => w.type == WallType.wallB);
-    final wallA = walls.firstWhere((w) => w.type == WallType.wallA);
+    final plan = _plan;
 
-    // The wall being edited on wall steps (1..4).
-    final activeWall = (_step >= 1 && _step <= 4) ? walls[_step - 1] : null;
+    // The wall being edited on wall steps (1..4); index 0=A … 3=D.
+    final activeIndex = (_step >= 1 && _step <= 4) ? _step - 1 : null;
+    final activeWall =
+        activeIndex != null ? _wallMeasurement(activeIndex) : null;
 
     return Scaffold(
       backgroundColor: DesignTokens.white,
@@ -85,11 +168,14 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
             SizedBox(
               height: 240,
               width: double.infinity,
-              child: IsometricRoomView(
-                widthM: wallB.length,
-                depthM: wallA.length,
-                heightM: _ceiling,
-                activeWall: activeWall?.type,
+              child: IsometricRoomView.polygon(
+                floorCornersM: [
+                  for (final c in plan.corners) Offset(c.x, c.y),
+                ],
+                heightM: _height,
+                showEdgeLengths: false,
+                fixedLabels: const ['A', 'B', 'C', 'D'],
+                activeEdge: activeIndex,
               ),
             ),
           // Progress bar.
@@ -108,7 +194,7 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
                   ? _CeilingStep(
                       controller: _ceilingController,
                       presets: _ceilingPresets,
-                      current: _ceiling,
+                      current: _height,
                       onPick: (h) {
                         _ceilingController.text = h.toStringAsFixed(2);
                         _setCeiling(h);
@@ -118,14 +204,11 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
                   : (_step <= 4
                       ? _WallStep(
                           wall: activeWall!,
-                          onLength: (v) => ref
-                              .read(wallMeasurementsProvider.notifier)
-                              .updateWall(activeWall.type, length: v),
-                          onAddOpening: () =>
-                              _showAddOpeningSheet(activeWall.type),
+                          onLength: (v) => _setWallLength(activeIndex!, v),
+                          onAddOpening: () => _showAddOpeningSheet(activeIndex!),
                         )
                       : _SummaryStep(
-                          walls: walls,
+                          plan: plan,
                           openingStudio: _openingStudio,
                           onViewSmeta: _goSmeta,
                           onStartDesign: _goStudio,
@@ -177,22 +260,13 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
     }
   }
 
-  void _showAddOpeningSheet(WallType wallType) {
+  void _showAddOpeningSheet(int index) {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       builder: (sheetContext) => DoorWindowModal(
         onAdd: (type, width, height, offset) {
-          ref.read(wallMeasurementsProvider.notifier).addOpening(
-                wallType,
-                WallOpening(
-                  id: DateTime.now().microsecondsSinceEpoch.toString(),
-                  type: type,
-                  width: width,
-                  height: height,
-                  offset: offset,
-                ),
-              );
+          _addOpening(index, type, width, height, offset);
           Navigator.of(sheetContext).pop();
         },
       ),
@@ -230,73 +304,18 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
     }
   }
 
-  /// Builds the room from the captured walls and populates the app's providers
-  /// (same as the classic summary flow).
+  /// Sets the rectangle plan as the in-app source of truth and registers the
+  /// design/home project. The mirrored legacy [Room] (via [RoomPlan.toLegacyRoom]
+  /// pushed into [activeRoomProvider] by [setPlan]) keeps every downstream
+  /// display consumer working. Persistence for this plain axis rectangle is the
+  /// unchanged legacy A–D bounding path (see [_goStudio]'s [ensurePersisted]).
   void _setupRoom() {
-    final walls = ref.read(wallMeasurementsProvider);
     final roomId = DateTime.now().microsecondsSinceEpoch.toString();
-
-    final modelWalls = <room_model.Wall>[];
-    final doors = <room_model.Door>[];
-    final windows = <room_model.Window>[];
-
-    for (final wall in walls) {
-      final wallId = '${roomId}_${wall.type.name}';
-      modelWalls.add(
-        room_model.Wall(
-          id: wallId,
-          type: wall.type,
-          measurements: room_model.WallMeasurements(
-            height: wall.height,
-            length: wall.length,
-          ),
-        ),
-      );
-      for (final opening in wall.openings) {
-        final position =
-            wall.length == 0 ? 0.0 : (opening.offset / wall.length).clamp(0.0, 1.0);
-        final o = room_model.Window(
-          id: opening.id,
-          wallId: wallId,
-          position: position,
-          width: opening.width,
-          height: opening.height,
-          type: opening.type,
+    ref.read(activeRoomPlanProvider.notifier).setPlan(
+          _plan,
+          legacyRoomId: roomId,
+          legacyName: _roomName,
         );
-        if (opening.type == room_model.OpeningType.dual) {
-          windows.add(o);
-        } else {
-          doors.add(
-            room_model.Door(
-              id: opening.id,
-              wallId: wallId,
-              position: position,
-              width: opening.width,
-              height: opening.height,
-              type: opening.type,
-            ),
-          );
-        }
-      }
-    }
-
-    final wallA = walls.firstWhere((w) => w.type == WallType.wallA);
-    final wallB = walls.firstWhere((w) => w.type == WallType.wallB);
-
-    final room = room_model.Room(
-      id: roomId,
-      name: 'Mehmonxona ta\'miri',
-      dimensions: room_model.RoomDimensions(
-        width: wallB.length,
-        length: wallA.length,
-        height: wallA.height,
-      ),
-      walls: modelWalls,
-      doors: doors,
-      windows: windows,
-      createdAt: DateTime.now(),
-    );
-    ref.read(activeRoomProvider.notifier).setLocal(room);
     ref.read(activeDesignProvider.notifier).setLocal(
           DesignSelection(
             id: '${roomId}_design',
@@ -308,7 +327,7 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
     ref.read(homeStateProvider.notifier).addProject(
           ProjectItem(
             id: roomId,
-            name: room.name,
+            name: _roomName,
             location: '',
             roomCount: 1,
             createdAt: DateTime.now(),
@@ -481,30 +500,24 @@ class _WallStep extends StatelessWidget {
 
 class _SummaryStep extends StatelessWidget {
   const _SummaryStep({
-    required this.walls,
+    required this.plan,
     required this.openingStudio,
     required this.onViewSmeta,
     required this.onStartDesign,
   });
 
-  final List<WallMeasurement> walls;
+  final RoomPlan plan;
   final bool openingStudio;
   final VoidCallback onViewSmeta;
   final VoidCallback onStartDesign;
 
   @override
   Widget build(BuildContext context) {
-    final wallA = walls.firstWhere((w) => w.type == WallType.wallA);
-    final wallB = walls.firstWhere((w) => w.type == WallType.wallB);
-    final floorArea = wallA.length * wallB.length;
-    final perimeter = walls.fold<double>(0, (s, w) => s + w.length);
-    final grossWall = walls.fold<double>(0, (s, w) => s + w.length * w.height);
-    final openingArea = walls.fold<double>(
-      0,
-      (s, w) => s + w.openings.fold<double>(0, (a, o) => a + o.width * o.height),
-    );
-    final nettoWall = grossWall - openingArea;
-    final openingCount = walls.fold<int>(0, (s, w) => s + w.openings.length);
+    final floorArea = plan.areaM2;
+    final perimeter = plan.perimeterM;
+    final nettoWall = plan.netWallAreaM2;
+    final openingCount =
+        plan.walls.fold<int>(0, (s, w) => s + w.openings.length);
 
     return Column(
       children: [

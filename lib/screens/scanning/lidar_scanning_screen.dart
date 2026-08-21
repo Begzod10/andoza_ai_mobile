@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../models/room_model.dart' show WallType;
+import '../../models/room_plan.dart';
 import '../../providers/lidar_provider.dart';
+import '../../providers/room_provider.dart';
 import '../../services/lidar_service.dart';
 import '../room_setup/wall_measurements_screen.dart';
 
@@ -172,6 +175,7 @@ class _LiDARScanningScreenState extends ConsumerState<LiDARScanningScreen>
             height: r['height']!,
           );
       if (!mounted) return;
+      _seedRoomPlan();
       context.push('/setup/wall-measurements');
     } on LidarException catch (e) {
       if (!mounted) return;
@@ -196,12 +200,32 @@ class _LiDARScanningScreenState extends ConsumerState<LiDARScanningScreen>
     super.dispose();
   }
 
+  /// Sets a rectangle [RoomPlan] as the in-app source of truth from the current
+  /// wall measurements — the scanned bounding box on the real-device path, or
+  /// the seeded defaults on the emulator simulation. The mirrored legacy [Room]
+  /// keeps Home / `/design/b1` working; the wall-measurements screen the user
+  /// lands on next refines it further.
+  void _seedRoomPlan() {
+    final walls = ref.read(wallMeasurementsProvider);
+    final wallA = walls.firstWhere((w) => w.type == WallType.wallA);
+    final wallB = walls.firstWhere((w) => w.type == WallType.wallB);
+    ref.read(activeRoomPlanProvider.notifier).setPlan(
+          RoomPlan.rectangle(
+            width: wallB.length,
+            length: wallA.length,
+            ceilingHeightM: wallA.height,
+            source: RoomSource.lidar,
+          ),
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
     final scanState = ref.watch(liDARScanProvider);
 
     ref.listen<LiDARScanState>(liDARScanProvider, (previous, next) {
       if (previous?.isScanning == true && !next.isScanning) {
+        _seedRoomPlan();
         context.push('/setup/wall-measurements');
       }
     });

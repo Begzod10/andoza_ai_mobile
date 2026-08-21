@@ -3,128 +3,67 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../../config/design_tokens.dart';
-import '../../models/room_model.dart';
 import 'iso_projector.dart';
 
-/// An isometric preview of a room prism (open-top box). The default constructor
-/// renders a rectangular room — the signature visual of the capture wizard —
-/// while [IsometricRoomView.polygon] renders an arbitrary N-corner room with an
-/// orbit angle and per-edge length labels. Both share the same polygon renderer
-/// backed by [IsoProjector].
-///
-/// For the rectangle: [widthM] runs along walls B/D, [depthM] along walls A/C,
-/// [heightM] up, and [activeWall] (if any) is drawn in the accent colour.
+/// An isometric preview of a room prism (open-top box). [IsometricRoomView.polygon]
+/// renders an arbitrary N-corner room with an orbit angle and per-edge length
+/// labels, backed by [IsoProjector]. [heightM] runs up.
 class IsometricRoomView extends StatelessWidget {
-  /// Rectangular room preview (unchanged wizard look: A/B/C/D wall labels).
-  const IsometricRoomView({
-    required this.widthM,
-    required this.depthM,
-    required this.heightM,
-    this.activeWall,
-    super.key,
-  })  : _floorCornersM = null,
-        orbitRad = 0,
-        showEdgeLengths = false,
-        activeCorner = null,
-        zoom = 1.0;
-
   /// Arbitrary N-corner room preview. [floorCornersM] are the floor polygon
   /// corners in METRES (x = Offset.dx, y = Offset.dy). Edges are labelled with
-  /// their length when [showEdgeLengths] is true. [orbitRad] rotates the floor
-  /// around its centroid.
+  /// their length when [showEdgeLengths] is true, or with [fixedLabels] (one per
+  /// edge) when provided — the latter lets the 3D wizard keep its A/B/C/D wall
+  /// letters. [orbitRad] rotates the floor around its centroid. [activeEdge]
+  /// highlights that edge's wall in the accent colour (the wizard's active-wall
+  /// highlight).
   const IsometricRoomView.polygon({
     required List<Offset> floorCornersM,
     required this.heightM,
     this.orbitRad = 0,
     this.showEdgeLengths = true,
     this.activeCorner,
+    this.activeEdge,
+    this.fixedLabels,
     this.zoom = 1.0,
     super.key,
-  })  :
+  }) :
         // Private field can't be a named initialising formal.
         // ignore: prefer_initializing_formals
-        _floorCornersM = floorCornersM,
-        widthM = 0,
-        depthM = 0,
-        activeWall = null;
+        _floorCornersM = floorCornersM;
 
-  final double widthM;
-  final double depthM;
   final double heightM;
-  final WallType? activeWall;
   final double orbitRad;
   final bool showEdgeLengths;
   final int? activeCorner;
 
+  /// Polygon-path active-wall highlight: the index of the edge to draw in the
+  /// accent colour (null = none).
+  final int? activeEdge;
+
+  /// Polygon-path explicit per-edge labels (e.g. A/B/C/D). When null the edge
+  /// length is shown if [showEdgeLengths].
+  final List<String>? fixedLabels;
+
   /// Pinch-zoom multiplier passed straight through to the [IsoProjector].
   final double zoom;
-  final List<Offset>? _floorCornersM;
+  final List<Offset> _floorCornersM;
 
   @override
   Widget build(BuildContext context) {
-    if (_floorCornersM != null) {
-      // Polygon path: generic edge labels (lengths) + computed back walls.
-      return CustomPaint(
-        size: Size.infinite,
-        painter: _IsometricRoomPainter(
-          floorCornersM: _floorCornersM,
-          heightM: heightM,
-          orbitRad: orbitRad,
-          showEdgeLengths: showEdgeLengths,
-          activeCorner: activeCorner,
-          zoom: zoom,
-        ),
-      );
-    }
-
-    // Rectangle path: reproduce the original wizard look exactly.
-    // Floor corners: C along y=0, B along x=width, A along y=depth, D along x=0.
-    final floor = <Offset>[
-      const Offset(0, 0),
-      Offset(widthM, 0),
-      Offset(widthM, depthM),
-      Offset(0, depthM),
-    ];
-    // Edge i connects corner i → corner i+1:
-    //   edge0 = wallC (near, y=0), edge1 = wallB (right, x=width),
-    //   edge2 = wallA (far, y=depth), edge3 = wallD (left, x=0).
-    const edgeWalls = [
-      WallType.wallC,
-      WallType.wallB,
-      WallType.wallA,
-      WallType.wallD,
-    ];
-    final labels = [for (final w in edgeWalls) _shortLabel(w)];
-    // Preserve the original's darker "back" pair: walls A and D.
-    final backEdges = <int>{
-      for (var i = 0; i < edgeWalls.length; i++)
-        if (edgeWalls[i] == WallType.wallA || edgeWalls[i] == WallType.wallD) i,
-    };
-    final activeEdges = <int>{
-      for (var i = 0; i < edgeWalls.length; i++)
-        if (activeWall != null && edgeWalls[i] == activeWall) i,
-    };
-
     return CustomPaint(
       size: Size.infinite,
       painter: _IsometricRoomPainter(
-        floorCornersM: floor,
+        floorCornersM: _floorCornersM,
         heightM: heightM,
-        orbitRad: 0,
-        showEdgeLengths: false,
-        fixedLabels: labels,
-        fixedBackEdges: backEdges,
-        activeEdges: activeEdges,
+        orbitRad: orbitRad,
+        showEdgeLengths: showEdgeLengths,
+        fixedLabels: fixedLabels,
+        activeEdges: activeEdge == null ? const <int>{} : {activeEdge!},
+        activeCorner: activeCorner,
+        zoom: zoom,
       ),
     );
   }
-
-  static String _shortLabel(WallType t) => switch (t) {
-        WallType.wallA => 'A',
-        WallType.wallB => 'B',
-        WallType.wallC => 'C',
-        WallType.wallD => 'D',
-      };
 }
 
 class _IsometricRoomPainter extends CustomPainter {
@@ -134,7 +73,6 @@ class _IsometricRoomPainter extends CustomPainter {
     required this.orbitRad,
     required this.showEdgeLengths,
     this.fixedLabels,
-    this.fixedBackEdges,
     this.activeEdges = const <int>{},
     this.activeCorner,
     this.zoom = 1.0,
@@ -146,13 +84,9 @@ class _IsometricRoomPainter extends CustomPainter {
   final bool showEdgeLengths;
   final double zoom;
 
-  /// Explicit per-edge labels (rectangle path: A/B/C/D). When null, edge-length
-  /// labels are shown if [showEdgeLengths].
+  /// Explicit per-edge labels (e.g. A/B/C/D). When null, edge-length labels are
+  /// shown if [showEdgeLengths].
   final List<String>? fixedLabels;
-
-  /// Explicit "back" (darker) edges (rectangle path). When null the back walls
-  /// are computed from screen depth.
-  final Set<int>? fixedBackEdges;
 
   final Set<int> activeEdges;
   final int? activeCorner;
@@ -189,19 +123,14 @@ class _IsometricRoomPainter extends CustomPainter {
           (q[0].dy + q[1].dy + q[2].dy + q[3].dy) / 4,
         );
 
-    // "Back" walls (darker/greener): explicit for the rectangle, otherwise the
-    // walls whose centre sits above (smaller screen-y than) the floor centroid.
-    Set<int> backEdges;
-    if (fixedBackEdges != null) {
-      backEdges = fixedBackEdges!;
-    } else {
-      final floorCentroidY =
-          floor.map((p) => p.dy).reduce((a, b) => a + b) / floor.length;
-      backEdges = {
-        for (var i = 0; i < n; i++)
-          if (quadCentre(quads[i]).dy < floorCentroidY) i,
-      };
-    }
+    // "Back" walls (darker/greener): the walls whose centre sits above (smaller
+    // screen-y than) the floor centroid.
+    final floorCentroidY =
+        floor.map((p) => p.dy).reduce((a, b) => a + b) / floor.length;
+    final backEdges = <int>{
+      for (var i = 0; i < n; i++)
+        if (quadCentre(quads[i]).dy < floorCentroidY) i,
+    };
 
     // Draw walls back-to-front: ascending average screen-y so nearer walls
     // (larger y) paint last and win any overlap.

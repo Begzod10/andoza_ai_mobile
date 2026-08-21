@@ -2,18 +2,30 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import '../../config/design_tokens.dart';
 import '../../models/room_model.dart';
+import '../../models/room_plan.dart';
 
-/// 2D top-down room rendering with walls, doors, windows, and furniture
+/// 2D top-down room rendering with walls, doors, windows, and furniture.
+///
+/// When a [plan] is supplied its true polygon [RoomPlan.corners] are drawn
+/// (an L-shape renders as an L-shape, a trapezoid as a trapezoid, …) and each
+/// opening is placed on its actual wall. Without a plan the widget falls back to
+/// the legacy bounding rectangle derived from [room]'s dimensions, with doors on
+/// the top wall (the historical behaviour).
 class RoomCanvas extends StatefulWidget {
   const RoomCanvas({
     required this.room,
     required this.onItemSelected,
+    this.plan,
     this.selectedItemId,
     this.scale = 1.0,
     super.key,
   });
 
   final Room room;
+
+  /// The true polygon plan, when available. Preferred over [room]'s bounding
+  /// rectangle for rendering the actual room outline.
+  final RoomPlan? plan;
   final ValueChanged<String> onItemSelected;
   final String? selectedItemId;
   final double scale;
@@ -23,31 +35,34 @@ class RoomCanvas extends StatefulWidget {
 }
 
 class _RoomCanvasState extends State<RoomCanvas> {
-  late Offset _panOffset;
+  Offset _panOffset = Offset.zero;
   double _zoomLevel = 1.0;
+  double _baseZoom = 1.0;
 
-  @override
-  void initState() {
-    super.initState();
-    _panOffset = Offset.zero;
-  }
-
-  void _handlePanUpdate(DragUpdateDetails details) {
-    setState(() {
-      _panOffset += details.delta;
-    });
+  // Scale is a superset of pan: a one-finger drag reports focalPointDelta with
+  // scale == 1.0, a pinch reports the scale factor. Using a single scale
+  // recognizer avoids the redundant pan+scale gesture-arena conflict.
+  void _handleScaleStart(ScaleStartDetails details) {
+    _baseZoom = _zoomLevel;
   }
 
   void _handleScaleUpdate(ScaleUpdateDetails details) {
     setState(() {
-      _zoomLevel = (_zoomLevel * details.scale).clamp(0.5, 3.0);
+      _panOffset += details.focalPointDelta;
+      _zoomLevel = (_baseZoom * details.scale).clamp(0.5, 3.0);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final painter = RoomCanvasPainter(
+      room: widget.room,
+      plan: widget.plan,
+      selectedItemId: widget.selectedItemId,
+      onItemSelected: widget.onItemSelected,
+    );
     return GestureDetector(
-      onPanUpdate: _handlePanUpdate,
+      onScaleStart: _handleScaleStart,
       onScaleUpdate: _handleScaleUpdate,
       child: Container(
         decoration: BoxDecoration(
@@ -60,15 +75,8 @@ class _RoomCanvasState extends State<RoomCanvas> {
           child: Transform.scale(
             scale: _zoomLevel,
             child: CustomPaint(
-              painter: RoomCanvasPainter(
-                room: widget.room,
-                selectedItemId: widget.selectedItemId,
-                onItemSelected: widget.onItemSelected,
-              ),
-              size: Size(
-                widget.room.dimensions.width * 100,
-                widget.room.dimensions.length * 100,
-              ),
+              painter: painter,
+              size: painter.canvasSize,
             ),
           ),
         ),
@@ -77,18 +85,119 @@ class _RoomCanvasState extends State<RoomCanvas> {
   }
 }
 
+/// A single opening (door/window) resolved onto its actual wall for drawing.
+class RoomCanvasOpening {
+  /// Centre of the opening, in canvas pixels.
+  final Offset centerPx;
+
+  /// Unit vector along the wall the opening sits on, in canvas pixels.
+  final Offset dirPx;
+
+  /// Opening width in pixels.
+  final double widthPx;
+
+  final bool isWindow;
+
+  const RoomCanvasOpening({
+    required this.centerPx,
+    required this.dirPx,
+    required this.widthPx,
+    required this.isWindow,
+  });
+}
+
 class RoomCanvasPainter extends CustomPainter {
   RoomCanvasPainter({
     required this.room,
     required this.selectedItemId,
     required this.onItemSelected,
-  });
+    this.plan,
+  })  : outlineCornersM = computeOutlineM(plan, room),
+        _openings = plan != null ? _resolvePlanOpenings(plan) : null;
 
   final Room room;
+  final RoomPlan? plan;
   final String? selectedItemId;
   final Function(String) onItemSelected;
 
+  /// The room outline in METRES, translated so the min corner sits at (0, 0).
+  /// A plain rectangle yields 4 corners; an L-shape yields 6, etc.
+  final List<Offset> outlineCornersM;
+
+  /// Openings resolved onto their actual walls (from the plan), or null for the
+  /// legacy rectangle fallback (which draws doors/windows on the top wall).
+  final List<RoomCanvasOpening>? _openings;
+
   static const double scale = 100; // pixels per meter
+
+  /// Computes the room outline (metres, origin-normalised) preferring the true
+  /// polygon [plan] over [room]'s bounding rectangle.
+  static List<Offset> computeOutlineM(RoomPlan? plan, Room room) {
+    if (plan != null && plan.corners.length >= 3) {
+      var minX = plan.corners.first.x;
+      var minY = plan.corners.first.y;
+      for (final c in plan.corners) {
+        minX = math.min(minX, c.x);
+        minY = math.min(minY, c.y);
+      }
+      return [
+        for (final c in plan.corners) Offset(c.x - minX, c.y - minY),
+      ];
+    }
+    final w = room.dimensions.width;
+    final l = room.dimensions.length;
+    return [
+      const Offset(0, 0),
+      Offset(w, 0),
+      Offset(w, l),
+      Offset(0, l),
+    ];
+  }
+
+  static List<RoomCanvasOpening> _resolvePlanOpenings(RoomPlan plan) {
+    var minX = plan.corners.first.x;
+    var minY = plan.corners.first.y;
+    for (final c in plan.corners) {
+      minX = math.min(minX, c.x);
+      minY = math.min(minY, c.y);
+    }
+    final out = <RoomCanvasOpening>[];
+    for (final wall in plan.walls) {
+      if (wall.a >= plan.corners.length || wall.b >= plan.corners.length) {
+        continue;
+      }
+      final a = plan.corners[wall.a];
+      final b = plan.corners[wall.b];
+      final ax = (a.x - minX) * scale, ay = (a.y - minY) * scale;
+      final bx = (b.x - minX) * scale, by = (b.y - minY) * scale;
+      final dx = bx - ax, dy = by - ay;
+      final len = math.sqrt(dx * dx + dy * dy);
+      final dir = len == 0 ? const Offset(1, 0) : Offset(dx / len, dy / len);
+      for (final o in wall.openings) {
+        out.add(RoomCanvasOpening(
+          centerPx: Offset(ax + dx * o.position, ay + dy * o.position),
+          dirPx: dir,
+          widthPx: o.width * scale,
+          isWindow: o.type == 'window',
+        ));
+      }
+    }
+    return out;
+  }
+
+  /// Bounding size of the outline in pixels.
+  Size get canvasSize {
+    var maxX = 0.0, maxY = 0.0;
+    for (final c in outlineCornersM) {
+      maxX = math.max(maxX, c.dx);
+      maxY = math.max(maxY, c.dy);
+    }
+    return Size(maxX * scale, maxY * scale);
+  }
+
+  /// The outline as a closed path in canvas pixels.
+  List<Offset> get outlineCornersPx =>
+      [for (final c in outlineCornersM) c * scale];
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -101,7 +210,7 @@ class RoomCanvasPainter extends CustomPainter {
     // Draw grid
     _drawGrid(canvas, size);
 
-    // Draw walls
+    // Draw walls (true polygon outline)
     _drawWalls(canvas, size);
 
     // Draw doors
@@ -138,45 +247,46 @@ class RoomCanvasPainter extends CustomPainter {
       ..color = DesignTokens.text
       ..strokeWidth = 8
       ..strokeCap = StrokeCap.round
-      ..strokeJoin = StrokeJoin.round;
+      ..strokeJoin = StrokeJoin.round
+      ..style = PaintingStyle.stroke;
 
-    // Draw room perimeter
-    canvas.drawLine(Offset(0, 0), Offset(size.width, 0), wallPaint);
-    canvas.drawLine(
-      Offset(size.width, 0),
-      Offset(size.width, size.height),
-      wallPaint,
-    );
-    canvas.drawLine(
-      Offset(size.width, size.height),
-      Offset(0, size.height),
-      wallPaint,
-    );
-    canvas.drawLine(Offset(0, size.height), Offset(0, 0), wallPaint);
+    // Draw the actual room perimeter as a closed polygon.
+    final pts = outlineCornersPx;
+    if (pts.length < 2) return;
+    final path = Path()..addPolygon(pts, true);
+    canvas.drawPath(path, wallPaint);
   }
 
   void _drawDoors(Canvas canvas, Size size) {
+    final arcPaint = Paint()
+      ..color = DesignTokens.primaryBlue.withValues(alpha: 0.5)
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
+    final handlePaint = Paint()
+      ..color = DesignTokens.primaryBlue
+      ..style = PaintingStyle.fill;
+    const arcRadius = 30.0;
+
+    if (_openings != null) {
+      // Plan path: place each door on its actual wall.
+      for (final o in _openings.where((o) => !o.isWindow)) {
+        final rect = Rect.fromCircle(center: o.centerPx, radius: arcRadius);
+        canvas.drawArc(rect, 0, math.pi / 2, false, arcPaint);
+        canvas.drawCircle(
+          o.centerPx + o.dirPx * arcRadius,
+          4,
+          handlePaint,
+        );
+      }
+      return;
+    }
+
+    // Legacy fallback: doors along the top wall (position is a 0..1 fraction).
     for (final door in room.doors) {
-      // Position door along the wall (position is 0.0-1.0 fraction)
-      final doorX = door.position * size.width;
-      final pos = Offset(doorX, 0); // Assume door is on top wall for now
-
-      // Draw door swing arc
-      final arcPaint = Paint()
-        ..color = DesignTokens.primaryBlue.withValues(alpha: 0.5)
-        ..strokeWidth = 2
-        ..style = PaintingStyle.stroke;
-
-      const arcRadius = 30.0;
+      final pos = Offset(door.position * size.width, 0);
       final rect = Rect.fromCircle(center: pos, radius: arcRadius);
       canvas.drawArc(rect, 0, math.pi / 2, false, arcPaint);
-
-      // Draw door handle
-      final handlePaint = Paint()
-        ..color = DesignTokens.primaryBlue
-        ..style = PaintingStyle.fill;
-
-      canvas.drawCircle(pos + Offset(arcRadius, 0), 4, handlePaint);
+      canvas.drawCircle(pos + const Offset(arcRadius, 0), 4, handlePaint);
     }
   }
 
@@ -185,11 +295,19 @@ class RoomCanvasPainter extends CustomPainter {
       ..color = DesignTokens.accentOrange.withValues(alpha: 0.6)
       ..strokeWidth = 4;
 
+    if (_openings != null) {
+      // Plan path: draw each window as a segment along its actual wall.
+      for (final o in _openings.where((o) => o.isWindow)) {
+        final half = o.dirPx * (o.widthPx / 2);
+        canvas.drawLine(o.centerPx - half, o.centerPx + half, windowPaint);
+      }
+      return;
+    }
+
+    // Legacy fallback: windows along the top wall.
     for (final window in room.windows) {
-      // Position window along the wall (position is 0.0-1.0 fraction)
       final windowX = window.position * size.width;
       const windowSize = 20.0;
-
       canvas.drawLine(
         Offset(windowX - windowSize / 2, 0),
         Offset(windowX + windowSize / 2, 0),
@@ -274,6 +392,7 @@ class RoomCanvasPainter extends CustomPainter {
   @override
   bool shouldRepaint(RoomCanvasPainter oldDelegate) {
     return oldDelegate.room != room ||
+        oldDelegate.plan != plan ||
         oldDelegate.selectedItemId != selectedItemId;
   }
 }
