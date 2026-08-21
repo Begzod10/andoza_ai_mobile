@@ -34,7 +34,12 @@ class RoomPersistenceNotifier
 
   final Ref _ref;
 
-  Future<void> ensurePersisted() async {
+  /// Persists the active room. When [override] is provided it is sent to the
+  /// backend verbatim instead of mapping the (bounding-rectangle) active room —
+  /// used by the sketch handoff to persist a real polygon's true vertices + N
+  /// walls while the local display providers keep the bounding room for Home /
+  /// Studio-open. Idempotency is still keyed on the active client room id.
+  Future<void> ensurePersisted({RoomCreate? override}) async {
     final clientRoom = _ref.read(activeRoomProvider);
     if (clientRoom == null) {
       state = const AsyncValue.data(null);
@@ -58,7 +63,7 @@ class RoomPersistenceNotifier
 
       final room = await aptRepo.createRoom(
         apartmentId,
-        roomToRoomCreate(clientRoom),
+        override ?? roomToRoomCreate(clientRoom),
       );
 
       // Record the captured starting condition so the delta excludes stages

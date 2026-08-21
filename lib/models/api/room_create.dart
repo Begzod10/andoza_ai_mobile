@@ -49,11 +49,16 @@ class WallCreate with _$WallCreate {
 }
 
 /// Room geometry: at least 3 walls. Vertices are auto-computed server-side for
-/// legacy 4-wall rectangular rooms, so the client doesn't send them.
+/// legacy 4-wall rectangular rooms, so the client omits them there. For real
+/// polygons (L-shapes, trapezoids, …) the client sends the ordered polygon
+/// [vertices] (metres, `[[x, y], …]`) plus one wall per edge so the web 3D
+/// Studio can render the actual shape instead of a bounding box.
 @freezed
 class RoomGeometryCreate with _$RoomGeometryCreate {
   const factory RoomGeometryCreate({
     required List<WallCreate> walls,
+    @JsonKey(name: 'vertices', includeIfNull: false)
+    List<List<double>>? vertices,
   }) = _RoomGeometryCreate;
 
   factory RoomGeometryCreate.fromJson(Map<String, dynamic> json) =>

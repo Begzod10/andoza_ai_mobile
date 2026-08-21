@@ -65,6 +65,12 @@ class RoomPlan {
 
   bool get isRectangleLike => corners.length == 4;
 
+  /// True only for a plain axis-aligned rectangle (4 corners, every edge purely
+  /// horizontal or vertical). Real polygons — L-shapes, trapezoids, triangles,
+  /// skewed quads — are false, so the handoff persists their true vertices +
+  /// N walls instead of collapsing them to a bounding box.
+  bool get isAxisAlignedRect => isAxisAlignedRectangle(corners);
+
   /// A plan is valid when it is a simple (non-self-intersecting) closed polygon
   /// of ≥3 corners, each wall is at least [GeometryConfig.minWallM], and the
   /// ceiling height is in range.

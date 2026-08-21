@@ -9,16 +9,23 @@ import '../providers/room_persistence_provider.dart';
 import '../providers/room_provider.dart';
 import '../screens/home/home_empty_screen.dart';
 import '../screens/room_setup/wall_measurements_screen.dart';
+import '../utils/room_geometry_mapper.dart';
 
-/// Maps a [RoomPlan] onto the existing (rectangular) room pipeline and persists
-/// it, returning the backend room id (or null when offline).
+/// Maps a [RoomPlan] onto the existing room pipeline and persists it, returning
+/// the backend room id (or null when offline).
 ///
-/// The backend room + web 3D Studio currently render a rectangular room, so a
-/// general N-corner plan is handed off by its axis-aligned bounding size
-/// (width × length). This is the single funnel every capture method already
-/// uses: wallMeasurementsProvider → active room → ensurePersisted → /studio.
-/// The full polygon lives on in [RoomPlan] as a clean extension point for a
-/// future polygon-aware Studio.
+/// The local display providers (active room, home project) always use the plan's
+/// axis-aligned bounding size (width × length) — that keeps Home and the
+/// Studio-open flow on the single funnel every capture method already uses:
+/// wallMeasurementsProvider → active room → ensurePersisted → /studio.
+///
+/// What gets PERSISTED depends on the shape:
+/// - a plain axis-aligned rectangle keeps the legacy 4-wall A–D bounding body
+///   (its studio renderer is nicer for plain boxes);
+/// - a real polygon (L-shape, trapezoid, triangle, skewed quad, …) is persisted
+///   with its true [RoomGeometryCreate.vertices] + one wall per edge (ids
+///   `'0'..'N-1'`), so the web 3D Studio's N-wall renderer draws the actual
+///   shape instead of a box.
 Future<String?> handoffRoomPlan(WidgetRef ref, RoomPlan plan) async {
   final b = plan.boundingSize;
   final w = double.parse(b.width.toStringAsFixed(2));
@@ -33,7 +40,18 @@ Future<String?> handoffRoomPlan(WidgetRef ref, RoomPlan plan) async {
 
   _setupActiveRoom(ref);
 
-  await ref.read(roomPersistenceProvider.notifier).ensurePersisted();
+  // Rectangles → legacy A–D bounding body; real polygons → true vertices + N
+  // non-ABCD walls so the studio renders the actual shape.
+  final override = plan.isAxisAlignedRect
+      ? null
+      : roomPlanToPolygonRoomCreate(
+          plan,
+          name: ref.read(activeRoomProvider)?.name ?? 'Xona',
+        );
+
+  await ref
+      .read(roomPersistenceProvider.notifier)
+      .ensurePersisted(override: override);
   return ref.read(roomPersistenceProvider).valueOrNull?.roomId;
 }
 

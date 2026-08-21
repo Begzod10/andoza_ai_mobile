@@ -234,6 +234,20 @@ List<Vec2> regularizeFreehand(List<Vec2> raw) {
 // Validity
 // ---------------------------------------------------------------------------
 
+/// Whether [corners] describe a plain axis-aligned rectangle: exactly 4 corners
+/// where every edge (including the closing edge) is purely horizontal or purely
+/// vertical (|dx| < [eps] or |dy| < [eps]). Non-rectangles (L-shapes,
+/// trapezoids, triangles, skewed quads, …) return false so their true polygon
+/// is persisted instead of a bounding box.
+bool isAxisAlignedRectangle(List<Vec2> corners, [double eps = 0.02]) {
+  if (corners.length != 4) return false;
+  for (var i = 0; i < 4; i++) {
+    final e = corners[(i + 1) % 4] - corners[i];
+    if (e.x.abs() >= eps && e.y.abs() >= eps) return false;
+  }
+  return true;
+}
+
 /// Whether any two non-adjacent edges of the closed polygon cross.
 bool isSelfIntersecting(List<Vec2> poly) {
   final n = poly.length;

@@ -58,11 +58,19 @@ _$RoomGeometryCreateImpl _$$RoomGeometryCreateImplFromJson(
   walls: (json['walls'] as List<dynamic>)
       .map((e) => WallCreate.fromJson(e as Map<String, dynamic>))
       .toList(),
+  vertices: (json['vertices'] as List<dynamic>?)
+      ?.map(
+        (e) => (e as List<dynamic>).map((e) => (e as num).toDouble()).toList(),
+      )
+      .toList(),
 );
 
 Map<String, dynamic> _$$RoomGeometryCreateImplToJson(
   _$RoomGeometryCreateImpl instance,
-) => <String, dynamic>{'walls': instance.walls};
+) => <String, dynamic>{
+  'walls': instance.walls,
+  if (instance.vertices case final value?) 'vertices': value,
+};
 
 _$RoomCreateImpl _$$RoomCreateImplFromJson(Map<String, dynamic> json) =>
     _$RoomCreateImpl(

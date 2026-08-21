@@ -481,6 +481,8 @@ RoomGeometryCreate _$RoomGeometryCreateFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$RoomGeometryCreate {
   List<WallCreate> get walls => throw _privateConstructorUsedError;
+  @JsonKey(name: 'vertices', includeIfNull: false)
+  List<List<double>>? get vertices => throw _privateConstructorUsedError;
 
   /// Serializes this RoomGeometryCreate to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -499,7 +501,11 @@ abstract class $RoomGeometryCreateCopyWith<$Res> {
     $Res Function(RoomGeometryCreate) then,
   ) = _$RoomGeometryCreateCopyWithImpl<$Res, RoomGeometryCreate>;
   @useResult
-  $Res call({List<WallCreate> walls});
+  $Res call({
+    List<WallCreate> walls,
+    @JsonKey(name: 'vertices', includeIfNull: false)
+    List<List<double>>? vertices,
+  });
 }
 
 /// @nodoc
@@ -516,13 +522,17 @@ class _$RoomGeometryCreateCopyWithImpl<$Res, $Val extends RoomGeometryCreate>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? walls = null}) {
+  $Res call({Object? walls = null, Object? vertices = freezed}) {
     return _then(
       _value.copyWith(
             walls: null == walls
                 ? _value.walls
                 : walls // ignore: cast_nullable_to_non_nullable
                       as List<WallCreate>,
+            vertices: freezed == vertices
+                ? _value.vertices
+                : vertices // ignore: cast_nullable_to_non_nullable
+                      as List<List<double>>?,
           )
           as $Val,
     );
@@ -538,7 +548,11 @@ abstract class _$$RoomGeometryCreateImplCopyWith<$Res>
   ) = __$$RoomGeometryCreateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<WallCreate> walls});
+  $Res call({
+    List<WallCreate> walls,
+    @JsonKey(name: 'vertices', includeIfNull: false)
+    List<List<double>>? vertices,
+  });
 }
 
 /// @nodoc
@@ -554,13 +568,17 @@ class __$$RoomGeometryCreateImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? walls = null}) {
+  $Res call({Object? walls = null, Object? vertices = freezed}) {
     return _then(
       _$RoomGeometryCreateImpl(
         walls: null == walls
             ? _value._walls
             : walls // ignore: cast_nullable_to_non_nullable
                   as List<WallCreate>,
+        vertices: freezed == vertices
+            ? _value._vertices
+            : vertices // ignore: cast_nullable_to_non_nullable
+                  as List<List<double>>?,
       ),
     );
   }
@@ -569,8 +587,12 @@ class __$$RoomGeometryCreateImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$RoomGeometryCreateImpl implements _RoomGeometryCreate {
-  const _$RoomGeometryCreateImpl({required final List<WallCreate> walls})
-    : _walls = walls;
+  const _$RoomGeometryCreateImpl({
+    required final List<WallCreate> walls,
+    @JsonKey(name: 'vertices', includeIfNull: false)
+    final List<List<double>>? vertices,
+  }) : _walls = walls,
+       _vertices = vertices;
 
   factory _$RoomGeometryCreateImpl.fromJson(Map<String, dynamic> json) =>
       _$$RoomGeometryCreateImplFromJson(json);
@@ -583,9 +605,20 @@ class _$RoomGeometryCreateImpl implements _RoomGeometryCreate {
     return EqualUnmodifiableListView(_walls);
   }
 
+  final List<List<double>>? _vertices;
+  @override
+  @JsonKey(name: 'vertices', includeIfNull: false)
+  List<List<double>>? get vertices {
+    final value = _vertices;
+    if (value == null) return null;
+    if (_vertices is EqualUnmodifiableListView) return _vertices;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   String toString() {
-    return 'RoomGeometryCreate(walls: $walls)';
+    return 'RoomGeometryCreate(walls: $walls, vertices: $vertices)';
   }
 
   @override
@@ -593,13 +626,17 @@ class _$RoomGeometryCreateImpl implements _RoomGeometryCreate {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RoomGeometryCreateImpl &&
-            const DeepCollectionEquality().equals(other._walls, _walls));
+            const DeepCollectionEquality().equals(other._walls, _walls) &&
+            const DeepCollectionEquality().equals(other._vertices, _vertices));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_walls));
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(_walls),
+    const DeepCollectionEquality().hash(_vertices),
+  );
 
   /// Create a copy of RoomGeometryCreate
   /// with the given fields replaced by the non-null parameter values.
@@ -619,14 +656,20 @@ class _$RoomGeometryCreateImpl implements _RoomGeometryCreate {
 }
 
 abstract class _RoomGeometryCreate implements RoomGeometryCreate {
-  const factory _RoomGeometryCreate({required final List<WallCreate> walls}) =
-      _$RoomGeometryCreateImpl;
+  const factory _RoomGeometryCreate({
+    required final List<WallCreate> walls,
+    @JsonKey(name: 'vertices', includeIfNull: false)
+    final List<List<double>>? vertices,
+  }) = _$RoomGeometryCreateImpl;
 
   factory _RoomGeometryCreate.fromJson(Map<String, dynamic> json) =
       _$RoomGeometryCreateImpl.fromJson;
 
   @override
   List<WallCreate> get walls;
+  @override
+  @JsonKey(name: 'vertices', includeIfNull: false)
+  List<List<double>>? get vertices;
 
   /// Create a copy of RoomGeometryCreate
   /// with the given fields replaced by the non-null parameter values.

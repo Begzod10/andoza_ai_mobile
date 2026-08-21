@@ -1,5 +1,6 @@
 import '../models/api/room_create.dart';
 import '../models/room_model.dart' as client;
+import '../models/room_plan.dart';
 
 /// Clamps [v] to the inclusive range [lo, hi]. Used to keep captured
 /// measurements inside the backend's validation bounds so a room POST doesn't
@@ -69,5 +70,36 @@ RoomCreate roomToRoomCreate(client.Room room) {
     name: room.name.isEmpty ? 'Xona' : room.name,
     ceilingH: ceiling,
     geometry: RoomGeometryCreate(walls: walls),
+  );
+}
+
+/// Converts a real (non-rectangular) [RoomPlan] polygon into a [RoomCreate] that
+/// preserves the actual shape: it carries the ordered polygon [RoomGeometryCreate.vertices]
+/// (metres, `[[x, y], …]`) plus one wall per edge with **non-ABCD ids**
+/// `'0'..'N-1'`. This is what lets the web 3D Studio render the true L-shape /
+/// trapezoid / triangle instead of a bounding box (the studio's [NWallRoomShell]
+/// kicks in for ≥3 vertices when the walls are not exactly the 4 legacy A/B/C/D).
+///
+/// Rectangles must NOT go through here — they keep the legacy 4-wall A–D path via
+/// [roomToRoomCreate], whose renderer is nicer for plain boxes.
+RoomCreate roomPlanToPolygonRoomCreate(RoomPlan plan, {String name = 'Xona'}) {
+  final ceiling = _clamp(plan.ceilingHeightM, 1.8, 6.0);
+
+  final walls = <WallCreate>[
+    for (var i = 0; i < plan.walls.length; i++)
+      WallCreate(
+        id: '$i',
+        length: _clamp(plan.walls[i].lengthM, 0.51, 24.9),
+      ),
+  ];
+
+  final vertices = <List<double>>[
+    for (final c in plan.corners) [c.x, c.y],
+  ];
+
+  return RoomCreate(
+    name: name.isEmpty ? 'Xona' : name,
+    ceilingH: ceiling,
+    geometry: RoomGeometryCreate(walls: walls, vertices: vertices),
   );
 }
