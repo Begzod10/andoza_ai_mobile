@@ -700,7 +700,7 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: Text('Xonani chizing', style: DesignTokens.heading3),
+        title: const Text('Xonani chizing', style: DesignTokens.heading3),
       ),
       body: Column(
         children: [
@@ -1119,7 +1119,7 @@ class _BottomPanel extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(DesignTokens.spacingMd),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: DesignTokens.white,
           boxShadow: [DesignTokens.shadowCard]),
       child: SafeArea(

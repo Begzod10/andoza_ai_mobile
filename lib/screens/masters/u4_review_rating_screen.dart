@@ -111,7 +111,7 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                 ],
               ),
               const SizedBox(height: DesignTokens.spacingLg),
-              Text('Portfolio', style: DesignTokens.subtitle1),
+              const Text('Portfolio', style: DesignTokens.subtitle1),
               const SizedBox(height: DesignTokens.spacingSm),
               SizedBox(
                 height: 90,
@@ -132,12 +132,12 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: DesignTokens.spacingLg),
-              Text('Xizmatlar', style: DesignTokens.subtitle1),
+              const Text('Xizmatlar', style: DesignTokens.subtitle1),
               const SizedBox(height: DesignTokens.spacingSm),
               _ServiceRow(label: '${m.trade.label} ishlari'),
               const _ServiceRow(label: 'Konsultatsiya'),
               const SizedBox(height: DesignTokens.spacingLg),
-              Text('Joylashuv', style: DesignTokens.subtitle1),
+              const Text('Joylashuv', style: DesignTokens.subtitle1),
               const SizedBox(height: DesignTokens.spacingXs),
               Text(
                 m.master.distanceKm != null

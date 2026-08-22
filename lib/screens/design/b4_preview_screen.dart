@@ -68,8 +68,8 @@ class _B4PreviewScreenState extends ConsumerState<B4PreviewScreen> {
       body: Column(
         children: [
           // Progress indicator
-          Padding(
-            padding: const EdgeInsets.all(DesignTokens.spacing16),
+          const Padding(
+            padding: EdgeInsets.all(DesignTokens.spacing16),
             child: StageProgressLine(currentStep: 3, totalSteps: 4),
           ),
           // Content
@@ -104,7 +104,7 @@ class _B4PreviewScreenState extends ConsumerState<B4PreviewScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // Room info
-                        _SectionHeader(title: 'Room'),
+                        const _SectionHeader(title: 'Room'),
                         _SummaryRow(label: 'Name', value: room.name),
                         _SummaryRow(
                           label: 'Dimensions',
@@ -119,7 +119,7 @@ class _B4PreviewScreenState extends ConsumerState<B4PreviewScreen> {
                         const SizedBox(height: DesignTokens.spacing24),
 
                         // Condition info
-                        _SectionHeader(title: 'Current Condition'),
+                        const _SectionHeader(title: 'Current Condition'),
                         if (design.roomCondition != null) ...[
                           _SummaryRow(
                             label: 'Walls',
@@ -143,7 +143,7 @@ class _B4PreviewScreenState extends ConsumerState<B4PreviewScreen> {
                         const SizedBox(height: DesignTokens.spacing24),
 
                         // Material selections
-                        _SectionHeader(title: 'Materials Selected'),
+                        const _SectionHeader(title: 'Materials Selected'),
                         if (design.selections.isEmpty)
                           Text(
                             'No materials selected yet',
@@ -176,7 +176,7 @@ class _B4PreviewScreenState extends ConsumerState<B4PreviewScreen> {
           // Action buttons
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacing16),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               border: Border(top: BorderSide(color: DesignTokens.border)),
             ),
             child: Column(

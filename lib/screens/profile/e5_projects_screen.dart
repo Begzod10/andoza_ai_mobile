@@ -45,7 +45,7 @@ class _E5ProjectsScreenState extends ConsumerState<E5ProjectsScreen> {
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: Text('Loyihalarim', style: DesignTokens.heading3),
+        title: const Text('Loyihalarim', style: DesignTokens.heading3),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => showNewProjectSheet(context),

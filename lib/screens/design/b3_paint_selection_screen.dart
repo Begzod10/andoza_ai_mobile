@@ -136,8 +136,8 @@ class _B3PaintSelectionScreenState
       body: Column(
         children: [
           // Progress indicator
-          Padding(
-            padding: const EdgeInsets.all(DesignTokens.spacing16),
+          const Padding(
+            padding: EdgeInsets.all(DesignTokens.spacing16),
             child: StageProgressLine(currentStep: 2, totalSteps: 4),
           ),
           // Main content area
@@ -270,7 +270,7 @@ class _ColorGrid extends StatelessWidget {
                     color: _getColorForMaterial(color.id),
                   ),
                   child: isSelected
-                      ? Icon(
+                      ? const Icon(
                           Icons.check_circle,
                           color: DesignTokens.primaryBlue,
                           size: 28,

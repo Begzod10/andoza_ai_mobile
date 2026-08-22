@@ -42,7 +42,7 @@ class _S1ShopHomeScreenState extends ConsumerState<S1ShopHomeScreen> {
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: Text('Do\'kon', style: DesignTokens.heading3),
+        title: const Text('Do\'kon', style: DesignTokens.heading3),
         actions: [
           Stack(
             children: [
@@ -89,7 +89,7 @@ class _S1ShopHomeScreenState extends ConsumerState<S1ShopHomeScreen> {
             decoration: BoxDecoration(
               color: DesignTokens.white,
               borderRadius: BorderRadius.circular(DesignTokens.radiusFull),
-              boxShadow: [DesignTokens.shadowCard],
+              boxShadow: const [DesignTokens.shadowCard],
             ),
             child: TextField(
               decoration: const InputDecoration(
@@ -170,7 +170,7 @@ class _ProjectBanner extends StatelessWidget {
         decoration: BoxDecoration(
           color: DesignTokens.primaryBlue,
           borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
-          boxShadow: [DesignTokens.shadowElevated],
+          boxShadow: const [DesignTokens.shadowElevated],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

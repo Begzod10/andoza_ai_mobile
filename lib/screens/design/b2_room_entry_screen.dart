@@ -61,7 +61,7 @@ class _B2RoomEntryScreenState extends ConsumerState<B2RoomEntryScreen>
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.92),
                   borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
-                  boxShadow: [DesignTokens.shadowCard],
+                  boxShadow: const [DesignTokens.shadowCard],
                 ),
                 child: Text(
                   'Xonangiz shu holatda — ${_conditionLabel(wallCondition)}. Endi bosqichma-bosqich bezaymiz.',

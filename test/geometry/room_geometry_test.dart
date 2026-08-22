@@ -29,13 +29,13 @@ List<Vec2> _edge(Vec2 a, Vec2 b, int n, double noise) {
 void main() {
   group('measures', () {
     test('shoelace area + perimeter of a rectangle', () {
-      final r = [const Vec2(0, 0), Vec2(2, 0), Vec2(2, 3), Vec2(0, 3)];
+      final r = [const Vec2(0, 0), const Vec2(2, 0), const Vec2(2, 3), const Vec2(0, 3)];
       expect(shoelaceArea(r), closeTo(6.0, 1e-9));
       expect(perimeter(r), closeTo(10.0, 1e-9));
     });
 
     test('bounding size', () {
-      final p = [const Vec2(1, 1), Vec2(5, 1), Vec2(5, 4), Vec2(1, 4)];
+      final p = [const Vec2(1, 1), const Vec2(5, 1), const Vec2(5, 4), const Vec2(1, 4)];
       final b = boundingSize(p);
       expect(b.width, closeTo(4.0, 1e-9));
       expect(b.length, closeTo(3.0, 1e-9));
@@ -92,11 +92,11 @@ void main() {
     test('an L-shape keeps its 6 corners and stays rectilinear', () {
       final l = [
         const Vec2(0, 0),
-        Vec2(4, 0),
-        Vec2(4, 2),
-        Vec2(2, 2),
-        Vec2(2, 4),
-        Vec2(0, 4),
+        const Vec2(4, 0),
+        const Vec2(4, 2),
+        const Vec2(2, 2),
+        const Vec2(2, 4),
+        const Vec2(0, 4),
       ];
       final poly = regularize(l);
       expect(poly.length, 6);
@@ -110,9 +110,9 @@ void main() {
     test('a deliberately skewed room is NOT forced to 90°', () {
       final para = [
         const Vec2(0, 0),
-        Vec2(3, 0),
-        Vec2(4, 2),
-        Vec2(1, 2),
+        const Vec2(3, 0),
+        const Vec2(4, 2),
+        const Vec2(1, 2),
       ];
       final poly = regularize(para);
       // At least one edge must remain clearly off-axis (the slanted walls).
@@ -127,11 +127,11 @@ void main() {
 
   group('self-intersection', () {
     test('a simple square does not self-intersect', () {
-      final sq = [const Vec2(0, 0), Vec2(2, 0), Vec2(2, 2), Vec2(0, 2)];
+      final sq = [const Vec2(0, 0), const Vec2(2, 0), const Vec2(2, 2), const Vec2(0, 2)];
       expect(isSelfIntersecting(sq), isFalse);
     });
     test('a bow-tie self-intersects', () {
-      final bow = [const Vec2(0, 0), Vec2(2, 2), Vec2(2, 0), Vec2(0, 2)];
+      final bow = [const Vec2(0, 0), const Vec2(2, 2), const Vec2(2, 0), const Vec2(0, 2)];
       expect(isSelfIntersecting(bow), isTrue);
     });
   });

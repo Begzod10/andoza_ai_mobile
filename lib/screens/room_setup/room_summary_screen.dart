@@ -129,7 +129,7 @@ class _RoomSummaryScreenState extends ConsumerState<RoomSummaryScreen>
                       ),
                     ),
                     const SizedBox(height: DesignTokens.spacingMd),
-                    Text(
+                    const Text(
                       'O\'lchamlar saqlandi!',
                       style: DesignTokens.heading2,
                       textAlign: TextAlign.center,

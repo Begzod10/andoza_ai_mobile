@@ -25,7 +25,7 @@ class S2ProjectMaterialsScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: Text('Loyiha materiallari', style: DesignTokens.heading3),
+        title: const Text('Loyiha materiallari', style: DesignTokens.heading3),
       ),
       body: Column(
         children: [
@@ -83,7 +83,7 @@ class S2ProjectMaterialsScreen extends ConsumerWidget {
           ),
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacingMd),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: DesignTokens.white,
               boxShadow: [DesignTokens.shadowNavBar],
             ),

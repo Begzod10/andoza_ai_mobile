@@ -135,7 +135,7 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: Text('To\'lov', style: DesignTokens.heading3),
+        title: const Text('To\'lov', style: DesignTokens.heading3),
       ),
       body: Column(
         children: [
@@ -145,7 +145,7 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
                 DesignTokens.screenPaddingHorizontal,
               ),
               children: [
-                Text('Yetkazish manzili', style: DesignTokens.subtitle2),
+                const Text('Yetkazish manzili', style: DesignTokens.subtitle2),
                 const SizedBox(height: DesignTokens.spacingSm),
                 Container(
                   height: 100,
@@ -173,7 +173,7 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
                   decoration: const InputDecoration(hintText: 'Telefon raqami'),
                 ),
                 const SizedBox(height: DesignTokens.spacingLg),
-                Text('To\'lov usuli', style: DesignTokens.subtitle2),
+                const Text('To\'lov usuli', style: DesignTokens.subtitle2),
                 const SizedBox(height: DesignTokens.spacingSm),
                 GridView.count(
                   crossAxisCount: 2,
@@ -192,7 +192,7 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
                   ],
                 ),
                 const SizedBox(height: DesignTokens.spacingLg),
-                Text('Buyurtma xulosasi', style: DesignTokens.subtitle2),
+                const Text('Buyurtma xulosasi', style: DesignTokens.subtitle2),
                 const SizedBox(height: DesignTokens.spacingSm),
                 Container(
                   padding: const EdgeInsets.all(DesignTokens.spacingMd),
@@ -217,7 +217,7 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
           ),
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacingMd),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: DesignTokens.white,
               boxShadow: [DesignTokens.shadowNavBar],
             ),
@@ -229,7 +229,7 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('To\'lanadi', style: DesignTokens.subtitle1),
+                      const Text('To\'lanadi', style: DesignTokens.subtitle1),
                       Text(
                         formatSom(grandTotal),
                         style: DesignTokens.heading3.copyWith(

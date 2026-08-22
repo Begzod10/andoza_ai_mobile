@@ -205,7 +205,7 @@ class _WallMeasurementsScreenState
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Uzunlik', style: DesignTokens.body2),
+                      const Text('Uzunlik', style: DesignTokens.body2),
                       Text(
                         '${wall.length.toStringAsFixed(1)} m',
                         style: DesignTokens.subtitle2.copyWith(
@@ -225,7 +225,7 @@ class _WallMeasurementsScreenState
                   ),
                   if (wall.openings.isNotEmpty) ...[
                     const SizedBox(height: DesignTokens.spacingSm),
-                    Text('Eshik / derazalar', style: DesignTokens.subtitle2),
+                    const Text('Eshik / derazalar', style: DesignTokens.subtitle2),
                     const SizedBox(height: DesignTokens.spacingSm),
                     for (final opening in wall.openings)
                       Padding(

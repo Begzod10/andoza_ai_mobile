@@ -36,7 +36,7 @@ class _D8ElectricalSummaryScreenState
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: Text('Sim yo\'nalishi', style: DesignTokens.heading3),
+        title: const Text('Sim yo\'nalishi', style: DesignTokens.heading3),
       ),
       body: SafeArea(
         child: Column(

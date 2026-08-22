@@ -304,7 +304,7 @@ class _LiDARScanningScreenState extends ConsumerState<LiDARScanningScreen>
                   ),
                 ),
                 const Spacer(),
-                _HintPill(
+                const _HintPill(
                   icon: Icons.screen_rotation_alt_outlined,
                   label: 'Telefonni sekin harakatlantiring',
                 ),

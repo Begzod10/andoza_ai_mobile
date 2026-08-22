@@ -34,7 +34,7 @@ class ElectricalTotalsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Elektr hisoblandi', style: DesignTokens.subtitle1),
+          const Text('Elektr hisoblandi', style: DesignTokens.subtitle1),
           const SizedBox(height: DesignTokens.spacingMd),
           Row(
             children: [

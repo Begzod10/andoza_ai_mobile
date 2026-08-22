@@ -268,14 +268,14 @@ class AndozaTheme {
       fontFamily: DesignTokens.fontFamily,
       scaffoldBackgroundColor: DesignTokens.backgroundLight,
       primaryColor: DesignTokens.primaryBlue,
-      colorScheme: ColorScheme.light(
+      colorScheme: const ColorScheme.light(
         primary: DesignTokens.primaryBlue,
         secondary: DesignTokens.accentOrange,
         tertiary: DesignTokens.accentOrange,
         surface: DesignTokens.white,
         error: DesignTokens.errorRed,
       ),
-      appBarTheme: AppBarTheme(
+      appBarTheme: const AppBarTheme(
         backgroundColor: DesignTokens.backgroundLight,
         foregroundColor: DesignTokens.textDark,
         elevation: 0,
@@ -358,11 +358,11 @@ class AndozaTheme {
       fontFamily: DesignTokens.fontFamily,
       scaffoldBackgroundColor: DesignTokens.darkBg,
       primaryColor: DesignTokens.primaryBlue,
-      colorScheme: ColorScheme.dark(
+      colorScheme: const ColorScheme.dark(
         primary: DesignTokens.primaryBlue,
         secondary: DesignTokens.accentOrange,
         tertiary: DesignTokens.accentOrange,
-        surface: const Color(0xFF1A2230),
+        surface: Color(0xFF1A2230),
         error: DesignTokens.errorRed,
       ),
     );

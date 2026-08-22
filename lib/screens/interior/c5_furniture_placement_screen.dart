@@ -159,7 +159,7 @@ class _C5FurniturePlacementScreenState
                   color: Colors.white.withValues(alpha: 0.92),
                   borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
                 ),
-                child: Text('Mebel bosqichi', style: DesignTokens.subtitle2),
+                child: const Text('Mebel bosqichi', style: DesignTokens.subtitle2),
               ),
             ),
           ),

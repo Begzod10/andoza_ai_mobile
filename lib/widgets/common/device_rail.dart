@@ -55,7 +55,7 @@ class _DeviceRailState extends State<DeviceRail>
       ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut)),
       child: Container(
         width: _isExpanded ? 280 : 60,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           border: Border(right: BorderSide(color: DesignTokens.border)),
         ),
         child: Column(
@@ -63,7 +63,7 @@ class _DeviceRailState extends State<DeviceRail>
             // Toggle button
             Container(
               height: 60,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 border: Border(bottom: BorderSide(color: DesignTokens.border)),
               ),
               child: InkWell(
@@ -180,7 +180,7 @@ class _DeviceItemTile extends StatelessWidget {
           horizontal: DesignTokens.spacing12,
           vertical: DesignTokens.spacing16,
         ),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           border: Border(
             bottom: BorderSide(color: DesignTokens.border, width: 0.5),
           ),
@@ -209,7 +209,7 @@ class _DeviceItemTile extends StatelessWidget {
                 ],
               ),
             ),
-            Icon(
+            const Icon(
               Icons.add_circle_outline,
               color: DesignTokens.textSecondary,
               size: 20,

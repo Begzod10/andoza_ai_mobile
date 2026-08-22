@@ -56,7 +56,7 @@ class _MaterialRailState extends State<MaterialRail>
       ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut)),
       child: Container(
         width: _isExpanded ? 280 : 60,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           border: Border(left: BorderSide(color: DesignTokens.border)),
         ),
         child: Column(
@@ -64,7 +64,7 @@ class _MaterialRailState extends State<MaterialRail>
             // Toggle button
             Container(
               height: 60,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 border: Border(bottom: BorderSide(color: DesignTokens.border)),
               ),
               child: InkWell(

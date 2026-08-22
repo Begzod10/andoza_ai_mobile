@@ -56,7 +56,7 @@ class _B1AltSurfaceSheetState extends State<B1AltSurfaceSheet> {
               ),
             ),
           ),
-          Text('Pol', style: DesignTokens.subtitle2),
+          const Text('Pol', style: DesignTokens.subtitle2),
           const SizedBox(height: DesignTokens.spacingSm),
           _CompactRow(
             options: const {
@@ -68,7 +68,7 @@ class _B1AltSurfaceSheetState extends State<B1AltSurfaceSheet> {
             onSelected: (v) => setState(() => _floor = v),
           ),
           const SizedBox(height: DesignTokens.spacingLg),
-          Text('Shift', style: DesignTokens.subtitle2),
+          const Text('Shift', style: DesignTokens.subtitle2),
           const SizedBox(height: DesignTokens.spacingSm),
           _CompactRow(
             options: const {

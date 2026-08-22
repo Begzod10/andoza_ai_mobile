@@ -23,7 +23,7 @@ class E8TutorialTourScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: Text('Demo qo\'llanma', style: DesignTokens.heading3),
+        title: const Text('Demo qo\'llanma', style: DesignTokens.heading3),
       ),
       body: ListView(
         padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),

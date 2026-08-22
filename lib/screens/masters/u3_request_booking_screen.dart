@@ -18,7 +18,7 @@ class U3RequestBookingScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: Text('Ustalar', style: DesignTokens.heading3),
+        title: const Text('Ustalar', style: DesignTokens.heading3),
       ),
       body: ListView.separated(
         padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),

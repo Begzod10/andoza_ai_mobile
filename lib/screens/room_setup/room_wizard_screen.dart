@@ -158,7 +158,7 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
           tooltip: 'Orqaga',
           onPressed: _back,
         ),
-        title: Text('Yangi xona', style: DesignTokens.heading3),
+        title: const Text('Yangi xona', style: DesignTokens.heading3),
         centerTitle: true,
       ),
       body: Column(
@@ -361,7 +361,7 @@ class _CeilingStep extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Shiftning balandligi?', style: DesignTokens.heading2),
+        const Text('Shiftning balandligi?', style: DesignTokens.heading2),
         const SizedBox(height: DesignTokens.spacingXs),
         Text(
           'Odatda 2.5–3.2 metr oralig\'ida',
@@ -387,7 +387,7 @@ class _CeilingStep extends StatelessWidget {
           ],
         ),
         const SizedBox(height: DesignTokens.spacingLg),
-        Text('Aniq qiymat (m)', style: DesignTokens.subtitle2),
+        const Text('Aniq qiymat (m)', style: DesignTokens.subtitle2),
         const SizedBox(height: DesignTokens.spacingSm),
         TextField(
           controller: controller,
@@ -442,7 +442,7 @@ class _WallStep extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Uzunlik', style: DesignTokens.body2),
+            const Text('Uzunlik', style: DesignTokens.body2),
             Text(
               '${wall.length.toStringAsFixed(1)} m',
               style: DesignTokens.subtitle2
@@ -533,7 +533,7 @@ class _SummaryStep extends StatelessWidget {
           child: const Icon(Icons.check, color: DesignTokens.white, size: 36),
         ),
         const SizedBox(height: DesignTokens.spacingMd),
-        Text('O\'lchamlar saqlandi!',
+        const Text('O\'lchamlar saqlandi!',
             style: DesignTokens.heading2, textAlign: TextAlign.center),
         Text(
           'Xona parametrlari muvaffaqiyatli qayd etildi',

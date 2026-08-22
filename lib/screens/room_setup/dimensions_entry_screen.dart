@@ -60,7 +60,7 @@ class _DimensionsEntryScreenState extends ConsumerState<DimensionsEntryScreen> {
           tooltip: 'Orqaga',
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text('Xona o\'lchamlari', style: DesignTokens.heading3),
+        title: const Text('Xona o\'lchamlari', style: DesignTokens.heading3),
       ),
       body: SafeArea(
         child: Column(
@@ -366,7 +366,7 @@ class _FloorplanUploadTab extends StatelessWidget {
                 Container(
                   width: 76,
                   height: 76,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: DesignTokens.borderGrayAlt,
                     shape: BoxShape.circle,
                   ),
@@ -377,7 +377,7 @@ class _FloorplanUploadTab extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: DesignTokens.spacingMd),
-                Text(
+                const Text(
                   'Floorplan rasmini yuklang',
                   style: DesignTokens.subtitle1,
                 ),

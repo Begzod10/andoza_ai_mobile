@@ -19,7 +19,7 @@ class D9CostEstimateScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: Text('Elektr natijasi', style: DesignTokens.heading3),
+        title: const Text('Elektr natijasi', style: DesignTokens.heading3),
       ),
       body: SafeArea(
         child: Padding(

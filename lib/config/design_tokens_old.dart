@@ -141,7 +141,7 @@ class AppTheme {
         bodySmall: DesignTokens.bodySmall,
         labelMedium: DesignTokens.labelMedium,
       ),
-      colorScheme: ColorScheme.light(
+      colorScheme: const ColorScheme.light(
         primary: DesignTokens.primary,
         secondary: DesignTokens.secondary,
         error: DesignTokens.error,

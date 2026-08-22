@@ -150,7 +150,7 @@ class _E1EstimationIntroScreenState
                   decoration: BoxDecoration(
                     color: DesignTokens.primaryBlue,
                     borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
-                    boxShadow: [DesignTokens.shadowElevated],
+                    boxShadow: const [DesignTokens.shadowElevated],
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -237,7 +237,7 @@ class _E1EstimationIntroScreenState
           ),
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacingMd),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: DesignTokens.white,
               boxShadow: [DesignTokens.shadowNavBar],
             ),

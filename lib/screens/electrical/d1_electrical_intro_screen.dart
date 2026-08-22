@@ -123,7 +123,8 @@ class _D1ElectricalIntroScreenState
   @override
   Widget build(BuildContext context) {
     final layout = ref.watch(electricalLayoutProvider);
-    final condition = ref.watch(activeDesignProvider)?.roomCondition;
+    final condition =
+        ref.watch(activeDesignProvider.select((d) => d?.roomCondition));
 
     return Scaffold(
       body: Stack(
@@ -218,10 +219,10 @@ class _D1ElectricalIntroScreenState
             child: SafeArea(
               child: Room3DRail(
                 initiallyExpanded: true,
-                tabs: [
-                  const RailTab(label: 'Elektr', items: _elektrDevices),
-                  const RailTab(label: 'Yorug\'lik', items: _yorugDevices),
-                  const RailTab(label: 'Santexnika', items: _santexnikaDevices),
+                tabs: const [
+                  RailTab(label: 'Elektr', items: _elektrDevices),
+                  RailTab(label: 'Yorug\'lik', items: _yorugDevices),
+                  RailTab(label: 'Santexnika', items: _santexnikaDevices),
                 ],
                 onItemSelected: (_) {}, // Placement is drag-drop only.
               ),

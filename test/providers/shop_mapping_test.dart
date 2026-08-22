@@ -118,7 +118,7 @@ void main() {
     });
 
     test('store partner tier drives the official-dealer badge', () async {
-      final stores = const [
+      const stores = [
         Store(id: 'gold', name: 'Gold Store', partnerTier: 'gold'),
         Store(id: 'silver', name: 'Silver Store', partnerTier: 'silver'),
       ];

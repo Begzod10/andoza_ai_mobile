@@ -41,7 +41,7 @@ class E4ProfileSettingsScreen extends ConsumerWidget {
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: Text('Profil', style: DesignTokens.heading3),
+        title: const Text('Profil', style: DesignTokens.heading3),
       ),
       body: ListView(
         padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),

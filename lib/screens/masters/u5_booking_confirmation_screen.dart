@@ -57,7 +57,7 @@ class _U5BookingConfirmationScreenState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Mehmonxona ta\'miri', style: DesignTokens.subtitle2),
+                    const Text('Mehmonxona ta\'miri', style: DesignTokens.subtitle2),
                     const SizedBox(height: DesignTokens.spacingXs),
                     Text(
                       '${estimate.roomArea.toStringAsFixed(1)} m² · '

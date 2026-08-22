@@ -48,7 +48,7 @@ class HomeWithProjectsScreen extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Loyihalaringiz', style: DesignTokens.subtitle1),
+                    const Text('Loyihalaringiz', style: DesignTokens.subtitle1),
                     GestureDetector(
                       onTap: () => _openAllProjects(context),
                       child: Text(
@@ -162,7 +162,7 @@ class _ActiveProjectCard extends ConsumerWidget {
           const SizedBox(height: DesignTokens.spacingSm),
           Row(
             children: [
-              _LegendDot(color: DesignTokens.existingStateGray),
+              const _LegendDot(color: DesignTokens.existingStateGray),
               const SizedBox(width: DesignTokens.spacingXs),
               Text(
                 'Mavjud (hisoblanmaydi)',
@@ -280,7 +280,7 @@ class _StagePickerSheet extends ConsumerWidget {
               ),
             ),
           ),
-          Text('Bosqichni tanlang', style: DesignTokens.heading3),
+          const Text('Bosqichni tanlang', style: DesignTokens.heading3),
           const SizedBox(height: DesignTokens.spacingLg),
           for (final stage in RenovationStage.values) ...[
             _StageOption(

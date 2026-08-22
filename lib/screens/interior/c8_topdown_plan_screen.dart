@@ -43,7 +43,7 @@ class _C8TopdownPlanScreenState extends ConsumerState<C8TopdownPlanScreen> {
                 decoration: BoxDecoration(
                   color: DesignTokens.white,
                   borderRadius: BorderRadius.circular(DesignTokens.radiusFull),
-                  boxShadow: [DesignTokens.shadowCard],
+                  boxShadow: const [DesignTokens.shadowCard],
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,

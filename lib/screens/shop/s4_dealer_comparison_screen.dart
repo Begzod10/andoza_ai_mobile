@@ -59,7 +59,7 @@ class _S4DealerComparisonScreenState
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: Text('Diler taqqoslash', style: DesignTokens.subtitle1),
+        title: const Text('Diler taqqoslash', style: DesignTokens.subtitle1),
       ),
       body: ListView(
         padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),

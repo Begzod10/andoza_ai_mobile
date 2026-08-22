@@ -98,7 +98,7 @@ class _U1MastersIntroScreenState extends ConsumerState<U1MastersIntroScreen> {
                       borderRadius: BorderRadius.circular(
                         DesignTokens.radiusFull,
                       ),
-                      boxShadow: [DesignTokens.shadowCard],
+                      boxShadow: const [DesignTokens.shadowCard],
                     ),
                     child: TextField(
                       decoration: const InputDecoration(

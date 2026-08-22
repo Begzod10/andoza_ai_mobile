@@ -15,10 +15,10 @@ class E11SavedDesignsScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: Text('Saqlangan dizaynlar', style: DesignTokens.heading3),
+        title: const Text('Saqlangan dizaynlar', style: DesignTokens.heading3),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),
+      body: const Padding(
+        padding: EdgeInsets.all(DesignTokens.screenPaddingHorizontal),
         child: Center(
           child: EmptyStatePattern(
             icon: Icons.bookmark_border,

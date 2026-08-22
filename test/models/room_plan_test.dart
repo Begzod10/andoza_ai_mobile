@@ -260,7 +260,7 @@ void main() {
       expect(plan.walls[1].openings, hasLength(1));
       expect(plan.walls[1].openings.first.type, 'door');
       // netWallAreaM2 subtracts both openings' face area.
-      final openingArea = 0.9 * 2.1 + 1.2 * 1.4;
+      const openingArea = 0.9 * 2.1 + 1.2 * 1.4;
       expect(
         plan.netWallAreaM2,
         closeTo(plan.perimeterM * 2.8 - openingArea, 1e-9),

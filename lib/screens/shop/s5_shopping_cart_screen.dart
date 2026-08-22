@@ -28,7 +28,7 @@ class S5ShoppingCartScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: Text('Savat', style: DesignTokens.heading3),
+        title: const Text('Savat', style: DesignTokens.heading3),
       ),
       body: lines.isEmpty
           ? Center(
@@ -69,7 +69,7 @@ class S5ShoppingCartScreen extends ConsumerWidget {
                 ),
                 Container(
                   padding: const EdgeInsets.all(DesignTokens.spacingMd),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: DesignTokens.white,
                     boxShadow: [DesignTokens.shadowNavBar],
                   ),
@@ -91,7 +91,7 @@ class S5ShoppingCartScreen extends ConsumerWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Umumiy summa', style: DesignTokens.subtitle1),
+                            const Text('Umumiy summa', style: DesignTokens.subtitle1),
                             Text(
                               formatSom(grandTotal),
                               style: DesignTokens.heading3.copyWith(

@@ -379,7 +379,7 @@ class HomeEmptyBody extends StatelessWidget {
             ),
             const SizedBox(height: DesignTokens.spacingXl),
             // Tezkor amallar — 2x2 quick-action grid.
-            Text('Tezkor amallar', style: DesignTokens.subtitle1),
+            const Text('Tezkor amallar', style: DesignTokens.subtitle1),
             const SizedBox(height: DesignTokens.spacingMd),
             Row(
               children: [

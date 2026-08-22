@@ -156,14 +156,14 @@ class AndozaTheme {
       brightness: Brightness.light,
       scaffoldBackgroundColor: DesignTokens.backgroundLight,
       primaryColor: DesignTokens.primaryBlue,
-      colorScheme: ColorScheme.light(
+      colorScheme: const ColorScheme.light(
         primary: DesignTokens.primaryBlue,
         secondary: DesignTokens.accentOrange,
         tertiary: DesignTokens.accentOrange,
         surface: DesignTokens.white,
         error: DesignTokens.errorRed,
       ),
-      appBarTheme: AppBarTheme(
+      appBarTheme: const AppBarTheme(
         backgroundColor: DesignTokens.backgroundLight,
         foregroundColor: DesignTokens.textDark,
         elevation: 0,
@@ -245,11 +245,11 @@ class AndozaTheme {
       brightness: Brightness.dark,
       scaffoldBackgroundColor: DesignTokens.darkBg,
       primaryColor: DesignTokens.primaryBlue,
-      colorScheme: ColorScheme.dark(
+      colorScheme: const ColorScheme.dark(
         primary: DesignTokens.primaryBlue,
         secondary: DesignTokens.accentOrange,
         tertiary: DesignTokens.accentOrange,
-        surface: const Color(0xFF1E2139),
+        surface: Color(0xFF1E2139),
         error: DesignTokens.errorRed,
       ),
     );

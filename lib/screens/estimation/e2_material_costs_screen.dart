@@ -56,7 +56,7 @@ class E2MaterialCostsScreen extends StatelessWidget {
                 DesignTokens.screenPaddingHorizontal,
               ),
               children: [
-                Text('Materiallar', style: DesignTokens.subtitle2),
+                const Text('Materiallar', style: DesignTokens.subtitle2),
                 const SizedBox(height: DesignTokens.spacingSm),
                 for (final item in materialItems) ...[
                   _LineRow(item: item),
@@ -66,7 +66,7 @@ class E2MaterialCostsScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Materiallar jami', style: DesignTokens.subtitle2),
+                    const Text('Materiallar jami', style: DesignTokens.subtitle2),
                     Text(
                       formatSom(materialTotal.round()),
                       style: DesignTokens.subtitle2.copyWith(
@@ -77,7 +77,7 @@ class E2MaterialCostsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: DesignTokens.spacingLg),
                 if (laborItems.isNotEmpty) ...[
-                  Text('Ishchi kuchi', style: DesignTokens.subtitle2),
+                  const Text('Ishchi kuchi', style: DesignTokens.subtitle2),
                   const SizedBox(height: DesignTokens.spacingSm),
                   for (final item in laborItems) ...[
                     _LineRow(item: item),
@@ -89,7 +89,7 @@ class E2MaterialCostsScreen extends StatelessWidget {
           ),
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacingMd),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: DesignTokens.white,
               boxShadow: [DesignTokens.shadowNavBar],
             ),

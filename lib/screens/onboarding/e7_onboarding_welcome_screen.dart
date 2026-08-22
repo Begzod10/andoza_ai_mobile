@@ -203,7 +203,7 @@ class _DeltaSlide extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _StateSwatch(color: DesignTokens.existingStateGray, label: 'Hozirgi'),
+          const _StateSwatch(color: DesignTokens.existingStateGray, label: 'Hozirgi'),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: DesignTokens.spacingMd),
             child: Icon(Icons.arrow_forward, color: DesignTokens.white),

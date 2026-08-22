@@ -93,7 +93,7 @@ class _WallpaperLibrarySheetState extends ConsumerState<WallpaperLibrarySheet> {
             children: [
               Row(
                 children: [
-                  Text('Oboy kutubxonasi', style: DesignTokens.subtitle1),
+                  const Text('Oboy kutubxonasi', style: DesignTokens.subtitle1),
                   const Spacer(),
                   FilledButton.icon(
                     onPressed: _uploading ? null : _pickAndUpload,

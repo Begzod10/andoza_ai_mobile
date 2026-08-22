@@ -22,13 +22,15 @@ class WireRoutingView extends StatelessWidget {
         border: Border.all(color: DesignTokens.border),
         borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
       ),
-      child: CustomPaint(
-        painter: WireRoutingPainter(
-          layout: layout,
-          width: width,
-          length: length,
+      child: RepaintBoundary(
+        child: CustomPaint(
+          painter: WireRoutingPainter(
+            layout: layout,
+            width: width,
+            length: length,
+          ),
+          size: const Size.fromHeight(300),
         ),
-        size: Size.fromHeight(300),
       ),
     );
   }
@@ -119,7 +121,7 @@ class WireRoutingPainter extends CustomPainter {
       ..color = _getDeviceColor(device.type)
       ..style = PaintingStyle.fill;
 
-    final size = 12.0;
+    const size = 12.0;
     canvas.drawRect(
       Rect.fromCenter(center: position, width: size, height: size),
       paint,

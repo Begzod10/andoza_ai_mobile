@@ -118,11 +118,11 @@ class _B3DecorationRailScreenState
                           DesignTokens.radiusLg,
                         ),
                       ),
-                      child: Column(
+                      child: const Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Text('👆', style: TextStyle(fontSize: 40)),
-                          const SizedBox(height: DesignTokens.spacingMd),
+                          Text('👆', style: TextStyle(fontSize: 40)),
+                          SizedBox(height: DesignTokens.spacingMd),
                           Text(
                             'Materialni barmog\'ingiz bilan devorga sudrang',
                             textAlign: TextAlign.center,

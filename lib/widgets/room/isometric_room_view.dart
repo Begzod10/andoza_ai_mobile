@@ -50,17 +50,19 @@ class IsometricRoomView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomPaint(
-      size: Size.infinite,
-      painter: _IsometricRoomPainter(
-        floorCornersM: _floorCornersM,
-        heightM: heightM,
-        orbitRad: orbitRad,
-        showEdgeLengths: showEdgeLengths,
-        fixedLabels: fixedLabels,
-        activeEdges: activeEdge == null ? const <int>{} : {activeEdge!},
-        activeCorner: activeCorner,
-        zoom: zoom,
+    return RepaintBoundary(
+      child: CustomPaint(
+        size: Size.infinite,
+        painter: _IsometricRoomPainter(
+          floorCornersM: _floorCornersM,
+          heightM: heightM,
+          orbitRad: orbitRad,
+          showEdgeLengths: showEdgeLengths,
+          fixedLabels: fixedLabels,
+          activeEdges: activeEdge == null ? const <int>{} : {activeEdge!},
+          activeCorner: activeCorner,
+          zoom: zoom,
+        ),
       ),
     );
   }

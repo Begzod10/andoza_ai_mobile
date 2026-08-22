@@ -8,7 +8,7 @@ class SuccessToast {
       SnackBar(
         content: Row(
           children: [
-            Icon(Icons.check_circle, color: DesignTokens.white, size: 20),
+            const Icon(Icons.check_circle, color: DesignTokens.white, size: 20),
             const SizedBox(width: DesignTokens.spacing12),
             Expanded(
               child: Text(

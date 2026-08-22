@@ -33,7 +33,7 @@ class S7OrderConfirmationScreen extends ConsumerWidget {
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: Text('Buyurtma holati', style: DesignTokens.heading3),
+        title: const Text('Buyurtma holati', style: DesignTokens.heading3),
       ),
       body: ListView(
         padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),
@@ -98,7 +98,7 @@ class S7OrderConfirmationScreen extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: DesignTokens.spacingLg),
-          Text('Buyurtma tarkibi', style: DesignTokens.subtitle2),
+          const Text('Buyurtma tarkibi', style: DesignTokens.subtitle2),
           const SizedBox(height: DesignTokens.spacingSm),
           for (final line in o.lines) ...[
             _OrderItemRow(line: line),
@@ -108,7 +108,7 @@ class S7OrderConfirmationScreen extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Jami', style: DesignTokens.subtitle1),
+              const Text('Jami', style: DesignTokens.subtitle1),
               Text(
                 formatSom(o.total),
                 style: DesignTokens.heading3.copyWith(

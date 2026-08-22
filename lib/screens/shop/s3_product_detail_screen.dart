@@ -138,7 +138,7 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
                 const SizedBox(height: DesignTokens.spacingLg),
                 Row(
                   children: [
-                    Text('Miqdor:', style: DesignTokens.body2),
+                    const Text('Miqdor:', style: DesignTokens.body2),
                     const Spacer(),
                     _QtyButton(
                       icon: Icons.remove,
@@ -210,7 +210,7 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
           ),
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacingMd),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: DesignTokens.white,
               boxShadow: [DesignTokens.shadowNavBar],
             ),

@@ -92,24 +92,24 @@ void main() {
         createdAt: DateTime(2026, 1, 1),
         dimensions: const client.RoomDimensions(width: 4.5, height: 2.8, length: 3.6),
         walls: [
-          client.Wall(
+          const client.Wall(
             id: 'wA',
             type: client.WallType.wallA,
             measurements: client.WallMeasurements(height: 2.8, length: 4.5),
           ),
-          client.Wall(
+          const client.Wall(
             id: 'wB',
             type: client.WallType.wallB,
             measurements: client.WallMeasurements(height: 2.8, length: 3.6),
           ),
-          client.Wall(
+          const client.Wall(
             id: 'wC',
             type: client.WallType.wallC,
             measurements: client.WallMeasurements(height: 2.8, length: 4.5),
           ),
         ],
         doors: [
-          client.Door(
+          const client.Door(
             id: 'd1',
             wallId: 'wA',
             position: 0.5,
@@ -119,7 +119,7 @@ void main() {
           ),
         ],
         windows: [
-          client.Window(
+          const client.Window(
             id: 'win1',
             wallId: 'wB',
             position: 0.4,
@@ -153,17 +153,17 @@ void main() {
         createdAt: DateTime(2026, 1, 1),
         dimensions: const client.RoomDimensions(width: 3, height: 9, length: 3),
         walls: [
-          client.Wall(
+          const client.Wall(
             id: 'wA',
             type: client.WallType.wallA,
             measurements: client.WallMeasurements(height: 9, length: 40),
           ),
-          client.Wall(
+          const client.Wall(
             id: 'wB',
             type: client.WallType.wallB,
             measurements: client.WallMeasurements(height: 9, length: 3),
           ),
-          client.Wall(
+          const client.Wall(
             id: 'wC',
             type: client.WallType.wallC,
             measurements: client.WallMeasurements(height: 9, length: 3),

@@ -90,9 +90,9 @@ class _BottomNavWithFab extends StatelessWidget {
         children: [
           Container(
             height: 94,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: DesignTokens.white,
-              border: const Border(
+              border: Border(
                 top: BorderSide(color: Color(0xFFF0F1F4), width: 1),
               ),
               boxShadow: [DesignTokens.shadowNavBar],
@@ -128,7 +128,7 @@ class _BottomNavWithFab extends StatelessWidget {
                     colors: [Color(0xFF2952D6), DesignTokens.primaryBlue],
                   ),
                   border: Border.all(color: DesignTokens.white, width: 4),
-                  boxShadow: [DesignTokens.shadowFab],
+                  boxShadow: const [DesignTokens.shadowFab],
                 ),
                 child: const Icon(
                   Icons.add,

@@ -24,7 +24,7 @@ class EmptyStatePattern extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: _DashedBorderPainter(
+      painter: const _DashedBorderPainter(
         color: DesignTokens.borderGray,
         radius: DesignTokens.radiusXl,
       ),

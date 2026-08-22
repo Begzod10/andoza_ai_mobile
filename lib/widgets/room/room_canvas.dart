@@ -74,9 +74,11 @@ class _RoomCanvasState extends State<RoomCanvas> {
           offset: _panOffset,
           child: Transform.scale(
             scale: _zoomLevel,
-            child: CustomPaint(
-              painter: painter,
-              size: painter.canvasSize,
+            child: RepaintBoundary(
+              child: CustomPaint(
+                painter: painter,
+                size: painter.canvasSize,
+              ),
             ),
           ),
         ),
@@ -343,7 +345,7 @@ class RoomCanvasPainter extends CustomPainter {
 
     // Width dimension
     canvas.drawLine(
-      Offset(padding, -padding),
+      const Offset(padding, -padding),
       Offset(size.width - padding, -padding),
       dimPaint,
     );
@@ -366,7 +368,7 @@ class RoomCanvasPainter extends CustomPainter {
 
     // Length dimension
     canvas.drawLine(
-      Offset(-padding, padding),
+      const Offset(-padding, padding),
       Offset(-padding, size.height - padding),
       dimPaint,
     );

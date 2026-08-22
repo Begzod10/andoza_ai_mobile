@@ -37,7 +37,7 @@ class _E6OrdersScreenState extends ConsumerState<E6OrdersScreen> {
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: Text('Buyurtmalarim', style: DesignTokens.heading3),
+        title: const Text('Buyurtmalarim', style: DesignTokens.heading3),
       ),
       body: Column(
         children: [
@@ -77,8 +77,8 @@ class _E6OrdersScreenState extends ConsumerState<E6OrdersScreen> {
           ),
           Expanded(
             child: visible.isEmpty
-                ? Padding(
-                    padding: const EdgeInsets.all(
+                ? const Padding(
+                    padding: EdgeInsets.all(
                       DesignTokens.screenPaddingHorizontal,
                     ),
                     child: Center(

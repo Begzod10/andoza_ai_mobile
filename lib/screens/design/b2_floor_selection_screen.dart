@@ -120,8 +120,8 @@ class _B2FloorSelectionScreenState
       body: Column(
         children: [
           // Progress indicator
-          Padding(
-            padding: const EdgeInsets.all(DesignTokens.spacing16),
+          const Padding(
+            padding: EdgeInsets.all(DesignTokens.spacing16),
             child: StageProgressLine(currentStep: 1, totalSteps: 4),
           ),
           // Main content area with canvas and rail
@@ -151,7 +151,7 @@ class _B2FloorSelectionScreenState
           // Action bar
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacing16),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               border: Border(top: BorderSide(color: DesignTokens.border)),
             ),
             child: Column(

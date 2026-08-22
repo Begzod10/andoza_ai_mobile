@@ -57,7 +57,7 @@ class _E10SearchResultsScreenState
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: Text('Qidiruv natijalari', style: DesignTokens.subtitle1),
+        title: const Text('Qidiruv natijalari', style: DesignTokens.subtitle1),
       ),
       body: Column(
         children: [

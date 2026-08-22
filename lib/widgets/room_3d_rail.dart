@@ -95,7 +95,7 @@ class _Room3DRailState extends State<Room3DRail>
               topLeft: Radius.circular(DesignTokens.radiusLg),
               bottomLeft: Radius.circular(DesignTokens.radiusLg),
             ),
-            boxShadow: [DesignTokens.shadowCard],
+            boxShadow: const [DesignTokens.shadowCard],
           ),
           child: child,
         );

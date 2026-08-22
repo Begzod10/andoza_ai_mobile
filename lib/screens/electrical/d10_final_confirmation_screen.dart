@@ -14,7 +14,8 @@ class D10FinalConfirmationScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final condition = ref.watch(activeDesignProvider)?.roomCondition;
+    final condition =
+        ref.watch(activeDesignProvider.select((d) => d?.roomCondition));
 
     return Scaffold(
       body: Stack(

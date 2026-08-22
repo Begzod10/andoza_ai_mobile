@@ -34,7 +34,7 @@ class C9DecorationCompleteScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: DesignTokens.spacingLg),
-              Text(
+              const Text(
                 'Bezash yakunlandi',
                 style: DesignTokens.heading2,
                 textAlign: TextAlign.center,

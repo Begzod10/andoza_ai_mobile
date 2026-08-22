@@ -68,7 +68,7 @@ class _E9PreferencesSettingsScreenState
                 ],
               ),
             ),
-            Divider(color: DesignTokens.border),
+            const Divider(color: DesignTokens.border),
 
             // Units & Display
             Padding(
@@ -86,8 +86,8 @@ class _E9PreferencesSettingsScreenState
                   _DropdownTile(
                     title: 'Measurement Units',
                     value: _unitSystem,
-                    items: ['Metric (m²)', 'Imperial (ft²)'],
-                    values: ['metric', 'imperial'],
+                    items: const ['Metric (m²)', 'Imperial (ft²)'],
+                    values: const ['metric', 'imperial'],
                     onChanged: (v) =>
                         setState(() => _unitSystem = v ?? 'metric'),
                   ),
@@ -95,8 +95,8 @@ class _E9PreferencesSettingsScreenState
                   _DropdownTile(
                     title: 'Theme',
                     value: _theme,
-                    items: ['Light', 'Dark', 'System'],
-                    values: ['light', 'dark', 'system'],
+                    items: const ['Light', 'Dark', 'System'],
+                    values: const ['light', 'dark', 'system'],
                     onChanged: (v) => setState(() => _theme = v ?? 'light'),
                   ),
                   const SizedBox(height: DesignTokens.spacing12),
@@ -109,7 +109,7 @@ class _E9PreferencesSettingsScreenState
                 ],
               ),
             ),
-            Divider(color: DesignTokens.border),
+            const Divider(color: DesignTokens.border),
 
             // Project Settings
             Padding(
@@ -147,7 +147,7 @@ class _E9PreferencesSettingsScreenState
                 ],
               ),
             ),
-            Divider(color: DesignTokens.border),
+            const Divider(color: DesignTokens.border),
 
             // Privacy & Security
             Padding(
@@ -178,7 +178,7 @@ class _E9PreferencesSettingsScreenState
                 ],
               ),
             ),
-            Divider(color: DesignTokens.border),
+            const Divider(color: DesignTokens.border),
 
             // About
             Padding(
@@ -410,7 +410,7 @@ class _ActionTile extends StatelessWidget {
                 ],
               ),
             ),
-            Icon(Icons.chevron_right, color: DesignTokens.textSecondary),
+            const Icon(Icons.chevron_right, color: DesignTokens.textSecondary),
           ],
         ),
       ),

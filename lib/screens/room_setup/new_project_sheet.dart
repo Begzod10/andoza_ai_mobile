@@ -28,7 +28,7 @@ class NewProjectSheet extends StatelessWidget {
         DesignTokens.screenPaddingHorizontal,
         DesignTokens.spacingXl,
       ),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: DesignTokens.white,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(DesignTokens.radiusSheet),
@@ -50,7 +50,7 @@ class NewProjectSheet extends StatelessWidget {
               ),
             ),
           ),
-          Text('Yangi loyiha', style: DesignTokens.heading3),
+          const Text('Yangi loyiha', style: DesignTokens.heading3),
           const SizedBox(height: DesignTokens.spacingXs),
           Text(
             'Xonani qanday qo\'shmoqchisiz?',

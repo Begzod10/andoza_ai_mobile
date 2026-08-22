@@ -30,7 +30,7 @@ class E3LaborCostsScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: Text('Smeta sozlash', style: DesignTokens.heading3),
+        title: const Text('Smeta sozlash', style: DesignTokens.heading3),
       ),
       body: Column(
         children: [
@@ -40,7 +40,7 @@ class E3LaborCostsScreen extends ConsumerWidget {
                 DesignTokens.screenPaddingHorizontal,
               ),
               children: [
-                Text('Sifat darajasi', style: DesignTokens.subtitle2),
+                const Text('Sifat darajasi', style: DesignTokens.subtitle2),
                 const SizedBox(height: DesignTokens.spacingSm),
                 for (final t in QualityTier.values) ...[
                   _TierCard(
@@ -55,7 +55,7 @@ class E3LaborCostsScreen extends ConsumerWidget {
                 const SizedBox(height: DesignTokens.spacingMd),
                 SwitchListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: Text(
+                  title: const Text(
                     'Ishchi kuchini qo\'shmaslik',
                     style: DesignTokens.body2,
                   ),
@@ -106,7 +106,7 @@ class E3LaborCostsScreen extends ConsumerWidget {
           ),
           Container(
             padding: const EdgeInsets.all(DesignTokens.spacingMd),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: DesignTokens.white,
               boxShadow: [DesignTokens.shadowNavBar],
             ),
@@ -118,7 +118,7 @@ class E3LaborCostsScreen extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Yangi jami', style: DesignTokens.subtitle1),
+                      const Text('Yangi jami', style: DesignTokens.subtitle1),
                       Text(
                         formatSom(estimate.totalPrice.round()),
                         style: DesignTokens.heading3.copyWith(

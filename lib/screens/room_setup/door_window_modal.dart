@@ -70,7 +70,7 @@ class _DoorWindowModalState extends State<DoorWindowModal> {
               ),
             ),
           ),
-          Text('Eshik/Deraza qo\'shish', style: DesignTokens.heading3),
+          const Text('Eshik/Deraza qo\'shish', style: DesignTokens.heading3),
           const SizedBox(height: DesignTokens.spacingLg),
           Wrap(
             spacing: DesignTokens.spacingSm,
@@ -94,7 +94,7 @@ class _DoorWindowModalState extends State<DoorWindowModal> {
             ],
           ),
           const SizedBox(height: DesignTokens.spacingLg),
-          Text('O\'lcham (sm)', style: DesignTokens.subtitle2),
+          const Text('O\'lcham (sm)', style: DesignTokens.subtitle2),
           const SizedBox(height: DesignTokens.spacingSm),
           Wrap(
             spacing: DesignTokens.spacingSm,
@@ -114,7 +114,7 @@ class _DoorWindowModalState extends State<DoorWindowModal> {
             ],
           ),
           const SizedBox(height: DesignTokens.spacingLg),
-          Text('Devor bo\'ylab joylashuvi', style: DesignTokens.subtitle2),
+          const Text('Devor bo\'ylab joylashuvi', style: DesignTokens.subtitle2),
           Slider(
             value: _offset,
             min: 0,

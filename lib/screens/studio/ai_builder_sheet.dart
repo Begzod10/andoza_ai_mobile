@@ -150,10 +150,10 @@ class _AiBuilderSheetState extends ConsumerState<AiBuilderSheet> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Row(
+                const Row(
                   children: [
-                    const Icon(Icons.auto_awesome, color: DesignTokens.primaryBlue),
-                    const SizedBox(width: DesignTokens.spacingSm),
+                    Icon(Icons.auto_awesome, color: DesignTokens.primaryBlue),
+                    SizedBox(width: DesignTokens.spacingSm),
                     Text('AI dizayner', style: DesignTokens.subtitle1),
                   ],
                 ),

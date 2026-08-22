@@ -21,7 +21,8 @@ class _C7WalkthroughScreenState extends ConsumerState<C7WalkthroughScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final condition = ref.watch(activeDesignProvider)?.roomCondition;
+    final condition =
+        ref.watch(activeDesignProvider.select((d) => d?.roomCondition));
 
     return Scaffold(
       body: Stack(
@@ -63,7 +64,7 @@ class _C7WalkthroughScreenState extends ConsumerState<C7WalkthroughScreen> {
                         DesignTokens.radiusFull,
                       ),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Polda yurish mumkin — barmoq bilan suring',
                       style: DesignTokens.caption,
                     ),
