@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 import '../../models/design_selection_model.dart';
-import '../../models/room_model.dart';
 import '../../providers/design_provider.dart';
 import '../../providers/room_provider.dart';
 import '../../widgets/design/stage_progress_line.dart';
