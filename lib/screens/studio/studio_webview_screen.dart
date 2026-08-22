@@ -9,6 +9,7 @@ import '../../config/app_config.dart';
 import '../../config/design_tokens.dart';
 import '../../models/user_model.dart';
 import '../../providers/auth_provider.dart';
+import '../../widgets/common/error_view.dart';
 
 /// Embeds a web page from the React/Three.js frontend (the 3D Studio or the
 /// room-capture wizard) in a WebView, authenticated as the current mobile user.
@@ -230,7 +231,12 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
             WebViewWidget(controller: _controller!),
           if (_loading && _error == null)
             const Center(child: CircularProgressIndicator()),
-          if (_error != null) _ErrorView(message: _error!, onRetry: _retry),
+          if (_error != null)
+            ErrorView(
+              message: _error!,
+              onRetry: _retry,
+              icon: Icons.view_in_ar_outlined,
+            ),
         ],
       ),
     );
@@ -246,32 +252,5 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
       _controller = null;
     });
     _init();
-  }
-}
-
-class _ErrorView extends StatelessWidget {
-  const _ErrorView({required this.message, required this.onRetry});
-
-  final String message;
-  final VoidCallback onRetry;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(DesignTokens.spacingLg),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.view_in_ar_outlined,
-                size: 48, color: DesignTokens.textMuted),
-            const SizedBox(height: DesignTokens.spacingMd),
-            Text(message, textAlign: TextAlign.center),
-            const SizedBox(height: DesignTokens.spacingMd),
-            OutlinedButton(onPressed: onRetry, child: const Text('Qayta urinish')),
-          ],
-        ),
-      ),
-    );
   }
 }

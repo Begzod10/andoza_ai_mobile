@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../config/design_tokens.dart';
 import '../../models/api/api.dart';
 import '../../providers/wallpaper_provider.dart';
+import '../../widgets/common/error_view.dart';
 
 /// Bottom sheet for the shared wallpaper library: browse every uploaded
 /// wallpaper as a thumbnail grid and contribute a new one from the gallery.
@@ -113,8 +114,13 @@ class _WallpaperLibrarySheetState extends ConsumerState<WallpaperLibrarySheet> {
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),
                   error: (e, _) => Center(
-                    child: Text('Kutubxona yuklanmadi: $e',
-                        textAlign: TextAlign.center),
+                    child: Padding(
+                      padding: const EdgeInsets.all(DesignTokens.spacingLg),
+                      child: InlineErrorView(
+                        error: e,
+                        onRetry: () => ref.invalidate(wallpapersProvider),
+                      ),
+                    ),
                   ),
                   data: (items) => items.isEmpty
                       ? const Center(
