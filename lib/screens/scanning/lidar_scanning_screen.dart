@@ -251,6 +251,7 @@ class _LiDARScanningScreenState extends ConsumerState<LiDARScanningScreen>
                     children: [
                       _RoundIconButton(
                         icon: Icons.close,
+                        semanticLabel: 'Yopish',
                         onTap: () => Navigator.of(context).pop(),
                       ),
                     ],
@@ -351,23 +352,36 @@ class _LiDARScanningScreenState extends ConsumerState<LiDARScanningScreen>
 }
 
 class _RoundIconButton extends StatelessWidget {
-  const _RoundIconButton({required this.icon, required this.onTap});
+  const _RoundIconButton({
+    required this.icon,
+    required this.onTap,
+    this.semanticLabel,
+  });
 
   final IconData icon;
   final VoidCallback onTap;
+  final String? semanticLabel;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.16),
-          shape: BoxShape.circle,
+    return Semantics(
+      button: true,
+      label: semanticLabel,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.16),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            icon,
+            color: DesignTokens.white,
+            size: DesignTokens.iconMd,
+          ),
         ),
-        child: Icon(icon, color: DesignTokens.white, size: DesignTokens.iconMd),
       ),
     );
   }

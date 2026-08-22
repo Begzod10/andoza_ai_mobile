@@ -163,7 +163,9 @@ class _StoryCircleState extends State<_StoryCircle>
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Semantics(
+      button: true,
+      child: GestureDetector(
       onTap: widget.onTap,
       child: Column(
         children: [
@@ -216,6 +218,7 @@ class _StoryCircleState extends State<_StoryCircle>
           ),
         ],
       ),
+    ),
     );
   }
 }
@@ -437,7 +440,9 @@ class _QuickAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return Semantics(
+      button: true,
+      child: InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
       child: Container(
@@ -474,6 +479,7 @@ class _QuickAction extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }

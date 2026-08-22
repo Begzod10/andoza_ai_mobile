@@ -10,6 +10,11 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  # Generated files (build_runner / json_serializable / freezed) are not
+  # hand-maintained and can surface lints the local generator version emits.
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
   errors:
     # freezed places @JsonKey on constructor parameters; json_serializable
     # reads it correctly off the generated field, but the analyzer flags the

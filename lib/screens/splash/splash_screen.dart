@@ -6,7 +6,7 @@ import '../../config/design_tokens.dart';
 /// Splash Screen (S0)
 /// Initial loading screen with gradient and brand logo animation
 class SplashScreen extends ConsumerStatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   ConsumerState<SplashScreen> createState() => _SplashScreenState();

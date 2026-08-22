@@ -28,7 +28,7 @@ class DragDropTarget<T extends Object> extends StatefulWidget {
 
 class _DragDropTargetState<T extends Object> extends State<DragDropTarget<T>> {
   bool _isDropZoneActive = false;
-  Offset _dropPosition = Offset.zero;
+  final Offset _dropPosition = Offset.zero;
 
   @override
   Widget build(BuildContext context) {
@@ -44,16 +44,16 @@ class _DragDropTargetState<T extends Object> extends State<DragDropTarget<T>> {
         widget.onDraggableCanceled?.call();
       },
       child: DragTarget<T>(
-        onWillAccept: (data) {
+        onWillAcceptWithDetails: (details) {
           setState(() => _isDropZoneActive = true);
           return true;
         },
         onLeave: (data) {
           setState(() => _isDropZoneActive = false);
         },
-        onAccept: (data) {
+        onAcceptWithDetails: (details) {
           setState(() => _isDropZoneActive = false);
-          widget.onDropped(data, _dropPosition);
+          widget.onDropped(details.data, _dropPosition);
         },
         builder: (context, candidateData, rejectedData) {
           return Container(

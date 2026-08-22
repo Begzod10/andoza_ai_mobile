@@ -133,7 +133,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 Container(
                   padding: const EdgeInsets.all(DesignTokens.spacing12),
                   decoration: BoxDecoration(
-                    color: DesignTokens.error.withOpacity(0.1),
+                    color: DesignTokens.error.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(
                       DesignTokens.radiusMedium,
                     ),

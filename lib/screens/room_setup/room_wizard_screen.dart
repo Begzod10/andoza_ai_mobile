@@ -155,6 +155,7 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
         backgroundColor: DesignTokens.white,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: DesignTokens.textDark),
+          tooltip: 'Orqaga',
           onPressed: _back,
         ),
         title: Text('Yangi xona', style: DesignTokens.heading3),

@@ -146,6 +146,7 @@ class _WallMeasurementsScreenState
         backgroundColor: DesignTokens.backgroundLight,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: DesignTokens.textDark),
+          tooltip: 'Orqaga',
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(wall.label, style: DesignTokens.heading3),

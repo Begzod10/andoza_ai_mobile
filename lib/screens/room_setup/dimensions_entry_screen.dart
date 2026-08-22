@@ -57,6 +57,7 @@ class _DimensionsEntryScreenState extends ConsumerState<DimensionsEntryScreen> {
         backgroundColor: DesignTokens.backgroundLight,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: DesignTokens.textDark),
+          tooltip: 'Orqaga',
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text('Xona o\'lchamlari', style: DesignTokens.heading3),

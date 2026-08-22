@@ -48,6 +48,7 @@ class _S1ShopHomeScreenState extends ConsumerState<S1ShopHomeScreen> {
             children: [
               IconButton(
                 icon: const Icon(Icons.shopping_cart_outlined),
+                tooltip: 'Savatcha',
                 onPressed: () => context.push('/shop/s5'),
               ),
               if (cartCount > 0)

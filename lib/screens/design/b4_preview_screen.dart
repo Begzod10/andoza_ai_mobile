@@ -159,7 +159,7 @@ class _B4PreviewScreenState extends ConsumerState<B4PreviewScreen> {
                               value:
                                   '${selection.color} - ${selection.price.toStringAsFixed(0)} UZS/m²',
                             );
-                          }).toList(),
+                          }),
                         const SizedBox(height: DesignTokens.spacing24),
 
                         // Cost estimate

@@ -112,7 +112,10 @@ class _BottomNavWithFab extends StatelessWidget {
           ),
           Positioned(
             bottom: 94 - 32,
-            child: GestureDetector(
+            child: Semantics(
+              button: true,
+              label: 'Yangi loyiha qo\'shish',
+              child: GestureDetector(
               onTap: () => showNewProjectSheet(context),
               child: Container(
                 width: 64,
@@ -134,6 +137,7 @@ class _BottomNavWithFab extends StatelessWidget {
                 ),
               ),
             ),
+            ),
           ),
         ],
       ),
@@ -143,7 +147,10 @@ class _BottomNavWithFab extends StatelessWidget {
   Widget _navItem(BuildContext context, _NavTab tab) {
     final isCurrent = _isCurrent(tab);
     final color = isCurrent ? DesignTokens.primaryBlue : DesignTokens.textMuted;
-    return InkWell(
+    return Semantics(
+      button: true,
+      selected: isCurrent,
+      child: InkWell(
       onTap: () => context.go(tab.route),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -159,6 +166,7 @@ class _BottomNavWithFab extends StatelessWidget {
           ),
         ],
       ),
+    ),
     );
   }
 }

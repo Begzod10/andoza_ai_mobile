@@ -63,6 +63,7 @@ class _FurnitureEditCardState extends State<FurnitureEditCard> {
               ),
               IconButton(
                 icon: const Icon(Icons.close),
+                tooltip: 'Yopish',
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],

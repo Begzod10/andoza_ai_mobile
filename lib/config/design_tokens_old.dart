@@ -100,19 +100,19 @@ class DesignTokens {
 
   // Shadows
   static final BoxShadow shadowSmall = BoxShadow(
-    color: const Color(0x00000000).withOpacity(0.05),
+    color: const Color(0x00000000).withValues(alpha: 0.05),
     blurRadius: 2,
     offset: const Offset(0, 1),
   );
 
   static final BoxShadow shadowMedium = BoxShadow(
-    color: const Color(0x00000000).withOpacity(0.1),
+    color: const Color(0x00000000).withValues(alpha: 0.1),
     blurRadius: 4,
     offset: const Offset(0, 2),
   );
 
   static final BoxShadow shadowLarge = BoxShadow(
-    color: const Color(0x00000000).withOpacity(0.15),
+    color: const Color(0x00000000).withValues(alpha: 0.15),
     blurRadius: 8,
     offset: const Offset(0, 4),
   );
