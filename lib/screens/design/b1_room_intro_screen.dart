@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/design_selection_model.dart';
 import '../../providers/design_provider.dart';
 import '../../widgets/design/room_condition_card.dart';
@@ -49,6 +50,7 @@ class _B1RoomIntroScreenState extends ConsumerState<B1RoomIntroScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: DesignTokens.backgroundLight,
       body: SafeArea(
@@ -58,7 +60,7 @@ class _B1RoomIntroScreenState extends ConsumerState<B1RoomIntroScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Xonangiz hozir qaysi holatda?',
+                l10n.b1Question,
                 style: DesignTokens.heading2,
               ),
               const SizedBox(height: DesignTokens.spacingXl),
@@ -70,7 +72,7 @@ class _B1RoomIntroScreenState extends ConsumerState<B1RoomIntroScreen> {
               GestureDetector(
                 onTap: _openFloorCeilingSheet,
                 child: Text(
-                  'Farqini bilmayapsizmi? →',
+                  l10n.b1DontKnowDifference,
                   style: DesignTokens.body2.copyWith(
                     color: DesignTokens.primaryBlue,
                   ),
@@ -80,7 +82,7 @@ class _B1RoomIntroScreenState extends ConsumerState<B1RoomIntroScreen> {
               GestureDetector(
                 onTap: _openFloorCeilingSheet,
                 child: Text(
-                  'Pol yoki shift boshqacha bo\'lsa →',
+                  l10n.b1FloorCeilingDifferent,
                   style: DesignTokens.body2.copyWith(
                     color: DesignTokens.primaryBlue,
                   ),
@@ -92,7 +94,7 @@ class _B1RoomIntroScreenState extends ConsumerState<B1RoomIntroScreen> {
                 height: DesignTokens.buttonHeightLarge,
                 child: ElevatedButton(
                   onPressed: _enterRoom,
-                  child: const Text('Xonaga kirish'),
+                  child: Text(l10n.b1EnterRoom),
                 ),
               ),
             ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -32,6 +33,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authStateProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: DesignTokens.surface,
@@ -43,7 +45,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Andoza AI',
+                l10n.appTitle,
                 textAlign: TextAlign.center,
                 style: DesignTokens.headingLarge.copyWith(
                   color: DesignTokens.primary,
@@ -53,7 +55,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               TextField(
                 controller: _emailController,
                 decoration: InputDecoration(
-                  hintText: 'Email',
+                  hintText: l10n.loginEmailHint,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(
                       DesignTokens.radiusLarge,
@@ -70,7 +72,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 controller: _passwordController,
                 obscureText: _obscurePassword,
                 decoration: InputDecoration(
-                  hintText: 'Password',
+                  hintText: l10n.loginPasswordHint,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(
                       DesignTokens.radiusLarge,
@@ -86,7 +88,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           ? Icons.visibility_outlined
                           : Icons.visibility_off_outlined,
                     ),
-                    tooltip: _obscurePassword ? 'Show password' : 'Hide password',
+                    tooltip: _obscurePassword
+                        ? l10n.loginShowPassword
+                        : l10n.loginHidePassword,
                     onPressed: () => setState(
                       () => _obscurePassword = !_obscurePassword,
                     ),
@@ -121,7 +125,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                       )
                     : Text(
-                        'Login',
+                        l10n.loginButton,
                         style: DesignTokens.bodyLarge.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
@@ -159,7 +163,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
     if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill in all fields')),
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.loginEmptyFields),
+        ),
       );
       return;
     }

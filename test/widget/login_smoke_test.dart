@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tamir_uy_mobile_flutter/l10n/app_localizations.dart';
 import 'package:tamir_uy_mobile_flutter/screens/auth/login_screen.dart';
 
 void main() {
   testWidgets('LoginScreen builds and shows its core fields', (tester) async {
     await tester.pumpWidget(
       const ProviderScope(
-        child: MaterialApp(home: LoginScreen()),
+        child: MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: LoginScreen(),
+        ),
       ),
     );
     await tester.pumpAndSettle();
@@ -24,7 +29,11 @@ void main() {
   testWidgets('empty submit surfaces the validation snackbar', (tester) async {
     await tester.pumpWidget(
       const ProviderScope(
-        child: MaterialApp(home: LoginScreen()),
+        child: MaterialApp(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: LoginScreen(),
+        ),
       ),
     );
     await tester.pumpAndSettle();

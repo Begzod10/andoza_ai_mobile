@@ -1,0 +1,104 @@
+{
+  "@@locale": "uz",
+
+  "appTitle": "Andoza AI",
+  "@appTitle": {
+    "description": "Product name. Shown as the login screen heading and used as the app's brand label."
+  },
+
+  "actionRetry": "Qayta urinish",
+  "@actionRetry": {
+    "description": "Retry. Button on error views that re-attempts the failed action."
+  },
+  "actionBack": "Orqaga",
+  "@actionBack": {
+    "description": "Back. Navigates to the previous screen/step."
+  },
+  "actionNext": "Keyingi",
+  "@actionNext": {
+    "description": "Next. Advances to the next screen/step."
+  },
+  "actionContinue": "Davom etish",
+  "@actionContinue": {
+    "description": "Continue. Proceeds with the current flow."
+  },
+  "actionCancel": "Bekor qilish",
+  "@actionCancel": {
+    "description": "Cancel. Dismisses a dialog/sheet without applying changes."
+  },
+  "actionSave": "Saqlash",
+  "@actionSave": {
+    "description": "Save. Persists the current changes/selection."
+  },
+  "actionClose": "Yopish",
+  "@actionClose": {
+    "description": "Close. Dismisses a sheet, dialog or overlay."
+  },
+  "actionDone": "Tayyor",
+  "@actionDone": {
+    "description": "Done. Confirms completion of a step/action."
+  },
+  "actionFinish": "Yakunlash",
+  "@actionFinish": {
+    "description": "Finish. Completes a multi-step flow."
+  },
+
+  "navHome": "Uy",
+  "@navHome": {
+    "description": "Bottom navigation tab: Home."
+  },
+  "navShop": "Do'kon",
+  "@navShop": {
+    "description": "Bottom navigation tab: Shop (materials marketplace)."
+  },
+  "navMasters": "Ustalar",
+  "@navMasters": {
+    "description": "Bottom navigation tab: Masters (craftsman marketplace)."
+  },
+  "navProfile": "Profil",
+  "@navProfile": {
+    "description": "Bottom navigation tab: Profile."
+  },
+
+  "loginEmailHint": "Email",
+  "@loginEmailHint": {
+    "description": "Login screen: hint text for the email/username field."
+  },
+  "loginPasswordHint": "Password",
+  "@loginPasswordHint": {
+    "description": "Login screen: hint text for the password field."
+  },
+  "loginShowPassword": "Show password",
+  "@loginShowPassword": {
+    "description": "Login screen: tooltip on the eye icon that reveals the password."
+  },
+  "loginHidePassword": "Hide password",
+  "@loginHidePassword": {
+    "description": "Login screen: tooltip on the eye icon that masks the password."
+  },
+  "loginButton": "Login",
+  "@loginButton": {
+    "description": "Login screen: submit button label."
+  },
+  "loginEmptyFields": "Please fill in all fields",
+  "@loginEmptyFields": {
+    "description": "Login screen: snackbar shown when the user submits with an empty email or password."
+  },
+
+  "b1Question": "Xonangiz hozir qaysi holatda?",
+  "@b1Question": {
+    "description": "B1 room-condition step: the single question asking the room's current baseline surface condition."
+  },
+  "b1DontKnowDifference": "Farqini bilmayapsizmi? →",
+  "@b1DontKnowDifference": {
+    "description": "B1 room-condition step: link opening the floor/ceiling help sheet for users unsure of the difference."
+  },
+  "b1FloorCeilingDifferent": "Pol yoki shift boshqacha bo'lsa →",
+  "@b1FloorCeilingDifferent": {
+    "description": "B1 room-condition step: link to override floor/ceiling condition when they differ from the walls."
+  },
+  "b1EnterRoom": "Xonaga kirish",
+  "@b1EnterRoom": {
+    "description": "B1 room-condition step: primary button that saves the condition and enters the room designer."
+  }
+}
