@@ -6,6 +6,7 @@ import '../screens/app_shell.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/room_setup/room_wizard_screen.dart';
 import '../screens/room_setup/draw_room_screen.dart';
+import '../screens/room_setup/wall_condition_screen.dart';
 import '../screens/studio/studio_webview_screen.dart';
 import '../screens/splash/splash_screen.dart';
 import '../screens/home/home_with_projects_screen.dart';
@@ -325,6 +326,20 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/studio/:roomId',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => StudioWebViewScreen.studio(
+          roomId: state.pathParameters['roomId']!,
+          // Optional starting renovation phase (e.g. from the wall-condition
+          // step) — opens the web studio on the first stage that still needs
+          // doing instead of the hardcoded default.
+          phase: state.uri.queryParameters['phase'],
+        ),
+      ),
+      // "Devor holati" — asked right after the room measurement, before the
+      // studio, so an already-plastered/puttied wall starts the design on the
+      // correct stage. Full-screen (root navigator) like the other setup steps.
+      GoRoute(
+        path: '/setup/wall-condition/:roomId',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => WallConditionScreen(
           roomId: state.pathParameters['roomId']!,
         ),
       ),

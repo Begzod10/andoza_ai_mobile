@@ -797,7 +797,12 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
     try {
       final roomId = await handoffRoomPlan(ref, plan);
       if (!mounted) return;
-      context.go(roomId != null ? '/studio/$roomId' : '/design/b1');
+      // Ask the wall's baseline condition before the studio so an already
+      // plastered/puttied wall starts the design on the right stage. Offline
+      // (no roomId) falls through to the native B1 flow, which asks the same.
+      context.go(
+        roomId != null ? '/setup/wall-condition/$roomId' : '/design/b1',
+      );
     } catch (_) {
       if (mounted) context.go('/design/b1');
     } finally {

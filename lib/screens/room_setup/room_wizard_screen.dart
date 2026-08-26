@@ -294,7 +294,9 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
       final persisted = ref.read(roomPersistenceProvider).valueOrNull;
       if (!mounted) return;
       if (persisted != null) {
-        context.go('/studio/${persisted.roomId}');
+        // Ask the wall's baseline condition before the studio (see
+        // WallConditionScreen) so finished stages aren't re-designed.
+        context.go('/setup/wall-condition/${persisted.roomId}');
       } else {
         context.go('/design/b1'); // offline fallback
       }

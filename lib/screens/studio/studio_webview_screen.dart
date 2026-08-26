@@ -30,10 +30,18 @@ class StudioWebViewScreen extends ConsumerStatefulWidget {
     super.key,
   });
 
-  /// Convenience constructor for a specific room's 3D Studio.
+  /// Convenience constructor for a specific room's 3D Studio. An optional
+  /// [phase] (a web `PhaseKey`, e.g. `shpaklovka`/`boyoq`) is forwarded as a
+  /// `?phase=` query param so the studio opens on that renovation stage.
   // ignore: prefer_const_constructors_in_immutables
-  StudioWebViewScreen.studio({required String roomId, Key? key})
-      : this(path: '/studio/$roomId', title: '3D Studio', key: key);
+  StudioWebViewScreen.studio({required String roomId, String? phase, Key? key})
+      : this(
+          path: phase != null && phase.isNotEmpty
+              ? '/studio/$roomId?phase=$phase'
+              : '/studio/$roomId',
+          title: '3D Studio',
+          key: key,
+        );
 
   /// The frontend route to open (e.g. `/wizard`, `/studio/{roomId}`).
   final String path;
