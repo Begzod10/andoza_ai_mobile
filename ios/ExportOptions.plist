@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Placeholders __TEAM_ID__ / __BUNDLE_ID__ / __PROFILE_NAME__ are substituted by
+  the CI workflow (ios.yml) with `sed` from repository secrets, so no real Apple
+  Team ID or provisioning-profile name is ever committed to git.
+
+  iOS bundle id for this app is com.tamiruy.tamirUyMobileFlutter (differs from the
+  Android applicationId — do not "align" them).
+-->
+<plist version="1.0">
+<dict>
+	<key>method</key>
+	<string>app-store-connect</string>
+	<key>signingStyle</key>
+	<string>manual</string>
+	<key>teamID</key>
+	<string>__TEAM_ID__</string>
+	<key>provisioningProfiles</key>
+	<dict>
+		<key>__BUNDLE_ID__</key>
+		<string>__PROFILE_NAME__</string>
+	</dict>
+	<key>uploadBitcode</key>
+	<false/>
+	<key>uploadSymbols</key>
+	<true/>
+	<key>destination</key>
+	<string>export</string>
+	<key>stripSwiftSymbols</key>
+	<true/>
+</dict>
+</plist>

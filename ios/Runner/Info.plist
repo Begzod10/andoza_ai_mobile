@@ -26,6 +26,14 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Xonani LiDAR bilan skanerlash va oboy uchun rasmga olishda kamera ishlatiladi.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Oboy rasmini kutubxonaga qo'shish uchun galereyaga ruxsat kerak.</string>
+	<key>UIFileSharingEnabled</key>
+	<false/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<false/>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
