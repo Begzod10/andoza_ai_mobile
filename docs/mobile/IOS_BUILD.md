@@ -200,3 +200,32 @@ What to look for in `xcodebuild.log`:
   scan features. Do not raise `platform :ios` in the `Podfile`.
 - Impeller stays at its iOS default (on). The Android-only `EnableImpeller=false` flag
   must not be copied to iOS.
+
+---
+
+## 8. Runtime config on a real device (`--dart-define`)
+
+The app reads every backend/studio URL from `String.fromEnvironment` in
+`lib/config/app_config.dart` — `API_URL`, `API_BASE_URL`, and **`STUDIO_BASE_URL`**.
+The defaults target the **Android emulator loopback** (`10.0.2.2`), so on a real iPhone
+you **must** override them via `--dart-define` (or the CI secrets in §4 for TestFlight):
+
+```bash
+flutter run -d <ios-device> \
+  --dart-define=API_URL=http://189.74.96.11:8000/api/v1 \
+  --dart-define=API_BASE_URL=http://189.74.96.11:8000 \
+  --dart-define=STUDIO_BASE_URL=http://189.74.96.11:5173
+```
+
+- **`STUDIO_BASE_URL` in particular**: its default is the emulator's
+  `http://10.0.2.2:5173`, which is unreachable from a physical device. Without an
+  override the embedded 3D-Studio WebView (`StudioWebViewScreen`) fails to load. Point
+  it at a host the device can actually reach (the prod studio origin, or your dev
+  machine's LAN IP while iterating).
+- **Plain HTTP + App Transport Security**: the prod API is served over cleartext
+  `http://189.74.96.11:8000`. iOS ATS blocks cleartext HTTP by default, so
+  `ios/Runner/Info.plist` carries a **domain-scoped** `NSAppTransportSecurity →
+  NSExceptionDomains` entry for `189.74.96.11` with `NSExceptionAllowsInsecureHTTPLoads`
+  (ATS stays enabled everywhere else — no blanket `NSAllowsArbitraryLoads`). If you move
+  to a different HTTP host, add it to that dict; once the backend is on HTTPS, drop the
+  exception entirely.

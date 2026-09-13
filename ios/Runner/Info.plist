@@ -26,6 +26,24 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<!-- Domain-scoped HTTP exception for the plain-HTTP prod API host
+		     (http://189.74.96.11:8000). App Transport Security blocks cleartext
+		     HTTP on-device by default; this whitelists only that one host rather
+		     than disabling ATS globally (NSAllowsArbitraryLoads stays off). Once
+		     the API is served over HTTPS this entry can be removed. -->
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>189.74.96.11</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<false/>
+			</dict>
+		</dict>
+	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Xonani LiDAR bilan skanerlash va oboy uchun rasmga olishda kamera ishlatiladi.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
