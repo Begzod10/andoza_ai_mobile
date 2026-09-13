@@ -272,10 +272,12 @@ class ApiClient {
     required String filename,
     String fieldName = 'file',
     String? contentType,
+    Map<String, String> fields = const {},
     required T Function(dynamic) fromJson,
   }) async {
     try {
       final formData = FormData.fromMap({
+        ...fields,
         fieldName: MultipartFile.fromBytes(
           bytes,
           filename: filename,
