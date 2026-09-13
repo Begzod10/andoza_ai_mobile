@@ -3,23 +3,26 @@ import UIKit
 import SwiftUI
 import os
 
-#if canImport(RealityKit)
+// Object Capture (ObjectCaptureSession/View + PhotogrammetrySession) exists only
+// in the *device* SDK — the iOS Simulator SDK doesn't ship these symbols, so the
+// no-codesign simulator CI build must exclude them. Everything RealityKit-backed
+// is gated on `canImport(RealityKit) && !targetEnvironment(simulator)`; on the
+// simulator the scan fails gracefully.
+#if canImport(RealityKit) && !targetEnvironment(simulator)
 import RealityKit
 #endif
 
-/// Phase 6 — Apple Object Capture (iOS 17+). Guides the user through capturing a
-/// single object, then runs an on-device `PhotogrammetrySession` at `.reduced`
-/// detail and returns the resulting `.usdz`.
+/// Phase 6 — Apple Object Capture (iOS 17+ device). Guides the user through
+/// capturing a single object, then runs an on-device `PhotogrammetrySession` at
+/// `.reduced` detail and returns the resulting `.usdz`.
 ///
 /// Result handed back to the `andoza/roomscan` channel:
 ///   `{usdzPath: String}` on success, `nil` on cancel, `FlutterError` on failure.
 ///
-/// NOTE (verification): the whole iOS story builds on CI / runs on TestFlight —
-/// this compiles behind `@available(iOS 17, *)` + `canImport(RealityKit)` and
-/// follows Apple's ObjectCaptureSession → PhotogrammetrySession flow. State is
-/// driven off `session.stateUpdates` (an async sequence) rather than SwiftUI
-/// `onChange`, so it doesn't depend on `CaptureState` being `Equatable`. Every
-/// transition logs via `os_log` (subsystem `uz.andoza.roomscan`).
+/// NOTE (verification): builds on CI (simulator path excludes it) and runs on a
+/// real device via TestFlight; the capture UX is refined on-device. State is
+/// driven off `session.stateUpdates` (async sequence), not SwiftUI `onChange`, so
+/// it doesn't depend on `CaptureState: Equatable`. os_log at every transition.
 enum ObjectScanOutcome {
   case success(usdzPath: String)
   case cancelled
@@ -33,14 +36,14 @@ final class ObjectScanViewController: UIViewController {
   private let completion: (ObjectScanOutcome) -> Void
   private var didComplete = false
 
-  #if canImport(RealityKit)
-  private var session: ObjectCaptureSession?
-  private var stateTask: Task<Void, Never>?
-  #endif
-
   private let imagesDir: URL
   private let checkpointDir: URL
   private let outputURL: URL
+
+  #if canImport(RealityKit) && !targetEnvironment(simulator)
+  private var session: ObjectCaptureSession?
+  private var stateTask: Task<Void, Never>?
+  #endif
 
   init(completion: @escaping (ObjectScanOutcome) -> Void) {
     self.completion = completion
@@ -59,8 +62,16 @@ final class ObjectScanViewController: UIViewController {
     super.viewDidLoad()
     view.backgroundColor = .black
     os_log("viewDidLoad", log: Self.log, type: .info)
+    #if canImport(RealityKit) && !targetEnvironment(simulator)
+    startObjectCapture()
+    #else
+    os_log("object capture unavailable (simulator / no RealityKit)", log: Self.log, type: .error)
+    finish(.failed("3D buyum skaneri bu qurilmada mavjud emas"))
+    #endif
+  }
 
-    #if canImport(RealityKit)
+  #if canImport(RealityKit) && !targetEnvironment(simulator)
+  private func startObjectCapture() {
     guard ObjectCaptureSession.isSupported else {
       os_log("object capture unsupported on this device", log: Self.log, type: .error)
       finish(.failed("Bu qurilma 3D buyum skanerlashni qo'llab-quvvatlamaydi"))
@@ -110,12 +121,8 @@ final class ObjectScanViewController: UIViewController {
     host.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     view.addSubview(host.view)
     host.didMove(toParent: self)
-    #else
-    finish(.failed("RealityKit mavjud emas"))
-    #endif
   }
 
-  #if canImport(RealityKit)
   private func startPhotogrammetry() {
     os_log("starting PhotogrammetrySession (.reduced)", log: Self.log, type: .info)
     var photoConfig = PhotogrammetrySession.Configuration()
@@ -160,7 +167,7 @@ final class ObjectScanViewController: UIViewController {
   private func finish(_ outcome: ObjectScanOutcome) {
     guard !didComplete else { return }
     didComplete = true
-    #if canImport(RealityKit)
+    #if canImport(RealityKit) && !targetEnvironment(simulator)
     stateTask?.cancel()
     stateTask = nil
     session = nil
@@ -173,7 +180,7 @@ final class ObjectScanViewController: UIViewController {
   deinit { os_log("deinit", log: Self.log, type: .info) }
 }
 
-#if canImport(RealityKit)
+#if canImport(RealityKit) && !targetEnvironment(simulator)
 /// SwiftUI container: the live ObjectCaptureView + an Uzbek guidance overlay and
 /// the flow buttons (Detect → Capture → Done). Reads `session.state` via a
 /// `switch` only (ObjectCaptureSession is @Observable, so the body re-renders on
