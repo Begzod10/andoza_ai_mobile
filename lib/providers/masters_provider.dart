@@ -3,9 +3,9 @@ import '../models/api/usta.dart';
 import '../repositories/masters_repository.dart';
 import 'catalog_provider.dart';
 
-/// Trade categories per spec's exact color-per-trade mapping. No backend
-/// `/masters` endpoint exists — mock data only for this rebuild pass,
-/// consistent with the plan's guidance for Batch U/S.
+/// Trade categories per spec's exact color-per-trade mapping. NOTE: this is
+/// backend-wired — [mockMastersProvider] maps the real `/ustalar` directory
+/// (via [ustalarProvider]) onto the UI shape; the name is legacy, not mock data.
 enum Trade { elektrik, suvoqchi, kafelchi, santexnik, duradgor }
 
 extension TradeInfo on Trade {
