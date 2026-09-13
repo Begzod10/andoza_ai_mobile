@@ -224,7 +224,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   const Text('👋 Salom',
                       style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Color(0xFF111827))),
                   const SizedBox(height: DesignTokens.spacing8),
-                  Text("UyTa'mir-ga xush kelibsiz",
+                  Text("Andoza AI-ga xush kelibsiz",
                       style: DesignTokens.bodyLarge.copyWith(color: DesignTokens.textMuted)),
                   const SizedBox(height: DesignTokens.spacing32),
                   _card(),
