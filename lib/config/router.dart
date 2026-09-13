@@ -14,6 +14,8 @@ import '../screens/room_setup/wall_measurements_screen.dart';
 import '../screens/room_setup/room_summary_screen.dart';
 import '../screens/scanning/lidar_scanning_screen.dart';
 import '../screens/scanning/photo_scanning_screen.dart';
+import '../screens/scanning/room_scan_screen.dart';
+import '../screens/scanning/room_scan_review_page.dart';
 import '../screens/design/b1_room_intro_screen.dart';
 import '../screens/design/b2_room_entry_screen.dart';
 import '../screens/design/b3_decoration_rail_screen.dart';
@@ -132,6 +134,19 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/scanning/photo',
             builder: (context, state) => const PhotoScanningScreen(),
+          ),
+          // RoomPlan (LiDAR) capture — the parametric flow behind the "LiDAR
+          // skaner" entry. Distinct from the legacy simulated /scanning/lidar
+          // (kept for its widget test); this one probes support, presents the
+          // native scanner, and reviews the converted room.
+          GoRoute(
+            path: '/scanning/roomplan',
+            builder: (context, state) => const RoomScanScreen(),
+          ),
+          GoRoute(
+            path: '/scanning/roomplan/review',
+            builder: (context, state) =>
+                RoomScanReviewPage(args: state.extra! as RoomScanReviewArgs),
           ),
           // Batch B Routes (Room state & entering the 3D room) — B1 kept
           // (matches spec), B1-alt/B2/B3 are genuinely missing and get
