@@ -92,6 +92,9 @@ class ApiClient {
     '/auth/login',
     '/auth/refresh',
     '/auth/logout',
+    '/auth/otp/request',
+    '/auth/otp/verify',
+    '/auth/register',
   };
 
   static bool _isAuthPath(String path) =>

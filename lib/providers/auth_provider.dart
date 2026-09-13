@@ -71,6 +71,13 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
+  /// Flip to authenticated from an already-completed auth call (OTP verify /
+  /// register / password login done directly against the repository). The
+  /// repository has persisted the tokens; this just drives the router redirect.
+  void setSession(AuthResponse response) {
+    state = AuthAuthenticated(user: response.user, token: response.token);
+  }
+
   Future<void> logout() async {
     await _repository.logout();
     state = const AuthInitial();
