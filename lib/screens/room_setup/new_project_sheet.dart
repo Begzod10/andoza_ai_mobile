@@ -79,7 +79,7 @@ class NewProjectSheet extends StatelessWidget {
                 'Xonani LiDAR yordamida skanerlang va avtomatik 3D model oling',
             onTap: () {
               Navigator.of(context).pop();
-              context.push('/scanning/lidar');
+              context.push('/scanning/roomplan');
             },
           ),
           const SizedBox(height: DesignTokens.spacingMd),

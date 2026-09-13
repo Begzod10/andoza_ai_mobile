@@ -1,46 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:tamir_uy_mobile_flutter/l10n/app_localizations.dart';
 import 'package:tamir_uy_mobile_flutter/screens/auth/login_screen.dart';
 
 void main() {
-  testWidgets('LoginScreen builds and shows its core fields', (tester) async {
-    await tester.pumpWidget(
-      const ProviderScope(
-        child: MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: LoginScreen(),
-        ),
-      ),
-    );
+  Widget wrap() => const ProviderScope(child: MaterialApp(home: LoginScreen()));
+
+  testWidgets('LoginScreen builds and shows its core (phone-OTP) fields', (tester) async {
+    await tester.pumpWidget(wrap());
     await tester.pumpAndSettle();
 
-    // Title + the two hinted inputs + the submit button render without
-    // throwing (widgetWithText matches the field's hintText).
-    expect(find.text('Andoza AI'), findsOneWidget);
-    expect(find.byType(TextField), findsNWidgets(2));
-    expect(find.widgetWithText(TextField, 'Email'), findsOneWidget);
-    expect(find.widgetWithText(TextField, 'Password'), findsOneWidget);
-    expect(find.widgetWithText(ElevatedButton, 'Login'), findsOneWidget);
+    // Greeting + rebranded subtitle.
+    expect(find.text('👋 Salom'), findsOneWidget);
+    expect(find.text('Andoza AI-ga xush kelibsiz'), findsOneWidget);
+    // Phone field (matched by its hint), the OTP submit, and the username fallback.
+    expect(find.widgetWithText(TextField, '90 123 45 67'), findsOneWidget);
+    expect(find.widgetWithText(ElevatedButton, 'OTP Yuborish'), findsOneWidget);
+    expect(find.textContaining('Username bilan kirish'), findsOneWidget);
   });
 
-  testWidgets('empty submit surfaces the validation snackbar', (tester) async {
-    await tester.pumpWidget(
-      const ProviderScope(
-        child: MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: LoginScreen(),
-        ),
-      ),
-    );
+  testWidgets('OTP submit with an empty phone surfaces a validation error', (tester) async {
+    await tester.pumpWidget(wrap());
     await tester.pumpAndSettle();
 
-    await tester.tap(find.widgetWithText(ElevatedButton, 'Login'));
-    await tester.pump(); // let the SnackBar animate in
+    // Empty phone fails validation before any network call → inline error.
+    await tester.tap(find.widgetWithText(ElevatedButton, 'OTP Yuborish'));
+    await tester.pump();
 
-    expect(find.text('Please fill in all fields'), findsOneWidget);
+    expect(find.textContaining("Telefon raqam noto'g'ri"), findsOneWidget);
+  });
+
+  testWidgets('"Username bilan kirish" switches to the username/password form', (tester) async {
+    await tester.pumpWidget(wrap());
+    await tester.pumpAndSettle();
+
+    final usernameBtn = find.textContaining('Username bilan kirish');
+    await tester.ensureVisible(usernameBtn); // it's below the fold in the test viewport
+    await tester.pumpAndSettle();
+    await tester.tap(usernameBtn);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Kirish'), findsWidgets); // heading + button
+    expect(find.widgetWithText(TextField, 'Username'), findsOneWidget);
+    expect(find.widgetWithText(TextField, 'Parol'), findsOneWidget);
   });
 }

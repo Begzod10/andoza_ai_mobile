@@ -1,0 +1,48 @@
+name: iOS Check (no signing)
+
+# Fast PR gate: proves the iOS target still compiles (pods resolve, plugins link,
+# Swift builds) WITHOUT any signing secrets. Catches RoomPlan/plugin breakage on
+# PRs cheaply; the full signed build + TestFlight lives in ios.yml on main.
+
+on:
+  pull_request:
+    paths:
+      - 'lib/**'
+      - 'ios/**'
+      - 'pubspec.yaml'
+      - 'pubspec.lock'
+      - '.github/workflows/ios-check.yml'
+
+concurrency:
+  group: ios-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-ios-nosign:
+    runs-on: macos-14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.44.8'
+          channel: stable
+          cache: true
+
+      - name: Ensure CocoaPods
+        run: |
+          if ! pod --version >/dev/null 2>&1; then
+            sudo gem install cocoapods
+          fi
+          pod --version
+
+      - name: Flutter pub get
+        run: flutter pub get
+
+      - name: Code generation (freezed / json_serializable / riverpod)
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Build iOS (no codesign, simulator)
+        run: flutter build ios --no-codesign --simulator

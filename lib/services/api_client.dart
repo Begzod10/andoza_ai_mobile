@@ -92,6 +92,9 @@ class ApiClient {
     '/auth/login',
     '/auth/refresh',
     '/auth/logout',
+    '/auth/otp/request',
+    '/auth/otp/verify',
+    '/auth/register',
   };
 
   static bool _isAuthPath(String path) =>
@@ -272,10 +275,12 @@ class ApiClient {
     required String filename,
     String fieldName = 'file',
     String? contentType,
+    Map<String, String> fields = const {},
     required T Function(dynamic) fromJson,
   }) async {
     try {
       final formData = FormData.fromMap({
+        ...fields,
         fieldName: MultipartFile.fromBytes(
           bytes,
           filename: filename,

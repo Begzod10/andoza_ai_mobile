@@ -4,6 +4,9 @@ import '../services/secure_storage.dart';
 
 abstract interface class AuthRepository {
   Future<AuthResponse> login(String email, String password);
+  Future<void> requestOtp(String phone);
+  Future<AuthResponse> verifyOtp(String phone, String code);
+  Future<AuthResponse> register(String username, String password, String? name);
   Future<void> logout();
   Future<User?> getCurrentUser();
   Future<void> restoreToken();
@@ -27,22 +30,68 @@ class AuthRepositoryImpl implements AuthRepository {
       );
 
       final authResponse = AuthResponse.fromJson(response);
-      _cachedToken = authResponse.token;
+      await _persistSession(authResponse);
+      return authResponse;
+    } on ApiException catch (e) {
+      throw AuthException(e.message);
+    }
+  }
 
-      // Persist token to secure storage
-      await _storage.saveToken(authResponse.token);
-      await _storage.saveUserId(authResponse.user.id);
+  /// Persist an authenticated session (access + refresh tokens) so silent
+  /// refresh-on-401 works. Shared by login / OTP verify / register.
+  Future<void> _persistSession(AuthResponse authResponse) async {
+    _cachedToken = authResponse.token;
+    await _storage.saveToken(authResponse.token);
+    await _storage.saveUserId(authResponse.user.id);
+    _apiClient.setAuthToken(authResponse.token);
+    final refreshToken = authResponse.refreshToken;
+    if (refreshToken != null && refreshToken.isNotEmpty) {
+      await _storage.saveRefreshToken(refreshToken);
+      _apiClient.setRefreshToken(refreshToken);
+    }
+  }
 
-      _apiClient.setAuthToken(authResponse.token);
+  @override
+  Future<void> requestOtp(String phone) async {
+    try {
+      await _apiClient.post<void>(
+        '/auth/otp/request',
+        data: {'phone': phone},
+        fromJson: (_) {},
+      );
+    } on ApiException catch (e) {
+      throw AuthException(e.message);
+    }
+  }
 
-      // Persist + seed the refresh token so the client can silently refresh the
-      // access token when it expires (drives auto-refresh-on-401).
-      final refreshToken = authResponse.refreshToken;
-      if (refreshToken != null && refreshToken.isNotEmpty) {
-        await _storage.saveRefreshToken(refreshToken);
-        _apiClient.setRefreshToken(refreshToken);
-      }
+  @override
+  Future<AuthResponse> verifyOtp(String phone, String code) async {
+    try {
+      final response = await _apiClient.post<Map<String, dynamic>>(
+        '/auth/otp/verify',
+        data: {'phone': phone, 'code': code},
+        fromJson: (json) => json as Map<String, dynamic>,
+      );
+      final authResponse = AuthResponse.fromJson(response);
+      await _persistSession(authResponse);
+      return authResponse;
+    } on ApiException catch (e) {
+      throw AuthException(e.message);
+    }
+  }
 
+  @override
+  Future<AuthResponse> register(String username, String password, String? name) async {
+    try {
+      final data = <String, dynamic>{'username': username, 'password': password};
+      if (name != null && name.isNotEmpty) data['name'] = name;
+      final response = await _apiClient.post<Map<String, dynamic>>(
+        '/auth/register',
+        data: data,
+        fromJson: (json) => json as Map<String, dynamic>,
+      );
+      final authResponse = AuthResponse.fromJson(response);
+      await _persistSession(authResponse);
       return authResponse;
     } on ApiException catch (e) {
       throw AuthException(e.message);

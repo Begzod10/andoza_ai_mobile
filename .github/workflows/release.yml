@@ -80,9 +80,9 @@ jobs:
       - name: Build signed AAB
         run: |
           flutter build appbundle --release \
-            --dart-define=API_URL=http://189.74.96.11:8000/api/v1 \
-            --dart-define=API_BASE_URL=http://189.74.96.11:8000 \
-            --dart-define=STUDIO_BASE_URL=http://189.74.96.11:5173
+            --dart-define=API_URL=https://andoza.jumaniyozov.uz/api/v1 \
+            --dart-define=API_BASE_URL=https://andoza.jumaniyozov.uz \
+            --dart-define=STUDIO_BASE_URL=https://andoza.jumaniyozov.uz
 
       - name: Verify signer (fails if debug-signed)
         run: |

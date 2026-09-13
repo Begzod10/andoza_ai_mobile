@@ -1,0 +1,186 @@
+name: iOS Build & TestFlight
+
+# Builds a signed iOS .ipa on a macOS runner and (on main) uploads it to
+# TestFlight. The developer has no Mac — everything here is designed to be
+# driven and debugged from Linux via the uploaded artifacts/logs.
+#
+# Required GitHub repository secrets (Settings -> Secrets and variables -> Actions):
+#   IOS_P12_BASE64       base64 of the distribution cert + key .p12
+#   IOS_P12_PASSWORD     password used when the .p12 was exported
+#   IOS_PROFILE_BASE64   base64 of the App Store provisioning .mobileprovision
+#   IOS_TEAM_ID          10-char Apple Developer Team ID
+#   IOS_BUNDLE_ID        com.tamiruy.tamirUyMobileFlutter  (the iOS bundle id)
+#   IOS_PROFILE_NAME     the provisioning profile's exact name
+#   ASC_KEY_BASE64       base64 of the App Store Connect API key AuthKey_XXXX.p8
+#   ASC_KEY_ID           the API key id (the XXXX in the filename)
+#   ASC_ISSUER_ID        the App Store Connect issuer id (a UUID)
+#   API_URL_PROD         production API base, e.g. https://api.example.com/api/v1
+# Optional (recommended so the studio WebView points at prod, not the emulator default):
+#   API_BASE_URL_PROD    production API host, e.g. https://api.example.com
+#   STUDIO_BASE_URL_PROD production web-studio origin, e.g. https://studio.example.com
+#
+# See docs/mobile/IOS_BUILD.md for how to create these on Linux with openssl and
+# how to read a failed run's artifacts.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'lib/**'
+      - 'ios/**'
+      - 'pubspec.yaml'
+      - 'pubspec.lock'
+      - '.github/workflows/ios.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: ios-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-ios:
+    runs-on: macos-14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.44.8'
+          channel: stable
+          cache: true
+
+      - name: Ensure CocoaPods
+        run: |
+          if ! pod --version >/dev/null 2>&1; then
+            sudo gem install cocoapods
+          fi
+          pod --version
+
+      - name: Install Apple signing (cert + provisioning profile)
+        env:
+          IOS_P12_BASE64: ${{ secrets.IOS_P12_BASE64 }}
+          IOS_P12_PASSWORD: ${{ secrets.IOS_P12_PASSWORD }}
+          IOS_PROFILE_BASE64: ${{ secrets.IOS_PROFILE_BASE64 }}
+        run: |
+          set -euo pipefail
+          CERT_PATH="$RUNNER_TEMP/dist_cert.p12"
+          KEYCHAIN_PATH="$RUNNER_TEMP/app-signing.keychain-db"
+          KEYCHAIN_PASSWORD="$(openssl rand -base64 24)"
+
+          # Decode the certificate.
+          echo "$IOS_P12_BASE64" | base64 -d > "$CERT_PATH"
+
+          # Create and unlock a throwaway keychain, and make it searchable.
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+
+          # Import the cert; allow codesign/security tools to use it non-interactively.
+          security import "$CERT_PATH" -P "$IOS_P12_PASSWORD" \
+            -A -t cert -f pkcs12 -keychain "$KEYCHAIN_PATH"
+          security set-key-partition-list -S apple-tool:,apple:,codesign: \
+            -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH" >/dev/null
+
+          # Put our keychain first in the search list (keep the login keychain too).
+          security list-keychains -d user -s "$KEYCHAIN_PATH" login.keychain-db
+          security default-keychain -s "$KEYCHAIN_PATH"
+
+          # Install the provisioning profile where Xcode looks for it.
+          PROFILES_DIR="$HOME/Library/MobileDevice/Provisioning Profiles"
+          mkdir -p "$PROFILES_DIR"
+          echo "$IOS_PROFILE_BASE64" | base64 -d > "$PROFILES_DIR/build_pp.mobileprovision"
+
+      - name: Fill ExportOptions.plist from secrets
+        env:
+          IOS_TEAM_ID: ${{ secrets.IOS_TEAM_ID }}
+          IOS_BUNDLE_ID: ${{ secrets.IOS_BUNDLE_ID }}
+          IOS_PROFILE_NAME: ${{ secrets.IOS_PROFILE_NAME }}
+        run: |
+          set -euo pipefail
+          sed -i '' \
+            -e "s|__TEAM_ID__|${IOS_TEAM_ID}|g" \
+            -e "s|__BUNDLE_ID__|${IOS_BUNDLE_ID}|g" \
+            -e "s|__PROFILE_NAME__|${IOS_PROFILE_NAME}|g" \
+            ios/ExportOptions.plist
+          # Show the result WITHOUT leaking the team id into logs.
+          plutil -p ios/ExportOptions.plist | sed "s|${IOS_TEAM_ID}|***TEAM_ID***|g"
+
+      - name: Flutter pub get
+        run: flutter pub get
+
+      - name: Code generation (freezed / json_serializable / riverpod)
+        run: dart run build_runner build --delete-conflicting-outputs
+
+      - name: Build signed IPA
+        env:
+          API_URL_PROD: ${{ secrets.API_URL_PROD }}
+          API_BASE_URL_PROD: ${{ secrets.API_BASE_URL_PROD }}
+          STUDIO_BASE_URL_PROD: ${{ secrets.STUDIO_BASE_URL_PROD }}
+        run: |
+          set -euo pipefail
+          DEFINES="--dart-define=API_URL=${API_URL_PROD}"
+          # Only pass the optional defines if their secrets are set, so we never
+          # override the app defaults with an empty string.
+          if [ -n "${API_BASE_URL_PROD}" ]; then
+            DEFINES="$DEFINES --dart-define=API_BASE_URL=${API_BASE_URL_PROD}"
+          fi
+          if [ -n "${STUDIO_BASE_URL_PROD}" ]; then
+            DEFINES="$DEFINES --dart-define=STUDIO_BASE_URL=${STUDIO_BASE_URL_PROD}"
+          fi
+          flutter build ipa --release \
+            --export-options-plist=ios/ExportOptions.plist \
+            $DEFINES 2>&1 | tee "$RUNNER_TEMP/xcodebuild.log"
+
+      - name: Locate IPA
+        id: ipa
+        run: |
+          set -euo pipefail
+          IPA=$(find build/ios/ipa -name '*.ipa' | head -1)
+          if [ -z "$IPA" ]; then
+            echo "::error::No .ipa produced — see the xcodebuild log artifact."
+            exit 1
+          fi
+          echo "path=$IPA" >> "$GITHUB_OUTPUT"
+
+      - name: Upload to TestFlight
+        if: github.ref == 'refs/heads/main'
+        env:
+          ASC_KEY_BASE64: ${{ secrets.ASC_KEY_BASE64 }}
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+        run: |
+          set -euo pipefail
+          KEYS_DIR="$HOME/.appstoreconnect/private_keys"
+          mkdir -p "$KEYS_DIR"
+          echo "$ASC_KEY_BASE64" | base64 -d > "$KEYS_DIR/AuthKey_${ASC_KEY_ID}.p8"
+          xcrun altool --upload-app -f "${{ steps.ipa.outputs.path }}" -t ios \
+            --apiKey "$ASC_KEY_ID" --apiIssuer "$ASC_ISSUER_ID"
+
+      - name: Upload IPA + build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-ipa-and-log
+          path: |
+            build/ios/ipa/*.ipa
+            ${{ runner.temp }}/xcodebuild.log
+          if-no-files-found: warn
+
+      - name: Upload debug artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-failure-debug
+          path: |
+            ${{ runner.temp }}/xcodebuild.log
+            ios/Pods/Manifest.lock
+          if-no-files-found: warn
+
+      - name: Clean up signing material
+        if: always()
+        run: |
+          rm -f "$HOME/.appstoreconnect/private_keys/"AuthKey_*.p8 || true
+          rm -f "$HOME/Library/MobileDevice/Provisioning Profiles/build_pp.mobileprovision" || true
+          security delete-keychain "$RUNNER_TEMP/app-signing.keychain-db" || true
