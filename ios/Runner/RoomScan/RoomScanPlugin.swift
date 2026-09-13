@@ -1,6 +1,7 @@
 import Flutter
 import UIKit
 import os.log
+import RoomPlan
 
 /// Native side of the `andoza/roomscan` MethodChannel.
 ///

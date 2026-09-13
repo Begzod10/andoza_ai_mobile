@@ -11,14 +11,15 @@ import RealityKit
 /// single object, then runs an on-device `PhotogrammetrySession` at `.reduced`
 /// detail and returns the resulting `.usdz`.
 ///
-/// Result shape handed back to the `andoza/roomscan` channel:
+/// Result handed back to the `andoza/roomscan` channel:
 ///   `{usdzPath: String}` on success, `nil` on cancel, `FlutterError` on failure.
 ///
 /// NOTE (verification): the whole iOS story builds on CI / runs on TestFlight —
-/// this file compiles behind `@available(iOS 17, *)` + `canImport(RealityKit)`
-/// and follows Apple's ObjectCaptureSession → PhotogrammetrySession flow, but the
-/// capture UX is best refined on a real device. Every state transition logs via
-/// `os_log` (subsystem `uz.andoza.roomscan`) so TestFlight console logs are useful.
+/// this compiles behind `@available(iOS 17, *)` + `canImport(RealityKit)` and
+/// follows Apple's ObjectCaptureSession → PhotogrammetrySession flow. State is
+/// driven off `session.stateUpdates` (an async sequence) rather than SwiftUI
+/// `onChange`, so it doesn't depend on `CaptureState` being `Equatable`. Every
+/// transition logs via `os_log` (subsystem `uz.andoza.roomscan`).
 enum ObjectScanOutcome {
   case success(usdzPath: String)
   case cancelled
@@ -34,10 +35,9 @@ final class ObjectScanViewController: UIViewController {
 
   #if canImport(RealityKit)
   private var session: ObjectCaptureSession?
+  private var stateTask: Task<Void, Never>?
   #endif
 
-  /// Working dirs for this capture — images in, model out.
-  private let workDir: URL
   private let imagesDir: URL
   private let checkpointDir: URL
   private let outputURL: URL
@@ -46,7 +46,6 @@ final class ObjectScanViewController: UIViewController {
     self.completion = completion
     let base = FileManager.default.temporaryDirectory
       .appendingPathComponent("objectscan-\(UUID().uuidString)", isDirectory: true)
-    self.workDir = base
     self.imagesDir = base.appendingPathComponent("Images", isDirectory: true)
     self.checkpointDir = base.appendingPathComponent("Checkpoint", isDirectory: true)
     self.outputURL = base.appendingPathComponent("model.usdz")
@@ -81,12 +80,30 @@ final class ObjectScanViewController: UIViewController {
     config.checkpointDirectory = checkpointDir
     session.start(imagesDirectory: imagesDir, configuration: config)
 
-    // Host the SwiftUI capture UI + a top bar / Uzbek guidance overlay.
+    // Drive completion/failure off the async state stream — no reliance on
+    // CaptureState being Equatable (SwiftUI onChange would need that).
+    stateTask = Task { [weak self] in
+      for await state in session.stateUpdates {
+        guard let self else { return }
+        switch state {
+        case .completed:
+          os_log("object capture completed → photogrammetry", log: Self.log, type: .info)
+          await MainActor.run { self.startPhotogrammetry() }
+          return
+        case .failed(let error):
+          os_log("object capture failed: %{public}@", log: Self.log, type: .error,
+                 error.localizedDescription)
+          await MainActor.run { self.finish(.failed(error.localizedDescription)) }
+          return
+        default:
+          break
+        }
+      }
+    }
+
     let host = UIHostingController(rootView: ObjectScanContainer(
       session: session,
-      onCancel: { [weak self] in self?.handleCancel() },
-      onFinishRequested: { [weak self] in self?.handleFinishRequested() },
-      onReconstructionDone: { [weak self] in self?.startPhotogrammetry() }
+      onCancel: { [weak self] in self?.handleCancel() }
     ))
     addChild(host)
     host.view.frame = view.bounds
@@ -99,13 +116,6 @@ final class ObjectScanViewController: UIViewController {
   }
 
   #if canImport(RealityKit)
-  private func handleFinishRequested() {
-    os_log("user finished capture pass — session.finish()", log: Self.log, type: .info)
-    session?.finish()
-    // ObjectScanContainer observes session.state == .completed and calls
-    // onReconstructionDone → startPhotogrammetry().
-  }
-
   private func startPhotogrammetry() {
     os_log("starting PhotogrammetrySession (.reduced)", log: Self.log, type: .info)
     var photoConfig = PhotogrammetrySession.Configuration()
@@ -151,6 +161,8 @@ final class ObjectScanViewController: UIViewController {
     guard !didComplete else { return }
     didComplete = true
     #if canImport(RealityKit)
+    stateTask?.cancel()
+    stateTask = nil
     session = nil
     #endif
     dismiss(animated: true) { [weak self] in
@@ -162,16 +174,14 @@ final class ObjectScanViewController: UIViewController {
 }
 
 #if canImport(RealityKit)
-/// SwiftUI container: the live ObjectCaptureView + an Uzbek guidance/progress
-/// overlay + top-bar Cancel / Done. Drives the capture state machine.
+/// SwiftUI container: the live ObjectCaptureView + an Uzbek guidance overlay and
+/// the flow buttons (Detect → Capture → Done). Reads `session.state` via a
+/// `switch` only (ObjectCaptureSession is @Observable, so the body re-renders on
+/// change without needing `onChange`/Equatable).
 @available(iOS 17.0, *)
 private struct ObjectScanContainer: View {
-  let session: ObjectCaptureSession
+  @State var session: ObjectCaptureSession
   let onCancel: () -> Void
-  let onFinishRequested: () -> Void
-  let onReconstructionDone: () -> Void
-
-  @State private var didRequestReconstruct = false
 
   var body: some View {
     ZStack {
@@ -185,12 +195,7 @@ private struct ObjectScanContainer: View {
             .background(.black.opacity(0.5), in: Capsule())
             .foregroundStyle(.white)
           Spacer()
-          if session.state == .capturing {
-            Button("Tayyor", action: onFinishRequested)
-              .padding(10)
-              .background(.blue, in: Capsule())
-              .foregroundStyle(.white)
-          }
+          primaryButton
         }
         .padding()
         Spacer()
@@ -204,25 +209,39 @@ private struct ObjectScanContainer: View {
           .padding(.horizontal, 24)
       }
     }
-    .onChange(of: session.state) { _, newState in
-      // When reconstruction/finish completes, kick off photogrammetry once.
-      if newState == .completed && !didRequestReconstruct {
-        didRequestReconstruct = true
-        onReconstructionDone()
-      }
+  }
+
+  /// The stage's primary action, chosen by a switch over the capture state.
+  @ViewBuilder private var primaryButton: some View {
+    switch session.state {
+    case .ready:
+      actionButton("Aniqlash") { _ = session.startDetecting() }
+    case .detecting:
+      actionButton("Suratga olish") { session.startCapturing() }
+    case .capturing:
+      actionButton("Tayyor") { session.finish() }
+    default:
+      EmptyView()
     }
   }
 
-  /// Short Uzbek guidance mapped from the session state; warns that it takes a
-  /// few minutes and needs a well-lit, matte object.
+  private func actionButton(_ title: String, _ action: @escaping () -> Void) -> some View {
+    Button(title, action: action)
+      .padding(10)
+      .background(.blue, in: Capsule())
+      .foregroundStyle(.white)
+  }
+
+  /// Short Uzbek guidance per state; warns it takes minutes + needs a well-lit,
+  /// matte object.
   private var hint: String {
     switch session.state {
     case .initializing:
       return "Tayyorlanmoqda…"
     case .ready:
-      return "Buyumga kamerani qarating. Yaxshi yoritilgan, yaltiroq bo'lmagan buyum tanlang."
+      return "Buyumga kamerani qarating. Yaxshi yoritilgan, yaltiroq bo'lmagan buyum tanlang, so'ng “Aniqlash” bosing."
     case .detecting:
-      return "Buyumni ramka ichiga oling."
+      return "Buyumni ramka ichiga oling, so'ng “Suratga olish” bosing."
     case .capturing:
       return "Buyum atrofida sekin aylaning. Tugatgach “Tayyor” bosing. Bu bir necha daqiqa olishi mumkin."
     case .finishing:
