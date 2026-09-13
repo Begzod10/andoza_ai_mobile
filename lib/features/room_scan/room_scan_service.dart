@@ -117,6 +117,47 @@ class RoomScanService {
     }
   }
 
+  /// Phase 6 — capture a single object via Apple Object Capture (iOS 17+).
+  /// Returns the temp `.usdz` path, null on cancel; throws on native error.
+  Future<String?> scanObject() async {
+    try {
+      final res = await channel.invokeMapMethod<String, dynamic>('scanObject');
+      if (res == null) {
+        _logger.i('roomscan scanObject → cancelled');
+        return null;
+      }
+      final path = res['usdzPath'] as String?;
+      if (path == null || path.isEmpty) {
+        throw const RoomScanException('scan_failed', 'Model olinmadi');
+      }
+      _logger.i('roomscan scanObject → $path');
+      return path;
+    } on MissingPluginException {
+      throw const RoomScanException('not_implemented', 'Bu qurilmada mavjud emas');
+    } on PlatformException catch (e) {
+      _logger.e('roomscan scanObject failed', error: e);
+      throw RoomScanException(e.code, e.message ?? 'Buyum skanerlashda xatolik');
+    }
+  }
+
+  /// Phase 6 — upload a captured object's `.usdz` for the scanned object at
+  /// [objectIndex]; the backend converts it to GLB and attaches it so the studio
+  /// can offer "use the scanned model" for that ghost.
+  Future<Map<String, dynamic>> uploadObject(
+      String roomId, int objectIndex, String usdzPath) async {
+    final bytes = await File(usdzPath).readAsBytes();
+    _logger.i('roomscan uploadObject → room=$roomId idx=$objectIndex ${bytes.length}B');
+    return _api.uploadFile<Map<String, dynamic>>(
+      '/rooms/$roomId/room-scan/objects',
+      bytes: bytes,
+      filename: 'object.usdz',
+      fieldName: 'usdz',
+      contentType: 'model/vnd.usdz+zip',
+      fields: {'object_index': objectIndex.toString()},
+      fromJson: (d) => (d as Map).cast<String, dynamic>(),
+    );
+  }
+
   /// Attach the scan artifacts (parametric JSON + `.usdz`) to an already-created
   /// room. The room itself is created first via the normal handoff, exactly like
   /// the manual flow; this only uploads the extras. Returns the room JSON the

@@ -92,4 +92,27 @@ void main() {
       );
     });
   });
+
+  group('scanObject (Phase 6)', () {
+    test('returns the usdz path', () async {
+      mock((call) async {
+        expect(call.method, 'scanObject');
+        return <String, dynamic>{'usdzPath': '/tmp/object.usdz'};
+      });
+      expect(await service.scanObject(), '/tmp/object.usdz');
+    });
+
+    test('cancel → null', () async {
+      mock((call) async => null);
+      expect(await service.scanObject(), isNull);
+    });
+
+    test('not_implemented (no handler) → RoomScanException', () async {
+      await expectLater(
+        service.scanObject(),
+        throwsA(isA<RoomScanException>()
+            .having((e) => e.code, 'code', 'not_implemented')),
+      );
+    });
+  });
 }

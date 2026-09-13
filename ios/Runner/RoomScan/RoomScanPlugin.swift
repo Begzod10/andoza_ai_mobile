@@ -39,11 +39,7 @@ final class RoomScanPlugin: NSObject {
     case "scanRoom":
       scanRoom(result: result)
     case "scanObject":
-      // Object Capture arrives in Phase 6.
-      os_log("scanObject called — not implemented yet", log: Self.log, type: .info)
-      result(FlutterError(code: "not_implemented",
-                          message: "Obyektni skanerlash keyinroq qo'shiladi",
-                          details: nil))
+      scanObject(result: result)
     default:
       result(FlutterMethodNotImplemented)
     }
@@ -110,6 +106,47 @@ final class RoomScanPlugin: NSObject {
     controller.modalPresentationStyle = .fullScreen
     host.present(controller, animated: true) {
       os_log("presented RoomScanViewController", log: Self.log, type: .info)
+    }
+  }
+
+  /// Phase 6 — Object Capture (iOS 17+). Presents the guided capture, runs
+  /// on-device photogrammetry and returns `{usdzPath: String}` (nil on cancel).
+  private func scanObject(result: @escaping FlutterResult) {
+    guard !isPresenting else {
+      os_log("scanObject rejected — a scan is already active", log: Self.log, type: .error)
+      result(FlutterError(code: "busy", message: "Skaner allaqachon ochiq", details: nil))
+      return
+    }
+    guard #available(iOS 17, *) else {
+      os_log("scanObject rejected — iOS < 17", log: Self.log, type: .error)
+      result(FlutterError(code: "not_implemented", message: "3D buyum skaneri iOS 17 yoki undan yangi versiyani talab qiladi", details: nil))
+      return
+    }
+    guard let host = Self.topViewController() else {
+      os_log("scanObject rejected — no host view controller", log: Self.log, type: .error)
+      result(FlutterError(code: "scan_failed", message: "Ekranni topib bo'lmadi", details: nil))
+      return
+    }
+
+    isPresenting = true
+    let controller = ObjectScanViewController { [weak self] outcome in
+      guard let self = self else { return }
+      self.isPresenting = false
+      switch outcome {
+      case .success(let usdzPath):
+        os_log("scanObject success", log: Self.log, type: .info)
+        result(["usdzPath": usdzPath])
+      case .cancelled:
+        os_log("scanObject cancelled by user", log: Self.log, type: .info)
+        result(nil)
+      case .failed(let message):
+        os_log("scanObject failed: %{public}@", log: Self.log, type: .error, message)
+        result(FlutterError(code: "scan_failed", message: message, details: nil))
+      }
+    }
+    controller.modalPresentationStyle = .fullScreen
+    host.present(controller, animated: true) {
+      os_log("presented ObjectScanViewController", log: Self.log, type: .info)
     }
   }
 
