@@ -20,9 +20,11 @@ import '../../widgets/common/error_view.dart';
 /// Auth bridge: the web app authenticates via an HttpOnly `token` cookie
 /// (sent to the API with `credentials: "include"`) and gates its routes on a
 /// Zustand `uy-tamir-auth` localStorage flag. This screen reproduces both from
-/// the mobile session — it sets the cookie for the shared host (cookies ignore
-/// port, so one cookie covers both the :5173 frontend and :8000 API) and seeds
-/// the localStorage flag before navigating to [path].
+/// the mobile session — it sets the access-token cookie for the shared host
+/// (cookies ignore port, so one cookie covers both the :5173 frontend and :8000
+/// API), a matching `refresh_token` cookie so the studio's api.ts can silently
+/// refresh past the access-token TTL, and seeds the localStorage flag before
+/// navigating to [path].
 class StudioWebViewScreen extends ConsumerStatefulWidget {
   const StudioWebViewScreen({
     required this.path,
@@ -151,17 +153,46 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
     WebViewController controller,
   ) async {
     final host = Uri.parse(AppConfig.studioBaseUrl).host;
+    final cookies = WebViewCookieManager();
 
-    // Set the auth cookie for the shared host so the frontend's credentialed
-    // API calls are authenticated (cookies ignore port, so one cookie covers
-    // both the frontend and the API when they share a host — the default). If
-    // STUDIO_BASE_URL is pointed at a different host than the API, this cookie
-    // won't reach the API and its calls will 401. Only the access token is
-    // seeded (no refresh_token cookie), so a session outliving the token's TTL
-    // would drop auth; fine for a normal editing session.
-    await WebViewCookieManager().setCookie(
+    // Set the access-token cookie for the shared host so the frontend's
+    // credentialed API calls are authenticated (cookies ignore port, so one
+    // cookie covers both the frontend and the API when they share a host — the
+    // default). If STUDIO_BASE_URL is pointed at a different host than the API,
+    // this cookie won't reach the API and its calls will 401.
+    await cookies.setCookie(
       WebViewCookie(name: 'token', value: auth.token, domain: host, path: '/'),
     );
+
+    // Also seed the refresh-token cookie so the studio's api.ts can silently
+    // refresh once the short-lived access token expires — without this the
+    // WebView session dies at the access-token TTL. The web refresh path
+    // (`_tryRefresh` in frontend/src/lib/api.ts) is a bare
+    // `POST {API}/auth/refresh` with `credentials: "include"` and NO body: it
+    // relies entirely on the backend reading the `refresh_token` cookie (see
+    // backend auth.py `refresh_tokens`, a `refresh_token: Cookie()` param). The
+    // backend scopes that cookie to `path=/api/v1/auth/refresh`, so we mirror it
+    // exactly — same name, same path — and the WebView will send it on the
+    // refresh call. The value is the refresh token the mobile app already holds
+    // in secure storage; the backend rotates both cookies on each refresh, so
+    // the studio session then outlives the access-token TTL on its own.
+    final refreshToken =
+        await ref.read(secureStorageProvider).getRefreshToken();
+    if (refreshToken != null && refreshToken.isNotEmpty) {
+      // Derive the refresh path from the configured API base path so it stays
+      // in sync with the backend's cookie scope (`/api/v1` by default).
+      final apiPath = Uri.parse(AppConfig.apiUrl).path;
+      final basePath =
+          apiPath.endsWith('/') ? apiPath.substring(0, apiPath.length - 1) : apiPath;
+      await cookies.setCookie(
+        WebViewCookie(
+          name: 'refresh_token',
+          value: refreshToken,
+          domain: host,
+          path: '$basePath/auth/refresh',
+        ),
+      );
+    }
 
     // First load: the origin root establishes the origin so localStorage is
     // writable. It may bounce to /login (not yet seeded) — that's expected.
