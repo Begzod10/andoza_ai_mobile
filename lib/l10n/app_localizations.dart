@@ -1929,6 +1929,714 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Studio yuklanmadi: {error}'**
   String studioLoadFailed(String error);
+
+  /// Generic 'Add' button label used in the add-room dialog.
+  ///
+  /// In uz, this message translates to:
+  /// **'Qo\'shish'**
+  String get actionAdd;
+
+  /// Previous-step button label ('Back') in the wall-measurement and 3D wizard step navigation.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ortga'**
+  String get actionPrev;
+
+  /// Generic OK confirmation button in the draw-room wall-length dialog.
+  ///
+  /// In uz, this message translates to:
+  /// **'OK'**
+  String get actionOk;
+
+  /// Short cancel button ('Cancel') in the draw-room wall-length dialog.
+  ///
+  /// In uz, this message translates to:
+  /// **'Bekor'**
+  String get actionCancelShort;
+
+  /// Fallback room name used when the user leaves the room-name field empty.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xona'**
+  String get roomDefaultName;
+
+  /// Label above the ceiling-height control on the scan-review and draw-room screens.
+  ///
+  /// In uz, this message translates to:
+  /// **'Shift balandligi'**
+  String get ceilingHeightLabel;
+
+  /// Label for the wall-length value/slider on the wall-measurement and 3D wizard steps.
+  ///
+  /// In uz, this message translates to:
+  /// **'Uzunlik'**
+  String get measureLength;
+
+  /// Furniture edit card: button that removes the furniture item.
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'chirish'**
+  String get furnitureDelete;
+
+  /// Furniture edit card: button that rotates the furniture item 90 degrees.
+  ///
+  /// In uz, this message translates to:
+  /// **'Aylantirish'**
+  String get furnitureRotate;
+
+  /// Electrical totals card heading ('Electrical computed').
+  ///
+  /// In uz, this message translates to:
+  /// **'Elektr hisoblandi'**
+  String get electricalTotalsTitle;
+
+  /// Electrical totals card stat label: total wire length.
+  ///
+  /// In uz, this message translates to:
+  /// **'jami sim'**
+  String get electricalTotalsWireLabel;
+
+  /// Electrical totals card stat label: device count.
+  ///
+  /// In uz, this message translates to:
+  /// **'ta qurilma'**
+  String get electricalTotalsDeviceLabel;
+
+  /// Electrical totals chip: socket wire length in metres.
+  ///
+  /// In uz, this message translates to:
+  /// **'Rozetka simlari {meters} m'**
+  String electricalTotalsSocketWires(String meters);
+
+  /// Electrical totals chip: switch wire length in metres.
+  ///
+  /// In uz, this message translates to:
+  /// **'Kalit simlari {meters} m'**
+  String electricalTotalsSwitchWires(String meters);
+
+  /// Electrical totals chip summarising switch and light counts.
+  ///
+  /// In uz, this message translates to:
+  /// **'{switches} kalit · {lights} yoritish'**
+  String electricalTotalsSwitchLightSummary(int switches, int lights);
+
+  /// Electrical totals table column header: device.
+  ///
+  /// In uz, this message translates to:
+  /// **'Qurilma'**
+  String get electricalTotalsColDevice;
+
+  /// Electrical totals table column header: wall.
+  ///
+  /// In uz, this message translates to:
+  /// **'Devor'**
+  String get electricalTotalsColWall;
+
+  /// Electrical totals table column header: height.
+  ///
+  /// In uz, this message translates to:
+  /// **'Balandlik'**
+  String get electricalTotalsColHeight;
+
+  /// Dimensions-entry screen app bar title ('Room dimensions').
+  ///
+  /// In uz, this message translates to:
+  /// **'Xona o\'lchamlari'**
+  String get dimensionsTitle;
+
+  /// Dimensions-entry segmented tab: manual entry.
+  ///
+  /// In uz, this message translates to:
+  /// **'Qo\'lda kiritish'**
+  String get dimensionsTabManual;
+
+  /// Dimensions-entry segmented tab: floorplan upload.
+  ///
+  /// In uz, this message translates to:
+  /// **'Plan yuklash'**
+  String get dimensionsTabUpload;
+
+  /// Dimensions-entry footer summarising total rooms and area.
+  ///
+  /// In uz, this message translates to:
+  /// **'Jami: {count} xona · {area} m²'**
+  String dimensionsTotalSummary(int count, String area);
+
+  /// Dimensions-entry primary CTA in manual mode ('Next: measure walls').
+  ///
+  /// In uz, this message translates to:
+  /// **'Keyingi: devorlarni o\'lchash'**
+  String get dimensionsNextMeasure;
+
+  /// Dimensions-entry primary CTA in upload mode ('Convert to 3D').
+  ///
+  /// In uz, this message translates to:
+  /// **'3D ga aylantirish'**
+  String get dimensionsConvert3d;
+
+  /// Dimensions-entry add-room tile label.
+  ///
+  /// In uz, this message translates to:
+  /// **'+ Xona qo\'shish'**
+  String get dimensionsAddRoom;
+
+  /// Default pre-filled name for a newly added room in the dimensions dialog.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xona {number}'**
+  String dimensionsRoomDefaultName(int number);
+
+  /// Add-room dialog: room name field label.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xona nomi'**
+  String get dimensionsRoomNameLabel;
+
+  /// Add-room dialog: length field label.
+  ///
+  /// In uz, this message translates to:
+  /// **'Uzunlik (m)'**
+  String get dimensionsLengthLabel;
+
+  /// Add-room dialog: width field label.
+  ///
+  /// In uz, this message translates to:
+  /// **'Kenglik (m)'**
+  String get dimensionsWidthLabel;
+
+  /// Add-room dialog: height field label.
+  ///
+  /// In uz, this message translates to:
+  /// **'Balandlik (m)'**
+  String get dimensionsHeightLabel;
+
+  /// Floorplan upload tab: upload area heading.
+  ///
+  /// In uz, this message translates to:
+  /// **'Floorplan rasmini yuklang'**
+  String get dimensionsUploadTitle;
+
+  /// Floorplan upload tab: file-format and drag hint.
+  ///
+  /// In uz, this message translates to:
+  /// **'PNG yoki JPG · maksimal 10 MB\nYoki bu yerga sudrab tashlang'**
+  String get dimensionsUploadHint;
+
+  /// Floorplan upload tab: choose-file button.
+  ///
+  /// In uz, this message translates to:
+  /// **'Fayl tanlash'**
+  String get dimensionsChooseFile;
+
+  /// Floorplan upload tab: note advising a dimensioned plan for accuracy.
+  ///
+  /// In uz, this message translates to:
+  /// **'Aniq natija uchun o\'lchamlar ko\'rsatilgan plan yuklang'**
+  String get dimensionsUploadNote;
+
+  /// Door/window sheet title and the wall-measurement add-opening button ('Add door/window').
+  ///
+  /// In uz, this message translates to:
+  /// **'Eshik/Deraza qo\'shish'**
+  String get openingAddTitle;
+
+  /// Add door/window button label on the 3D wizard wall step (spaced variant).
+  ///
+  /// In uz, this message translates to:
+  /// **'Eshik / Deraza qo\'shish'**
+  String get openingAddSpaced;
+
+  /// Door/window sheet type chip: door.
+  ///
+  /// In uz, this message translates to:
+  /// **'Eshik'**
+  String get openingTypeDoor;
+
+  /// Door/window sheet type chip: window.
+  ///
+  /// In uz, this message translates to:
+  /// **'Deraza'**
+  String get openingTypeWindow;
+
+  /// Door/window sheet type chip: balcony door.
+  ///
+  /// In uz, this message translates to:
+  /// **'Balkon eshigi'**
+  String get openingTypeBalcony;
+
+  /// Door/window sheet: size (cm) section label.
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'lcham (sm)'**
+  String get openingSizeLabel;
+
+  /// Door/window sheet: custom-size chip ('Other size…').
+  ///
+  /// In uz, this message translates to:
+  /// **'Boshqa o\'lcham…'**
+  String get openingSizeOther;
+
+  /// Door/window sheet: position-along-wall slider label.
+  ///
+  /// In uz, this message translates to:
+  /// **'Devor bo\'ylab joylashuvi'**
+  String get openingPositionLabel;
+
+  /// Door/window sheet: confirm button that adds the opening to the wall.
+  ///
+  /// In uz, this message translates to:
+  /// **'Devorga qo\'shish'**
+  String get openingAddToWall;
+
+  /// New-project bottom sheet title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yangi loyiha'**
+  String get newProjectTitle;
+
+  /// New-project bottom sheet subtitle ('How do you want to add the room?').
+  ///
+  /// In uz, this message translates to:
+  /// **'Xonani qanday qo\'shmoqchisiz?'**
+  String get newProjectSubtitle;
+
+  /// New-project entry: 3D wizard title.
+  ///
+  /// In uz, this message translates to:
+  /// **'3D Sehrgar'**
+  String get newProjectWizardTitle;
+
+  /// New-project entry: 3D wizard description.
+  ///
+  /// In uz, this message translates to:
+  /// **'Interaktiv 3D ko\'rinishda xona o\'lchamlarini kiriting'**
+  String get newProjectWizardDesc;
+
+  /// New-project entry and scan screen app bar: LiDAR scanner title.
+  ///
+  /// In uz, this message translates to:
+  /// **'LiDAR skaner'**
+  String get newProjectLidarTitle;
+
+  /// New-project entry: LiDAR scanner description.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xonani LiDAR yordamida skanerlang va avtomatik 3D model oling'**
+  String get newProjectLidarDesc;
+
+  /// New-project entry and unsupported-LiDAR fallback: 360° photo scan title.
+  ///
+  /// In uz, this message translates to:
+  /// **'360° Foto skan'**
+  String get newProjectPhotoTitle;
+
+  /// New-project entry: 360° photo scan description.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xonani 360° rasmga oling — ilova nuqtalarni o\'zi belgilaydi'**
+  String get newProjectPhotoDesc;
+
+  /// New-project entry and unsupported-LiDAR fallback: draw-it-yourself title.
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'zingiz chizing'**
+  String get newProjectDrawTitle;
+
+  /// New-project entry: draw-it-yourself description.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xonani barmog\'ingiz bilan chizing — o\'lchamlar chizganingizga qarab o\'zi hisoblanadi'**
+  String get newProjectDrawDesc;
+
+  /// Room summary / wizard summary celebratory heading ('Dimensions saved!').
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'lchamlar saqlandi!'**
+  String get summarySavedTitle;
+
+  /// Room summary stat card label: floor area.
+  ///
+  /// In uz, this message translates to:
+  /// **'pol'**
+  String get summaryStatFloor;
+
+  /// Room summary stat card label: net wall area.
+  ///
+  /// In uz, this message translates to:
+  /// **'devor (netto)'**
+  String get summaryStatWallNet;
+
+  /// Room summary stat card label: perimeter.
+  ///
+  /// In uz, this message translates to:
+  /// **'perimetr'**
+  String get summaryStatPerimeter;
+
+  /// Room summary stat card label: openings (doors/windows).
+  ///
+  /// In uz, this message translates to:
+  /// **'eshik/deraza'**
+  String get summaryStatOpenings;
+
+  /// Room summary / wizard openings count value (e.g. '3 ta').
+  ///
+  /// In uz, this message translates to:
+  /// **'{count} ta'**
+  String summaryOpeningsCount(int count);
+
+  /// Room summary note explaining openings are auto-subtracted (net).
+  ///
+  /// In uz, this message translates to:
+  /// **'Eshik/derazalar avtomatik ayirilgan (netto)'**
+  String get summaryOpeningsNote;
+
+  /// Room summary: secondary action to add another room.
+  ///
+  /// In uz, this message translates to:
+  /// **'+ Yangi xona qo\'shish'**
+  String get summaryAddRoom;
+
+  /// 3D room wizard app bar title ('New room').
+  ///
+  /// In uz, this message translates to:
+  /// **'Yangi xona'**
+  String get wizardTitle;
+
+  /// 3D wizard ceiling step question ('Ceiling height?').
+  ///
+  /// In uz, this message translates to:
+  /// **'Shiftning balandligi?'**
+  String get wizardCeilingQuestion;
+
+  /// 3D wizard ceiling step hint ('Usually between 2.5–3.2 metres').
+  ///
+  /// In uz, this message translates to:
+  /// **'Odatda 2.5–3.2 metr oralig\'ida'**
+  String get wizardCeilingHint;
+
+  /// 3D wizard ceiling step: exact-value field label.
+  ///
+  /// In uz, this message translates to:
+  /// **'Aniq qiymat (m)'**
+  String get wizardExactValue;
+
+  /// 3D wizard wall step heading, e.g. 'A devor'.
+  ///
+  /// In uz, this message translates to:
+  /// **'{letter} devor'**
+  String wizardWallTitle(String letter);
+
+  /// 3D wizard wall step subtitle ('Enter its length').
+  ///
+  /// In uz, this message translates to:
+  /// **'Uzunligini kiriting'**
+  String get wizardWallSubtitle;
+
+  /// 3D wizard summary subtitle confirming the room parameters were recorded.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xona parametrlari muvaffaqiyatli qayd etildi'**
+  String get wizardSummarySubtitle;
+
+  /// 3D wizard summary stat: floor area (uppercase).
+  ///
+  /// In uz, this message translates to:
+  /// **'POL MAYDONI'**
+  String get wizardStatFloor;
+
+  /// 3D wizard summary stat: net wall area (uppercase).
+  ///
+  /// In uz, this message translates to:
+  /// **'DEVOR MAYDONI (NETTO)'**
+  String get wizardStatWallNet;
+
+  /// 3D wizard summary stat: perimeter (uppercase).
+  ///
+  /// In uz, this message translates to:
+  /// **'PERIMETR'**
+  String get wizardStatPerimeter;
+
+  /// 3D wizard summary stat: openings (uppercase).
+  ///
+  /// In uz, this message translates to:
+  /// **'ESHIK/DERAZALAR'**
+  String get wizardStatOpenings;
+
+  /// 3D wizard summary primary CTA ('View estimate').
+  ///
+  /// In uz, this message translates to:
+  /// **'Smeta ko\'rish'**
+  String get wizardViewSmeta;
+
+  /// 3D wizard summary: loading label while the studio is opening.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ochilmoqda…'**
+  String get wizardOpening;
+
+  /// 3D wizard summary secondary CTA ('Start decorating').
+  ///
+  /// In uz, this message translates to:
+  /// **'Bezashni boshlash'**
+  String get wizardStartDesign;
+
+  /// Wall-measurement screen: openings list section label.
+  ///
+  /// In uz, this message translates to:
+  /// **'Eshik / derazalar'**
+  String get measureOpenings;
+
+  /// Wall-measurement opening row: offset from the wall's left edge.
+  ///
+  /// In uz, this message translates to:
+  /// **'Chapdan {offset} m'**
+  String measureFromLeft(String offset);
+
+  /// LiDAR scanning screen: 'Scanning...' status.
+  ///
+  /// In uz, this message translates to:
+  /// **'Skanerlanyapti...'**
+  String get lidarScanning;
+
+  /// LiDAR scanning screen hint: 'Move the phone slowly'.
+  ///
+  /// In uz, this message translates to:
+  /// **'Telefonni sekin harakatlantiring'**
+  String get lidarMoveHint;
+
+  /// LiDAR scanning found-stat label: wall (used as '{count} devor').
+  ///
+  /// In uz, this message translates to:
+  /// **'devor'**
+  String get lidarLabelWall;
+
+  /// LiDAR scanning found-stat label: door.
+  ///
+  /// In uz, this message translates to:
+  /// **'eshik'**
+  String get lidarLabelDoor;
+
+  /// LiDAR scanning found-stat label: window.
+  ///
+  /// In uz, this message translates to:
+  /// **'deraza'**
+  String get lidarLabelWindow;
+
+  /// 360° photo scan: captured / total points counter.
+  ///
+  /// In uz, this message translates to:
+  /// **'{captured}/{total} nuqta'**
+  String photoPointsCount(int captured, int total);
+
+  /// 360° photo scan hint: 'Turn the phone to the next point'.
+  ///
+  /// In uz, this message translates to:
+  /// **'Telefonni keyingi nuqtaga burang'**
+  String get photoTurnHint;
+
+  /// 360° photo scan: capture button ('Take photo').
+  ///
+  /// In uz, this message translates to:
+  /// **'Suratga olish'**
+  String get photoCapture;
+
+  /// Room-scan review page app bar title ('Scan result').
+  ///
+  /// In uz, this message translates to:
+  /// **'Skan natijasi'**
+  String get scanReviewTitle;
+
+  /// Room-scan review: detected ceiling height.
+  ///
+  /// In uz, this message translates to:
+  /// **'Aniqlangan: {value}'**
+  String scanReviewDetected(String value);
+
+  /// Room-scan review: walls section header with count.
+  ///
+  /// In uz, this message translates to:
+  /// **'Devorlar ({count})'**
+  String scanReviewWalls(int count);
+
+  /// Room-scan review: per-wall row label, e.g. 'Devor 1'.
+  ///
+  /// In uz, this message translates to:
+  /// **'Devor {number}'**
+  String scanReviewWall(int number);
+
+  /// Room-scan review: detected-objects section header with count.
+  ///
+  /// In uz, this message translates to:
+  /// **'Topilgan buyumlar ({count})'**
+  String scanReviewObjects(int count);
+
+  /// Room-scan review: shown when no objects were detected.
+  ///
+  /// In uz, this message translates to:
+  /// **'Buyum topilmadi'**
+  String get scanReviewNoObjects;
+
+  /// Room-scan review: re-scan button.
+  ///
+  /// In uz, this message translates to:
+  /// **'Qayta skanerlash'**
+  String get scanReviewRescan;
+
+  /// Room-scan review: snackbar when the room could not be saved.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xonani saqlab bo\'lmadi. Internetni tekshiring.'**
+  String get scanReviewSaveFailed;
+
+  /// Room-scan review: generic error snackbar with detail.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xatolik: {error}'**
+  String scanReviewError(String error);
+
+  /// Room-scan screen error: a scan is already running.
+  ///
+  /// In uz, this message translates to:
+  /// **'Skaner allaqachon ishlayapti.'**
+  String get scanBusy;
+
+  /// Room-scan screen error: scanning failed, try again.
+  ///
+  /// In uz, this message translates to:
+  /// **'Skanerlashda xatolik. Qayta urinib ko\'ring.'**
+  String get scanFailedRetry;
+
+  /// Room-scan screen error with underlying message.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xatolik: {message}'**
+  String scanErrorPrefixed(String message);
+
+  /// Room-scan screen error: no valid room detected.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xona aniqlanmadi. Qayta urinib ko\'ring.'**
+  String get scanNotDetected;
+
+  /// Unsupported-device sheet title ('LiDAR not available').
+  ///
+  /// In uz, this message translates to:
+  /// **'LiDAR mavjud emas'**
+  String get scanLidarUnavailableTitle;
+
+  /// Unsupported-device sheet body explaining LiDAR requirements and offering alternatives.
+  ///
+  /// In uz, this message translates to:
+  /// **'LiDAR skaner faqat iPhone 12 Pro, 13 Pro, 14 Pro, 15 Pro, 16 Pro yoki iPad Pro\'da ishlaydi. Xonani boshqa usulda qo\'shing:'**
+  String get scanLidarUnavailableBody;
+
+  /// Room-scan screen: 'Scanning the room…' progress label.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xona skanerlanmoqda…'**
+  String get scanInProgress;
+
+  /// Draw-room screen app bar title and the finish button's disabled fallback ('Draw the room').
+  ///
+  /// In uz, this message translates to:
+  /// **'Xonani chizing'**
+  String get drawTitle;
+
+  /// Draw-room mode chip: freehand ('By hand').
+  ///
+  /// In uz, this message translates to:
+  /// **'Qo\'lda'**
+  String get drawModeManual;
+
+  /// Draw-room mode chip: polygon ('Visual').
+  ///
+  /// In uz, this message translates to:
+  /// **'Vizual'**
+  String get drawModeVisual;
+
+  /// Draw-room hint shown while viewing the raw (unsmoothed) sketch.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xom chizma. \"Toza\"ga qaytish uchun tugmani bosing.'**
+  String get drawHintRaw;
+
+  /// Draw-room hint once the shape is closed.
+  ///
+  /// In uz, this message translates to:
+  /// **'Shakl tayyor! Burchaklarni surib o\'lchamni o\'zgartiring.'**
+  String get drawHintShapeReady;
+
+  /// Draw-room hint in freehand mode.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xona shaklini barmog\'ingiz bilan chizing.'**
+  String get drawHintFreehand;
+
+  /// Draw-room hint in polygon mode before any corners are placed.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xona burchaklarini belgilang (kamida 3 ta).'**
+  String get drawHintMarkCorners;
+
+  /// Draw-room hint prompting for more corner points.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yana {count} ta nuqta qo\'ying.'**
+  String drawHintMorePoints(int count);
+
+  /// Draw-room hint on how to close the polygon.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yopish uchun birinchi nuqtaga bosing yoki \"Yopish\".'**
+  String get drawHintClose;
+
+  /// Draw-room hint bar toggle: show cleaned/smoothed shape ('Clean').
+  ///
+  /// In uz, this message translates to:
+  /// **'Toza'**
+  String get drawToggleClean;
+
+  /// Draw-room hint bar toggle: show raw shape ('Raw').
+  ///
+  /// In uz, this message translates to:
+  /// **'Xom'**
+  String get drawToggleRaw;
+
+  /// Draw-room hint bar redo button tooltip ('Redo').
+  ///
+  /// In uz, this message translates to:
+  /// **'Oldinga'**
+  String get drawRedo;
+
+  /// Draw-room hint bar clear button tooltip ('Clear').
+  ///
+  /// In uz, this message translates to:
+  /// **'Tozalash'**
+  String get drawClear;
+
+  /// Draw-room wall-length dialog title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Devor uzunligi'**
+  String get drawWallLength;
+
+  /// Draw-room bottom panel warning when the area is outside the usual range.
+  ///
+  /// In uz, this message translates to:
+  /// **'Diqqat: yuza odatiy oraliqdan tashqarida'**
+  String get drawAreaWarning;
+
+  /// Draw-room bottom panel title for a rectangle-like room.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xona: {width} × {length} × {height} m'**
+  String drawTitleRect(String width, String length, String height);
+
+  /// Draw-room bottom panel title for a polygonal room.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ko\'pburchak · {corners} devor · {width}×{length} m'**
+  String drawTitlePolygon(int corners, String width, String length);
 }
 
 class _AppLocalizationsDelegate

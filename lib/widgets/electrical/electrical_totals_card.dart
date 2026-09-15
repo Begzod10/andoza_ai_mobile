@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/electrical_model.dart';
 import '../../providers/electrical_provider.dart';
 
@@ -24,6 +25,7 @@ class ElectricalTotalsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(DesignTokens.spacingMd),
       decoration: BoxDecoration(
@@ -34,19 +36,22 @@ class ElectricalTotalsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Elektr hisoblandi', style: DesignTokens.subtitle1),
+          Text(l10n.electricalTotalsTitle, style: DesignTokens.subtitle1),
           const SizedBox(height: DesignTokens.spacingMd),
           Row(
             children: [
               Expanded(
                 child: _StatTile(
-                  label: 'jami sim',
+                  label: l10n.electricalTotalsWireLabel,
                   value: '${_totalWireMeters.toStringAsFixed(2)} m',
                 ),
               ),
               const SizedBox(width: DesignTokens.spacingMd),
               Expanded(
-                child: _StatTile(label: 'ta qurilma', value: '$_deviceCount'),
+                child: _StatTile(
+                  label: l10n.electricalTotalsDeviceLabel,
+                  value: '$_deviceCount',
+                ),
               ),
             ],
           ),
@@ -58,7 +63,7 @@ class ElectricalTotalsCard extends StatelessWidget {
               2: FlexColumnWidth(1.5),
             },
             children: [
-              _headerRow(),
+              _headerRow(l10n),
               for (final device in layout.devices.where(
                 (d) => d.type != DeviceType.breaker,
               ))
@@ -71,10 +76,21 @@ class ElectricalTotalsCard extends StatelessWidget {
             runSpacing: DesignTokens.spacingSm,
             children: [
               _chip(
-                'Rozetka simlari ${_socketWireMeters.toStringAsFixed(2)} m',
+                l10n.electricalTotalsSocketWires(
+                  _socketWireMeters.toStringAsFixed(2),
+                ),
               ),
-              _chip('Kalit simlari ${_switchWireMeters.toStringAsFixed(2)} m'),
-              _chip('$_switchCount kalit · $_lightCount yoritish'),
+              _chip(
+                l10n.electricalTotalsSwitchWires(
+                  _switchWireMeters.toStringAsFixed(2),
+                ),
+              ),
+              _chip(
+                l10n.electricalTotalsSwitchLightSummary(
+                  _switchCount,
+                  _lightCount,
+                ),
+              ),
             ],
           ),
         ],
@@ -82,12 +98,12 @@ class ElectricalTotalsCard extends StatelessWidget {
     );
   }
 
-  TableRow _headerRow() {
+  TableRow _headerRow(AppLocalizations l10n) {
     return TableRow(
       children: [
-        _headerCell('Qurilma'),
-        _headerCell('Devor'),
-        _headerCell('Balandlik'),
+        _headerCell(l10n.electricalTotalsColDevice),
+        _headerCell(l10n.electricalTotalsColWall),
+        _headerCell(l10n.electricalTotalsColHeight),
       ],
     );
   }

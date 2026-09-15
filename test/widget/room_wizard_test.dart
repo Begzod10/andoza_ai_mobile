@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tamir_uy_mobile_flutter/l10n/app_localizations.dart';
 import 'package:tamir_uy_mobile_flutter/providers/room_provider.dart';
 import 'package:tamir_uy_mobile_flutter/screens/room_setup/room_wizard_screen.dart';
 
@@ -38,7 +39,12 @@ void main() {
       await _enlarge(tester);
       await tester.pumpWidget(
         ProviderScope(
-          child: MaterialApp.router(routerConfig: _router()),
+          child: MaterialApp.router(
+            routerConfig: _router(),
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            locale: const Locale('uz'),
+          ),
         ),
       );
       await tester.pumpAndSettle();
@@ -84,7 +90,12 @@ void main() {
     await _enlarge(tester);
     await tester.pumpWidget(
       ProviderScope(
-        child: MaterialApp.router(routerConfig: _router()),
+        child: MaterialApp.router(
+          routerConfig: _router(),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: const Locale('uz'),
+        ),
       ),
     );
     await tester.pumpAndSettle();

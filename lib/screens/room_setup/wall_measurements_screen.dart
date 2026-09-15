@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/room_model.dart';
 import 'door_window_modal.dart';
 
@@ -137,6 +138,7 @@ class _WallMeasurementsScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final walls = ref.watch(wallMeasurementsProvider);
     final wall = walls[_currentWallIndex];
     final isLastWall = _currentWallIndex == walls.length - 1;
@@ -148,7 +150,7 @@ class _WallMeasurementsScreenState
         backgroundColor: DesignTokens.backgroundLight,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: DesignTokens.textDark),
-          tooltip: 'Orqaga',
+          tooltip: l10n.actionBack,
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(wall.label, style: DesignTokens.heading3),
@@ -207,7 +209,7 @@ class _WallMeasurementsScreenState
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Uzunlik', style: DesignTokens.body2),
+                      Text(l10n.measureLength, style: DesignTokens.body2),
                       Text(
                         '${wall.length.toStringAsFixed(1)} m',
                         style: DesignTokens.subtitle2.copyWith(
@@ -227,7 +229,7 @@ class _WallMeasurementsScreenState
                   ),
                   if (wall.openings.isNotEmpty) ...[
                     const SizedBox(height: DesignTokens.spacingSm),
-                    const Text('Eshik / derazalar', style: DesignTokens.subtitle2),
+                    Text(l10n.measureOpenings, style: DesignTokens.subtitle2),
                     const SizedBox(height: DesignTokens.spacingSm),
                     for (final opening in wall.openings)
                       Padding(
@@ -250,7 +252,9 @@ class _WallMeasurementsScreenState
                             ),
                             const Spacer(),
                             Text(
-                              'Chapdan ${opening.offset.toStringAsFixed(1)} m',
+                              l10n.measureFromLeft(
+                                opening.offset.toStringAsFixed(1),
+                              ),
                               style: DesignTokens.caption.copyWith(
                                 color: DesignTokens.textGray,
                               ),
@@ -263,7 +267,7 @@ class _WallMeasurementsScreenState
                   OutlinedButton.icon(
                     onPressed: () => _showAddOpeningSheet(context, wall.type),
                     icon: const Icon(Icons.add),
-                    label: const Text('Eshik/Deraza qo\'shish'),
+                    label: Text(l10n.openingAddTitle),
                   ),
                   const SizedBox(height: DesignTokens.spacingMd),
                   Row(
@@ -273,7 +277,7 @@ class _WallMeasurementsScreenState
                           onPressed: _currentWallIndex > 0
                               ? () => setState(() => _currentWallIndex--)
                               : () => Navigator.of(context).pop(),
-                          child: const Text('Ortga'),
+                          child: Text(l10n.actionPrev),
                         ),
                       ),
                       const SizedBox(width: DesignTokens.spacingMd),
@@ -286,7 +290,9 @@ class _WallMeasurementsScreenState
                               setState(() => _currentWallIndex++);
                             }
                           },
-                          child: Text(isLastWall ? 'Yakunlash' : 'Keyingi'),
+                          child: Text(
+                            isLastWall ? l10n.actionFinish : l10n.actionNext,
+                          ),
                         ),
                       ),
                     ],

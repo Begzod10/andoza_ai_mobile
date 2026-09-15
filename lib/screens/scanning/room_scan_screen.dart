@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../features/room_scan/room_scan_converter.dart';
 import '../../features/room_scan/room_scan_service.dart';
 import 'room_scan_review_page.dart';
@@ -68,8 +69,8 @@ class _RoomScanScreenState extends ConsumerState<RoomScanScreen> {
       }
       final draft = RoomScanConverter.toRoomDraft(result.room);
       if (!draft.plan.isValid) {
-        setState(() => _error =
-            draft.plan.invalidReason ?? 'Xona aniqlanmadi. Qayta urinib ko\'ring.');
+        setState(() => _error = draft.plan.invalidReason ??
+            AppLocalizations.of(context)!.scanNotDetected);
         return;
       }
       _logger.i('roomscan → review (corners=${draft.plan.corners.length}, '
@@ -80,24 +81,26 @@ class _RoomScanScreenState extends ConsumerState<RoomScanScreen> {
       );
     } on RoomScanException catch (e) {
       _logger.e('roomscan failed', error: e);
-      if (mounted) setState(() => _error = _messageFor(e));
+      if (mounted) setState(() => _error = _messageFor(context, e));
     } finally {
       if (mounted) setState(() => _busy = false);
     }
   }
 
-  String _messageFor(RoomScanException e) {
+  String _messageFor(BuildContext context, RoomScanException e) {
+    final l10n = AppLocalizations.of(context)!;
     switch (e.code) {
       case 'busy':
-        return 'Skaner allaqachon ishlayapti.';
+        return l10n.scanBusy;
       case 'scan_failed':
-        return 'Skanerlashda xatolik. Qayta urinib ko\'ring.';
+        return l10n.scanFailedRetry;
       default:
-        return 'Xatolik: ${e.message}';
+        return l10n.scanErrorPrefixed(e.message);
     }
   }
 
   Future<String?> _showUnsupportedSheet() {
+    final l10n = AppLocalizations.of(context)!;
     return showModalBottomSheet<String>(
       context: context,
       isScrollControlled: true,
@@ -116,11 +119,10 @@ class _RoomScanScreenState extends ConsumerState<RoomScanScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('LiDAR mavjud emas', style: DesignTokens.heading3),
+            Text(l10n.scanLidarUnavailableTitle, style: DesignTokens.heading3),
             const SizedBox(height: DesignTokens.spacingSm),
             Text(
-              'LiDAR skaner faqat iPhone 12 Pro, 13 Pro, 14 Pro, 15 Pro, 16 Pro '
-              'yoki iPad Pro’da ishlaydi. Xonani boshqa usulda qo\'shing:',
+              l10n.scanLidarUnavailableBody,
               style: DesignTokens.body2.copyWith(color: DesignTokens.textGray),
             ),
             const SizedBox(height: DesignTokens.spacingLg),
@@ -129,7 +131,7 @@ class _RoomScanScreenState extends ConsumerState<RoomScanScreen> {
               child: FilledButton.icon(
                 onPressed: () => Navigator.of(sheetCtx).pop('photo'),
                 icon: const Icon(Icons.camera_alt_outlined),
-                label: const Text('360° Foto skan'),
+                label: Text(l10n.newProjectPhotoTitle),
               ),
             ),
             const SizedBox(height: DesignTokens.spacingSm),
@@ -138,7 +140,7 @@ class _RoomScanScreenState extends ConsumerState<RoomScanScreen> {
               child: OutlinedButton.icon(
                 onPressed: () => Navigator.of(sheetCtx).pop('draw'),
                 icon: const Icon(Icons.draw_outlined),
-                label: const Text('O\'zingiz chizing'),
+                label: Text(l10n.newProjectDrawTitle),
               ),
             ),
           ],
@@ -149,8 +151,9 @@ class _RoomScanScreenState extends ConsumerState<RoomScanScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: const Text('LiDAR skaner')),
+      appBar: AppBar(title: Text(l10n.newProjectLidarTitle)),
       body: Center(
         child: _error != null
             ? Padding(
@@ -164,11 +167,11 @@ class _RoomScanScreenState extends ConsumerState<RoomScanScreen> {
                     const SizedBox(height: DesignTokens.spacingLg),
                     FilledButton(
                       onPressed: () => _scan(ref.read(roomScanServiceProvider)),
-                      child: const Text('Qayta urinish'),
+                      child: Text(l10n.actionRetry),
                     ),
                     TextButton(
                       onPressed: () => context.pop(),
-                      child: const Text('Bekor qilish'),
+                      child: Text(l10n.actionCancel),
                     ),
                   ],
                 ),
@@ -178,7 +181,7 @@ class _RoomScanScreenState extends ConsumerState<RoomScanScreen> {
                 children: [
                   if (_busy) const CircularProgressIndicator(),
                   const SizedBox(height: DesignTokens.spacingMd),
-                  Text('Xona skanerlanmoqda…',
+                  Text(l10n.scanInProgress,
                       style: DesignTokens.body2.copyWith(color: DesignTokens.textGray)),
                 ],
               ),

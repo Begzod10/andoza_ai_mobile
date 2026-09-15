@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../features/room_scan/models/captured_room.dart';
 import '../../features/room_scan/room_scan_converter.dart';
 import '../../features/room_scan/room_scan_service.dart';
@@ -87,6 +88,7 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
 
   Future<void> _continue() async {
     setState(() => _busy = true);
+    final l10n = AppLocalizations.of(context)!;
     final messenger = ScaffoldMessenger.of(context);
     final router = GoRouter.of(context);
     // Rebuild the plan with the (possibly overridden) ceiling height.
@@ -101,7 +103,7 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
       final roomId = await handoffRoomPlan(ref, plan);
       if (roomId == null) {
         messenger.showSnackBar(
-          const SnackBar(content: Text('Xonani saqlab bo\'lmadi. Internetni tekshiring.')),
+          SnackBar(content: Text(l10n.scanReviewSaveFailed)),
         );
         if (mounted) setState(() => _busy = false);
         return;
@@ -117,16 +119,17 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
       router.pushReplacement('/studio/$roomId');
     } catch (e) {
       _logger.e('roomscan continue failed', error: e);
-      messenger.showSnackBar(SnackBar(content: Text('Xatolik: $e')));
+      messenger.showSnackBar(SnackBar(content: Text(l10n.scanReviewError('$e'))));
       if (mounted) setState(() => _busy = false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final corners = _plan.corners;
     return Scaffold(
-      appBar: AppBar(title: const Text('Skan natijasi')),
+      appBar: AppBar(title: Text(l10n.scanReviewTitle)),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),
@@ -152,9 +155,9 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
             const SizedBox(height: DesignTokens.spacingLg),
 
             // Ceiling height override.
-            const Text('Shift balandligi', style: DesignTokens.subtitle2),
+            Text(l10n.ceilingHeightLabel, style: DesignTokens.subtitle2),
             const SizedBox(height: DesignTokens.spacingXs),
-            Text('Aniqlangan: ${formatLength(_plan.ceilingHeightM)}',
+            Text(l10n.scanReviewDetected(formatLength(_plan.ceilingHeightM)),
                 style: DesignTokens.caption.copyWith(color: DesignTokens.textGray)),
             const SizedBox(height: DesignTokens.spacingSm),
             Wrap(
@@ -171,7 +174,8 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
             const SizedBox(height: DesignTokens.spacingLg),
 
             // Per-wall lengths.
-            Text('Devorlar (${_plan.walls.length})', style: DesignTokens.subtitle2),
+            Text(l10n.scanReviewWalls(_plan.walls.length),
+                style: DesignTokens.subtitle2),
             const SizedBox(height: DesignTokens.spacingXs),
             for (var i = 0; i < _plan.walls.length; i++)
               Padding(
@@ -179,7 +183,7 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Devor ${i + 1}', style: DesignTokens.body2),
+                    Text(l10n.scanReviewWall(i + 1), style: DesignTokens.body2),
                     Text(formatLength(_plan.walls[i].lengthM),
                         style: DesignTokens.body2.copyWith(color: DesignTokens.textGray)),
                   ],
@@ -188,10 +192,11 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
             const SizedBox(height: DesignTokens.spacingLg),
 
             // Detected objects.
-            Text('Topilgan buyumlar (${_objects.length})', style: DesignTokens.subtitle2),
+            Text(l10n.scanReviewObjects(_objects.length),
+                style: DesignTokens.subtitle2),
             const SizedBox(height: DesignTokens.spacingXs),
             if (_objects.isEmpty)
-              Text('Buyum topilmadi',
+              Text(l10n.scanReviewNoObjects,
                   style: DesignTokens.caption.copyWith(color: DesignTokens.textMuted))
             else
               for (final o in _objects)
@@ -218,7 +223,7 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
                     onPressed: _busy
                         ? null
                         : () => context.pushReplacement('/scanning/roomplan'),
-                    child: const Text('Qayta skanerlash'),
+                    child: Text(l10n.scanReviewRescan),
                   ),
                 ),
                 const SizedBox(width: DesignTokens.spacingMd),
@@ -231,7 +236,7 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
                             height: 18,
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
-                        : const Text('Davom etish'),
+                        : Text(l10n.actionContinue),
                   ),
                 ),
               ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../utils/error_mapper.dart';
 
 /// Full-surface error state: an icon, an optional title, a mapped user message
@@ -67,7 +68,7 @@ class ErrorView extends StatelessWidget {
               const SizedBox(height: DesignTokens.spacingLg),
               ElevatedButton(
                 onPressed: onRetry,
-                child: const Text('Qayta urinish'),
+                child: Text(AppLocalizations.of(context)!.actionRetry),
               ),
             ],
           ],
@@ -126,7 +127,7 @@ class InlineErrorView extends StatelessWidget {
           if (onRetry != null)
             TextButton(
               onPressed: onRetry,
-              child: const Text('Qayta urinish'),
+              child: Text(AppLocalizations.of(context)!.actionRetry),
             ),
         ],
       ),

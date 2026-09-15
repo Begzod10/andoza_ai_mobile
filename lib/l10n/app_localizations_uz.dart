@@ -1018,4 +1018,408 @@ class AppLocalizationsUz extends AppLocalizations {
   String studioLoadFailed(String error) {
     return 'Studio yuklanmadi: $error';
   }
+
+  @override
+  String get actionAdd => 'Qo\'shish';
+
+  @override
+  String get actionPrev => 'Ortga';
+
+  @override
+  String get actionOk => 'OK';
+
+  @override
+  String get actionCancelShort => 'Bekor';
+
+  @override
+  String get roomDefaultName => 'Xona';
+
+  @override
+  String get ceilingHeightLabel => 'Shift balandligi';
+
+  @override
+  String get measureLength => 'Uzunlik';
+
+  @override
+  String get furnitureDelete => 'O\'chirish';
+
+  @override
+  String get furnitureRotate => 'Aylantirish';
+
+  @override
+  String get electricalTotalsTitle => 'Elektr hisoblandi';
+
+  @override
+  String get electricalTotalsWireLabel => 'jami sim';
+
+  @override
+  String get electricalTotalsDeviceLabel => 'ta qurilma';
+
+  @override
+  String electricalTotalsSocketWires(String meters) {
+    return 'Rozetka simlari $meters m';
+  }
+
+  @override
+  String electricalTotalsSwitchWires(String meters) {
+    return 'Kalit simlari $meters m';
+  }
+
+  @override
+  String electricalTotalsSwitchLightSummary(int switches, int lights) {
+    return '$switches kalit · $lights yoritish';
+  }
+
+  @override
+  String get electricalTotalsColDevice => 'Qurilma';
+
+  @override
+  String get electricalTotalsColWall => 'Devor';
+
+  @override
+  String get electricalTotalsColHeight => 'Balandlik';
+
+  @override
+  String get dimensionsTitle => 'Xona o\'lchamlari';
+
+  @override
+  String get dimensionsTabManual => 'Qo\'lda kiritish';
+
+  @override
+  String get dimensionsTabUpload => 'Plan yuklash';
+
+  @override
+  String dimensionsTotalSummary(int count, String area) {
+    return 'Jami: $count xona · $area m²';
+  }
+
+  @override
+  String get dimensionsNextMeasure => 'Keyingi: devorlarni o\'lchash';
+
+  @override
+  String get dimensionsConvert3d => '3D ga aylantirish';
+
+  @override
+  String get dimensionsAddRoom => '+ Xona qo\'shish';
+
+  @override
+  String dimensionsRoomDefaultName(int number) {
+    return 'Xona $number';
+  }
+
+  @override
+  String get dimensionsRoomNameLabel => 'Xona nomi';
+
+  @override
+  String get dimensionsLengthLabel => 'Uzunlik (m)';
+
+  @override
+  String get dimensionsWidthLabel => 'Kenglik (m)';
+
+  @override
+  String get dimensionsHeightLabel => 'Balandlik (m)';
+
+  @override
+  String get dimensionsUploadTitle => 'Floorplan rasmini yuklang';
+
+  @override
+  String get dimensionsUploadHint =>
+      'PNG yoki JPG · maksimal 10 MB\nYoki bu yerga sudrab tashlang';
+
+  @override
+  String get dimensionsChooseFile => 'Fayl tanlash';
+
+  @override
+  String get dimensionsUploadNote =>
+      'Aniq natija uchun o\'lchamlar ko\'rsatilgan plan yuklang';
+
+  @override
+  String get openingAddTitle => 'Eshik/Deraza qo\'shish';
+
+  @override
+  String get openingAddSpaced => 'Eshik / Deraza qo\'shish';
+
+  @override
+  String get openingTypeDoor => 'Eshik';
+
+  @override
+  String get openingTypeWindow => 'Deraza';
+
+  @override
+  String get openingTypeBalcony => 'Balkon eshigi';
+
+  @override
+  String get openingSizeLabel => 'O\'lcham (sm)';
+
+  @override
+  String get openingSizeOther => 'Boshqa o\'lcham…';
+
+  @override
+  String get openingPositionLabel => 'Devor bo\'ylab joylashuvi';
+
+  @override
+  String get openingAddToWall => 'Devorga qo\'shish';
+
+  @override
+  String get newProjectTitle => 'Yangi loyiha';
+
+  @override
+  String get newProjectSubtitle => 'Xonani qanday qo\'shmoqchisiz?';
+
+  @override
+  String get newProjectWizardTitle => '3D Sehrgar';
+
+  @override
+  String get newProjectWizardDesc =>
+      'Interaktiv 3D ko\'rinishda xona o\'lchamlarini kiriting';
+
+  @override
+  String get newProjectLidarTitle => 'LiDAR skaner';
+
+  @override
+  String get newProjectLidarDesc =>
+      'Xonani LiDAR yordamida skanerlang va avtomatik 3D model oling';
+
+  @override
+  String get newProjectPhotoTitle => '360° Foto skan';
+
+  @override
+  String get newProjectPhotoDesc =>
+      'Xonani 360° rasmga oling — ilova nuqtalarni o\'zi belgilaydi';
+
+  @override
+  String get newProjectDrawTitle => 'O\'zingiz chizing';
+
+  @override
+  String get newProjectDrawDesc =>
+      'Xonani barmog\'ingiz bilan chizing — o\'lchamlar chizganingizga qarab o\'zi hisoblanadi';
+
+  @override
+  String get summarySavedTitle => 'O\'lchamlar saqlandi!';
+
+  @override
+  String get summaryStatFloor => 'pol';
+
+  @override
+  String get summaryStatWallNet => 'devor (netto)';
+
+  @override
+  String get summaryStatPerimeter => 'perimetr';
+
+  @override
+  String get summaryStatOpenings => 'eshik/deraza';
+
+  @override
+  String summaryOpeningsCount(int count) {
+    return '$count ta';
+  }
+
+  @override
+  String get summaryOpeningsNote =>
+      'Eshik/derazalar avtomatik ayirilgan (netto)';
+
+  @override
+  String get summaryAddRoom => '+ Yangi xona qo\'shish';
+
+  @override
+  String get wizardTitle => 'Yangi xona';
+
+  @override
+  String get wizardCeilingQuestion => 'Shiftning balandligi?';
+
+  @override
+  String get wizardCeilingHint => 'Odatda 2.5–3.2 metr oralig\'ida';
+
+  @override
+  String get wizardExactValue => 'Aniq qiymat (m)';
+
+  @override
+  String wizardWallTitle(String letter) {
+    return '$letter devor';
+  }
+
+  @override
+  String get wizardWallSubtitle => 'Uzunligini kiriting';
+
+  @override
+  String get wizardSummarySubtitle =>
+      'Xona parametrlari muvaffaqiyatli qayd etildi';
+
+  @override
+  String get wizardStatFloor => 'POL MAYDONI';
+
+  @override
+  String get wizardStatWallNet => 'DEVOR MAYDONI (NETTO)';
+
+  @override
+  String get wizardStatPerimeter => 'PERIMETR';
+
+  @override
+  String get wizardStatOpenings => 'ESHIK/DERAZALAR';
+
+  @override
+  String get wizardViewSmeta => 'Smeta ko\'rish';
+
+  @override
+  String get wizardOpening => 'Ochilmoqda…';
+
+  @override
+  String get wizardStartDesign => 'Bezashni boshlash';
+
+  @override
+  String get measureOpenings => 'Eshik / derazalar';
+
+  @override
+  String measureFromLeft(String offset) {
+    return 'Chapdan $offset m';
+  }
+
+  @override
+  String get lidarScanning => 'Skanerlanyapti...';
+
+  @override
+  String get lidarMoveHint => 'Telefonni sekin harakatlantiring';
+
+  @override
+  String get lidarLabelWall => 'devor';
+
+  @override
+  String get lidarLabelDoor => 'eshik';
+
+  @override
+  String get lidarLabelWindow => 'deraza';
+
+  @override
+  String photoPointsCount(int captured, int total) {
+    return '$captured/$total nuqta';
+  }
+
+  @override
+  String get photoTurnHint => 'Telefonni keyingi nuqtaga burang';
+
+  @override
+  String get photoCapture => 'Suratga olish';
+
+  @override
+  String get scanReviewTitle => 'Skan natijasi';
+
+  @override
+  String scanReviewDetected(String value) {
+    return 'Aniqlangan: $value';
+  }
+
+  @override
+  String scanReviewWalls(int count) {
+    return 'Devorlar ($count)';
+  }
+
+  @override
+  String scanReviewWall(int number) {
+    return 'Devor $number';
+  }
+
+  @override
+  String scanReviewObjects(int count) {
+    return 'Topilgan buyumlar ($count)';
+  }
+
+  @override
+  String get scanReviewNoObjects => 'Buyum topilmadi';
+
+  @override
+  String get scanReviewRescan => 'Qayta skanerlash';
+
+  @override
+  String get scanReviewSaveFailed =>
+      'Xonani saqlab bo\'lmadi. Internetni tekshiring.';
+
+  @override
+  String scanReviewError(String error) {
+    return 'Xatolik: $error';
+  }
+
+  @override
+  String get scanBusy => 'Skaner allaqachon ishlayapti.';
+
+  @override
+  String get scanFailedRetry => 'Skanerlashda xatolik. Qayta urinib ko\'ring.';
+
+  @override
+  String scanErrorPrefixed(String message) {
+    return 'Xatolik: $message';
+  }
+
+  @override
+  String get scanNotDetected => 'Xona aniqlanmadi. Qayta urinib ko\'ring.';
+
+  @override
+  String get scanLidarUnavailableTitle => 'LiDAR mavjud emas';
+
+  @override
+  String get scanLidarUnavailableBody =>
+      'LiDAR skaner faqat iPhone 12 Pro, 13 Pro, 14 Pro, 15 Pro, 16 Pro yoki iPad Pro\'da ishlaydi. Xonani boshqa usulda qo\'shing:';
+
+  @override
+  String get scanInProgress => 'Xona skanerlanmoqda…';
+
+  @override
+  String get drawTitle => 'Xonani chizing';
+
+  @override
+  String get drawModeManual => 'Qo\'lda';
+
+  @override
+  String get drawModeVisual => 'Vizual';
+
+  @override
+  String get drawHintRaw =>
+      'Xom chizma. \"Toza\"ga qaytish uchun tugmani bosing.';
+
+  @override
+  String get drawHintShapeReady =>
+      'Shakl tayyor! Burchaklarni surib o\'lchamni o\'zgartiring.';
+
+  @override
+  String get drawHintFreehand => 'Xona shaklini barmog\'ingiz bilan chizing.';
+
+  @override
+  String get drawHintMarkCorners =>
+      'Xona burchaklarini belgilang (kamida 3 ta).';
+
+  @override
+  String drawHintMorePoints(int count) {
+    return 'Yana $count ta nuqta qo\'ying.';
+  }
+
+  @override
+  String get drawHintClose =>
+      'Yopish uchun birinchi nuqtaga bosing yoki \"Yopish\".';
+
+  @override
+  String get drawToggleClean => 'Toza';
+
+  @override
+  String get drawToggleRaw => 'Xom';
+
+  @override
+  String get drawRedo => 'Oldinga';
+
+  @override
+  String get drawClear => 'Tozalash';
+
+  @override
+  String get drawWallLength => 'Devor uzunligi';
+
+  @override
+  String get drawAreaWarning => 'Diqqat: yuza odatiy oraliqdan tashqarida';
+
+  @override
+  String drawTitleRect(String width, String length, String height) {
+    return 'Xona: $width × $length × $height m';
+  }
+
+  @override
+  String drawTitlePolygon(int corners, String width, String length) {
+    return 'Ko\'pburchak · $corners devor · $width×$length m';
+  }
 }

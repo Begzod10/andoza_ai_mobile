@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/room_plan.dart';
 import '../../providers/room_provider.dart';
 
@@ -69,6 +70,7 @@ class _PhotoScanningScreenState extends ConsumerState<PhotoScanningScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final scanState = ref.watch(photoScanProvider);
 
     ref.listen<PhotoScanState>(photoScanProvider, (previous, next) {
@@ -131,7 +133,10 @@ class _PhotoScanningScreenState extends ConsumerState<PhotoScanningScreen>
                         ),
                         const SizedBox(width: DesignTokens.spacingSm),
                         Text(
-                          '${scanState.capturedPoints}/$_totalPoints nuqta',
+                          l10n.photoPointsCount(
+                            scanState.capturedPoints,
+                            _totalPoints,
+                          ),
                           style: DesignTokens.body2.copyWith(
                             color: DesignTokens.white,
                           ),
@@ -160,7 +165,7 @@ class _PhotoScanningScreenState extends ConsumerState<PhotoScanningScreen>
               ),
             ),
             Text(
-              'Telefonni keyingi nuqtaga burang',
+              l10n.photoTurnHint,
               style: DesignTokens.body1.copyWith(color: DesignTokens.white),
             ),
             const SizedBox(height: DesignTokens.spacingXl),
@@ -195,7 +200,7 @@ class _PhotoScanningScreenState extends ConsumerState<PhotoScanningScreen>
                       ),
                       const SizedBox(width: DesignTokens.spacingSm),
                       Text(
-                        'Suratga olish',
+                        l10n.photoCapture,
                         style: DesignTokens.subtitle2.copyWith(
                           color: DesignTokens.textDark,
                         ),

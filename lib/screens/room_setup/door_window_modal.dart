@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/room_model.dart';
 
 /// A preset door/window size pill, e.g. "90×205".
@@ -47,6 +48,7 @@ class _DoorWindowModalState extends State<DoorWindowModal> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: EdgeInsets.only(
         left: DesignTokens.screenPaddingHorizontal,
@@ -70,23 +72,23 @@ class _DoorWindowModalState extends State<DoorWindowModal> {
               ),
             ),
           ),
-          const Text('Eshik/Deraza qo\'shish', style: DesignTokens.heading3),
+          Text(l10n.openingAddTitle, style: DesignTokens.heading3),
           const SizedBox(height: DesignTokens.spacingLg),
           Wrap(
             spacing: DesignTokens.spacingSm,
             children: [
               _TypeChip(
-                label: 'Eshik',
+                label: l10n.openingTypeDoor,
                 selected: _selectedType == OpeningType.single,
                 onTap: () => setState(() => _selectedType = OpeningType.single),
               ),
               _TypeChip(
-                label: 'Deraza',
+                label: l10n.openingTypeWindow,
                 selected: _selectedType == OpeningType.dual,
                 onTap: () => setState(() => _selectedType = OpeningType.dual),
               ),
               _TypeChip(
-                label: 'Balkon eshigi',
+                label: l10n.openingTypeBalcony,
                 selected: _selectedType == OpeningType.sliding,
                 onTap: () =>
                     setState(() => _selectedType = OpeningType.sliding),
@@ -94,7 +96,7 @@ class _DoorWindowModalState extends State<DoorWindowModal> {
             ],
           ),
           const SizedBox(height: DesignTokens.spacingLg),
-          const Text('O\'lcham (sm)', style: DesignTokens.subtitle2),
+          Text(l10n.openingSizeLabel, style: DesignTokens.subtitle2),
           const SizedBox(height: DesignTokens.spacingSm),
           Wrap(
             spacing: DesignTokens.spacingSm,
@@ -107,14 +109,14 @@ class _DoorWindowModalState extends State<DoorWindowModal> {
                   onTap: () => setState(() => _selectedPreset = preset),
                 ),
               _SizeChip(
-                label: 'Boshqa o\'lcham…',
+                label: l10n.openingSizeOther,
                 selected: _selectedPreset == null,
                 onTap: () => setState(() => _selectedPreset = null),
               ),
             ],
           ),
           const SizedBox(height: DesignTokens.spacingLg),
-          const Text('Devor bo\'ylab joylashuvi', style: DesignTokens.subtitle2),
+          Text(l10n.openingPositionLabel, style: DesignTokens.subtitle2),
           Slider(
             value: _offset,
             min: 0,
@@ -134,7 +136,7 @@ class _DoorWindowModalState extends State<DoorWindowModal> {
                       _selectedPreset!.height,
                       _offset,
                     ),
-              child: const Text('Devorga qo\'shish'),
+              child: Text(l10n.openingAddToWall),
             ),
           ),
         ],
