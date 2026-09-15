@@ -13,6 +13,10 @@ enum PipeType {
   hot,
   @JsonValue('COLD')
   cold,
+
+  /// Fallback for any pipe type the backend/storage adds that this client
+  /// predates. Deserialization maps unknown strings here instead of throwing.
+  unknown,
 }
 
 /// Color temperature for lighting fixtures
@@ -25,6 +29,11 @@ enum ColorTemp {
   cold,
   @JsonValue('RGB')
   rgb,
+
+  /// Fallback for any color temperature the backend/storage adds that this
+  /// client predates. Deserialization maps unknown strings here instead of
+  /// throwing.
+  unknown,
 }
 
 /// Type of electrical device placed within a room's electrical layout.
@@ -37,6 +46,10 @@ enum DeviceType {
   light,
   @JsonValue('BREAKER')
   breaker,
+
+  /// Fallback for any device type the backend/storage adds that this client
+  /// predates. Deserialization maps unknown strings here instead of throwing.
+  unknown,
 }
 
 /// A single electrical device (outlet, switch, light or breaker) placed
@@ -45,14 +58,14 @@ enum DeviceType {
 class ElectricalDevice with _$ElectricalDevice {
   const factory ElectricalDevice({
     required String id,
-    required DeviceType type,
+    @JsonKey(unknownEnumValue: DeviceType.unknown) required DeviceType type,
     @OffsetConverter() required Offset position,
     required String wallId,
     double? amps,
     @Default(100) double heightCm,
     @Default(1) int gangCount,
     String? colorOption,
-    ColorTemp? colorTemp,
+    @JsonKey(unknownEnumValue: ColorTemp.unknown) ColorTemp? colorTemp,
   }) = _ElectricalDevice;
 
   factory ElectricalDevice.fromJson(Map<String, dynamic> json) =>
@@ -80,7 +93,7 @@ class PipeSegment with _$PipeSegment {
     required String id,
     @OffsetConverter() required Offset from,
     @OffsetConverter() required Offset to,
-    required PipeType type,
+    @JsonKey(unknownEnumValue: PipeType.unknown) required PipeType type,
   }) = _PipeSegment;
 
   factory PipeSegment.fromJson(Map<String, dynamic> json) =>

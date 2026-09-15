@@ -37,7 +37,7 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
   // The wizard is a plain box, so the plan is fully described by its width
   // (walls B/D), length (walls A/C), ceiling height and per-wall openings. The
   // A/B/C/D wall letters below are display-only labels on the plan's 4 edges
-  // (edge index i → wall WallType.values[i], matching RoomPlan.rectangle /
+  // (edge index i → wall kWallTypes[i], matching RoomPlan.rectangle /
   // toLegacyRoom). It no longer depends on wallMeasurementsProvider as its
   // source of truth — it only reads it once, in initState, for the seeded
   // defaults so behaviour is unchanged.
@@ -89,7 +89,7 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
     final length = _wallLengthFor(index);
     var seq = 0;
     return WallMeasurement(
-      type: WallType.values[index],
+      type: kWallTypes[index],
       length: length,
       height: _height,
       openings: [
@@ -496,6 +496,7 @@ class _WallStep extends StatelessWidget {
         WallType.wallB => 'B',
         WallType.wallC => 'C',
         WallType.wallD => 'D',
+        WallType.unknown => '',
       };
 }
 

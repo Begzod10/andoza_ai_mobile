@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../providers/auth_provider.dart';
 
 /// Splash Screen (S0)
 /// Initial loading screen with gradient and brand logo animation
@@ -43,12 +44,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
     _animationController.forward();
 
-    // Simulate loading and navigate to home screen after 3 seconds
-    Future.delayed(const Duration(seconds: 3), () {
-      if (mounted) {
-        context.go('/');
-      }
-    });
+    _bootstrap();
+  }
+
+  /// Restore any persisted session BEFORE navigating, so a returning user with
+  /// a valid stored token lands on Home instead of being bounced to /login by
+  /// the router's auth guard. Once auth resolves, we leave the splash and the
+  /// redirect routes to '/' (authenticated) or '/login' (not).
+  Future<void> _bootstrap() async {
+    await ref.read(authStateProvider.notifier).restoreToken();
+    if (!mounted) return;
+    context.go('/');
   }
 
   @override

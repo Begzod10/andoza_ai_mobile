@@ -91,4 +91,5 @@ OrderStep _statusToStep(OrderStatus status) => switch (status) {
   OrderStatus.gathering => OrderStep.gathering,
   OrderStatus.onTheWay => OrderStep.onTheWay,
   OrderStatus.delivered => OrderStep.delivered,
+  OrderStatus.unknown => OrderStep.accepted,
 };

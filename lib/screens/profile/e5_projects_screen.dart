@@ -226,7 +226,7 @@ class _ProjectCard extends StatelessWidget {
             const SizedBox(height: DesignTokens.spacingSm),
             StageProgressLine(
               currentStep: currentIndex,
-              totalSteps: RenovationStage.values.length,
+              totalSteps: kRenovationStages.length,
               stageStates: stageStates,
               stageLabel: excludedCount == 0
                   ? 'Bosqich ${currentIndex + 1}/8'

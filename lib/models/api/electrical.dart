@@ -15,6 +15,10 @@ enum ElectricalDeviceType {
   panel,
   @JsonValue('box')
   box,
+
+  /// Fallback for any device type the backend adds that this client predates.
+  /// Deserialization maps unknown strings here instead of throwing.
+  unknown,
 }
 
 /// A placed electrical device (`DeviceOut`). [wallIndex] is 0–3 (A–D),
@@ -24,6 +28,7 @@ class ElectricalDeviceOut with _$ElectricalDeviceOut {
   const factory ElectricalDeviceOut({
     required String id,
     @JsonKey(name: 'room_id') required String roomId,
+    @JsonKey(unknownEnumValue: ElectricalDeviceType.unknown)
     required ElectricalDeviceType type,
     String? variant,
     @JsonKey(name: 'wall_index') required int wallIndex,
@@ -40,6 +45,7 @@ class ElectricalDeviceOut with _$ElectricalDeviceOut {
 @freezed
 class ElectricalDeviceCreate with _$ElectricalDeviceCreate {
   const factory ElectricalDeviceCreate({
+    @JsonKey(unknownEnumValue: ElectricalDeviceType.unknown)
     required ElectricalDeviceType type,
     String? variant,
     @JsonKey(name: 'wall_index') required int wallIndex,

@@ -43,6 +43,7 @@ class RoomPerspectiveView extends StatelessWidget {
         SurfaceCondition.raw => DesignTokens.roomState.korobka,
         SurfaceCondition.plastered => DesignTokens.roomState.suvoq,
         SurfaceCondition.puttied => DesignTokens.roomState.shpaklovka,
+        SurfaceCondition.unknown => DesignTokens.roomState.korobka,
       };
 
   @override

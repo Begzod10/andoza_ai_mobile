@@ -581,6 +581,7 @@ mixin _$ServerOrder {
   String get dealerName => throw _privateConstructorUsedError;
   @JsonKey(name: 'total_uzs')
   int get totalUzs => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: OrderStatus.unknown)
   OrderStatus get status => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -608,7 +609,7 @@ abstract class $ServerOrderCopyWith<$Res> {
     @JsonKey(name: 'user_id') String userId,
     @JsonKey(name: 'dealer_name') String dealerName,
     @JsonKey(name: 'total_uzs') int totalUzs,
-    OrderStatus status,
+    @JsonKey(unknownEnumValue: OrderStatus.unknown) OrderStatus status,
     @JsonKey(name: 'created_at') DateTime createdAt,
     List<ServerOrderLine> lines,
   });
@@ -687,7 +688,7 @@ abstract class _$$ServerOrderImplCopyWith<$Res>
     @JsonKey(name: 'user_id') String userId,
     @JsonKey(name: 'dealer_name') String dealerName,
     @JsonKey(name: 'total_uzs') int totalUzs,
-    OrderStatus status,
+    @JsonKey(unknownEnumValue: OrderStatus.unknown) OrderStatus status,
     @JsonKey(name: 'created_at') DateTime createdAt,
     List<ServerOrderLine> lines,
   });
@@ -758,7 +759,7 @@ class _$ServerOrderImpl implements _ServerOrder {
     @JsonKey(name: 'user_id') required this.userId,
     @JsonKey(name: 'dealer_name') required this.dealerName,
     @JsonKey(name: 'total_uzs') required this.totalUzs,
-    required this.status,
+    @JsonKey(unknownEnumValue: OrderStatus.unknown) required this.status,
     @JsonKey(name: 'created_at') required this.createdAt,
     final List<ServerOrderLine> lines = const <ServerOrderLine>[],
   }) : _lines = lines;
@@ -778,6 +779,7 @@ class _$ServerOrderImpl implements _ServerOrder {
   @JsonKey(name: 'total_uzs')
   final int totalUzs;
   @override
+  @JsonKey(unknownEnumValue: OrderStatus.unknown)
   final OrderStatus status;
   @override
   @JsonKey(name: 'created_at')
@@ -846,6 +848,7 @@ abstract class _ServerOrder implements ServerOrder {
     @JsonKey(name: 'user_id') required final String userId,
     @JsonKey(name: 'dealer_name') required final String dealerName,
     @JsonKey(name: 'total_uzs') required final int totalUzs,
+    @JsonKey(unknownEnumValue: OrderStatus.unknown)
     required final OrderStatus status,
     @JsonKey(name: 'created_at') required final DateTime createdAt,
     final List<ServerOrderLine> lines,
@@ -866,6 +869,7 @@ abstract class _ServerOrder implements ServerOrder {
   @JsonKey(name: 'total_uzs')
   int get totalUzs;
   @override
+  @JsonKey(unknownEnumValue: OrderStatus.unknown)
   OrderStatus get status;
   @override
   @JsonKey(name: 'created_at')

@@ -161,14 +161,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       _loading = true;
       _error = null;
     });
-    try {
-      final res = await _repo.login(_username.text.trim(), _password.text);
-      ref.read(authStateProvider.notifier).setSession(res);
-    } catch (_) {
-      setState(() => _error = "Username yoki parol noto'g'ri.");
-    } finally {
-      if (mounted) setState(() => _loading = false);
-    }
+    // Drive the login through AuthNotifier so AuthState is the single source of
+    // truth: on success it flips to AuthAuthenticated (the router redirect
+    // navigates onward); on failure it lands in AuthError, which we surface with
+    // the same inline message as before.
+    await ref.read(authStateProvider.notifier).login(
+          _username.text.trim(),
+          _password.text,
+        );
+    if (!mounted) return;
+    final state = ref.read(authStateProvider);
+    setState(() {
+      _loading = false;
+      if (state is AuthError) _error = "Username yoki parol noto'g'ri.";
+    });
   }
 
   Future<void> _register() async {

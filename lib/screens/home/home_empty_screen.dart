@@ -48,9 +48,9 @@ ProjectItem _apartmentToProject(Apartment a) {
     location: a.address ?? '',
     roomCount: a.rooms.length,
     createdAt: a.createdAt,
-    renovationStage: RenovationStage.values[(a.renovationStage - 1).clamp(
+    renovationStage: kRenovationStages[(a.renovationStage - 1).clamp(
       0,
-      RenovationStage.values.length - 1,
+      kRenovationStages.length - 1,
     )],
     studioRoomId: rooms.isNotEmpty ? rooms.first.id : null,
   );

@@ -94,6 +94,19 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
           // a web page inside the WebView. Studio sub-pages (the tabs, e.g.
           // /studio/{id}/mebelirovka) stay in the WebView.
           onNavigationRequest: (request) {
+            // Origin containment: this WebView runs with JavaScript enabled and
+            // is seeded with the user's auth cookies, so it must never follow a
+            // main-frame navigation to a foreign host (e.g. an open-redirect to
+            // https://evil.com/studio/x, which the old path-only check would
+            // have happily kept in-WebView with the tokens attached). Anything
+            // off the studio origin is blocked outright.
+            if (request.isMainFrame && !_isAllowedStudioUrl(request.url)) {
+              debugPrint(
+                'StudioWebView: blocked off-origin navigation to '
+                '${request.url}',
+              );
+              return NavigationDecision.prevent;
+            }
             if (_studioReady &&
                 request.isMainFrame &&
                 _hasLeftStudio(request.url)) {
@@ -152,7 +165,25 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
     AuthAuthenticated auth,
     WebViewController controller,
   ) async {
-    final host = Uri.parse(AppConfig.studioBaseUrl).host;
+    final studioUri = Uri.parse(AppConfig.studioBaseUrl);
+    final host = studioUri.host;
+
+    // Never send auth tokens as cleartext cookies over an insecure origin: a
+    // plaintext http:// studio pointed at a non-loopback host would leak both
+    // the access and refresh tokens on the wire. https is always safe; plain
+    // http is tolerated only for local dev hosts (emulator loopback / LAN),
+    // where there's no meaningful MITM surface. Otherwise we skip cookie
+    // seeding entirely and just load the page unauthenticated.
+    if (studioUri.scheme != 'https' && !_isDevHost(host)) {
+      debugPrint(
+        'StudioWebView: refusing to seed auth cookies to insecure origin '
+        '${AppConfig.studioBaseUrl} (non-https, non-dev host); loading '
+        'without auth to avoid sending tokens in cleartext.',
+      );
+      await controller.loadRequest(studioUri);
+      return;
+    }
+
     final cookies = WebViewCookieManager();
 
     // Set the access-token cookie for the shared host so the frontend's
@@ -205,6 +236,40 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
   /// tabs (`/studio`, `/studio/{id}`, `/studio/{id}/{tab}`) return false so
   /// in-studio navigation stays in the WebView. A null/empty URL returns
   /// false so a spurious url change never triggers an exit.
+  /// Whether [url] is a navigation this WebView is allowed to follow: it must
+  /// share the studio's host, and use https (or plain http only when the studio
+  /// origin is itself a local dev host). This is the host-level containment the
+  /// old path-only [_hasLeftStudio] check was missing — it stops an
+  /// open-redirect / injected `window.location` to a foreign origin from
+  /// staying inside this JS-enabled, auth-seeded WebView.
+  bool _isAllowedStudioUrl(String url) {
+    final uri = Uri.tryParse(url);
+    if (uri == null || !uri.hasScheme || uri.host.isEmpty) return false;
+    final studio = Uri.parse(AppConfig.studioBaseUrl);
+    if (uri.host != studio.host) return false;
+    if (uri.scheme == 'https') return true;
+    // Plain http is only acceptable to a local dev host.
+    return uri.scheme == 'http' && _isDevHost(studio.host);
+  }
+
+  /// Whether [host] is a local development host (loopback or private LAN) for
+  /// which plaintext http is acceptable. Mirrors the cleartext allow-list in
+  /// android/app/src/main/res/xml/network_security_config.xml.
+  bool _isDevHost(String host) {
+    const explicit = {
+      '10.0.2.2', // Android emulator host loopback
+      'localhost',
+      '127.0.0.1',
+      '192.168.1.29', // CLAUDE.md dev backend
+      '192.168.1.5', // CLAUDE.md dev host
+    };
+    if (explicit.contains(host)) return true;
+    // Common private LAN ranges used for on-device development.
+    return host.startsWith('192.168.') ||
+        host.startsWith('10.') ||
+        host.startsWith('172.16.');
+  }
+
   bool _hasLeftStudio(String? url) {
     if (url == null) return false;
     final path = Uri.tryParse(url)?.path ?? '';

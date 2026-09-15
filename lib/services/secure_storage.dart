@@ -7,7 +7,17 @@ class SecureStorageService {
   static const _refreshTokenKey = 'refresh_token';
   static const _userIdKey = 'user_id';
 
-  final _storage = const FlutterSecureStorage();
+  // Explicit platform options harden at-rest storage of auth/refresh tokens:
+  // - Android: use the EncryptedSharedPreferences implementation rather than
+  //   the legacy plaintext-keystore-wrapped SharedPreferences.
+  // - iOS: keychain items are only readable after the first unlock and never
+  //   leave this device (not synced to iCloud / restored to another device).
+  final _storage = const FlutterSecureStorage(
+    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    iOptions: IOSOptions(
+      accessibility: KeychainAccessibility.first_unlock_this_device,
+    ),
+  );
 
   Future<void> saveToken(String token) async {
     await _storage.write(key: _authTokenKey, value: token);

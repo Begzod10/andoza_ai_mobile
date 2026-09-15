@@ -89,7 +89,7 @@ class _ActiveProjectCard extends ConsumerWidget {
     final stageStates = project.stageStates;
     final currentIndex = project.renovationStage.index;
     final excludedNames = [
-      for (final stage in RenovationStage.values)
+      for (final stage in kRenovationStages)
         if (stageStates[stage.index] == StageDisplayState.excluded)
           _stageLabel(stage),
     ];
@@ -144,7 +144,7 @@ class _ActiveProjectCard extends ConsumerWidget {
                   Expanded(
                     child: StageProgressLine(
                       currentStep: currentIndex,
-                      totalSteps: RenovationStage.values.length,
+                      totalSteps: kRenovationStages.length,
                       stageStates: stageStates,
                       stageLabel: stageLabel,
                     ),
@@ -221,6 +221,7 @@ String _stageLabel(RenovationStage stage) => switch (stage) {
   RenovationStage.elektr => 'elektr',
   RenovationStage.yoruglik => 'yorug\'lik',
   RenovationStage.santexnika => 'santexnika',
+  RenovationStage.unknown => '',
 };
 
 /// Opens the "Bosqichni tanlang" bottom sheet for [project], letting the user
@@ -282,7 +283,7 @@ class _StagePickerSheet extends ConsumerWidget {
           ),
           const Text('Bosqichni tanlang', style: DesignTokens.heading3),
           const SizedBox(height: DesignTokens.spacingLg),
-          for (final stage in RenovationStage.values) ...[
+          for (final stage in kRenovationStages) ...[
             _StageOption(
               index: stage.index + 1,
               label: _stageLabel(stage),
@@ -427,7 +428,7 @@ class _ProjectListRow extends StatelessWidget {
           const SizedBox(height: DesignTokens.spacingSm),
           StageProgressLine(
             currentStep: currentIndex,
-            totalSteps: RenovationStage.values.length,
+            totalSteps: kRenovationStages.length,
             stageStates: stageStates,
             stageLabel: excludedCount == 0
                 ? 'Bosqich ${currentIndex + 1}/8'

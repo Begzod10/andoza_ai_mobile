@@ -21,6 +21,7 @@ WallElementCreate _$WallElementCreateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$WallElementCreate {
+  @JsonKey(unknownEnumValue: WallElementType.unknown)
   WallElementType get type => throw _privateConstructorUsedError;
   double get width => throw _privateConstructorUsedError;
   double get height => throw _privateConstructorUsedError;
@@ -46,7 +47,7 @@ abstract class $WallElementCreateCopyWith<$Res> {
   ) = _$WallElementCreateCopyWithImpl<$Res, WallElementCreate>;
   @useResult
   $Res call({
-    WallElementType type,
+    @JsonKey(unknownEnumValue: WallElementType.unknown) WallElementType type,
     double width,
     double height,
     @JsonKey(name: 'sill_height') double sillHeight,
@@ -113,7 +114,7 @@ abstract class _$$WallElementCreateImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    WallElementType type,
+    @JsonKey(unknownEnumValue: WallElementType.unknown) WallElementType type,
     double width,
     double height,
     @JsonKey(name: 'sill_height') double sillHeight,
@@ -172,7 +173,7 @@ class __$$WallElementCreateImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$WallElementCreateImpl implements _WallElementCreate {
   const _$WallElementCreateImpl({
-    required this.type,
+    @JsonKey(unknownEnumValue: WallElementType.unknown) required this.type,
     required this.width,
     required this.height,
     @JsonKey(name: 'sill_height') this.sillHeight = 0.0,
@@ -183,6 +184,7 @@ class _$WallElementCreateImpl implements _WallElementCreate {
       _$$WallElementCreateImplFromJson(json);
 
   @override
+  @JsonKey(unknownEnumValue: WallElementType.unknown)
   final WallElementType type;
   @override
   final double width;
@@ -238,6 +240,7 @@ class _$WallElementCreateImpl implements _WallElementCreate {
 
 abstract class _WallElementCreate implements WallElementCreate {
   const factory _WallElementCreate({
+    @JsonKey(unknownEnumValue: WallElementType.unknown)
     required final WallElementType type,
     required final double width,
     required final double height,
@@ -249,6 +252,7 @@ abstract class _WallElementCreate implements WallElementCreate {
       _$WallElementCreateImpl.fromJson;
 
   @override
+  @JsonKey(unknownEnumValue: WallElementType.unknown)
   WallElementType get type;
   @override
   double get width;

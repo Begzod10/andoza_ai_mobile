@@ -34,6 +34,7 @@ class EstimateLineItem with _$EstimateLineItem {
 @freezed
 class EstimateStage with _$EstimateStage {
   const factory EstimateStage({
+    @JsonKey(unknownEnumValue: RenovationStage.unknown)
     required RenovationStage name,
     @Default(<EstimateLineItem>[]) List<EstimateLineItem> lineItems,
     required double subtotal,

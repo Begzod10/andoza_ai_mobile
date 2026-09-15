@@ -130,6 +130,7 @@ class ElectricalTotalsCard extends StatelessWidget {
     DeviceType.lightSwitch => 'Kalit',
     DeviceType.light => 'Yoritish',
     DeviceType.breaker => 'Qutisi',
+    DeviceType.unknown => '',
   };
 
   Widget _chip(String label) {

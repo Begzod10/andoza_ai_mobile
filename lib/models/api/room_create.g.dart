@@ -9,7 +9,11 @@ part of 'room_create.dart';
 _$WallElementCreateImpl _$$WallElementCreateImplFromJson(
   Map<String, dynamic> json,
 ) => _$WallElementCreateImpl(
-  type: $enumDecode(_$WallElementTypeEnumMap, json['type']),
+  type: $enumDecode(
+    _$WallElementTypeEnumMap,
+    json['type'],
+    unknownValue: WallElementType.unknown,
+  ),
   width: (json['width'] as num).toDouble(),
   height: (json['height'] as num).toDouble(),
   sillHeight: (json['sill_height'] as num?)?.toDouble() ?? 0.0,
@@ -30,6 +34,7 @@ const _$WallElementTypeEnumMap = {
   WallElementType.eshik: 'eshik',
   WallElementType.deraza: 'deraza',
   WallElementType.balkon: 'balkon',
+  WallElementType.unknown: 'unknown',
 };
 
 _$WallCreateImpl _$$WallCreateImplFromJson(Map<String, dynamic> json) =>

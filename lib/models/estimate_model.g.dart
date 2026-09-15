@@ -28,7 +28,11 @@ Map<String, dynamic> _$$EstimateLineItemImplToJson(
 
 _$EstimateStageImpl _$$EstimateStageImplFromJson(Map<String, dynamic> json) =>
     _$EstimateStageImpl(
-      name: $enumDecode(_$RenovationStageEnumMap, json['name']),
+      name: $enumDecode(
+        _$RenovationStageEnumMap,
+        json['name'],
+        unknownValue: RenovationStage.unknown,
+      ),
       lineItems:
           (json['lineItems'] as List<dynamic>?)
               ?.map((e) => EstimateLineItem.fromJson(e as Map<String, dynamic>))
@@ -58,6 +62,7 @@ const _$RenovationStageEnumMap = {
   RenovationStage.elektr: 'ELEKTR',
   RenovationStage.yoruglik: 'YORUGLIK',
   RenovationStage.santexnika: 'SANTEXNIKA',
+  RenovationStage.unknown: 'unknown',
 };
 
 _$EstimateImpl _$$EstimateImplFromJson(Map<String, dynamic> json) =>

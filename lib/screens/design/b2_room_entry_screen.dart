@@ -40,6 +40,7 @@ class _B2RoomEntryScreenState extends ConsumerState<B2RoomEntryScreen>
     SurfaceCondition.raw => 'korobka holatida',
     SurfaceCondition.plastered => 'suvoq qilingan',
     SurfaceCondition.puttied => 'shpaklovka qilingan',
+    SurfaceCondition.unknown => 'korobka holatida',
   };
 
   @override

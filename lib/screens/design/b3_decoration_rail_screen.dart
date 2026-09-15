@@ -84,7 +84,7 @@ class _B3DecorationRailScreenState
                 ),
                 child: StageProgressLine(
                   currentStep: RenovationStage.boyoqOboi.index,
-                  totalSteps: RenovationStage.values.length,
+                  totalSteps: kRenovationStages.length,
                   stageStates: stageStates,
                   stageLabel: 'Bo\'yoq/Oboi bosqichi',
                 ),

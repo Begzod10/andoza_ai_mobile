@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Network security policy for release + debug builds.
+
+  Base config forbids cleartext (plaintext HTTP) traffic to ANY host, so the
+  production API/Studio over https://andoza.jumaniyozov.uz can never be
+  silently downgraded to HTTP (MITM / downgrade protection). This replaces the
+  old application-wide android:usesCleartextTraffic="true", which permitted
+  plaintext to every host.
+
+  Cleartext is re-permitted ONLY for the local development hosts this project
+  uses (emulator loopback, localhost, and the LAN dev machines noted in
+  CLAUDE.md), so `flutter run --dart-define=API_URL=http://192.168.1.29:...`
+  and the default http://10.0.2.2 emulator setup keep working.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false" />
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- Android emulator host loopback -->
+        <domain includeSubdomains="false">10.0.2.2</domain>
+        <!-- Local loopback -->
+        <domain includeSubdomains="false">localhost</domain>
+        <domain includeSubdomains="false">127.0.0.1</domain>
+        <!-- LAN dev machines (CLAUDE.md: PC1 backend / PC2 host) -->
+        <domain includeSubdomains="false">192.168.1.29</domain>
+        <domain includeSubdomains="false">192.168.1.5</domain>
+    </domain-config>
+</network-security-config>

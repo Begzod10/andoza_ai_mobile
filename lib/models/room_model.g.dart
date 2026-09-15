@@ -34,7 +34,11 @@ Map<String, dynamic> _$$WallMeasurementsImplToJson(
 
 _$WallImpl _$$WallImplFromJson(Map<String, dynamic> json) => _$WallImpl(
   id: json['id'] as String,
-  type: $enumDecode(_$WallTypeEnumMap, json['type']),
+  type: $enumDecode(
+    _$WallTypeEnumMap,
+    json['type'],
+    unknownValue: WallType.unknown,
+  ),
   measurements: WallMeasurements.fromJson(
     json['measurements'] as Map<String, dynamic>,
   ),
@@ -54,6 +58,7 @@ const _$WallTypeEnumMap = {
   WallType.wallB: 'WALL_B',
   WallType.wallC: 'WALL_C',
   WallType.wallD: 'WALL_D',
+  WallType.unknown: 'unknown',
 };
 
 _$DoorImpl _$$DoorImplFromJson(Map<String, dynamic> json) => _$DoorImpl(
@@ -62,7 +67,11 @@ _$DoorImpl _$$DoorImplFromJson(Map<String, dynamic> json) => _$DoorImpl(
   position: (json['position'] as num).toDouble(),
   width: (json['width'] as num).toDouble(),
   height: (json['height'] as num).toDouble(),
-  type: $enumDecode(_$OpeningTypeEnumMap, json['type']),
+  type: $enumDecode(
+    _$OpeningTypeEnumMap,
+    json['type'],
+    unknownValue: OpeningType.unknown,
+  ),
 );
 
 Map<String, dynamic> _$$DoorImplToJson(_$DoorImpl instance) =>
@@ -79,6 +88,7 @@ const _$OpeningTypeEnumMap = {
   OpeningType.single: 'SINGLE',
   OpeningType.dual: 'DOUBLE',
   OpeningType.sliding: 'SLIDING',
+  OpeningType.unknown: 'unknown',
 };
 
 _$WindowImpl _$$WindowImplFromJson(Map<String, dynamic> json) => _$WindowImpl(
@@ -87,7 +97,11 @@ _$WindowImpl _$$WindowImplFromJson(Map<String, dynamic> json) => _$WindowImpl(
   position: (json['position'] as num).toDouble(),
   width: (json['width'] as num).toDouble(),
   height: (json['height'] as num).toDouble(),
-  type: $enumDecode(_$OpeningTypeEnumMap, json['type']),
+  type: $enumDecode(
+    _$OpeningTypeEnumMap,
+    json['type'],
+    unknownValue: OpeningType.unknown,
+  ),
 );
 
 Map<String, dynamic> _$$WindowImplToJson(_$WindowImpl instance) =>

@@ -30,8 +30,11 @@ class User {
       username: json['username'] as String?,
       name: json['name'] as String?,
       phone: json['phone'] as String?,
-      firstName: json['firstName'] as String?,
-      lastName: json['lastName'] as String?,
+      // Backend/pydantic sends snake_case; keep a camelCase fallback so any
+      // legacy caller still parses. Previously read only camelCase, so these
+      // silently stayed null and the greeting always fell back.
+      firstName: (json['first_name'] ?? json['firstName']) as String?,
+      lastName: (json['last_name'] ?? json['lastName']) as String?,
       avatar: json['avatar'] as String?,
       createdAt: json['created_at'] != null
           ? DateTime.parse(json['created_at'] as String)

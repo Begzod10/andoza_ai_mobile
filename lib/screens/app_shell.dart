@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../config/design_tokens.dart';
-import '../providers/auth_provider.dart';
 import 'room_setup/new_project_sheet.dart';
 
 /// Shared app shell: the bottom navigation bar (Uy / Do'kon / Ustalar /
@@ -19,15 +18,9 @@ class AppShell extends ConsumerStatefulWidget {
 }
 
 class _AppShellState extends ConsumerState<AppShell> {
-  @override
-  void initState() {
-    super.initState();
-    // Restore token on app startup
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(authStateProvider.notifier).restoreToken();
-    });
-  }
-
+  // Token restore happens at app bootstrap (SplashScreen) — before the auth
+  // guard runs — not here: the shell only ever mounts once already
+  // authenticated, so restoring here was dead code.
   @override
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).matchedLocation;

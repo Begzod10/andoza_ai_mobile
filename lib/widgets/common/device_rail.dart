@@ -122,6 +122,8 @@ class _DeviceRailState extends State<DeviceRail>
         return Icons.lightbulb_outline;
       case DeviceType.breaker:
         return Icons.miscellaneous_services_outlined;
+      case DeviceType.unknown:
+        return Icons.help_outline;
     }
   }
 
@@ -135,6 +137,8 @@ class _DeviceRailState extends State<DeviceRail>
         return 'Light';
       case DeviceType.breaker:
         return 'Breaker';
+      case DeviceType.unknown:
+        return '';
     }
   }
 }
@@ -155,6 +159,8 @@ class _DeviceItemTile extends StatelessWidget {
         return Icons.lightbulb_outline;
       case DeviceType.breaker:
         return Icons.miscellaneous_services_outlined;
+      case DeviceType.unknown:
+        return Icons.help_outline;
     }
   }
 
@@ -168,6 +174,8 @@ class _DeviceItemTile extends StatelessWidget {
         return 'Light';
       case DeviceType.breaker:
         return 'Breaker';
+      case DeviceType.unknown:
+        return '';
     }
   }
 

@@ -21,8 +21,11 @@ RoomCondition _$RoomConditionFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$RoomCondition {
+  @JsonKey(unknownEnumValue: SurfaceCondition.unknown)
   SurfaceCondition get wall => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: SurfaceCondition.unknown)
   SurfaceCondition? get floor => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: SurfaceCondition.unknown)
   SurfaceCondition? get ceiling => throw _privateConstructorUsedError;
 
   /// Serializes this RoomCondition to a JSON map.
@@ -43,8 +46,10 @@ abstract class $RoomConditionCopyWith<$Res> {
   ) = _$RoomConditionCopyWithImpl<$Res, RoomCondition>;
   @useResult
   $Res call({
-    SurfaceCondition wall,
+    @JsonKey(unknownEnumValue: SurfaceCondition.unknown) SurfaceCondition wall,
+    @JsonKey(unknownEnumValue: SurfaceCondition.unknown)
     SurfaceCondition? floor,
+    @JsonKey(unknownEnumValue: SurfaceCondition.unknown)
     SurfaceCondition? ceiling,
   });
 }
@@ -98,8 +103,10 @@ abstract class _$$RoomConditionImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    SurfaceCondition wall,
+    @JsonKey(unknownEnumValue: SurfaceCondition.unknown) SurfaceCondition wall,
+    @JsonKey(unknownEnumValue: SurfaceCondition.unknown)
     SurfaceCondition? floor,
+    @JsonKey(unknownEnumValue: SurfaceCondition.unknown)
     SurfaceCondition? ceiling,
   });
 }
@@ -144,16 +151,23 @@ class __$$RoomConditionImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$RoomConditionImpl implements _RoomCondition {
-  const _$RoomConditionImpl({required this.wall, this.floor, this.ceiling});
+  const _$RoomConditionImpl({
+    @JsonKey(unknownEnumValue: SurfaceCondition.unknown) required this.wall,
+    @JsonKey(unknownEnumValue: SurfaceCondition.unknown) this.floor,
+    @JsonKey(unknownEnumValue: SurfaceCondition.unknown) this.ceiling,
+  });
 
   factory _$RoomConditionImpl.fromJson(Map<String, dynamic> json) =>
       _$$RoomConditionImplFromJson(json);
 
   @override
+  @JsonKey(unknownEnumValue: SurfaceCondition.unknown)
   final SurfaceCondition wall;
   @override
+  @JsonKey(unknownEnumValue: SurfaceCondition.unknown)
   final SurfaceCondition? floor;
   @override
+  @JsonKey(unknownEnumValue: SurfaceCondition.unknown)
   final SurfaceCondition? ceiling;
 
   @override
@@ -191,8 +205,11 @@ class _$RoomConditionImpl implements _RoomCondition {
 
 abstract class _RoomCondition implements RoomCondition {
   const factory _RoomCondition({
+    @JsonKey(unknownEnumValue: SurfaceCondition.unknown)
     required final SurfaceCondition wall,
+    @JsonKey(unknownEnumValue: SurfaceCondition.unknown)
     final SurfaceCondition? floor,
+    @JsonKey(unknownEnumValue: SurfaceCondition.unknown)
     final SurfaceCondition? ceiling,
   }) = _$RoomConditionImpl;
 
@@ -200,10 +217,13 @@ abstract class _RoomCondition implements RoomCondition {
       _$RoomConditionImpl.fromJson;
 
   @override
+  @JsonKey(unknownEnumValue: SurfaceCondition.unknown)
   SurfaceCondition get wall;
   @override
+  @JsonKey(unknownEnumValue: SurfaceCondition.unknown)
   SurfaceCondition? get floor;
   @override
+  @JsonKey(unknownEnumValue: SurfaceCondition.unknown)
   SurfaceCondition? get ceiling;
 
   /// Create a copy of RoomCondition
@@ -502,6 +522,7 @@ MaterialSelection _$MaterialSelectionFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$MaterialSelection {
   String get materialId => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: MaterialType.unknown)
   MaterialType get material => throw _privateConstructorUsedError;
   String get color => throw _privateConstructorUsedError;
   double get price => throw _privateConstructorUsedError;
@@ -526,7 +547,7 @@ abstract class $MaterialSelectionCopyWith<$Res> {
   @useResult
   $Res call({
     String materialId,
-    MaterialType material,
+    @JsonKey(unknownEnumValue: MaterialType.unknown) MaterialType material,
     String color,
     double price,
     double area,
@@ -593,7 +614,7 @@ abstract class _$$MaterialSelectionImplCopyWith<$Res>
   @useResult
   $Res call({
     String materialId,
-    MaterialType material,
+    @JsonKey(unknownEnumValue: MaterialType.unknown) MaterialType material,
     String color,
     double price,
     double area,
@@ -652,7 +673,7 @@ class __$$MaterialSelectionImplCopyWithImpl<$Res>
 class _$MaterialSelectionImpl implements _MaterialSelection {
   const _$MaterialSelectionImpl({
     required this.materialId,
-    required this.material,
+    @JsonKey(unknownEnumValue: MaterialType.unknown) required this.material,
     required this.color,
     required this.price,
     required this.area,
@@ -664,6 +685,7 @@ class _$MaterialSelectionImpl implements _MaterialSelection {
   @override
   final String materialId;
   @override
+  @JsonKey(unknownEnumValue: MaterialType.unknown)
   final MaterialType material;
   @override
   final String color;
@@ -716,6 +738,7 @@ class _$MaterialSelectionImpl implements _MaterialSelection {
 abstract class _MaterialSelection implements MaterialSelection {
   const factory _MaterialSelection({
     required final String materialId,
+    @JsonKey(unknownEnumValue: MaterialType.unknown)
     required final MaterialType material,
     required final String color,
     required final double price,
@@ -728,6 +751,7 @@ abstract class _MaterialSelection implements MaterialSelection {
   @override
   String get materialId;
   @override
+  @JsonKey(unknownEnumValue: MaterialType.unknown)
   MaterialType get material;
   @override
   String get color;
@@ -752,11 +776,13 @@ DesignSelection _$DesignSelectionFromJson(Map<String, dynamic> json) {
 mixin _$DesignSelection {
   String get id => throw _privateConstructorUsedError;
   String get roomId => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: DesignStage.unknown)
   DesignStage get stage => throw _privateConstructorUsedError;
   Map<String, MaterialSelection> get selections =>
       throw _privateConstructorUsedError;
   RoomCondition? get roomCondition => throw _privateConstructorUsedError;
   List<FurniturePlacement> get furniture => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: RenovationStage.unknown)
   RenovationStage get renovationStage => throw _privateConstructorUsedError;
 
   /// Serializes this DesignSelection to a JSON map.
@@ -779,10 +805,11 @@ abstract class $DesignSelectionCopyWith<$Res> {
   $Res call({
     String id,
     String roomId,
-    DesignStage stage,
+    @JsonKey(unknownEnumValue: DesignStage.unknown) DesignStage stage,
     Map<String, MaterialSelection> selections,
     RoomCondition? roomCondition,
     List<FurniturePlacement> furniture,
+    @JsonKey(unknownEnumValue: RenovationStage.unknown)
     RenovationStage renovationStage,
   });
 
@@ -874,10 +901,11 @@ abstract class _$$DesignSelectionImplCopyWith<$Res>
   $Res call({
     String id,
     String roomId,
-    DesignStage stage,
+    @JsonKey(unknownEnumValue: DesignStage.unknown) DesignStage stage,
     Map<String, MaterialSelection> selections,
     RoomCondition? roomCondition,
     List<FurniturePlacement> furniture,
+    @JsonKey(unknownEnumValue: RenovationStage.unknown)
     RenovationStage renovationStage,
   });
 
@@ -948,11 +976,12 @@ class _$DesignSelectionImpl implements _DesignSelection {
   const _$DesignSelectionImpl({
     required this.id,
     required this.roomId,
-    required this.stage,
+    @JsonKey(unknownEnumValue: DesignStage.unknown) required this.stage,
     final Map<String, MaterialSelection> selections =
         const <String, MaterialSelection>{},
     this.roomCondition,
     final List<FurniturePlacement> furniture = const <FurniturePlacement>[],
+    @JsonKey(unknownEnumValue: RenovationStage.unknown)
     this.renovationStage = RenovationStage.suvoq,
   }) : _selections = selections,
        _furniture = furniture;
@@ -965,6 +994,7 @@ class _$DesignSelectionImpl implements _DesignSelection {
   @override
   final String roomId;
   @override
+  @JsonKey(unknownEnumValue: DesignStage.unknown)
   final DesignStage stage;
   final Map<String, MaterialSelection> _selections;
   @override
@@ -987,7 +1017,7 @@ class _$DesignSelectionImpl implements _DesignSelection {
   }
 
   @override
-  @JsonKey()
+  @JsonKey(unknownEnumValue: RenovationStage.unknown)
   final RenovationStage renovationStage;
 
   @override
@@ -1051,10 +1081,12 @@ abstract class _DesignSelection implements DesignSelection {
   const factory _DesignSelection({
     required final String id,
     required final String roomId,
+    @JsonKey(unknownEnumValue: DesignStage.unknown)
     required final DesignStage stage,
     final Map<String, MaterialSelection> selections,
     final RoomCondition? roomCondition,
     final List<FurniturePlacement> furniture,
+    @JsonKey(unknownEnumValue: RenovationStage.unknown)
     final RenovationStage renovationStage,
   }) = _$DesignSelectionImpl;
 
@@ -1066,6 +1098,7 @@ abstract class _DesignSelection implements DesignSelection {
   @override
   String get roomId;
   @override
+  @JsonKey(unknownEnumValue: DesignStage.unknown)
   DesignStage get stage;
   @override
   Map<String, MaterialSelection> get selections;
@@ -1074,6 +1107,7 @@ abstract class _DesignSelection implements DesignSelection {
   @override
   List<FurniturePlacement> get furniture;
   @override
+  @JsonKey(unknownEnumValue: RenovationStage.unknown)
   RenovationStage get renovationStage;
 
   /// Create a copy of DesignSelection

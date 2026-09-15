@@ -8,9 +8,21 @@ part of 'design_selection_model.dart';
 
 _$RoomConditionImpl _$$RoomConditionImplFromJson(Map<String, dynamic> json) =>
     _$RoomConditionImpl(
-      wall: $enumDecode(_$SurfaceConditionEnumMap, json['wall']),
-      floor: $enumDecodeNullable(_$SurfaceConditionEnumMap, json['floor']),
-      ceiling: $enumDecodeNullable(_$SurfaceConditionEnumMap, json['ceiling']),
+      wall: $enumDecode(
+        _$SurfaceConditionEnumMap,
+        json['wall'],
+        unknownValue: SurfaceCondition.unknown,
+      ),
+      floor: $enumDecodeNullable(
+        _$SurfaceConditionEnumMap,
+        json['floor'],
+        unknownValue: SurfaceCondition.unknown,
+      ),
+      ceiling: $enumDecodeNullable(
+        _$SurfaceConditionEnumMap,
+        json['ceiling'],
+        unknownValue: SurfaceCondition.unknown,
+      ),
     );
 
 Map<String, dynamic> _$$RoomConditionImplToJson(_$RoomConditionImpl instance) =>
@@ -24,6 +36,7 @@ const _$SurfaceConditionEnumMap = {
   SurfaceCondition.raw: 'KOROBKA',
   SurfaceCondition.plastered: 'SUVOQ',
   SurfaceCondition.puttied: 'SHPAKLOVKA',
+  SurfaceCondition.unknown: 'unknown',
 };
 
 _$FurniturePlacementImpl _$$FurniturePlacementImplFromJson(
@@ -54,7 +67,11 @@ _$MaterialSelectionImpl _$$MaterialSelectionImplFromJson(
   Map<String, dynamic> json,
 ) => _$MaterialSelectionImpl(
   materialId: json['materialId'] as String,
-  material: $enumDecode(_$MaterialTypeEnumMap, json['material']),
+  material: $enumDecode(
+    _$MaterialTypeEnumMap,
+    json['material'],
+    unknownValue: MaterialType.unknown,
+  ),
   color: json['color'] as String,
   price: (json['price'] as num).toDouble(),
   area: (json['area'] as num).toDouble(),
@@ -76,6 +93,7 @@ const _$MaterialTypeEnumMap = {
   MaterialType.floorTile: 'FLOOR_TILE',
   MaterialType.wood: 'WOOD',
   MaterialType.carpet: 'CARPET',
+  MaterialType.unknown: 'unknown',
 };
 
 _$DesignSelectionImpl _$$DesignSelectionImplFromJson(
@@ -83,7 +101,11 @@ _$DesignSelectionImpl _$$DesignSelectionImplFromJson(
 ) => _$DesignSelectionImpl(
   id: json['id'] as String,
   roomId: json['roomId'] as String,
-  stage: $enumDecode(_$DesignStageEnumMap, json['stage']),
+  stage: $enumDecode(
+    _$DesignStageEnumMap,
+    json['stage'],
+    unknownValue: DesignStage.unknown,
+  ),
   selections:
       (json['selections'] as Map<String, dynamic>?)?.map(
         (k, e) =>
@@ -99,7 +121,11 @@ _$DesignSelectionImpl _$$DesignSelectionImplFromJson(
           .toList() ??
       const <FurniturePlacement>[],
   renovationStage:
-      $enumDecodeNullable(_$RenovationStageEnumMap, json['renovationStage']) ??
+      $enumDecodeNullable(
+        _$RenovationStageEnumMap,
+        json['renovationStage'],
+        unknownValue: RenovationStage.unknown,
+      ) ??
       RenovationStage.suvoq,
 );
 
@@ -120,6 +146,7 @@ const _$DesignStageEnumMap = {
   DesignStage.paint: 'PAINT',
   DesignStage.furniture: 'FURNITURE',
   DesignStage.completed: 'COMPLETED',
+  DesignStage.unknown: 'unknown',
 };
 
 const _$RenovationStageEnumMap = {
@@ -131,4 +158,5 @@ const _$RenovationStageEnumMap = {
   RenovationStage.elektr: 'ELEKTR',
   RenovationStage.yoruglik: 'YORUGLIK',
   RenovationStage.santexnika: 'SANTEXNIKA',
+  RenovationStage.unknown: 'unknown',
 };

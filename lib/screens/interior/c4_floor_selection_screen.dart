@@ -78,7 +78,7 @@ class _C4FloorSelectionScreenState
                 ),
                 child: StageProgressLine(
                   currentStep: RenovationStage.pol.index,
-                  totalSteps: RenovationStage.values.length,
+                  totalSteps: kRenovationStages.length,
                   stageStates: stageStates,
                   stageLabel: 'Pol bosqichi',
                 ),

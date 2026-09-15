@@ -8,7 +8,11 @@ part of 'delta.dart';
 
 _$DeltaStageImpl _$$DeltaStageImplFromJson(Map<String, dynamic> json) =>
     _$DeltaStageImpl(
-      stage: $enumDecode(_$RoomStateValueEnumMap, json['stage']),
+      stage: $enumDecode(
+        _$RoomStateValueEnumMap,
+        json['stage'],
+        unknownValue: RoomStateValue.unknown,
+      ),
       labelUz: json['label_uz'] as String,
       alreadyDone: json['already_done'] as bool,
     );
@@ -25,12 +29,17 @@ const _$RoomStateValueEnumMap = {
   RoomStateValue.suvoq: 'suvoq',
   RoomStateValue.shpaklovka: 'shpaklovka',
   RoomStateValue.tayyor: 'tayyor',
+  RoomStateValue.unknown: 'unknown',
 };
 
 _$DeltaResponseImpl _$$DeltaResponseImplFromJson(Map<String, dynamic> json) =>
     _$DeltaResponseImpl(
       roomId: json['room_id'] as String,
-      currentState: $enumDecode(_$RoomStateValueEnumMap, json['current_state']),
+      currentState: $enumDecode(
+        _$RoomStateValueEnumMap,
+        json['current_state'],
+        unknownValue: RoomStateValue.unknown,
+      ),
       fullLines:
           (json['full_lines'] as List<dynamic>?)
               ?.map((e) => EstimateLine.fromJson(e as Map<String, dynamic>))

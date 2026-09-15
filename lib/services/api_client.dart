@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 
+import '../config/app_config.dart';
 import 'sse_client.dart';
 
 class ApiException implements Exception {
@@ -46,7 +47,11 @@ class ApiClient {
     // second (attaches the bearer token before logging). Logging last.
     _dio.interceptors.add(_buildRefreshInterceptor());
     _dio.interceptors.add(_AuthInterceptor(() => _authToken, onUnauthorized));
-    _dio.interceptors.add(_LoggingInterceptor());
+    // Logging never runs in release, and only when explicitly enabled in debug —
+    // it logs methods/paths/status only, never request/response bodies.
+    if (kDebugMode && AppConfig.debugLogging) {
+      _dio.interceptors.add(_LoggingInterceptor());
+    }
   }
 
   late final Dio _dio;
@@ -431,7 +436,10 @@ class _AuthInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    if (err.response?.statusCode == 401) {
+    // Only fire for a genuine authenticated-session 401. Auth-path 401s (a
+    // failed login / dead refresh) are terminal and must not force-navigate.
+    if (err.response?.statusCode == 401 &&
+        !ApiClient._isAuthPath(err.requestOptions.path)) {
       _onUnauthorized?.call();
     }
     handler.next(err);

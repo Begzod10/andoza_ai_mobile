@@ -56,6 +56,7 @@ class WallMeasurement {
     WallType.wallB => 'Devor B',
     WallType.wallC => 'Devor C',
     WallType.wallD => 'Devor D',
+    WallType.unknown => 'Devor',
   };
 }
 
@@ -102,6 +103,7 @@ class WallMeasurementsNotifier extends StateNotifier<List<WallMeasurement>> {
           length: switch (wall.type) {
             WallType.wallA || WallType.wallC => clampedLength,
             WallType.wallB || WallType.wallD => clampedWidth,
+            WallType.unknown => clampedLength,
           },
           height: clampedHeight,
         ),

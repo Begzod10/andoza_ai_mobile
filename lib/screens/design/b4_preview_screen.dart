@@ -5,6 +5,7 @@ import '../../config/design_tokens.dart';
 import '../../models/design_selection_model.dart';
 import '../../providers/design_provider.dart';
 import '../../providers/room_provider.dart';
+import '../../utils/error_messages.dart';
 import '../../widgets/design/stage_progress_line.dart';
 import '../../widgets/room/room_canvas.dart';
 import '../../widgets/common/success_toast.dart';
@@ -39,7 +40,7 @@ class _B4PreviewScreenState extends ConsumerState<B4PreviewScreen> {
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
+        ).showSnackBar(SnackBar(content: Text(userFacingError(e))));
       }
     } finally {
       if (mounted) {
@@ -214,6 +215,7 @@ class _B4PreviewScreenState extends ConsumerState<B4PreviewScreen> {
   String _getConditionLabel(SurfaceCondition? condition) {
     if (condition == null) return 'Not specified';
     switch (condition) {
+      case SurfaceCondition.unknown:
       case SurfaceCondition.raw:
         return 'Raw (Korobka)';
       case SurfaceCondition.plastered:
