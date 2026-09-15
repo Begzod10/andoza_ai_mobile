@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/api/api.dart';
 import '../../providers/wallpaper_provider.dart';
 import '../../widgets/common/app_image.dart';
@@ -39,6 +40,7 @@ class _WallpaperLibrarySheetState extends ConsumerState<WallpaperLibrarySheet> {
 
   Future<void> _pickAndUpload() async {
     final messenger = ScaffoldMessenger.of(context);
+    final l10n = AppLocalizations.of(context)!;
     try {
       final picked = await ImagePicker().pickImage(
         source: ImageSource.gallery,
@@ -58,11 +60,11 @@ class _WallpaperLibrarySheetState extends ConsumerState<WallpaperLibrarySheet> {
       // Refresh the shared library so the new wallpaper appears.
       ref.invalidate(wallpapersProvider);
       messenger.showSnackBar(
-        const SnackBar(content: Text('✓ Oboy kutubxonaga qo\'shildi')),
+        SnackBar(content: Text(l10n.interiorWallpaperAdded)),
       );
     } catch (e) {
       messenger.showSnackBar(
-        SnackBar(content: Text('Yuklab bo\'lmadi: $e')),
+        SnackBar(content: Text(l10n.interiorUploadFailed(e.toString()))),
       );
     } finally {
       if (mounted) setState(() => _uploading = false);
@@ -81,6 +83,7 @@ class _WallpaperLibrarySheetState extends ConsumerState<WallpaperLibrarySheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final wallpapers = ref.watch(wallpapersProvider);
     return DraggableScrollableSheet(
       expand: false,
@@ -94,7 +97,7 @@ class _WallpaperLibrarySheetState extends ConsumerState<WallpaperLibrarySheet> {
             children: [
               Row(
                 children: [
-                  const Text('Oboy kutubxonasi', style: DesignTokens.subtitle1),
+                  Text(l10n.interiorWallpaperLibrary, style: DesignTokens.subtitle1),
                   const Spacer(),
                   FilledButton.icon(
                     onPressed: _uploading ? null : _pickAndUpload,
@@ -105,7 +108,9 @@ class _WallpaperLibrarySheetState extends ConsumerState<WallpaperLibrarySheet> {
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
                         : const Icon(Icons.upload_outlined, size: 18),
-                    label: Text(_uploading ? 'Yuklanmoqda…' : 'Rasm yuklash'),
+                    label: Text(
+                      _uploading ? l10n.interiorUploading : l10n.interiorUploadImage,
+                    ),
                   ),
                 ],
               ),
@@ -124,10 +129,8 @@ class _WallpaperLibrarySheetState extends ConsumerState<WallpaperLibrarySheet> {
                     ),
                   ),
                   data: (items) => items.isEmpty
-                      ? const Center(
-                          child: Text(
-                            'Hali oboy yo\'q — birinchi bo\'lib rasm yuklang',
-                          ),
+                      ? Center(
+                          child: Text(l10n.interiorNoWallpapers),
                         )
                       : GridView.builder(
                           controller: scrollController,

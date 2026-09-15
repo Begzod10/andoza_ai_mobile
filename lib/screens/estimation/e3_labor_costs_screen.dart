@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/estimate_provider.dart';
 import '../../utils/currency.dart';
 
@@ -14,6 +15,7 @@ class E3LaborCostsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final estimate = ref.watch(estimateProvider);
     final tier = ref.watch(qualityTierProvider);
     final diy = ref.watch(diyModeProvider);
@@ -30,7 +32,7 @@ class E3LaborCostsScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: const Text('Smeta sozlash', style: DesignTokens.heading3),
+        title: Text(l10n.estimateAdjust, style: DesignTokens.heading3),
       ),
       body: Column(
         children: [
@@ -40,7 +42,7 @@ class E3LaborCostsScreen extends ConsumerWidget {
                 DesignTokens.screenPaddingHorizontal,
               ),
               children: [
-                const Text('Sifat darajasi', style: DesignTokens.subtitle2),
+                Text(l10n.estimateQualityLevel, style: DesignTokens.subtitle2),
                 const SizedBox(height: DesignTokens.spacingSm),
                 for (final t in QualityTier.values) ...[
                   _TierCard(
@@ -55,12 +57,12 @@ class E3LaborCostsScreen extends ConsumerWidget {
                 const SizedBox(height: DesignTokens.spacingMd),
                 SwitchListTile(
                   contentPadding: EdgeInsets.zero,
-                  title: const Text(
-                    'Ishchi kuchini qo\'shmaslik',
+                  title: Text(
+                    l10n.estimateExcludeLabor,
                     style: DesignTokens.body2,
                   ),
                   subtitle: Text(
-                    'O\'zim bajaraman — faqat materiallar hisoblanadi',
+                    l10n.estimateDiySubtitle,
                     style: DesignTokens.caption.copyWith(
                       color: DesignTokens.textGray,
                     ),
@@ -80,20 +82,18 @@ class E3LaborCostsScreen extends ConsumerWidget {
                   child: Column(
                     children: [
                       _SummaryRow(
-                        label: 'Materiallar',
+                        label: l10n.shopMaterials,
                         value: formatSom(materials.round()),
                       ),
                       const SizedBox(height: DesignTokens.spacingXs),
                       _SummaryRow(
-                        label: 'Ishchi kuchi',
+                        label: l10n.estimateLabor,
                         value: formatSom(labor.round()),
                       ),
                       if (savings > 0) ...[
                         const SizedBox(height: DesignTokens.spacingXs),
                         _SummaryRow(
-                          label:
-                              'Delta tejash '
-                              '(${savingsStage.name.name})',
+                          label: l10n.estimateDeltaSavings(savingsStage.name.name),
                           value: '− ${formatSom(savings.round())}',
                           valueColor: DesignTokens.successGreen,
                         ),
@@ -118,7 +118,7 @@ class E3LaborCostsScreen extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Yangi jami', style: DesignTokens.subtitle1),
+                      Text(l10n.estimateNewTotal, style: DesignTokens.subtitle1),
                       Text(
                         formatSom(estimate.totalPrice.round()),
                         style: DesignTokens.heading3.copyWith(
@@ -135,7 +135,7 @@ class E3LaborCostsScreen extends ConsumerWidget {
                         backgroundColor: DesignTokens.accentOrange,
                       ),
                       onPressed: () => context.pop(),
-                      child: const Text('Smetani saqlash'),
+                      child: Text(l10n.estimateSaveEstimate),
                     ),
                   ),
                 ],

@@ -726,4 +726,296 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get onboardingDemoTryMyself => 'O\'zim sinab ko\'raman';
+
+  @override
+  String get commonBackTo3d => '3D\'ga qaytish';
+
+  @override
+  String get designSurfaceFloorHeading => 'Pol';
+
+  @override
+  String get designSurfaceCeilingHeading => 'Shift';
+
+  @override
+  String get designFloorRaw => 'Xom beton';
+
+  @override
+  String get designFloorPlastered => 'Styajka';
+
+  @override
+  String get designFloorPuttied => 'Qoplama bor';
+
+  @override
+  String get designCeilingRaw => 'Xom';
+
+  @override
+  String get designCeilingPlastered => 'Suvoq';
+
+  @override
+  String get designCeilingPuttied => 'Tayyor';
+
+  @override
+  String designRoomEntryIntro(String condition) {
+    return 'Xonangiz shu holatda — $condition. Endi bosqichma-bosqich bezaymiz.';
+  }
+
+  @override
+  String get designToastShpaklovkaAdded => '✓ Shpaklovka qo\'shildi';
+
+  @override
+  String get designStageBoyoqOboi => 'Bo\'yoq/Oboi bosqichi';
+
+  @override
+  String get designRailTabBoyoq => 'Bo\'yoq';
+
+  @override
+  String get designDragHint => 'Materialni barmog\'ingiz bilan devorga sudrang';
+
+  @override
+  String get designNextStage => 'Keyingi bosqich →';
+
+  @override
+  String get interiorToastFloorApplied => '✓ Polga qo\'llanildi';
+
+  @override
+  String get interiorStagePol => 'Pol bosqichi';
+
+  @override
+  String get interiorRailTabKafel => 'Kafel';
+
+  @override
+  String get interiorRailTabLaminat => 'Laminat';
+
+  @override
+  String get interiorRailTabParket => 'Parket';
+
+  @override
+  String get interiorRailTabBeton => 'Beton';
+
+  @override
+  String get interiorStageMebel => 'Mebel bosqichi';
+
+  @override
+  String get interiorRailTabMehmonxona => 'Mehmonxona';
+
+  @override
+  String get interiorRailTabOshxona => 'Oshxona';
+
+  @override
+  String get interiorRailTabYotoqxona => 'Yotoqxona';
+
+  @override
+  String get interiorRailTabVanna => 'Vanna';
+
+  @override
+  String get interiorWalkthroughHint =>
+      'Polda yurish mumkin — barmoq bilan suring';
+
+  @override
+  String get interiorGoToPlan => 'Rejaga o\'tish →';
+
+  @override
+  String get interiorDecorationComplete => 'Bezash yakunlandi';
+
+  @override
+  String get interiorGoToElectrical => 'Elektrga o\'tish →';
+
+  @override
+  String get interiorWallpaperAdded => '✓ Oboy kutubxonaga qo\'shildi';
+
+  @override
+  String interiorUploadFailed(String error) {
+    return 'Yuklab bo\'lmadi: $error';
+  }
+
+  @override
+  String get interiorWallpaperLibrary => 'Oboy kutubxonasi';
+
+  @override
+  String get interiorUploading => 'Yuklanmoqda…';
+
+  @override
+  String get interiorUploadImage => 'Rasm yuklash';
+
+  @override
+  String get interiorNoWallpapers =>
+      'Hali oboy yo\'q — birinchi bo\'lib rasm yuklang';
+
+  @override
+  String get electricalWireRouting => 'Sim yo\'nalishi';
+
+  @override
+  String get electricalView2d => '2D reja';
+
+  @override
+  String get electricalView3d => '3D';
+
+  @override
+  String get electricalViewBoth => 'Ikkalasi';
+
+  @override
+  String get electricalRecomputeRoute => 'Trassani qayta hisoblash';
+
+  @override
+  String get electricalNext => 'Keyingi →';
+
+  @override
+  String get electricalResult => 'Elektr natijasi';
+
+  @override
+  String get electricalFinish => 'Yakunlash →';
+
+  @override
+  String get electricalProjectReady => 'Loyihangiz tayyor';
+
+  @override
+  String get electricalViewEstimate => 'Smetani ko\'rish →';
+
+  @override
+  String get estimateTitlePrefix => 'Remont smetasi';
+
+  @override
+  String get estimateDefaultRoomName => 'Mehmonxona';
+
+  @override
+  String estimatePdfFailed(String error) {
+    return 'PDF yuklab bo\'lmadi: $error';
+  }
+
+  @override
+  String get estimateSomeWork => 'Ba\'zi ishlar';
+
+  @override
+  String get estimateStageFallback => 'Bosqich';
+
+  @override
+  String get estimateAdjust => 'Smeta sozlash';
+
+  @override
+  String get estimateApproxTotal => 'Taxminiy umumiy narx';
+
+  @override
+  String get estimateLabor => 'Ishchi kuchi';
+
+  @override
+  String estimateSavingsBanner(String label, String amount) {
+    return '$label allaqachon bor edi — $amount tejaldingiz';
+  }
+
+  @override
+  String get estimateExcludedNote => 'sizda mavjud — hisoblanmadi';
+
+  @override
+  String get estimateZeroSom => '0 so\'m';
+
+  @override
+  String get estimatePreparingPdf => 'Tayyorlanmoqda…';
+
+  @override
+  String get estimateBuyFromShops => 'Do\'konlardan xarid qilish';
+
+  @override
+  String get estimateSendToMaster => 'Ustaga yuborish';
+
+  @override
+  String get estimateMaterialsTotal => 'Materiallar jami';
+
+  @override
+  String get estimateStageTotal => 'Bosqich jami';
+
+  @override
+  String get estimateAddMaterialsToCart => 'Materiallarni savatga';
+
+  @override
+  String get estimateQualityLevel => 'Sifat darajasi';
+
+  @override
+  String get estimateExcludeLabor => 'Ishchi kuchini qo\'shmaslik';
+
+  @override
+  String get estimateDiySubtitle =>
+      'O\'zim bajaraman — faqat materiallar hisoblanadi';
+
+  @override
+  String estimateDeltaSavings(String stage) {
+    return 'Delta tejash ($stage)';
+  }
+
+  @override
+  String get estimateNewTotal => 'Yangi jami';
+
+  @override
+  String get estimateSaveEstimate => 'Smetani saqlash';
+
+  @override
+  String get studioAiDesigner => 'AI dizayner';
+
+  @override
+  String get studioAiApplied => '✓ AI o\'zgarishlari qo\'llanildi';
+
+  @override
+  String studioApplyFailed(String error) {
+    return 'Qo\'llab bo\'lmadi: $error';
+  }
+
+  @override
+  String get studioAiHint =>
+      'Masalan: \"Devorlarni iliq bej rangga bo\'ya va divan qo\'sh\"';
+
+  @override
+  String get studioGenerating => 'Ishlanmoqda…';
+
+  @override
+  String get studioGenerate => 'Yaratish';
+
+  @override
+  String studioActionLabel(String name) {
+    return 'Amal: $name';
+  }
+
+  @override
+  String studioDoneLabel(String name) {
+    return 'Bajarildi: $name';
+  }
+
+  @override
+  String studioAiNoResponse(String message) {
+    return 'AI hozircha javob berolmadi.\n$message';
+  }
+
+  @override
+  String studioChangeCeiling(String height) {
+    return 'Shift balandligi: $height m';
+  }
+
+  @override
+  String studioChangeSurfaces(int count) {
+    return '$count ta yuza materiali';
+  }
+
+  @override
+  String studioChangeWalls(int count) {
+    return '$count ta devor o\'lchami';
+  }
+
+  @override
+  String studioChangeFurniture(int count) {
+    return '$count ta mebel';
+  }
+
+  @override
+  String studioChangeLights(int count) {
+    return '$count ta chiroq';
+  }
+
+  @override
+  String get studioApply => 'Qo\'llash';
+
+  @override
+  String get studioLoginRequired => 'Studio ochish uchun tizimga kiring.';
+
+  @override
+  String studioLoadFailed(String error) {
+    return 'Studio yuklanmadi: $error';
+  }
 }

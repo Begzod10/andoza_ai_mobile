@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/design_selection_model.dart';
 import '../../providers/design_provider.dart';
 import '../../widgets/common/success_toast.dart';
@@ -43,11 +44,12 @@ class _C4FloorSelectionScreenState
 
   void _applyFloor(RailItem item) {
     setState(() => _floorColor = item.color);
-    SuccessToast.show(context, '✓ Polga qo\'llanildi');
+    SuccessToast.show(context, AppLocalizations.of(context)!.interiorToastFloorApplied);
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final design = ref.watch(activeDesignProvider);
     final condition = design?.roomCondition;
     final stageStates = condition == null
@@ -80,7 +82,7 @@ class _C4FloorSelectionScreenState
                   currentStep: RenovationStage.pol.index,
                   totalSteps: kRenovationStages.length,
                   stageStates: stageStates,
-                  stageLabel: 'Pol bosqichi',
+                  stageLabel: l10n.interiorStagePol,
                 ),
               ),
             ),
@@ -90,11 +92,11 @@ class _C4FloorSelectionScreenState
             child: SafeArea(
               child: Room3DRail(
                 initiallyExpanded: true,
-                tabs: const [
-                  RailTab(label: 'Kafel', items: _kafelFloor),
-                  RailTab(label: 'Laminat', items: _laminatFloor),
-                  RailTab(label: 'Parket', items: _parketFloor),
-                  RailTab(label: 'Beton', items: _betonFloor),
+                tabs: [
+                  RailTab(label: l10n.interiorRailTabKafel, items: _kafelFloor),
+                  RailTab(label: l10n.interiorRailTabLaminat, items: _laminatFloor),
+                  RailTab(label: l10n.interiorRailTabParket, items: _parketFloor),
+                  RailTab(label: l10n.interiorRailTabBeton, items: _betonFloor),
                 ],
                 onItemSelected: _applyFloor,
               ),
@@ -117,7 +119,7 @@ class _C4FloorSelectionScreenState
                           .setRenovationStageLocal(RenovationStage.mebel);
                       context.push('/interior/c5');
                     },
-                    child: const Text('Keyingi bosqich →'),
+                    child: Text(l10n.designNextStage),
                   ),
                 ),
               ),

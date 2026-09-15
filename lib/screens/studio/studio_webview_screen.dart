@@ -7,6 +7,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../config/app_config.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/user_model.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/common/error_view.dart';
@@ -75,7 +76,7 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
     if (auth is! AuthAuthenticated) {
       setState(() {
         _loading = false;
-        _error = 'Studio ochish uchun tizimga kiring.';
+        _error = AppLocalizations.of(context)!.studioLoginRequired;
       });
       return;
     }
@@ -150,7 +151,8 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
               if (mounted) {
                 setState(() {
                   _loading = false;
-                  _error = 'Studio yuklanmadi: ${err.description}';
+                  _error = AppLocalizations.of(context)!
+                      .studioLoadFailed(err.description);
                 });
               }
             }

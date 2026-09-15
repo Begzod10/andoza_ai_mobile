@@ -1413,6 +1413,522 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'O\'zim sinab ko\'raman'**
   String get onboardingDemoTryMyself;
+
+  /// Secondary button returning to the 3D view (C9 decoration-complete and D10 final-confirmation).
+  ///
+  /// In uz, this message translates to:
+  /// **'3D\'ga qaytish'**
+  String get commonBackTo3d;
+
+  /// B1-alt surface sheet: heading above the floor condition options.
+  ///
+  /// In uz, this message translates to:
+  /// **'Pol'**
+  String get designSurfaceFloorHeading;
+
+  /// B1-alt surface sheet: heading above the ceiling condition options.
+  ///
+  /// In uz, this message translates to:
+  /// **'Shift'**
+  String get designSurfaceCeilingHeading;
+
+  /// B1-alt surface sheet: floor option for raw concrete.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xom beton'**
+  String get designFloorRaw;
+
+  /// B1-alt surface sheet: floor option for screed (styajka).
+  ///
+  /// In uz, this message translates to:
+  /// **'Styajka'**
+  String get designFloorPlastered;
+
+  /// B1-alt surface sheet: floor option meaning a covering already exists.
+  ///
+  /// In uz, this message translates to:
+  /// **'Qoplama bor'**
+  String get designFloorPuttied;
+
+  /// B1-alt surface sheet: ceiling option for raw/bare.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xom'**
+  String get designCeilingRaw;
+
+  /// B1-alt surface sheet: ceiling option for plastered (suvoq).
+  ///
+  /// In uz, this message translates to:
+  /// **'Suvoq'**
+  String get designCeilingPlastered;
+
+  /// B1-alt surface sheet: ceiling option for finished/ready.
+  ///
+  /// In uz, this message translates to:
+  /// **'Tayyor'**
+  String get designCeilingPuttied;
+
+  /// B2 room entry: intro card stating the room's current baseline condition and that decoration proceeds step by step.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xonangiz shu holatda — {condition}. Endi bosqichma-bosqich bezaymiz.'**
+  String designRoomEntryIntro(String condition);
+
+  /// B3 decoration rail: success toast after applying a paint/putty swatch to the wall.
+  ///
+  /// In uz, this message translates to:
+  /// **'✓ Shpaklovka qo\'shildi'**
+  String get designToastShpaklovkaAdded;
+
+  /// B3 decoration rail: stage-progress label for the paint/wallpaper stage.
+  ///
+  /// In uz, this message translates to:
+  /// **'Bo\'yoq/Oboi bosqichi'**
+  String get designStageBoyoqOboi;
+
+  /// B3 decoration rail: rail tab label for paint swatches.
+  ///
+  /// In uz, this message translates to:
+  /// **'Bo\'yoq'**
+  String get designRailTabBoyoq;
+
+  /// B3 decoration rail: one-time onboarding hint to drag a material onto the wall with your finger.
+  ///
+  /// In uz, this message translates to:
+  /// **'Materialni barmog\'ingiz bilan devorga sudrang'**
+  String get designDragHint;
+
+  /// Decoration flow: primary button advancing to the next renovation stage (B3, C4, C5).
+  ///
+  /// In uz, this message translates to:
+  /// **'Keyingi bosqich →'**
+  String get designNextStage;
+
+  /// C4 floor selection: success toast after applying a floor material.
+  ///
+  /// In uz, this message translates to:
+  /// **'✓ Polga qo\'llanildi'**
+  String get interiorToastFloorApplied;
+
+  /// C4 floor selection: stage-progress label for the flooring stage.
+  ///
+  /// In uz, this message translates to:
+  /// **'Pol bosqichi'**
+  String get interiorStagePol;
+
+  /// C4 floor selection: rail tab label for tile (kafel) floors.
+  ///
+  /// In uz, this message translates to:
+  /// **'Kafel'**
+  String get interiorRailTabKafel;
+
+  /// C4 floor selection: rail tab label for laminate floors.
+  ///
+  /// In uz, this message translates to:
+  /// **'Laminat'**
+  String get interiorRailTabLaminat;
+
+  /// C4 floor selection: rail tab label for parquet floors.
+  ///
+  /// In uz, this message translates to:
+  /// **'Parket'**
+  String get interiorRailTabParket;
+
+  /// C4 floor selection: rail tab label for concrete (beton) floors.
+  ///
+  /// In uz, this message translates to:
+  /// **'Beton'**
+  String get interiorRailTabBeton;
+
+  /// C5 furniture placement: stage label for the furniture stage.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mebel bosqichi'**
+  String get interiorStageMebel;
+
+  /// C5 furniture placement: room rail tab for the living room.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mehmonxona'**
+  String get interiorRailTabMehmonxona;
+
+  /// C5 furniture placement: room rail tab for the kitchen.
+  ///
+  /// In uz, this message translates to:
+  /// **'Oshxona'**
+  String get interiorRailTabOshxona;
+
+  /// C5 furniture placement: room rail tab for the bedroom.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yotoqxona'**
+  String get interiorRailTabYotoqxona;
+
+  /// C5 furniture placement: room rail tab for the bathroom.
+  ///
+  /// In uz, this message translates to:
+  /// **'Vanna'**
+  String get interiorRailTabVanna;
+
+  /// C7 walkthrough: hint pill explaining you can walk on the floor by dragging with a finger.
+  ///
+  /// In uz, this message translates to:
+  /// **'Polda yurish mumkin — barmoq bilan suring'**
+  String get interiorWalkthroughHint;
+
+  /// C7 walkthrough: button switching to the top-down plan view.
+  ///
+  /// In uz, this message translates to:
+  /// **'Rejaga o\'tish →'**
+  String get interiorGoToPlan;
+
+  /// C9 decoration complete: success title ('Decoration finished').
+  ///
+  /// In uz, this message translates to:
+  /// **'Bezash yakunlandi'**
+  String get interiorDecorationComplete;
+
+  /// C9 decoration complete: primary button moving on to the electrical stage.
+  ///
+  /// In uz, this message translates to:
+  /// **'Elektrga o\'tish →'**
+  String get interiorGoToElectrical;
+
+  /// Wallpaper library sheet: snackbar confirming an uploaded wallpaper was added to the library.
+  ///
+  /// In uz, this message translates to:
+  /// **'✓ Oboy kutubxonaga qo\'shildi'**
+  String get interiorWallpaperAdded;
+
+  /// Wallpaper library sheet: snackbar shown when the wallpaper upload fails.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yuklab bo\'lmadi: {error}'**
+  String interiorUploadFailed(String error);
+
+  /// Wallpaper library sheet: title ('Wallpaper library').
+  ///
+  /// In uz, this message translates to:
+  /// **'Oboy kutubxonasi'**
+  String get interiorWallpaperLibrary;
+
+  /// Wallpaper library sheet: upload button label while an image is uploading.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yuklanmoqda…'**
+  String get interiorUploading;
+
+  /// Wallpaper library sheet: upload button label ('Upload image').
+  ///
+  /// In uz, this message translates to:
+  /// **'Rasm yuklash'**
+  String get interiorUploadImage;
+
+  /// Wallpaper library sheet: empty-state message inviting the user to upload the first wallpaper.
+  ///
+  /// In uz, this message translates to:
+  /// **'Hali oboy yo\'q — birinchi bo\'lib rasm yuklang'**
+  String get interiorNoWallpapers;
+
+  /// D8 electrical summary: app bar title ('Wire routing').
+  ///
+  /// In uz, this message translates to:
+  /// **'Sim yo\'nalishi'**
+  String get electricalWireRouting;
+
+  /// D8 electrical summary: view-toggle chip for the 2D plan.
+  ///
+  /// In uz, this message translates to:
+  /// **'2D reja'**
+  String get electricalView2d;
+
+  /// D8 electrical summary: view-toggle chip for the 3D view.
+  ///
+  /// In uz, this message translates to:
+  /// **'3D'**
+  String get electricalView3d;
+
+  /// D8 electrical summary: view-toggle chip showing both 2D and 3D ('Both').
+  ///
+  /// In uz, this message translates to:
+  /// **'Ikkalasi'**
+  String get electricalViewBoth;
+
+  /// D8 electrical summary: button to recompute the wire routing.
+  ///
+  /// In uz, this message translates to:
+  /// **'Trassani qayta hisoblash'**
+  String get electricalRecomputeRoute;
+
+  /// D8 electrical summary: primary button advancing to the electrical result (D9).
+  ///
+  /// In uz, this message translates to:
+  /// **'Keyingi →'**
+  String get electricalNext;
+
+  /// D9 electrical result: app bar title ('Electrical result').
+  ///
+  /// In uz, this message translates to:
+  /// **'Elektr natijasi'**
+  String get electricalResult;
+
+  /// D9 electrical result: primary button finishing the electrical flow (to D10).
+  ///
+  /// In uz, this message translates to:
+  /// **'Yakunlash →'**
+  String get electricalFinish;
+
+  /// D10 final confirmation: success title ('Your project is ready').
+  ///
+  /// In uz, this message translates to:
+  /// **'Loyihangiz tayyor'**
+  String get electricalProjectReady;
+
+  /// D10 final confirmation: primary button opening the cost estimate (E1).
+  ///
+  /// In uz, this message translates to:
+  /// **'Smetani ko\'rish →'**
+  String get electricalViewEstimate;
+
+  /// E1 estimation: app bar title prefix, followed by the room name and dimensions ('Renovation estimate').
+  ///
+  /// In uz, this message translates to:
+  /// **'Remont smetasi'**
+  String get estimateTitlePrefix;
+
+  /// E1 estimation: fallback room name shown in the title when the room has none ('Living room').
+  ///
+  /// In uz, this message translates to:
+  /// **'Mehmonxona'**
+  String get estimateDefaultRoomName;
+
+  /// E1 estimation: snackbar shown when downloading the smeta PDF fails.
+  ///
+  /// In uz, this message translates to:
+  /// **'PDF yuklab bo\'lmadi: {error}'**
+  String estimatePdfFailed(String error);
+
+  /// E1 estimation: fallback label in the savings banner for already-done work ('Some work').
+  ///
+  /// In uz, this message translates to:
+  /// **'Ba\'zi ishlar'**
+  String get estimateSomeWork;
+
+  /// E1 estimation: generic fallback stage label in the savings banner ('Stage').
+  ///
+  /// In uz, this message translates to:
+  /// **'Bosqich'**
+  String get estimateStageFallback;
+
+  /// Estimate adjust: E1 tooltip and E3 app bar title ('Adjust estimate').
+  ///
+  /// In uz, this message translates to:
+  /// **'Smeta sozlash'**
+  String get estimateAdjust;
+
+  /// E1 estimation: label above the big total price card ('Approximate total price').
+  ///
+  /// In uz, this message translates to:
+  /// **'Taxminiy umumiy narx'**
+  String get estimateApproxTotal;
+
+  /// Estimate: labour cost column/summary label ('Labour') (E1, E2, E3).
+  ///
+  /// In uz, this message translates to:
+  /// **'Ishchi kuchi'**
+  String get estimateLabor;
+
+  /// E1 estimation: green savings banner stating a stage already existed and how much was saved.
+  ///
+  /// In uz, this message translates to:
+  /// **'{label} allaqachon bor edi — {amount} tejaldingiz'**
+  String estimateSavingsBanner(String label, String amount);
+
+  /// E1 estimation: note on an excluded stage row ('you already have it — not counted').
+  ///
+  /// In uz, this message translates to:
+  /// **'sizda mavjud — hisoblanmadi'**
+  String get estimateExcludedNote;
+
+  /// E1 estimation: struck-through price shown for excluded stages ('0 som').
+  ///
+  /// In uz, this message translates to:
+  /// **'0 so\'m'**
+  String get estimateZeroSom;
+
+  /// E1 estimation: PDF button label while the PDF is being prepared.
+  ///
+  /// In uz, this message translates to:
+  /// **'Tayyorlanmoqda…'**
+  String get estimatePreparingPdf;
+
+  /// E1 estimation: primary button to buy materials from shops.
+  ///
+  /// In uz, this message translates to:
+  /// **'Do\'konlardan xarid qilish'**
+  String get estimateBuyFromShops;
+
+  /// E1 estimation: secondary button to send the estimate to a craftsman.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ustaga yuborish'**
+  String get estimateSendToMaster;
+
+  /// E2 material costs: materials subtotal row label ('Materials total').
+  ///
+  /// In uz, this message translates to:
+  /// **'Materiallar jami'**
+  String get estimateMaterialsTotal;
+
+  /// E2 material costs: sticky stage total label ('Stage total').
+  ///
+  /// In uz, this message translates to:
+  /// **'Bosqich jami'**
+  String get estimateStageTotal;
+
+  /// E2 material costs: button adding this stage's materials to the cart.
+  ///
+  /// In uz, this message translates to:
+  /// **'Materiallarni savatga'**
+  String get estimateAddMaterialsToCart;
+
+  /// E3 labor costs: section title above the quality-tier options ('Quality level').
+  ///
+  /// In uz, this message translates to:
+  /// **'Sifat darajasi'**
+  String get estimateQualityLevel;
+
+  /// E3 labor costs: DIY switch title ('Don't include labour').
+  ///
+  /// In uz, this message translates to:
+  /// **'Ishchi kuchini qo\'shmaslik'**
+  String get estimateExcludeLabor;
+
+  /// E3 labor costs: DIY switch subtitle ('I'll do it myself — only materials are counted').
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'zim bajaraman — faqat materiallar hisoblanadi'**
+  String get estimateDiySubtitle;
+
+  /// E3 labor costs: summary row for the delta savings from an excluded stage.
+  ///
+  /// In uz, this message translates to:
+  /// **'Delta tejash ({stage})'**
+  String estimateDeltaSavings(String stage);
+
+  /// E3 labor costs: sticky new total label ('New total').
+  ///
+  /// In uz, this message translates to:
+  /// **'Yangi jami'**
+  String get estimateNewTotal;
+
+  /// E3 labor costs: primary button saving the estimate and returning to E1.
+  ///
+  /// In uz, this message translates to:
+  /// **'Smetani saqlash'**
+  String get estimateSaveEstimate;
+
+  /// AI designer: E1 button and AI builder sheet header ('AI designer').
+  ///
+  /// In uz, this message translates to:
+  /// **'AI dizayner'**
+  String get studioAiDesigner;
+
+  /// AI builder sheet: snackbar confirming the AI's changes were applied.
+  ///
+  /// In uz, this message translates to:
+  /// **'✓ AI o\'zgarishlari qo\'llanildi'**
+  String get studioAiApplied;
+
+  /// AI builder sheet: snackbar shown when applying the AI patch fails.
+  ///
+  /// In uz, this message translates to:
+  /// **'Qo\'llab bo\'lmadi: {error}'**
+  String studioApplyFailed(String error);
+
+  /// AI builder sheet: example prompt hint in the request text field.
+  ///
+  /// In uz, this message translates to:
+  /// **'Masalan: \"Devorlarni iliq bej rangga bo\'ya va divan qo\'sh\"'**
+  String get studioAiHint;
+
+  /// AI builder sheet: generate button label while the AI is working.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ishlanmoqda…'**
+  String get studioGenerating;
+
+  /// AI builder sheet: generate button label ('Generate').
+  ///
+  /// In uz, this message translates to:
+  /// **'Yaratish'**
+  String get studioGenerate;
+
+  /// AI builder sheet: streamed event row for a tool call the agent made.
+  ///
+  /// In uz, this message translates to:
+  /// **'Amal: {name}'**
+  String studioActionLabel(String name);
+
+  /// AI builder sheet: streamed event row for a completed tool result.
+  ///
+  /// In uz, this message translates to:
+  /// **'Bajarildi: {name}'**
+  String studioDoneLabel(String name);
+
+  /// AI builder sheet: error tile shown when the AI could not respond, followed by the error detail.
+  ///
+  /// In uz, this message translates to:
+  /// **'AI hozircha javob berolmadi.\n{message}'**
+  String studioAiNoResponse(String message);
+
+  /// AI builder sheet: proposed change line for the new ceiling height in meters.
+  ///
+  /// In uz, this message translates to:
+  /// **'Shift balandligi: {height} m'**
+  String studioChangeCeiling(String height);
+
+  /// AI builder sheet: proposed change line for how many surface materials changed.
+  ///
+  /// In uz, this message translates to:
+  /// **'{count} ta yuza materiali'**
+  String studioChangeSurfaces(int count);
+
+  /// AI builder sheet: proposed change line for how many wall dimensions changed.
+  ///
+  /// In uz, this message translates to:
+  /// **'{count} ta devor o\'lchami'**
+  String studioChangeWalls(int count);
+
+  /// AI builder sheet: proposed change line for how many furniture items changed.
+  ///
+  /// In uz, this message translates to:
+  /// **'{count} ta mebel'**
+  String studioChangeFurniture(int count);
+
+  /// AI builder sheet: proposed change line for how many lights changed.
+  ///
+  /// In uz, this message translates to:
+  /// **'{count} ta chiroq'**
+  String studioChangeLights(int count);
+
+  /// AI builder sheet: button applying the AI's proposed changes ('Apply').
+  ///
+  /// In uz, this message translates to:
+  /// **'Qo\'llash'**
+  String get studioApply;
+
+  /// Studio WebView: error shown when opening the studio while unauthenticated ('Log in to open the studio').
+  ///
+  /// In uz, this message translates to:
+  /// **'Studio ochish uchun tizimga kiring.'**
+  String get studioLoginRequired;
+
+  /// Studio WebView: error shown when the studio page fails to load.
+  ///
+  /// In uz, this message translates to:
+  /// **'Studio yuklanmadi: {error}'**
+  String studioLoadFailed(String error);
 }
 
 class _AppLocalizationsDelegate

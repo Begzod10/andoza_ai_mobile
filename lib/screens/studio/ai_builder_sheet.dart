@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/api/api.dart';
 import '../../providers/ai_provider.dart';
 import '../../providers/apartment_provider.dart';
@@ -102,6 +103,7 @@ class _AiBuilderSheetState extends ConsumerState<AiBuilderSheet> {
   Future<void> _apply(AiPatch patch) async {
     setState(() => _applying = true);
     final messenger = ScaffoldMessenger.of(context);
+    final l10n = AppLocalizations.of(context)!;
     try {
       final repo = ref.read(apartmentRepositoryProvider);
       final patchSurfaces = patch.surfaces;
@@ -127,12 +129,12 @@ class _AiBuilderSheetState extends ConsumerState<AiBuilderSheet> {
       }
       if (mounted) {
         messenger.showSnackBar(
-          const SnackBar(content: Text('✓ AI o\'zgarishlari qo\'llanildi')),
+          SnackBar(content: Text(l10n.studioAiApplied)),
         );
         Navigator.of(context).pop();
       }
     } catch (e) {
-      messenger.showSnackBar(SnackBar(content: Text('Qo\'llab bo\'lmadi: $e')));
+      messenger.showSnackBar(SnackBar(content: Text(l10n.studioApplyFailed(e.toString()))));
     } finally {
       if (mounted) setState(() => _applying = false);
     }
@@ -140,6 +142,7 @@ class _AiBuilderSheetState extends ConsumerState<AiBuilderSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final insets = MediaQuery.of(context).viewInsets.bottom;
     return Padding(
       padding: EdgeInsets.only(bottom: insets),
@@ -153,11 +156,11 @@ class _AiBuilderSheetState extends ConsumerState<AiBuilderSheet> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Row(
+                Row(
                   children: [
-                    Icon(Icons.auto_awesome, color: DesignTokens.primaryBlue),
-                    SizedBox(width: DesignTokens.spacingSm),
-                    Text('AI dizayner', style: DesignTokens.subtitle1),
+                    const Icon(Icons.auto_awesome, color: DesignTokens.primaryBlue),
+                    const SizedBox(width: DesignTokens.spacingSm),
+                    Text(l10n.studioAiDesigner, style: DesignTokens.subtitle1),
                   ],
                 ),
                 const SizedBox(height: DesignTokens.spacingMd),
@@ -166,10 +169,9 @@ class _AiBuilderSheetState extends ConsumerState<AiBuilderSheet> {
                   minLines: 2,
                   maxLines: 4,
                   enabled: !_running,
-                  decoration: const InputDecoration(
-                    hintText:
-                        'Masalan: "Devorlarni iliq bej rangga bo\'ya va divan qo\'sh"',
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    hintText: l10n.studioAiHint,
+                    border: const OutlineInputBorder(),
                   ),
                 ),
                 const SizedBox(height: DesignTokens.spacingSm),
@@ -185,7 +187,7 @@ class _AiBuilderSheetState extends ConsumerState<AiBuilderSheet> {
                                 strokeWidth: 2, color: Colors.white),
                           )
                         : const Icon(Icons.auto_awesome),
-                    label: Text(_running ? 'Ishlanmoqda…' : 'Yaratish'),
+                    label: Text(_running ? l10n.studioGenerating : l10n.studioGenerate),
                   ),
                 ),
                 const SizedBox(height: DesignTokens.spacingMd),
@@ -222,12 +224,13 @@ class _EventTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final (icon, text) = switch (event) {
       AiThinking(:final text) => (Icons.psychology_outlined, text),
-      AiToolCall(:final name) => (Icons.build_outlined, 'Amal: $name'),
+      AiToolCall(:final name) => (Icons.build_outlined, l10n.studioActionLabel(name)),
       AiToolResult(:final name, :final summary) => (
           Icons.check_circle_outline,
-          summary ?? 'Bajarildi: $name',
+          summary ?? l10n.studioDoneLabel(name),
         ),
       _ => (Icons.info_outline, ''),
     };
@@ -254,6 +257,7 @@ class _ErrorTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       margin: const EdgeInsets.only(top: DesignTokens.spacingSm),
       padding: const EdgeInsets.all(DesignTokens.spacingMd),
@@ -269,7 +273,7 @@ class _ErrorTile extends StatelessWidget {
           const SizedBox(width: DesignTokens.spacingSm),
           Expanded(
             child: Text(
-              'AI hozircha javob berolmadi.\n$message',
+              l10n.studioAiNoResponse(message),
               style: DesignTokens.caption.copyWith(color: Colors.red.shade900),
             ),
           ),
@@ -294,18 +298,19 @@ class _ResultCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final patch = result.patch;
     final changes = <String>[
       if (patch?.ceilingH != null)
-        'Shift balandligi: ${patch!.ceilingH!.toStringAsFixed(2)} m',
+        l10n.studioChangeCeiling(patch!.ceilingH!.toStringAsFixed(2)),
       if (patch?.surfaces != null && patch!.surfaces!.isNotEmpty)
-        '${patch.surfaces!.length} ta yuza materiali',
+        l10n.studioChangeSurfaces(patch.surfaces!.length),
       if (patch?.wallLengths != null && patch!.wallLengths!.isNotEmpty)
-        '${patch.wallLengths!.length} ta devor o\'lchami',
+        l10n.studioChangeWalls(patch.wallLengths!.length),
       if (patch?.furniture != null && patch!.furniture!.isNotEmpty)
-        '${patch.furniture!.length} ta mebel',
+        l10n.studioChangeFurniture(patch.furniture!.length),
       if (patch?.lights != null && patch!.lights!.isNotEmpty)
-        '${patch.lights!.length} ta chiroq',
+        l10n.studioChangeLights(patch.lights!.length),
     ];
     return Container(
       margin: const EdgeInsets.only(top: DesignTokens.spacingSm),
@@ -333,7 +338,7 @@ class _ResultCard extends StatelessWidget {
               Expanded(
                 child: OutlinedButton(
                   onPressed: applying ? null : onDiscard,
-                  child: const Text('Bekor qilish'),
+                  child: Text(l10n.actionCancel),
                 ),
               ),
               const SizedBox(width: DesignTokens.spacingSm),
@@ -347,7 +352,7 @@ class _ResultCard extends StatelessWidget {
                           child: CircularProgressIndicator(
                               strokeWidth: 2, color: Colors.white),
                         )
-                      : const Text('Qo\'llash'),
+                      : Text(l10n.studioApply),
                 ),
               ),
             ],

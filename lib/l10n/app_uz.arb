@@ -965,5 +965,401 @@
   "onboardingDemoTryMyself": "O'zim sinab ko'raman",
   "@onboardingDemoTryMyself": {
     "description": "E8 tutorial: button to try the app directly ('I'll try it myself')."
+  },
+
+  "commonBackTo3d": "3D'ga qaytish",
+  "@commonBackTo3d": {
+    "description": "Secondary button returning to the 3D view (C9 decoration-complete and D10 final-confirmation)."
+  },
+
+  "designSurfaceFloorHeading": "Pol",
+  "@designSurfaceFloorHeading": {
+    "description": "B1-alt surface sheet: heading above the floor condition options."
+  },
+  "designSurfaceCeilingHeading": "Shift",
+  "@designSurfaceCeilingHeading": {
+    "description": "B1-alt surface sheet: heading above the ceiling condition options."
+  },
+  "designFloorRaw": "Xom beton",
+  "@designFloorRaw": {
+    "description": "B1-alt surface sheet: floor option for raw concrete."
+  },
+  "designFloorPlastered": "Styajka",
+  "@designFloorPlastered": {
+    "description": "B1-alt surface sheet: floor option for screed (styajka)."
+  },
+  "designFloorPuttied": "Qoplama bor",
+  "@designFloorPuttied": {
+    "description": "B1-alt surface sheet: floor option meaning a covering already exists."
+  },
+  "designCeilingRaw": "Xom",
+  "@designCeilingRaw": {
+    "description": "B1-alt surface sheet: ceiling option for raw/bare."
+  },
+  "designCeilingPlastered": "Suvoq",
+  "@designCeilingPlastered": {
+    "description": "B1-alt surface sheet: ceiling option for plastered (suvoq)."
+  },
+  "designCeilingPuttied": "Tayyor",
+  "@designCeilingPuttied": {
+    "description": "B1-alt surface sheet: ceiling option for finished/ready."
+  },
+  "designRoomEntryIntro": "Xonangiz shu holatda — {condition}. Endi bosqichma-bosqich bezaymiz.",
+  "@designRoomEntryIntro": {
+    "description": "B2 room entry: intro card stating the room's current baseline condition and that decoration proceeds step by step.",
+    "placeholders": {
+      "condition": { "type": "String" }
+    }
+  },
+  "designToastShpaklovkaAdded": "✓ Shpaklovka qo'shildi",
+  "@designToastShpaklovkaAdded": {
+    "description": "B3 decoration rail: success toast after applying a paint/putty swatch to the wall."
+  },
+  "designStageBoyoqOboi": "Bo'yoq/Oboi bosqichi",
+  "@designStageBoyoqOboi": {
+    "description": "B3 decoration rail: stage-progress label for the paint/wallpaper stage."
+  },
+  "designRailTabBoyoq": "Bo'yoq",
+  "@designRailTabBoyoq": {
+    "description": "B3 decoration rail: rail tab label for paint swatches."
+  },
+  "designDragHint": "Materialni barmog'ingiz bilan devorga sudrang",
+  "@designDragHint": {
+    "description": "B3 decoration rail: one-time onboarding hint to drag a material onto the wall with your finger."
+  },
+  "designNextStage": "Keyingi bosqich →",
+  "@designNextStage": {
+    "description": "Decoration flow: primary button advancing to the next renovation stage (B3, C4, C5)."
+  },
+
+  "interiorToastFloorApplied": "✓ Polga qo'llanildi",
+  "@interiorToastFloorApplied": {
+    "description": "C4 floor selection: success toast after applying a floor material."
+  },
+  "interiorStagePol": "Pol bosqichi",
+  "@interiorStagePol": {
+    "description": "C4 floor selection: stage-progress label for the flooring stage."
+  },
+  "interiorRailTabKafel": "Kafel",
+  "@interiorRailTabKafel": {
+    "description": "C4 floor selection: rail tab label for tile (kafel) floors."
+  },
+  "interiorRailTabLaminat": "Laminat",
+  "@interiorRailTabLaminat": {
+    "description": "C4 floor selection: rail tab label for laminate floors."
+  },
+  "interiorRailTabParket": "Parket",
+  "@interiorRailTabParket": {
+    "description": "C4 floor selection: rail tab label for parquet floors."
+  },
+  "interiorRailTabBeton": "Beton",
+  "@interiorRailTabBeton": {
+    "description": "C4 floor selection: rail tab label for concrete (beton) floors."
+  },
+  "interiorStageMebel": "Mebel bosqichi",
+  "@interiorStageMebel": {
+    "description": "C5 furniture placement: stage label for the furniture stage."
+  },
+  "interiorRailTabMehmonxona": "Mehmonxona",
+  "@interiorRailTabMehmonxona": {
+    "description": "C5 furniture placement: room rail tab for the living room."
+  },
+  "interiorRailTabOshxona": "Oshxona",
+  "@interiorRailTabOshxona": {
+    "description": "C5 furniture placement: room rail tab for the kitchen."
+  },
+  "interiorRailTabYotoqxona": "Yotoqxona",
+  "@interiorRailTabYotoqxona": {
+    "description": "C5 furniture placement: room rail tab for the bedroom."
+  },
+  "interiorRailTabVanna": "Vanna",
+  "@interiorRailTabVanna": {
+    "description": "C5 furniture placement: room rail tab for the bathroom."
+  },
+  "interiorWalkthroughHint": "Polda yurish mumkin — barmoq bilan suring",
+  "@interiorWalkthroughHint": {
+    "description": "C7 walkthrough: hint pill explaining you can walk on the floor by dragging with a finger."
+  },
+  "interiorGoToPlan": "Rejaga o'tish →",
+  "@interiorGoToPlan": {
+    "description": "C7 walkthrough: button switching to the top-down plan view."
+  },
+  "interiorDecorationComplete": "Bezash yakunlandi",
+  "@interiorDecorationComplete": {
+    "description": "C9 decoration complete: success title ('Decoration finished')."
+  },
+  "interiorGoToElectrical": "Elektrga o'tish →",
+  "@interiorGoToElectrical": {
+    "description": "C9 decoration complete: primary button moving on to the electrical stage."
+  },
+  "interiorWallpaperAdded": "✓ Oboy kutubxonaga qo'shildi",
+  "@interiorWallpaperAdded": {
+    "description": "Wallpaper library sheet: snackbar confirming an uploaded wallpaper was added to the library."
+  },
+  "interiorUploadFailed": "Yuklab bo'lmadi: {error}",
+  "@interiorUploadFailed": {
+    "description": "Wallpaper library sheet: snackbar shown when the wallpaper upload fails.",
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "interiorWallpaperLibrary": "Oboy kutubxonasi",
+  "@interiorWallpaperLibrary": {
+    "description": "Wallpaper library sheet: title ('Wallpaper library')."
+  },
+  "interiorUploading": "Yuklanmoqda…",
+  "@interiorUploading": {
+    "description": "Wallpaper library sheet: upload button label while an image is uploading."
+  },
+  "interiorUploadImage": "Rasm yuklash",
+  "@interiorUploadImage": {
+    "description": "Wallpaper library sheet: upload button label ('Upload image')."
+  },
+  "interiorNoWallpapers": "Hali oboy yo'q — birinchi bo'lib rasm yuklang",
+  "@interiorNoWallpapers": {
+    "description": "Wallpaper library sheet: empty-state message inviting the user to upload the first wallpaper."
+  },
+
+  "electricalWireRouting": "Sim yo'nalishi",
+  "@electricalWireRouting": {
+    "description": "D8 electrical summary: app bar title ('Wire routing')."
+  },
+  "electricalView2d": "2D reja",
+  "@electricalView2d": {
+    "description": "D8 electrical summary: view-toggle chip for the 2D plan."
+  },
+  "electricalView3d": "3D",
+  "@electricalView3d": {
+    "description": "D8 electrical summary: view-toggle chip for the 3D view."
+  },
+  "electricalViewBoth": "Ikkalasi",
+  "@electricalViewBoth": {
+    "description": "D8 electrical summary: view-toggle chip showing both 2D and 3D ('Both')."
+  },
+  "electricalRecomputeRoute": "Trassani qayta hisoblash",
+  "@electricalRecomputeRoute": {
+    "description": "D8 electrical summary: button to recompute the wire routing."
+  },
+  "electricalNext": "Keyingi →",
+  "@electricalNext": {
+    "description": "D8 electrical summary: primary button advancing to the electrical result (D9)."
+  },
+  "electricalResult": "Elektr natijasi",
+  "@electricalResult": {
+    "description": "D9 electrical result: app bar title ('Electrical result')."
+  },
+  "electricalFinish": "Yakunlash →",
+  "@electricalFinish": {
+    "description": "D9 electrical result: primary button finishing the electrical flow (to D10)."
+  },
+  "electricalProjectReady": "Loyihangiz tayyor",
+  "@electricalProjectReady": {
+    "description": "D10 final confirmation: success title ('Your project is ready')."
+  },
+  "electricalViewEstimate": "Smetani ko'rish →",
+  "@electricalViewEstimate": {
+    "description": "D10 final confirmation: primary button opening the cost estimate (E1)."
+  },
+
+  "estimateTitlePrefix": "Remont smetasi",
+  "@estimateTitlePrefix": {
+    "description": "E1 estimation: app bar title prefix, followed by the room name and dimensions ('Renovation estimate')."
+  },
+  "estimateDefaultRoomName": "Mehmonxona",
+  "@estimateDefaultRoomName": {
+    "description": "E1 estimation: fallback room name shown in the title when the room has none ('Living room')."
+  },
+  "estimatePdfFailed": "PDF yuklab bo'lmadi: {error}",
+  "@estimatePdfFailed": {
+    "description": "E1 estimation: snackbar shown when downloading the smeta PDF fails.",
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "estimateSomeWork": "Ba'zi ishlar",
+  "@estimateSomeWork": {
+    "description": "E1 estimation: fallback label in the savings banner for already-done work ('Some work')."
+  },
+  "estimateStageFallback": "Bosqich",
+  "@estimateStageFallback": {
+    "description": "E1 estimation: generic fallback stage label in the savings banner ('Stage')."
+  },
+  "estimateAdjust": "Smeta sozlash",
+  "@estimateAdjust": {
+    "description": "Estimate adjust: E1 tooltip and E3 app bar title ('Adjust estimate')."
+  },
+  "estimateApproxTotal": "Taxminiy umumiy narx",
+  "@estimateApproxTotal": {
+    "description": "E1 estimation: label above the big total price card ('Approximate total price')."
+  },
+  "estimateLabor": "Ishchi kuchi",
+  "@estimateLabor": {
+    "description": "Estimate: labour cost column/summary label ('Labour') (E1, E2, E3)."
+  },
+  "estimateSavingsBanner": "{label} allaqachon bor edi — {amount} tejaldingiz",
+  "@estimateSavingsBanner": {
+    "description": "E1 estimation: green savings banner stating a stage already existed and how much was saved.",
+    "placeholders": {
+      "label": { "type": "String" },
+      "amount": { "type": "String" }
+    }
+  },
+  "estimateExcludedNote": "sizda mavjud — hisoblanmadi",
+  "@estimateExcludedNote": {
+    "description": "E1 estimation: note on an excluded stage row ('you already have it — not counted')."
+  },
+  "estimateZeroSom": "0 so'm",
+  "@estimateZeroSom": {
+    "description": "E1 estimation: struck-through price shown for excluded stages ('0 som')."
+  },
+  "estimatePreparingPdf": "Tayyorlanmoqda…",
+  "@estimatePreparingPdf": {
+    "description": "E1 estimation: PDF button label while the PDF is being prepared."
+  },
+  "estimateBuyFromShops": "Do'konlardan xarid qilish",
+  "@estimateBuyFromShops": {
+    "description": "E1 estimation: primary button to buy materials from shops."
+  },
+  "estimateSendToMaster": "Ustaga yuborish",
+  "@estimateSendToMaster": {
+    "description": "E1 estimation: secondary button to send the estimate to a craftsman."
+  },
+  "estimateMaterialsTotal": "Materiallar jami",
+  "@estimateMaterialsTotal": {
+    "description": "E2 material costs: materials subtotal row label ('Materials total')."
+  },
+  "estimateStageTotal": "Bosqich jami",
+  "@estimateStageTotal": {
+    "description": "E2 material costs: sticky stage total label ('Stage total')."
+  },
+  "estimateAddMaterialsToCart": "Materiallarni savatga",
+  "@estimateAddMaterialsToCart": {
+    "description": "E2 material costs: button adding this stage's materials to the cart."
+  },
+  "estimateQualityLevel": "Sifat darajasi",
+  "@estimateQualityLevel": {
+    "description": "E3 labor costs: section title above the quality-tier options ('Quality level')."
+  },
+  "estimateExcludeLabor": "Ishchi kuchini qo'shmaslik",
+  "@estimateExcludeLabor": {
+    "description": "E3 labor costs: DIY switch title ('Don't include labour')."
+  },
+  "estimateDiySubtitle": "O'zim bajaraman — faqat materiallar hisoblanadi",
+  "@estimateDiySubtitle": {
+    "description": "E3 labor costs: DIY switch subtitle ('I'll do it myself — only materials are counted')."
+  },
+  "estimateDeltaSavings": "Delta tejash ({stage})",
+  "@estimateDeltaSavings": {
+    "description": "E3 labor costs: summary row for the delta savings from an excluded stage.",
+    "placeholders": {
+      "stage": { "type": "String" }
+    }
+  },
+  "estimateNewTotal": "Yangi jami",
+  "@estimateNewTotal": {
+    "description": "E3 labor costs: sticky new total label ('New total')."
+  },
+  "estimateSaveEstimate": "Smetani saqlash",
+  "@estimateSaveEstimate": {
+    "description": "E3 labor costs: primary button saving the estimate and returning to E1."
+  },
+
+  "studioAiDesigner": "AI dizayner",
+  "@studioAiDesigner": {
+    "description": "AI designer: E1 button and AI builder sheet header ('AI designer')."
+  },
+  "studioAiApplied": "✓ AI o'zgarishlari qo'llanildi",
+  "@studioAiApplied": {
+    "description": "AI builder sheet: snackbar confirming the AI's changes were applied."
+  },
+  "studioApplyFailed": "Qo'llab bo'lmadi: {error}",
+  "@studioApplyFailed": {
+    "description": "AI builder sheet: snackbar shown when applying the AI patch fails.",
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "studioAiHint": "Masalan: \"Devorlarni iliq bej rangga bo'ya va divan qo'sh\"",
+  "@studioAiHint": {
+    "description": "AI builder sheet: example prompt hint in the request text field."
+  },
+  "studioGenerating": "Ishlanmoqda…",
+  "@studioGenerating": {
+    "description": "AI builder sheet: generate button label while the AI is working."
+  },
+  "studioGenerate": "Yaratish",
+  "@studioGenerate": {
+    "description": "AI builder sheet: generate button label ('Generate')."
+  },
+  "studioActionLabel": "Amal: {name}",
+  "@studioActionLabel": {
+    "description": "AI builder sheet: streamed event row for a tool call the agent made.",
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "studioDoneLabel": "Bajarildi: {name}",
+  "@studioDoneLabel": {
+    "description": "AI builder sheet: streamed event row for a completed tool result.",
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "studioAiNoResponse": "AI hozircha javob berolmadi.\n{message}",
+  "@studioAiNoResponse": {
+    "description": "AI builder sheet: error tile shown when the AI could not respond, followed by the error detail.",
+    "placeholders": {
+      "message": { "type": "String" }
+    }
+  },
+  "studioChangeCeiling": "Shift balandligi: {height} m",
+  "@studioChangeCeiling": {
+    "description": "AI builder sheet: proposed change line for the new ceiling height in meters.",
+    "placeholders": {
+      "height": { "type": "String" }
+    }
+  },
+  "studioChangeSurfaces": "{count} ta yuza materiali",
+  "@studioChangeSurfaces": {
+    "description": "AI builder sheet: proposed change line for how many surface materials changed.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "studioChangeWalls": "{count} ta devor o'lchami",
+  "@studioChangeWalls": {
+    "description": "AI builder sheet: proposed change line for how many wall dimensions changed.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "studioChangeFurniture": "{count} ta mebel",
+  "@studioChangeFurniture": {
+    "description": "AI builder sheet: proposed change line for how many furniture items changed.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "studioChangeLights": "{count} ta chiroq",
+  "@studioChangeLights": {
+    "description": "AI builder sheet: proposed change line for how many lights changed.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "studioApply": "Qo'llash",
+  "@studioApply": {
+    "description": "AI builder sheet: button applying the AI's proposed changes ('Apply')."
+  },
+  "studioLoginRequired": "Studio ochish uchun tizimga kiring.",
+  "@studioLoginRequired": {
+    "description": "Studio WebView: error shown when opening the studio while unauthenticated ('Log in to open the studio')."
+  },
+  "studioLoadFailed": "Studio yuklanmadi: {error}",
+  "@studioLoadFailed": {
+    "description": "Studio WebView: error shown when the studio page fails to load.",
+    "placeholders": {
+      "error": { "type": "String" }
+    }
   }
 }
