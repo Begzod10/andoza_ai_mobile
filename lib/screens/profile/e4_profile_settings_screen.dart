@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/estimate_provider.dart';
 import '../../providers/orders_provider.dart';
@@ -16,6 +17,7 @@ class E4ProfileSettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final currentUser = ref.watch(currentUserProvider);
     final name = currentUser.maybeWhen(
       data: (user) => user?.firstName ?? user?.name ?? user?.username,
@@ -41,7 +43,7 @@ class E4ProfileSettingsScreen extends ConsumerWidget {
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: const Text('Profil', style: DesignTokens.heading3),
+        title: Text(l10n.navProfile, style: DesignTokens.heading3),
       ),
       body: ListView(
         padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),
@@ -62,11 +64,14 @@ class E4ProfileSettingsScreen extends ConsumerWidget {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(name ?? 'Foydalanuvchi', style: DesignTokens.heading3),
+                    Text(
+                      name ?? l10n.profileDefaultName,
+                      style: DesignTokens.heading3,
+                    ),
                     const SizedBox(width: DesignTokens.spacingXs),
                     InkWell(
                       onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Tez kunda')),
+                        SnackBar(content: Text(l10n.profileComingSoon)),
                       ),
                       child: const Icon(
                         Icons.edit_outlined,
@@ -85,7 +90,7 @@ class E4ProfileSettingsScreen extends ConsumerWidget {
                   ),
                 const SizedBox(height: DesignTokens.spacingXs),
                 Text(
-                  '✓ Tasdiqlangan',
+                  l10n.commonVerifiedBadge,
                   style: DesignTokens.caption.copyWith(
                     color: DesignTokens.successGreen,
                     fontWeight: FontWeight.bold,
@@ -98,17 +103,25 @@ class E4ProfileSettingsScreen extends ConsumerWidget {
           Row(
             children: [
               Expanded(
-                child: _StatCard(value: '$projectCount', label: 'loyiha'),
-              ),
-              const SizedBox(width: DesignTokens.spacingSm),
-              Expanded(
-                child: _StatCard(value: '$orderCount', label: 'buyurtma'),
+                child: _StatCard(
+                  value: '$projectCount',
+                  label: l10n.profileStatProjects,
+                ),
               ),
               const SizedBox(width: DesignTokens.spacingSm),
               Expanded(
                 child: _StatCard(
-                  value: '${(savings / 1000000).toStringAsFixed(1)} mln',
-                  label: 'tejaldi',
+                  value: '$orderCount',
+                  label: l10n.profileStatOrders,
+                ),
+              ),
+              const SizedBox(width: DesignTokens.spacingSm),
+              Expanded(
+                child: _StatCard(
+                  value: l10n.profileSavedMln(
+                    (savings / 1000000).toStringAsFixed(1),
+                  ),
+                  label: l10n.profileStatSaved,
                 ),
               ),
             ],
@@ -116,52 +129,52 @@ class E4ProfileSettingsScreen extends ConsumerWidget {
           const SizedBox(height: DesignTokens.spacingLg),
           _MenuTile(
             icon: Icons.architecture_outlined,
-            label: 'Loyihalarim',
+            label: l10n.profileMenuProjects,
             onTap: () => context.push('/profile/e5'),
           ),
           _MenuTile(
             icon: Icons.shopping_bag_outlined,
-            label: 'Buyurtmalarim',
+            label: l10n.profileMenuOrders,
             onTap: () => context.push('/profile/e6'),
           ),
           _MenuTile(
             icon: Icons.bookmark_border,
-            label: 'Saqlangan dizaynlar',
+            label: l10n.profileMenuSavedDesigns,
             onTap: () => context.push('/profile/e11'),
           ),
           _MenuTile(
             icon: Icons.location_on_outlined,
-            label: 'Manzillarim',
+            label: l10n.profileMenuAddresses,
             onTap: () => ScaffoldMessenger.of(
               context,
-            ).showSnackBar(const SnackBar(content: Text('Tez kunda'))),
+            ).showSnackBar(SnackBar(content: Text(l10n.profileComingSoon))),
           ),
           _MenuTile(
             icon: Icons.credit_card_outlined,
-            label: 'To\'lov usullari',
+            label: l10n.profileMenuPaymentMethods,
             onTap: () => context.push('/shop/s6'),
           ),
           _MenuTile(
             icon: Icons.language_outlined,
-            label: 'Til',
+            label: l10n.profileMenuLanguage,
             onTap: () => ScaffoldMessenger.of(
               context,
-            ).showSnackBar(const SnackBar(content: Text('O\'zbekcha'))),
+            ).showSnackBar(SnackBar(content: Text(l10n.profileLanguageUzbek))),
           ),
           _MenuTile(
             icon: Icons.settings_outlined,
-            label: 'Sozlamalar',
+            label: l10n.profileMenuSettings,
             onTap: () => context.push('/profile/settings'),
           ),
           _MenuTile(
             icon: Icons.help_outline,
-            label: 'Yordam',
+            label: l10n.profileMenuHelp,
             onTap: () => context.push('/onboarding/e8'),
           ),
           const SizedBox(height: DesignTokens.spacingSm),
           _MenuTile(
             icon: Icons.logout,
-            label: 'Chiqish',
+            label: l10n.profileMenuLogout,
             isDestructive: true,
             onTap: () => ref.read(authStateProvider.notifier).logout(),
           ),

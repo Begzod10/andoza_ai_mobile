@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 
 /// E7: Qanday ishlaydi? — 4 full-screen dark-gradient onboarding slides
 /// with segment progress + skip. Slide 2 is the delta-idea explainer and
@@ -43,6 +44,7 @@ class _E7OnboardingWelcomeScreenState extends State<E7OnboardingWelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: DesignTokens.darkBg,
       body: SafeArea(
@@ -76,7 +78,7 @@ class _E7OnboardingWelcomeScreenState extends State<E7OnboardingWelcomeScreen> {
                   TextButton(
                     onPressed: () => context.go('/'),
                     child: Text(
-                      'O\'tkazib yuborish',
+                      l10n.onboardingSkip,
                       style: DesignTokens.caption.copyWith(
                         color: DesignTokens.white.withValues(alpha: 0.7),
                       ),
@@ -108,7 +110,9 @@ class _E7OnboardingWelcomeScreenState extends State<E7OnboardingWelcomeScreen> {
                   ),
                   onPressed: _next,
                   child: Text(
-                    _index == _slideCount - 1 ? 'Boshlash' : 'Keyingi',
+                    _index == _slideCount - 1
+                        ? l10n.onboardingStart
+                        : l10n.actionNext,
                   ),
                 ),
               ),
@@ -178,12 +182,11 @@ class _MeasureSlide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _SlideScaffold(
+    final l10n = AppLocalizations.of(context)!;
+    return _SlideScaffold(
       icon: Icons.straighten,
-      title: 'Xonangizni o\'lchang',
-      description:
-          'Telefon kamerasi yoki LiDAR yordamida xonangiz o\'lchamlarini '
-          'aniq oling.',
+      title: l10n.onboardingMeasureTitle,
+      description: l10n.onboardingMeasureBody,
     );
   }
 }
@@ -194,21 +197,23 @@ class _DeltaSlide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return _SlideScaffold(
       icon: Icons.auto_awesome,
-      title: 'Hozirgi holatdan boshlaymiz',
-      description:
-          'Xonangizda allaqachon bor narsalar uchun to\'lamaysiz — '
-          'faqat kerakli qismini hisoblaymiz.',
+      title: l10n.onboardingDeltaTitle,
+      description: l10n.onboardingDeltaBody,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const _StateSwatch(color: DesignTokens.existingStateGray, label: 'Hozirgi'),
+          _StateSwatch(
+            color: DesignTokens.existingStateGray,
+            label: l10n.onboardingDeltaCurrent,
+          ),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: DesignTokens.spacingMd),
             child: Icon(Icons.arrow_forward, color: DesignTokens.white),
           ),
-          _StateSwatch(color: DesignTokens.delta.completed, label: 'Tayyor'),
+          _StateSwatch(color: DesignTokens.delta.completed, label: l10n.actionDone),
           const SizedBox(width: DesignTokens.spacingMd),
           Container(
             padding: const EdgeInsets.symmetric(
@@ -220,7 +225,7 @@ class _DeltaSlide extends StatelessWidget {
               borderRadius: BorderRadius.circular(DesignTokens.radiusFull),
             ),
             child: Text(
-              'faqat FARQ hisoblanadi',
+              l10n.onboardingDeltaPill,
               style: DesignTokens.caption.copyWith(
                 color: DesignTokens.white,
                 fontWeight: FontWeight.bold,
@@ -268,12 +273,11 @@ class _DecorateSlide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _SlideScaffold(
+    final l10n = AppLocalizations.of(context)!;
+    return _SlideScaffold(
       icon: Icons.view_in_ar_outlined,
-      title: '3D\'da bezang',
-      description:
-          'Materiallarni to\'g\'ridan-to\'g\'ri xonaning 3D ko\'rinishiga '
-          'sudrab, natijani darhol ko\'ring.',
+      title: l10n.onboardingDecorateTitle,
+      description: l10n.onboardingDecorateBody,
     );
   }
 }
@@ -283,12 +287,11 @@ class _PriceSlide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return _SlideScaffold(
       icon: Icons.receipt_long_outlined,
-      title: 'Narxni ko\'ring, materialni oling',
-      description:
-          'Aniq smeta oling va kerakli materiallarni to\'g\'ridan-to\'g\'ri '
-          'ilovadan xarid qiling.',
+      title: l10n.onboardingPriceTitle,
+      description: l10n.onboardingPriceBody,
       child: Container(
         padding: const EdgeInsets.all(DesignTokens.spacingMd),
         decoration: BoxDecoration(
@@ -296,7 +299,7 @@ class _PriceSlide extends StatelessWidget {
           borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
         ),
         child: Text(
-          'Tejaldingiz 4.2 mln',
+          l10n.onboardingPriceSaved,
           style: DesignTokens.subtitle2.copyWith(
             color: DesignTokens.delta.completed,
           ),

@@ -659,5 +659,311 @@
     "placeholders": {
       "count": { "type": "int" }
     }
+  },
+  "commonVerifiedBadge": "✓ Tasdiqlangan",
+  "@commonVerifiedBadge": {
+    "description": "Verified badge label shown on a master profile (U4) and the user profile (E4)."
+  },
+  "mastersSearchHint": "Qanday usta kerak?",
+  "@mastersSearchHint": {
+    "description": "U1 masters map: search field hint ('What kind of master do you need?')."
+  },
+  "mastersRatingReviews": "{rating} ({count} sharh)",
+  "@mastersRatingReviews": {
+    "description": "U1/U2 master pin sheet: rating followed by review count.",
+    "placeholders": {
+      "rating": { "type": "String" },
+      "count": { "type": "int" }
+    }
+  },
+  "mastersAreaDistance": "{area} · ~{distance} km",
+  "@mastersAreaDistance": {
+    "description": "Masters: approximate area name plus distance in km.",
+    "placeholders": {
+      "area": { "type": "String" },
+      "distance": { "type": "String" }
+    }
+  },
+  "mastersViewProfile": "Profilni ko'rish",
+  "@mastersViewProfile": {
+    "description": "U1/U2 master pin sheet: button to open the full master profile."
+  },
+  "mastersStatRating": "reyting",
+  "@mastersStatRating": {
+    "description": "U4 master profile: stat card label for rating."
+  },
+  "mastersStatReviews": "sharh",
+  "@mastersStatReviews": {
+    "description": "U4 master profile: stat card label for reviews."
+  },
+  "mastersStatJobs": "ishlar",
+  "@mastersStatJobs": {
+    "description": "U4 master profile: stat card label for completed jobs."
+  },
+  "mastersPortfolio": "Portfolio",
+  "@mastersPortfolio": {
+    "description": "U4 master profile: portfolio section title."
+  },
+  "mastersServices": "Xizmatlar",
+  "@mastersServices": {
+    "description": "U4 master profile: services section title."
+  },
+  "mastersServiceTrade": "{trade} ishlari",
+  "@mastersServiceTrade": {
+    "description": "U4 master profile: service row naming the master's trade works.",
+    "placeholders": {
+      "trade": { "type": "String" }
+    }
+  },
+  "mastersServiceConsultation": "Konsultatsiya",
+  "@mastersServiceConsultation": {
+    "description": "U4 master profile: consultation service row."
+  },
+  "mastersLocation": "Joylashuv",
+  "@mastersLocation": {
+    "description": "U4 master profile: location section title."
+  },
+  "mastersSendEstimate": "Smetani yuborish",
+  "@mastersSendEstimate": {
+    "description": "U4 master profile: primary button to send the estimate to the master."
+  },
+  "mastersSendMessage": "Xabar yozish",
+  "@mastersSendMessage": {
+    "description": "U4 master profile: secondary button to write a message."
+  },
+  "mastersSendConfirmTitle": "Loyihangizni {name} akaga yuborasizmi?",
+  "@mastersSendConfirmTitle": {
+    "description": "U5 send-smeta sheet: personalized confirmation title.",
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "mastersProjectSummaryTitle": "Mehmonxona ta'miri",
+  "@mastersProjectSummaryTitle": {
+    "description": "U5 send-smeta sheet: project summary card title."
+  },
+  "mastersProjectSummaryValue": "{area} m² · {price}",
+  "@mastersProjectSummaryValue": {
+    "description": "U5 send-smeta sheet: project summary area and price.",
+    "placeholders": {
+      "area": { "type": "String" },
+      "price": { "type": "String" }
+    }
+  },
+  "mastersCommentHint": "Izoh (ixtiyoriy)",
+  "@mastersCommentHint": {
+    "description": "U5 send-smeta sheet: optional comment field hint."
+  },
+  "mastersEstimateNote": "Usta smetani ko'rib, o'z narxini taklif qiladi",
+  "@mastersEstimateNote": {
+    "description": "U5 send-smeta sheet: note explaining the master will review and propose a price."
+  },
+  "mastersEstimateSent": "Smeta yuborildi",
+  "@mastersEstimateSent": {
+    "description": "U5 send-smeta sheet: snackbar shown after the estimate is sent."
+  },
+  "mastersSend": "Yuborish",
+  "@mastersSend": {
+    "description": "U5 send-smeta sheet: primary send button."
+  },
+  "profileDefaultName": "Foydalanuvchi",
+  "@profileDefaultName": {
+    "description": "E4 profile: fallback display name when the user has no name ('User')."
+  },
+  "profileComingSoon": "Tez kunda",
+  "@profileComingSoon": {
+    "description": "E4 profile: snackbar for not-yet-available features ('Coming soon')."
+  },
+  "profileStatProjects": "loyiha",
+  "@profileStatProjects": {
+    "description": "E4 profile: stat card label for project count."
+  },
+  "profileStatOrders": "buyurtma",
+  "@profileStatOrders": {
+    "description": "E4 profile: stat card label for order count."
+  },
+  "profileStatSaved": "tejaldi",
+  "@profileStatSaved": {
+    "description": "E4 profile: stat card label for total money saved."
+  },
+  "profileSavedMln": "{amount} mln",
+  "@profileSavedMln": {
+    "description": "E4 profile: saved amount in millions of som.",
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  },
+  "profileMenuProjects": "Loyihalarim",
+  "@profileMenuProjects": {
+    "description": "E4 profile menu / E5 title: 'My projects'."
+  },
+  "profileMenuOrders": "Buyurtmalarim",
+  "@profileMenuOrders": {
+    "description": "E4 profile menu / E6 title: 'My orders'."
+  },
+  "profileMenuSavedDesigns": "Saqlangan dizaynlar",
+  "@profileMenuSavedDesigns": {
+    "description": "E4 profile menu / E11 title: 'Saved designs'."
+  },
+  "profileMenuAddresses": "Manzillarim",
+  "@profileMenuAddresses": {
+    "description": "E4 profile menu: 'My addresses'."
+  },
+  "profileMenuPaymentMethods": "To'lov usullari",
+  "@profileMenuPaymentMethods": {
+    "description": "E4 profile menu: 'Payment methods'."
+  },
+  "profileMenuLanguage": "Til",
+  "@profileMenuLanguage": {
+    "description": "E4 profile menu: 'Language'."
+  },
+  "profileMenuSettings": "Sozlamalar",
+  "@profileMenuSettings": {
+    "description": "E4 profile menu: 'Settings'."
+  },
+  "profileMenuHelp": "Yordam",
+  "@profileMenuHelp": {
+    "description": "E4 profile menu: 'Help'."
+  },
+  "profileMenuLogout": "Chiqish",
+  "@profileMenuLogout": {
+    "description": "E4 profile menu: 'Log out'."
+  },
+  "profileLanguageUzbek": "O'zbekcha",
+  "@profileLanguageUzbek": {
+    "description": "E4 profile: snackbar showing the current language ('Uzbek')."
+  },
+  "profileNewProject": "Yangi loyiha",
+  "@profileNewProject": {
+    "description": "E5 projects: FAB label to start a new project ('New project')."
+  },
+  "profileFilterOngoing": "Davom etayotgan",
+  "@profileFilterOngoing": {
+    "description": "E5 projects: filter chip / status badge for ongoing projects."
+  },
+  "profileFilterFinished": "Tugagan",
+  "@profileFilterFinished": {
+    "description": "E5 projects: filter chip / status badge for finished projects."
+  },
+  "profileProjectsEmptyTitle": "Hali loyiha yo'q",
+  "@profileProjectsEmptyTitle": {
+    "description": "E5 projects: empty state title ('No projects yet')."
+  },
+  "profileProjectsEmptyMessage": "Birinchi loyihangizni boshlang",
+  "@profileProjectsEmptyMessage": {
+    "description": "E5 projects: empty state message ('Start your first project')."
+  },
+  "profileProjectsEmptyAction": "+ Yangi loyiha",
+  "@profileProjectsEmptyAction": {
+    "description": "E5 projects: empty state action button ('+ New project')."
+  },
+  "profileProjectMeta": "{count} xona · {location} · {date}",
+  "@profileProjectMeta": {
+    "description": "E5 projects: project card metadata line (rooms, location, date).",
+    "placeholders": {
+      "count": { "type": "int" },
+      "location": { "type": "String" },
+      "date": { "type": "String" }
+    }
+  },
+  "profileOrdersEmptyTitle": "Buyurtma yo'q",
+  "@profileOrdersEmptyTitle": {
+    "description": "E6 orders: empty state title ('No orders')."
+  },
+  "profileOrdersEmptyMessage": "Do'kondan xarid qilganingizda shu yerda ko'rinadi",
+  "@profileOrdersEmptyMessage": {
+    "description": "E6 orders: empty state message ('Your shop purchases appear here')."
+  },
+  "profileSavedDesignsEmptyTitle": "Saqlangan dizayn yo'q",
+  "@profileSavedDesignsEmptyTitle": {
+    "description": "E11 saved designs: empty state title ('No saved designs')."
+  },
+  "profileSavedDesignsEmptyMessage": "Yoqqan dizaynlaringizni shu yerda saqlab qo'ying",
+  "@profileSavedDesignsEmptyMessage": {
+    "description": "E11 saved designs: empty state message ('Save designs you like here')."
+  },
+  "onboardingSkip": "O'tkazib yuborish",
+  "@onboardingSkip": {
+    "description": "E7 onboarding: skip button ('Skip')."
+  },
+  "onboardingStart": "Boshlash",
+  "@onboardingStart": {
+    "description": "E7 onboarding: final-slide start button ('Get started')."
+  },
+  "onboardingMeasureTitle": "Xonangizni o'lchang",
+  "@onboardingMeasureTitle": {
+    "description": "E7 onboarding slide 1 title ('Measure your room')."
+  },
+  "onboardingMeasureBody": "Telefon kamerasi yoki LiDAR yordamida xonangiz o'lchamlarini aniq oling.",
+  "@onboardingMeasureBody": {
+    "description": "E7 onboarding slide 1 body."
+  },
+  "onboardingDeltaTitle": "Hozirgi holatdan boshlaymiz",
+  "@onboardingDeltaTitle": {
+    "description": "E7 onboarding slide 2 title ('We start from the current state')."
+  },
+  "onboardingDeltaBody": "Xonangizda allaqachon bor narsalar uchun to'lamaysiz — faqat kerakli qismini hisoblaymiz.",
+  "@onboardingDeltaBody": {
+    "description": "E7 onboarding slide 2 body."
+  },
+  "onboardingDeltaCurrent": "Hozirgi",
+  "@onboardingDeltaCurrent": {
+    "description": "E7 onboarding slide 2: 'Current' state swatch label."
+  },
+  "onboardingDeltaPill": "faqat FARQ hisoblanadi",
+  "@onboardingDeltaPill": {
+    "description": "E7 onboarding slide 2: pill emphasizing only the difference is charged."
+  },
+  "onboardingDecorateTitle": "3D'da bezang",
+  "@onboardingDecorateTitle": {
+    "description": "E7 onboarding slide 3 title ('Decorate in 3D')."
+  },
+  "onboardingDecorateBody": "Materiallarni to'g'ridan-to'g'ri xonaning 3D ko'rinishiga sudrab, natijani darhol ko'ring.",
+  "@onboardingDecorateBody": {
+    "description": "E7 onboarding slide 3 body."
+  },
+  "onboardingPriceTitle": "Narxni ko'ring, materialni oling",
+  "@onboardingPriceTitle": {
+    "description": "E7 onboarding slide 4 title ('See the price, get the materials')."
+  },
+  "onboardingPriceBody": "Aniq smeta oling va kerakli materiallarni to'g'ridan-to'g'ri ilovadan xarid qiling.",
+  "@onboardingPriceBody": {
+    "description": "E7 onboarding slide 4 body."
+  },
+  "onboardingPriceSaved": "Tejaldingiz 4.2 mln",
+  "@onboardingPriceSaved": {
+    "description": "E7 onboarding slide 4: example savings figure."
+  },
+  "onboardingDemoTitle": "Demo qo'llanma",
+  "@onboardingDemoTitle": {
+    "description": "E8 tutorial: app bar title ('Demo guide')."
+  },
+  "onboardingDemoStep1": "Xona qo'shish — LiDAR, 360° yoki qo'lda o'lchash",
+  "@onboardingDemoStep1": {
+    "description": "E8 tutorial: step 1."
+  },
+  "onboardingDemoStep2": "Xonaning hozirgi holatini tanlash",
+  "@onboardingDemoStep2": {
+    "description": "E8 tutorial: step 2."
+  },
+  "onboardingDemoStep3": "Rail bilan devor, pol va mebelni bezash",
+  "@onboardingDemoStep3": {
+    "description": "E8 tutorial: step 3."
+  },
+  "onboardingDemoStep4": "Elektr va santexnikani oxirida rejalashtirish",
+  "@onboardingDemoStep4": {
+    "description": "E8 tutorial: step 4."
+  },
+  "onboardingDemoStep5": "Smetani ko'rish va materiallarni sotib olish",
+  "@onboardingDemoStep5": {
+    "description": "E8 tutorial: step 5."
+  },
+  "onboardingDemoWatchVideo": "Videoni ko'rish",
+  "@onboardingDemoWatchVideo": {
+    "description": "E8 tutorial: video placeholder caption ('Watch the video')."
+  },
+  "onboardingDemoTryMyself": "O'zim sinab ko'raman",
+  "@onboardingDemoTryMyself": {
+    "description": "E8 tutorial: button to try the app directly ('I'll try it myself')."
   }
 }

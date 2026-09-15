@@ -492,4 +492,238 @@ class AppLocalizationsUz extends AppLocalizations {
   String shopResultCount(int count) {
     return '$count ta natija';
   }
+
+  @override
+  String get commonVerifiedBadge => '✓ Tasdiqlangan';
+
+  @override
+  String get mastersSearchHint => 'Qanday usta kerak?';
+
+  @override
+  String mastersRatingReviews(String rating, int count) {
+    return '$rating ($count sharh)';
+  }
+
+  @override
+  String mastersAreaDistance(String area, String distance) {
+    return '$area · ~$distance km';
+  }
+
+  @override
+  String get mastersViewProfile => 'Profilni ko\'rish';
+
+  @override
+  String get mastersStatRating => 'reyting';
+
+  @override
+  String get mastersStatReviews => 'sharh';
+
+  @override
+  String get mastersStatJobs => 'ishlar';
+
+  @override
+  String get mastersPortfolio => 'Portfolio';
+
+  @override
+  String get mastersServices => 'Xizmatlar';
+
+  @override
+  String mastersServiceTrade(String trade) {
+    return '$trade ishlari';
+  }
+
+  @override
+  String get mastersServiceConsultation => 'Konsultatsiya';
+
+  @override
+  String get mastersLocation => 'Joylashuv';
+
+  @override
+  String get mastersSendEstimate => 'Smetani yuborish';
+
+  @override
+  String get mastersSendMessage => 'Xabar yozish';
+
+  @override
+  String mastersSendConfirmTitle(String name) {
+    return 'Loyihangizni $name akaga yuborasizmi?';
+  }
+
+  @override
+  String get mastersProjectSummaryTitle => 'Mehmonxona ta\'miri';
+
+  @override
+  String mastersProjectSummaryValue(String area, String price) {
+    return '$area m² · $price';
+  }
+
+  @override
+  String get mastersCommentHint => 'Izoh (ixtiyoriy)';
+
+  @override
+  String get mastersEstimateNote =>
+      'Usta smetani ko\'rib, o\'z narxini taklif qiladi';
+
+  @override
+  String get mastersEstimateSent => 'Smeta yuborildi';
+
+  @override
+  String get mastersSend => 'Yuborish';
+
+  @override
+  String get profileDefaultName => 'Foydalanuvchi';
+
+  @override
+  String get profileComingSoon => 'Tez kunda';
+
+  @override
+  String get profileStatProjects => 'loyiha';
+
+  @override
+  String get profileStatOrders => 'buyurtma';
+
+  @override
+  String get profileStatSaved => 'tejaldi';
+
+  @override
+  String profileSavedMln(String amount) {
+    return '$amount mln';
+  }
+
+  @override
+  String get profileMenuProjects => 'Loyihalarim';
+
+  @override
+  String get profileMenuOrders => 'Buyurtmalarim';
+
+  @override
+  String get profileMenuSavedDesigns => 'Saqlangan dizaynlar';
+
+  @override
+  String get profileMenuAddresses => 'Manzillarim';
+
+  @override
+  String get profileMenuPaymentMethods => 'To\'lov usullari';
+
+  @override
+  String get profileMenuLanguage => 'Til';
+
+  @override
+  String get profileMenuSettings => 'Sozlamalar';
+
+  @override
+  String get profileMenuHelp => 'Yordam';
+
+  @override
+  String get profileMenuLogout => 'Chiqish';
+
+  @override
+  String get profileLanguageUzbek => 'O\'zbekcha';
+
+  @override
+  String get profileNewProject => 'Yangi loyiha';
+
+  @override
+  String get profileFilterOngoing => 'Davom etayotgan';
+
+  @override
+  String get profileFilterFinished => 'Tugagan';
+
+  @override
+  String get profileProjectsEmptyTitle => 'Hali loyiha yo\'q';
+
+  @override
+  String get profileProjectsEmptyMessage => 'Birinchi loyihangizni boshlang';
+
+  @override
+  String get profileProjectsEmptyAction => '+ Yangi loyiha';
+
+  @override
+  String profileProjectMeta(int count, String location, String date) {
+    return '$count xona · $location · $date';
+  }
+
+  @override
+  String get profileOrdersEmptyTitle => 'Buyurtma yo\'q';
+
+  @override
+  String get profileOrdersEmptyMessage =>
+      'Do\'kondan xarid qilganingizda shu yerda ko\'rinadi';
+
+  @override
+  String get profileSavedDesignsEmptyTitle => 'Saqlangan dizayn yo\'q';
+
+  @override
+  String get profileSavedDesignsEmptyMessage =>
+      'Yoqqan dizaynlaringizni shu yerda saqlab qo\'ying';
+
+  @override
+  String get onboardingSkip => 'O\'tkazib yuborish';
+
+  @override
+  String get onboardingStart => 'Boshlash';
+
+  @override
+  String get onboardingMeasureTitle => 'Xonangizni o\'lchang';
+
+  @override
+  String get onboardingMeasureBody =>
+      'Telefon kamerasi yoki LiDAR yordamida xonangiz o\'lchamlarini aniq oling.';
+
+  @override
+  String get onboardingDeltaTitle => 'Hozirgi holatdan boshlaymiz';
+
+  @override
+  String get onboardingDeltaBody =>
+      'Xonangizda allaqachon bor narsalar uchun to\'lamaysiz — faqat kerakli qismini hisoblaymiz.';
+
+  @override
+  String get onboardingDeltaCurrent => 'Hozirgi';
+
+  @override
+  String get onboardingDeltaPill => 'faqat FARQ hisoblanadi';
+
+  @override
+  String get onboardingDecorateTitle => '3D\'da bezang';
+
+  @override
+  String get onboardingDecorateBody =>
+      'Materiallarni to\'g\'ridan-to\'g\'ri xonaning 3D ko\'rinishiga sudrab, natijani darhol ko\'ring.';
+
+  @override
+  String get onboardingPriceTitle => 'Narxni ko\'ring, materialni oling';
+
+  @override
+  String get onboardingPriceBody =>
+      'Aniq smeta oling va kerakli materiallarni to\'g\'ridan-to\'g\'ri ilovadan xarid qiling.';
+
+  @override
+  String get onboardingPriceSaved => 'Tejaldingiz 4.2 mln';
+
+  @override
+  String get onboardingDemoTitle => 'Demo qo\'llanma';
+
+  @override
+  String get onboardingDemoStep1 =>
+      'Xona qo\'shish — LiDAR, 360° yoki qo\'lda o\'lchash';
+
+  @override
+  String get onboardingDemoStep2 => 'Xonaning hozirgi holatini tanlash';
+
+  @override
+  String get onboardingDemoStep3 => 'Rail bilan devor, pol va mebelni bezash';
+
+  @override
+  String get onboardingDemoStep4 =>
+      'Elektr va santexnikani oxirida rejalashtirish';
+
+  @override
+  String get onboardingDemoStep5 =>
+      'Smetani ko\'rish va materiallarni sotib olish';
+
+  @override
+  String get onboardingDemoWatchVideo => 'Videoni ko\'rish';
+
+  @override
+  String get onboardingDemoTryMyself => 'O\'zim sinab ko\'raman';
 }

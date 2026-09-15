@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/masters_provider.dart';
 import '../../widgets/common/app_image.dart';
 
@@ -25,6 +26,7 @@ class _U1MastersIntroScreenState extends ConsumerState<U1MastersIntroScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final masters = ref.watch(mockMastersProvider).where((m) {
       if (_filter != null && m.trade != _filter) return false;
       if (_query.isNotEmpty &&
@@ -102,10 +104,10 @@ class _U1MastersIntroScreenState extends ConsumerState<U1MastersIntroScreen> {
                       boxShadow: const [DesignTokens.shadowCard],
                     ),
                     child: TextField(
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Qanday usta kerak?',
-                        prefixIcon: Icon(Icons.search),
+                        hintText: l10n.mastersSearchHint,
+                        prefixIcon: const Icon(Icons.search),
                       ),
                       onChanged: (value) => setState(() => _query = value),
                     ),
@@ -116,7 +118,7 @@ class _U1MastersIntroScreenState extends ConsumerState<U1MastersIntroScreen> {
                     child: Row(
                       children: [
                         _TradeChip(
-                          label: 'Barchasi',
+                          label: l10n.shopFilterAll,
                           selected: _filter == null,
                           onTap: () => setState(() => _filter = null),
                         ),
@@ -199,6 +201,7 @@ class _PinSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(DesignTokens.spacingLg),
       child: Column(
@@ -279,7 +282,7 @@ class _PinSheet extends StatelessWidget {
                 size: 16,
               ),
               Text(
-                ' ${master.master.rating} (${master.master.reviewCount} sharh)',
+                ' ${l10n.mastersRatingReviews('${master.master.rating}', master.master.reviewCount)}',
                 style: DesignTokens.caption,
               ),
               const SizedBox(width: DesignTokens.spacingMd),
@@ -290,7 +293,7 @@ class _PinSheet extends StatelessWidget {
               ),
               Text(
                 master.master.distanceKm != null
-                    ? ' ${master.areaName} · ~${master.master.distanceKm} km'
+                    ? ' ${l10n.mastersAreaDistance(master.areaName, '${master.master.distanceKm}')}'
                     : ' ${master.areaName}',
                 style: DesignTokens.caption,
               ),
@@ -304,7 +307,7 @@ class _PinSheet extends StatelessWidget {
                 Navigator.of(context).pop();
                 context.push('/masters/u4', extra: master);
               },
-              child: const Text('Profilni ko\'rish'),
+              child: Text(l10n.mastersViewProfile),
             ),
           ),
         ],

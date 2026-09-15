@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/masters_provider.dart';
 import '../../widgets/common/app_image.dart';
 
@@ -11,6 +12,7 @@ class U3RequestBookingScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final masters = [...ref.watch(mockMastersProvider)]
       ..sort((a, b) => (b.isOnline ? 1 : 0) - (a.isOnline ? 1 : 0));
 
@@ -19,7 +21,7 @@ class U3RequestBookingScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: const Text('Ustalar', style: DesignTokens.heading3),
+        title: Text(l10n.navMasters, style: DesignTokens.heading3),
       ),
       body: ListView.separated(
         padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),
@@ -124,7 +126,10 @@ class U3RequestBookingScreen extends ConsumerWidget {
                             const SizedBox(width: DesignTokens.spacingSm),
                             Text(
                               m.master.distanceKm != null
-                                  ? '${m.areaName} · ~${m.master.distanceKm} km'
+                                  ? l10n.mastersAreaDistance(
+                                      m.areaName,
+                                      '${m.master.distanceKm}',
+                                    )
                                   : m.areaName,
                               style: DesignTokens.caption.copyWith(
                                 color: DesignTokens.textGray,

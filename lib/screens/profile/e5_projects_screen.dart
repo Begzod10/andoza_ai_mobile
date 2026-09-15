@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/design_selection_model.dart';
 import '../../widgets/design/stage_progress_line.dart';
 import '../../widgets/empty_state_pattern.dart';
@@ -30,6 +31,7 @@ class _E5ProjectsScreenState extends ConsumerState<E5ProjectsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final projects = ref.watch(projectsProvider).maybeWhen(
       data: (list) => list,
       orElse: () => const <ProjectItem>[],
@@ -45,12 +47,12 @@ class _E5ProjectsScreenState extends ConsumerState<E5ProjectsScreen> {
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: const Text('Loyihalarim', style: DesignTokens.heading3),
+        title: Text(l10n.profileMenuProjects, style: DesignTokens.heading3),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => showNewProjectSheet(context),
         icon: const Icon(Icons.add),
-        label: const Text('Yangi loyiha'),
+        label: Text(l10n.profileNewProject),
       ),
       body: Column(
         children: [
@@ -62,19 +64,19 @@ class _E5ProjectsScreenState extends ConsumerState<E5ProjectsScreen> {
             child: Row(
               children: [
                 _FilterChip(
-                  label: 'Barchasi',
+                  label: l10n.shopFilterAll,
                   selected: _filter == _ProjectFilter.all,
                   onTap: () => setState(() => _filter = _ProjectFilter.all),
                 ),
                 const SizedBox(width: DesignTokens.spacingSm),
                 _FilterChip(
-                  label: 'Davom etayotgan',
+                  label: l10n.profileFilterOngoing,
                   selected: _filter == _ProjectFilter.ongoing,
                   onTap: () => setState(() => _filter = _ProjectFilter.ongoing),
                 ),
                 const SizedBox(width: DesignTokens.spacingSm),
                 _FilterChip(
-                  label: 'Tugagan',
+                  label: l10n.profileFilterFinished,
                   selected: _filter == _ProjectFilter.finished,
                   onTap: () =>
                       setState(() => _filter = _ProjectFilter.finished),
@@ -91,9 +93,9 @@ class _E5ProjectsScreenState extends ConsumerState<E5ProjectsScreen> {
                     child: Center(
                       child: EmptyStatePattern(
                         icon: Icons.architecture_outlined,
-                        title: 'Hali loyiha yo\'q',
-                        message: 'Birinchi loyihangizni boshlang',
-                        actionLabel: '+ Yangi loyiha',
+                        title: l10n.profileProjectsEmptyTitle,
+                        message: l10n.profileProjectsEmptyMessage,
+                        actionLabel: l10n.profileProjectsEmptyAction,
                         onAction: () => showNewProjectSheet(context),
                       ),
                     ),
@@ -148,6 +150,7 @@ class _ProjectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final stageStates = project.stageStates;
     final currentIndex = project.renovationStage.index;
     final finished = _isFinished(project);
@@ -205,7 +208,9 @@ class _ProjectCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
                   ),
                   child: Text(
-                    finished ? 'Tugagan' : 'Davom etayotgan',
+                    finished
+                        ? l10n.profileFilterFinished
+                        : l10n.profileFilterOngoing,
                     style: DesignTokens.caption.copyWith(
                       color: finished
                           ? DesignTokens.successGreen
@@ -217,8 +222,11 @@ class _ProjectCard extends StatelessWidget {
               ],
             ),
             Text(
-              '${project.roomCount} xona · ${project.location} · '
-              '${project.createdAt.day}.${project.createdAt.month}.${project.createdAt.year}',
+              l10n.profileProjectMeta(
+                project.roomCount,
+                project.location,
+                '${project.createdAt.day}.${project.createdAt.month}.${project.createdAt.year}',
+              ),
               style: DesignTokens.caption.copyWith(
                 color: DesignTokens.textGray,
               ),
@@ -229,9 +237,11 @@ class _ProjectCard extends StatelessWidget {
               totalSteps: kRenovationStages.length,
               stageStates: stageStates,
               stageLabel: excludedCount == 0
-                  ? 'Bosqich ${currentIndex + 1}/8'
-                  : 'Bosqich ${currentIndex + 1}/8 · ✓ $excludedCount '
-                        'bosqich mavjud edi',
+                  ? l10n.homeStageProgress(currentIndex + 1)
+                  : l10n.homeStageProgressExcludedCount(
+                      currentIndex + 1,
+                      excludedCount,
+                    ),
             ),
           ],
         ),

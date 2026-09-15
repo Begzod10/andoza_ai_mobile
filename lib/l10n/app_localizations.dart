@@ -993,6 +993,426 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'{count} ta natija'**
   String shopResultCount(int count);
+
+  /// Verified badge label shown on a master profile (U4) and the user profile (E4).
+  ///
+  /// In uz, this message translates to:
+  /// **'✓ Tasdiqlangan'**
+  String get commonVerifiedBadge;
+
+  /// U1 masters map: search field hint ('What kind of master do you need?').
+  ///
+  /// In uz, this message translates to:
+  /// **'Qanday usta kerak?'**
+  String get mastersSearchHint;
+
+  /// U1/U2 master pin sheet: rating followed by review count.
+  ///
+  /// In uz, this message translates to:
+  /// **'{rating} ({count} sharh)'**
+  String mastersRatingReviews(String rating, int count);
+
+  /// Masters: approximate area name plus distance in km.
+  ///
+  /// In uz, this message translates to:
+  /// **'{area} · ~{distance} km'**
+  String mastersAreaDistance(String area, String distance);
+
+  /// U1/U2 master pin sheet: button to open the full master profile.
+  ///
+  /// In uz, this message translates to:
+  /// **'Profilni ko\'rish'**
+  String get mastersViewProfile;
+
+  /// U4 master profile: stat card label for rating.
+  ///
+  /// In uz, this message translates to:
+  /// **'reyting'**
+  String get mastersStatRating;
+
+  /// U4 master profile: stat card label for reviews.
+  ///
+  /// In uz, this message translates to:
+  /// **'sharh'**
+  String get mastersStatReviews;
+
+  /// U4 master profile: stat card label for completed jobs.
+  ///
+  /// In uz, this message translates to:
+  /// **'ishlar'**
+  String get mastersStatJobs;
+
+  /// U4 master profile: portfolio section title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Portfolio'**
+  String get mastersPortfolio;
+
+  /// U4 master profile: services section title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xizmatlar'**
+  String get mastersServices;
+
+  /// U4 master profile: service row naming the master's trade works.
+  ///
+  /// In uz, this message translates to:
+  /// **'{trade} ishlari'**
+  String mastersServiceTrade(String trade);
+
+  /// U4 master profile: consultation service row.
+  ///
+  /// In uz, this message translates to:
+  /// **'Konsultatsiya'**
+  String get mastersServiceConsultation;
+
+  /// U4 master profile: location section title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Joylashuv'**
+  String get mastersLocation;
+
+  /// U4 master profile: primary button to send the estimate to the master.
+  ///
+  /// In uz, this message translates to:
+  /// **'Smetani yuborish'**
+  String get mastersSendEstimate;
+
+  /// U4 master profile: secondary button to write a message.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xabar yozish'**
+  String get mastersSendMessage;
+
+  /// U5 send-smeta sheet: personalized confirmation title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Loyihangizni {name} akaga yuborasizmi?'**
+  String mastersSendConfirmTitle(String name);
+
+  /// U5 send-smeta sheet: project summary card title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mehmonxona ta\'miri'**
+  String get mastersProjectSummaryTitle;
+
+  /// U5 send-smeta sheet: project summary area and price.
+  ///
+  /// In uz, this message translates to:
+  /// **'{area} m² · {price}'**
+  String mastersProjectSummaryValue(String area, String price);
+
+  /// U5 send-smeta sheet: optional comment field hint.
+  ///
+  /// In uz, this message translates to:
+  /// **'Izoh (ixtiyoriy)'**
+  String get mastersCommentHint;
+
+  /// U5 send-smeta sheet: note explaining the master will review and propose a price.
+  ///
+  /// In uz, this message translates to:
+  /// **'Usta smetani ko\'rib, o\'z narxini taklif qiladi'**
+  String get mastersEstimateNote;
+
+  /// U5 send-smeta sheet: snackbar shown after the estimate is sent.
+  ///
+  /// In uz, this message translates to:
+  /// **'Smeta yuborildi'**
+  String get mastersEstimateSent;
+
+  /// U5 send-smeta sheet: primary send button.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yuborish'**
+  String get mastersSend;
+
+  /// E4 profile: fallback display name when the user has no name ('User').
+  ///
+  /// In uz, this message translates to:
+  /// **'Foydalanuvchi'**
+  String get profileDefaultName;
+
+  /// E4 profile: snackbar for not-yet-available features ('Coming soon').
+  ///
+  /// In uz, this message translates to:
+  /// **'Tez kunda'**
+  String get profileComingSoon;
+
+  /// E4 profile: stat card label for project count.
+  ///
+  /// In uz, this message translates to:
+  /// **'loyiha'**
+  String get profileStatProjects;
+
+  /// E4 profile: stat card label for order count.
+  ///
+  /// In uz, this message translates to:
+  /// **'buyurtma'**
+  String get profileStatOrders;
+
+  /// E4 profile: stat card label for total money saved.
+  ///
+  /// In uz, this message translates to:
+  /// **'tejaldi'**
+  String get profileStatSaved;
+
+  /// E4 profile: saved amount in millions of som.
+  ///
+  /// In uz, this message translates to:
+  /// **'{amount} mln'**
+  String profileSavedMln(String amount);
+
+  /// E4 profile menu / E5 title: 'My projects'.
+  ///
+  /// In uz, this message translates to:
+  /// **'Loyihalarim'**
+  String get profileMenuProjects;
+
+  /// E4 profile menu / E6 title: 'My orders'.
+  ///
+  /// In uz, this message translates to:
+  /// **'Buyurtmalarim'**
+  String get profileMenuOrders;
+
+  /// E4 profile menu / E11 title: 'Saved designs'.
+  ///
+  /// In uz, this message translates to:
+  /// **'Saqlangan dizaynlar'**
+  String get profileMenuSavedDesigns;
+
+  /// E4 profile menu: 'My addresses'.
+  ///
+  /// In uz, this message translates to:
+  /// **'Manzillarim'**
+  String get profileMenuAddresses;
+
+  /// E4 profile menu: 'Payment methods'.
+  ///
+  /// In uz, this message translates to:
+  /// **'To\'lov usullari'**
+  String get profileMenuPaymentMethods;
+
+  /// E4 profile menu: 'Language'.
+  ///
+  /// In uz, this message translates to:
+  /// **'Til'**
+  String get profileMenuLanguage;
+
+  /// E4 profile menu: 'Settings'.
+  ///
+  /// In uz, this message translates to:
+  /// **'Sozlamalar'**
+  String get profileMenuSettings;
+
+  /// E4 profile menu: 'Help'.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yordam'**
+  String get profileMenuHelp;
+
+  /// E4 profile menu: 'Log out'.
+  ///
+  /// In uz, this message translates to:
+  /// **'Chiqish'**
+  String get profileMenuLogout;
+
+  /// E4 profile: snackbar showing the current language ('Uzbek').
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'zbekcha'**
+  String get profileLanguageUzbek;
+
+  /// E5 projects: FAB label to start a new project ('New project').
+  ///
+  /// In uz, this message translates to:
+  /// **'Yangi loyiha'**
+  String get profileNewProject;
+
+  /// E5 projects: filter chip / status badge for ongoing projects.
+  ///
+  /// In uz, this message translates to:
+  /// **'Davom etayotgan'**
+  String get profileFilterOngoing;
+
+  /// E5 projects: filter chip / status badge for finished projects.
+  ///
+  /// In uz, this message translates to:
+  /// **'Tugagan'**
+  String get profileFilterFinished;
+
+  /// E5 projects: empty state title ('No projects yet').
+  ///
+  /// In uz, this message translates to:
+  /// **'Hali loyiha yo\'q'**
+  String get profileProjectsEmptyTitle;
+
+  /// E5 projects: empty state message ('Start your first project').
+  ///
+  /// In uz, this message translates to:
+  /// **'Birinchi loyihangizni boshlang'**
+  String get profileProjectsEmptyMessage;
+
+  /// E5 projects: empty state action button ('+ New project').
+  ///
+  /// In uz, this message translates to:
+  /// **'+ Yangi loyiha'**
+  String get profileProjectsEmptyAction;
+
+  /// E5 projects: project card metadata line (rooms, location, date).
+  ///
+  /// In uz, this message translates to:
+  /// **'{count} xona · {location} · {date}'**
+  String profileProjectMeta(int count, String location, String date);
+
+  /// E6 orders: empty state title ('No orders').
+  ///
+  /// In uz, this message translates to:
+  /// **'Buyurtma yo\'q'**
+  String get profileOrdersEmptyTitle;
+
+  /// E6 orders: empty state message ('Your shop purchases appear here').
+  ///
+  /// In uz, this message translates to:
+  /// **'Do\'kondan xarid qilganingizda shu yerda ko\'rinadi'**
+  String get profileOrdersEmptyMessage;
+
+  /// E11 saved designs: empty state title ('No saved designs').
+  ///
+  /// In uz, this message translates to:
+  /// **'Saqlangan dizayn yo\'q'**
+  String get profileSavedDesignsEmptyTitle;
+
+  /// E11 saved designs: empty state message ('Save designs you like here').
+  ///
+  /// In uz, this message translates to:
+  /// **'Yoqqan dizaynlaringizni shu yerda saqlab qo\'ying'**
+  String get profileSavedDesignsEmptyMessage;
+
+  /// E7 onboarding: skip button ('Skip').
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'tkazib yuborish'**
+  String get onboardingSkip;
+
+  /// E7 onboarding: final-slide start button ('Get started').
+  ///
+  /// In uz, this message translates to:
+  /// **'Boshlash'**
+  String get onboardingStart;
+
+  /// E7 onboarding slide 1 title ('Measure your room').
+  ///
+  /// In uz, this message translates to:
+  /// **'Xonangizni o\'lchang'**
+  String get onboardingMeasureTitle;
+
+  /// E7 onboarding slide 1 body.
+  ///
+  /// In uz, this message translates to:
+  /// **'Telefon kamerasi yoki LiDAR yordamida xonangiz o\'lchamlarini aniq oling.'**
+  String get onboardingMeasureBody;
+
+  /// E7 onboarding slide 2 title ('We start from the current state').
+  ///
+  /// In uz, this message translates to:
+  /// **'Hozirgi holatdan boshlaymiz'**
+  String get onboardingDeltaTitle;
+
+  /// E7 onboarding slide 2 body.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xonangizda allaqachon bor narsalar uchun to\'lamaysiz — faqat kerakli qismini hisoblaymiz.'**
+  String get onboardingDeltaBody;
+
+  /// E7 onboarding slide 2: 'Current' state swatch label.
+  ///
+  /// In uz, this message translates to:
+  /// **'Hozirgi'**
+  String get onboardingDeltaCurrent;
+
+  /// E7 onboarding slide 2: pill emphasizing only the difference is charged.
+  ///
+  /// In uz, this message translates to:
+  /// **'faqat FARQ hisoblanadi'**
+  String get onboardingDeltaPill;
+
+  /// E7 onboarding slide 3 title ('Decorate in 3D').
+  ///
+  /// In uz, this message translates to:
+  /// **'3D\'da bezang'**
+  String get onboardingDecorateTitle;
+
+  /// E7 onboarding slide 3 body.
+  ///
+  /// In uz, this message translates to:
+  /// **'Materiallarni to\'g\'ridan-to\'g\'ri xonaning 3D ko\'rinishiga sudrab, natijani darhol ko\'ring.'**
+  String get onboardingDecorateBody;
+
+  /// E7 onboarding slide 4 title ('See the price, get the materials').
+  ///
+  /// In uz, this message translates to:
+  /// **'Narxni ko\'ring, materialni oling'**
+  String get onboardingPriceTitle;
+
+  /// E7 onboarding slide 4 body.
+  ///
+  /// In uz, this message translates to:
+  /// **'Aniq smeta oling va kerakli materiallarni to\'g\'ridan-to\'g\'ri ilovadan xarid qiling.'**
+  String get onboardingPriceBody;
+
+  /// E7 onboarding slide 4: example savings figure.
+  ///
+  /// In uz, this message translates to:
+  /// **'Tejaldingiz 4.2 mln'**
+  String get onboardingPriceSaved;
+
+  /// E8 tutorial: app bar title ('Demo guide').
+  ///
+  /// In uz, this message translates to:
+  /// **'Demo qo\'llanma'**
+  String get onboardingDemoTitle;
+
+  /// E8 tutorial: step 1.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xona qo\'shish — LiDAR, 360° yoki qo\'lda o\'lchash'**
+  String get onboardingDemoStep1;
+
+  /// E8 tutorial: step 2.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xonaning hozirgi holatini tanlash'**
+  String get onboardingDemoStep2;
+
+  /// E8 tutorial: step 3.
+  ///
+  /// In uz, this message translates to:
+  /// **'Rail bilan devor, pol va mebelni bezash'**
+  String get onboardingDemoStep3;
+
+  /// E8 tutorial: step 4.
+  ///
+  /// In uz, this message translates to:
+  /// **'Elektr va santexnikani oxirida rejalashtirish'**
+  String get onboardingDemoStep4;
+
+  /// E8 tutorial: step 5.
+  ///
+  /// In uz, this message translates to:
+  /// **'Smetani ko\'rish va materiallarni sotib olish'**
+  String get onboardingDemoStep5;
+
+  /// E8 tutorial: video placeholder caption ('Watch the video').
+  ///
+  /// In uz, this message translates to:
+  /// **'Videoni ko\'rish'**
+  String get onboardingDemoWatchVideo;
+
+  /// E8 tutorial: button to try the app directly ('I'll try it myself').
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'zim sinab ko\'raman'**
+  String get onboardingDemoTryMyself;
 }
 
 class _AppLocalizationsDelegate
