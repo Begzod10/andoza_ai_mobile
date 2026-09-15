@@ -663,6 +663,336 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'santexnika'**
   String get stageSantexnika;
+
+  /// Generic affirmative ('Yes'). Used for boolean spec values.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ha'**
+  String get commonYes;
+
+  /// Generic negative ('No'). Used for boolean spec values.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yo\'q'**
+  String get commonNo;
+
+  /// S1 shop home: tooltip on the cart icon button in the app bar.
+  ///
+  /// In uz, this message translates to:
+  /// **'Savatcha'**
+  String get shopCartTooltip;
+
+  /// Shop: placeholder text in the material search field (S1 and E10).
+  ///
+  /// In uz, this message translates to:
+  /// **'Material qidirish...'**
+  String get shopSearchHint;
+
+  /// Shop: filter/category chip for 'All' (S1 categories, S4 and E10 filters).
+  ///
+  /// In uz, this message translates to:
+  /// **'Barchasi'**
+  String get shopFilterAll;
+
+  /// S1 shop home: small uppercase eyebrow label on the project banner ('YOUR PROJECT').
+  ///
+  /// In uz, this message translates to:
+  /// **'SIZNING LOYIHANGIZ'**
+  String get shopProjectBannerLabel;
+
+  /// S1 shop home: project banner title line ('For your living-room project').
+  ///
+  /// In uz, this message translates to:
+  /// **'Mehmonxona loyihangiz uchun'**
+  String get shopProjectBannerTitle;
+
+  /// S1 shop home: project banner line stating how many material types are needed.
+  ///
+  /// In uz, this message translates to:
+  /// **'{count} turdagi material kerak'**
+  String shopProjectBannerCount(int count);
+
+  /// S1 shop home: project banner line while the required materials are still being computed.
+  ///
+  /// In uz, this message translates to:
+  /// **'Loyiha materiallari hisoblanmoqda'**
+  String get shopProjectBannerCalculating;
+
+  /// S1 shop home: 'See all →' link on the project banner opening the materials list.
+  ///
+  /// In uz, this message translates to:
+  /// **'Hammasini ko\'rish →'**
+  String get shopSeeAllArrow;
+
+  /// Shop: small tag on product cards/rows marking an item the active project needs (S1 and E10).
+  ///
+  /// In uz, this message translates to:
+  /// **'Loyihada'**
+  String get shopInProjectTag;
+
+  /// S2 project materials: app bar title ('Project materials').
+  ///
+  /// In uz, this message translates to:
+  /// **'Loyiha materiallari'**
+  String get shopMaterialsTitle;
+
+  /// S2 project materials: green banner stating the app auto-computed area and stage count from the project.
+  ///
+  /// In uz, this message translates to:
+  /// **'App loyihangiz asosida avtomatik hisobladi — {area} m², {count} bosqich'**
+  String shopMaterialsAutoCalc(String area, int count);
+
+  /// S2 project materials: sticky button that adds every required material to the cart.
+  ///
+  /// In uz, this message translates to:
+  /// **'Hammasini savatga'**
+  String get shopAddAllToCart;
+
+  /// S3 product detail: badge shown when the product is sold by an official dealer.
+  ///
+  /// In uz, this message translates to:
+  /// **'✓ Rasmiy diler'**
+  String get shopOfficialDealer;
+
+  /// S3 product detail: recommendation line stating the computed quantity the project needs; a coverage note may be appended.
+  ///
+  /// In uz, this message translates to:
+  /// **'Loyihangiz uchun ~{quantity} {unit} kerak'**
+  String shopProjectNeed(String quantity, String unit);
+
+  /// S3 product detail: label preceding the quantity stepper ('Quantity:').
+  ///
+  /// In uz, this message translates to:
+  /// **'Miqdor:'**
+  String get shopQuantityLabel;
+
+  /// S3 product detail: spec row label for coverage.
+  ///
+  /// In uz, this message translates to:
+  /// **'Qoplama'**
+  String get shopSpecCoverage;
+
+  /// S3 product detail: spec row label for drying time.
+  ///
+  /// In uz, this message translates to:
+  /// **'Quriish vaqti'**
+  String get shopSpecDryingTime;
+
+  /// S3 product detail: spec row label for whether the product is washable.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yuvilishi'**
+  String get shopSpecWashable;
+
+  /// S3 product detail: row opening the dealer comparison, naming the default dealer.
+  ///
+  /// In uz, this message translates to:
+  /// **'Qayerdan olish — {name}'**
+  String shopWhereToBuy(String name);
+
+  /// Shop: snackbar confirming an item was added to the cart (S3, S4, E10).
+  ///
+  /// In uz, this message translates to:
+  /// **'Savatga qo\'shildi'**
+  String get shopAddedToCart;
+
+  /// S3 product detail: add-to-cart button label with the computed line price.
+  ///
+  /// In uz, this message translates to:
+  /// **'Savatga qo\'shish · {price}'**
+  String shopAddToCartPrice(String price);
+
+  /// S4 dealer comparison: app bar title ('Compare dealers').
+  ///
+  /// In uz, this message translates to:
+  /// **'Diler taqqoslash'**
+  String get shopDealerCompareTitle;
+
+  /// Shop: filter chip for cheapest offers (S4 and E10).
+  ///
+  /// In uz, this message translates to:
+  /// **'Eng arzon'**
+  String get shopFilterCheapest;
+
+  /// S4 dealer comparison: filter chip for official dealers only.
+  ///
+  /// In uz, this message translates to:
+  /// **'Rasmiy diler'**
+  String get shopFilterOfficial;
+
+  /// S4 dealer comparison: filter chip for fastest delivery.
+  ///
+  /// In uz, this message translates to:
+  /// **'Eng tez'**
+  String get shopFilterFastest;
+
+  /// S4 dealer comparison: green ribbon marking the best (cheapest) dealer offer ('BEST').
+  ///
+  /// In uz, this message translates to:
+  /// **'ENG YAXSHI'**
+  String get shopBestRibbon;
+
+  /// S4 dealer comparison: dealer subtitle showing district and delivery time in days.
+  ///
+  /// In uz, this message translates to:
+  /// **'{district} · {days} kunda yetkazish'**
+  String shopDeliveryDays(String district, int days);
+
+  /// S4 dealer comparison: button that selects a dealer offer and adds it to the cart.
+  ///
+  /// In uz, this message translates to:
+  /// **'Tanlash'**
+  String get shopSelect;
+
+  /// S5 cart: app bar title ('Cart').
+  ///
+  /// In uz, this message translates to:
+  /// **'Savat'**
+  String get shopCartTitle;
+
+  /// S5 cart: empty-state message when the cart has no items.
+  ///
+  /// In uz, this message translates to:
+  /// **'Savat bo\'sh'**
+  String get shopCartEmpty;
+
+  /// Shop: summary row label for the materials subtotal (S5 and S6).
+  ///
+  /// In uz, this message translates to:
+  /// **'Materiallar'**
+  String get shopMaterials;
+
+  /// Shop: summary/row label for the delivery fee (S5 dealer block, S5 and S6 summaries).
+  ///
+  /// In uz, this message translates to:
+  /// **'Yetkazish'**
+  String get shopDelivery;
+
+  /// S5 cart: grand-total label in the footer ('Total').
+  ///
+  /// In uz, this message translates to:
+  /// **'Umumiy summa'**
+  String get shopGrandTotal;
+
+  /// S5 cart: primary button proceeding to checkout ('Place order').
+  ///
+  /// In uz, this message translates to:
+  /// **'Buyurtmani rasmiylashtirish'**
+  String get shopCheckout;
+
+  /// S6 checkout: app bar title ('Payment').
+  ///
+  /// In uz, this message translates to:
+  /// **'To\'lov'**
+  String get shopCheckoutTitle;
+
+  /// S6 checkout: section title above the delivery-address fields.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yetkazish manzili'**
+  String get shopDeliveryAddress;
+
+  /// S6 checkout: hint text in the address field.
+  ///
+  /// In uz, this message translates to:
+  /// **'Manzil'**
+  String get shopAddressHint;
+
+  /// S6 checkout: hint text in the phone-number field.
+  ///
+  /// In uz, this message translates to:
+  /// **'Telefon raqami'**
+  String get shopPhoneHint;
+
+  /// S6 checkout: section title above the payment-method tiles.
+  ///
+  /// In uz, this message translates to:
+  /// **'To\'lov usuli'**
+  String get shopPaymentMethod;
+
+  /// S6 checkout: section title above the order summary.
+  ///
+  /// In uz, this message translates to:
+  /// **'Buyurtma xulosasi'**
+  String get shopOrderSummary;
+
+  /// S6 checkout: label for the total amount due in the sticky footer.
+  ///
+  /// In uz, this message translates to:
+  /// **'To\'lanadi'**
+  String get shopAmountDue;
+
+  /// S6 checkout: primary button that places the order ('Pay').
+  ///
+  /// In uz, this message translates to:
+  /// **'To\'lash'**
+  String get shopPay;
+
+  /// S6 checkout: snackbar shown when persisting the placed order to the server fails.
+  ///
+  /// In uz, this message translates to:
+  /// **'Buyurtmani serverga saqlashda xatolik: {error}'**
+  String shopOrderSaveError(String error);
+
+  /// S7 order confirmation: app bar title ('Order status').
+  ///
+  /// In uz, this message translates to:
+  /// **'Buyurtma holati'**
+  String get shopOrderStatusTitle;
+
+  /// S7 order confirmation: section title above the ordered items list.
+  ///
+  /// In uz, this message translates to:
+  /// **'Buyurtma tarkibi'**
+  String get shopOrderContents;
+
+  /// S7 order confirmation: total label ('Total').
+  ///
+  /// In uz, this message translates to:
+  /// **'Jami'**
+  String get shopTotal;
+
+  /// S7 order confirmation: snackbar confirming the craftsman was notified.
+  ///
+  /// In uz, this message translates to:
+  /// **'Usta xabardor qilindi'**
+  String get shopMasterNotified;
+
+  /// S7 order confirmation: secondary button that notifies the craftsman the materials arrived.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ustaga topshirish'**
+  String get shopHandToMaster;
+
+  /// S7 order confirmation: text button returning to the shop home ('Back to shop').
+  ///
+  /// In uz, this message translates to:
+  /// **'Do\'konga qaytish'**
+  String get shopBackToShop;
+
+  /// E10 search results: app bar title ('Search results').
+  ///
+  /// In uz, this message translates to:
+  /// **'Qidiruv natijalari'**
+  String get shopSearchResultsTitle;
+
+  /// E10 search results: filter chip limiting results to items matching the active project.
+  ///
+  /// In uz, this message translates to:
+  /// **'Loyihamga mos'**
+  String get shopFilterForProject;
+
+  /// E10 search results: filter chip sorting by rating.
+  ///
+  /// In uz, this message translates to:
+  /// **'Reyting'**
+  String get shopFilterRating;
+
+  /// E10 search results: count of matching results.
+  ///
+  /// In uz, this message translates to:
+  /// **'{count} ta natija'**
+  String shopResultCount(int count);
 }
 
 class _AppLocalizationsDelegate

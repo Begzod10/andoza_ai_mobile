@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/shop_model.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/shop_provider.dart';
@@ -36,6 +37,7 @@ class _E10SearchResultsScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final catalog = ref.watch(shopCatalogProvider);
     final query = _controller.text.trim().toLowerCase();
 
@@ -58,7 +60,7 @@ class _E10SearchResultsScreenState
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: const Text('Qidiruv natijalari', style: DesignTokens.subtitle1),
+        title: Text(l10n.shopSearchResultsTitle, style: DesignTokens.subtitle1),
       ),
       body: Column(
         children: [
@@ -77,7 +79,7 @@ class _E10SearchResultsScreenState
                 controller: _controller,
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Material qidirish...',
+                  hintText: l10n.shopSearchHint,
                   prefixIcon: const Icon(Icons.search),
                   suffixIcon: _controller.text.isEmpty
                       ? null
@@ -99,23 +101,23 @@ class _E10SearchResultsScreenState
               ),
               children: [
                 _FilterChip(
-                  label: 'Barchasi',
+                  label: l10n.shopFilterAll,
                   selected: _filter == _ResultFilter.all,
                   onTap: () => setState(() => _filter = _ResultFilter.all),
                 ),
                 _FilterChip(
-                  label: 'Loyihamga mos',
+                  label: l10n.shopFilterForProject,
                   selected: _filter == _ResultFilter.forMyProject,
                   onTap: () =>
                       setState(() => _filter = _ResultFilter.forMyProject),
                 ),
                 _FilterChip(
-                  label: 'Eng arzon',
+                  label: l10n.shopFilterCheapest,
                   selected: _filter == _ResultFilter.cheapest,
                   onTap: () => setState(() => _filter = _ResultFilter.cheapest),
                 ),
                 _FilterChip(
-                  label: 'Reyting',
+                  label: l10n.shopFilterRating,
                   selected: _filter == _ResultFilter.rating,
                   onTap: () => setState(() => _filter = _ResultFilter.rating),
                 ),
@@ -130,7 +132,7 @@ class _E10SearchResultsScreenState
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                '${results.length} ta natija',
+                l10n.shopResultCount(results.length),
                 style: DesignTokens.caption.copyWith(
                   color: DesignTokens.textGray,
                 ),
@@ -191,6 +193,7 @@ class _ResultRow extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(DesignTokens.spacingSm),
       decoration: BoxDecoration(
@@ -255,7 +258,7 @@ class _ResultRow extends ConsumerWidget {
                           ),
                         ),
                         child: Text(
-                          'Loyihada',
+                          l10n.shopInProjectTag,
                           style: DesignTokens.caption.copyWith(
                             color: DesignTokens.white,
                             fontSize: 10,
@@ -283,7 +286,7 @@ class _ResultRow extends ConsumerWidget {
               final dealer = bestDealer(dealersForProduct(product));
               ref.read(cartProvider.notifier).add(product, dealer);
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Savatga qo\'shildi')),
+                SnackBar(content: Text(l10n.shopAddedToCart)),
               );
             },
           ),

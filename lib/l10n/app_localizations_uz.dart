@@ -310,4 +310,186 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get stageSantexnika => 'santexnika';
+
+  @override
+  String get commonYes => 'Ha';
+
+  @override
+  String get commonNo => 'Yo\'q';
+
+  @override
+  String get shopCartTooltip => 'Savatcha';
+
+  @override
+  String get shopSearchHint => 'Material qidirish...';
+
+  @override
+  String get shopFilterAll => 'Barchasi';
+
+  @override
+  String get shopProjectBannerLabel => 'SIZNING LOYIHANGIZ';
+
+  @override
+  String get shopProjectBannerTitle => 'Mehmonxona loyihangiz uchun';
+
+  @override
+  String shopProjectBannerCount(int count) {
+    return '$count turdagi material kerak';
+  }
+
+  @override
+  String get shopProjectBannerCalculating =>
+      'Loyiha materiallari hisoblanmoqda';
+
+  @override
+  String get shopSeeAllArrow => 'Hammasini ko\'rish →';
+
+  @override
+  String get shopInProjectTag => 'Loyihada';
+
+  @override
+  String get shopMaterialsTitle => 'Loyiha materiallari';
+
+  @override
+  String shopMaterialsAutoCalc(String area, int count) {
+    return 'App loyihangiz asosida avtomatik hisobladi — $area m², $count bosqich';
+  }
+
+  @override
+  String get shopAddAllToCart => 'Hammasini savatga';
+
+  @override
+  String get shopOfficialDealer => '✓ Rasmiy diler';
+
+  @override
+  String shopProjectNeed(String quantity, String unit) {
+    return 'Loyihangiz uchun ~$quantity $unit kerak';
+  }
+
+  @override
+  String get shopQuantityLabel => 'Miqdor:';
+
+  @override
+  String get shopSpecCoverage => 'Qoplama';
+
+  @override
+  String get shopSpecDryingTime => 'Quriish vaqti';
+
+  @override
+  String get shopSpecWashable => 'Yuvilishi';
+
+  @override
+  String shopWhereToBuy(String name) {
+    return 'Qayerdan olish — $name';
+  }
+
+  @override
+  String get shopAddedToCart => 'Savatga qo\'shildi';
+
+  @override
+  String shopAddToCartPrice(String price) {
+    return 'Savatga qo\'shish · $price';
+  }
+
+  @override
+  String get shopDealerCompareTitle => 'Diler taqqoslash';
+
+  @override
+  String get shopFilterCheapest => 'Eng arzon';
+
+  @override
+  String get shopFilterOfficial => 'Rasmiy diler';
+
+  @override
+  String get shopFilterFastest => 'Eng tez';
+
+  @override
+  String get shopBestRibbon => 'ENG YAXSHI';
+
+  @override
+  String shopDeliveryDays(String district, int days) {
+    return '$district · $days kunda yetkazish';
+  }
+
+  @override
+  String get shopSelect => 'Tanlash';
+
+  @override
+  String get shopCartTitle => 'Savat';
+
+  @override
+  String get shopCartEmpty => 'Savat bo\'sh';
+
+  @override
+  String get shopMaterials => 'Materiallar';
+
+  @override
+  String get shopDelivery => 'Yetkazish';
+
+  @override
+  String get shopGrandTotal => 'Umumiy summa';
+
+  @override
+  String get shopCheckout => 'Buyurtmani rasmiylashtirish';
+
+  @override
+  String get shopCheckoutTitle => 'To\'lov';
+
+  @override
+  String get shopDeliveryAddress => 'Yetkazish manzili';
+
+  @override
+  String get shopAddressHint => 'Manzil';
+
+  @override
+  String get shopPhoneHint => 'Telefon raqami';
+
+  @override
+  String get shopPaymentMethod => 'To\'lov usuli';
+
+  @override
+  String get shopOrderSummary => 'Buyurtma xulosasi';
+
+  @override
+  String get shopAmountDue => 'To\'lanadi';
+
+  @override
+  String get shopPay => 'To\'lash';
+
+  @override
+  String shopOrderSaveError(String error) {
+    return 'Buyurtmani serverga saqlashda xatolik: $error';
+  }
+
+  @override
+  String get shopOrderStatusTitle => 'Buyurtma holati';
+
+  @override
+  String get shopOrderContents => 'Buyurtma tarkibi';
+
+  @override
+  String get shopTotal => 'Jami';
+
+  @override
+  String get shopMasterNotified => 'Usta xabardor qilindi';
+
+  @override
+  String get shopHandToMaster => 'Ustaga topshirish';
+
+  @override
+  String get shopBackToShop => 'Do\'konga qaytish';
+
+  @override
+  String get shopSearchResultsTitle => 'Qidiruv natijalari';
+
+  @override
+  String get shopFilterForProject => 'Loyihamga mos';
+
+  @override
+  String get shopFilterRating => 'Reyting';
+
+  @override
+  String shopResultCount(int count) {
+    return '$count ta natija';
+  }
 }

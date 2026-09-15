@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/shop_model.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/shop_provider.dart';
@@ -26,6 +27,7 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final product = widget.product;
     final defaultDealer = bestDealer(dealersForProduct(product));
 
@@ -91,7 +93,7 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
                       ),
                     ),
                     child: Text(
-                      '✓ Rasmiy diler',
+                      l10n.shopOfficialDealer,
                       style: DesignTokens.caption.copyWith(
                         color: DesignTokens.successGreen,
                         fontWeight: FontWeight.bold,
@@ -123,9 +125,13 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
                       ),
                     ),
                     child: Text(
-                      'Loyihangiz uchun ~${formatQuantity(product.projectQuantity!)} '
-                      '${product.unit} kerak'
-                      '${product.coverage != null ? ' — ${product.coverage}' : ''}',
+                      l10n.shopProjectNeed(
+                            formatQuantity(product.projectQuantity!),
+                            product.unit,
+                          ) +
+                          (product.coverage != null
+                              ? ' — ${product.coverage}'
+                              : ''),
                       style: DesignTokens.body2.copyWith(
                         color: DesignTokens.primaryBlue,
                         fontWeight: FontWeight.w600,
@@ -136,7 +142,7 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
                 const SizedBox(height: DesignTokens.spacingLg),
                 Row(
                   children: [
-                    const Text('Miqdor:', style: DesignTokens.body2),
+                    Text(l10n.shopQuantityLabel, style: DesignTokens.body2),
                     const Spacer(),
                     _QtyButton(
                       icon: Icons.remove,
@@ -161,13 +167,19 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
                 ),
                 const SizedBox(height: DesignTokens.spacingLg),
                 if (product.coverage != null)
-                  _SpecRow(label: 'Qoplama', value: product.coverage!),
+                  _SpecRow(
+                    label: l10n.shopSpecCoverage,
+                    value: product.coverage!,
+                  ),
                 if (product.dryingTime != null)
-                  _SpecRow(label: 'Quriish vaqti', value: product.dryingTime!),
+                  _SpecRow(
+                    label: l10n.shopSpecDryingTime,
+                    value: product.dryingTime!,
+                  ),
                 if (product.washable != null)
                   _SpecRow(
-                    label: 'Yuvilishi',
-                    value: product.washable! ? 'Ha' : 'Yo\'q',
+                    label: l10n.shopSpecWashable,
+                    value: product.washable! ? l10n.commonYes : l10n.commonNo,
                   ),
                 const SizedBox(height: DesignTokens.spacingLg),
                 InkWell(
@@ -191,7 +203,7 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
                         const SizedBox(width: DesignTokens.spacingSm),
                         Expanded(
                           child: Text(
-                            'Qayerdan olish — ${defaultDealer.name}',
+                            l10n.shopWhereToBuy(defaultDealer.name),
                             style: DesignTokens.body2,
                           ),
                         ),
@@ -226,12 +238,15 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
                         .read(cartProvider.notifier)
                         .add(product, defaultDealer, quantity: _quantity);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Savatga qo\'shildi')),
+                      SnackBar(content: Text(l10n.shopAddedToCart)),
                     );
                   },
                   child: Text(
-                    'Savatga qo\'shish · '
-                    '${formatSom((defaultDealer.pricePerUnit * _quantity).round())}',
+                    l10n.shopAddToCartPrice(
+                      formatSom(
+                        (defaultDealer.pricePerUnit * _quantity).round(),
+                      ),
+                    ),
                   ),
                 ),
               ),

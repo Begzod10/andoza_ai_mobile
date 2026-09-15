@@ -410,5 +410,254 @@
   "stageSantexnika": "santexnika",
   "@stageSantexnika": {
     "description": "Renovation stage name: plumbing (santexnika)."
+  },
+
+  "commonYes": "Ha",
+  "@commonYes": {
+    "description": "Generic affirmative ('Yes'). Used for boolean spec values."
+  },
+  "commonNo": "Yo'q",
+  "@commonNo": {
+    "description": "Generic negative ('No'). Used for boolean spec values."
+  },
+
+  "shopCartTooltip": "Savatcha",
+  "@shopCartTooltip": {
+    "description": "S1 shop home: tooltip on the cart icon button in the app bar."
+  },
+  "shopSearchHint": "Material qidirish...",
+  "@shopSearchHint": {
+    "description": "Shop: placeholder text in the material search field (S1 and E10)."
+  },
+  "shopFilterAll": "Barchasi",
+  "@shopFilterAll": {
+    "description": "Shop: filter/category chip for 'All' (S1 categories, S4 and E10 filters)."
+  },
+  "shopProjectBannerLabel": "SIZNING LOYIHANGIZ",
+  "@shopProjectBannerLabel": {
+    "description": "S1 shop home: small uppercase eyebrow label on the project banner ('YOUR PROJECT')."
+  },
+  "shopProjectBannerTitle": "Mehmonxona loyihangiz uchun",
+  "@shopProjectBannerTitle": {
+    "description": "S1 shop home: project banner title line ('For your living-room project')."
+  },
+  "shopProjectBannerCount": "{count} turdagi material kerak",
+  "@shopProjectBannerCount": {
+    "description": "S1 shop home: project banner line stating how many material types are needed.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "shopProjectBannerCalculating": "Loyiha materiallari hisoblanmoqda",
+  "@shopProjectBannerCalculating": {
+    "description": "S1 shop home: project banner line while the required materials are still being computed."
+  },
+  "shopSeeAllArrow": "Hammasini ko'rish →",
+  "@shopSeeAllArrow": {
+    "description": "S1 shop home: 'See all →' link on the project banner opening the materials list."
+  },
+  "shopInProjectTag": "Loyihada",
+  "@shopInProjectTag": {
+    "description": "Shop: small tag on product cards/rows marking an item the active project needs (S1 and E10)."
+  },
+  "shopMaterialsTitle": "Loyiha materiallari",
+  "@shopMaterialsTitle": {
+    "description": "S2 project materials: app bar title ('Project materials')."
+  },
+  "shopMaterialsAutoCalc": "App loyihangiz asosida avtomatik hisobladi — {area} m², {count} bosqich",
+  "@shopMaterialsAutoCalc": {
+    "description": "S2 project materials: green banner stating the app auto-computed area and stage count from the project.",
+    "placeholders": {
+      "area": { "type": "String" },
+      "count": { "type": "int" }
+    }
+  },
+  "shopAddAllToCart": "Hammasini savatga",
+  "@shopAddAllToCart": {
+    "description": "S2 project materials: sticky button that adds every required material to the cart."
+  },
+  "shopOfficialDealer": "✓ Rasmiy diler",
+  "@shopOfficialDealer": {
+    "description": "S3 product detail: badge shown when the product is sold by an official dealer."
+  },
+  "shopProjectNeed": "Loyihangiz uchun ~{quantity} {unit} kerak",
+  "@shopProjectNeed": {
+    "description": "S3 product detail: recommendation line stating the computed quantity the project needs; a coverage note may be appended.",
+    "placeholders": {
+      "quantity": { "type": "String" },
+      "unit": { "type": "String" }
+    }
+  },
+  "shopQuantityLabel": "Miqdor:",
+  "@shopQuantityLabel": {
+    "description": "S3 product detail: label preceding the quantity stepper ('Quantity:')."
+  },
+  "shopSpecCoverage": "Qoplama",
+  "@shopSpecCoverage": {
+    "description": "S3 product detail: spec row label for coverage."
+  },
+  "shopSpecDryingTime": "Quriish vaqti",
+  "@shopSpecDryingTime": {
+    "description": "S3 product detail: spec row label for drying time."
+  },
+  "shopSpecWashable": "Yuvilishi",
+  "@shopSpecWashable": {
+    "description": "S3 product detail: spec row label for whether the product is washable."
+  },
+  "shopWhereToBuy": "Qayerdan olish — {name}",
+  "@shopWhereToBuy": {
+    "description": "S3 product detail: row opening the dealer comparison, naming the default dealer.",
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "shopAddedToCart": "Savatga qo'shildi",
+  "@shopAddedToCart": {
+    "description": "Shop: snackbar confirming an item was added to the cart (S3, S4, E10)."
+  },
+  "shopAddToCartPrice": "Savatga qo'shish · {price}",
+  "@shopAddToCartPrice": {
+    "description": "S3 product detail: add-to-cart button label with the computed line price.",
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  },
+  "shopDealerCompareTitle": "Diler taqqoslash",
+  "@shopDealerCompareTitle": {
+    "description": "S4 dealer comparison: app bar title ('Compare dealers')."
+  },
+  "shopFilterCheapest": "Eng arzon",
+  "@shopFilterCheapest": {
+    "description": "Shop: filter chip for cheapest offers (S4 and E10)."
+  },
+  "shopFilterOfficial": "Rasmiy diler",
+  "@shopFilterOfficial": {
+    "description": "S4 dealer comparison: filter chip for official dealers only."
+  },
+  "shopFilterFastest": "Eng tez",
+  "@shopFilterFastest": {
+    "description": "S4 dealer comparison: filter chip for fastest delivery."
+  },
+  "shopBestRibbon": "ENG YAXSHI",
+  "@shopBestRibbon": {
+    "description": "S4 dealer comparison: green ribbon marking the best (cheapest) dealer offer ('BEST')."
+  },
+  "shopDeliveryDays": "{district} · {days} kunda yetkazish",
+  "@shopDeliveryDays": {
+    "description": "S4 dealer comparison: dealer subtitle showing district and delivery time in days.",
+    "placeholders": {
+      "district": { "type": "String" },
+      "days": { "type": "int" }
+    }
+  },
+  "shopSelect": "Tanlash",
+  "@shopSelect": {
+    "description": "S4 dealer comparison: button that selects a dealer offer and adds it to the cart."
+  },
+  "shopCartTitle": "Savat",
+  "@shopCartTitle": {
+    "description": "S5 cart: app bar title ('Cart')."
+  },
+  "shopCartEmpty": "Savat bo'sh",
+  "@shopCartEmpty": {
+    "description": "S5 cart: empty-state message when the cart has no items."
+  },
+  "shopMaterials": "Materiallar",
+  "@shopMaterials": {
+    "description": "Shop: summary row label for the materials subtotal (S5 and S6)."
+  },
+  "shopDelivery": "Yetkazish",
+  "@shopDelivery": {
+    "description": "Shop: summary/row label for the delivery fee (S5 dealer block, S5 and S6 summaries)."
+  },
+  "shopGrandTotal": "Umumiy summa",
+  "@shopGrandTotal": {
+    "description": "S5 cart: grand-total label in the footer ('Total')."
+  },
+  "shopCheckout": "Buyurtmani rasmiylashtirish",
+  "@shopCheckout": {
+    "description": "S5 cart: primary button proceeding to checkout ('Place order')."
+  },
+  "shopCheckoutTitle": "To'lov",
+  "@shopCheckoutTitle": {
+    "description": "S6 checkout: app bar title ('Payment')."
+  },
+  "shopDeliveryAddress": "Yetkazish manzili",
+  "@shopDeliveryAddress": {
+    "description": "S6 checkout: section title above the delivery-address fields."
+  },
+  "shopAddressHint": "Manzil",
+  "@shopAddressHint": {
+    "description": "S6 checkout: hint text in the address field."
+  },
+  "shopPhoneHint": "Telefon raqami",
+  "@shopPhoneHint": {
+    "description": "S6 checkout: hint text in the phone-number field."
+  },
+  "shopPaymentMethod": "To'lov usuli",
+  "@shopPaymentMethod": {
+    "description": "S6 checkout: section title above the payment-method tiles."
+  },
+  "shopOrderSummary": "Buyurtma xulosasi",
+  "@shopOrderSummary": {
+    "description": "S6 checkout: section title above the order summary."
+  },
+  "shopAmountDue": "To'lanadi",
+  "@shopAmountDue": {
+    "description": "S6 checkout: label for the total amount due in the sticky footer."
+  },
+  "shopPay": "To'lash",
+  "@shopPay": {
+    "description": "S6 checkout: primary button that places the order ('Pay')."
+  },
+  "shopOrderSaveError": "Buyurtmani serverga saqlashda xatolik: {error}",
+  "@shopOrderSaveError": {
+    "description": "S6 checkout: snackbar shown when persisting the placed order to the server fails.",
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
+  "shopOrderStatusTitle": "Buyurtma holati",
+  "@shopOrderStatusTitle": {
+    "description": "S7 order confirmation: app bar title ('Order status')."
+  },
+  "shopOrderContents": "Buyurtma tarkibi",
+  "@shopOrderContents": {
+    "description": "S7 order confirmation: section title above the ordered items list."
+  },
+  "shopTotal": "Jami",
+  "@shopTotal": {
+    "description": "S7 order confirmation: total label ('Total')."
+  },
+  "shopMasterNotified": "Usta xabardor qilindi",
+  "@shopMasterNotified": {
+    "description": "S7 order confirmation: snackbar confirming the craftsman was notified."
+  },
+  "shopHandToMaster": "Ustaga topshirish",
+  "@shopHandToMaster": {
+    "description": "S7 order confirmation: secondary button that notifies the craftsman the materials arrived."
+  },
+  "shopBackToShop": "Do'konga qaytish",
+  "@shopBackToShop": {
+    "description": "S7 order confirmation: text button returning to the shop home ('Back to shop')."
+  },
+  "shopSearchResultsTitle": "Qidiruv natijalari",
+  "@shopSearchResultsTitle": {
+    "description": "E10 search results: app bar title ('Search results')."
+  },
+  "shopFilterForProject": "Loyihamga mos",
+  "@shopFilterForProject": {
+    "description": "E10 search results: filter chip limiting results to items matching the active project."
+  },
+  "shopFilterRating": "Reyting",
+  "@shopFilterRating": {
+    "description": "E10 search results: filter chip sorting by rating."
+  },
+  "shopResultCount": "{count} ta natija",
+  "@shopResultCount": {
+    "description": "E10 search results: count of matching results.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
   }
 }

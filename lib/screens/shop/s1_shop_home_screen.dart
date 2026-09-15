@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/shop_model.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/shop_provider.dart';
@@ -24,6 +25,7 @@ class _S1ShopHomeScreenState extends ConsumerState<S1ShopHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final catalog = ref.watch(shopCatalogProvider);
     final cartCount = ref.watch(cartLineCountProvider);
     final projectItems = catalog.where((p) => p.isInProject).toList();
@@ -43,13 +45,13 @@ class _S1ShopHomeScreenState extends ConsumerState<S1ShopHomeScreen> {
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: const Text('Do\'kon', style: DesignTokens.heading3),
+        title: Text(l10n.navShop, style: DesignTokens.heading3),
         actions: [
           Stack(
             children: [
               IconButton(
                 icon: const Icon(Icons.shopping_cart_outlined),
-                tooltip: 'Savatcha',
+                tooltip: l10n.shopCartTooltip,
                 onPressed: () => context.push('/shop/s5'),
               ),
               if (cartCount > 0)
@@ -93,10 +95,10 @@ class _S1ShopHomeScreenState extends ConsumerState<S1ShopHomeScreen> {
               boxShadow: const [DesignTokens.shadowCard],
             ),
             child: TextField(
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: 'Material qidirish...',
-                prefixIcon: Icon(Icons.search),
+                hintText: l10n.shopSearchHint,
+                prefixIcon: const Icon(Icons.search),
               ),
               onChanged: (value) => setState(() => _query = value),
               onSubmitted: (value) =>
@@ -112,7 +114,7 @@ class _S1ShopHomeScreenState extends ConsumerState<S1ShopHomeScreen> {
               scrollDirection: Axis.horizontal,
               children: [
                 _CategoryChip(
-                  label: 'Barchasi',
+                  label: l10n.shopFilterAll,
                   selected: _filter == null,
                   onTap: () => setState(() => _filter = null),
                 ),
@@ -162,6 +164,7 @@ class _ProjectBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return InkWell(
       borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
       onTap: () => context.push('/shop/s2'),
@@ -177,7 +180,7 @@ class _ProjectBanner extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'SIZNING LOYIHANGIZ',
+              l10n.shopProjectBannerLabel,
               style: DesignTokens.caption.copyWith(
                 color: DesignTokens.white.withValues(alpha: 0.7),
                 fontWeight: FontWeight.bold,
@@ -186,21 +189,21 @@ class _ProjectBanner extends StatelessWidget {
             ),
             const SizedBox(height: DesignTokens.spacingXs),
             Text(
-              'Mehmonxona loyihangiz uchun',
+              l10n.shopProjectBannerTitle,
               style: DesignTokens.subtitle1.copyWith(color: DesignTokens.white),
             ),
             const SizedBox(height: DesignTokens.spacingXs),
             Text(
               projectItemCount > 0
-                  ? '$projectItemCount turdagi material kerak'
-                  : 'Loyiha materiallari hisoblanmoqda',
+                  ? l10n.shopProjectBannerCount(projectItemCount)
+                  : l10n.shopProjectBannerCalculating,
               style: DesignTokens.body2.copyWith(
                 color: DesignTokens.white.withValues(alpha: 0.85),
               ),
             ),
             const SizedBox(height: DesignTokens.spacingSm),
             Text(
-              'Hammasini ko\'rish →',
+              l10n.shopSeeAllArrow,
               style: DesignTokens.body2.copyWith(
                 color: DesignTokens.white,
                 fontWeight: FontWeight.w600,
@@ -247,6 +250,7 @@ class _ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
@@ -310,7 +314,7 @@ class _ProductCard extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        'Loyihada',
+                        l10n.shopInProjectTag,
                         style: DesignTokens.caption.copyWith(
                           color: DesignTokens.white,
                           fontSize: 10,
