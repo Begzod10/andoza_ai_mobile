@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../config/design_tokens.dart';
 import '../../models/api/api.dart';
 import '../../providers/wallpaper_provider.dart';
+import '../../widgets/common/app_image.dart';
 import '../../widgets/common/error_view.dart';
 
 /// Bottom sheet for the shared wallpaper library: browse every uploaded
@@ -160,28 +161,10 @@ class _WallpaperTile extends StatelessWidget {
     return InkWell(
       onTap: () => Navigator.of(context).pop(wallpaper),
       borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-      child: ClipRRect(
+      child: AppImage(
+        url: wallpaper.url,
+        fit: BoxFit.cover,
         borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-        child: Image.network(
-          wallpaper.url,
-          fit: BoxFit.cover,
-          loadingBuilder: (context, child, progress) => progress == null
-              ? child
-              : Container(
-                  color: DesignTokens.borderGray,
-                  child: const Center(
-                    child: SizedBox(
-                      width: 18,
-                      height: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    ),
-                  ),
-                ),
-          errorBuilder: (context, err, stack) => Container(
-            color: DesignTokens.borderGray,
-            child: const Icon(Icons.broken_image_outlined),
-          ),
-        ),
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 import '../../providers/masters_provider.dart';
+import '../../widgets/common/app_image.dart';
 
 /// U3: Ustalar list view — vertical cards, online craftsmen sorted first.
 class U3RequestBookingScreen extends ConsumerWidget {
@@ -54,12 +55,13 @@ class U3RequestBookingScreen extends ConsumerWidget {
                           final url = m.master.avatar;
                           if (url == null) return initial;
                           return ClipOval(
-                            child: Image.network(
-                              url,
+                            child: AppImage(
+                              url: url,
                               width: 56,
                               height: 56,
                               fit: BoxFit.cover,
-                              errorBuilder: (context, error, stack) => initial,
+                              placeholder: initial,
+                              errorWidget: initial,
                             ),
                           );
                         },

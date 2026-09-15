@@ -5,6 +5,7 @@ import '../../models/shop_model.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/shop_provider.dart';
 import '../../utils/currency.dart';
+import '../../widgets/common/app_image.dart';
 
 enum _ResultFilter { all, forMyProject, cheapest, rating }
 
@@ -215,17 +216,14 @@ class _ResultRow extends ConsumerWidget {
               );
               final url = product.imageUrl;
               if (url == null) return placeholder;
-              return ClipRRect(
+              return AppImage(
+                url: url,
+                width: 56,
+                height: 56,
+                fit: BoxFit.cover,
                 borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
-                child: Image.network(
-                  url,
-                  width: 56,
-                  height: 56,
-                  fit: BoxFit.cover,
-                  loadingBuilder: (context, child, progress) =>
-                      progress == null ? child : placeholder,
-                  errorBuilder: (context, error, stack) => placeholder,
-                ),
+                placeholder: placeholder,
+                errorWidget: placeholder,
               );
             },
           ),

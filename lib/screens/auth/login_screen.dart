@@ -7,6 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../config/design_tokens.dart';
 import '../../providers/auth_provider.dart';
 import '../../repositories/auth_repository.dart';
+import '../../services/api_client.dart';
+import '../../utils/error_mapper.dart';
 
 /// Login screen — a Flutter port of the web `/login` page: phone-OTP by default,
 /// with a 6-digit code step, plus username/password login and registration.
@@ -177,8 +179,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final state = ref.read(authStateProvider);
     setState(() {
       _loading = false;
-      if (state is AuthError) _error = "Username yoki parol noto'g'ri.";
+      if (state is AuthError) _error = _loginErrorMessage(state.message);
     });
+  }
+
+  /// Picks the inline login-failure message. [AuthNotifier] flattens the caught
+  /// error into a string ([ApiException.message]), so classify by that: a
+  /// genuine credential rejection (the backend answers 401 → "Unauthorized" on
+  /// `/auth/login`) keeps the "wrong username/password" wording, while a
+  /// network/timeout/server failure is routed through [mapErrorToMessage] so it
+  /// doesn't misleadingly read as a bad password. The message never reaches the
+  /// UI verbatim — it's always mapped to a localized string.
+  String _loginErrorMessage(String rawMessage) {
+    if (rawMessage.toLowerCase().contains('unauthorized')) {
+      return "Username yoki parol noto'g'ri.";
+    }
+    return mapErrorToMessage(ApiException(message: rawMessage));
   }
 
   Future<void> _register() async {

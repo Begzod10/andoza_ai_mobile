@@ -88,11 +88,11 @@ void main() {
       );
     });
 
-    test('403 → session message', () {
+    test('403 → forbidden message', () {
       expect(
         mapErrorToMessage(
             _dio(DioExceptionType.badResponse, statusCode: 403)),
-        errorSession,
+        errorForbidden,
       );
     });
 
@@ -120,19 +120,27 @@ void main() {
       );
     });
 
-    test('400 client error → generic fallback', () {
+    test('400 client error → validation message', () {
       expect(
         mapErrorToMessage(
             _dio(DioExceptionType.badResponse, statusCode: 400)),
-        errorGeneric,
+        errorValidation,
       );
     });
 
-    test('422 validation error → generic fallback', () {
+    test('422 validation error → validation message', () {
       expect(
         mapErrorToMessage(
             _dio(DioExceptionType.badResponse, statusCode: 422)),
-        errorGeneric,
+        errorValidation,
+      );
+    });
+
+    test('409 conflict → conflict message', () {
+      expect(
+        mapErrorToMessage(
+            _dio(DioExceptionType.badResponse, statusCode: 409)),
+        errorConflict,
       );
     });
 

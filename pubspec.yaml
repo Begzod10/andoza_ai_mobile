@@ -73,6 +73,10 @@ dependencies:
   # Image picking for wallpaper uploads to the shared library
   image_picker: ^1.1.2
 
+  # Disk-cached network images (marketplace/thumbnail images) — avoids
+  # re-downloading on every cold scroll (raw Image.network is memory-only)
+  cached_network_image: ^3.4.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

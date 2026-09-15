@@ -6,6 +6,7 @@ import '../../models/shop_model.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/shop_provider.dart';
 import '../../utils/currency.dart';
+import '../../widgets/common/app_image.dart';
 
 /// S1: Do'kon bosh — search, project-linked banner ("SIZNING
 /// LOYIHANGIZ"), category chips, 2-col product grid with "Loyihada" tags
@@ -279,19 +280,16 @@ class _ProductCard extends StatelessWidget {
                       );
                       final url = product.imageUrl;
                       if (url == null) return placeholder;
-                      return ClipRRect(
+                      return AppImage(
+                        url: url,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
                         borderRadius: BorderRadius.circular(
                           DesignTokens.radiusSm,
                         ),
-                        child: Image.network(
-                          url,
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
-                          loadingBuilder: (context, child, progress) =>
-                              progress == null ? child : placeholder,
-                          errorBuilder: (context, error, stack) => placeholder,
-                        ),
+                        placeholder: placeholder,
+                        errorWidget: placeholder,
                       );
                     },
                   ),

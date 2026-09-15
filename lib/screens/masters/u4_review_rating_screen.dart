@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import '../../config/design_tokens.dart';
 import '../../providers/masters_provider.dart';
+import '../../widgets/common/app_image.dart';
 
 /// U4: full craftsman profile — stat cards, portfolio, services, a
 /// location mini-map showing only the approximate zone (never an exact
@@ -46,12 +47,13 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                         final url = m.master.avatar;
                         if (url == null) return initial;
                         return ClipOval(
-                          child: Image.network(
-                            url,
+                          child: AppImage(
+                            url: url,
                             width: 88,
                             height: 88,
                             fit: BoxFit.cover,
-                            errorBuilder: (context, error, stack) => initial,
+                            placeholder: initial,
+                            errorWidget: initial,
                           ),
                         );
                       },

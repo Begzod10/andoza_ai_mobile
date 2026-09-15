@@ -5,7 +5,7 @@ import '../../config/design_tokens.dart';
 import '../../models/design_selection_model.dart';
 import '../../providers/design_provider.dart';
 import '../../providers/room_provider.dart';
-import '../../utils/error_messages.dart';
+import '../../utils/error_mapper.dart';
 import '../../widgets/design/stage_progress_line.dart';
 import '../../widgets/common/material_rail.dart';
 
@@ -109,7 +109,7 @@ class _B3PaintSelectionScreenState
       if (mounted) {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text(userFacingError(e))));
+        ).showSnackBar(SnackBar(content: Text(mapErrorToMessage(e))));
       }
     } finally {
       if (mounted) {

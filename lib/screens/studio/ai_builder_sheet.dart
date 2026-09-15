@@ -8,6 +8,7 @@ import '../../models/api/api.dart';
 import '../../providers/ai_provider.dart';
 import '../../providers/apartment_provider.dart';
 import '../../providers/estimate_api_provider.dart';
+import '../../utils/error_mapper.dart';
 
 /// "AI dizayner" sheet: the user types a natural-language request, the backend
 /// agent streams its reasoning + tool calls (SSE), and on completion proposes a
@@ -81,7 +82,9 @@ class _AiBuilderSheetState extends ConsumerState<AiBuilderSheet> {
       onError: (Object e) {
         if (!mounted) return;
         setState(() {
-          _error = e.toString();
+          // Never surface a raw exception/HTTP string to the user — map it to a
+          // friendly localized message like every other error path.
+          _error = mapErrorToMessage(e);
           _running = false;
         });
       },

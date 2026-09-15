@@ -4,17 +4,16 @@ import 'package:dio/dio.dart';
 
 import '../services/api_client.dart';
 
-/// Centralized error → user-message mapping.
+/// Centralized, single-source-of-truth error → user-message mapping.
 ///
 /// Turns any thrown error — especially a [DioException] (timeout, no
 /// connection, 4xx/5xx) or the app's own [ApiException] wrapper — into a short,
-/// user-friendly **Uzbek** message safe to show in an [ErrorView] or a
-/// snackbar. It never leaks a raw exception/stack string to the UI.
+/// user-friendly **Uzbek** message safe to show in an [ErrorView], a snackbar
+/// or an inline banner. It never leaks a raw exception/stack string to the UI.
 ///
-/// Covered cases: no internet / connection, timeout, 401/403 (session
-/// expired), 404 (not found), 5xx / server, and a generic fallback for
-/// everything else (including 400/422 client errors, whose server-provided
-/// detail is deliberately not surfaced verbatim here).
+/// Covered cases: no internet / connection, timeout, 400/422 (validation),
+/// 401 (session expired), 403 (forbidden), 404 (not found), 409 (conflict),
+/// 5xx / server, and a generic fallback for everything else.
 String mapErrorToMessage(Object? error) {
   if (error is DioException) return _mapDio(error);
   if (error is ApiException) return _mapApiException(error);
@@ -28,11 +27,22 @@ const String errorNoInternet = 'Internet aloqasi yo\'q. Ulanishni tekshiring.';
 /// The request reached the network but the server didn't answer in time.
 const String errorTimeout = 'Server javob bermadi. Qayta urinib ko\'ring.';
 
-/// 401 / 403 — the session is no longer valid; the user must re-authenticate.
+/// 400 / 422 — the request payload failed client-side / server-side validation.
+const String errorValidation =
+    'Kiritilgan ma\'lumotlar noto\'g\'ri. Tekshirib, qaytadan kiriting.';
+
+/// 401 — the session is no longer valid; the user must re-authenticate.
 const String errorSession = 'Sessiya tugadi. Iltimos, qaytadan kiring.';
+
+/// 403 — authenticated, but not allowed to perform this action.
+const String errorForbidden = 'Bu amalni bajarishga ruxsatingiz yo\'q.';
 
 /// 404 — the requested resource doesn't exist.
 const String errorNotFound = 'Ma\'lumot topilmadi.';
+
+/// 409 — the request conflicts with the current server state.
+const String errorConflict =
+    'Ma\'lumotlarda ziddiyat yuz berdi. Iltimos, qaytadan urinib ko\'ring.';
 
 /// 5xx / bad certificate — the server itself failed.
 const String errorServer =
@@ -74,13 +84,17 @@ String _mapApiException(ApiException error) {
   if (message.contains('network') || message.contains('connection')) {
     return errorNoInternet;
   }
+  if (message.contains('server')) return errorServer;
   return errorGeneric;
 }
 
 String _mapStatus(int? statusCode) {
   if (statusCode == null) return errorGeneric;
-  if (statusCode == 401 || statusCode == 403) return errorSession;
+  if (statusCode == 400 || statusCode == 422) return errorValidation;
+  if (statusCode == 401) return errorSession;
+  if (statusCode == 403) return errorForbidden;
   if (statusCode == 404) return errorNotFound;
+  if (statusCode == 409) return errorConflict;
   if (statusCode >= 500) return errorServer;
   return errorGeneric;
 }

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import '../../config/design_tokens.dart';
 import '../../providers/masters_provider.dart';
+import '../../widgets/common/app_image.dart';
 
 /// U1: Ustalar map view — craftsman pins color-coded by trade, search,
 /// profession filter chips, map/list toggle. Privacy rule: pins show
@@ -224,12 +225,13 @@ class _PinSheet extends StatelessWidget {
                       final url = master.master.avatar;
                       if (url == null) return initial;
                       return ClipOval(
-                        child: Image.network(
-                          url,
+                        child: AppImage(
+                          url: url,
                           width: 56,
                           height: 56,
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stack) => initial,
+                          placeholder: initial,
+                          errorWidget: initial,
                         ),
                       );
                     },
