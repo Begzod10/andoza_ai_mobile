@@ -7,7 +7,7 @@ final lidarServiceProvider = Provider<LidarService>((ref) {
 });
 
 // Check if LiDAR is available
-final lidarAvailableProvider = FutureProvider<bool>((ref) async {
+final lidarAvailableProvider = FutureProvider.autoDispose<bool>((ref) async {
   final lidarService = ref.watch(lidarServiceProvider);
   return lidarService.isLidarAvailable();
 });

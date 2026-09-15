@@ -37,7 +37,7 @@ final ordersRepositoryProvider = Provider<OrdersRepository>((ref) {
 /// is by `id` with the server winning, mirroring the Home tab's
 /// `projectsProvider` merge. Invalidate this provider to refetch after a
 /// checkout POST completes.
-final serverOrdersProvider = FutureProvider<List<ShopOrder>>((ref) async {
+final serverOrdersProvider = FutureProvider.autoDispose<List<ShopOrder>>((ref) async {
   final localOrders = ref.watch(ordersProvider);
   final server = await ref.watch(ordersRepositoryProvider).listOrders();
   final serverOrders = server.map(_serverOrderToShopOrder).toList();

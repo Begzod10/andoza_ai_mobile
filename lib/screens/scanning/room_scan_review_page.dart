@@ -334,7 +334,7 @@ class RoomScanPainter extends CustomPainter {
         final paint = Paint()
           ..color = o.type == 'window'
               ? const Color(0xFF2563EB)
-              : const Color(0xFF16A34A)
+              : DesignTokens.successGreen
           ..style = PaintingStyle.stroke
           ..strokeWidth = 5
           ..strokeCap = StrokeCap.butt;

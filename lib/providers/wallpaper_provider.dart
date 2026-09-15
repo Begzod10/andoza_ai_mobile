@@ -11,6 +11,6 @@ final wallpaperRepositoryProvider = Provider<WallpaperRepository>((ref) {
 
 /// The shared wallpaper library (newest first). Invalidate after an upload to
 /// refresh the grid.
-final wallpapersProvider = FutureProvider<List<Wallpaper>>((ref) {
+final wallpapersProvider = FutureProvider.autoDispose<List<Wallpaper>>((ref) {
   return ref.watch(wallpaperRepositoryProvider).list();
 });

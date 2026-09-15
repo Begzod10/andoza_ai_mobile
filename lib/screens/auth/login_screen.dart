@@ -41,13 +41,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool _obscurePassword = true;
   bool _obscureConfirm = true;
 
-  int _cooldown = 0;
+  /// The resend cooldown ticks once a second. Kept in a [ValueNotifier] (not
+  /// plain state) so the timer only rebuilds the small countdown label via a
+  /// [ValueListenableBuilder] instead of setState-ing the entire screen.
+  final ValueNotifier<int> _cooldown = ValueNotifier<int>(0);
   Timer? _timer;
   String _sentPhone = '';
 
   @override
   void dispose() {
     _timer?.cancel();
+    _cooldown.dispose();
     for (final c in [_phone, _username, _password, _confirm, _name, ..._otp]) {
       c.dispose();
     }
@@ -74,13 +78,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   void _startCooldown() {
     _timer?.cancel();
-    setState(() => _cooldown = _resendCooldown);
+    _cooldown.value = _resendCooldown;
     _timer = Timer.periodic(const Duration(seconds: 1), (t) {
-      if (_cooldown <= 1) {
+      if (_cooldown.value <= 1) {
         t.cancel();
-        if (mounted) setState(() => _cooldown = 0);
-      } else if (mounted) {
-        setState(() => _cooldown--);
+        _cooldown.value = 0;
+      } else {
+        _cooldown.value--;
       }
     });
   }
@@ -133,7 +137,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _resend() async {
-    if (_cooldown > 0) return;
+    if (_cooldown.value > 0) return;
     setState(() {
       _loading = true;
       _error = null;
@@ -227,16 +231,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text('👋 Salom',
-                      style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Color(0xFF111827))),
-                  const SizedBox(height: DesignTokens.spacing8),
-                  Text("Andoza AI-ga xush kelibsiz",
-                      style: DesignTokens.bodyLarge.copyWith(color: DesignTokens.textMuted)),
+                  const _GreetingHeader(),
                   const SizedBox(height: DesignTokens.spacing32),
                   _card(),
                   const SizedBox(height: DesignTokens.spacing24),
-                  Text('AndozaAI v1.0.0',
-                      style: DesignTokens.caption.copyWith(color: DesignTokens.textMuted)),
+                  const _VersionLabel(),
                 ],
               ),
             ),
@@ -251,8 +250,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       constraints: const BoxConstraints(maxWidth: 400),
       padding: const EdgeInsets.all(DesignTokens.spacing24),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        color: DesignTokens.white,
+        borderRadius: BorderRadius.circular(DesignTokens.radiusXl),
         boxShadow: [
           BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 24, offset: const Offset(0, 8)),
         ],
@@ -324,7 +323,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           ),
         ),
         const SizedBox(height: DesignTokens.spacing24),
-        _orDivider(),
+        const _OrDivider(),
         const SizedBox(height: DesignTokens.spacing16),
         _outlinedButton('🔐 Username bilan kirish', () => _switch(_Mode.login)),
       ],
@@ -357,9 +356,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         }),
         const SizedBox(height: DesignTokens.spacing8),
         Center(
-          child: TextButton(
-            onPressed: _cooldown > 0 || _loading ? null : _resend,
-            child: Text(_cooldown > 0 ? 'Qayta yuborish ($_cooldown s)' : 'Qayta yuborish'),
+          child: ValueListenableBuilder<int>(
+            valueListenable: _cooldown,
+            builder: (context, cooldown, _) => TextButton(
+              onPressed: cooldown > 0 || _loading ? null : _resend,
+              child: Text(cooldown > 0 ? 'Qayta yuborish ($cooldown s)' : 'Qayta yuborish'),
+            ),
           ),
         ),
         Center(child: TextButton(onPressed: () => _switch(_Mode.otpPhone), child: const Text('← Orqaga'))),
@@ -528,8 +530,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(DesignTokens.radiusMedium)),
         ),
         child: _loading
-            ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation<Color>(Colors.white)))
-            : Text(label, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 15)),
+            ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation<Color>(DesignTokens.white)))
+            : Text(label, style: const TextStyle(color: DesignTokens.white, fontWeight: FontWeight.w700, fontSize: 15)),
       ),
     );
   }
@@ -549,19 +551,59 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  Widget _orDivider() => Row(children: [
-        const Expanded(child: Divider(color: DesignTokens.border)),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: DesignTokens.spacing12),
-          child: Text('yoki', style: DesignTokens.caption.copyWith(color: DesignTokens.textMuted)),
-        ),
-        const Expanded(child: Divider(color: DesignTokens.border)),
-      ]);
-
   Widget _errorText() => _error == null
       ? const SizedBox.shrink()
       : Padding(
           padding: const EdgeInsets.only(top: DesignTokens.spacing12),
           child: Text(_error!, style: DesignTokens.bodySmall.copyWith(color: DesignTokens.error)),
         );
+}
+
+/// Static greeting above the auth card ("👋 Salom" + subtitle). Extracted as a
+/// `const` widget so the per-keystroke / per-cooldown rebuilds of the stateful
+/// screen never rebuild it.
+class _GreetingHeader extends StatelessWidget {
+  const _GreetingHeader();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Text('👋 Salom',
+            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Color(0xFF111827))),
+        const SizedBox(height: DesignTokens.spacing8),
+        Text("Andoza AI-ga xush kelibsiz",
+            style: DesignTokens.bodyLarge.copyWith(color: DesignTokens.textMuted)),
+      ],
+    );
+  }
+}
+
+/// Static app-version footnote below the auth card. `const` for the same reason.
+class _VersionLabel extends StatelessWidget {
+  const _VersionLabel();
+
+  @override
+  Widget build(BuildContext context) {
+    return Text('AndozaAI v1.0.0',
+        style: DesignTokens.caption.copyWith(color: DesignTokens.textMuted));
+  }
+}
+
+/// Static "yoki" divider between the OTP and username entry points.
+class _OrDivider extends StatelessWidget {
+  const _OrDivider();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(children: [
+      const Expanded(child: Divider(color: DesignTokens.border)),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: DesignTokens.spacing12),
+        child: Text('yoki', style: DesignTokens.caption.copyWith(color: DesignTokens.textMuted)),
+      ),
+      const Expanded(child: Divider(color: DesignTokens.border)),
+    ]);
+  }
 }

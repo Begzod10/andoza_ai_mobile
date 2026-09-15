@@ -57,7 +57,7 @@ final StateNotifierProvider<AuthNotifier, AuthState> authStateProvider =
 });
 
 // Current user provider
-final currentUserProvider = FutureProvider<User?>((ref) async {
+final currentUserProvider = FutureProvider.autoDispose<User?>((ref) async {
   final authState = ref.watch(authStateProvider);
   if (authState is! AuthAuthenticated) return null;
   final repository = ref.watch(authRepositoryProvider);

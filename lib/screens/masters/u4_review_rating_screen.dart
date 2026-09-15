@@ -38,7 +38,7 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                           child: Text(
                             m.master.name[0],
                             style: const TextStyle(
-                              color: Colors.white,
+                              color: DesignTokens.white,
                               fontSize: 32,
                             ),
                           ),

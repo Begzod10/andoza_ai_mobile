@@ -55,18 +55,22 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
   bool _showRaw = false;
 
   // Regularization animation (raw → clean)
+  // No per-tick setState: the regularization morph repaints only the 2D
+  // CustomPaint, scoped via an AnimatedBuilder in [_build2dCanvas].
   late final AnimationController _anim = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 260),
-  )..addListener(() => setState(() {}));
+  );
   List<Vec2>? _animFrom;
   List<Vec2>? _animTo;
 
   // Rejection "shake" when a drag would self-intersect the polygon.
+  // No per-tick setState: the shake only translates the editor subtree,
+  // scoped via an AnimatedBuilder around it in [build].
   late final AnimationController _shakeCtrl = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 300),
-  )..addListener(() => setState(() {}));
+  );
 
   // Undo / redo history (snapshots of corners + closed).
   final List<({List<Vec2> corners, bool closed})> _undoStack = [];
@@ -663,7 +667,7 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
     );
   }
 
-  Widget _build2dCanvas(List<double> wallLengths) {
+  Widget _build2dCanvas() {
     return GestureDetector(
       onTapUp: _onTapUp,
       onLongPressStart: _onLongPressStart,
@@ -673,17 +677,27 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
       child: Container(
         width: double.infinity,
         color: DesignTokens.white,
-        child: CustomPaint(
-          painter: _RoomPainter(
-            corners: [for (final c in _display) _toScreen(c)],
-            closed: _closed,
-            rawStroke: _freehandDrawing
-                ? [for (final p in _rawStrokeM) _toScreen(p)]
-                : const [],
-            ppm: _ppm,
-            wallLengths: wallLengths,
-            areaM2: _closed ? shoelaceArea(_display) : 0,
-          ),
+        // Repaint only this CustomPaint while the raw→clean morph animates,
+        // instead of rebuilding the whole screen every frame. [_display],
+        // the wall-length labels and the area readout all derive from
+        // _anim.value, so they are recomputed inside the builder.
+        child: AnimatedBuilder(
+          animation: _anim,
+          builder: (context, _) {
+            final display = _display;
+            return CustomPaint(
+              painter: _RoomPainter(
+                corners: [for (final c in display) _toScreen(c)],
+                closed: _closed,
+                rawStroke: _freehandDrawing
+                    ? [for (final p in _rawStrokeM) _toScreen(p)]
+                    : const [],
+                ppm: _ppm,
+                wallLengths: _wallLengths(display, _closed),
+                areaM2: _closed ? shoelaceArea(display) : 0,
+              ),
+            );
+          },
         ),
       ),
     );
@@ -694,7 +708,6 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
   @override
   Widget build(BuildContext context) {
     final plan = _plan;
-    final wallLengths = _wallLengths(_display, _closed);
     return Scaffold(
       backgroundColor: DesignTokens.backgroundLight,
       appBar: AppBar(
@@ -746,11 +759,18 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
             onClear: _clear,
           ),
           Expanded(
-            child: Transform.translate(
-              offset: Offset(_shakeDx, 0),
+            // Scope the reject "shake" repaint to just the editor subtree:
+            // only the Transform.translate re-runs per frame, not the whole
+            // screen. The editor itself is built once and passed as `child`.
+            child: AnimatedBuilder(
+              animation: _shakeCtrl,
               child: _mode == _DrawMode.polygon
                   ? _buildIsoEditor()
-                  : _build2dCanvas(wallLengths),
+                  : _build2dCanvas(),
+              builder: (context, child) => Transform.translate(
+                offset: Offset(_shakeDx, 0),
+                child: child,
+              ),
             ),
           ),
           _BottomPanel(

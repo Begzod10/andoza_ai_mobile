@@ -15,12 +15,12 @@ final estimateRepositoryProvider = Provider<EstimateRepository>((ref) {
 /// `estimateProvider` when no room is persisted yet or the backend is
 /// unreachable.
 final estimatePreviewProvider =
-    FutureProvider.family<Estimate, String>((ref, roomId) {
+    FutureProvider.autoDispose.family<Estimate, String>((ref, roomId) {
   return ref.watch(estimateRepositoryProvider).preview(roomId);
 });
 
 /// Paginated smeta history for a persisted room.
 final estimateHistoryProvider =
-    FutureProvider.family<PaginatedEstimates, String>((ref, roomId) {
+    FutureProvider.autoDispose.family<PaginatedEstimates, String>((ref, roomId) {
   return ref.watch(estimateRepositoryProvider).history(roomId);
 });

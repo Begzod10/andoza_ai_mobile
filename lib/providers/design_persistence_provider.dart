@@ -17,12 +17,12 @@ final electricalRepositoryProvider = Provider<ElectricalRepository>((ref) {
 
 /// A persisted room's decoration selections, by room id.
 final decorationProvider =
-    FutureProvider.family<Decoration, String>((ref, roomId) {
+    FutureProvider.autoDispose.family<Decoration, String>((ref, roomId) {
   return ref.watch(decorationRepositoryProvider).getDecoration(roomId);
 });
 
 /// A persisted room's electrical plan, by room id.
 final electricalPlanProvider =
-    FutureProvider.family<ElectricalPlan, String>((ref, roomId) {
+    FutureProvider.autoDispose.family<ElectricalPlan, String>((ref, roomId) {
   return ref.watch(electricalRepositoryProvider).getPlan(roomId);
 });
