@@ -1,12 +1,34 @@
-import Flutter
 import ARKit
+import Flutter
+import UIKit
 
-class LidarMethodChannel {
+/// Handles the `com.tamir_uy/lidar` MethodChannel on iOS.
+///
+/// Mirrors the Android `LidarMethodChannel` contract exactly, so the Dart side
+/// (`LidarService` / `LiDARScanningScreen`) needs no platform branching:
+///  - `isLidarAvailable` → true only on AR-capable hardware; false on the
+///    Simulator, where Dart falls back to its scan simulation.
+///  - `scanRoom` → presents `DepthScanViewController` and completes with
+///    `width` / `length` / `height` / `pointCount` / `durationMs`, or fails
+///    with CANCELLED / PERMISSION_DENIED / UNSUPPORTED / SCAN_FAILED.
+///  - `startScan` / `stopScan` / `getScanData` / `getMeasurements` are the
+///    legacy methods, kept graceful so nothing breaks.
+final class LidarMethodChannel {
+
     static let channelName = "com.tamir_uy/lidar"
 
-    private var arSession: ARSession?
-    private var lidarPointCloud: [LidarPoint] = []
-    private var scanStartTime: Date?
+    /// Retained for the lifetime of the app; the channel holds the handler.
+    private static var instance: LidarMethodChannel?
+
+    private weak var controller: FlutterViewController?
+
+    /// The in-flight `scanRoom` result, completed from the scan controller.
+    private var pendingResult: FlutterResult?
+
+    /// Last successful scan's dimensions, returned by `getMeasurements`.
+    private var lastWidth: Double = 0
+    private var lastLength: Double = 0
+    private var lastHeight: Double = 0
 
     static func setup(with controller: FlutterViewController) {
         let channel = FlutterMethodChannel(
@@ -15,107 +37,100 @@ class LidarMethodChannel {
         )
 
         let instance = LidarMethodChannel()
+        instance.controller = controller
+        self.instance = instance
 
         channel.setMethodCallHandler { call, result in
-            switch call.method {
-            case "isLidarAvailable":
-                result(instance.isLidarAvailable())
-            case "startScan":
-                do {
-                    try instance.startScan()
-                    result(nil)
-                } catch {
-                    result(FlutterError(
-                        code: "START_SCAN_ERROR",
-                        message: error.localizedDescription,
-                        details: nil
-                    ))
-                }
-            case "stopScan":
-                do {
-                    try instance.stopScan()
-                    result(nil)
-                } catch {
-                    result(FlutterError(
-                        code: "STOP_SCAN_ERROR",
-                        message: error.localizedDescription,
-                        details: nil
-                    ))
-                }
-            case "getScanData":
-                do {
-                    let data = try instance.getScanData()
-                    result(data)
-                } catch {
-                    result(FlutterError(
-                        code: "GET_SCAN_ERROR",
-                        message: error.localizedDescription,
-                        details: nil
-                    ))
-                }
-            case "getMeasurements":
-                do {
-                    let measurements = try instance.getMeasurements()
-                    result(measurements)
-                } catch {
-                    result(FlutterError(
-                        code: "GET_MEASUREMENTS_ERROR",
-                        message: error.localizedDescription,
-                        details: nil
-                    ))
-                }
-            default:
-                result(FlutterMethodNotImplemented)
-            }
+            instance.onMethodCall(call, result: result)
         }
     }
 
-    private func isLidarAvailable() -> Bool {
-        // Check if device supports ARKit LiDAR
-        if #available(iOS 14.0, *) {
-            return ARWorldTrackingConfiguration.supportsFrameSemantics(.personSegmentationWithDepth)
+    private func onMethodCall(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+        switch call.method {
+        case "isLidarAvailable":
+            result(LidarMethodChannel.isArSupported())
+
+        case "scanRoom":
+            handleScanRoom(result: result)
+
+        // ---- Legacy methods: kept graceful so nothing breaks. ----
+        case "startScan", "stopScan":
+            result(nil)
+
+        case "getScanData":
+            result([
+                "points": [Any](),
+                // Dart parses this with DateTime.parse -> must be ISO-8601.
+                "timestamp": ISO8601DateFormatter().string(from: Date()),
+                "duration": 0,
+            ])
+
+        case "getMeasurements":
+            result([
+                "width": lastWidth,
+                "length": lastLength,
+                "height": lastHeight,
+            ])
+
+        default:
+            result(FlutterMethodNotImplemented)
         }
-        return false
     }
 
-    private func startScan() throws {
-        // TODO: Initialize ARKit session with LiDAR depth
-        arSession = ARSession()
-        scanStartTime = Date()
-        lidarPointCloud = []
+    /// True only on hardware that can actually run world tracking. The
+    /// Simulator and pre-ARKit devices report false, which is the correct
+    /// graceful-degradation signal for Dart.
+    ///
+    /// Note this is deliberately *not* gated on LiDAR specifically: plane
+    /// detection measures a room on any ARKit device, and LiDAR simply makes
+    /// it converge faster (`DepthScanViewController` enables scene
+    /// reconstruction when the device has it).
+    private static func isArSupported() -> Bool {
+        ARWorldTrackingConfiguration.isSupported
     }
 
-    private func stopScan() throws {
-        // TODO: Stop ARKit session and process depth data
-        arSession?.pause()
+    private func handleScanRoom(result: @escaping FlutterResult) {
+        guard let controller else {
+            result(FlutterError(code: "SCAN_FAILED", message: "No host controller is available", details: nil))
+            return
+        }
+        guard LidarMethodChannel.isArSupported() else {
+            result(FlutterError(code: "UNSUPPORTED", message: "ARKit is not supported on this device", details: nil))
+            return
+        }
+        // Guard against concurrent scans.
+        guard pendingResult == nil else {
+            result(FlutterError(code: "SCAN_FAILED", message: "A scan is already in progress", details: nil))
+            return
+        }
+
+        pendingResult = result
+
+        let scanner = DepthScanViewController { [weak self] outcome in
+            guard let self, let pending = self.pendingResult else { return }
+            self.pendingResult = nil
+            self.complete(pending, with: outcome)
+        }
+
+        controller.present(scanner, animated: true)
     }
 
-    private func getScanData() throws -> [String: Any] {
-        // TODO: Convert ARFrame depth data to point cloud
-        let duration = Date().timeIntervalSince(scanStartTime ?? Date())
+    private func complete(_ result: @escaping FlutterResult, with outcome: DepthScanOutcome) {
+        switch outcome {
+        case let .success(width, length, height, pointCount, durationMs):
+            lastWidth = width
+            lastLength = length
+            lastHeight = height
+            result([
+                "width": width,
+                "length": length,
+                "height": height,
+                "pointCount": pointCount,
+                "durationMs": durationMs,
+            ])
 
-        return [
-            "points": lidarPointCloud.map { point in
-                ["x": point.x, "y": point.y, "z": point.z, "confidence": point.confidence]
-            },
-            "timestamp": ISO8601DateFormatter().string(from: Date()),
-            "duration": Int(duration * 1000)
-        ]
+        case let .failure(code, message):
+            result(FlutterError(code: code, message: message, details: nil))
+        }
     }
-
-    private func getMeasurements() throws -> [String: Double] {
-        // TODO: Calculate room dimensions from point cloud
-        return [
-            "width": 0.0,
-            "length": 0.0,
-            "height": 0.0
-        ]
-    }
-}
-
-struct LidarPoint {
-    let x: Double
-    let y: Double
-    let z: Double
-    let confidence: Double
 }
