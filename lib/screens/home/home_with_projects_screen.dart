@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/design_selection_model.dart';
 import '../../providers/apartment_provider.dart';
 import '../../widgets/common/error_view.dart';
@@ -15,12 +16,13 @@ class HomeWithProjectsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     return ref.watch(projectsProvider).when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, _) => SafeArea(
         child: ErrorView(
           error: error,
-          title: 'Loyihalarni yuklab bo\'lmadi',
+          title: l10n.homeProjectsLoadError,
           onRetry: () => ref.invalidate(apartmentsProvider),
         ),
       ),
@@ -48,11 +50,11 @@ class HomeWithProjectsScreen extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Loyihalaringiz', style: DesignTokens.subtitle1),
+                    Text(l10n.homeYourProjects, style: DesignTokens.subtitle1),
                     GestureDetector(
                       onTap: () => _openAllProjects(context),
                       child: Text(
-                        'Barchasi',
+                        l10n.homeSeeAll,
                         style: DesignTokens.body2.copyWith(
                           color: DesignTokens.primaryBlue,
                           fontWeight: FontWeight.w600,
@@ -86,16 +88,18 @@ class _ActiveProjectCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final stageStates = project.stageStates;
     final currentIndex = project.renovationStage.index;
     final excludedNames = [
       for (final stage in kRenovationStages)
         if (stageStates[stage.index] == StageDisplayState.excluded)
-          _stageLabel(stage),
+          _stageLabel(stage, l10n),
     ];
     final stageLabel = excludedNames.isEmpty
-        ? 'Bosqich ${currentIndex + 1}/8'
-        : 'Bosqich ${currentIndex + 1}/8 · ✓ ${excludedNames.join(' va ')} mavjud edi';
+        ? l10n.homeStageProgress(currentIndex + 1)
+        : l10n.homeStageProgressExcluded(
+            currentIndex + 1, excludedNames.join(' va '));
 
     return Container(
       width: double.infinity,
@@ -165,7 +169,7 @@ class _ActiveProjectCard extends ConsumerWidget {
               const _LegendDot(color: DesignTokens.existingStateGray),
               const SizedBox(width: DesignTokens.spacingXs),
               Text(
-                'Mavjud (hisoblanmaydi)',
+                l10n.homeLegendExisting,
                 style: DesignTokens.caption.copyWith(
                   color: DesignTokens.textGray,
                 ),
@@ -174,7 +178,7 @@ class _ActiveProjectCard extends ConsumerWidget {
               _LegendDot(color: DesignTokens.delta.inProgress),
               const SizedBox(width: DesignTokens.spacingXs),
               Text(
-                'Kerak (delta)',
+                l10n.homeLegendNeeded,
                 style: DesignTokens.caption.copyWith(
                   color: DesignTokens.textGray,
                 ),
@@ -194,13 +198,13 @@ class _ActiveProjectCard extends ConsumerWidget {
                   context.push('/studio/$roomId');
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Bu loyihada hali xona yo\'q'),
+                    SnackBar(
+                      content: Text(l10n.homeNoRoomYet),
                     ),
                   );
                 }
               },
-              child: const Text('Davom etish'),
+              child: Text(l10n.homeResume),
             ),
           ),
         ],
@@ -212,15 +216,16 @@ class _ActiveProjectCard extends ConsumerWidget {
 
 /// Human-readable name for a [RenovationStage], shared by the active-project
 /// card and the stage-picker sheet.
-String _stageLabel(RenovationStage stage) => switch (stage) {
-  RenovationStage.suvoq => 'suvoq',
-  RenovationStage.shpaklovka => 'shpaklovka',
-  RenovationStage.boyoqOboi => 'bo\'yoq/oboi',
-  RenovationStage.pol => 'pol',
-  RenovationStage.mebel => 'mebel',
-  RenovationStage.elektr => 'elektr',
-  RenovationStage.yoruglik => 'yorug\'lik',
-  RenovationStage.santexnika => 'santexnika',
+String _stageLabel(RenovationStage stage, AppLocalizations l10n) =>
+    switch (stage) {
+  RenovationStage.suvoq => l10n.stageSuvoq,
+  RenovationStage.shpaklovka => l10n.stageShpaklovka,
+  RenovationStage.boyoqOboi => l10n.stageBoyoqOboi,
+  RenovationStage.pol => l10n.stagePol,
+  RenovationStage.mebel => l10n.stageMebel,
+  RenovationStage.elektr => l10n.stageElektr,
+  RenovationStage.yoruglik => l10n.stageYoruglik,
+  RenovationStage.santexnika => l10n.stageSantexnika,
   RenovationStage.unknown => '',
 };
 
@@ -250,6 +255,7 @@ class _StagePickerSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final currentStage = project.renovationStage;
 
     return Container(
@@ -281,12 +287,12 @@ class _StagePickerSheet extends ConsumerWidget {
               ),
             ),
           ),
-          const Text('Bosqichni tanlang', style: DesignTokens.heading3),
+          Text(l10n.homeStagePickerTitle, style: DesignTokens.heading3),
           const SizedBox(height: DesignTokens.spacingLg),
           for (final stage in kRenovationStages) ...[
             _StageOption(
               index: stage.index + 1,
-              label: _stageLabel(stage),
+              label: _stageLabel(stage, l10n),
               selected: stage == currentStage,
               onTap: () => _selectStage(context, ref, stage),
             ),
@@ -304,6 +310,7 @@ class _StagePickerSheet extends ConsumerWidget {
   ) async {
     final navigator = Navigator.of(context);
     final messenger = ScaffoldMessenger.of(context);
+    final l10n = AppLocalizations.of(context)!;
     try {
       await ref
           .read(apartmentRepositoryProvider)
@@ -313,7 +320,7 @@ class _StagePickerSheet extends ConsumerWidget {
     } catch (_) {
       navigator.pop();
       messenger.showSnackBar(
-        const SnackBar(content: Text('Bosqichni saqlab bo\'lmadi')),
+        SnackBar(content: Text(l10n.homeStageSaveError)),
       );
     }
   }
@@ -370,7 +377,7 @@ class _StageOption extends StatelessWidget {
             const SizedBox(width: DesignTokens.spacingMd),
             Expanded(
               child: Text(
-                'Bosqich $index/8 · $label',
+                AppLocalizations.of(context)!.homeStageOption(index, label),
                 style: DesignTokens.subtitle2,
               ),
             ),
@@ -408,6 +415,7 @@ class _ProjectListRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final stageStates = project.stageStates;
     final currentIndex = project.renovationStage.index;
     final excludedCount = stageStates
@@ -429,10 +437,11 @@ class _ProjectListRow extends StatelessWidget {
           StageProgressLine(
             currentStep: currentIndex,
             totalSteps: kRenovationStages.length,
-            stageStates: stageStates,
             stageLabel: excludedCount == 0
-                ? 'Bosqich ${currentIndex + 1}/8'
-                : 'Bosqich ${currentIndex + 1}/8 · ✓ $excludedCount bosqich mavjud edi',
+                ? l10n.homeStageProgress(currentIndex + 1)
+                : l10n.homeStageProgressExcludedCount(
+                    currentIndex + 1, excludedCount),
+            stageStates: stageStates,
           ),
         ],
       ),

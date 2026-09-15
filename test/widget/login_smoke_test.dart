@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tamir_uy_mobile_flutter/screens/auth/login_screen.dart';
 
+import '../support/localized_pump.dart';
+
 void main() {
-  Widget wrap() => const ProviderScope(child: MaterialApp(home: LoginScreen()));
+  Widget wrap() => wrapLocalized(const LoginScreen());
 
   testWidgets('LoginScreen builds and shows its core (phone-OTP) fields', (tester) async {
     await tester.pumpWidget(wrap());

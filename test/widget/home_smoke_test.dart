@@ -5,6 +5,8 @@ import 'package:tamir_uy_mobile_flutter/models/api/api.dart';
 import 'package:tamir_uy_mobile_flutter/providers/apartment_provider.dart';
 import 'package:tamir_uy_mobile_flutter/screens/home/home_with_projects_screen.dart';
 
+import '../support/localized_pump.dart';
+
 Apartment _apartment(String name) => Apartment(
       id: 'srv-1',
       userId: 'user-1',
@@ -31,8 +33,9 @@ void main() {
           apartmentsProvider
               .overrideWith((ref) async => [_apartment('Mening kvartiram')]),
         ],
-        child: const MaterialApp(
-          home: Scaffold(body: HomeWithProjectsScreen()),
+        child: wrapLocalized(
+          const Scaffold(body: HomeWithProjectsScreen()),
+          withProviderScope: false,
         ),
       ),
     );
@@ -50,8 +53,9 @@ void main() {
         overrides: [
           apartmentsProvider.overrideWith((ref) async => <Apartment>[]),
         ],
-        child: const MaterialApp(
-          home: Scaffold(body: HomeWithProjectsScreen()),
+        child: wrapLocalized(
+          const Scaffold(body: HomeWithProjectsScreen()),
+          withProviderScope: false,
         ),
       ),
     );

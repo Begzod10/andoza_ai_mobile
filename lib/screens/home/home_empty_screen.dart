@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/api/apartment.dart';
 import '../../models/design_selection_model.dart';
 import '../../providers/apartment_provider.dart';
@@ -260,6 +261,7 @@ class HomeGreetingHeader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final currentUser = ref.watch(currentUserProvider);
     final name = currentUser.maybeWhen(
       data: (user) => user?.firstName ?? user?.name ?? user?.username,
@@ -275,14 +277,14 @@ class HomeGreetingHeader extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Xush kelibsiz',
+                l10n.homeWelcome,
                 style: DesignTokens.body2.copyWith(
                   color: DesignTokens.textGray,
                 ),
               ),
               const SizedBox(height: DesignTokens.spacingXs),
               Text(
-                name != null ? 'Salom, $name! 👋' : 'Salom! 👋',
+                name != null ? l10n.homeGreetingNamed(name) : l10n.homeGreeting,
                 style: DesignTokens.heading2,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -313,7 +315,7 @@ class HomeGreetingHeader extends ConsumerWidget {
               ),
               const SizedBox(width: DesignTokens.spacingSm),
               Text(
-                'AndozaAI',
+                l10n.brandName,
                 style: DesignTokens.subtitle2.copyWith(
                   color: DesignTokens.primaryBlue,
                 ),
@@ -334,6 +336,7 @@ class HomeEmptyBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return SafeArea(
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
@@ -351,19 +354,19 @@ class HomeEmptyBody extends StatelessWidget {
               children: [
                 _StoryCircle(
                   icon: Icons.help_outline,
-                  label: 'Qanday ishlaydi?',
+                  label: l10n.homeStoryHowItWorks,
                   seen: false,
                   onTap: () => context.push('/onboarding/e7'),
                 ),
                 _StoryCircle(
                   icon: Icons.play_circle_outline,
-                  label: 'Demo qo\'llanma',
+                  label: l10n.homeStoryDemoGuide,
                   seen: true,
                   onTap: () => context.push('/onboarding/e8'),
                 ),
                 _StoryCircle(
                   icon: Icons.auto_awesome,
-                  label: 'Demo',
+                  label: l10n.homeStoryDemo,
                   seen: false,
                   onTap: () => context.push('/onboarding/e8'),
                 ),
@@ -372,21 +375,21 @@ class HomeEmptyBody extends StatelessWidget {
             const SizedBox(height: DesignTokens.spacingXl),
             EmptyStatePattern(
               icon: Icons.home_outlined,
-              title: 'Birinchi xonangizni qo\'shing',
-              message: 'Hali loyiha yo\'q — yangi loyiha boshlang',
-              actionLabel: '+ Loyiha qo\'shish',
+              title: l10n.homeEmptyTitle,
+              message: l10n.homeEmptyMessage,
+              actionLabel: l10n.homeEmptyAction,
               onAction: () => showNewProjectSheet(context),
             ),
             const SizedBox(height: DesignTokens.spacingXl),
             // Tezkor amallar — 2x2 quick-action grid.
-            const Text('Tezkor amallar', style: DesignTokens.subtitle1),
+            Text(l10n.homeQuickActions, style: DesignTokens.subtitle1),
             const SizedBox(height: DesignTokens.spacingMd),
             Row(
               children: [
                 Expanded(
                   child: _QuickAction(
                     icon: Icons.camera_alt_outlined,
-                    label: 'Xonani skanlash',
+                    label: l10n.homeQuickScan,
                     onTap: () => showNewProjectSheet(context),
                   ),
                 ),
@@ -394,7 +397,7 @@ class HomeEmptyBody extends StatelessWidget {
                 Expanded(
                   child: _QuickAction(
                     icon: Icons.receipt_long_outlined,
-                    label: 'Smeta',
+                    label: l10n.homeQuickEstimate,
                     onTap: () => context.go('/estimation/e1'),
                   ),
                 ),
@@ -406,7 +409,7 @@ class HomeEmptyBody extends StatelessWidget {
                 Expanded(
                   child: _QuickAction(
                     icon: Icons.storefront_outlined,
-                    label: 'Dilerlar',
+                    label: l10n.homeQuickDealers,
                     onTap: () => context.go('/shop/s1'),
                   ),
                 ),
@@ -414,7 +417,7 @@ class HomeEmptyBody extends StatelessWidget {
                 Expanded(
                   child: _QuickAction(
                     icon: Icons.groups_outlined,
-                    label: 'Ustalar',
+                    label: l10n.navMasters,
                     onTap: () => context.go('/masters/u1'),
                   ),
                 ),

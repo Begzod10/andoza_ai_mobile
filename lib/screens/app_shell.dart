@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../config/design_tokens.dart';
+import '../l10n/app_localizations.dart';
 import 'room_setup/new_project_sheet.dart';
 
 /// Shared app shell: the bottom navigation bar (Uy / Do'kon / Ustalar /
@@ -45,28 +46,32 @@ class _BottomNavWithFab extends StatelessWidget {
     _NavTab(
       icon: Icons.home_outlined,
       activeIcon: Icons.home,
-      label: 'Uy',
       route: '/',
     ),
     _NavTab(
       icon: Icons.storefront_outlined,
       activeIcon: Icons.storefront,
-      label: "Do'kon",
       route: '/shop/s1',
     ),
     _NavTab(
       icon: Icons.groups_outlined,
       activeIcon: Icons.groups,
-      label: 'Ustalar',
       route: '/masters/u1',
     ),
     _NavTab(
       icon: Icons.person_outline,
       activeIcon: Icons.person,
-      label: 'Profil',
       route: '/profile',
     ),
   ];
+
+  /// Resolves a tab's localized bottom-nav label from its route.
+  static String _labelFor(AppLocalizations l10n, String route) => switch (route) {
+        '/shop/s1' => l10n.navShop,
+        '/masters/u1' => l10n.navMasters,
+        '/profile' => l10n.navProfile,
+        _ => l10n.navHome,
+      };
 
   bool _isCurrent(_NavTab tab) {
     if (tab.route == '/') return location == '/';
@@ -107,7 +112,7 @@ class _BottomNavWithFab extends StatelessWidget {
             bottom: 94 - 32,
             child: Semantics(
               button: true,
-              label: 'Yangi loyiha qo\'shish',
+              label: AppLocalizations.of(context)!.navAddProject,
               child: GestureDetector(
               onTap: () => showNewProjectSheet(context),
               child: Container(
@@ -138,6 +143,7 @@ class _BottomNavWithFab extends StatelessWidget {
   }
 
   Widget _navItem(BuildContext context, _NavTab tab) {
+    final l10n = AppLocalizations.of(context)!;
     final isCurrent = _isCurrent(tab);
     final color = isCurrent ? DesignTokens.primaryBlue : DesignTokens.textMuted;
     return Semantics(
@@ -151,7 +157,7 @@ class _BottomNavWithFab extends StatelessWidget {
           Icon(isCurrent ? tab.activeIcon : tab.icon, color: color, size: 24),
           const SizedBox(height: 2),
           Text(
-            tab.label,
+            _labelFor(l10n, tab.route),
             style: DesignTokens.caption.copyWith(
               color: color,
               fontWeight: isCurrent ? FontWeight.w700 : FontWeight.w600,
@@ -168,12 +174,10 @@ class _NavTab {
   const _NavTab({
     required this.icon,
     required this.activeIcon,
-    required this.label,
     required this.route,
   });
 
   final IconData icon;
   final IconData activeIcon;
-  final String label;
   final String route;
 }

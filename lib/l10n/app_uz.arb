@@ -100,5 +100,315 @@
   "b1EnterRoom": "Xonaga kirish",
   "@b1EnterRoom": {
     "description": "B1 room-condition step: primary button that saves the condition and enters the room designer."
+  },
+
+  "brandName": "AndozaAI",
+  "@brandName": {
+    "description": "Brand wordmark (no space). Shown on the splash screen and the Home status pill."
+  },
+
+  "navAddProject": "Yangi loyiha qo'shish",
+  "@navAddProject": {
+    "description": "Accessibility label for the center orange FAB in the bottom nav that opens the new-project sheet."
+  },
+
+  "loginPhoneLabel": "Telefon raqam",
+  "@loginPhoneLabel": {
+    "description": "Login (phone-OTP step): heading and the phone-number field label."
+  },
+  "loginPhoneSubtitle": "Loginiga uchun telefon raqam talab qilinadi",
+  "@loginPhoneSubtitle": {
+    "description": "Login (phone-OTP step): subtitle under the heading explaining a phone number is required to log in."
+  },
+  "loginPhoneHint": "90 123 45 67",
+  "@loginPhoneHint": {
+    "description": "Login (phone-OTP step): placeholder text inside the phone-number input."
+  },
+  "loginPhoneSmsHint": "Sms kod shu raqamga yuboriladi",
+  "@loginPhoneSmsHint": {
+    "description": "Login (phone-OTP step): helper note that the SMS code goes to the entered number."
+  },
+  "loginSendOtp": "OTP Yuborish",
+  "@loginSendOtp": {
+    "description": "Login (phone-OTP step): primary button that requests the OTP code."
+  },
+  "loginOtpInfoBox": "📱 Siz kiritgan raqamga 6 xonali kod yuboriladi. Agar SMS kelmaydigan bo'lsa, 2-3 minutdan keyin qayta urinib ko'ring.",
+  "@loginOtpInfoBox": {
+    "description": "Login (phone-OTP step): informational tip box about the 6-digit code and retrying if SMS is delayed."
+  },
+  "loginWithUsername": "🔐 Username bilan kirish",
+  "@loginWithUsername": {
+    "description": "Login (phone-OTP step): outlined button switching to the username/password login form."
+  },
+  "loginCodeSentTitle": "✓ Kod yuborildi",
+  "@loginCodeSentTitle": {
+    "description": "Login (OTP code step): heading confirming the code was sent."
+  },
+  "loginCodeSentSuffix": " raqamiga 6 xonali kod yuboramiz",
+  "@loginCodeSentSuffix": {
+    "description": "Login (OTP code step): sentence fragment following the phone number ('... we will send a 6-digit code to <number>')."
+  },
+  "loginVerify": "Tasdiqlash",
+  "@loginVerify": {
+    "description": "Login (OTP code step): primary button that verifies the entered code."
+  },
+  "loginResend": "Qayta yuborish",
+  "@loginResend": {
+    "description": "Login (OTP code step): button to resend the code once the cooldown elapses."
+  },
+  "loginResendCountdown": "Qayta yuborish ({seconds} s)",
+  "@loginResendCountdown": {
+    "description": "Login (OTP code step): resend button label during the cooldown, showing remaining seconds.",
+    "placeholders": {
+      "seconds": { "type": "int" }
+    }
+  },
+  "loginBackArrow": "← Orqaga",
+  "@loginBackArrow": {
+    "description": "Login (OTP code step): text button with a left arrow returning to the phone-entry step."
+  },
+  "loginSignIn": "Kirish",
+  "@loginSignIn": {
+    "description": "Login (username step): heading and submit button label ('Sign in')."
+  },
+  "loginUsernameHint": "Username",
+  "@loginUsernameHint": {
+    "description": "Login/register: placeholder text for the username field."
+  },
+  "loginPasswordLabel": "Parol",
+  "@loginPasswordLabel": {
+    "description": "Login/register: placeholder text for the password field."
+  },
+  "loginNoAccount": "Akkauntingiz yo'qmi? ",
+  "@loginNoAccount": {
+    "description": "Login (username step): prompt preceding the register link ('No account? ')."
+  },
+  "loginRegister": "Ro'yxatdan o'tish",
+  "@loginRegister": {
+    "description": "Register: link, heading and submit button label ('Sign up')."
+  },
+  "loginNameHint": "Ism (ixtiyoriy)",
+  "@loginNameHint": {
+    "description": "Register: placeholder for the optional name field."
+  },
+  "loginConfirmPasswordHint": "Parolni tasdiqlang",
+  "@loginConfirmPasswordHint": {
+    "description": "Register: placeholder for the confirm-password field."
+  },
+  "loginHaveAccount": "Allaqachon akkauntingiz bormi? ",
+  "@loginHaveAccount": {
+    "description": "Register: prompt preceding the sign-in link ('Already have an account? ')."
+  },
+  "loginOr": "yoki",
+  "@loginOr": {
+    "description": "Login: 'or' divider between the OTP and username entry points."
+  },
+  "loginGreeting": "👋 Salom",
+  "@loginGreeting": {
+    "description": "Login: large greeting above the auth card ('Hello')."
+  },
+  "loginWelcomeSubtitle": "Andoza AI-ga xush kelibsiz",
+  "@loginWelcomeSubtitle": {
+    "description": "Login: welcome subtitle under the greeting."
+  },
+  "loginVersion": "AndozaAI v1.0.0",
+  "@loginVersion": {
+    "description": "Login: app-version footnote below the auth card."
+  },
+  "loginErrorInvalidPhone": "Telefon raqam noto'g'ri. Masalan: 90 123 45 67",
+  "@loginErrorInvalidPhone": {
+    "description": "Login error: the entered phone number is invalid, with an example format."
+  },
+  "loginErrorServer": "Serverda xatolik. Qayta urinib ko'ring.",
+  "@loginErrorServer": {
+    "description": "Login error: a generic server failure, asking the user to retry."
+  },
+  "loginErrorInvalidCode": "Kod noto'g'ri yoki eskirgan.",
+  "@loginErrorInvalidCode": {
+    "description": "Login error: the entered OTP code is wrong or expired."
+  },
+  "loginErrorCredentialsRequired": "Username va parol majburiy.",
+  "@loginErrorCredentialsRequired": {
+    "description": "Login error: username and password are both required."
+  },
+  "loginErrorWrongCredentials": "Username yoki parol noto'g'ri.",
+  "@loginErrorWrongCredentials": {
+    "description": "Login error: the username or password is incorrect."
+  },
+  "loginErrorUsernameShort": "Username kamida 3 ta belgidan iborat bo'lishi kerak.",
+  "@loginErrorUsernameShort": {
+    "description": "Register error: username must be at least 3 characters."
+  },
+  "loginErrorPasswordShort": "Parol kamida 6 ta belgidan iborat bo'lishi kerak.",
+  "@loginErrorPasswordShort": {
+    "description": "Register error: password must be at least 6 characters."
+  },
+  "loginErrorPasswordMismatch": "Parollar mos kelmadi.",
+  "@loginErrorPasswordMismatch": {
+    "description": "Register error: the two passwords do not match."
+  },
+  "loginErrorUsernameTaken": "Bu username allaqachon band.",
+  "@loginErrorUsernameTaken": {
+    "description": "Register error: the chosen username is already taken."
+  },
+  "loginErrorRegisterFailed": "Ro'yxatdan o'tishda xato yuz berdi.",
+  "@loginErrorRegisterFailed": {
+    "description": "Register error: a generic registration failure."
+  },
+
+  "homeWelcome": "Xush kelibsiz",
+  "@homeWelcome": {
+    "description": "Home header: small 'Welcome' label above the user's name."
+  },
+  "homeGreetingNamed": "Salom, {name}! 👋",
+  "@homeGreetingNamed": {
+    "description": "Home header: personalized greeting when the user's name is known.",
+    "placeholders": {
+      "name": { "type": "String" }
+    }
+  },
+  "homeGreeting": "Salom! 👋",
+  "@homeGreeting": {
+    "description": "Home header: greeting fallback when the user's name is unknown."
+  },
+  "homeStoryHowItWorks": "Qanday ishlaydi?",
+  "@homeStoryHowItWorks": {
+    "description": "Home: onboarding story-circle label opening the 'how it works' guide."
+  },
+  "homeStoryDemoGuide": "Demo qo'llanma",
+  "@homeStoryDemoGuide": {
+    "description": "Home: onboarding story-circle label opening the demo guide."
+  },
+  "homeStoryDemo": "Demo",
+  "@homeStoryDemo": {
+    "description": "Home: onboarding story-circle label opening the demo."
+  },
+  "homeEmptyTitle": "Birinchi xonangizni qo'shing",
+  "@homeEmptyTitle": {
+    "description": "Home empty state: title prompting the user to add their first room."
+  },
+  "homeEmptyMessage": "Hali loyiha yo'q — yangi loyiha boshlang",
+  "@homeEmptyMessage": {
+    "description": "Home empty state: message noting there are no projects yet."
+  },
+  "homeEmptyAction": "+ Loyiha qo'shish",
+  "@homeEmptyAction": {
+    "description": "Home empty state: button that starts a new project."
+  },
+  "homeQuickActions": "Tezkor amallar",
+  "@homeQuickActions": {
+    "description": "Home: section title above the quick-action grid."
+  },
+  "homeQuickScan": "Xonani skanlash",
+  "@homeQuickScan": {
+    "description": "Home quick action: scan a room."
+  },
+  "homeQuickEstimate": "Smeta",
+  "@homeQuickEstimate": {
+    "description": "Home quick action: cost estimate."
+  },
+  "homeQuickDealers": "Dilerlar",
+  "@homeQuickDealers": {
+    "description": "Home quick action: dealers/shops."
+  },
+
+  "homeProjectsLoadError": "Loyihalarni yuklab bo'lmadi",
+  "@homeProjectsLoadError": {
+    "description": "Home (with projects): error-view title when the project list fails to load."
+  },
+  "homeYourProjects": "Loyihalaringiz",
+  "@homeYourProjects": {
+    "description": "Home (with projects): 'Your projects' section title."
+  },
+  "homeSeeAll": "Barchasi",
+  "@homeSeeAll": {
+    "description": "Home (with projects): 'See all' link opening the full project list."
+  },
+  "homeLegendExisting": "Mavjud (hisoblanmaydi)",
+  "@homeLegendExisting": {
+    "description": "Home (with projects): progress legend for stages that already existed and are not counted."
+  },
+  "homeLegendNeeded": "Kerak (delta)",
+  "@homeLegendNeeded": {
+    "description": "Home (with projects): progress legend for stages still needed (the delta)."
+  },
+  "homeResume": "Davom etish",
+  "@homeResume": {
+    "description": "Home (with projects): resume CTA that continues the active project in the 3D Studio."
+  },
+  "homeNoRoomYet": "Bu loyihada hali xona yo'q",
+  "@homeNoRoomYet": {
+    "description": "Home (with projects): snackbar shown when resuming a project that has no room yet."
+  },
+  "homeStageProgress": "Bosqich {current}/8",
+  "@homeStageProgress": {
+    "description": "Home (with projects): renovation stage progress label ('Stage N/8').",
+    "placeholders": {
+      "current": { "type": "int" }
+    }
+  },
+  "homeStageProgressExcluded": "Bosqich {current}/8 · ✓ {names} mavjud edi",
+  "@homeStageProgressExcluded": {
+    "description": "Home (with projects): stage label noting which named stages already existed.",
+    "placeholders": {
+      "current": { "type": "int" },
+      "names": { "type": "String" }
+    }
+  },
+  "homeStageProgressExcludedCount": "Bosqich {current}/8 · ✓ {count} bosqich mavjud edi",
+  "@homeStageProgressExcludedCount": {
+    "description": "Home (with projects): compact stage label noting how many stages already existed.",
+    "placeholders": {
+      "current": { "type": "int" },
+      "count": { "type": "int" }
+    }
+  },
+  "homeStagePickerTitle": "Bosqichni tanlang",
+  "@homeStagePickerTitle": {
+    "description": "Home (with projects): title of the stage-picker bottom sheet ('Choose a stage')."
+  },
+  "homeStageOption": "Bosqich {index}/8 · {label}",
+  "@homeStageOption": {
+    "description": "Home (with projects): a single stage option row in the stage picker.",
+    "placeholders": {
+      "index": { "type": "int" },
+      "label": { "type": "String" }
+    }
+  },
+  "homeStageSaveError": "Bosqichni saqlab bo'lmadi",
+  "@homeStageSaveError": {
+    "description": "Home (with projects): snackbar shown when saving the selected stage fails."
+  },
+  "stageSuvoq": "suvoq",
+  "@stageSuvoq": {
+    "description": "Renovation stage name: plastering (suvoq)."
+  },
+  "stageShpaklovka": "shpaklovka",
+  "@stageShpaklovka": {
+    "description": "Renovation stage name: putty/finishing (shpaklovka)."
+  },
+  "stageBoyoqOboi": "bo'yoq/oboi",
+  "@stageBoyoqOboi": {
+    "description": "Renovation stage name: paint/wallpaper (bo'yoq/oboi)."
+  },
+  "stagePol": "pol",
+  "@stagePol": {
+    "description": "Renovation stage name: flooring (pol)."
+  },
+  "stageMebel": "mebel",
+  "@stageMebel": {
+    "description": "Renovation stage name: furniture (mebel)."
+  },
+  "stageElektr": "elektr",
+  "@stageElektr": {
+    "description": "Renovation stage name: electrical (elektr)."
+  },
+  "stageYoruglik": "yorug'lik",
+  "@stageYoruglik": {
+    "description": "Renovation stage name: lighting (yorug'lik)."
+  },
+  "stageSantexnika": "santexnika",
+  "@stageSantexnika": {
+    "description": "Renovation stage name: plumbing (santexnika)."
   }
 }

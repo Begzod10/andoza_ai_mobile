@@ -7,6 +7,8 @@ import 'package:tamir_uy_mobile_flutter/screens/home/home_with_projects_screen.d
 import 'package:tamir_uy_mobile_flutter/utils/error_mapper.dart';
 import 'package:tamir_uy_mobile_flutter/widgets/common/error_view.dart';
 
+import '../support/localized_pump.dart';
+
 /// Wraps the screen under test with a [ProviderScope] that overrides the
 /// derived [projectsProvider] with a fixed [AsyncValue], so the screen's
 /// loading / error / data branches can be exercised without any network.
@@ -17,8 +19,9 @@ Future<void> _pumpWithProjects(
   return tester.pumpWidget(
     ProviderScope(
       overrides: [projectsProvider.overrideWithValue(value)],
-      child: const MaterialApp(
-        home: Scaffold(body: HomeWithProjectsScreen()),
+      child: wrapLocalized(
+        const Scaffold(body: HomeWithProjectsScreen()),
+        withProviderScope: false,
       ),
     ),
   );

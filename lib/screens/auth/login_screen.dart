@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../repositories/auth_repository.dart';
 import '../../services/api_client.dart';
@@ -95,9 +96,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   // ── actions ───────────────────────────────────────────────────────────────
   Future<void> _requestOtp() async {
+    final l10n = AppLocalizations.of(context)!;
     final phone = _formatPhone(_phone.text);
     if (!_isValidPhone(phone)) {
-      setState(() => _error = "Telefon raqam noto'g'ri. Masalan: 90 123 45 67");
+      setState(() => _error = l10n.loginErrorInvalidPhone);
       return;
     }
     setState(() {
@@ -111,13 +113,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       setState(() => _mode = _Mode.otpCode);
       WidgetsBinding.instance.addPostFrameCallback((_) => _otpFocus[0].requestFocus());
     } catch (_) {
-      setState(() => _error = "Serverda xatolik. Qayta urinib ko'ring.");
+      setState(() => _error = l10n.loginErrorServer);
     } finally {
       if (mounted) setState(() => _loading = false);
     }
   }
 
   Future<void> _verifyOtp(String code) async {
+    final l10n = AppLocalizations.of(context)!;
     setState(() {
       _loading = true;
       _error = null;
@@ -127,7 +130,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ref.read(authStateProvider.notifier).setSession(res);
     } catch (_) {
       setState(() {
-        _error = "Kod noto'g'ri yoki eskirgan.";
+        _error = l10n.loginErrorInvalidCode;
         for (final c in _otp) {
           c.clear();
         }
@@ -140,6 +143,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   Future<void> _resend() async {
     if (_cooldown.value > 0) return;
+    final l10n = AppLocalizations.of(context)!;
     setState(() {
       _loading = true;
       _error = null;
@@ -152,15 +156,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       _startCooldown();
       _otpFocus[0].requestFocus();
     } catch (_) {
-      setState(() => _error = "Serverda xatolik. Qayta urinib ko'ring.");
+      setState(() => _error = l10n.loginErrorServer);
     } finally {
       if (mounted) setState(() => _loading = false);
     }
   }
 
   Future<void> _login() async {
+    final l10n = AppLocalizations.of(context)!;
     if (_username.text.trim().isEmpty || _password.text.isEmpty) {
-      setState(() => _error = 'Username va parol majburiy.');
+      setState(() => _error = l10n.loginErrorCredentialsRequired);
       return;
     }
     setState(() {
@@ -179,7 +184,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final state = ref.read(authStateProvider);
     setState(() {
       _loading = false;
-      if (state is AuthError) _error = _loginErrorMessage(state.message);
+      if (state is AuthError) _error = _loginErrorMessage(l10n, state.message);
     });
   }
 
@@ -190,25 +195,26 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   /// network/timeout/server failure is routed through [mapErrorToMessage] so it
   /// doesn't misleadingly read as a bad password. The message never reaches the
   /// UI verbatim — it's always mapped to a localized string.
-  String _loginErrorMessage(String rawMessage) {
+  String _loginErrorMessage(AppLocalizations l10n, String rawMessage) {
     if (rawMessage.toLowerCase().contains('unauthorized')) {
-      return "Username yoki parol noto'g'ri.";
+      return l10n.loginErrorWrongCredentials;
     }
     return mapErrorToMessage(ApiException(message: rawMessage));
   }
 
   Future<void> _register() async {
+    final l10n = AppLocalizations.of(context)!;
     final u = _username.text.trim();
     if (u.length < 3) {
-      setState(() => _error = 'Username kamida 3 ta belgidan iborat bo\'lishi kerak.');
+      setState(() => _error = l10n.loginErrorUsernameShort);
       return;
     }
     if (_password.text.length < 6) {
-      setState(() => _error = 'Parol kamida 6 ta belgidan iborat bo\'lishi kerak.');
+      setState(() => _error = l10n.loginErrorPasswordShort);
       return;
     }
     if (_password.text != _confirm.text) {
-      setState(() => _error = 'Parollar mos kelmadi.');
+      setState(() => _error = l10n.loginErrorPasswordMismatch);
       return;
     }
     setState(() {
@@ -221,8 +227,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     } catch (e) {
       final msg = e.toString().toLowerCase();
       setState(() => _error = (msg.contains('409') || msg.contains('band'))
-          ? 'Bu username allaqachon band.'
-          : "Ro'yxatdan o'tishda xato yuz berdi.");
+          ? l10n.loginErrorUsernameTaken
+          : l10n.loginErrorRegisterFailed);
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -283,15 +289,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   // ── views ─────────────────────────────────────────────────────────────────
   Widget _otpPhoneView() {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Telefon raqam', style: DesignTokens.headingMedium),
+        Text(l10n.loginPhoneLabel, style: DesignTokens.headingMedium),
         const SizedBox(height: 4),
-        Text('Loginiga uchun telefon raqam talab qilinadi',
+        Text(l10n.loginPhoneSubtitle,
             style: DesignTokens.bodySmall.copyWith(color: DesignTokens.textMuted)),
         const SizedBox(height: DesignTokens.spacing24),
-        Text('Telefon raqam', style: DesignTokens.caption.copyWith(color: DesignTokens.textSecondary)),
+        Text(l10n.loginPhoneLabel, style: DesignTokens.caption.copyWith(color: DesignTokens.textSecondary)),
         const SizedBox(height: DesignTokens.spacing8),
         Container(
           decoration: BoxDecoration(
@@ -309,10 +316,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   controller: _phone,
                   keyboardType: TextInputType.phone,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(9)],
-                  decoration: const InputDecoration(
-                    hintText: '90 123 45 67',
+                  decoration: InputDecoration(
+                    hintText: l10n.loginPhoneHint,
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(vertical: 14),
+                    contentPadding: const EdgeInsets.symmetric(vertical: 14),
                   ),
                   onSubmitted: (_) => _requestOtp(),
                 ),
@@ -321,11 +328,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           ),
         ),
         const SizedBox(height: DesignTokens.spacing8),
-        Text('Sms kod shu raqamga yuboriladi',
+        Text(l10n.loginPhoneSmsHint,
             style: DesignTokens.caption.copyWith(color: DesignTokens.textMuted)),
         _errorText(),
         const SizedBox(height: DesignTokens.spacing16),
-        _primaryButton('OTP Yuborish', _loading ? null : _requestOtp),
+        _primaryButton(l10n.loginSendOtp, _loading ? null : _requestOtp),
         const SizedBox(height: DesignTokens.spacing24),
         Container(
           padding: const EdgeInsets.all(DesignTokens.spacing16),
@@ -334,29 +341,30 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
           ),
           child: Text(
-            "📱 Siz kiritgan raqamga 6 xonali kod yuboriladi. Agar SMS kelmaydigan bo'lsa, 2-3 minutdan keyin qayta urinib ko'ring.",
+            l10n.loginOtpInfoBox,
             style: DesignTokens.bodySmall.copyWith(color: DesignTokens.textSecondary),
           ),
         ),
         const SizedBox(height: DesignTokens.spacing24),
         const _OrDivider(),
         const SizedBox(height: DesignTokens.spacing16),
-        _outlinedButton('🔐 Username bilan kirish', () => _switch(_Mode.login)),
+        _outlinedButton(l10n.loginWithUsername, () => _switch(_Mode.login)),
       ],
     );
   }
 
   Widget _otpCodeView() {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('✓ Kod yuborildi', style: DesignTokens.headingMedium),
+        Text(l10n.loginCodeSentTitle, style: DesignTokens.headingMedium),
         const SizedBox(height: 4),
         Text.rich(TextSpan(
           style: DesignTokens.bodySmall.copyWith(color: DesignTokens.textMuted),
           children: [
             TextSpan(text: _sentPhone, style: const TextStyle(fontWeight: FontWeight.w600, color: Color(0xFF111827))),
-            const TextSpan(text: ' raqamiga 6 xonali kod yuboramiz'),
+            TextSpan(text: l10n.loginCodeSentSuffix),
           ],
         )),
         const SizedBox(height: DesignTokens.spacing24),
@@ -366,7 +374,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         ),
         _errorText(),
         const SizedBox(height: DesignTokens.spacing16),
-        _primaryButton('Tasdiqlash', _loading ? null : () {
+        _primaryButton(l10n.loginVerify, _loading ? null : () {
           final code = _otp.map((c) => c.text).join();
           if (code.length == 6) _verifyOtp(code);
         }),
@@ -376,36 +384,37 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             valueListenable: _cooldown,
             builder: (context, cooldown, _) => TextButton(
               onPressed: cooldown > 0 || _loading ? null : _resend,
-              child: Text(cooldown > 0 ? 'Qayta yuborish ($cooldown s)' : 'Qayta yuborish'),
+              child: Text(cooldown > 0 ? l10n.loginResendCountdown(cooldown) : l10n.loginResend),
             ),
           ),
         ),
-        Center(child: TextButton(onPressed: () => _switch(_Mode.otpPhone), child: const Text('← Orqaga'))),
+        Center(child: TextButton(onPressed: () => _switch(_Mode.otpPhone), child: Text(l10n.loginBackArrow))),
       ],
     );
   }
 
   Widget _loginView() {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _backButton(),
-        Text('Kirish', style: DesignTokens.headingMedium),
+        Text(l10n.loginSignIn, style: DesignTokens.headingMedium),
         const SizedBox(height: DesignTokens.spacing16),
-        _field(_username, 'Username', autofillHints: const [AutofillHints.username]),
+        _field(_username, l10n.loginUsernameHint, autofillHints: const [AutofillHints.username]),
         const SizedBox(height: DesignTokens.spacing16),
-        _passwordField(_password, 'Parol', _obscurePassword, () => setState(() => _obscurePassword = !_obscurePassword)),
+        _passwordField(_password, l10n.loginPasswordLabel, _obscurePassword, () => setState(() => _obscurePassword = !_obscurePassword)),
         _errorText(),
         const SizedBox(height: DesignTokens.spacing24),
-        _primaryButton('Kirish', _loading ? null : _login),
+        _primaryButton(l10n.loginSignIn, _loading ? null : _login),
         const SizedBox(height: DesignTokens.spacing16),
         Center(
           child: Wrap(
             children: [
-              Text("Akkauntingiz yo'qmi? ", style: DesignTokens.bodySmall.copyWith(color: DesignTokens.textMuted)),
+              Text(l10n.loginNoAccount, style: DesignTokens.bodySmall.copyWith(color: DesignTokens.textMuted)),
               GestureDetector(
                 onTap: () => _switch(_Mode.register),
-                child: Text("Ro'yxatdan o'tish",
+                child: Text(l10n.loginRegister,
                     style: DesignTokens.bodySmall.copyWith(color: DesignTokens.primary, fontWeight: FontWeight.w600)),
               ),
             ],
@@ -416,30 +425,31 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Widget _registerView() {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _backButton(),
-        Text("Ro'yxatdan o'tish", style: DesignTokens.headingMedium),
+        Text(l10n.loginRegister, style: DesignTokens.headingMedium),
         const SizedBox(height: DesignTokens.spacing16),
-        _field(_name, 'Ism (ixtiyoriy)'),
+        _field(_name, l10n.loginNameHint),
         const SizedBox(height: DesignTokens.spacing12),
-        _field(_username, 'Username'),
+        _field(_username, l10n.loginUsernameHint),
         const SizedBox(height: DesignTokens.spacing12),
-        _passwordField(_password, 'Parol', _obscurePassword, () => setState(() => _obscurePassword = !_obscurePassword)),
+        _passwordField(_password, l10n.loginPasswordLabel, _obscurePassword, () => setState(() => _obscurePassword = !_obscurePassword)),
         const SizedBox(height: DesignTokens.spacing12),
-        _passwordField(_confirm, 'Parolni tasdiqlang', _obscureConfirm, () => setState(() => _obscureConfirm = !_obscureConfirm)),
+        _passwordField(_confirm, l10n.loginConfirmPasswordHint, _obscureConfirm, () => setState(() => _obscureConfirm = !_obscureConfirm)),
         _errorText(),
         const SizedBox(height: DesignTokens.spacing24),
-        _primaryButton("Ro'yxatdan o'tish", _loading ? null : _register),
+        _primaryButton(l10n.loginRegister, _loading ? null : _register),
         const SizedBox(height: DesignTokens.spacing16),
         Center(
           child: Wrap(
             children: [
-              Text('Allaqachon akkauntingiz bormi? ', style: DesignTokens.bodySmall.copyWith(color: DesignTokens.textMuted)),
+              Text(l10n.loginHaveAccount, style: DesignTokens.bodySmall.copyWith(color: DesignTokens.textMuted)),
               GestureDetector(
                 onTap: () => _switch(_Mode.login),
-                child: Text('Kirish',
+                child: Text(l10n.loginSignIn,
                     style: DesignTokens.bodySmall.copyWith(color: DesignTokens.primary, fontWeight: FontWeight.w600)),
               ),
             ],
@@ -457,7 +467,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           child: Row(mainAxisSize: MainAxisSize.min, children: [
             const Icon(Icons.arrow_back, size: 18, color: DesignTokens.textMuted),
             const SizedBox(width: 6),
-            Text('Orqaga', style: DesignTokens.bodySmall.copyWith(color: DesignTokens.textMuted)),
+            Text(AppLocalizations.of(context)!.actionBack, style: DesignTokens.bodySmall.copyWith(color: DesignTokens.textMuted)),
           ]),
         ),
       );
@@ -583,13 +593,14 @@ class _GreetingHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const Text('👋 Salom',
-            style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Color(0xFF111827))),
+        Text(l10n.loginGreeting,
+            style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Color(0xFF111827))),
         const SizedBox(height: DesignTokens.spacing8),
-        Text("Andoza AI-ga xush kelibsiz",
+        Text(l10n.loginWelcomeSubtitle,
             style: DesignTokens.bodyLarge.copyWith(color: DesignTokens.textMuted)),
       ],
     );
@@ -602,7 +613,7 @@ class _VersionLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('AndozaAI v1.0.0',
+    return Text(AppLocalizations.of(context)!.loginVersion,
         style: DesignTokens.caption.copyWith(color: DesignTokens.textMuted));
   }
 }
@@ -617,7 +628,7 @@ class _OrDivider extends StatelessWidget {
       const Expanded(child: Divider(color: DesignTokens.border)),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: DesignTokens.spacing12),
-        child: Text('yoki', style: DesignTokens.caption.copyWith(color: DesignTokens.textMuted)),
+        child: Text(AppLocalizations.of(context)!.loginOr, style: DesignTokens.caption.copyWith(color: DesignTokens.textMuted)),
       ),
       const Expanded(child: Divider(color: DesignTokens.border)),
     ]);

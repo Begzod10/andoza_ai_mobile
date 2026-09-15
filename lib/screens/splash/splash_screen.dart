@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 
 /// Splash Screen (S0)
@@ -65,6 +66,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: DesignTokens.darkBg,
       body: Container(
@@ -96,7 +98,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
               FadeTransition(
                 opacity: _fadeAnimation,
                 child: Text(
-                  'AndozaAI',
+                  l10n.brandName,
                   style: DesignTokens.heading2.copyWith(
                     color: DesignTokens.white,
                   ),
