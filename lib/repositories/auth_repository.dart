@@ -47,7 +47,7 @@ class AuthRepositoryImpl implements AuthRepository {
       await _persistSession(authResponse);
       return authResponse;
     } on ApiException catch (e) {
-      throw AuthException(e.message);
+      throw AuthException(e.message, statusCode: e.statusCode);
     }
   }
 
@@ -75,7 +75,7 @@ class AuthRepositoryImpl implements AuthRepository {
         fromJson: (_) {},
       );
     } on ApiException catch (e) {
-      throw AuthException(e.message);
+      throw AuthException(e.message, statusCode: e.statusCode);
     }
   }
 
@@ -91,7 +91,7 @@ class AuthRepositoryImpl implements AuthRepository {
       await _persistSession(authResponse);
       return authResponse;
     } on ApiException catch (e) {
-      throw AuthException(e.message);
+      throw AuthException(e.message, statusCode: e.statusCode);
     }
   }
 
@@ -109,7 +109,7 @@ class AuthRepositoryImpl implements AuthRepository {
       await _persistSession(authResponse);
       return authResponse;
     } on ApiException catch (e) {
-      throw AuthException(e.message);
+      throw AuthException(e.message, statusCode: e.statusCode);
     }
   }
 
@@ -186,8 +186,13 @@ class AuthRepositoryImpl implements AuthRepository {
 }
 
 class AuthException implements Exception {
-  AuthException(this.message);
+  AuthException(this.message, {this.statusCode});
   final String message;
+
+  /// The originating HTTP status (from [ApiException]), preserved so callers can
+  /// classify reliably (401 = bad credentials, 409 = username taken) instead of
+  /// substring-matching the message.
+  final int? statusCode;
 
   @override
   String toString() => message;

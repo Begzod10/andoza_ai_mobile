@@ -212,6 +212,21 @@ void main() {
       expect((state as AuthError).message, contains('Invalid credentials'));
     });
 
+    test('a 401 AuthException carries its statusCode into AuthError', () async {
+      final container = _container(
+        _FakeAuthRepository(
+          loginError: AuthException('Unauthorized', statusCode: 401),
+        ),
+      );
+      final notifier = container.read(authStateProvider.notifier);
+
+      await notifier.login('rimefara', 'wrong');
+
+      final state = container.read(authStateProvider);
+      expect(state, isA<AuthError>());
+      expect((state as AuthError).statusCode, 401);
+    });
+
     test('even a raw Error (e.g. a parse CastError) becomes AuthError', () async {
       // Guards the "catch Error too" behaviour: a malformed response must not
       // leave the login button spinning in AuthLoading forever.

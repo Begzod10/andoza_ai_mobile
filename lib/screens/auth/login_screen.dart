@@ -184,22 +184,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final state = ref.read(authStateProvider);
     setState(() {
       _loading = false;
-      if (state is AuthError) _error = _loginErrorMessage(l10n, state.message);
+      if (state is AuthError) _error = _loginErrorMessage(l10n, state);
     });
   }
 
-  /// Picks the inline login-failure message. [AuthNotifier] flattens the caught
-  /// error into a string ([ApiException.message]), so classify by that: a
-  /// genuine credential rejection (the backend answers 401 → "Unauthorized" on
-  /// `/auth/login`) keeps the "wrong username/password" wording, while a
-  /// network/timeout/server failure is routed through [mapErrorToMessage] so it
-  /// doesn't misleadingly read as a bad password. The message never reaches the
-  /// UI verbatim — it's always mapped to a localized string.
-  String _loginErrorMessage(AppLocalizations l10n, String rawMessage) {
-    if (rawMessage.toLowerCase().contains('unauthorized')) {
+  /// Picks the inline login-failure message. A genuine credential rejection is
+  /// a 401 → keep the "wrong username/password" wording; every other failure
+  /// (network/timeout/5xx) is routed through [mapErrorToMessage] so it doesn't
+  /// misleadingly read as a bad password. Classified by [AuthError.statusCode]
+  /// (carried from [AuthException]), not by substring-matching the message.
+  String _loginErrorMessage(AppLocalizations l10n, AuthError error) {
+    if (error.statusCode == 401) {
       return l10n.loginErrorWrongCredentials;
     }
-    return mapErrorToMessage(ApiException(message: rawMessage));
+    return mapErrorToMessage(
+      ApiException(message: error.message, statusCode: error.statusCode),
+    );
   }
 
   Future<void> _register() async {
@@ -225,10 +225,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       final res = await _repo.register(u, _password.text, _name.text.trim());
       ref.read(authStateProvider.notifier).setSession(res);
     } catch (e) {
-      final msg = e.toString().toLowerCase();
-      setState(() => _error = (msg.contains('409') || msg.contains('band'))
-          ? l10n.loginErrorUsernameTaken
-          : l10n.loginErrorRegisterFailed);
+      // 409 Conflict = username already taken — classify by the real status
+      // code (carried on AuthException), not a fragile message substring.
+      final taken = e is AuthException && e.statusCode == 409;
+      setState(() => _error =
+          taken ? l10n.loginErrorUsernameTaken : l10n.loginErrorRegisterFailed);
     } finally {
       if (mounted) setState(() => _loading = false);
     }

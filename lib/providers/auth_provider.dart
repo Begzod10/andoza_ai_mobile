@@ -80,7 +80,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
       // Catch Error too (not just Exception): a malformed response can throw a
       // TypeError/CastError during parsing, which would otherwise leave the
       // state stuck in AuthLoading and hang the login button forever.
-      state = AuthError(message: e.toString());
+      state = AuthError(
+        message: e.toString(),
+        statusCode: e is AuthException ? e.statusCode : null,
+      );
     }
   }
 
@@ -168,7 +171,11 @@ class AuthAuthenticated extends AuthState {
 }
 
 class AuthError extends AuthState {
-  const AuthError({required this.message});
+  const AuthError({required this.message, this.statusCode});
 
   final String message;
+
+  /// Originating HTTP status when the failure was an [AuthException]/API error,
+  /// so the UI can classify (401 vs network/5xx) without string-matching.
+  final int? statusCode;
 }
