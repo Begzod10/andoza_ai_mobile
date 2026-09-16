@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/api/api.dart';
+import '../../utils/error_mapper.dart';
 import '../../providers/wallpaper_provider.dart';
 import '../../widgets/common/app_image.dart';
 import '../../widgets/common/error_view.dart';
@@ -64,7 +65,7 @@ class _WallpaperLibrarySheetState extends ConsumerState<WallpaperLibrarySheet> {
       );
     } catch (e) {
       messenger.showSnackBar(
-        SnackBar(content: Text(l10n.interiorUploadFailed(e.toString()))),
+        SnackBar(content: Text(l10n.interiorUploadFailed(mapErrorToMessage(e)))),
       );
     } finally {
       if (mounted) setState(() => _uploading = false);

@@ -134,7 +134,7 @@ class _AiBuilderSheetState extends ConsumerState<AiBuilderSheet> {
         Navigator.of(context).pop();
       }
     } catch (e) {
-      messenger.showSnackBar(SnackBar(content: Text(l10n.studioApplyFailed(e.toString()))));
+      messenger.showSnackBar(SnackBar(content: Text(l10n.studioApplyFailed(mapErrorToMessage(e)))));
     } finally {
       if (mounted) setState(() => _applying = false);
     }

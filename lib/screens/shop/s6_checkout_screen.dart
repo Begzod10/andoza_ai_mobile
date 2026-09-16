@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/api/api.dart';
+import '../../utils/error_mapper.dart';
 import '../../models/shop_model.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/orders_provider.dart';
@@ -117,7 +118,7 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            AppLocalizations.of(context)!.shopOrderSaveError(e.toString()),
+            AppLocalizations.of(context)!.shopOrderSaveError(mapErrorToMessage(e)),
           ),
         ),
       );

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/api/api.dart' show DeltaResponse, RoomStateValue;
+import '../../utils/error_mapper.dart';
 import '../../models/design_selection_model.dart';
 import '../../models/estimate_model.dart';
 import '../../providers/apartment_provider.dart';
@@ -70,7 +71,7 @@ class _E1EstimationIntroScreenState
       );
     } catch (e) {
       messenger.showSnackBar(
-        SnackBar(content: Text(l10n.estimatePdfFailed(e.toString()))),
+        SnackBar(content: Text(l10n.estimatePdfFailed(mapErrorToMessage(e)))),
       );
     } finally {
       if (mounted) setState(() => _downloadingPdf = false);
