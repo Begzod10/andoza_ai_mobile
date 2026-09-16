@@ -190,11 +190,13 @@ class _DealerBlock extends StatelessWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.remove_circle_outline, size: 20),
+                  tooltip: l10n.a11yQuantityDecrease,
                   onPressed: () => onQuantityChanged(line, line.quantity - 1),
                 ),
                 Text(formatQuantity(line.quantity), style: DesignTokens.body2),
                 IconButton(
                   icon: const Icon(Icons.add_circle_outline, size: 20),
+                  tooltip: l10n.a11yQuantityIncrease,
                   onPressed: () => onQuantityChanged(line, line.quantity + 1),
                 ),
                 IconButton(
@@ -203,6 +205,7 @@ class _DealerBlock extends StatelessWidget {
                     size: 18,
                     color: DesignTokens.textMuted,
                   ),
+                  tooltip: l10n.a11yRemoveFromCart,
                   onPressed: () => onRemove(line),
                 ),
               ],

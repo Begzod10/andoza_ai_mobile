@@ -152,11 +152,14 @@ class HomeGreetingHeader extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
-    final currentUser = ref.watch(currentUserProvider);
-    final name = currentUser.maybeWhen(
-      data: (user) => user?.firstName ?? user?.name ?? user?.username,
-      orElse: () => null,
-    );
+    // Derive the greeting from the already-loaded auth session instead of
+    // re-fetching /auth/me on every Home mount: authStateProvider already
+    // holds the full User once authenticated. On a transient cold-start
+    // restore the cached user may be id-only (no name), in which case the
+    // greeting falls back to the unnamed variant.
+    final authState = ref.watch(authStateProvider);
+    final user = authState is AuthAuthenticated ? authState.user : null;
+    final name = user?.firstName ?? user?.name ?? user?.username;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,

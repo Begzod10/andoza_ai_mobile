@@ -158,7 +158,9 @@ class _ProjectCard extends StatelessWidget {
         .where((s) => s == StageDisplayState.excluded)
         .length;
 
-    return InkWell(
+    return Semantics(
+      button: true,
+      child: InkWell(
       // Same "continue an already-assessed project → B2" rule as A2's
       // Davom etish button (button-wiring table) — not back to B1.
       onTap: () => context.go('/design/b2'),
@@ -245,6 +247,7 @@ class _ProjectCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

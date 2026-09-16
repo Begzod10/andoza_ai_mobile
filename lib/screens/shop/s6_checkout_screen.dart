@@ -293,7 +293,10 @@ class _PaymentTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return Semantics(
+      button: true,
+      selected: selected,
+      child: InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
       child: Container(
@@ -333,6 +336,7 @@ class _PaymentTile extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

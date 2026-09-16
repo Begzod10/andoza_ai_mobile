@@ -66,11 +66,14 @@ class _DeviceRailState extends State<DeviceRail>
               decoration: const BoxDecoration(
                 border: Border(bottom: BorderSide(color: DesignTokens.border)),
               ),
-              child: InkWell(
-                onTap: _toggleExpand,
-                child: Icon(
-                  _isExpanded ? Icons.close : Icons.developer_mode_outlined,
-                  color: DesignTokens.textSecondary,
+              child: Semantics(
+                button: true,
+                child: InkWell(
+                  onTap: _toggleExpand,
+                  child: Icon(
+                    _isExpanded ? Icons.close : Icons.developer_mode_outlined,
+                    color: DesignTokens.textSecondary,
+                  ),
                 ),
               ),
             ),
@@ -181,7 +184,9 @@ class _DeviceItemTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return Semantics(
+      button: true,
+      child: InkWell(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(
@@ -224,6 +229,7 @@ class _DeviceItemTile extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

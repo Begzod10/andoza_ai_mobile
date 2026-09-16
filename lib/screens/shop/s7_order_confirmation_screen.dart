@@ -90,10 +90,12 @@ class S7OrderConfirmationScreen extends ConsumerWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.call_outlined),
+                  tooltip: l10n.a11yCallDealer,
                   onPressed: () {},
                 ),
                 IconButton(
                   icon: const Icon(Icons.message_outlined),
+                  tooltip: l10n.a11yMessageDealer,
                   onPressed: () {},
                 ),
               ],

@@ -1422,4 +1422,28 @@ class AppLocalizationsUz extends AppLocalizations {
   String drawTitlePolygon(int corners, String width, String length) {
     return 'Ko\'pburchak · $corners devor · $width×$length m';
   }
+
+  @override
+  String get a11yQuantityDecrease => 'Miqdorni kamaytirish';
+
+  @override
+  String get a11yQuantityIncrease => 'Miqdorni oshirish';
+
+  @override
+  String get a11yRemoveFromCart => 'Savatdan olib tashlash';
+
+  @override
+  String get a11yAddToCart => 'Savatga qo\'shish';
+
+  @override
+  String get a11yCallDealer => 'Qo\'ng\'iroq qilish';
+
+  @override
+  String get a11yMessageDealer => 'Xabar yuborish';
+
+  @override
+  String get a11yEditProfile => 'Profilni tahrirlash';
+
+  @override
+  String get a11yMastersListView => 'Ro\'yxat ko\'rinishi';
 }

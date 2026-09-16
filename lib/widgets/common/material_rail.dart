@@ -67,11 +67,14 @@ class _MaterialRailState extends State<MaterialRail>
               decoration: const BoxDecoration(
                 border: Border(bottom: BorderSide(color: DesignTokens.border)),
               ),
-              child: InkWell(
-                onTap: _toggleExpand,
-                child: Icon(
-                  _isExpanded ? Icons.close : Icons.format_paint_outlined,
-                  color: DesignTokens.textSecondary,
+              child: Semantics(
+                button: true,
+                child: InkWell(
+                  onTap: _toggleExpand,
+                  child: Icon(
+                    _isExpanded ? Icons.close : Icons.format_paint_outlined,
+                    color: DesignTokens.textSecondary,
+                  ),
                 ),
               ),
             ),
@@ -112,7 +115,10 @@ class _MaterialItemTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return Semantics(
+      button: true,
+      selected: isSelected,
+      child: InkWell(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(
@@ -151,6 +157,7 @@ class _MaterialItemTile extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

@@ -69,14 +69,18 @@ class E4ProfileSettingsScreen extends ConsumerWidget {
                       style: DesignTokens.heading3,
                     ),
                     const SizedBox(width: DesignTokens.spacingXs),
-                    InkWell(
-                      onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(l10n.profileComingSoon)),
-                      ),
-                      child: const Icon(
-                        Icons.edit_outlined,
-                        size: 18,
-                        color: DesignTokens.textGray,
+                    Semantics(
+                      button: true,
+                      label: l10n.a11yEditProfile,
+                      child: InkWell(
+                        onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(l10n.profileComingSoon)),
+                        ),
+                        child: const Icon(
+                          Icons.edit_outlined,
+                          size: 18,
+                          color: DesignTokens.textGray,
+                        ),
                       ),
                     ),
                   ],
@@ -233,7 +237,9 @@ class _MenuTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = isDestructive ? DesignTokens.errorRed : DesignTokens.textDark;
-    return InkWell(
+    return Semantics(
+      button: true,
+      child: InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
       child: Padding(
@@ -257,6 +263,7 @@ class _MenuTile extends StatelessWidget {
               const Icon(Icons.chevron_right, color: DesignTokens.textMuted),
           ],
         ),
+      ),
       ),
     );
   }

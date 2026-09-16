@@ -85,6 +85,7 @@ class _E10SearchResultsScreenState
                       ? null
                       : IconButton(
                           icon: const Icon(Icons.close),
+                          tooltip: l10n.actionClose,
                           onPressed: () => setState(_controller.clear),
                         ),
                 ),
@@ -282,6 +283,7 @@ class _ResultRow extends ConsumerWidget {
               Icons.add_circle_outline,
               color: DesignTokens.primaryBlue,
             ),
+            tooltip: l10n.a11yAddToCart,
             onPressed: () {
               final dealer = bestDealer(dealersForProduct(product));
               ref.read(cartProvider.notifier).add(product, dealer);

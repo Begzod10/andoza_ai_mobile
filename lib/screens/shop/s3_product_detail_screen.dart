@@ -146,6 +146,7 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
                     const Spacer(),
                     _QtyButton(
                       icon: Icons.remove,
+                      label: l10n.a11yQuantityDecrease,
                       onTap: () => setState(
                         () => _quantity = (_quantity - 1).clamp(1, 9999),
                       ),
@@ -161,6 +162,7 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
                     ),
                     _QtyButton(
                       icon: Icons.add,
+                      label: l10n.a11yQuantityIncrease,
                       onTap: () => setState(() => _quantity += 1),
                     ),
                   ],
@@ -182,7 +184,9 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
                     value: product.washable! ? l10n.commonYes : l10n.commonNo,
                   ),
                 const SizedBox(height: DesignTokens.spacingLg),
-                InkWell(
+                Semantics(
+                  button: true,
+                  child: InkWell(
                   onTap: () => context.push('/shop/s4', extra: product),
                   borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
                   child: Container(
@@ -213,6 +217,7 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
                         ),
                       ],
                     ),
+                  ),
                   ),
                 ),
               ],
@@ -259,24 +264,33 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
 }
 
 class _QtyButton extends StatelessWidget {
-  const _QtyButton({required this.icon, required this.onTap});
+  const _QtyButton({
+    required this.icon,
+    required this.onTap,
+    required this.label,
+  });
 
   final IconData icon;
   final VoidCallback onTap;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
-      child: Container(
-        width: 36,
-        height: 36,
-        decoration: BoxDecoration(
-          color: DesignTokens.borderGrayAlt,
-          borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
+    return Semantics(
+      button: true,
+      label: label,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
+        child: Container(
+          width: 36,
+          height: 36,
+          decoration: BoxDecoration(
+            color: DesignTokens.borderGrayAlt,
+            borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
+          ),
+          child: Icon(icon, size: DesignTokens.iconSm),
         ),
-        child: Icon(icon, size: DesignTokens.iconSm),
       ),
     );
   }

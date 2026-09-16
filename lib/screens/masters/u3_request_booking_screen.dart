@@ -30,7 +30,9 @@ class U3RequestBookingScreen extends ConsumerWidget {
             const SizedBox(height: DesignTokens.spacingMd),
         itemBuilder: (context, index) {
           final m = masters[index];
-          return InkWell(
+          return Semantics(
+            button: true,
+            child: InkWell(
             onTap: () => context.push('/masters/u4', extra: m),
             borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
             child: Container(
@@ -147,6 +149,7 @@ class U3RequestBookingScreen extends ConsumerWidget {
                 ],
               ),
             ),
+          ),
           );
         },
       ),

@@ -62,7 +62,11 @@ class _U1MastersIntroScreenState extends ConsumerState<U1MastersIntroScreen> {
                           ),
                           width: 44,
                           height: 44,
-                          child: GestureDetector(
+                          child: Semantics(
+                            button: true,
+                            label: m.master.name,
+                            excludeSemantics: true,
+                            child: GestureDetector(
                             onTap: () => _showPinSheet(context, m),
                             child: Container(
                               decoration: BoxDecoration(
@@ -80,6 +84,7 @@ class _U1MastersIntroScreenState extends ConsumerState<U1MastersIntroScreen> {
                                 ),
                               ),
                             ),
+                          ),
                           ),
                         ),
                   ],
@@ -147,6 +152,7 @@ class _U1MastersIntroScreenState extends ConsumerState<U1MastersIntroScreen> {
               child: FloatingActionButton.small(
                 onPressed: () => context.push('/masters/u3'),
                 backgroundColor: DesignTokens.white,
+                tooltip: l10n.a11yMastersListView,
                 child: const Icon(
                   Icons.view_list,
                   color: DesignTokens.primaryBlue,

@@ -61,7 +61,10 @@ class _TextureOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return Semantics(
+      button: true,
+      selected: selected,
+      child: InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
       child: Container(
@@ -120,6 +123,7 @@ class _TextureOption extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

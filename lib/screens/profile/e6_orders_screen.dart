@@ -150,7 +150,9 @@ class _OrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final extraCount = order.lines.length > 2 ? order.lines.length - 2 : 0;
 
-    return InkWell(
+    return Semantics(
+      button: true,
+      child: InkWell(
       onTap: () => context.push('/shop/s7', extra: order),
       borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
       child: Container(
@@ -245,6 +247,7 @@ class _OrderCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

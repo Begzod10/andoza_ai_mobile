@@ -2637,6 +2637,54 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Ko\'pburchak · {corners} devor · {width}×{length} m'**
   String drawTitlePolygon(int corners, String width, String length);
+
+  /// Accessibility label for the icon-only button that decreases an item quantity.
+  ///
+  /// In uz, this message translates to:
+  /// **'Miqdorni kamaytirish'**
+  String get a11yQuantityDecrease;
+
+  /// Accessibility label for the icon-only button that increases an item quantity.
+  ///
+  /// In uz, this message translates to:
+  /// **'Miqdorni oshirish'**
+  String get a11yQuantityIncrease;
+
+  /// Accessibility label for the icon-only button that removes a line item from the cart.
+  ///
+  /// In uz, this message translates to:
+  /// **'Savatdan olib tashlash'**
+  String get a11yRemoveFromCart;
+
+  /// Accessibility label for the icon-only button that adds a product to the cart.
+  ///
+  /// In uz, this message translates to:
+  /// **'Savatga qo\'shish'**
+  String get a11yAddToCart;
+
+  /// Accessibility label for the icon-only call button in the order status screen.
+  ///
+  /// In uz, this message translates to:
+  /// **'Qo\'ng\'iroq qilish'**
+  String get a11yCallDealer;
+
+  /// Accessibility label for the icon-only message button in the order status screen.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xabar yuborish'**
+  String get a11yMessageDealer;
+
+  /// Accessibility label for the icon-only edit button next to the profile name.
+  ///
+  /// In uz, this message translates to:
+  /// **'Profilni tahrirlash'**
+  String get a11yEditProfile;
+
+  /// Accessibility label for the button that switches the masters map to the list view.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ro\'yxat ko\'rinishi'**
+  String get a11yMastersListView;
 }
 
 class _AppLocalizationsDelegate

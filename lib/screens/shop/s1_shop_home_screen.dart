@@ -165,7 +165,9 @@ class _ProjectBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return InkWell(
+    return Semantics(
+      button: true,
+      child: InkWell(
       borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
       onTap: () => context.push('/shop/s2'),
       child: Container(
@@ -212,6 +214,7 @@ class _ProjectBanner extends StatelessWidget {
           ],
         ),
       ),
+      ),
     );
   }
 }
@@ -251,7 +254,9 @@ class _ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return InkWell(
+    return Semantics(
+      button: true,
+      child: InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
       child: Container(
@@ -346,6 +351,7 @@ class _ProductCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

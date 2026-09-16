@@ -315,9 +315,8 @@ class _StagePickerSheet extends ConsumerWidget {
     final l10n = AppLocalizations.of(context)!;
     try {
       await ref
-          .read(apartmentRepositoryProvider)
-          .updateApartment(project.id, renovationStage: stage.index + 1);
-      ref.invalidate(apartmentsProvider);
+          .read(apartmentActionsProvider)
+          .setRenovationStage(project.id, stage);
       navigator.pop();
     } catch (_) {
       navigator.pop();
