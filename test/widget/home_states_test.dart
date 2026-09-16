@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+// home_empty_screen re-exports projectsProvider and ProjectItem, which these
+// tests use (alongside HomeEmptyBody from the same file).
 import 'package:tamir_uy_mobile_flutter/screens/home/home_empty_screen.dart';
 import 'package:tamir_uy_mobile_flutter/screens/home/home_with_projects_screen.dart';
 import 'package:tamir_uy_mobile_flutter/utils/error_mapper.dart';

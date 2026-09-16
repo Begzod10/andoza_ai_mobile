@@ -1,3 +1,8 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:tamir_uy_mobile_flutter/models/user_model.dart';
@@ -41,6 +46,20 @@ class _FakeAuthRepository implements AuthRepository {
   @override
   Future<void> logout() async {}
 
+  /// Records the local-teardown call so tests can assert handleUnauthorized /
+  /// logout drop the session, and nulls the in-memory bits like the real impl.
+  int clearSessionCalls = 0;
+
+  @override
+  Future<void> clearSession() async {
+    clearSessionCalls++;
+    token = null;
+    cachedUser = null;
+  }
+
+  @override
+  User? cachedUser;
+
   @override
   Future<User?> getCurrentUser() async => _loginResult?.user;
 
@@ -64,6 +83,59 @@ AuthResponse _response({String? phone, String token = 'tok-123'}) =>
       tokenType: 'bearer',
       user: User(id: 'u1', username: 'rimefara', name: 'Test User', phone: phone),
     );
+
+/// A fake dio adapter that dispatches by request path so the real ApiClient +
+/// AuthRepositoryImpl can be driven end-to-end without any network. Also
+/// records the Authorization header of the last non-refresh request so tests
+/// can prove the in-memory bearer was cleared.
+class _FakeAdapter implements HttpClientAdapter {
+  _FakeAdapter(this._handle);
+
+  final ResponseBody Function(RequestOptions options) _handle;
+  String? lastAuthHeader;
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    if (!options.path.endsWith('/auth/refresh')) {
+      lastAuthHeader = options.headers['Authorization'] as String?;
+    }
+    return _handle(options);
+  }
+
+  @override
+  void close({bool force = false}) {}
+}
+
+ResponseBody _json(Object? body, int status) => ResponseBody.fromString(
+      jsonEncode(body),
+      status,
+      headers: {
+        Headers.contentTypeHeader: [Headers.jsonContentType],
+      },
+    );
+
+/// Builds the REAL provider graph (AuthNotifier → AuthRepositoryImpl →
+/// ApiClient + SecureStorageService) with only the HTTP adapter and the
+/// secure-storage backing map swapped for fakes, so the auth-lifecycle wiring
+/// (onUnauthorized / onTokensCleared / restore) is exercised for real.
+({ProviderContainer container, _FakeAdapter adapter, Map<String, String> store})
+    _realStack({
+  required Map<String, String> seed,
+  required ResponseBody Function(RequestOptions) handle,
+}) {
+  FlutterSecureStorage.setMockInitialValues(seed);
+  final adapter = _FakeAdapter(handle);
+  final container = ProviderContainer();
+  addTearDown(container.dispose);
+  final client = container.read(apiClientProvider);
+  client.httpDioForTest.httpClientAdapter = adapter;
+  client.refreshDioForTest.httpClientAdapter = adapter;
+  return (container: container, adapter: adapter, store: seed);
+}
 
 void main() {
   group('AuthNotifier.login — success', () {
@@ -155,16 +227,19 @@ void main() {
   });
 
   group('AuthNotifier.handleUnauthorized', () {
-    test('when Authenticated, flips to an unauthenticated state', () async {
-      final container = _container(
-        _FakeAuthRepository(loginResult: _response(phone: '998901234567')),
-      );
+    test('when Authenticated, tears down the session and flips to Initial',
+        () async {
+      final repo =
+          _FakeAuthRepository(loginResult: _response(phone: '998901234567'));
+      final container = _container(repo);
       final notifier = container.read(authStateProvider.notifier);
       await notifier.login('rimefara', '12345678');
       expect(container.read(authStateProvider), isA<AuthAuthenticated>());
 
-      notifier.handleUnauthorized();
+      await notifier.handleUnauthorized();
 
+      // Reused the same local-teardown path as logout (no server call).
+      expect(repo.clearSessionCalls, 1);
       expect(container.read(authStateProvider), isNot(isA<AuthAuthenticated>()));
       expect(container.read(authStateProvider), isA<AuthInitial>());
     });
@@ -191,6 +266,96 @@ void main() {
       notifier.handleUnauthorized();
 
       expect(container.read(authStateProvider), isA<AuthInitial>());
+    });
+  });
+
+  group('auth lifecycle — full teardown & cold-start restore (real stack)', () {
+    test(
+        'handleUnauthorized wipes secure storage AND the in-memory bearer '
+        '(not just the state)', () async {
+      // Log in for real so storage + the ApiClient in-memory token are set,
+      // then simulate a dead-session 401 arriving via handleUnauthorized.
+      final stack = _realStack(
+        seed: <String, String>{},
+        handle: (options) {
+          if (options.path.endsWith('/auth/login')) {
+            return _json({
+              'access_token': 'access-1',
+              'refresh_token': 'refresh-1',
+              'token_type': 'bearer',
+              'user': {'id': 'u1', 'username': 'rimefara'},
+            }, 200);
+          }
+          // A probe request after teardown: succeed so we can inspect its
+          // (absent) Authorization header.
+          return _json({'ok': true}, 200);
+        },
+      );
+      final notifier = stack.container.read(authStateProvider.notifier);
+      final repo = stack.container.read(authRepositoryProvider);
+
+      await notifier.login('rimefara', '12345678');
+      expect(stack.container.read(authStateProvider), isA<AuthAuthenticated>());
+      expect(stack.store['auth_token'], 'access-1');
+      expect(repo.token, 'access-1');
+
+      await notifier.handleUnauthorized();
+
+      // State dropped, cached token gone, and secure storage fully cleared
+      // (not just token+refresh — user_id too).
+      expect(stack.container.read(authStateProvider), isA<AuthInitial>());
+      expect(repo.token, isNull);
+      expect(stack.store, isEmpty);
+
+      // In-memory bearer is gone too: a fresh request carries no Authorization.
+      await stack.container
+          .read(apiClientProvider)
+          .get<dynamic>('/anything', fromJson: (j) => j);
+      expect(stack.adapter.lastAuthHeader, isNull);
+    });
+
+    test(
+        'cold-start restore KEEPS the session on a transient 5xx (does not '
+        'bounce a valid token to login)', () async {
+      final stack = _realStack(
+        seed: <String, String>{'auth_token': 'valid-token', 'user_id': 'u1'},
+        handle: (options) {
+          // No refresh token seeded, so /auth/me's failure propagates directly.
+          if (options.path.endsWith('/auth/me')) {
+            return _json({'detail': 'boom'}, 500);
+          }
+          return _json({'detail': 'unexpected'}, 500);
+        },
+      );
+      final notifier = stack.container.read(authStateProvider.notifier);
+
+      await notifier.restoreToken();
+
+      // Optimistically authenticated from the restored token — NOT logged out.
+      final state = stack.container.read(authStateProvider);
+      expect(state, isA<AuthAuthenticated>());
+      expect((state as AuthAuthenticated).token, 'valid-token');
+      // Tokens were preserved, not cleared.
+      expect(stack.store['auth_token'], 'valid-token');
+    });
+
+    test(
+        'cold-start restore CLEARS the session on a genuine 401 '
+        '(session really invalid)', () async {
+      final stack = _realStack(
+        seed: <String, String>{'auth_token': 'stale-token', 'user_id': 'u1'},
+        handle: (options) {
+          // No refresh token, so the 401 is terminal for this session.
+          return _json({'detail': 'Not authenticated'}, 401);
+        },
+      );
+      final notifier = stack.container.read(authStateProvider.notifier);
+
+      await notifier.restoreToken();
+
+      expect(stack.container.read(authStateProvider), isA<AuthInitial>());
+      // Session torn down: stored tokens dropped.
+      expect(stack.store, isEmpty);
     });
   });
 }

@@ -7,6 +7,8 @@ import '../../models/design_selection_model.dart';
 import '../../providers/apartment_provider.dart';
 import '../../widgets/common/error_view.dart';
 import '../../widgets/design/stage_progress_line.dart';
+// home_empty_screen re-exports projects_provider.dart (projectsProvider) and
+// project_item.dart (ProjectItem), which this screen also uses.
 import 'home_empty_screen.dart';
 
 /// Home Screen with Projects (A2)

@@ -33,10 +33,11 @@ final Provider<ApiClient> apiClientProvider = Provider<ApiClient>((ref) {
         await storage.saveRefreshToken(refreshToken);
       }
     },
-    // Drop the now-dead persisted tokens when a refresh fails.
+    // Drop the now-dead persisted session when a refresh fails. Clears the
+    // SAME keys as a full logout (token + refresh token + user id) so nothing
+    // is orphaned in secure storage.
     onTokensCleared: () async {
-      await storage.deleteToken();
-      await storage.deleteRefreshToken();
+      await storage.clear();
     },
   );
 });
@@ -90,15 +91,19 @@ class AuthNotifier extends StateNotifier<AuthState> {
     state = AuthAuthenticated(user: response.user, token: response.token);
   }
 
-  /// Called from the API layer when a request comes back 401 with no usable
-  /// refresh token (the persisted tokens have already been wiped). Flipping to
-  /// unauthenticated here lets the router redirect drop the user to /login from
-  /// a single place. No-op unless currently authenticated, so it can't clobber
-  /// an in-flight login's AuthLoading/AuthError.
-  void handleUnauthorized() {
-    if (state is AuthAuthenticated) {
-      state = const AuthInitial();
-    }
+  /// Called from the API layer when an authenticated request comes back 401
+  /// with no usable refresh token — the session is already dead. Performs a
+  /// FULL local teardown (secure storage + ApiClient in-memory token + the
+  /// repo's cached token) via the same clear path as [logout], WITHOUT a
+  /// server-side logout call, then flips to unauthenticated so the router
+  /// redirect drops the user to /login from a single place.
+  ///
+  /// No-op unless currently authenticated, so it can't clobber an in-flight
+  /// login's AuthLoading/AuthError (a failed login must not force-clear).
+  Future<void> handleUnauthorized() async {
+    if (state is! AuthAuthenticated) return;
+    await _repository.clearSession();
+    state = const AuthInitial();
   }
 
   Future<void> logout() async {
@@ -111,9 +116,25 @@ class AuthNotifier extends StateNotifier<AuthState> {
       final user = await _repository.getCurrentUser();
       if (user != null) {
         state = AuthAuthenticated(user: user, token: _repository.token ?? '');
+      } else {
+        // getCurrentUser returned null → a genuine 401 (session invalid) or no
+        // stored token. Either way the session is dead: clear + unauthenticate.
+        await _repository.clearSession();
+        state = const AuthInitial();
       }
     } catch (_) {
-      state = const AuthInitial();
+      // A TRANSIENT failure (offline / timeout / 5xx) — not a 401. Don't
+      // discard a still-valid stored token: if we hold one, keep the session
+      // optimistically authenticated (from the cached/restored user) instead
+      // of bouncing to /login. A later request that truly 401s will tear the
+      // session down via handleUnauthorized.
+      final token = _repository.token;
+      final user = _repository.cachedUser;
+      if (token != null && token.isNotEmpty && user != null) {
+        state = AuthAuthenticated(user: user, token: token);
+      } else {
+        state = const AuthInitial();
+      }
     }
   }
 

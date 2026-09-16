@@ -3,126 +3,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
-import '../../models/api/apartment.dart';
-import '../../models/design_selection_model.dart';
-import '../../providers/apartment_provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/empty_state_pattern.dart';
 import '../room_setup/new_project_sheet.dart';
 
-/// Riverpod provider for home screen state
-final homeStateProvider = StateNotifierProvider<HomeStateNotifier, HomeState>(
-  (ref) => HomeStateNotifier(),
-);
-
-/// The merged project list the UI renders: the user's real backend
-/// apartments ([apartmentsProvider]) mapped to [ProjectItem]s, plus any
-/// locally-added ([homeStateProvider]) projects not yet present on the
-/// server. Dedup is by `id` with the server winning, so an optimistic add
-/// disappears cleanly once the refetch returns it.
-///
-/// Loading/error state is passed straight through from [apartmentsProvider]
-/// (via [AsyncValue.whenData]); invalidate [apartmentsProvider] to retry.
-final projectsProvider = Provider<AsyncValue<List<ProjectItem>>>((ref) {
-  final localProjects = ref.watch(homeStateProvider).projects;
-  return ref.watch(apartmentsProvider).whenData((apartments) {
-    final serverProjects = apartments.map(_apartmentToProject).toList();
-    final serverIds = serverProjects.map((p) => p.id).toSet();
-    final localOnly =
-        localProjects.where((p) => !serverIds.contains(p.id)).toList();
-    return [...serverProjects, ...localOnly];
-  });
-});
-
-/// Maps a backend [Apartment] to the UI's [ProjectItem]. The backend's
-/// `renovation_stage` is a 1-based int (1..8); it maps to the
-/// [RenovationStage] enum value at the matching 0-based position, so the
-/// card's "Bosqich N/8" mirrors the server exactly. [roomCondition] stays
-/// null ("not yet assessed") — the server has no room-condition concept yet.
-ProjectItem _apartmentToProject(Apartment a) {
-  // Pick the most-recently-edited room to resume in the 3D Studio.
-  final rooms = [...a.rooms]
-    ..sort((r1, r2) => r2.updatedAt.compareTo(r1.updatedAt));
-  return ProjectItem(
-    id: a.id,
-    name: a.name,
-    location: a.address ?? '',
-    roomCount: a.rooms.length,
-    createdAt: a.createdAt,
-    renovationStage: kRenovationStages[(a.renovationStage - 1).clamp(
-      0,
-      kRenovationStages.length - 1,
-    )],
-    studioRoomId: rooms.isNotEmpty ? rooms.first.id : null,
-  );
-}
-
-class HomeState {
-  final List<ProjectItem> projects;
-  final bool isLoading;
-
-  HomeState({required this.projects, this.isLoading = false});
-
-  HomeState copyWith({List<ProjectItem>? projects, bool? isLoading}) {
-    return HomeState(
-      projects: projects ?? this.projects,
-      isLoading: isLoading ?? this.isLoading,
-    );
-  }
-}
-
-class HomeStateNotifier extends StateNotifier<HomeState> {
-  HomeStateNotifier() : super(HomeState(projects: []));
-
-  void addProject(ProjectItem project) {
-    state = state.copyWith(projects: [...state.projects, project]);
-  }
-
-  void removeProject(String id) {
-    state = state.copyWith(
-      projects: state.projects.where((p) => p.id != id).toList(),
-    );
-  }
-}
-
-class ProjectItem {
-  final String id;
-  final String name;
-  final String location;
-  final int roomCount;
-  final DateTime createdAt;
-
-  /// Null until Batch B's room-state selection (B1) has run for this
-  /// project. Rendering must NOT fabricate a condition — see
-  /// [ProjectItem.stageStates] for how the null case is handled.
-  final RoomCondition? roomCondition;
-  final RenovationStage renovationStage;
-
-  /// The room to open in the 3D Studio when "Davom etish" is tapped — the
-  /// apartment's most-recently-edited room. Null for a local/optimistic
-  /// project that has no server room yet.
-  final String? studioRoomId;
-
-  ProjectItem({
-    required this.id,
-    required this.name,
-    required this.location,
-    required this.roomCount,
-    required this.createdAt,
-    this.roomCondition,
-    this.renovationStage = RenovationStage.suvoq,
-    this.studioRoomId,
-  });
-
-  /// Delta-mechanic display states for this project's progress bar. When
-  /// [roomCondition] hasn't been set yet, falls back to a raw/korobka
-  /// baseline — the correct semantic default for "not yet assessed" (raw
-  /// means nothing is pre-excluded), not a fabricated value.
-  List<StageDisplayState> get stageStates => deriveStageStates(
-    condition: roomCondition ?? const RoomCondition(wall: SurfaceCondition.raw),
-    currentStage: renovationStage,
-  );
-}
+// The home-screen state provider + merge logic and the ProjectItem/HomeState
+// data classes were relocated to lib/providers/projects_provider.dart and
+// lib/models/project_item.dart. Re-exported here so existing imports of this
+// screen file keep resolving those symbols.
+export '../../models/project_item.dart';
+export '../../providers/projects_provider.dart';
 
 /// One of the three "story circle" onboarding shortcuts on A1 — animated
 /// conic-gradient ring (2.5s spin) that greys out once tapped.
