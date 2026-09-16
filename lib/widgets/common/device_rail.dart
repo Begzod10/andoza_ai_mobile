@@ -66,11 +66,14 @@ class _DeviceRailState extends State<DeviceRail>
               decoration: const BoxDecoration(
                 border: Border(bottom: BorderSide(color: DesignTokens.border)),
               ),
-              child: InkWell(
-                onTap: _toggleExpand,
-                child: Icon(
-                  _isExpanded ? Icons.close : Icons.developer_mode_outlined,
-                  color: DesignTokens.textSecondary,
+              child: Semantics(
+                button: true,
+                child: InkWell(
+                  onTap: _toggleExpand,
+                  child: Icon(
+                    _isExpanded ? Icons.close : Icons.developer_mode_outlined,
+                    color: DesignTokens.textSecondary,
+                  ),
                 ),
               ),
             ),
@@ -122,6 +125,8 @@ class _DeviceRailState extends State<DeviceRail>
         return Icons.lightbulb_outline;
       case DeviceType.breaker:
         return Icons.miscellaneous_services_outlined;
+      case DeviceType.unknown:
+        return Icons.help_outline;
     }
   }
 
@@ -135,6 +140,8 @@ class _DeviceRailState extends State<DeviceRail>
         return 'Light';
       case DeviceType.breaker:
         return 'Breaker';
+      case DeviceType.unknown:
+        return '';
     }
   }
 }
@@ -155,6 +162,8 @@ class _DeviceItemTile extends StatelessWidget {
         return Icons.lightbulb_outline;
       case DeviceType.breaker:
         return Icons.miscellaneous_services_outlined;
+      case DeviceType.unknown:
+        return Icons.help_outline;
     }
   }
 
@@ -168,12 +177,16 @@ class _DeviceItemTile extends StatelessWidget {
         return 'Light';
       case DeviceType.breaker:
         return 'Breaker';
+      case DeviceType.unknown:
+        return '';
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return Semantics(
+      button: true,
+      child: InkWell(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(
@@ -216,6 +229,7 @@ class _DeviceItemTile extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

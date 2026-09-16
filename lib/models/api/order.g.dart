@@ -54,7 +54,11 @@ _$ServerOrderImpl _$$ServerOrderImplFromJson(Map<String, dynamic> json) =>
       userId: json['user_id'] as String,
       dealerName: json['dealer_name'] as String,
       totalUzs: (json['total_uzs'] as num).toInt(),
-      status: $enumDecode(_$OrderStatusEnumMap, json['status']),
+      status: $enumDecode(
+        _$OrderStatusEnumMap,
+        json['status'],
+        unknownValue: OrderStatus.unknown,
+      ),
       createdAt: DateTime.parse(json['created_at'] as String),
       lines:
           (json['lines'] as List<dynamic>?)
@@ -79,4 +83,5 @@ const _$OrderStatusEnumMap = {
   OrderStatus.gathering: 'gathering',
   OrderStatus.onTheWay: 'on_the_way',
   OrderStatus.delivered: 'delivered',
+  OrderStatus.unknown: 'unknown',
 };

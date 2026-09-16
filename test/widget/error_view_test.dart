@@ -4,11 +4,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:tamir_uy_mobile_flutter/utils/error_mapper.dart';
 import 'package:tamir_uy_mobile_flutter/widgets/common/error_view.dart';
 
-/// Pumps [child] inside the minimal Material context these views need
-/// (they render ElevatedButton/TextButton, which require a Material ancestor).
+import '../support/localized_pump.dart';
+
+/// Pumps [child] inside the minimal localized Material context these views need
+/// (they render ElevatedButton/TextButton, which require a Material ancestor,
+/// and now read their retry label from AppLocalizations).
 Future<void> _pump(WidgetTester tester, Widget child) {
   return tester.pumpWidget(
-    MaterialApp(home: Scaffold(body: child)),
+    wrapLocalized(Scaffold(body: child), withProviderScope: false),
   );
 }
 

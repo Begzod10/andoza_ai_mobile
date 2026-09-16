@@ -14,6 +14,10 @@ enum SurfaceCondition {
   plastered,
   @JsonValue('SHPAKLOVKA')
   puttied,
+
+  /// Fallback for any condition value the backend/storage adds that this client
+  /// predates. Deserialization maps unknown strings here instead of throwing.
+  unknown,
 }
 
 /// Baseline condition of room surfaces (walls, floor, ceiling).
@@ -21,8 +25,10 @@ enum SurfaceCondition {
 @freezed
 class RoomCondition with _$RoomCondition {
   const factory RoomCondition({
+    @JsonKey(unknownEnumValue: SurfaceCondition.unknown)
     required SurfaceCondition wall,
-    SurfaceCondition? floor,
+    @JsonKey(unknownEnumValue: SurfaceCondition.unknown) SurfaceCondition? floor,
+    @JsonKey(unknownEnumValue: SurfaceCondition.unknown)
     SurfaceCondition? ceiling,
   }) = _RoomCondition;
 
@@ -51,6 +57,12 @@ enum RenovationStage {
   yoruglik,
   @JsonValue('SANTEXNIKA')
   santexnika,
+
+  /// Fallback for any stage the backend/storage adds that this client predates.
+  /// Deserialization maps unknown strings here instead of throwing. Kept last so
+  /// existing index-based ordering of the canonical 8 stages is unaffected, and
+  /// filtered out of [deriveStageStates] so it never appears in stage-line UI.
+  unknown,
 }
 
 /// How a single [RenovationStage] should render in any stage-line or
@@ -58,6 +70,20 @@ enum RenovationStage {
 /// started and are never priced — this is the delta mechanic. The other
 /// three describe stages actually tracked through the app.
 enum StageDisplayState { excluded, completed, inProgress, upcoming }
+
+/// The canonical 8 construction stages, in order, EXCLUDING
+/// [RenovationStage.unknown] (a deserialization-only fallback). Iterate this
+/// — never `RenovationStage.values` — anywhere you price stages or size a
+/// stage stepper, so the unknown fallback never leaks into real stage logic.
+final List<RenovationStage> kRenovationStages = RenovationStage.values
+    .where((s) => s != RenovationStage.unknown)
+    .toList(growable: false);
+
+/// Selectable surface conditions, EXCLUDING [SurfaceCondition.unknown]
+/// (deserialization-only fallback). Use for condition-picker UIs.
+final List<SurfaceCondition> kSurfaceConditions = SurfaceCondition.values
+    .where((c) => c != SurfaceCondition.unknown)
+    .toList(growable: false);
 
 /// Derives the display state of every [RenovationStage] from the room's
 /// starting [condition] and how far the user has progressed
@@ -69,7 +95,11 @@ List<StageDisplayState> deriveStageStates({
   required RenovationStage currentStage,
 }) {
   final excluded = _excludedStages(condition);
-  return RenovationStage.values.map((stage) {
+  // Only the canonical 8 stages render; [RenovationStage.unknown] is a
+  // deserialization fallback and is never part of the stage line.
+  return RenovationStage.values
+      .where((stage) => stage != RenovationStage.unknown)
+      .map((stage) {
     if (excluded.contains(stage)) return StageDisplayState.excluded;
     if (stage.index < currentStage.index) return StageDisplayState.completed;
     if (stage.index == currentStage.index) return StageDisplayState.inProgress;
@@ -90,6 +120,8 @@ Set<RenovationStage> _excludedStages(RoomCondition condition) {
     case SurfaceCondition.plastered:
       excluded.add(RenovationStage.suvoq);
     case SurfaceCondition.raw:
+    case SurfaceCondition.unknown:
+      // Unknown/raw baseline: exclude nothing (price every stage).
       break;
   }
   if (condition.floor == SurfaceCondition.puttied) {
@@ -124,6 +156,10 @@ enum DesignStage {
   furniture,
   @JsonValue('COMPLETED')
   completed,
+
+  /// Fallback for any stage the backend/storage adds that this client predates.
+  /// Deserialization maps unknown strings here instead of throwing.
+  unknown,
 }
 
 /// Category of material a user can select for a room surface.
@@ -138,6 +174,10 @@ enum MaterialType {
   wood,
   @JsonValue('CARPET')
   carpet,
+
+  /// Fallback for any material type the backend/storage adds that this client
+  /// predates. Deserialization maps unknown strings here instead of throwing.
+  unknown,
 }
 
 /// A single material choice applied to a surface (e.g. one wall or the
@@ -146,6 +186,7 @@ enum MaterialType {
 class MaterialSelection with _$MaterialSelection {
   const factory MaterialSelection({
     required String materialId,
+    @JsonKey(unknownEnumValue: MaterialType.unknown)
     required MaterialType material,
     required String color,
     required double price,
@@ -163,12 +204,14 @@ class DesignSelection with _$DesignSelection {
   const factory DesignSelection({
     required String id,
     required String roomId,
-    required DesignStage stage,
+    @JsonKey(unknownEnumValue: DesignStage.unknown) required DesignStage stage,
     @Default(<String, MaterialSelection>{})
     Map<String, MaterialSelection> selections,
     RoomCondition? roomCondition,
     @Default(<FurniturePlacement>[]) List<FurniturePlacement> furniture,
-    @Default(RenovationStage.suvoq) RenovationStage renovationStage,
+    @JsonKey(unknownEnumValue: RenovationStage.unknown)
+    @Default(RenovationStage.suvoq)
+    RenovationStage renovationStage,
   }) = _DesignSelection;
 
   factory DesignSelection.fromJson(Map<String, dynamic> json) =>

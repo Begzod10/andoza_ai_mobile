@@ -123,6 +123,7 @@ class RoomPersistenceNotifier
       SurfaceCondition.raw => RoomStateValue.xom,
       SurfaceCondition.plastered => RoomStateValue.suvoq,
       SurfaceCondition.puttied => RoomStateValue.shpaklovka,
+      SurfaceCondition.unknown => RoomStateValue.xom,
       null => null,
     };
   }

@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../geometry/geometry_config.dart';
 import '../../geometry/room_geometry.dart';
 import '../../models/room_plan.dart';
@@ -55,18 +56,22 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
   bool _showRaw = false;
 
   // Regularization animation (raw → clean)
+  // No per-tick setState: the regularization morph repaints only the 2D
+  // CustomPaint, scoped via an AnimatedBuilder in [_build2dCanvas].
   late final AnimationController _anim = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 260),
-  )..addListener(() => setState(() {}));
+  );
   List<Vec2>? _animFrom;
   List<Vec2>? _animTo;
 
   // Rejection "shake" when a drag would self-intersect the polygon.
+  // No per-tick setState: the shake only translates the editor subtree,
+  // scoped via an AnimatedBuilder around it in [build].
   late final AnimationController _shakeCtrl = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 300),
-  )..addListener(() => setState(() {}));
+  );
 
   // Undo / redo history (snapshots of corners + closed).
   final List<({List<Vec2> corners, bool closed})> _undoStack = [];
@@ -323,10 +328,11 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
     final b = _corners[(i + 1) % n];
     final ctrl =
         TextEditingController(text: a.distanceTo(b).toStringAsFixed(2));
+    final l10n = AppLocalizations.of(context)!;
     final value = await showDialog<double>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Devor uzunligi'),
+        title: Text(l10n.drawWallLength),
         content: TextField(
           controller: ctrl,
           autofocus: true,
@@ -335,11 +341,12 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
         ),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(ctx), child: const Text('Bekor')),
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(l10n.actionCancelShort)),
           FilledButton(
             onPressed: () => Navigator.pop(
                 ctx, double.tryParse(ctrl.text.replaceAll(',', '.'))),
-            child: const Text('OK'),
+            child: Text(l10n.actionOk),
           ),
         ],
       ),
@@ -663,7 +670,7 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
     );
   }
 
-  Widget _build2dCanvas(List<double> wallLengths) {
+  Widget _build2dCanvas() {
     return GestureDetector(
       onTapUp: _onTapUp,
       onLongPressStart: _onLongPressStart,
@@ -673,17 +680,27 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
       child: Container(
         width: double.infinity,
         color: DesignTokens.white,
-        child: CustomPaint(
-          painter: _RoomPainter(
-            corners: [for (final c in _display) _toScreen(c)],
-            closed: _closed,
-            rawStroke: _freehandDrawing
-                ? [for (final p in _rawStrokeM) _toScreen(p)]
-                : const [],
-            ppm: _ppm,
-            wallLengths: wallLengths,
-            areaM2: _closed ? shoelaceArea(_display) : 0,
-          ),
+        // Repaint only this CustomPaint while the raw→clean morph animates,
+        // instead of rebuilding the whole screen every frame. [_display],
+        // the wall-length labels and the area readout all derive from
+        // _anim.value, so they are recomputed inside the builder.
+        child: AnimatedBuilder(
+          animation: _anim,
+          builder: (context, _) {
+            final display = _display;
+            return CustomPaint(
+              painter: _RoomPainter(
+                corners: [for (final c in display) _toScreen(c)],
+                closed: _closed,
+                rawStroke: _freehandDrawing
+                    ? [for (final p in _rawStrokeM) _toScreen(p)]
+                    : const [],
+                ppm: _ppm,
+                wallLengths: _wallLengths(display, _closed),
+                areaM2: _closed ? shoelaceArea(display) : 0,
+              ),
+            );
+          },
         ),
       ),
     );
@@ -693,14 +710,14 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final plan = _plan;
-    final wallLengths = _wallLengths(_display, _closed);
     return Scaffold(
       backgroundColor: DesignTokens.backgroundLight,
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: const Text('Xonani chizing', style: DesignTokens.heading3),
+        title: Text(l10n.drawTitle, style: DesignTokens.heading3),
       ),
       body: Column(
         children: [
@@ -714,7 +731,7 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
                 Expanded(
                   child: _ModeChip(
                     icon: Icons.gesture,
-                    label: 'Qo\'lda',
+                    label: l10n.drawModeManual,
                     selected: _mode == _DrawMode.freehand,
                     onTap: () => _switchMode(_DrawMode.freehand),
                   ),
@@ -723,7 +740,7 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
                 Expanded(
                   child: _ModeChip(
                     icon: Icons.timeline,
-                    label: 'Vizual',
+                    label: l10n.drawModeVisual,
                     selected: _mode == _DrawMode.polygon,
                     onTap: () => _switchMode(_DrawMode.polygon),
                   ),
@@ -746,11 +763,18 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
             onClear: _clear,
           ),
           Expanded(
-            child: Transform.translate(
-              offset: Offset(_shakeDx, 0),
+            // Scope the reject "shake" repaint to just the editor subtree:
+            // only the Transform.translate re-runs per frame, not the whole
+            // screen. The editor itself is built once and passed as `child`.
+            child: AnimatedBuilder(
+              animation: _shakeCtrl,
               child: _mode == _DrawMode.polygon
                   ? _buildIsoEditor()
-                  : _build2dCanvas(wallLengths),
+                  : _build2dCanvas(),
+              builder: (context, child) => Transform.translate(
+                offset: Offset(_shakeDx, 0),
+                child: child,
+              ),
             ),
           ),
           _BottomPanel(
@@ -777,18 +801,19 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
   }
 
   String get _hint {
-    if (_showRaw) return 'Xom chizma. "Toza"ga qaytish uchun tugmani bosing.';
+    final l10n = AppLocalizations.of(context)!;
+    if (_showRaw) return l10n.drawHintRaw;
     if (_closed) {
-      return 'Shakl tayyor! Burchaklarni surib o\'lchamni o\'zgartiring.';
+      return l10n.drawHintShapeReady;
     }
     if (_mode == _DrawMode.freehand) {
-      return 'Xona shaklini barmog\'ingiz bilan chizing.';
+      return l10n.drawHintFreehand;
     }
-    if (_corners.isEmpty) return 'Xona burchaklarini belgilang (kamida 3 ta).';
+    if (_corners.isEmpty) return l10n.drawHintMarkCorners;
     if (_corners.length < 3) {
-      return 'Yana ${3 - _corners.length} ta nuqta qo\'ying.';
+      return l10n.drawHintMorePoints(3 - _corners.length);
     }
-    return 'Yopish uchun birinchi nuqtaga bosing yoki "Yopish".';
+    return l10n.drawHintClose;
   }
 
   Future<void> _finish() async {
@@ -891,6 +916,7 @@ class _HintBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         DesignTokens.spacingMd,
@@ -911,7 +937,7 @@ class _HintBar extends StatelessWidget {
                 FilledButton.icon(
                   onPressed: onClose,
                   icon: const Icon(Icons.check, size: 16),
-                  label: const Text('Yopish'),
+                  label: Text(l10n.actionClose),
                   style: FilledButton.styleFrom(
                       visualDensity: VisualDensity.compact),
                 ),
@@ -919,7 +945,7 @@ class _HintBar extends StatelessWidget {
                 OutlinedButton.icon(
                   onPressed: onToggle,
                   icon: const Icon(Icons.compare_arrows, size: 16),
-                  label: Text(showRaw ? 'Toza' : 'Xom'),
+                  label: Text(showRaw ? l10n.drawToggleClean : l10n.drawToggleRaw),
                   style: OutlinedButton.styleFrom(
                       visualDensity: VisualDensity.compact),
                 ),
@@ -927,19 +953,19 @@ class _HintBar extends StatelessWidget {
               IconButton(
                 onPressed: canUndo ? onUndo : null,
                 icon: const Icon(Icons.undo, size: 20),
-                tooltip: 'Orqaga',
+                tooltip: l10n.actionBack,
                 visualDensity: VisualDensity.compact,
               ),
               IconButton(
                 onPressed: canRedo ? onRedo : null,
                 icon: const Icon(Icons.redo, size: 20),
-                tooltip: 'Oldinga',
+                tooltip: l10n.drawRedo,
                 visualDensity: VisualDensity.compact,
               ),
               IconButton(
                 onPressed: onClear,
                 icon: const Icon(Icons.delete_outline, size: 20),
-                tooltip: 'Tozalash',
+                tooltip: l10n.drawClear,
                 visualDensity: VisualDensity.compact,
               ),
             ],
@@ -1106,11 +1132,20 @@ class _BottomPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final b = plan.boundingSize;
     final rect = plan.isRectangleLike;
     final title = rect
-        ? 'Xona: ${b.width.toStringAsFixed(1)} × ${b.length.toStringAsFixed(1)} × ${height.toStringAsFixed(1)} m'
-        : 'Ko\'pburchak · ${plan.corners.length} devor · ${b.width.toStringAsFixed(1)}×${b.length.toStringAsFixed(1)} m';
+        ? l10n.drawTitleRect(
+            b.width.toStringAsFixed(1),
+            b.length.toStringAsFixed(1),
+            height.toStringAsFixed(1),
+          )
+        : l10n.drawTitlePolygon(
+            plan.corners.length,
+            b.width.toStringAsFixed(1),
+            b.length.toStringAsFixed(1),
+          );
     final area = plan.corners.length >= 3 ? plan.areaM2 : 0.0;
     final reason = plan.invalidReason;
     final areaWarn = area > 0 &&
@@ -1138,12 +1173,12 @@ class _BottomPanel extends StatelessWidget {
             ),
             if (areaWarn)
               Text(
-                'Diqqat: yuza odatiy oraliqdan tashqarida',
+                l10n.drawAreaWarning,
                 style: DesignTokens.caption
                     .copyWith(color: DesignTokens.accentOrange),
               ),
             const SizedBox(height: DesignTokens.spacingXs),
-            Text('Shift balandligi',
+            Text(l10n.ceilingHeightLabel,
                 style: DesignTokens.caption
                     .copyWith(color: DesignTokens.textGray)),
             const SizedBox(height: DesignTokens.spacingXs),
@@ -1178,8 +1213,8 @@ class _BottomPanel extends StatelessWidget {
                             strokeWidth: 2, color: DesignTokens.white),
                       )
                     : Text(onFinish != null
-                        ? 'Yakunlash'
-                        : (reason ?? 'Xonani chizing')),
+                        ? l10n.actionFinish
+                        : (reason ?? l10n.drawTitle)),
               ),
             ),
           ],

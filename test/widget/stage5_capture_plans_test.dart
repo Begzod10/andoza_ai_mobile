@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tamir_uy_mobile_flutter/l10n/app_localizations.dart';
 import 'package:tamir_uy_mobile_flutter/providers/lidar_provider.dart';
 import 'package:tamir_uy_mobile_flutter/providers/room_provider.dart';
 import 'package:tamir_uy_mobile_flutter/screens/room_setup/dimensions_entry_screen.dart';
@@ -54,6 +55,9 @@ void main() {
       UncontrolledProviderScope(
         container: container,
         child: MaterialApp.router(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: const Locale('uz'),
           routerConfig: _routerTo(
             const LiDARScanningScreen(),
             '/setup/wall-measurements',
@@ -84,6 +88,9 @@ void main() {
       UncontrolledProviderScope(
         container: container,
         child: MaterialApp.router(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: const Locale('uz'),
           routerConfig: _routerTo(
             const PhotoScanningScreen(),
             '/setup/wall-measurements',
@@ -120,6 +127,9 @@ void main() {
       UncontrolledProviderScope(
         container: container,
         child: MaterialApp.router(
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: const Locale('uz'),
           routerConfig:
               _routerTo(const RoomSummaryScreen(), '/design/b1'),
         ),
@@ -155,7 +165,12 @@ void main() {
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,
-        child: const MaterialApp(home: DimensionsEntryScreen()),
+        child: MaterialApp(
+          home: const DimensionsEntryScreen(),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: const Locale('uz'),
+        ),
       ),
     );
     await tester.pumpAndSettle();

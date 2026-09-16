@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/design_selection_model.dart';
 
 /// Bottom sheet card for editing furniture placement and properties
@@ -41,6 +42,7 @@ class _FurnitureEditCardState extends State<FurnitureEditCard> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: EdgeInsets.only(
         bottom:
@@ -63,7 +65,7 @@ class _FurnitureEditCardState extends State<FurnitureEditCard> {
               ),
               IconButton(
                 icon: const Icon(Icons.close),
-                tooltip: 'Yopish',
+                tooltip: l10n.actionClose,
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
@@ -86,7 +88,7 @@ class _FurnitureEditCardState extends State<FurnitureEditCard> {
                 child: OutlinedButton.icon(
                   onPressed: widget.onDelete,
                   icon: const Icon(Icons.close),
-                  label: const Text('O\'chirish'),
+                  label: Text(l10n.furnitureDelete),
                 ),
               ),
               const SizedBox(width: DesignTokens.spacing12),
@@ -95,7 +97,7 @@ class _FurnitureEditCardState extends State<FurnitureEditCard> {
                   onPressed: () =>
                       setState(() => _rotation = (_rotation + 90) % 360),
                   icon: const Icon(Icons.rotate_right),
-                  label: const Text('Aylantirish'),
+                  label: Text(l10n.furnitureRotate),
                 ),
               ),
             ],
@@ -105,7 +107,7 @@ class _FurnitureEditCardState extends State<FurnitureEditCard> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: _save,
-              child: const Text('Saqlash'),
+              child: Text(l10n.actionSave),
             ),
           ),
         ],

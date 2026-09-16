@@ -21,6 +21,7 @@ DeltaStage _$DeltaStageFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$DeltaStage {
+  @JsonKey(unknownEnumValue: RoomStateValue.unknown)
   RoomStateValue get stage => throw _privateConstructorUsedError;
   @JsonKey(name: 'label_uz')
   String get labelUz => throw _privateConstructorUsedError;
@@ -45,7 +46,7 @@ abstract class $DeltaStageCopyWith<$Res> {
   ) = _$DeltaStageCopyWithImpl<$Res, DeltaStage>;
   @useResult
   $Res call({
-    RoomStateValue stage,
+    @JsonKey(unknownEnumValue: RoomStateValue.unknown) RoomStateValue stage,
     @JsonKey(name: 'label_uz') String labelUz,
     @JsonKey(name: 'already_done') bool alreadyDone,
   });
@@ -100,7 +101,7 @@ abstract class _$$DeltaStageImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    RoomStateValue stage,
+    @JsonKey(unknownEnumValue: RoomStateValue.unknown) RoomStateValue stage,
     @JsonKey(name: 'label_uz') String labelUz,
     @JsonKey(name: 'already_done') bool alreadyDone,
   });
@@ -147,7 +148,7 @@ class __$$DeltaStageImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$DeltaStageImpl implements _DeltaStage {
   const _$DeltaStageImpl({
-    required this.stage,
+    @JsonKey(unknownEnumValue: RoomStateValue.unknown) required this.stage,
     @JsonKey(name: 'label_uz') required this.labelUz,
     @JsonKey(name: 'already_done') required this.alreadyDone,
   });
@@ -156,6 +157,7 @@ class _$DeltaStageImpl implements _DeltaStage {
       _$$DeltaStageImplFromJson(json);
 
   @override
+  @JsonKey(unknownEnumValue: RoomStateValue.unknown)
   final RoomStateValue stage;
   @override
   @JsonKey(name: 'label_uz')
@@ -200,6 +202,7 @@ class _$DeltaStageImpl implements _DeltaStage {
 
 abstract class _DeltaStage implements DeltaStage {
   const factory _DeltaStage({
+    @JsonKey(unknownEnumValue: RoomStateValue.unknown)
     required final RoomStateValue stage,
     @JsonKey(name: 'label_uz') required final String labelUz,
     @JsonKey(name: 'already_done') required final bool alreadyDone,
@@ -209,6 +212,7 @@ abstract class _DeltaStage implements DeltaStage {
       _$DeltaStageImpl.fromJson;
 
   @override
+  @JsonKey(unknownEnumValue: RoomStateValue.unknown)
   RoomStateValue get stage;
   @override
   @JsonKey(name: 'label_uz')
@@ -233,7 +237,7 @@ DeltaResponse _$DeltaResponseFromJson(Map<String, dynamic> json) {
 mixin _$DeltaResponse {
   @JsonKey(name: 'room_id')
   String get roomId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'current_state')
+  @JsonKey(name: 'current_state', unknownEnumValue: RoomStateValue.unknown)
   RoomStateValue get currentState => throw _privateConstructorUsedError;
   @JsonKey(name: 'full_lines')
   List<EstimateLine> get fullLines => throw _privateConstructorUsedError;
@@ -269,7 +273,8 @@ abstract class $DeltaResponseCopyWith<$Res> {
   @useResult
   $Res call({
     @JsonKey(name: 'room_id') String roomId,
-    @JsonKey(name: 'current_state') RoomStateValue currentState,
+    @JsonKey(name: 'current_state', unknownEnumValue: RoomStateValue.unknown)
+    RoomStateValue currentState,
     @JsonKey(name: 'full_lines') List<EstimateLine> fullLines,
     @JsonKey(name: 'full_total_uzs') int fullTotalUzs,
     @JsonKey(name: 'delta_lines') List<EstimateLine> deltaLines,
@@ -360,7 +365,8 @@ abstract class _$$DeltaResponseImplCopyWith<$Res>
   @useResult
   $Res call({
     @JsonKey(name: 'room_id') String roomId,
-    @JsonKey(name: 'current_state') RoomStateValue currentState,
+    @JsonKey(name: 'current_state', unknownEnumValue: RoomStateValue.unknown)
+    RoomStateValue currentState,
     @JsonKey(name: 'full_lines') List<EstimateLine> fullLines,
     @JsonKey(name: 'full_total_uzs') int fullTotalUzs,
     @JsonKey(name: 'delta_lines') List<EstimateLine> deltaLines,
@@ -443,7 +449,8 @@ class __$$DeltaResponseImplCopyWithImpl<$Res>
 class _$DeltaResponseImpl implements _DeltaResponse {
   const _$DeltaResponseImpl({
     @JsonKey(name: 'room_id') required this.roomId,
-    @JsonKey(name: 'current_state') required this.currentState,
+    @JsonKey(name: 'current_state', unknownEnumValue: RoomStateValue.unknown)
+    required this.currentState,
     @JsonKey(name: 'full_lines')
     final List<EstimateLine> fullLines = const <EstimateLine>[],
     @JsonKey(name: 'full_total_uzs') required this.fullTotalUzs,
@@ -467,7 +474,7 @@ class _$DeltaResponseImpl implements _DeltaResponse {
   @JsonKey(name: 'room_id')
   final String roomId;
   @override
-  @JsonKey(name: 'current_state')
+  @JsonKey(name: 'current_state', unknownEnumValue: RoomStateValue.unknown)
   final RoomStateValue currentState;
   final List<EstimateLine> _fullLines;
   @override
@@ -583,7 +590,8 @@ class _$DeltaResponseImpl implements _DeltaResponse {
 abstract class _DeltaResponse implements DeltaResponse {
   const factory _DeltaResponse({
     @JsonKey(name: 'room_id') required final String roomId,
-    @JsonKey(name: 'current_state') required final RoomStateValue currentState,
+    @JsonKey(name: 'current_state', unknownEnumValue: RoomStateValue.unknown)
+    required final RoomStateValue currentState,
     @JsonKey(name: 'full_lines') final List<EstimateLine> fullLines,
     @JsonKey(name: 'full_total_uzs') required final int fullTotalUzs,
     @JsonKey(name: 'delta_lines') final List<EstimateLine> deltaLines,
@@ -600,7 +608,7 @@ abstract class _DeltaResponse implements DeltaResponse {
   @JsonKey(name: 'room_id')
   String get roomId;
   @override
-  @JsonKey(name: 'current_state')
+  @JsonKey(name: 'current_state', unknownEnumValue: RoomStateValue.unknown)
   RoomStateValue get currentState;
   @override
   @JsonKey(name: 'full_lines')

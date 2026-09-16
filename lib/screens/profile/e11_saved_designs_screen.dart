@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../widgets/empty_state_pattern.dart';
 
 /// E11: Saqlangan dizaynlar — hosts the reusable [EmptyStatePattern] for
@@ -10,20 +11,21 @@ class E11SavedDesignsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: DesignTokens.backgroundLight,
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: const Text('Saqlangan dizaynlar', style: DesignTokens.heading3),
+        title: Text(l10n.profileMenuSavedDesigns, style: DesignTokens.heading3),
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(DesignTokens.screenPaddingHorizontal),
+      body: Padding(
+        padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),
         child: Center(
           child: EmptyStatePattern(
             icon: Icons.bookmark_border,
-            title: 'Saqlangan dizayn yo\'q',
-            message: 'Yoqqan dizaynlaringizni shu yerda saqlab qo\'ying',
+            title: l10n.profileSavedDesignsEmptyTitle,
+            message: l10n.profileSavedDesignsEmptyMessage,
           ),
         ),
       ),

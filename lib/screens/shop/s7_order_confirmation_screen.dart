@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/shop_model.dart';
 import '../../utils/currency.dart';
 
@@ -16,6 +17,7 @@ class S7OrderConfirmationScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final o =
         order ??
         ShopOrder(
@@ -33,7 +35,7 @@ class S7OrderConfirmationScreen extends ConsumerWidget {
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: const Text('Buyurtma holati', style: DesignTokens.heading3),
+        title: Text(l10n.shopOrderStatusTitle, style: DesignTokens.heading3),
       ),
       body: ListView(
         padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),
@@ -88,17 +90,19 @@ class S7OrderConfirmationScreen extends ConsumerWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.call_outlined),
+                  tooltip: l10n.a11yCallDealer,
                   onPressed: () {},
                 ),
                 IconButton(
                   icon: const Icon(Icons.message_outlined),
+                  tooltip: l10n.a11yMessageDealer,
                   onPressed: () {},
                 ),
               ],
             ),
           ),
           const SizedBox(height: DesignTokens.spacingLg),
-          const Text('Buyurtma tarkibi', style: DesignTokens.subtitle2),
+          Text(l10n.shopOrderContents, style: DesignTokens.subtitle2),
           const SizedBox(height: DesignTokens.spacingSm),
           for (final line in o.lines) ...[
             _OrderItemRow(line: line),
@@ -108,7 +112,7 @@ class S7OrderConfirmationScreen extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Jami', style: DesignTokens.subtitle1),
+              Text(l10n.shopTotal, style: DesignTokens.subtitle1),
               Text(
                 formatSom(o.total),
                 style: DesignTokens.heading3.copyWith(
@@ -124,10 +128,10 @@ class S7OrderConfirmationScreen extends ConsumerWidget {
             child: OutlinedButton(
               onPressed: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Usta xabardor qilindi')),
+                  SnackBar(content: Text(l10n.shopMasterNotified)),
                 );
               },
-              child: const Text('Ustaga topshirish'),
+              child: Text(l10n.shopHandToMaster),
             ),
           ),
           const SizedBox(height: DesignTokens.spacingSm),
@@ -135,7 +139,7 @@ class S7OrderConfirmationScreen extends ConsumerWidget {
             width: double.infinity,
             child: TextButton(
               onPressed: () => context.go('/shop/s1'),
-              child: const Text('Do\'konga qaytish'),
+              child: Text(l10n.shopBackToShop),
             ),
           ),
         ],

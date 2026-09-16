@@ -13,6 +13,7 @@ String _wallLetter(client.WallType type) => switch (type) {
       client.WallType.wallB => 'B',
       client.WallType.wallC => 'C',
       client.WallType.wallD => 'D',
+      client.WallType.unknown => 'A',
     };
 
 /// Converts the app's captured [client.Room] into the backend [RoomCreate]

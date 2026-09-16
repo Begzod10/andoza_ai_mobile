@@ -12,5 +12,11 @@ import UIKit
 
   func didInitializeImplicitFlutterEngine(_ engineBridge: FlutterImplicitEngineBridge) {
     GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
+    // Native RoomPlan scan channel (andoza/roomscan). Attached to the implicit
+    // engine's messenger — this template has no window.rootViewController
+    // FlutterViewController at launch to hang it off of.
+    if let registrar = engineBridge.pluginRegistry.registrar(forPlugin: "RoomScanPlugin") {
+      RoomScanPlugin.register(messenger: registrar.messenger())
+    }
   }
 }

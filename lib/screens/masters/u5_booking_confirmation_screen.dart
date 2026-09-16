@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/estimate_provider.dart';
 import '../../providers/masters_provider.dart';
 import '../../utils/currency.dart';
@@ -30,6 +31,7 @@ class _U5BookingConfirmationScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final m = widget.master ?? ref.watch(mockMastersProvider).first;
     final estimate = ref.watch(estimateProvider);
 
@@ -42,7 +44,7 @@ class _U5BookingConfirmationScreenState
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Loyihangizni ${m.master.name.split(' ').first} akaga yuborasizmi?',
+                l10n.mastersSendConfirmTitle(m.master.name.split(' ').first),
                 style: DesignTokens.heading3,
               ),
               const SizedBox(height: DesignTokens.spacingLg),
@@ -57,11 +59,16 @@ class _U5BookingConfirmationScreenState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Mehmonxona ta\'miri', style: DesignTokens.subtitle2),
+                    Text(
+                      l10n.mastersProjectSummaryTitle,
+                      style: DesignTokens.subtitle2,
+                    ),
                     const SizedBox(height: DesignTokens.spacingXs),
                     Text(
-                      '${estimate.roomArea.toStringAsFixed(1)} m² · '
-                      '${formatSom(estimate.totalPrice.round())}',
+                      l10n.mastersProjectSummaryValue(
+                        estimate.roomArea.toStringAsFixed(1),
+                        formatSom(estimate.totalPrice.round()),
+                      ),
                       style: DesignTokens.body2.copyWith(
                         color: DesignTokens.textGray,
                       ),
@@ -73,14 +80,14 @@ class _U5BookingConfirmationScreenState
               TextField(
                 controller: _commentController,
                 maxLines: 3,
-                decoration: const InputDecoration(
-                  hintText: 'Izoh (ixtiyoriy)',
-                  border: OutlineInputBorder(),
+                decoration: InputDecoration(
+                  hintText: l10n.mastersCommentHint,
+                  border: const OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: DesignTokens.spacingSm),
               Text(
-                'Usta smetani ko\'rib, o\'z narxini taklif qiladi',
+                l10n.mastersEstimateNote,
                 style: DesignTokens.caption.copyWith(
                   color: DesignTokens.textGray,
                 ),
@@ -96,10 +103,10 @@ class _U5BookingConfirmationScreenState
                   onPressed: () {
                     Navigator.of(context).pop();
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Smeta yuborildi')),
+                      SnackBar(content: Text(l10n.mastersEstimateSent)),
                     );
                   },
-                  child: const Text('Yuborish'),
+                  child: Text(l10n.mastersSend),
                 ),
               ),
             ],

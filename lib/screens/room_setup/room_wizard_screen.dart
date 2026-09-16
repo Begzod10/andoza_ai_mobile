@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/design_selection_model.dart';
 import '../../models/room_model.dart';
 import '../../models/room_plan.dart';
@@ -37,7 +38,7 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
   // The wizard is a plain box, so the plan is fully described by its width
   // (walls B/D), length (walls A/C), ceiling height and per-wall openings. The
   // A/B/C/D wall letters below are display-only labels on the plan's 4 edges
-  // (edge index i → wall WallType.values[i], matching RoomPlan.rectangle /
+  // (edge index i → wall kWallTypes[i], matching RoomPlan.rectangle /
   // toLegacyRoom). It no longer depends on wallMeasurementsProvider as its
   // source of truth — it only reads it once, in initState, for the seeded
   // defaults so behaviour is unchanged.
@@ -89,7 +90,7 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
     final length = _wallLengthFor(index);
     var seq = 0;
     return WallMeasurement(
-      type: WallType.values[index],
+      type: kWallTypes[index],
       length: length,
       height: _height,
       openings: [
@@ -141,6 +142,7 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final plan = _plan;
 
     // The wall being edited on wall steps (1..4); index 0=A … 3=D.
@@ -155,10 +157,10 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
         backgroundColor: DesignTokens.white,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: DesignTokens.textDark),
-          tooltip: 'Orqaga',
+          tooltip: l10n.actionBack,
           onPressed: _back,
         ),
-        title: const Text('Yangi xona', style: DesignTokens.heading3),
+        title: Text(l10n.wizardTitle, style: DesignTokens.heading3),
         centerTitle: true,
       ),
       body: Column(
@@ -229,7 +231,7 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
                       Expanded(
                         child: OutlinedButton(
                           onPressed: _back,
-                          child: const Text('Ortga'),
+                          child: Text(l10n.actionPrev),
                         ),
                       ),
                     if (_step > 0)
@@ -240,7 +242,7 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
                         height: DesignTokens.buttonHeightLarge,
                         child: ElevatedButton(
                           onPressed: () => setState(() => _step++),
-                          child: const Text('Keyingi'),
+                          child: Text(l10n.actionNext),
                         ),
                       ),
                     ),
@@ -358,13 +360,14 @@ class _CeilingStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text('Shiftning balandligi?', style: DesignTokens.heading2),
+        Text(l10n.wizardCeilingQuestion, style: DesignTokens.heading2),
         const SizedBox(height: DesignTokens.spacingXs),
         Text(
-          'Odatda 2.5–3.2 metr oralig\'ida',
+          l10n.wizardCeilingHint,
           style: DesignTokens.body2.copyWith(color: DesignTokens.textGray),
         ),
         const SizedBox(height: DesignTokens.spacingLg),
@@ -387,7 +390,7 @@ class _CeilingStep extends StatelessWidget {
           ],
         ),
         const SizedBox(height: DesignTokens.spacingLg),
-        const Text('Aniq qiymat (m)', style: DesignTokens.subtitle2),
+        Text(l10n.wizardExactValue, style: DesignTokens.subtitle2),
         const SizedBox(height: DesignTokens.spacingSm),
         TextField(
           controller: controller,
@@ -416,13 +419,17 @@ class _WallStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('${_letter(wall.type)} devor', style: DesignTokens.heading2),
+        Text(
+          l10n.wizardWallTitle(_letter(wall.type)),
+          style: DesignTokens.heading2,
+        ),
         const SizedBox(height: DesignTokens.spacingXs),
         Text(
-          'Uzunligini kiriting',
+          l10n.wizardWallSubtitle,
           style: DesignTokens.body2.copyWith(color: DesignTokens.textGray),
         ),
         const SizedBox(height: DesignTokens.spacingMd),
@@ -442,7 +449,7 @@ class _WallStep extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text('Uzunlik', style: DesignTokens.body2),
+            Text(l10n.measureLength, style: DesignTokens.body2),
             Text(
               '${wall.length.toStringAsFixed(1)} m',
               style: DesignTokens.subtitle2
@@ -485,7 +492,7 @@ class _WallStep extends StatelessWidget {
         OutlinedButton.icon(
           onPressed: onAddOpening,
           icon: const Icon(Icons.add),
-          label: const Text('Eshik / Deraza qo\'shish'),
+          label: Text(l10n.openingAddSpaced),
         ),
       ],
     );
@@ -496,6 +503,7 @@ class _WallStep extends StatelessWidget {
         WallType.wallB => 'B',
         WallType.wallC => 'C',
         WallType.wallD => 'D',
+        WallType.unknown => '',
       };
 }
 
@@ -514,6 +522,7 @@ class _SummaryStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final floorArea = plan.areaM2;
     final perimeter = plan.perimeterM;
     final nettoWall = plan.netWallAreaM2;
@@ -533,10 +542,10 @@ class _SummaryStep extends StatelessWidget {
           child: const Icon(Icons.check, color: DesignTokens.white, size: 36),
         ),
         const SizedBox(height: DesignTokens.spacingMd),
-        const Text('O\'lchamlar saqlandi!',
+        Text(l10n.summarySavedTitle,
             style: DesignTokens.heading2, textAlign: TextAlign.center),
         Text(
-          'Xona parametrlari muvaffaqiyatli qayd etildi',
+          l10n.wizardSummarySubtitle,
           style: DesignTokens.body2.copyWith(color: DesignTokens.textGray),
           textAlign: TextAlign.center,
         ),
@@ -549,10 +558,18 @@ class _SummaryStep extends StatelessWidget {
           mainAxisSpacing: DesignTokens.spacingMd,
           childAspectRatio: 1.5,
           children: [
-            _Stat(value: '${floorArea.toStringAsFixed(1)} m²', label: 'POL MAYDONI'),
-            _Stat(value: '${nettoWall.toStringAsFixed(1)} m²', label: 'DEVOR MAYDONI (NETTO)'),
-            _Stat(value: '${perimeter.toStringAsFixed(1)} m', label: 'PERIMETR'),
-            _Stat(value: '$openingCount ta', label: 'ESHIK/DERAZALAR'),
+            _Stat(
+                value: '${floorArea.toStringAsFixed(1)} m²',
+                label: l10n.wizardStatFloor),
+            _Stat(
+                value: '${nettoWall.toStringAsFixed(1)} m²',
+                label: l10n.wizardStatWallNet),
+            _Stat(
+                value: '${perimeter.toStringAsFixed(1)} m',
+                label: l10n.wizardStatPerimeter),
+            _Stat(
+                value: l10n.summaryOpeningsCount(openingCount),
+                label: l10n.wizardStatOpenings),
           ],
         ),
         const SizedBox(height: DesignTokens.spacingXl),
@@ -561,7 +578,7 @@ class _SummaryStep extends StatelessWidget {
           height: DesignTokens.buttonHeightLarge,
           child: ElevatedButton(
             onPressed: openingStudio ? null : onViewSmeta,
-            child: const Text('Smeta ko\'rish'),
+            child: Text(l10n.wizardViewSmeta),
           ),
         ),
         const SizedBox(height: DesignTokens.spacingSm),
@@ -576,7 +593,8 @@ class _SummaryStep extends StatelessWidget {
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : const Icon(Icons.view_in_ar_outlined),
-            label: Text(openingStudio ? 'Ochilmoqda…' : 'Bezashni boshlash'),
+            label: Text(
+                openingStudio ? l10n.wizardOpening : l10n.wizardStartDesign),
           ),
         ),
       ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 
 /// Shows the A3 "+" bottom sheet, dimming the screen behind it per spec.
 Future<void> showNewProjectSheet(BuildContext context) {
@@ -21,6 +22,7 @@ class NewProjectSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.fromLTRB(
         DesignTokens.screenPaddingHorizontal,
@@ -50,10 +52,10 @@ class NewProjectSheet extends StatelessWidget {
               ),
             ),
           ),
-          const Text('Yangi loyiha', style: DesignTokens.heading3),
+          Text(l10n.newProjectTitle, style: DesignTokens.heading3),
           const SizedBox(height: DesignTokens.spacingXs),
           Text(
-            'Xonani qanday qo\'shmoqchisiz?',
+            l10n.newProjectSubtitle,
             style: DesignTokens.body2.copyWith(color: DesignTokens.textGray),
           ),
           const SizedBox(height: DesignTokens.spacingLg),
@@ -61,9 +63,8 @@ class NewProjectSheet extends StatelessWidget {
             iconBackground: const Color(0xFFEDE7FB),
             icon: Icons.view_in_ar,
             iconColor: DesignTokens.primaryBlue,
-            title: '3D Sehrgar',
-            description:
-                'Interaktiv 3D ko\'rinishda xona o\'lchamlarini kiriting',
+            title: l10n.newProjectWizardTitle,
+            description: l10n.newProjectWizardDesc,
             onTap: () {
               Navigator.of(context).pop();
               context.push('/wizard');
@@ -74,12 +75,11 @@ class NewProjectSheet extends StatelessWidget {
             iconBackground: DesignTokens.borderGrayAlt,
             icon: Icons.radar,
             iconColor: DesignTokens.primaryBlue,
-            title: 'LiDAR skaner',
-            description:
-                'Xonani LiDAR yordamida skanerlang va avtomatik 3D model oling',
+            title: l10n.newProjectLidarTitle,
+            description: l10n.newProjectLidarDesc,
             onTap: () {
               Navigator.of(context).pop();
-              context.push('/scanning/lidar');
+              context.push('/scanning/roomplan');
             },
           ),
           const SizedBox(height: DesignTokens.spacingMd),
@@ -87,9 +87,8 @@ class NewProjectSheet extends StatelessWidget {
             iconBackground: const Color(0xFFFFF1E7),
             icon: Icons.camera_alt_outlined,
             iconColor: DesignTokens.accentOrange,
-            title: '360° Foto skan',
-            description:
-                'Xonani 360° rasmga oling — ilova nuqtalarni o\'zi belgilaydi',
+            title: l10n.newProjectPhotoTitle,
+            description: l10n.newProjectPhotoDesc,
             onTap: () {
               Navigator.of(context).pop();
               context.push('/scanning/photo');
@@ -100,10 +99,8 @@ class NewProjectSheet extends StatelessWidget {
             iconBackground: const Color(0xFFEAF7F0),
             icon: Icons.draw_outlined,
             iconColor: DesignTokens.successGreen,
-            title: 'O\'zingiz chizing',
-            description:
-                'Xonani barmog\'ingiz bilan chizing — o\'lchamlar chizganingizga '
-                'qarab o\'zi hisoblanadi',
+            title: l10n.newProjectDrawTitle,
+            description: l10n.newProjectDrawDesc,
             onTap: () {
               Navigator.of(context).pop();
               context.push('/setup/draw');

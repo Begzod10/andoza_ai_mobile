@@ -1,54 +1,15 @@
 import 'package:riverpod/riverpod.dart';
 import '../models/design_selection_model.dart';
-import '../repositories/design_repository.dart';
-import 'auth_provider.dart';
-
-/// Provider for DesignRepository
-final designRepositoryProvider = Provider<DesignRepository>((ref) {
-  return DesignRepositoryImpl(ref.watch(apiClientProvider));
-});
 
 /// Notifier for managing active design selection state.
 ///
 /// Note: the backend has no `/api/v1/designs` endpoint yet (only
 /// `/rooms`, `/room-state`, `/decoration`, `/finishes`, `/furniture`) —
-/// every mutation below is local-only. `createForRoom`/`loadById`/
-/// `loadByRoomId` are kept as the real repository-backed interface for
-/// when that endpoint exists, but nothing in this rebuild calls them; the
-/// active design is always seeded via [setLocal] from A9's on-device
-/// measurement data instead.
+/// every mutation below is local-only. The active design is always seeded
+/// via [setLocal] from A9's on-device measurement data instead of being
+/// fetched/created through a repository.
 class ActiveDesignNotifier extends StateNotifier<DesignSelection?> {
-  ActiveDesignNotifier(this._repository) : super(null);
-
-  final DesignRepository _repository;
-
-  /// Create a new design selection from a room (backend-backed — unused
-  /// until a `/designs` endpoint exists).
-  Future<void> createForRoom({
-    required String roomId,
-    required String roomName,
-  }) async {
-    final design = DesignSelection(
-      id: '',
-      roomId: roomId,
-      stage: DesignStage.floor,
-      selections: {},
-      furniture: [],
-    );
-    state = await _repository.create(design);
-  }
-
-  /// Load an existing design by ID (backend-backed — unused until a
-  /// `/designs` endpoint exists).
-  Future<void> loadById(String id) async {
-    state = await _repository.getById(id);
-  }
-
-  /// Load design for a specific room (backend-backed — unused until a
-  /// `/designs` endpoint exists).
-  Future<void> loadByRoomId(String roomId) async {
-    state = await _repository.getByRoomId(roomId);
-  }
+  ActiveDesignNotifier() : super(null);
 
   /// Sets the active design directly from local data, bypassing the
   /// backend. Used for the A9→B1 handoff.
@@ -125,8 +86,10 @@ class ActiveDesignNotifier extends StateNotifier<DesignSelection?> {
   void advanceRenovationStage() {
     if (state == null) return;
     final current = state!.renovationStage;
-    final next = current.index < RenovationStage.values.length - 1
-        ? RenovationStage.values[current.index + 1]
+    // Advance within the canonical stages only; never step into
+    // RenovationStage.unknown (the last, deserialization-only value).
+    final next = current.index < kRenovationStages.length - 1
+        ? kRenovationStages[current.index + 1]
         : current;
     if (next == current) return;
     state = state!.copyWith(renovationStage: next);
@@ -162,6 +125,7 @@ class ActiveDesignNotifier extends StateNotifier<DesignSelection?> {
       case DesignStage.furniture:
         return DesignStage.completed;
       case DesignStage.completed:
+      case DesignStage.unknown:
         return DesignStage.completed;
     }
   }
@@ -169,6 +133,7 @@ class ActiveDesignNotifier extends StateNotifier<DesignSelection?> {
   DesignStage? _getPreviousStage(DesignStage current) {
     switch (current) {
       case DesignStage.floor:
+      case DesignStage.unknown:
         return null;
       case DesignStage.paint:
         return DesignStage.floor;
@@ -183,7 +148,7 @@ class ActiveDesignNotifier extends StateNotifier<DesignSelection?> {
 /// Provider for the active design selection
 final activeDesignProvider =
     StateNotifierProvider<ActiveDesignNotifier, DesignSelection?>((ref) {
-      return ActiveDesignNotifier(ref.watch(designRepositoryProvider));
+      return ActiveDesignNotifier();
     });
 
 /// Computed provider: is a design currently active?

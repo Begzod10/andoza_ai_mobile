@@ -2,126 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
-import '../../models/api/apartment.dart';
-import '../../models/design_selection_model.dart';
-import '../../providers/apartment_provider.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/empty_state_pattern.dart';
 import '../room_setup/new_project_sheet.dart';
 
-/// Riverpod provider for home screen state
-final homeStateProvider = StateNotifierProvider<HomeStateNotifier, HomeState>(
-  (ref) => HomeStateNotifier(),
-);
-
-/// The merged project list the UI renders: the user's real backend
-/// apartments ([apartmentsProvider]) mapped to [ProjectItem]s, plus any
-/// locally-added ([homeStateProvider]) projects not yet present on the
-/// server. Dedup is by `id` with the server winning, so an optimistic add
-/// disappears cleanly once the refetch returns it.
-///
-/// Loading/error state is passed straight through from [apartmentsProvider]
-/// (via [AsyncValue.whenData]); invalidate [apartmentsProvider] to retry.
-final projectsProvider = Provider<AsyncValue<List<ProjectItem>>>((ref) {
-  final localProjects = ref.watch(homeStateProvider).projects;
-  return ref.watch(apartmentsProvider).whenData((apartments) {
-    final serverProjects = apartments.map(_apartmentToProject).toList();
-    final serverIds = serverProjects.map((p) => p.id).toSet();
-    final localOnly =
-        localProjects.where((p) => !serverIds.contains(p.id)).toList();
-    return [...serverProjects, ...localOnly];
-  });
-});
-
-/// Maps a backend [Apartment] to the UI's [ProjectItem]. The backend's
-/// `renovation_stage` is a 1-based int (1..8); it maps to the
-/// [RenovationStage] enum value at the matching 0-based position, so the
-/// card's "Bosqich N/8" mirrors the server exactly. [roomCondition] stays
-/// null ("not yet assessed") — the server has no room-condition concept yet.
-ProjectItem _apartmentToProject(Apartment a) {
-  // Pick the most-recently-edited room to resume in the 3D Studio.
-  final rooms = [...a.rooms]
-    ..sort((r1, r2) => r2.updatedAt.compareTo(r1.updatedAt));
-  return ProjectItem(
-    id: a.id,
-    name: a.name,
-    location: a.address ?? '',
-    roomCount: a.rooms.length,
-    createdAt: a.createdAt,
-    renovationStage: RenovationStage.values[(a.renovationStage - 1).clamp(
-      0,
-      RenovationStage.values.length - 1,
-    )],
-    studioRoomId: rooms.isNotEmpty ? rooms.first.id : null,
-  );
-}
-
-class HomeState {
-  final List<ProjectItem> projects;
-  final bool isLoading;
-
-  HomeState({required this.projects, this.isLoading = false});
-
-  HomeState copyWith({List<ProjectItem>? projects, bool? isLoading}) {
-    return HomeState(
-      projects: projects ?? this.projects,
-      isLoading: isLoading ?? this.isLoading,
-    );
-  }
-}
-
-class HomeStateNotifier extends StateNotifier<HomeState> {
-  HomeStateNotifier() : super(HomeState(projects: []));
-
-  void addProject(ProjectItem project) {
-    state = state.copyWith(projects: [...state.projects, project]);
-  }
-
-  void removeProject(String id) {
-    state = state.copyWith(
-      projects: state.projects.where((p) => p.id != id).toList(),
-    );
-  }
-}
-
-class ProjectItem {
-  final String id;
-  final String name;
-  final String location;
-  final int roomCount;
-  final DateTime createdAt;
-
-  /// Null until Batch B's room-state selection (B1) has run for this
-  /// project. Rendering must NOT fabricate a condition — see
-  /// [ProjectItem.stageStates] for how the null case is handled.
-  final RoomCondition? roomCondition;
-  final RenovationStage renovationStage;
-
-  /// The room to open in the 3D Studio when "Davom etish" is tapped — the
-  /// apartment's most-recently-edited room. Null for a local/optimistic
-  /// project that has no server room yet.
-  final String? studioRoomId;
-
-  ProjectItem({
-    required this.id,
-    required this.name,
-    required this.location,
-    required this.roomCount,
-    required this.createdAt,
-    this.roomCondition,
-    this.renovationStage = RenovationStage.suvoq,
-    this.studioRoomId,
-  });
-
-  /// Delta-mechanic display states for this project's progress bar. When
-  /// [roomCondition] hasn't been set yet, falls back to a raw/korobka
-  /// baseline — the correct semantic default for "not yet assessed" (raw
-  /// means nothing is pre-excluded), not a fabricated value.
-  List<StageDisplayState> get stageStates => deriveStageStates(
-    condition: roomCondition ?? const RoomCondition(wall: SurfaceCondition.raw),
-    currentStage: renovationStage,
-  );
-}
+// The home-screen state provider + merge logic and the ProjectItem/HomeState
+// data classes were relocated to lib/providers/projects_provider.dart and
+// lib/models/project_item.dart. Re-exported here so existing imports of this
+// screen file keep resolving those symbols.
+export '../../models/project_item.dart';
+export '../../providers/projects_provider.dart';
 
 /// One of the three "story circle" onboarding shortcuts on A1 — animated
 /// conic-gradient ring (2.5s spin) that greys out once tapped.
@@ -260,11 +151,15 @@ class HomeGreetingHeader extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentUser = ref.watch(currentUserProvider);
-    final name = currentUser.maybeWhen(
-      data: (user) => user?.firstName ?? user?.name ?? user?.username,
-      orElse: () => null,
-    );
+    final l10n = AppLocalizations.of(context)!;
+    // Derive the greeting from the already-loaded auth session instead of
+    // re-fetching /auth/me on every Home mount: authStateProvider already
+    // holds the full User once authenticated. On a transient cold-start
+    // restore the cached user may be id-only (no name), in which case the
+    // greeting falls back to the unnamed variant.
+    final authState = ref.watch(authStateProvider);
+    final user = authState is AuthAuthenticated ? authState.user : null;
+    final name = user?.firstName ?? user?.name ?? user?.username;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -275,14 +170,14 @@ class HomeGreetingHeader extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Xush kelibsiz',
+                l10n.homeWelcome,
                 style: DesignTokens.body2.copyWith(
                   color: DesignTokens.textGray,
                 ),
               ),
               const SizedBox(height: DesignTokens.spacingXs),
               Text(
-                name != null ? 'Salom, $name! 👋' : 'Salom! 👋',
+                name != null ? l10n.homeGreetingNamed(name) : l10n.homeGreeting,
                 style: DesignTokens.heading2,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -313,7 +208,7 @@ class HomeGreetingHeader extends ConsumerWidget {
               ),
               const SizedBox(width: DesignTokens.spacingSm),
               Text(
-                'AndozaAI',
+                l10n.brandName,
                 style: DesignTokens.subtitle2.copyWith(
                   color: DesignTokens.primaryBlue,
                 ),
@@ -334,6 +229,7 @@ class HomeEmptyBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return SafeArea(
       child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
@@ -351,19 +247,19 @@ class HomeEmptyBody extends StatelessWidget {
               children: [
                 _StoryCircle(
                   icon: Icons.help_outline,
-                  label: 'Qanday ishlaydi?',
+                  label: l10n.homeStoryHowItWorks,
                   seen: false,
                   onTap: () => context.push('/onboarding/e7'),
                 ),
                 _StoryCircle(
                   icon: Icons.play_circle_outline,
-                  label: 'Demo qo\'llanma',
+                  label: l10n.homeStoryDemoGuide,
                   seen: true,
                   onTap: () => context.push('/onboarding/e8'),
                 ),
                 _StoryCircle(
                   icon: Icons.auto_awesome,
-                  label: 'Demo',
+                  label: l10n.homeStoryDemo,
                   seen: false,
                   onTap: () => context.push('/onboarding/e8'),
                 ),
@@ -372,21 +268,21 @@ class HomeEmptyBody extends StatelessWidget {
             const SizedBox(height: DesignTokens.spacingXl),
             EmptyStatePattern(
               icon: Icons.home_outlined,
-              title: 'Birinchi xonangizni qo\'shing',
-              message: 'Hali loyiha yo\'q — yangi loyiha boshlang',
-              actionLabel: '+ Loyiha qo\'shish',
+              title: l10n.homeEmptyTitle,
+              message: l10n.homeEmptyMessage,
+              actionLabel: l10n.homeEmptyAction,
               onAction: () => showNewProjectSheet(context),
             ),
             const SizedBox(height: DesignTokens.spacingXl),
             // Tezkor amallar — 2x2 quick-action grid.
-            const Text('Tezkor amallar', style: DesignTokens.subtitle1),
+            Text(l10n.homeQuickActions, style: DesignTokens.subtitle1),
             const SizedBox(height: DesignTokens.spacingMd),
             Row(
               children: [
                 Expanded(
                   child: _QuickAction(
                     icon: Icons.camera_alt_outlined,
-                    label: 'Xonani skanlash',
+                    label: l10n.homeQuickScan,
                     onTap: () => showNewProjectSheet(context),
                   ),
                 ),
@@ -394,7 +290,7 @@ class HomeEmptyBody extends StatelessWidget {
                 Expanded(
                   child: _QuickAction(
                     icon: Icons.receipt_long_outlined,
-                    label: 'Smeta',
+                    label: l10n.homeQuickEstimate,
                     onTap: () => context.go('/estimation/e1'),
                   ),
                 ),
@@ -406,7 +302,7 @@ class HomeEmptyBody extends StatelessWidget {
                 Expanded(
                   child: _QuickAction(
                     icon: Icons.storefront_outlined,
-                    label: 'Dilerlar',
+                    label: l10n.homeQuickDealers,
                     onTap: () => context.go('/shop/s1'),
                   ),
                 ),
@@ -414,7 +310,7 @@ class HomeEmptyBody extends StatelessWidget {
                 Expanded(
                   child: _QuickAction(
                     icon: Icons.groups_outlined,
-                    label: 'Ustalar',
+                    label: l10n.navMasters,
                     onTap: () => context.go('/masters/u1'),
                   ),
                 ),

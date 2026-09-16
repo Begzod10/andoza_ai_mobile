@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/masters_provider.dart';
+import '../../widgets/common/app_image.dart';
 
 /// U3: Ustalar list view — vertical cards, online craftsmen sorted first.
 class U3RequestBookingScreen extends ConsumerWidget {
@@ -10,6 +12,7 @@ class U3RequestBookingScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final masters = [...ref.watch(mockMastersProvider)]
       ..sort((a, b) => (b.isOnline ? 1 : 0) - (a.isOnline ? 1 : 0));
 
@@ -18,7 +21,7 @@ class U3RequestBookingScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: const Text('Ustalar', style: DesignTokens.heading3),
+        title: Text(l10n.navMasters, style: DesignTokens.heading3),
       ),
       body: ListView.separated(
         padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),
@@ -27,7 +30,9 @@ class U3RequestBookingScreen extends ConsumerWidget {
             const SizedBox(height: DesignTokens.spacingMd),
         itemBuilder: (context, index) {
           final m = masters[index];
-          return InkWell(
+          return Semantics(
+            button: true,
+            child: InkWell(
             onTap: () => context.push('/masters/u4', extra: m),
             borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
             child: Container(
@@ -54,12 +59,13 @@ class U3RequestBookingScreen extends ConsumerWidget {
                           final url = m.master.avatar;
                           if (url == null) return initial;
                           return ClipOval(
-                            child: Image.network(
-                              url,
+                            child: AppImage(
+                              url: url,
                               width: 56,
                               height: 56,
                               fit: BoxFit.cover,
-                              errorBuilder: (context, error, stack) => initial,
+                              placeholder: initial,
+                              errorWidget: initial,
                             ),
                           );
                         },
@@ -122,7 +128,10 @@ class U3RequestBookingScreen extends ConsumerWidget {
                             const SizedBox(width: DesignTokens.spacingSm),
                             Text(
                               m.master.distanceKm != null
-                                  ? '${m.areaName} · ~${m.master.distanceKm} km'
+                                  ? l10n.mastersAreaDistance(
+                                      m.areaName,
+                                      '${m.master.distanceKm}',
+                                    )
                                   : m.areaName,
                               style: DesignTokens.caption.copyWith(
                                 color: DesignTokens.textGray,
@@ -140,6 +149,7 @@ class U3RequestBookingScreen extends ConsumerWidget {
                 ],
               ),
             ),
+          ),
           );
         },
       ),

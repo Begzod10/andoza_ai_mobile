@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/estimate_model.dart';
 import '../../utils/currency.dart';
 
@@ -25,6 +26,7 @@ class E2MaterialCostsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final materialItems = stage.lineItems
         .where((i) => i.id.endsWith('_mat'))
         .toList();
@@ -56,7 +58,7 @@ class E2MaterialCostsScreen extends StatelessWidget {
                 DesignTokens.screenPaddingHorizontal,
               ),
               children: [
-                const Text('Materiallar', style: DesignTokens.subtitle2),
+                Text(l10n.shopMaterials, style: DesignTokens.subtitle2),
                 const SizedBox(height: DesignTokens.spacingSm),
                 for (final item in materialItems) ...[
                   _LineRow(item: item),
@@ -66,7 +68,7 @@ class E2MaterialCostsScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Materiallar jami', style: DesignTokens.subtitle2),
+                    Text(l10n.estimateMaterialsTotal, style: DesignTokens.subtitle2),
                     Text(
                       formatSom(materialTotal.round()),
                       style: DesignTokens.subtitle2.copyWith(
@@ -77,7 +79,7 @@ class E2MaterialCostsScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: DesignTokens.spacingLg),
                 if (laborItems.isNotEmpty) ...[
-                  const Text('Ishchi kuchi', style: DesignTokens.subtitle2),
+                  Text(l10n.estimateLabor, style: DesignTokens.subtitle2),
                   const SizedBox(height: DesignTokens.spacingSm),
                   for (final item in laborItems) ...[
                     _LineRow(item: item),
@@ -110,7 +112,7 @@ class E2MaterialCostsScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Bosqich jami',
+                          l10n.estimateStageTotal,
                           style: DesignTokens.subtitle2.copyWith(
                             color: DesignTokens.white,
                           ),
@@ -132,7 +134,7 @@ class E2MaterialCostsScreen extends StatelessWidget {
                         backgroundColor: DesignTokens.accentOrange,
                       ),
                       onPressed: () => context.push('/shop/s2'),
-                      child: const Text('Materiallarni savatga'),
+                      child: Text(l10n.estimateAddMaterialsToCart),
                     ),
                   ),
                 ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/shop_model.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/catalog_provider.dart';
@@ -27,6 +28,7 @@ class _S4DealerComparisonScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final product = widget.product;
 
     // Real per-store offers from the backend (cheapest first). If the list is
@@ -59,7 +61,7 @@ class _S4DealerComparisonScreenState
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: const Text('Diler taqqoslash', style: DesignTokens.subtitle1),
+        title: Text(l10n.shopDealerCompareTitle, style: DesignTokens.subtitle1),
       ),
       body: ListView(
         padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),
@@ -97,22 +99,22 @@ class _S4DealerComparisonScreenState
               scrollDirection: Axis.horizontal,
               children: [
                 _FilterChip(
-                  label: 'Barchasi',
+                  label: l10n.shopFilterAll,
                   selected: _filter == _DealerFilter.all,
                   onTap: () => setState(() => _filter = _DealerFilter.all),
                 ),
                 _FilterChip(
-                  label: 'Eng arzon',
+                  label: l10n.shopFilterCheapest,
                   selected: _filter == _DealerFilter.cheapest,
                   onTap: () => setState(() => _filter = _DealerFilter.cheapest),
                 ),
                 _FilterChip(
-                  label: 'Rasmiy diler',
+                  label: l10n.shopFilterOfficial,
                   selected: _filter == _DealerFilter.official,
                   onTap: () => setState(() => _filter = _DealerFilter.official),
                 ),
                 _FilterChip(
-                  label: 'Eng tez',
+                  label: l10n.shopFilterFastest,
                   selected: _filter == _DealerFilter.fastest,
                   onTap: () => setState(() => _filter = _DealerFilter.fastest),
                 ),
@@ -133,7 +135,7 @@ class _S4DealerComparisonScreenState
               onSelect: () {
                 ref.read(cartProvider.notifier).add(product, dealer);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Savatga qo\'shildi')),
+                  SnackBar(content: Text(l10n.shopAddedToCart)),
                 );
               },
             ),
@@ -189,6 +191,7 @@ class _DealerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(DesignTokens.spacingMd),
       decoration: BoxDecoration(
@@ -215,7 +218,7 @@ class _DealerCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
                 ),
                 child: Text(
-                  'ENG YAXSHI',
+                  l10n.shopBestRibbon,
                   style: DesignTokens.caption.copyWith(
                     color: DesignTokens.white,
                     fontWeight: FontWeight.bold,
@@ -263,7 +266,7 @@ class _DealerCard extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      '${dealer.district} · ${dealer.deliveryDays} kunda yetkazish',
+                      l10n.shopDeliveryDays(dealer.district, dealer.deliveryDays),
                       style: DesignTokens.caption.copyWith(
                         color: DesignTokens.textGray,
                       ),
@@ -290,7 +293,7 @@ class _DealerCard extends StatelessWidget {
                     horizontal: DesignTokens.spacingLg,
                   ),
                 ),
-                child: const Text('Tanlash'),
+                child: Text(l10n.shopSelect),
               ),
             ],
           ),

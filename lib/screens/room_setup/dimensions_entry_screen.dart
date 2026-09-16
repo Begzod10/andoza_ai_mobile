@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/room_model.dart';
 import '../../models/room_plan.dart';
 import '../../providers/room_provider.dart';
@@ -47,6 +48,7 @@ class _DimensionsEntryScreenState extends ConsumerState<DimensionsEntryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final rooms = ref.watch(manualRoomsProvider);
     final totalArea = rooms.fold<double>(0, (sum, r) => sum + r.area);
 
@@ -57,10 +59,10 @@ class _DimensionsEntryScreenState extends ConsumerState<DimensionsEntryScreen> {
         backgroundColor: DesignTokens.backgroundLight,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: DesignTokens.textDark),
-          tooltip: 'Orqaga',
+          tooltip: l10n.actionBack,
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: const Text('Xona o\'lchamlari', style: DesignTokens.heading3),
+        title: Text(l10n.dimensionsTitle, style: DesignTokens.heading3),
       ),
       body: SafeArea(
         child: Column(
@@ -77,14 +79,14 @@ class _DimensionsEntryScreenState extends ConsumerState<DimensionsEntryScreen> {
                   children: [
                     Expanded(
                       child: _SegmentButton(
-                        label: 'Qo\'lda kiritish',
+                        label: l10n.dimensionsTabManual,
                         selected: _manualEntryActive,
                         onTap: () => setState(() => _manualEntryActive = true),
                       ),
                     ),
                     Expanded(
                       child: _SegmentButton(
-                        label: 'Plan yuklash',
+                        label: l10n.dimensionsTabUpload,
                         selected: !_manualEntryActive,
                         onTap: () => setState(() => _manualEntryActive = false),
                       ),
@@ -110,7 +112,10 @@ class _DimensionsEntryScreenState extends ConsumerState<DimensionsEntryScreen> {
                         bottom: DesignTokens.spacingMd,
                       ),
                       child: Text(
-                        'Jami: ${rooms.length} xona · ${totalArea.toStringAsFixed(1)} m²',
+                        l10n.dimensionsTotalSummary(
+                          rooms.length,
+                          totalArea.toStringAsFixed(1),
+                        ),
                         style: DesignTokens.subtitle2,
                       ),
                     ),
@@ -123,8 +128,8 @@ class _DimensionsEntryScreenState extends ConsumerState<DimensionsEntryScreen> {
                           : () => context.push('/setup/wall-measurements'),
                       child: Text(
                         _manualEntryActive
-                            ? 'Keyingi: devorlarni o\'lchash'
-                            : '3D ga aylantirish',
+                            ? l10n.dimensionsNextMeasure
+                            : l10n.dimensionsConvert3d,
                       ),
                     ),
                   ),
@@ -181,6 +186,7 @@ class _ManualEntryTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     return GridView.count(
       padding: const EdgeInsets.symmetric(
         horizontal: DesignTokens.screenPaddingHorizontal,
@@ -227,7 +233,7 @@ class _ManualEntryTab extends ConsumerWidget {
                   const Icon(Icons.add, color: DesignTokens.primaryBlue),
                   const SizedBox(height: DesignTokens.spacingXs),
                   Text(
-                    '+ Xona qo\'shish',
+                    l10n.dimensionsAddRoom,
                     style: DesignTokens.caption.copyWith(
                       color: DesignTokens.primaryBlue,
                       fontWeight: FontWeight.w700,
@@ -243,8 +249,9 @@ class _ManualEntryTab extends ConsumerWidget {
   }
 
   void _showAddRoomDialog(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final nameController = TextEditingController(
-      text: 'Xona ${rooms.length + 1}',
+      text: l10n.dimensionsRoomDefaultName(rooms.length + 1),
     );
     final lengthController = TextEditingController();
     final widthController = TextEditingController();
@@ -268,7 +275,9 @@ class _ManualEntryTab extends ConsumerWidget {
           children: [
             TextField(
               controller: nameController,
-              decoration: const InputDecoration(labelText: 'Xona nomi'),
+              decoration: InputDecoration(
+                labelText: l10n.dimensionsRoomNameLabel,
+              ),
             ),
             const SizedBox(height: DesignTokens.spacingMd),
             TextField(
@@ -276,7 +285,7 @@ class _ManualEntryTab extends ConsumerWidget {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              decoration: const InputDecoration(labelText: 'Uzunlik (m)'),
+              decoration: InputDecoration(labelText: l10n.dimensionsLengthLabel),
             ),
             const SizedBox(height: DesignTokens.spacingMd),
             TextField(
@@ -284,7 +293,7 @@ class _ManualEntryTab extends ConsumerWidget {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              decoration: const InputDecoration(labelText: 'Kenglik (m)'),
+              decoration: InputDecoration(labelText: l10n.dimensionsWidthLabel),
             ),
             const SizedBox(height: DesignTokens.spacingMd),
             TextField(
@@ -292,7 +301,7 @@ class _ManualEntryTab extends ConsumerWidget {
               keyboardType: const TextInputType.numberWithOptions(
                 decimal: true,
               ),
-              decoration: const InputDecoration(labelText: 'Balandlik (m)'),
+              decoration: InputDecoration(labelText: l10n.dimensionsHeightLabel),
             ),
             const SizedBox(height: DesignTokens.spacingLg),
             SizedBox(
@@ -328,13 +337,13 @@ class _ManualEntryTab extends ConsumerWidget {
                           ceilingHeightM: height,
                           source: RoomSource.wizard,
                           name: nameController.text.isEmpty
-                              ? 'Xona'
+                              ? l10n.roomDefaultName
                               : nameController.text,
                         ),
                       );
                   Navigator.of(sheetContext).pop();
                 },
-                child: const Text('Qo\'shish'),
+                child: Text(l10n.actionAdd),
               ),
             ),
           ],
@@ -349,6 +358,7 @@ class _FloorplanUploadTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),
       child: Column(
@@ -377,13 +387,13 @@ class _FloorplanUploadTab extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: DesignTokens.spacingMd),
-                const Text(
-                  'Floorplan rasmini yuklang',
+                Text(
+                  l10n.dimensionsUploadTitle,
                   style: DesignTokens.subtitle1,
                 ),
                 const SizedBox(height: DesignTokens.spacingXs),
                 Text(
-                  'PNG yoki JPG · maksimal 10 MB\nYoki bu yerga sudrab tashlang',
+                  l10n.dimensionsUploadHint,
                   textAlign: TextAlign.center,
                   style: DesignTokens.caption.copyWith(
                     color: DesignTokens.textGray,
@@ -392,7 +402,7 @@ class _FloorplanUploadTab extends StatelessWidget {
                 const SizedBox(height: DesignTokens.spacingMd),
                 OutlinedButton(
                   onPressed: () {},
-                  child: const Text('Fayl tanlash'),
+                  child: Text(l10n.dimensionsChooseFile),
                 ),
               ],
             ),
@@ -416,7 +426,7 @@ class _FloorplanUploadTab extends StatelessWidget {
                 const SizedBox(width: DesignTokens.spacingSm),
                 Expanded(
                   child: Text(
-                    'Aniq natija uchun o\'lchamlar ko\'rsatilgan plan yuklang',
+                    l10n.dimensionsUploadNote,
                     style: DesignTokens.caption.copyWith(
                       color: const Color(0xFF9A5B22),
                     ),

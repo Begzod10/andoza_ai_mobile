@@ -16,6 +16,10 @@ enum WallElementType {
   /// Balcony door.
   @JsonValue('balkon')
   balkon,
+
+  /// Fallback for any element type the backend adds that this client predates.
+  /// Deserialization maps unknown strings here instead of throwing.
+  unknown,
 }
 
 /// A door/window opening on a wall, in the create-room request shape.
@@ -24,6 +28,7 @@ enum WallElementType {
 @freezed
 class WallElementCreate with _$WallElementCreate {
   const factory WallElementCreate({
+    @JsonKey(unknownEnumValue: WallElementType.unknown)
     required WallElementType type,
     required double width,
     required double height,

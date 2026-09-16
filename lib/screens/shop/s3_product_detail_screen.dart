@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/shop_model.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/shop_provider.dart';
 import '../../utils/currency.dart';
+import '../../widgets/common/app_image.dart';
 
 /// S3: Mahsulot kartasi — product detail with a blue recommendation card
 /// showing the real computed project quantity (never a hardcoded guess)
@@ -25,6 +27,7 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final product = widget.product;
     final defaultDealer = bestDealer(dealersForProduct(product));
 
@@ -62,19 +65,16 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
                       );
                       final url = product.imageUrl;
                       if (url == null) return placeholder;
-                      return ClipRRect(
+                      return AppImage(
+                        url: url,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
                         borderRadius: BorderRadius.circular(
                           DesignTokens.radiusLg,
                         ),
-                        child: Image.network(
-                          url,
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
-                          loadingBuilder: (context, child, progress) =>
-                              progress == null ? child : placeholder,
-                          errorBuilder: (context, error, stack) => placeholder,
-                        ),
+                        placeholder: placeholder,
+                        errorWidget: placeholder,
                       );
                     },
                   ),
@@ -93,7 +93,7 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
                       ),
                     ),
                     child: Text(
-                      '✓ Rasmiy diler',
+                      l10n.shopOfficialDealer,
                       style: DesignTokens.caption.copyWith(
                         color: DesignTokens.successGreen,
                         fontWeight: FontWeight.bold,
@@ -125,9 +125,13 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
                       ),
                     ),
                     child: Text(
-                      'Loyihangiz uchun ~${formatQuantity(product.projectQuantity!)} '
-                      '${product.unit} kerak'
-                      '${product.coverage != null ? ' — ${product.coverage}' : ''}',
+                      l10n.shopProjectNeed(
+                            formatQuantity(product.projectQuantity!),
+                            product.unit,
+                          ) +
+                          (product.coverage != null
+                              ? ' — ${product.coverage}'
+                              : ''),
                       style: DesignTokens.body2.copyWith(
                         color: DesignTokens.primaryBlue,
                         fontWeight: FontWeight.w600,
@@ -138,10 +142,11 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
                 const SizedBox(height: DesignTokens.spacingLg),
                 Row(
                   children: [
-                    const Text('Miqdor:', style: DesignTokens.body2),
+                    Text(l10n.shopQuantityLabel, style: DesignTokens.body2),
                     const Spacer(),
                     _QtyButton(
                       icon: Icons.remove,
+                      label: l10n.a11yQuantityDecrease,
                       onTap: () => setState(
                         () => _quantity = (_quantity - 1).clamp(1, 9999),
                       ),
@@ -157,22 +162,31 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
                     ),
                     _QtyButton(
                       icon: Icons.add,
+                      label: l10n.a11yQuantityIncrease,
                       onTap: () => setState(() => _quantity += 1),
                     ),
                   ],
                 ),
                 const SizedBox(height: DesignTokens.spacingLg),
                 if (product.coverage != null)
-                  _SpecRow(label: 'Qoplama', value: product.coverage!),
+                  _SpecRow(
+                    label: l10n.shopSpecCoverage,
+                    value: product.coverage!,
+                  ),
                 if (product.dryingTime != null)
-                  _SpecRow(label: 'Quriish vaqti', value: product.dryingTime!),
+                  _SpecRow(
+                    label: l10n.shopSpecDryingTime,
+                    value: product.dryingTime!,
+                  ),
                 if (product.washable != null)
                   _SpecRow(
-                    label: 'Yuvilishi',
-                    value: product.washable! ? 'Ha' : 'Yo\'q',
+                    label: l10n.shopSpecWashable,
+                    value: product.washable! ? l10n.commonYes : l10n.commonNo,
                   ),
                 const SizedBox(height: DesignTokens.spacingLg),
-                InkWell(
+                Semantics(
+                  button: true,
+                  child: InkWell(
                   onTap: () => context.push('/shop/s4', extra: product),
                   borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
                   child: Container(
@@ -193,7 +207,7 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
                         const SizedBox(width: DesignTokens.spacingSm),
                         Expanded(
                           child: Text(
-                            'Qayerdan olish — ${defaultDealer.name}',
+                            l10n.shopWhereToBuy(defaultDealer.name),
                             style: DesignTokens.body2,
                           ),
                         ),
@@ -203,6 +217,7 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
                         ),
                       ],
                     ),
+                  ),
                   ),
                 ),
               ],
@@ -228,12 +243,15 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
                         .read(cartProvider.notifier)
                         .add(product, defaultDealer, quantity: _quantity);
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Savatga qo\'shildi')),
+                      SnackBar(content: Text(l10n.shopAddedToCart)),
                     );
                   },
                   child: Text(
-                    'Savatga qo\'shish · '
-                    '${formatSom((defaultDealer.pricePerUnit * _quantity).round())}',
+                    l10n.shopAddToCartPrice(
+                      formatSom(
+                        (defaultDealer.pricePerUnit * _quantity).round(),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -246,24 +264,33 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
 }
 
 class _QtyButton extends StatelessWidget {
-  const _QtyButton({required this.icon, required this.onTap});
+  const _QtyButton({
+    required this.icon,
+    required this.onTap,
+    required this.label,
+  });
 
   final IconData icon;
   final VoidCallback onTap;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
-      child: Container(
-        width: 36,
-        height: 36,
-        decoration: BoxDecoration(
-          color: DesignTokens.borderGrayAlt,
-          borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
+    return Semantics(
+      button: true,
+      label: label,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
+        child: Container(
+          width: 36,
+          height: 36,
+          decoration: BoxDecoration(
+            color: DesignTokens.borderGrayAlt,
+            borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
+          ),
+          child: Icon(icon, size: DesignTokens.iconSm),
         ),
-        child: Icon(icon, size: DesignTokens.iconSm),
       ),
     );
   }

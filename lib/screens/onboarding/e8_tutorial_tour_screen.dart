@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../room_setup/new_project_sheet.dart';
 
 /// E8: Demo qo'llanma — video/animation placeholder, a 5-step numbered
@@ -8,22 +9,22 @@ import '../room_setup/new_project_sheet.dart';
 class E8TutorialTourScreen extends StatelessWidget {
   const E8TutorialTourScreen({super.key});
 
-  static const _steps = [
-    'Xona qo\'shish — LiDAR, 360° yoki qo\'lda o\'lchash',
-    'Xonaning hozirgi holatini tanlash',
-    'Rail bilan devor, pol va mebelni bezash',
-    'Elektr va santexnikani oxirida rejalashtirish',
-    'Smetani ko\'rish va materiallarni sotib olish',
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final steps = [
+      l10n.onboardingDemoStep1,
+      l10n.onboardingDemoStep2,
+      l10n.onboardingDemoStep3,
+      l10n.onboardingDemoStep4,
+      l10n.onboardingDemoStep5,
+    ];
     return Scaffold(
       backgroundColor: DesignTokens.backgroundLight,
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: const Text('Demo qo\'llanma', style: DesignTokens.heading3),
+        title: Text(l10n.onboardingDemoTitle, style: DesignTokens.heading3),
       ),
       body: ListView(
         padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),
@@ -54,7 +55,7 @@ class E8TutorialTourScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: DesignTokens.spacingSm),
                     Text(
-                      'Videoni ko\'rish',
+                      l10n.onboardingDemoWatchVideo,
                       style: DesignTokens.body2.copyWith(
                         color: DesignTokens.white,
                       ),
@@ -65,9 +66,9 @@ class E8TutorialTourScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: DesignTokens.spacingXl),
-          for (var i = 0; i < _steps.length; i++) ...[
-            _StepRow(number: i + 1, text: _steps[i]),
-            if (i != _steps.length - 1)
+          for (var i = 0; i < steps.length; i++) ...[
+            _StepRow(number: i + 1, text: steps[i]),
+            if (i != steps.length - 1)
               const SizedBox(height: DesignTokens.spacingMd),
           ],
           const SizedBox(height: DesignTokens.spacingXl),
@@ -79,7 +80,7 @@ class E8TutorialTourScreen extends StatelessWidget {
                 backgroundColor: DesignTokens.accentOrange,
               ),
               onPressed: () => showNewProjectSheet(context),
-              child: const Text('O\'zim sinab ko\'raman'),
+              child: Text(l10n.onboardingDemoTryMyself),
             ),
           ),
         ],

@@ -14,7 +14,7 @@ final catalogRepositoryProvider = Provider<CatalogRepository>((ref) {
 /// Pulls up to 100 in one page — the seeded catalog is small and the material
 /// rail wants the whole list at once.
 final materialsProvider =
-    FutureProvider.family<List<Material>, String?>((ref, category) async {
+    FutureProvider.autoDispose.family<List<Material>, String?>((ref, category) async {
   final repo = ref.watch(catalogRepositoryProvider);
   final result = await repo.getMaterials(category: category, perPage: 100);
   return result.items;
@@ -22,21 +22,21 @@ final materialsProvider =
 
 /// Furniture / 3D-model catalog, optionally filtered by category (null = all).
 final furnitureProvider =
-    FutureProvider.family<List<Furniture>, String?>((ref, category) async {
+    FutureProvider.autoDispose.family<List<Furniture>, String?>((ref, category) async {
   final repo = ref.watch(catalogRepositoryProvider);
   final result = await repo.getFurniture(category: category, perPage: 100);
   return result.items;
 });
 
 /// All active partner stores.
-final storesProvider = FutureProvider<List<Store>>((ref) {
+final storesProvider = FutureProvider.autoDispose<List<Store>>((ref) {
   return ref.watch(catalogRepositoryProvider).getStores();
 });
 
 /// Real per-store offers for one material (S4 dealer comparison), cheapest
 /// first from the server.
 final materialOffersProvider =
-    FutureProvider.family<List<MaterialOffer>, String>((ref, materialId) {
+    FutureProvider.autoDispose.family<List<MaterialOffer>, String>((ref, materialId) {
   return ref.watch(catalogRepositoryProvider).getMaterialOffers(materialId);
 });
 
@@ -46,7 +46,7 @@ typedef UstaFilter = ({String? category, String? district});
 
 /// The craftsmen directory, optionally filtered by category/district.
 final ustalarProvider =
-    FutureProvider.family<List<Usta>, UstaFilter>((ref, filter) {
+    FutureProvider.autoDispose.family<List<Usta>, UstaFilter>((ref, filter) {
   return ref.watch(catalogRepositoryProvider).getUstalar(
         category: filter.category,
         district: filter.district,

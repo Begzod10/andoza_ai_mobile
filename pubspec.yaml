@@ -46,8 +46,6 @@ dependencies:
   # State Management
   riverpod: ^2.4.0
   flutter_riverpod: ^2.4.0
-  hooks_riverpod: ^2.4.0
-  flutter_hooks: ^0.21.3
 
   # Code Generation
   freezed_annotation: ^2.4.1
@@ -74,6 +72,10 @@ dependencies:
 
   # Image picking for wallpaper uploads to the shared library
   image_picker: ^1.1.2
+
+  # Disk-cached network images (marketplace/thumbnail images) — avoids
+  # re-downloading on every cold scroll (raw Image.network is memory-only)
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:

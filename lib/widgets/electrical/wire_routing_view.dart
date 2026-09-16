@@ -149,6 +149,8 @@ class WireRoutingPainter extends CustomPainter {
         return Colors.amber;
       case DeviceType.breaker:
         return Colors.green;
+      case DeviceType.unknown:
+        return Colors.grey;
     }
   }
 

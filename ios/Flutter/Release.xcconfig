@@ -1,2 +1,7 @@
 #include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"
 #include "Generated.xcconfig"
+
+// Weak-link RoomPlan: it only exists on iOS 16+. Weak linking lets the app
+// launch on iOS 13–15 (the deployment target), where the RoomScan code is
+// @available-gated and never runs. Do NOT change this to a strong link.
+OTHER_LDFLAGS = $(inherited) -weak_framework RoomPlan

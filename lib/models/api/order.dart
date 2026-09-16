@@ -16,6 +16,10 @@ enum OrderStatus {
 
   @JsonValue('delivered')
   delivered,
+
+  /// Fallback for any status the backend adds that this client build predates.
+  /// Deserialization maps unknown strings here instead of throwing.
+  unknown,
 }
 
 /// One line in a `POST /orders` request body. `materialId` is the backend
@@ -60,7 +64,7 @@ class ServerOrder with _$ServerOrder {
     @JsonKey(name: 'user_id') required String userId,
     @JsonKey(name: 'dealer_name') required String dealerName,
     @JsonKey(name: 'total_uzs') required int totalUzs,
-    required OrderStatus status,
+    @JsonKey(unknownEnumValue: OrderStatus.unknown) required OrderStatus status,
     @JsonKey(name: 'created_at') required DateTime createdAt,
     @Default(<ServerOrderLine>[]) List<ServerOrderLine> lines,
   }) = _ServerOrder;

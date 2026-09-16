@@ -24,6 +24,7 @@ mixin _$ElectricalDeviceOut {
   String get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'room_id')
   String get roomId => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: ElectricalDeviceType.unknown)
   ElectricalDeviceType get type => throw _privateConstructorUsedError;
   String? get variant => throw _privateConstructorUsedError;
   @JsonKey(name: 'wall_index')
@@ -52,6 +53,7 @@ abstract class $ElectricalDeviceOutCopyWith<$Res> {
   $Res call({
     String id,
     @JsonKey(name: 'room_id') String roomId,
+    @JsonKey(unknownEnumValue: ElectricalDeviceType.unknown)
     ElectricalDeviceType type,
     String? variant,
     @JsonKey(name: 'wall_index') int wallIndex,
@@ -137,6 +139,7 @@ abstract class _$$ElectricalDeviceOutImplCopyWith<$Res>
   $Res call({
     String id,
     @JsonKey(name: 'room_id') String roomId,
+    @JsonKey(unknownEnumValue: ElectricalDeviceType.unknown)
     ElectricalDeviceType type,
     String? variant,
     @JsonKey(name: 'wall_index') int wallIndex,
@@ -214,7 +217,7 @@ class _$ElectricalDeviceOutImpl implements _ElectricalDeviceOut {
   const _$ElectricalDeviceOutImpl({
     required this.id,
     @JsonKey(name: 'room_id') required this.roomId,
-    required this.type,
+    @JsonKey(unknownEnumValue: ElectricalDeviceType.unknown) required this.type,
     this.variant,
     @JsonKey(name: 'wall_index') required this.wallIndex,
     required this.x,
@@ -231,6 +234,7 @@ class _$ElectricalDeviceOutImpl implements _ElectricalDeviceOut {
   @JsonKey(name: 'room_id')
   final String roomId;
   @override
+  @JsonKey(unknownEnumValue: ElectricalDeviceType.unknown)
   final ElectricalDeviceType type;
   @override
   final String? variant;
@@ -301,6 +305,7 @@ abstract class _ElectricalDeviceOut implements ElectricalDeviceOut {
   const factory _ElectricalDeviceOut({
     required final String id,
     @JsonKey(name: 'room_id') required final String roomId,
+    @JsonKey(unknownEnumValue: ElectricalDeviceType.unknown)
     required final ElectricalDeviceType type,
     final String? variant,
     @JsonKey(name: 'wall_index') required final int wallIndex,
@@ -318,6 +323,7 @@ abstract class _ElectricalDeviceOut implements ElectricalDeviceOut {
   @JsonKey(name: 'room_id')
   String get roomId;
   @override
+  @JsonKey(unknownEnumValue: ElectricalDeviceType.unknown)
   ElectricalDeviceType get type;
   @override
   String? get variant;
@@ -347,6 +353,7 @@ ElectricalDeviceCreate _$ElectricalDeviceCreateFromJson(
 
 /// @nodoc
 mixin _$ElectricalDeviceCreate {
+  @JsonKey(unknownEnumValue: ElectricalDeviceType.unknown)
   ElectricalDeviceType get type => throw _privateConstructorUsedError;
   String? get variant => throw _privateConstructorUsedError;
   @JsonKey(name: 'wall_index')
@@ -373,6 +380,7 @@ abstract class $ElectricalDeviceCreateCopyWith<$Res> {
   ) = _$ElectricalDeviceCreateCopyWithImpl<$Res, ElectricalDeviceCreate>;
   @useResult
   $Res call({
+    @JsonKey(unknownEnumValue: ElectricalDeviceType.unknown)
     ElectricalDeviceType type,
     String? variant,
     @JsonKey(name: 'wall_index') int wallIndex,
@@ -449,6 +457,7 @@ abstract class _$$ElectricalDeviceCreateImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
+    @JsonKey(unknownEnumValue: ElectricalDeviceType.unknown)
     ElectricalDeviceType type,
     String? variant,
     @JsonKey(name: 'wall_index') int wallIndex,
@@ -515,7 +524,7 @@ class __$$ElectricalDeviceCreateImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$ElectricalDeviceCreateImpl implements _ElectricalDeviceCreate {
   const _$ElectricalDeviceCreateImpl({
-    required this.type,
+    @JsonKey(unknownEnumValue: ElectricalDeviceType.unknown) required this.type,
     this.variant,
     @JsonKey(name: 'wall_index') required this.wallIndex,
     required this.x,
@@ -527,6 +536,7 @@ class _$ElectricalDeviceCreateImpl implements _ElectricalDeviceCreate {
       _$$ElectricalDeviceCreateImplFromJson(json);
 
   @override
+  @JsonKey(unknownEnumValue: ElectricalDeviceType.unknown)
   final ElectricalDeviceType type;
   @override
   final String? variant;
@@ -585,6 +595,7 @@ class _$ElectricalDeviceCreateImpl implements _ElectricalDeviceCreate {
 
 abstract class _ElectricalDeviceCreate implements ElectricalDeviceCreate {
   const factory _ElectricalDeviceCreate({
+    @JsonKey(unknownEnumValue: ElectricalDeviceType.unknown)
     required final ElectricalDeviceType type,
     final String? variant,
     @JsonKey(name: 'wall_index') required final int wallIndex,
@@ -597,6 +608,7 @@ abstract class _ElectricalDeviceCreate implements ElectricalDeviceCreate {
       _$ElectricalDeviceCreateImpl.fromJson;
 
   @override
+  @JsonKey(unknownEnumValue: ElectricalDeviceType.unknown)
   ElectricalDeviceType get type;
   @override
   String? get variant;

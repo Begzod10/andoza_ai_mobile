@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/shop_model.dart';
 import '../../providers/cart_provider.dart';
 import '../../utils/currency.dart';
@@ -14,6 +15,7 @@ class S5ShoppingCartScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final grouped = ref.watch(cartByDealerProvider);
     final lines = ref.watch(cartProvider);
     final materialsTotal = cartMaterialsTotal(lines);
@@ -28,12 +30,12 @@ class S5ShoppingCartScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: const Text('Savat', style: DesignTokens.heading3),
+        title: Text(l10n.shopCartTitle, style: DesignTokens.heading3),
       ),
       body: lines.isEmpty
           ? Center(
               child: Text(
-                'Savat bo\'sh',
+                l10n.shopCartEmpty,
                 style: DesignTokens.body2.copyWith(
                   color: DesignTokens.textGray,
                 ),
@@ -79,19 +81,19 @@ class S5ShoppingCartScreen extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         _SummaryRow(
-                          label: 'Materiallar',
+                          label: l10n.shopMaterials,
                           value: formatSom(materialsTotal),
                         ),
                         const SizedBox(height: DesignTokens.spacingXs),
                         _SummaryRow(
-                          label: 'Yetkazish',
+                          label: l10n.shopDelivery,
                           value: formatSom(deliveryTotal),
                         ),
                         const Divider(height: DesignTokens.spacingLg),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('Umumiy summa', style: DesignTokens.subtitle1),
+                            Text(l10n.shopGrandTotal, style: DesignTokens.subtitle1),
                             Text(
                               formatSom(grandTotal),
                               style: DesignTokens.heading3.copyWith(
@@ -108,7 +110,7 @@ class S5ShoppingCartScreen extends ConsumerWidget {
                               backgroundColor: DesignTokens.accentOrange,
                             ),
                             onPressed: () => context.push('/shop/s6'),
-                            child: const Text('Buyurtmani rasmiylashtirish'),
+                            child: Text(l10n.shopCheckout),
                           ),
                         ),
                       ],
@@ -136,6 +138,7 @@ class _DealerBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: const EdgeInsets.all(DesignTokens.spacingMd),
       decoration: BoxDecoration(
@@ -187,11 +190,13 @@ class _DealerBlock extends StatelessWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.remove_circle_outline, size: 20),
+                  tooltip: l10n.a11yQuantityDecrease,
                   onPressed: () => onQuantityChanged(line, line.quantity - 1),
                 ),
                 Text(formatQuantity(line.quantity), style: DesignTokens.body2),
                 IconButton(
                   icon: const Icon(Icons.add_circle_outline, size: 20),
+                  tooltip: l10n.a11yQuantityIncrease,
                   onPressed: () => onQuantityChanged(line, line.quantity + 1),
                 ),
                 IconButton(
@@ -200,6 +205,7 @@ class _DealerBlock extends StatelessWidget {
                     size: 18,
                     color: DesignTokens.textMuted,
                   ),
+                  tooltip: l10n.a11yRemoveFromCart,
                   onPressed: () => onRemove(line),
                 ),
               ],
@@ -210,7 +216,7 @@ class _DealerBlock extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Yetkazish',
+                l10n.shopDelivery,
                 style: DesignTokens.caption.copyWith(
                   color: DesignTokens.textGray,
                 ),

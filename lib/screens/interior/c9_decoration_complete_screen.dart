@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/design_selection_model.dart';
 import '../../providers/design_provider.dart';
 
@@ -12,6 +13,7 @@ class C9DecorationCompleteScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: DesignTokens.backgroundLight,
       body: SafeArea(
@@ -34,8 +36,8 @@ class C9DecorationCompleteScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: DesignTokens.spacingLg),
-              const Text(
-                'Bezash yakunlandi',
+              Text(
+                l10n.interiorDecorationComplete,
                 style: DesignTokens.heading2,
                 textAlign: TextAlign.center,
               ),
@@ -50,7 +52,7 @@ class C9DecorationCompleteScreen extends ConsumerWidget {
                         .setRenovationStageLocal(RenovationStage.elektr);
                     context.push('/electrical/d1');
                   },
-                  child: const Text('Elektrga o\'tish →'),
+                  child: Text(l10n.interiorGoToElectrical),
                 ),
               ),
               const SizedBox(height: DesignTokens.spacingMd),
@@ -58,7 +60,7 @@ class C9DecorationCompleteScreen extends ConsumerWidget {
                 width: double.infinity,
                 child: OutlinedButton(
                   onPressed: () => context.go('/design/b2'),
-                  child: const Text('3D\'ga qaytish'),
+                  child: Text(l10n.commonBackTo3d),
                 ),
               ),
             ],

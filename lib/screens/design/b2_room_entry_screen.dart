@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/design_selection_model.dart';
 import '../../providers/design_provider.dart';
 import '../../widgets/room/room_perspective_view.dart';
@@ -40,10 +41,12 @@ class _B2RoomEntryScreenState extends ConsumerState<B2RoomEntryScreen>
     SurfaceCondition.raw => 'korobka holatida',
     SurfaceCondition.plastered => 'suvoq qilingan',
     SurfaceCondition.puttied => 'shpaklovka qilingan',
+    SurfaceCondition.unknown => 'korobka holatida',
   };
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final design = ref.watch(activeDesignProvider);
     final wallCondition = design?.roomCondition?.wall ?? SurfaceCondition.raw;
 
@@ -64,7 +67,7 @@ class _B2RoomEntryScreenState extends ConsumerState<B2RoomEntryScreen>
                   boxShadow: const [DesignTokens.shadowCard],
                 ),
                 child: Text(
-                  'Xonangiz shu holatda — ${_conditionLabel(wallCondition)}. Endi bosqichma-bosqich bezaymiz.',
+                  l10n.designRoomEntryIntro(_conditionLabel(wallCondition)),
                   style: DesignTokens.body1,
                 ),
               ),
@@ -94,7 +97,7 @@ class _B2RoomEntryScreenState extends ConsumerState<B2RoomEntryScreen>
                 height: DesignTokens.buttonHeightLarge,
                 child: ElevatedButton(
                   onPressed: () => context.go('/design/b3'),
-                  child: const Text('Boshlash'),
+                  child: Text(l10n.onboardingStart),
                 ),
               ),
             ),

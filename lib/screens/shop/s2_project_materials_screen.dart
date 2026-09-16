@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/shop_provider.dart';
 import '../../utils/currency.dart';
@@ -16,6 +17,7 @@ class S2ProjectMaterialsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final groups = ref.watch(projectMaterialsProvider);
     final (area, stageCount) = ref.watch(projectMaterialsSummaryProvider);
     final catalog = ref.watch(shopCatalogProvider);
@@ -25,7 +27,7 @@ class S2ProjectMaterialsScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: const Text('Loyiha materiallari', style: DesignTokens.heading3),
+        title: Text(l10n.shopMaterialsTitle, style: DesignTokens.heading3),
       ),
       body: Column(
         children: [
@@ -54,8 +56,10 @@ class S2ProjectMaterialsScreen extends ConsumerWidget {
                       const SizedBox(width: DesignTokens.spacingSm),
                       Expanded(
                         child: Text(
-                          'App loyihangiz asosida avtomatik hisobladi — '
-                          '${area.toStringAsFixed(1)} m², $stageCount bosqich',
+                          l10n.shopMaterialsAutoCalc(
+                            area.toStringAsFixed(1),
+                            stageCount,
+                          ),
                           style: DesignTokens.body2.copyWith(
                             color: DesignTokens.textDark,
                           ),
@@ -107,7 +111,7 @@ class S2ProjectMaterialsScreen extends ConsumerWidget {
                     }
                     context.push('/shop/s5');
                   },
-                  child: const Text('Hammasini savatga'),
+                  child: Text(l10n.shopAddAllToCart),
                 ),
               ),
             ),

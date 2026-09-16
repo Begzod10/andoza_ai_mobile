@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/masters_provider.dart';
+import '../../widgets/common/app_image.dart';
 
 /// U4: full craftsman profile — stat cards, portfolio, services, a
 /// location mini-map showing only the approximate zone (never an exact
@@ -17,6 +19,7 @@ class U4ReviewRatingScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final m = master ?? ref.watch(mockMastersProvider).first;
 
     return Scaffold(
@@ -38,7 +41,7 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                           child: Text(
                             m.master.name[0],
                             style: const TextStyle(
-                              color: Colors.white,
+                              color: DesignTokens.white,
                               fontSize: 32,
                             ),
                           ),
@@ -46,12 +49,13 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                         final url = m.master.avatar;
                         if (url == null) return initial;
                         return ClipOval(
-                          child: Image.network(
-                            url,
+                          child: AppImage(
+                            url: url,
                             width: 88,
                             height: 88,
                             fit: BoxFit.cover,
-                            errorBuilder: (context, error, stack) => initial,
+                            placeholder: initial,
+                            errorWidget: initial,
                           ),
                         );
                       },
@@ -77,7 +81,7 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                     Text(m.master.name, style: DesignTokens.heading3),
                     if (m.isVerified)
                       Text(
-                        '✓ Tasdiqlangan',
+                        l10n.commonVerifiedBadge,
                         style: DesignTokens.caption.copyWith(
                           color: DesignTokens.successGreen,
                         ),
@@ -91,27 +95,27 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                   Expanded(
                     child: _StatCard(
                       value: '${m.master.rating}',
-                      label: 'reyting',
+                      label: l10n.mastersStatRating,
                     ),
                   ),
                   const SizedBox(width: DesignTokens.spacingSm),
                   Expanded(
                     child: _StatCard(
                       value: '${m.master.reviewCount}',
-                      label: 'sharh',
+                      label: l10n.mastersStatReviews,
                     ),
                   ),
                   const SizedBox(width: DesignTokens.spacingSm),
                   Expanded(
                     child: _StatCard(
                       value: '${m.experienceYears * 40}',
-                      label: 'ishlar',
+                      label: l10n.mastersStatJobs,
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: DesignTokens.spacingLg),
-              const Text('Portfolio', style: DesignTokens.subtitle1),
+              Text(l10n.mastersPortfolio, style: DesignTokens.subtitle1),
               const SizedBox(height: DesignTokens.spacingSm),
               SizedBox(
                 height: 90,
@@ -132,16 +136,19 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: DesignTokens.spacingLg),
-              const Text('Xizmatlar', style: DesignTokens.subtitle1),
+              Text(l10n.mastersServices, style: DesignTokens.subtitle1),
               const SizedBox(height: DesignTokens.spacingSm),
-              _ServiceRow(label: '${m.trade.label} ishlari'),
-              const _ServiceRow(label: 'Konsultatsiya'),
+              _ServiceRow(label: l10n.mastersServiceTrade(m.trade.label)),
+              _ServiceRow(label: l10n.mastersServiceConsultation),
               const SizedBox(height: DesignTokens.spacingLg),
-              const Text('Joylashuv', style: DesignTokens.subtitle1),
+              Text(l10n.mastersLocation, style: DesignTokens.subtitle1),
               const SizedBox(height: DesignTokens.spacingXs),
               Text(
                 m.master.distanceKm != null
-                    ? '${m.areaName} · ~${m.master.distanceKm} km'
+                    ? l10n.mastersAreaDistance(
+                        m.areaName,
+                        '${m.master.distanceKm}',
+                      )
                     : m.areaName,
                 style: DesignTokens.caption.copyWith(
                   color: DesignTokens.textGray,
@@ -200,7 +207,7 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                     backgroundColor: DesignTokens.accentOrange,
                   ),
                   onPressed: () => context.push('/masters/u5', extra: m),
-                  child: const Text('Smetani yuborish'),
+                  child: Text(l10n.mastersSendEstimate),
                 ),
               ),
               const SizedBox(height: DesignTokens.spacingSm),
@@ -208,7 +215,7 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                 width: double.infinity,
                 child: OutlinedButton(
                   onPressed: () {},
-                  child: const Text('Xabar yozish'),
+                  child: Text(l10n.mastersSendMessage),
                 ),
               ),
             ],
