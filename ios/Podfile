@@ -2,7 +2,7 @@
 # App-wide minimum stays at iOS 13.0. LiDAR/RoomPlan (iOS 16+) and Object
 # Capture (iOS 17+) are gated at runtime with @available + isSupported, so the
 # floor must NOT be raised here.
-platform :ios, '13.0'
+platform :ios, '15.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'

@@ -65,3 +65,6 @@ docs/development/session-transcript.jsonl
 *.csr
 ios_dist.key
 *.b64
+
+# Gradle build output (the root-level /build/ rule above does not cover it)
+android/build/
