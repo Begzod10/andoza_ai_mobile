@@ -13,6 +13,7 @@ import '../../features/room_scan/room_scan_service.dart';
 import '../../geometry/room_geometry.dart';
 import '../../models/room_plan.dart';
 import '../../services/room_plan_handoff.dart';
+import '../../utils/error_mapper.dart';
 
 /// Nav payload for [RoomScanReviewPage] (passed via go_router `extra`).
 class RoomScanReviewArgs {
@@ -111,12 +112,22 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
       // Best-effort: attach the scan artifacts. Becomes functional once the
       // Phase 4 endpoint exists; a failure here must not block the studio since
       // the room itself is already created from the parametric data.
+      String? uploadError;
       try {
         await ref.read(roomScanServiceProvider).upload(roomId, widget.args.scan);
       } catch (e) {
         _logger.w('roomscan artifact upload failed (Phase 4 endpoint?): $e');
+        uploadError = mapErrorToMessage(e);
       }
       router.pushReplacement('/studio/$roomId');
+      // Non-blocking: the user is already in the studio; the root
+      // ScaffoldMessenger keeps this snackbar visible across the transition so
+      // a silently lost mesh is at least noticed.
+      if (uploadError != null) {
+        messenger.showSnackBar(
+          SnackBar(content: Text(l10n.scanReviewUploadFailed(uploadError))),
+        );
+      }
     } catch (e) {
       _logger.e('roomscan continue failed', error: e);
       messenger.showSnackBar(SnackBar(content: Text(l10n.scanReviewError('$e'))));

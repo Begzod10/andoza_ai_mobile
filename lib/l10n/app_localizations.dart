@@ -2488,6 +2488,12 @@ abstract class AppLocalizations {
   /// **'Xonani saqlab bo\'lmadi. Internetni tekshiring.'**
   String get scanReviewSaveFailed;
 
+  /// Room-scan review: snackbar shown in the studio when the scan artifact (mesh/USDZ) upload failed; the room itself was still created.
+  ///
+  /// In uz, this message translates to:
+  /// **'Skan fayllari yuklanmadi: {error} Xona saqlandi, keyinroq qayta skanerlashingiz mumkin.'**
+  String scanReviewUploadFailed(String error);
+
   /// Room-scan review: generic error snackbar with detail.
   ///
   /// In uz, this message translates to:

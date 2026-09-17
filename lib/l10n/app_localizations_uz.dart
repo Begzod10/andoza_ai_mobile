@@ -1334,6 +1334,11 @@ class AppLocalizationsUz extends AppLocalizations {
       'Xonani saqlab bo\'lmadi. Internetni tekshiring.';
 
   @override
+  String scanReviewUploadFailed(String error) {
+    return 'Skan fayllari yuklanmadi: $error Xona saqlandi, keyinroq qayta skanerlashingiz mumkin.';
+  }
+
+  @override
   String scanReviewError(String error) {
     return 'Xatolik: $error';
   }

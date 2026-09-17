@@ -1788,6 +1788,13 @@
   "@scanReviewSaveFailed": {
     "description": "Room-scan review: snackbar when the room could not be saved."
   },
+  "scanReviewUploadFailed": "Skan fayllari yuklanmadi: {error} Xona saqlandi, keyinroq qayta skanerlashingiz mumkin.",
+  "@scanReviewUploadFailed": {
+    "description": "Room-scan review: snackbar shown in the studio when the scan artifact (mesh/USDZ) upload failed; the room itself was still created.",
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
   "scanReviewError": "Xatolik: {error}",
   "@scanReviewError": {
     "description": "Room-scan review: generic error snackbar with detail.",
