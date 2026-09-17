@@ -35,7 +35,9 @@ void main() {
     test('transform translation is the 4th column (indices 12,13,14)', () {
       final t = room.walls[0].transform.translation;
       expect(t.x, 0.0);
-      expect(t.y, 1.25);
+      // RoomPlan's origin is at device height, not on the floor: the fixture's
+      // wall centres sit at y = 0 with their bases (the floor) at -1.25.
+      expect(t.y, 0.0);
       expect(t.z, -1.5);
     });
 

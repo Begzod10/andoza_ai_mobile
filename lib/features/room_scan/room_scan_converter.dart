@@ -66,10 +66,13 @@ class RoomScanDraft {
 ///   freehand snap, so genuinely angled walls survive).
 /// * Ceiling height = **median** wall height, kept raw (only the UI snaps it to
 ///   the 2.5/2.7/2.8/3.0/3.2 chips), clamped to the app's height range.
+/// * The world origin sits at *device* height, **not** on the floor (a real
+///   scan puts the floor near `y = -1.6`), so the floor plane is taken as the
+///   lowest wall base and window sills are measured from it.
 /// * Openings → nearest wall by perpendicular distance; `position` = projected
 ///   offset / wall length (0..1). Doors/openings get `sillHeight 0`; windows
-///   derive the sill from the opening centre's world Y (fallback 0.9 m, as the
-///   manual mapper defaults).
+///   derive the sill from the opening's lower edge above that floor plane
+///   (fallback 0.9 m, as the manual mapper defaults).
 class RoomScanConverter {
   const RoomScanConverter._();
 
@@ -79,6 +82,17 @@ class RoomScanConverter {
   /// Edges within this of an axis are snapped square. Tighter than the freehand
   /// [GeometryConfig.angleSnapToleranceDeg] (12°) on purpose.
   static const double _scanStraightenToleranceDeg = 3.0;
+
+  // Sill limits, all measured from the room's own floor plane.
+  /// Schema cap for `RoomOpening.sillHeight`.
+  static const double _maxSillM = 2.5;
+
+  /// How far below the derived floor a sill may sit before it counts as bad
+  /// data rather than measurement noise.
+  static const double _sillSlackM = 0.25;
+
+  /// Used only for missing / absurd data — the manual mapper's default.
+  static const double _fallbackSillM = 0.9;
 
   static RoomScanDraft toRoomDraft(
     CapturedRoom room, {
@@ -97,8 +111,10 @@ class RoomScanConverter {
     final origin = _minCorner(corners);
     corners = [for (final c in corners) c - origin];
 
-    // 4. Ceiling = median wall height (raw), clamped to app range.
+    // 4. Ceiling = median wall height (raw), clamped to app range; floor = the
+    //    lowest wall base (the world origin is at device height, not the floor).
     final ceiling = _ceilingHeight(room.walls);
+    final floorY = _floorLevel(room.walls);
 
     // 5. Openings → nearest wall (positions 0..1 along the final loop).
     final openingsPerWall =
@@ -108,14 +124,14 @@ class RoomScanConverter {
         final centre = _worldToPlane(s.transform) - origin;
         final hit = _nearestWall(corners, centre);
         if (hit == null) return;
+        final height = s.dimensions.y.clamp(0.3, 3.5);
         openingsPerWall[hit.wallIndex].add(RoomOpening(
           type: type,
           width: s.dimensions.x.clamp(0.3, 5.0),
-          height: s.dimensions.y.clamp(0.3, 3.5),
+          height: height,
           position: hit.position.clamp(0.0, 1.0),
-          sillHeight: type == 'window'
-              ? _windowSill(s, s.dimensions.y)
-              : 0.0,
+          sillHeight:
+              type == 'window' ? _windowSill(s, height, floorY) : 0.0,
         ));
       }
 
@@ -329,13 +345,41 @@ class RoomScanConverter {
     return best == null ? null : (wallIndex: best, position: bestT);
   }
 
-  /// Window sill from the opening centre's world Y minus half its height; falls
-  /// back to 0.9 m (the manual mapper's default) when the derived value is
-  /// non-positive or absurd.
-  static double _windowSill(ScanSurface s, double height) {
-    final sill = s.transform.m[13] - height / 2.0;
-    if (sill.isNaN || sill < 0.05 || sill > 2.5) return 0.9;
-    return sill;
+  /// World Y of the room's floor plane, derived from the walls themselves.
+  ///
+  /// RoomPlan's world origin sits roughly at *device* height, **not** on the
+  /// floor, so floor-level geometry normally has a negative Y (a real scan
+  /// measured -1.622 m). Every wall runs floor-to-ceiling, so the lowest wall
+  /// base is the floor. Uses the same wall filter as [_ceilingHeight] — the two
+  /// read the same surfaces, one for the top, one for the bottom.
+  ///
+  /// Returns null when no usable wall exists (degenerate scan).
+  static double? _floorLevel(List<ScanSurface> walls) {
+    double? lowest;
+    for (final w in walls) {
+      final h = w.dimensions.y;
+      final ty = w.transform.m[13];
+      if (!h.isFinite || !ty.isFinite || h <= 0.1) continue;
+      final base = ty - h / 2.0;
+      if (lowest == null || base < lowest) lowest = base;
+    }
+    return lowest;
+  }
+
+  /// Height of a window's lower edge above the floor, in metres.
+  ///
+  /// The surface transform's Y is the opening's *centre* in RoomPlan world
+  /// space; subtracting the floor plane is what makes it a sill. The old code
+  /// used the absolute world Y, which on every real scan is negative and so hit
+  /// the fallback every time.
+  static double _windowSill(ScanSurface s, double height, double? floorY) {
+    if (floorY == null) return _fallbackSillM;
+    final sill = s.transform.m[13] - height / 2.0 - floorY;
+    if (!sill.isFinite || sill < -_sillSlackM || sill > _maxSillM) {
+      return _fallbackSillM;
+    }
+    // A hair below the floor plane is measurement noise, not bad data.
+    return math.max(0.0, sill);
   }
 
   // ── misc ─────────────────────────────────────────────────────────────────
