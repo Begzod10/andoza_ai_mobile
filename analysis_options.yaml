@@ -15,6 +15,13 @@ analyzer:
   exclude:
     - "**/*.g.dart"
     - "**/*.freezed.dart"
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
   errors:
     # freezed places @JsonKey on constructor parameters; json_serializable
     # reads it correctly off the generated field, but the analyzer flags the

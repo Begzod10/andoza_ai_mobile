@@ -1,8 +1,23 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
+import '../../repositories/auth_repository.dart';
+import '../../services/api_client.dart';
+import '../../utils/error_mapper.dart';
+
+/// Login screen — a Flutter port of the web `/login` page: phone-OTP by default,
+/// with a 6-digit code step, plus username/password login and registration.
+/// On success it flips [authStateProvider] to authenticated and the router's
+/// redirect navigates onward.
+enum _Mode { otpPhone, otpCode, login, register }
+
+const int _resendCooldown = 60;
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -12,164 +27,611 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
-  late final TextEditingController _emailController;
-  late final TextEditingController _passwordController;
-  bool _obscurePassword = true;
+  _Mode _mode = _Mode.otpPhone;
 
-  @override
-  void initState() {
-    super.initState();
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
-  }
+  final _phone = TextEditingController();
+  final _username = TextEditingController();
+  final _password = TextEditingController();
+  final _confirm = TextEditingController();
+  final _name = TextEditingController();
+
+  final List<TextEditingController> _otp =
+      List.generate(6, (_) => TextEditingController());
+  final List<FocusNode> _otpFocus = List.generate(6, (_) => FocusNode());
+
+  bool _loading = false;
+  String? _error;
+  bool _obscurePassword = true;
+  bool _obscureConfirm = true;
+
+  /// The resend cooldown ticks once a second. Kept in a [ValueNotifier] (not
+  /// plain state) so the timer only rebuilds the small countdown label via a
+  /// [ValueListenableBuilder] instead of setState-ing the entire screen.
+  final ValueNotifier<int> _cooldown = ValueNotifier<int>(0);
+  Timer? _timer;
+  String _sentPhone = '';
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
+    _timer?.cancel();
+    _cooldown.dispose();
+    for (final c in [_phone, _username, _password, _confirm, _name, ..._otp]) {
+      c.dispose();
+    }
+    for (final f in _otpFocus) {
+      f.dispose();
+    }
     super.dispose();
   }
 
+  // ── helpers ───────────────────────────────────────────────────────────────
+  String _formatPhone(String raw) {
+    final digits = raw.replaceAll(RegExp(r'\D'), '');
+    if (digits.startsWith('998')) return '+$digits';
+    if (digits.startsWith('0')) return '+998${digits.substring(1)}';
+    return '+998$digits';
+  }
+
+  bool _isValidPhone(String phone) => RegExp(r'^\+998\d{9}$').hasMatch(phone);
+
+  void _switch(_Mode m) => setState(() {
+        _mode = m;
+        _error = null;
+      });
+
+  void _startCooldown() {
+    _timer?.cancel();
+    _cooldown.value = _resendCooldown;
+    _timer = Timer.periodic(const Duration(seconds: 1), (t) {
+      if (_cooldown.value <= 1) {
+        t.cancel();
+        _cooldown.value = 0;
+      } else {
+        _cooldown.value--;
+      }
+    });
+  }
+
+  AuthRepository get _repo => ref.read(authRepositoryProvider);
+
+  // ── actions ───────────────────────────────────────────────────────────────
+  Future<void> _requestOtp() async {
+    final l10n = AppLocalizations.of(context)!;
+    final phone = _formatPhone(_phone.text);
+    if (!_isValidPhone(phone)) {
+      setState(() => _error = l10n.loginErrorInvalidPhone);
+      return;
+    }
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    try {
+      await _repo.requestOtp(phone);
+      _sentPhone = phone;
+      _startCooldown();
+      setState(() => _mode = _Mode.otpCode);
+      WidgetsBinding.instance.addPostFrameCallback((_) => _otpFocus[0].requestFocus());
+    } catch (_) {
+      setState(() => _error = l10n.loginErrorServer);
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
+  }
+
+  Future<void> _verifyOtp(String code) async {
+    final l10n = AppLocalizations.of(context)!;
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    try {
+      final res = await _repo.verifyOtp(_sentPhone, code);
+      ref.read(authStateProvider.notifier).setSession(res);
+    } catch (_) {
+      setState(() {
+        _error = l10n.loginErrorInvalidCode;
+        for (final c in _otp) {
+          c.clear();
+        }
+      });
+      _otpFocus[0].requestFocus();
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
+  }
+
+  Future<void> _resend() async {
+    if (_cooldown.value > 0) return;
+    final l10n = AppLocalizations.of(context)!;
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    try {
+      await _repo.requestOtp(_sentPhone);
+      for (final c in _otp) {
+        c.clear();
+      }
+      _startCooldown();
+      _otpFocus[0].requestFocus();
+    } catch (_) {
+      setState(() => _error = l10n.loginErrorServer);
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
+  }
+
+  Future<void> _login() async {
+    final l10n = AppLocalizations.of(context)!;
+    if (_username.text.trim().isEmpty || _password.text.isEmpty) {
+      setState(() => _error = l10n.loginErrorCredentialsRequired);
+      return;
+    }
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    // Drive the login through AuthNotifier so AuthState is the single source of
+    // truth: on success it flips to AuthAuthenticated (the router redirect
+    // navigates onward); on failure it lands in AuthError, which we surface with
+    // the same inline message as before.
+    await ref.read(authStateProvider.notifier).login(
+          _username.text.trim(),
+          _password.text,
+        );
+    if (!mounted) return;
+    final state = ref.read(authStateProvider);
+    setState(() {
+      _loading = false;
+      if (state is AuthError) _error = _loginErrorMessage(l10n, state);
+    });
+  }
+
+  /// Picks the inline login-failure message. A genuine credential rejection is
+  /// a 401 → keep the "wrong username/password" wording; every other failure
+  /// (network/timeout/5xx) is routed through [mapErrorToMessage] so it doesn't
+  /// misleadingly read as a bad password. Classified by [AuthError.statusCode]
+  /// (carried from [AuthException]), not by substring-matching the message.
+  String _loginErrorMessage(AppLocalizations l10n, AuthError error) {
+    if (error.statusCode == 401) {
+      return l10n.loginErrorWrongCredentials;
+    }
+    return mapErrorToMessage(
+      ApiException(message: error.message, statusCode: error.statusCode),
+    );
+  }
+
+  Future<void> _register() async {
+    final l10n = AppLocalizations.of(context)!;
+    final u = _username.text.trim();
+    if (u.length < 3) {
+      setState(() => _error = l10n.loginErrorUsernameShort);
+      return;
+    }
+    if (_password.text.length < 6) {
+      setState(() => _error = l10n.loginErrorPasswordShort);
+      return;
+    }
+    if (_password.text != _confirm.text) {
+      setState(() => _error = l10n.loginErrorPasswordMismatch);
+      return;
+    }
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    try {
+      final res = await _repo.register(u, _password.text, _name.text.trim());
+      ref.read(authStateProvider.notifier).setSession(res);
+    } catch (e) {
+      // 409 Conflict = username already taken — classify by the real status
+      // code (carried on AuthException), not a fragile message substring.
+      final taken = e is AuthException && e.statusCode == 409;
+      setState(() => _error =
+          taken ? l10n.loginErrorUsernameTaken : l10n.loginErrorRegisterFailed);
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
+  }
+
+  // ── build ─────────────────────────────────────────────────────────────────
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authStateProvider);
-    final l10n = AppLocalizations.of(context)!;
-
     return Scaffold(
-      backgroundColor: DesignTokens.surface,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(DesignTokens.spacing24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                l10n.appTitle,
-                textAlign: TextAlign.center,
-                style: DesignTokens.headingLarge.copyWith(
-                  color: DesignTokens.primary,
-                ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0xFFF6F7FB), Color(0xFFECEEF5)],
+          ),
+        ),
+        child: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: DesignTokens.spacing24, vertical: DesignTokens.spacing32),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const _GreetingHeader(),
+                  const SizedBox(height: DesignTokens.spacing32),
+                  _card(),
+                  const SizedBox(height: DesignTokens.spacing24),
+                  const _VersionLabel(),
+                ],
               ),
-              const SizedBox(height: DesignTokens.spacing32),
-              TextField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  hintText: l10n.loginEmailHint,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      DesignTokens.radiusLarge,
-                    ),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: DesignTokens.spacing16,
-                    vertical: DesignTokens.spacing12,
-                  ),
-                ),
-              ),
-              const SizedBox(height: DesignTokens.spacing16),
-              TextField(
-                controller: _passwordController,
-                obscureText: _obscurePassword,
-                decoration: InputDecoration(
-                  hintText: l10n.loginPasswordHint,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(
-                      DesignTokens.radiusLarge,
-                    ),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: DesignTokens.spacing16,
-                    vertical: DesignTokens.spacing12,
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword
-                          ? Icons.visibility_outlined
-                          : Icons.visibility_off_outlined,
-                    ),
-                    tooltip: _obscurePassword
-                        ? l10n.loginShowPassword
-                        : l10n.loginHidePassword,
-                    onPressed: () => setState(
-                      () => _obscurePassword = !_obscurePassword,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: DesignTokens.spacing24),
-              ElevatedButton(
-                onPressed: authState is AuthLoading
-                    ? null
-                    : () => _handleLogin(context),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: DesignTokens.primary,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: DesignTokens.spacing12,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      DesignTokens.radiusLarge,
-                    ),
-                  ),
-                ),
-                child: authState is AuthLoading
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            Colors.white,
-                          ),
-                        ),
-                      )
-                    : Text(
-                        l10n.loginButton,
-                        style: DesignTokens.bodyLarge.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-              ),
-              if (authState is AuthError) ...[
-                const SizedBox(height: DesignTokens.spacing16),
-                Container(
-                  padding: const EdgeInsets.all(DesignTokens.spacing12),
-                  decoration: BoxDecoration(
-                    color: DesignTokens.error.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(
-                      DesignTokens.radiusMedium,
-                    ),
-                  ),
-                  child: Text(
-                    authState.message,
-                    style: DesignTokens.bodySmall.copyWith(
-                      color: DesignTokens.error,
-                    ),
-                  ),
-                ),
-              ],
-            ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  void _handleLogin(BuildContext context) {
-    final email = _emailController.text;
-    final password = _passwordController.text;
+  Widget _card() {
+    return Container(
+      constraints: const BoxConstraints(maxWidth: 400),
+      padding: const EdgeInsets.all(DesignTokens.spacing24),
+      decoration: BoxDecoration(
+        color: DesignTokens.white,
+        borderRadius: BorderRadius.circular(DesignTokens.radiusXl),
+        boxShadow: [
+          BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 24, offset: const Offset(0, 8)),
+        ],
+      ),
+      child: switch (_mode) {
+        _Mode.otpPhone => _otpPhoneView(),
+        _Mode.otpCode => _otpCodeView(),
+        _Mode.login => _loginView(),
+        _Mode.register => _registerView(),
+      },
+    );
+  }
 
-    if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.loginEmptyFields),
+  // ── views ─────────────────────────────────────────────────────────────────
+  Widget _otpPhoneView() {
+    final l10n = AppLocalizations.of(context)!;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(l10n.loginPhoneLabel, style: DesignTokens.headingMedium),
+        const SizedBox(height: 4),
+        Text(l10n.loginPhoneSubtitle,
+            style: DesignTokens.bodySmall.copyWith(color: DesignTokens.textMuted)),
+        const SizedBox(height: DesignTokens.spacing24),
+        Text(l10n.loginPhoneLabel, style: DesignTokens.caption.copyWith(color: DesignTokens.textSecondary)),
+        const SizedBox(height: DesignTokens.spacing8),
+        Container(
+          decoration: BoxDecoration(
+            color: DesignTokens.primaryTint,
+            borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
+            border: Border.all(color: DesignTokens.primary, width: 2),
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: DesignTokens.spacing16),
+          child: Row(
+            children: [
+              const Text('+998', style: TextStyle(fontWeight: FontWeight.w600)),
+              const SizedBox(width: DesignTokens.spacing8),
+              Expanded(
+                child: TextField(
+                  controller: _phone,
+                  keyboardType: TextInputType.phone,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(9)],
+                  decoration: InputDecoration(
+                    hintText: l10n.loginPhoneHint,
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.symmetric(vertical: 14),
+                  ),
+                  onSubmitted: (_) => _requestOtp(),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: DesignTokens.spacing8),
+        Text(l10n.loginPhoneSmsHint,
+            style: DesignTokens.caption.copyWith(color: DesignTokens.textMuted)),
+        _errorText(),
+        const SizedBox(height: DesignTokens.spacing16),
+        _primaryButton(l10n.loginSendOtp, _loading ? null : _requestOtp),
+        const SizedBox(height: DesignTokens.spacing24),
+        Container(
+          padding: const EdgeInsets.all(DesignTokens.spacing16),
+          decoration: BoxDecoration(
+            color: DesignTokens.primaryTint,
+            borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
+          ),
+          child: Text(
+            l10n.loginOtpInfoBox,
+            style: DesignTokens.bodySmall.copyWith(color: DesignTokens.textSecondary),
+          ),
+        ),
+        const SizedBox(height: DesignTokens.spacing24),
+        const _OrDivider(),
+        const SizedBox(height: DesignTokens.spacing16),
+        _outlinedButton(l10n.loginWithUsername, () => _switch(_Mode.login)),
+      ],
+    );
+  }
+
+  Widget _otpCodeView() {
+    final l10n = AppLocalizations.of(context)!;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(l10n.loginCodeSentTitle, style: DesignTokens.headingMedium),
+        const SizedBox(height: 4),
+        Text.rich(TextSpan(
+          style: DesignTokens.bodySmall.copyWith(color: DesignTokens.textMuted),
+          children: [
+            TextSpan(text: _sentPhone, style: const TextStyle(fontWeight: FontWeight.w600, color: Color(0xFF111827))),
+            TextSpan(text: l10n.loginCodeSentSuffix),
+          ],
+        )),
+        const SizedBox(height: DesignTokens.spacing24),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [for (var i = 0; i < 6; i++) _otpBox(i)],
+        ),
+        _errorText(),
+        const SizedBox(height: DesignTokens.spacing16),
+        _primaryButton(l10n.loginVerify, _loading ? null : () {
+          final code = _otp.map((c) => c.text).join();
+          if (code.length == 6) _verifyOtp(code);
+        }),
+        const SizedBox(height: DesignTokens.spacing8),
+        Center(
+          child: ValueListenableBuilder<int>(
+            valueListenable: _cooldown,
+            builder: (context, cooldown, _) => TextButton(
+              onPressed: cooldown > 0 || _loading ? null : _resend,
+              child: Text(cooldown > 0 ? l10n.loginResendCountdown(cooldown) : l10n.loginResend),
+            ),
+          ),
+        ),
+        Center(child: TextButton(onPressed: () => _switch(_Mode.otpPhone), child: Text(l10n.loginBackArrow))),
+      ],
+    );
+  }
+
+  Widget _loginView() {
+    final l10n = AppLocalizations.of(context)!;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _backButton(),
+        Text(l10n.loginSignIn, style: DesignTokens.headingMedium),
+        const SizedBox(height: DesignTokens.spacing16),
+        _field(_username, l10n.loginUsernameHint, autofillHints: const [AutofillHints.username]),
+        const SizedBox(height: DesignTokens.spacing16),
+        _passwordField(_password, l10n.loginPasswordLabel, _obscurePassword, () => setState(() => _obscurePassword = !_obscurePassword)),
+        _errorText(),
+        const SizedBox(height: DesignTokens.spacing24),
+        _primaryButton(l10n.loginSignIn, _loading ? null : _login),
+        const SizedBox(height: DesignTokens.spacing16),
+        Center(
+          child: Wrap(
+            children: [
+              Text(l10n.loginNoAccount, style: DesignTokens.bodySmall.copyWith(color: DesignTokens.textMuted)),
+              GestureDetector(
+                onTap: () => _switch(_Mode.register),
+                child: Text(l10n.loginRegister,
+                    style: DesignTokens.bodySmall.copyWith(color: DesignTokens.primary, fontWeight: FontWeight.w600)),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _registerView() {
+    final l10n = AppLocalizations.of(context)!;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _backButton(),
+        Text(l10n.loginRegister, style: DesignTokens.headingMedium),
+        const SizedBox(height: DesignTokens.spacing16),
+        _field(_name, l10n.loginNameHint),
+        const SizedBox(height: DesignTokens.spacing12),
+        _field(_username, l10n.loginUsernameHint),
+        const SizedBox(height: DesignTokens.spacing12),
+        _passwordField(_password, l10n.loginPasswordLabel, _obscurePassword, () => setState(() => _obscurePassword = !_obscurePassword)),
+        const SizedBox(height: DesignTokens.spacing12),
+        _passwordField(_confirm, l10n.loginConfirmPasswordHint, _obscureConfirm, () => setState(() => _obscureConfirm = !_obscureConfirm)),
+        _errorText(),
+        const SizedBox(height: DesignTokens.spacing24),
+        _primaryButton(l10n.loginRegister, _loading ? null : _register),
+        const SizedBox(height: DesignTokens.spacing16),
+        Center(
+          child: Wrap(
+            children: [
+              Text(l10n.loginHaveAccount, style: DesignTokens.bodySmall.copyWith(color: DesignTokens.textMuted)),
+              GestureDetector(
+                onTap: () => _switch(_Mode.login),
+                child: Text(l10n.loginSignIn,
+                    style: DesignTokens.bodySmall.copyWith(color: DesignTokens.primary, fontWeight: FontWeight.w600)),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  // ── small widgets ───────────────────────────────────────────────────────
+  Widget _backButton() => Padding(
+        padding: const EdgeInsets.only(bottom: DesignTokens.spacing16),
+        child: GestureDetector(
+          onTap: () => _switch(_Mode.otpPhone),
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            const Icon(Icons.arrow_back, size: 18, color: DesignTokens.textMuted),
+            const SizedBox(width: 6),
+            Text(AppLocalizations.of(context)!.actionBack, style: DesignTokens.bodySmall.copyWith(color: DesignTokens.textMuted)),
+          ]),
         ),
       );
-      return;
-    }
 
-    ref.read(authStateProvider.notifier).login(email, password);
+  Widget _otpBox(int i) {
+    return SizedBox(
+      width: 46,
+      height: 52,
+      child: TextField(
+        controller: _otp[i],
+        focusNode: _otpFocus[i],
+        keyboardType: TextInputType.number,
+        textAlign: TextAlign.center,
+        maxLength: 1,
+        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        decoration: InputDecoration(
+          counterText: '',
+          contentPadding: EdgeInsets.zero,
+          filled: true,
+          fillColor: const Color(0xFFF7F8FA),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
+            borderSide: const BorderSide(color: DesignTokens.border),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
+            borderSide: const BorderSide(color: DesignTokens.primary, width: 2),
+          ),
+        ),
+        onChanged: (v) {
+          if (v.isNotEmpty && i < 5) _otpFocus[i + 1].requestFocus();
+          if (v.isEmpty && i > 0) _otpFocus[i - 1].requestFocus();
+          final code = _otp.map((c) => c.text).join();
+          if (code.length == 6 && !_loading) _verifyOtp(code);
+        },
+      ),
+    );
+  }
+
+  Widget _field(TextEditingController c, String hint, {Iterable<String>? autofillHints}) {
+    return TextField(
+      controller: c,
+      autofillHints: autofillHints,
+      decoration: _inputDecoration(hint),
+    );
+  }
+
+  Widget _passwordField(TextEditingController c, String hint, bool obscure, VoidCallback toggle) {
+    return TextField(
+      controller: c,
+      obscureText: obscure,
+      decoration: _inputDecoration(hint).copyWith(
+        suffixIcon: IconButton(
+          icon: Icon(obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+          onPressed: toggle,
+        ),
+      ),
+    );
+  }
+
+  InputDecoration _inputDecoration(String hint) => InputDecoration(
+        hintText: hint,
+        filled: true,
+        fillColor: const Color(0xFFFAFAFB),
+        contentPadding: const EdgeInsets.symmetric(horizontal: DesignTokens.spacing16, vertical: 14),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
+          borderSide: const BorderSide(color: DesignTokens.border),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
+          borderSide: const BorderSide(color: DesignTokens.primary, width: 2),
+        ),
+      );
+
+  Widget _primaryButton(String label, VoidCallback? onPressed) {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: DesignTokens.primary,
+          disabledBackgroundColor: DesignTokens.primary.withValues(alpha: 0.4),
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(DesignTokens.radiusMedium)),
+        ),
+        child: _loading
+            ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation<Color>(DesignTokens.white)))
+            : Text(label, style: const TextStyle(color: DesignTokens.white, fontWeight: FontWeight.w700, fontSize: 15)),
+      ),
+    );
+  }
+
+  Widget _outlinedButton(String label, VoidCallback onPressed) {
+    return SizedBox(
+      width: double.infinity,
+      child: OutlinedButton(
+        onPressed: onPressed,
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 13),
+          side: const BorderSide(color: DesignTokens.border),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(DesignTokens.radiusMedium)),
+        ),
+        child: Text(label, style: DesignTokens.bodyMedium.copyWith(color: DesignTokens.textSecondary, fontWeight: FontWeight.w600)),
+      ),
+    );
+  }
+
+  Widget _errorText() => _error == null
+      ? const SizedBox.shrink()
+      : Padding(
+          padding: const EdgeInsets.only(top: DesignTokens.spacing12),
+          child: Text(_error!, style: DesignTokens.bodySmall.copyWith(color: DesignTokens.error)),
+        );
+}
+
+/// Static greeting above the auth card ("👋 Salom" + subtitle). Extracted as a
+/// `const` widget so the per-keystroke / per-cooldown rebuilds of the stateful
+/// screen never rebuild it.
+class _GreetingHeader extends StatelessWidget {
+  const _GreetingHeader();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(l10n.loginGreeting,
+            style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Color(0xFF111827))),
+        const SizedBox(height: DesignTokens.spacing8),
+        Text(l10n.loginWelcomeSubtitle,
+            style: DesignTokens.bodyLarge.copyWith(color: DesignTokens.textMuted)),
+      ],
+    );
+  }
+}
+
+/// Static app-version footnote below the auth card. `const` for the same reason.
+class _VersionLabel extends StatelessWidget {
+  const _VersionLabel();
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(AppLocalizations.of(context)!.loginVersion,
+        style: DesignTokens.caption.copyWith(color: DesignTokens.textMuted));
+  }
+}
+
+/// Static "yoki" divider between the OTP and username entry points.
+class _OrDivider extends StatelessWidget {
+  const _OrDivider();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(children: [
+      const Expanded(child: Divider(color: DesignTokens.border)),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: DesignTokens.spacing12),
+        child: Text(AppLocalizations.of(context)!.loginOr, style: DesignTokens.caption.copyWith(color: DesignTokens.textMuted)),
+      ),
+      const Expanded(child: Divider(color: DesignTokens.border)),
+    ]);
   }
 }

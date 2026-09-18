@@ -6,19 +6,31 @@ part of 'room_state.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$RoomStateImpl _$$RoomStateImplFromJson(
-  Map<String, dynamic> json,
-) => _$RoomStateImpl(
-  roomId: json['room_id'] as String,
-  currentState: $enumDecode(_$RoomStateValueEnumMap, json['current_state']),
-  floorState: $enumDecodeNullable(_$RoomStateValueEnumMap, json['floor_state']),
-  ceilingState: $enumDecodeNullable(
-    _$RoomStateValueEnumMap,
-    json['ceiling_state'],
-  ),
-  wallsState: $enumDecodeNullable(_$RoomStateValueEnumMap, json['walls_state']),
-  updatedAt: DateTime.parse(json['updated_at'] as String),
-);
+_$RoomStateImpl _$$RoomStateImplFromJson(Map<String, dynamic> json) =>
+    _$RoomStateImpl(
+      roomId: json['room_id'] as String,
+      currentState: $enumDecode(
+        _$RoomStateValueEnumMap,
+        json['current_state'],
+        unknownValue: RoomStateValue.unknown,
+      ),
+      floorState: $enumDecodeNullable(
+        _$RoomStateValueEnumMap,
+        json['floor_state'],
+        unknownValue: RoomStateValue.unknown,
+      ),
+      ceilingState: $enumDecodeNullable(
+        _$RoomStateValueEnumMap,
+        json['ceiling_state'],
+        unknownValue: RoomStateValue.unknown,
+      ),
+      wallsState: $enumDecodeNullable(
+        _$RoomStateValueEnumMap,
+        json['walls_state'],
+        unknownValue: RoomStateValue.unknown,
+      ),
+      updatedAt: DateTime.parse(json['updated_at'] as String),
+    );
 
 Map<String, dynamic> _$$RoomStateImplToJson(_$RoomStateImpl instance) =>
     <String, dynamic>{
@@ -35,4 +47,5 @@ const _$RoomStateValueEnumMap = {
   RoomStateValue.suvoq: 'suvoq',
   RoomStateValue.shpaklovka: 'shpaklovka',
   RoomStateValue.tayyor: 'tayyor',
+  RoomStateValue.unknown: 'unknown',
 };

@@ -248,11 +248,11 @@ class DesignTokens {
   // Spacing (map to new names)
   static const double spacing4 = spacingXs;
   static const double spacing8 = spacingSm;
-  static const double spacing12 = spacingSm;
+  static const double spacing12 = 12.0; // was mis-aliased to spacingSm (8.0)
   static const double spacing16 = spacingMd;
   static const double spacing24 = spacingLg;
   static const double spacing32 = spacingXl;
-  static const double spacing40 = spacingXxl;
+  static const double spacing40 = 40.0; // was mis-aliased to spacingXxl (48.0)
 
   // Border radius (map to new names)
   static const double radiusMedium = radiusMd;

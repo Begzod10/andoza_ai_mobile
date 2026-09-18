@@ -202,6 +202,27 @@ final shopCatalogProvider = Provider<List<Product>>((ref) {
       );
 });
 
+/// The error that made [shopCatalogProvider] empty, if any. [shopCatalogProvider]
+/// itself collapses loading AND error into an empty list, so a screen watching
+/// only the catalog can't tell "backend down" from "no results". Watch this
+/// alongside it to show an error + retry instead of a misleading empty state;
+/// it's `null` while loading and on success.
+///
+/// Follow-up (not done here — the S1/S2 shop screens are outside this change's
+/// ownership): have those screens watch this + [shopCatalogLoadingProvider] and
+/// render an error/retry view.
+final shopCatalogErrorProvider = Provider<Object?>((ref) {
+  return ref.watch(storesProvider).error ??
+      ref.watch(materialsProvider(null)).error;
+});
+
+/// Whether the catalog is still loading, so the UI can distinguish "loading"
+/// from "no results" — both of which leave [shopCatalogProvider] empty.
+final shopCatalogLoadingProvider = Provider<bool>((ref) {
+  return ref.watch(storesProvider).isLoading ||
+      ref.watch(materialsProvider(null)).isLoading;
+});
+
 /// S2's grouped-by-stage list — only stages with a real (non-null)
 /// project quantity for at least one product appear, so a stage the
 /// room's starting condition already excludes never shows up here.

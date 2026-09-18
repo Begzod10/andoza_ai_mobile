@@ -391,6 +391,7 @@ Wall _$WallFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Wall {
   String get id => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: WallType.unknown)
   WallType get type => throw _privateConstructorUsedError;
   WallMeasurements get measurements => throw _privateConstructorUsedError;
   String? get texture => throw _privateConstructorUsedError;
@@ -411,7 +412,7 @@ abstract class $WallCopyWith<$Res> {
   @useResult
   $Res call({
     String id,
-    WallType type,
+    @JsonKey(unknownEnumValue: WallType.unknown) WallType type,
     WallMeasurements measurements,
     String? texture,
   });
@@ -483,7 +484,7 @@ abstract class _$$WallImplCopyWith<$Res> implements $WallCopyWith<$Res> {
   @useResult
   $Res call({
     String id,
-    WallType type,
+    @JsonKey(unknownEnumValue: WallType.unknown) WallType type,
     WallMeasurements measurements,
     String? texture,
   });
@@ -537,7 +538,7 @@ class __$$WallImplCopyWithImpl<$Res>
 class _$WallImpl implements _Wall {
   const _$WallImpl({
     required this.id,
-    required this.type,
+    @JsonKey(unknownEnumValue: WallType.unknown) required this.type,
     required this.measurements,
     this.texture,
   });
@@ -548,6 +549,7 @@ class _$WallImpl implements _Wall {
   @override
   final String id;
   @override
+  @JsonKey(unknownEnumValue: WallType.unknown)
   final WallType type;
   @override
   final WallMeasurements measurements;
@@ -592,7 +594,7 @@ class _$WallImpl implements _Wall {
 abstract class _Wall implements Wall {
   const factory _Wall({
     required final String id,
-    required final WallType type,
+    @JsonKey(unknownEnumValue: WallType.unknown) required final WallType type,
     required final WallMeasurements measurements,
     final String? texture,
   }) = _$WallImpl;
@@ -602,6 +604,7 @@ abstract class _Wall implements Wall {
   @override
   String get id;
   @override
+  @JsonKey(unknownEnumValue: WallType.unknown)
   WallType get type;
   @override
   WallMeasurements get measurements;
@@ -627,6 +630,7 @@ mixin _$Door {
   double get position => throw _privateConstructorUsedError;
   double get width => throw _privateConstructorUsedError;
   double get height => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: OpeningType.unknown)
   OpeningType get type => throw _privateConstructorUsedError;
 
   /// Serializes this Door to a JSON map.
@@ -649,7 +653,7 @@ abstract class $DoorCopyWith<$Res> {
     double position,
     double width,
     double height,
-    OpeningType type,
+    @JsonKey(unknownEnumValue: OpeningType.unknown) OpeningType type,
   });
 }
 
@@ -721,7 +725,7 @@ abstract class _$$DoorImplCopyWith<$Res> implements $DoorCopyWith<$Res> {
     double position,
     double width,
     double height,
-    OpeningType type,
+    @JsonKey(unknownEnumValue: OpeningType.unknown) OpeningType type,
   });
 }
 
@@ -784,7 +788,7 @@ class _$DoorImpl implements _Door {
     required this.position,
     required this.width,
     required this.height,
-    required this.type,
+    @JsonKey(unknownEnumValue: OpeningType.unknown) required this.type,
   });
 
   factory _$DoorImpl.fromJson(Map<String, dynamic> json) =>
@@ -801,6 +805,7 @@ class _$DoorImpl implements _Door {
   @override
   final double height;
   @override
+  @JsonKey(unknownEnumValue: OpeningType.unknown)
   final OpeningType type;
 
   @override
@@ -848,6 +853,7 @@ abstract class _Door implements Door {
     required final double position,
     required final double width,
     required final double height,
+    @JsonKey(unknownEnumValue: OpeningType.unknown)
     required final OpeningType type,
   }) = _$DoorImpl;
 
@@ -864,6 +870,7 @@ abstract class _Door implements Door {
   @override
   double get height;
   @override
+  @JsonKey(unknownEnumValue: OpeningType.unknown)
   OpeningType get type;
 
   /// Create a copy of Door
@@ -885,6 +892,7 @@ mixin _$Window {
   double get position => throw _privateConstructorUsedError;
   double get width => throw _privateConstructorUsedError;
   double get height => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: OpeningType.unknown)
   OpeningType get type => throw _privateConstructorUsedError;
 
   /// Serializes this Window to a JSON map.
@@ -907,7 +915,7 @@ abstract class $WindowCopyWith<$Res> {
     double position,
     double width,
     double height,
-    OpeningType type,
+    @JsonKey(unknownEnumValue: OpeningType.unknown) OpeningType type,
   });
 }
 
@@ -979,7 +987,7 @@ abstract class _$$WindowImplCopyWith<$Res> implements $WindowCopyWith<$Res> {
     double position,
     double width,
     double height,
-    OpeningType type,
+    @JsonKey(unknownEnumValue: OpeningType.unknown) OpeningType type,
   });
 }
 
@@ -1044,7 +1052,7 @@ class _$WindowImpl implements _Window {
     required this.position,
     required this.width,
     required this.height,
-    required this.type,
+    @JsonKey(unknownEnumValue: OpeningType.unknown) required this.type,
   });
 
   factory _$WindowImpl.fromJson(Map<String, dynamic> json) =>
@@ -1061,6 +1069,7 @@ class _$WindowImpl implements _Window {
   @override
   final double height;
   @override
+  @JsonKey(unknownEnumValue: OpeningType.unknown)
   final OpeningType type;
 
   @override
@@ -1108,6 +1117,7 @@ abstract class _Window implements Window {
     required final double position,
     required final double width,
     required final double height,
+    @JsonKey(unknownEnumValue: OpeningType.unknown)
     required final OpeningType type,
   }) = _$WindowImpl;
 
@@ -1124,6 +1134,7 @@ abstract class _Window implements Window {
   @override
   double get height;
   @override
+  @JsonKey(unknownEnumValue: OpeningType.unknown)
   OpeningType get type;
 
   /// Create a copy of Window

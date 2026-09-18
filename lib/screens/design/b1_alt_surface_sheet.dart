@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/design_selection_model.dart';
 
 /// B1-alt: optional sheet for when the floor or ceiling differs from the
@@ -26,6 +27,7 @@ class _B1AltSurfaceSheetState extends State<B1AltSurfaceSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Container(
       padding: EdgeInsets.only(
         left: DesignTokens.screenPaddingHorizontal,
@@ -56,25 +58,25 @@ class _B1AltSurfaceSheetState extends State<B1AltSurfaceSheet> {
               ),
             ),
           ),
-          const Text('Pol', style: DesignTokens.subtitle2),
+          Text(l10n.designSurfaceFloorHeading, style: DesignTokens.subtitle2),
           const SizedBox(height: DesignTokens.spacingSm),
           _CompactRow(
-            options: const {
-              SurfaceCondition.raw: 'Xom beton',
-              SurfaceCondition.plastered: 'Styajka',
-              SurfaceCondition.puttied: 'Qoplama bor',
+            options: {
+              SurfaceCondition.raw: l10n.designFloorRaw,
+              SurfaceCondition.plastered: l10n.designFloorPlastered,
+              SurfaceCondition.puttied: l10n.designFloorPuttied,
             },
             selected: _floor,
             onSelected: (v) => setState(() => _floor = v),
           ),
           const SizedBox(height: DesignTokens.spacingLg),
-          const Text('Shift', style: DesignTokens.subtitle2),
+          Text(l10n.designSurfaceCeilingHeading, style: DesignTokens.subtitle2),
           const SizedBox(height: DesignTokens.spacingSm),
           _CompactRow(
-            options: const {
-              SurfaceCondition.raw: 'Xom',
-              SurfaceCondition.plastered: 'Suvoq',
-              SurfaceCondition.puttied: 'Tayyor',
+            options: {
+              SurfaceCondition.raw: l10n.designCeilingRaw,
+              SurfaceCondition.plastered: l10n.designCeilingPlastered,
+              SurfaceCondition.puttied: l10n.designCeilingPuttied,
             },
             selected: _ceiling,
             onSelected: (v) => setState(() => _ceiling = v),
@@ -87,7 +89,7 @@ class _B1AltSurfaceSheetState extends State<B1AltSurfaceSheet> {
                 widget.onSave(_floor, _ceiling);
                 Navigator.of(context).pop();
               },
-              child: const Text('Saqlash'),
+              child: Text(l10n.actionSave),
             ),
           ),
         ],

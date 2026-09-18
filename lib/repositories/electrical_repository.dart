@@ -49,5 +49,7 @@ class ElectricalRepository {
         ElectricalDeviceType.light => 'light',
         ElectricalDeviceType.panel => 'panel',
         ElectricalDeviceType.box => 'box',
+        // Unknown backend value: fall back to the most common device wire.
+        ElectricalDeviceType.unknown => 'socket',
       };
 }

@@ -73,6 +73,8 @@ class RoomStateRepository {
         RoomStateValue.suvoq => 'suvoq',
         RoomStateValue.shpaklovka => 'shpaklovka',
         RoomStateValue.tayyor => 'tayyor',
+        // Unknown backend value: fall back to the base "xom" (raw) state.
+        RoomStateValue.unknown => 'xom',
       };
 
   /// Null-tolerant [_wire] for optional fields.

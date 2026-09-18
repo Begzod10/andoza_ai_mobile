@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/api/api.dart' show DeltaResponse, RoomStateValue;
+import '../../utils/error_mapper.dart';
 import '../../models/design_selection_model.dart';
 import '../../models/estimate_model.dart';
 import '../../providers/apartment_provider.dart';
@@ -58,6 +60,7 @@ class _E1EstimationIntroScreenState
   Future<void> _downloadPdf(String roomId, String roomName) async {
     setState(() => _downloadingPdf = true);
     final messenger = ScaffoldMessenger.of(context);
+    final l10n = AppLocalizations.of(context)!;
     try {
       final bytes =
           await ref.read(estimateRepositoryProvider).downloadPdf(roomId);
@@ -68,7 +71,7 @@ class _E1EstimationIntroScreenState
       );
     } catch (e) {
       messenger.showSnackBar(
-        SnackBar(content: Text('PDF yuklab bo\'lmadi: $e')),
+        SnackBar(content: Text(l10n.estimatePdfFailed(mapErrorToMessage(e)))),
       );
     } finally {
       if (mounted) setState(() => _downloadingPdf = false);
@@ -77,15 +80,16 @@ class _E1EstimationIntroScreenState
 
   /// The stage label to show in the savings banner when using the backend
   /// delta — the first completed stage beyond raw (korobka).
-  String _backendSavingsLabel(DeltaResponse delta) {
+  String _backendSavingsLabel(DeltaResponse delta, AppLocalizations l10n) {
     final done = delta.completedStages
         .where((s) => s.stage != RoomStateValue.xom)
         .toList();
-    return done.isNotEmpty ? done.first.labelUz : 'Ba\'zi ishlar';
+    return done.isNotEmpty ? done.first.labelUz : l10n.estimateSomeWork;
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final estimate = ref.watch(estimateProvider);
     final room = ref.watch(activeRoomProvider);
     final materials = estimateMaterialsTotal(estimate);
@@ -107,8 +111,8 @@ class _E1EstimationIntroScreenState
     final useBackend = backendSavings != null && backendSavings > 0;
     final savings = useBackend ? backendSavings.toDouble() : localSavings;
     final savingsLabel = useBackend
-        ? _backendSavingsLabel(backendDelta!)
-        : (_stageLabels[savingsStage.name] ?? 'Bosqich');
+        ? _backendSavingsLabel(backendDelta!, l10n)
+        : (_stageLabels[savingsStage.name] ?? l10n.estimateStageFallback);
 
     // Real server smeta total once the room is persisted; the header keeps
     // showing the local total until then (and if the backend is unreachable).
@@ -124,14 +128,14 @@ class _E1EstimationIntroScreenState
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
         title: Text(
-          'Remont smetasi · ${room?.name ?? 'Mehmonxona'}'
+          '${l10n.estimateTitlePrefix} · ${room?.name ?? l10n.estimateDefaultRoomName}'
           '${room != null ? ' · ${room.dimensions.width.toStringAsFixed(1)} × ${room.dimensions.length.toStringAsFixed(1)} m' : ''}',
           style: DesignTokens.subtitle2,
         ),
         actions: [
           IconButton(
             icon: const Icon(Icons.tune),
-            tooltip: 'Smeta sozlash',
+            tooltip: l10n.estimateAdjust,
             onPressed: () => context.push('/estimation/e3'),
           ),
         ],
@@ -156,7 +160,7 @@ class _E1EstimationIntroScreenState
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Taxminiy umumiy narx',
+                        l10n.estimateApproxTotal,
                         style: DesignTokens.body2.copyWith(
                           color: DesignTokens.white.withValues(alpha: 0.75),
                         ),
@@ -172,13 +176,13 @@ class _E1EstimationIntroScreenState
                         children: [
                           Expanded(
                             child: _TotalColumn(
-                              label: 'Materiallar',
+                              label: l10n.shopMaterials,
                               value: formatSom(materials.round()),
                             ),
                           ),
                           Expanded(
                             child: _TotalColumn(
-                              label: 'Ishchi kuchi',
+                              label: l10n.estimateLabor,
                               value: formatSom(labor.round()),
                             ),
                           ),
@@ -210,8 +214,10 @@ class _E1EstimationIntroScreenState
                         const SizedBox(width: DesignTokens.spacingSm),
                         Expanded(
                           child: Text(
-                            '$savingsLabel allaqachon bor '
-                            'edi — ${formatSom(savings.round())} tejaldingiz',
+                            l10n.estimateSavingsBanner(
+                              savingsLabel,
+                              formatSom(savings.round()),
+                            ),
                             style: DesignTokens.body2.copyWith(
                               color: DesignTokens.successGreen,
                               fontWeight: FontWeight.w600,
@@ -265,7 +271,7 @@ class _E1EstimationIntroScreenState
                                   )
                                 : const Icon(Icons.picture_as_pdf_outlined),
                             label: Text(
-                              _downloadingPdf ? 'Tayyorlanmoqda…' : 'PDF',
+                              _downloadingPdf ? l10n.estimatePreparingPdf : 'PDF',
                             ),
                           ),
                         ),
@@ -285,7 +291,7 @@ class _E1EstimationIntroScreenState
                       child: OutlinedButton.icon(
                         onPressed: () => AiBuilderSheet.show(context, roomId),
                         icon: const Icon(Icons.auto_awesome),
-                        label: const Text('AI dizayner'),
+                        label: Text(l10n.studioAiDesigner),
                       ),
                     ),
                     const SizedBox(height: DesignTokens.spacingSm),
@@ -298,7 +304,7 @@ class _E1EstimationIntroScreenState
                         backgroundColor: DesignTokens.accentOrange,
                       ),
                       onPressed: () => context.push('/shop/s5'),
-                      child: const Text('Do\'konlardan xarid qilish'),
+                      child: Text(l10n.estimateBuyFromShops),
                     ),
                   ),
                   const SizedBox(height: DesignTokens.spacingSm),
@@ -306,7 +312,7 @@ class _E1EstimationIntroScreenState
                     width: double.infinity,
                     child: OutlinedButton(
                       onPressed: () => context.push('/masters/u1'),
-                      child: const Text('Ustaga yuborish'),
+                      child: Text(l10n.estimateSendToMaster),
                     ),
                   ),
                 ],
@@ -353,6 +359,7 @@ class _StageRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final label = _stageLabels[stage.name] ?? stage.name.name;
     return InkWell(
       onTap: onTap,
@@ -378,7 +385,7 @@ class _StageRow extends StatelessWidget {
             ),
             if (stage.isExcluded)
               Text(
-                'sizda mavjud — hisoblanmadi',
+                l10n.estimateExcludedNote,
                 style: DesignTokens.caption.copyWith(
                   color: DesignTokens.textMuted,
                 ),
@@ -387,7 +394,7 @@ class _StageRow extends StatelessWidget {
               const Icon(Icons.chevron_right, color: DesignTokens.textMuted),
             const SizedBox(width: DesignTokens.spacingSm),
             Text(
-              stage.isExcluded ? '0 so\'m' : formatSom(stage.subtotal.round()),
+              stage.isExcluded ? l10n.estimateZeroSom : formatSom(stage.subtotal.round()),
               style: DesignTokens.subtitle2.copyWith(
                 color: stage.isExcluded
                     ? DesignTokens.textMuted

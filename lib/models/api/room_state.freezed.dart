@@ -23,13 +23,13 @@ RoomState _$RoomStateFromJson(Map<String, dynamic> json) {
 mixin _$RoomState {
   @JsonKey(name: 'room_id')
   String get roomId => throw _privateConstructorUsedError;
-  @JsonKey(name: 'current_state')
+  @JsonKey(name: 'current_state', unknownEnumValue: RoomStateValue.unknown)
   RoomStateValue get currentState => throw _privateConstructorUsedError;
-  @JsonKey(name: 'floor_state')
+  @JsonKey(name: 'floor_state', unknownEnumValue: RoomStateValue.unknown)
   RoomStateValue? get floorState => throw _privateConstructorUsedError;
-  @JsonKey(name: 'ceiling_state')
+  @JsonKey(name: 'ceiling_state', unknownEnumValue: RoomStateValue.unknown)
   RoomStateValue? get ceilingState => throw _privateConstructorUsedError;
-  @JsonKey(name: 'walls_state')
+  @JsonKey(name: 'walls_state', unknownEnumValue: RoomStateValue.unknown)
   RoomStateValue? get wallsState => throw _privateConstructorUsedError;
   @JsonKey(name: 'updated_at')
   DateTime get updatedAt => throw _privateConstructorUsedError;
@@ -51,10 +51,14 @@ abstract class $RoomStateCopyWith<$Res> {
   @useResult
   $Res call({
     @JsonKey(name: 'room_id') String roomId,
-    @JsonKey(name: 'current_state') RoomStateValue currentState,
-    @JsonKey(name: 'floor_state') RoomStateValue? floorState,
-    @JsonKey(name: 'ceiling_state') RoomStateValue? ceilingState,
-    @JsonKey(name: 'walls_state') RoomStateValue? wallsState,
+    @JsonKey(name: 'current_state', unknownEnumValue: RoomStateValue.unknown)
+    RoomStateValue currentState,
+    @JsonKey(name: 'floor_state', unknownEnumValue: RoomStateValue.unknown)
+    RoomStateValue? floorState,
+    @JsonKey(name: 'ceiling_state', unknownEnumValue: RoomStateValue.unknown)
+    RoomStateValue? ceilingState,
+    @JsonKey(name: 'walls_state', unknownEnumValue: RoomStateValue.unknown)
+    RoomStateValue? wallsState,
     @JsonKey(name: 'updated_at') DateTime updatedAt,
   });
 }
@@ -124,10 +128,14 @@ abstract class _$$RoomStateImplCopyWith<$Res>
   @useResult
   $Res call({
     @JsonKey(name: 'room_id') String roomId,
-    @JsonKey(name: 'current_state') RoomStateValue currentState,
-    @JsonKey(name: 'floor_state') RoomStateValue? floorState,
-    @JsonKey(name: 'ceiling_state') RoomStateValue? ceilingState,
-    @JsonKey(name: 'walls_state') RoomStateValue? wallsState,
+    @JsonKey(name: 'current_state', unknownEnumValue: RoomStateValue.unknown)
+    RoomStateValue currentState,
+    @JsonKey(name: 'floor_state', unknownEnumValue: RoomStateValue.unknown)
+    RoomStateValue? floorState,
+    @JsonKey(name: 'ceiling_state', unknownEnumValue: RoomStateValue.unknown)
+    RoomStateValue? ceilingState,
+    @JsonKey(name: 'walls_state', unknownEnumValue: RoomStateValue.unknown)
+    RoomStateValue? wallsState,
     @JsonKey(name: 'updated_at') DateTime updatedAt,
   });
 }
@@ -189,10 +197,14 @@ class __$$RoomStateImplCopyWithImpl<$Res>
 class _$RoomStateImpl implements _RoomState {
   const _$RoomStateImpl({
     @JsonKey(name: 'room_id') required this.roomId,
-    @JsonKey(name: 'current_state') required this.currentState,
-    @JsonKey(name: 'floor_state') this.floorState,
-    @JsonKey(name: 'ceiling_state') this.ceilingState,
-    @JsonKey(name: 'walls_state') this.wallsState,
+    @JsonKey(name: 'current_state', unknownEnumValue: RoomStateValue.unknown)
+    required this.currentState,
+    @JsonKey(name: 'floor_state', unknownEnumValue: RoomStateValue.unknown)
+    this.floorState,
+    @JsonKey(name: 'ceiling_state', unknownEnumValue: RoomStateValue.unknown)
+    this.ceilingState,
+    @JsonKey(name: 'walls_state', unknownEnumValue: RoomStateValue.unknown)
+    this.wallsState,
     @JsonKey(name: 'updated_at') required this.updatedAt,
   });
 
@@ -203,16 +215,16 @@ class _$RoomStateImpl implements _RoomState {
   @JsonKey(name: 'room_id')
   final String roomId;
   @override
-  @JsonKey(name: 'current_state')
+  @JsonKey(name: 'current_state', unknownEnumValue: RoomStateValue.unknown)
   final RoomStateValue currentState;
   @override
-  @JsonKey(name: 'floor_state')
+  @JsonKey(name: 'floor_state', unknownEnumValue: RoomStateValue.unknown)
   final RoomStateValue? floorState;
   @override
-  @JsonKey(name: 'ceiling_state')
+  @JsonKey(name: 'ceiling_state', unknownEnumValue: RoomStateValue.unknown)
   final RoomStateValue? ceilingState;
   @override
-  @JsonKey(name: 'walls_state')
+  @JsonKey(name: 'walls_state', unknownEnumValue: RoomStateValue.unknown)
   final RoomStateValue? wallsState;
   @override
   @JsonKey(name: 'updated_at')
@@ -270,10 +282,14 @@ class _$RoomStateImpl implements _RoomState {
 abstract class _RoomState implements RoomState {
   const factory _RoomState({
     @JsonKey(name: 'room_id') required final String roomId,
-    @JsonKey(name: 'current_state') required final RoomStateValue currentState,
-    @JsonKey(name: 'floor_state') final RoomStateValue? floorState,
-    @JsonKey(name: 'ceiling_state') final RoomStateValue? ceilingState,
-    @JsonKey(name: 'walls_state') final RoomStateValue? wallsState,
+    @JsonKey(name: 'current_state', unknownEnumValue: RoomStateValue.unknown)
+    required final RoomStateValue currentState,
+    @JsonKey(name: 'floor_state', unknownEnumValue: RoomStateValue.unknown)
+    final RoomStateValue? floorState,
+    @JsonKey(name: 'ceiling_state', unknownEnumValue: RoomStateValue.unknown)
+    final RoomStateValue? ceilingState,
+    @JsonKey(name: 'walls_state', unknownEnumValue: RoomStateValue.unknown)
+    final RoomStateValue? wallsState,
     @JsonKey(name: 'updated_at') required final DateTime updatedAt,
   }) = _$RoomStateImpl;
 
@@ -284,16 +300,16 @@ abstract class _RoomState implements RoomState {
   @JsonKey(name: 'room_id')
   String get roomId;
   @override
-  @JsonKey(name: 'current_state')
+  @JsonKey(name: 'current_state', unknownEnumValue: RoomStateValue.unknown)
   RoomStateValue get currentState;
   @override
-  @JsonKey(name: 'floor_state')
+  @JsonKey(name: 'floor_state', unknownEnumValue: RoomStateValue.unknown)
   RoomStateValue? get floorState;
   @override
-  @JsonKey(name: 'ceiling_state')
+  @JsonKey(name: 'ceiling_state', unknownEnumValue: RoomStateValue.unknown)
   RoomStateValue? get ceilingState;
   @override
-  @JsonKey(name: 'walls_state')
+  @JsonKey(name: 'walls_state', unknownEnumValue: RoomStateValue.unknown)
   RoomStateValue? get wallsState;
   @override
   @JsonKey(name: 'updated_at')

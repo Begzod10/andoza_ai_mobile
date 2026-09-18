@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/shop_model.dart';
 import '../../providers/orders_provider.dart';
 import '../../utils/currency.dart';
@@ -23,6 +24,7 @@ class _E6OrdersScreenState extends ConsumerState<E6OrdersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final orders = ref.watch(serverOrdersProvider).maybeWhen(
       data: (data) => data,
       orElse: () => ref.watch(ordersProvider),
@@ -37,7 +39,7 @@ class _E6OrdersScreenState extends ConsumerState<E6OrdersScreen> {
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: const Text('Buyurtmalarim', style: DesignTokens.heading3),
+        title: Text(l10n.profileMenuOrders, style: DesignTokens.heading3),
       ),
       body: Column(
         children: [
@@ -52,7 +54,7 @@ class _E6OrdersScreenState extends ConsumerState<E6OrdersScreen> {
                 scrollDirection: Axis.horizontal,
                 children: [
                   _FilterChip(
-                    label: 'Barchasi',
+                    label: l10n.shopFilterAll,
                     selected: _filter == null,
                     onTap: () => setState(() => _filter = null),
                   ),
@@ -77,16 +79,15 @@ class _E6OrdersScreenState extends ConsumerState<E6OrdersScreen> {
           ),
           Expanded(
             child: visible.isEmpty
-                ? const Padding(
-                    padding: EdgeInsets.all(
+                ? Padding(
+                    padding: const EdgeInsets.all(
                       DesignTokens.screenPaddingHorizontal,
                     ),
                     child: Center(
                       child: EmptyStatePattern(
                         icon: Icons.shopping_bag_outlined,
-                        title: 'Buyurtma yo\'q',
-                        message:
-                            'Do\'kondan xarid qilganingizda shu yerda ko\'rinadi',
+                        title: l10n.profileOrdersEmptyTitle,
+                        message: l10n.profileOrdersEmptyMessage,
                       ),
                     ),
                   )
@@ -149,7 +150,9 @@ class _OrderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final extraCount = order.lines.length > 2 ? order.lines.length - 2 : 0;
 
-    return InkWell(
+    return Semantics(
+      button: true,
+      child: InkWell(
       onTap: () => context.push('/shop/s7', extra: order),
       borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
       child: Container(
@@ -244,6 +247,7 @@ class _OrderCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

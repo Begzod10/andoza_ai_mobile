@@ -7,6 +7,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../config/app_config.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/user_model.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/common/error_view.dart';
@@ -20,9 +21,11 @@ import '../../widgets/common/error_view.dart';
 /// Auth bridge: the web app authenticates via an HttpOnly `token` cookie
 /// (sent to the API with `credentials: "include"`) and gates its routes on a
 /// Zustand `uy-tamir-auth` localStorage flag. This screen reproduces both from
-/// the mobile session — it sets the cookie for the shared host (cookies ignore
-/// port, so one cookie covers both the :5173 frontend and :8000 API) and seeds
-/// the localStorage flag before navigating to [path].
+/// the mobile session — it sets the access-token cookie for the shared host
+/// (cookies ignore port, so one cookie covers both the :5173 frontend and :8000
+/// API), a matching `refresh_token` cookie so the studio's api.ts can silently
+/// refresh past the access-token TTL, and seeds the localStorage flag before
+/// navigating to [path].
 class StudioWebViewScreen extends ConsumerStatefulWidget {
   const StudioWebViewScreen({
     required this.path,
@@ -73,7 +76,7 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
     if (auth is! AuthAuthenticated) {
       setState(() {
         _loading = false;
-        _error = 'Studio ochish uchun tizimga kiring.';
+        _error = AppLocalizations.of(context)!.studioLoginRequired;
       });
       return;
     }
@@ -92,6 +95,19 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
           // a web page inside the WebView. Studio sub-pages (the tabs, e.g.
           // /studio/{id}/mebelirovka) stay in the WebView.
           onNavigationRequest: (request) {
+            // Origin containment: this WebView runs with JavaScript enabled and
+            // is seeded with the user's auth cookies, so it must never follow a
+            // main-frame navigation to a foreign host (e.g. an open-redirect to
+            // https://evil.com/studio/x, which the old path-only check would
+            // have happily kept in-WebView with the tokens attached). Anything
+            // off the studio origin is blocked outright.
+            if (request.isMainFrame && !_isAllowedStudioUrl(request.url)) {
+              debugPrint(
+                'StudioWebView: blocked off-origin navigation to '
+                '${request.url}',
+              );
+              return NavigationDecision.prevent;
+            }
             if (_studioReady &&
                 request.isMainFrame &&
                 _hasLeftStudio(request.url)) {
@@ -135,7 +151,8 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
               if (mounted) {
                 setState(() {
                   _loading = false;
-                  _error = 'Studio yuklanmadi: ${err.description}';
+                  _error = AppLocalizations.of(context)!
+                      .studioLoadFailed(err.description);
                 });
               }
             }
@@ -150,18 +167,65 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
     AuthAuthenticated auth,
     WebViewController controller,
   ) async {
-    final host = Uri.parse(AppConfig.studioBaseUrl).host;
+    final studioUri = Uri.parse(AppConfig.studioBaseUrl);
+    final host = studioUri.host;
 
-    // Set the auth cookie for the shared host so the frontend's credentialed
-    // API calls are authenticated (cookies ignore port, so one cookie covers
-    // both the frontend and the API when they share a host — the default). If
-    // STUDIO_BASE_URL is pointed at a different host than the API, this cookie
-    // won't reach the API and its calls will 401. Only the access token is
-    // seeded (no refresh_token cookie), so a session outliving the token's TTL
-    // would drop auth; fine for a normal editing session.
-    await WebViewCookieManager().setCookie(
+    // Never send auth tokens as cleartext cookies over an insecure origin: a
+    // plaintext http:// studio pointed at a non-loopback host would leak both
+    // the access and refresh tokens on the wire. https is always safe; plain
+    // http is tolerated only for local dev hosts (emulator loopback / LAN),
+    // where there's no meaningful MITM surface. Otherwise we skip cookie
+    // seeding entirely and just load the page unauthenticated.
+    if (studioUri.scheme != 'https' && !_isDevHost(host)) {
+      debugPrint(
+        'StudioWebView: refusing to seed auth cookies to insecure origin '
+        '${AppConfig.studioBaseUrl} (non-https, non-dev host); loading '
+        'without auth to avoid sending tokens in cleartext.',
+      );
+      await controller.loadRequest(studioUri);
+      return;
+    }
+
+    final cookies = WebViewCookieManager();
+
+    // Set the access-token cookie for the shared host so the frontend's
+    // credentialed API calls are authenticated (cookies ignore port, so one
+    // cookie covers both the frontend and the API when they share a host — the
+    // default). If STUDIO_BASE_URL is pointed at a different host than the API,
+    // this cookie won't reach the API and its calls will 401.
+    await cookies.setCookie(
       WebViewCookie(name: 'token', value: auth.token, domain: host, path: '/'),
     );
+
+    // Also seed the refresh-token cookie so the studio's api.ts can silently
+    // refresh once the short-lived access token expires — without this the
+    // WebView session dies at the access-token TTL. The web refresh path
+    // (`_tryRefresh` in frontend/src/lib/api.ts) is a bare
+    // `POST {API}/auth/refresh` with `credentials: "include"` and NO body: it
+    // relies entirely on the backend reading the `refresh_token` cookie (see
+    // backend auth.py `refresh_tokens`, a `refresh_token: Cookie()` param). The
+    // backend scopes that cookie to `path=/api/v1/auth/refresh`, so we mirror it
+    // exactly — same name, same path — and the WebView will send it on the
+    // refresh call. The value is the refresh token the mobile app already holds
+    // in secure storage; the backend rotates both cookies on each refresh, so
+    // the studio session then outlives the access-token TTL on its own.
+    final refreshToken =
+        await ref.read(secureStorageProvider).getRefreshToken();
+    if (refreshToken != null && refreshToken.isNotEmpty) {
+      // Derive the refresh path from the configured API base path so it stays
+      // in sync with the backend's cookie scope (`/api/v1` by default).
+      final apiPath = Uri.parse(AppConfig.apiUrl).path;
+      final basePath =
+          apiPath.endsWith('/') ? apiPath.substring(0, apiPath.length - 1) : apiPath;
+      await cookies.setCookie(
+        WebViewCookie(
+          name: 'refresh_token',
+          value: refreshToken,
+          domain: host,
+          path: '$basePath/auth/refresh',
+        ),
+      );
+    }
 
     // First load: the origin root establishes the origin so localStorage is
     // writable. It may bounce to /login (not yet seeded) — that's expected.
@@ -174,6 +238,40 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
   /// tabs (`/studio`, `/studio/{id}`, `/studio/{id}/{tab}`) return false so
   /// in-studio navigation stays in the WebView. A null/empty URL returns
   /// false so a spurious url change never triggers an exit.
+  /// Whether [url] is a navigation this WebView is allowed to follow: it must
+  /// share the studio's host, and use https (or plain http only when the studio
+  /// origin is itself a local dev host). This is the host-level containment the
+  /// old path-only [_hasLeftStudio] check was missing — it stops an
+  /// open-redirect / injected `window.location` to a foreign origin from
+  /// staying inside this JS-enabled, auth-seeded WebView.
+  bool _isAllowedStudioUrl(String url) {
+    final uri = Uri.tryParse(url);
+    if (uri == null || !uri.hasScheme || uri.host.isEmpty) return false;
+    final studio = Uri.parse(AppConfig.studioBaseUrl);
+    if (uri.host != studio.host) return false;
+    if (uri.scheme == 'https') return true;
+    // Plain http is only acceptable to a local dev host.
+    return uri.scheme == 'http' && _isDevHost(studio.host);
+  }
+
+  /// Whether [host] is a local development host (loopback or private LAN) for
+  /// which plaintext http is acceptable. Mirrors the cleartext allow-list in
+  /// android/app/src/main/res/xml/network_security_config.xml.
+  bool _isDevHost(String host) {
+    const explicit = {
+      '10.0.2.2', // Android emulator host loopback
+      'localhost',
+      '127.0.0.1',
+      '192.168.1.29', // CLAUDE.md dev backend
+      '192.168.1.5', // CLAUDE.md dev host
+    };
+    if (explicit.contains(host)) return true;
+    // Common private LAN ranges used for on-device development.
+    return host.startsWith('192.168.') ||
+        host.startsWith('10.') ||
+        host.startsWith('172.16.');
+  }
+
   bool _hasLeftStudio(String? url) {
     if (url == null) return false;
     final path = Uri.tryParse(url)?.path ?? '';

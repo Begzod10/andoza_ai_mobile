@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/design_selection_model.dart';
 import '../../models/room_model.dart';
 import '../../models/room_plan.dart';
@@ -92,6 +93,7 @@ class _RoomSummaryScreenState extends ConsumerState<RoomSummaryScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final walls = ref.watch(wallMeasurementsProvider);
 
     // The rectangle plan is the single source of truth for the stats below —
@@ -129,8 +131,8 @@ class _RoomSummaryScreenState extends ConsumerState<RoomSummaryScreen>
                       ),
                     ),
                     const SizedBox(height: DesignTokens.spacingMd),
-                    const Text(
-                      'O\'lchamlar saqlandi!',
+                    Text(
+                      l10n.summarySavedTitle,
                       style: DesignTokens.heading2,
                       textAlign: TextAlign.center,
                     ),
@@ -147,18 +149,21 @@ class _RoomSummaryScreenState extends ConsumerState<RoomSummaryScreen>
                 childAspectRatio: 1.3,
                 children: [
                   _StatCard(
-                    label: 'pol',
+                    label: l10n.summaryStatFloor,
                     value: '${floorArea.toStringAsFixed(1)} m²',
                   ),
                   _StatCard(
-                    label: 'devor (netto)',
+                    label: l10n.summaryStatWallNet,
                     value: '${nettoWallArea.toStringAsFixed(1)} m²',
                   ),
                   _StatCard(
-                    label: 'perimetr',
+                    label: l10n.summaryStatPerimeter,
                     value: '${perimeter.toStringAsFixed(1)} m',
                   ),
-                  _StatCard(label: 'eshik/deraza', value: '$openingCount ta'),
+                  _StatCard(
+                    label: l10n.summaryStatOpenings,
+                    value: l10n.summaryOpeningsCount(openingCount),
+                  ),
                 ],
               ),
               const SizedBox(height: DesignTokens.spacingMd),
@@ -178,7 +183,7 @@ class _RoomSummaryScreenState extends ConsumerState<RoomSummaryScreen>
                     const SizedBox(width: DesignTokens.spacingSm),
                     Expanded(
                       child: Text(
-                        'Eshik/derazalar avtomatik ayirilgan (netto)',
+                        l10n.summaryOpeningsNote,
                         style: DesignTokens.caption.copyWith(
                           color: DesignTokens.textGray,
                         ),
@@ -193,7 +198,7 @@ class _RoomSummaryScreenState extends ConsumerState<RoomSummaryScreen>
                 height: DesignTokens.buttonHeightLarge,
                 child: ElevatedButton(
                   onPressed: () => _continueToNextBatch(context, ref),
-                  child: const Text('Davom etish'),
+                  child: Text(l10n.actionContinue),
                 ),
               ),
               const SizedBox(height: DesignTokens.spacingMd),
@@ -201,7 +206,7 @@ class _RoomSummaryScreenState extends ConsumerState<RoomSummaryScreen>
                 width: double.infinity,
                 child: OutlinedButton(
                   onPressed: () => showNewProjectSheet(context),
-                  child: const Text('+ Yangi xona qo\'shish'),
+                  child: Text(l10n.summaryAddRoom),
                 ),
               ),
               const SizedBox(height: DesignTokens.spacingXl),

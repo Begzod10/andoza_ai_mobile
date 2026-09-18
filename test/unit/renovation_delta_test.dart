@@ -214,7 +214,9 @@ void main() {
         currentStage: RenovationStage.suvoq,
       );
 
-      expect(states.length, RenovationStage.values.length);
+      // RenovationStage.values now also includes the `unknown` deserialization
+      // fallback; deriveStageStates returns only the 8 canonical stages.
+      expect(states.length, kRenovationStages.length);
       expect(states.length, 8);
     },
   );

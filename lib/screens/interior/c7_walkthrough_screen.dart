@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/design_selection_model.dart';
 import '../../providers/design_provider.dart';
 import '../../widgets/room/room_perspective_view.dart';
@@ -21,6 +22,7 @@ class _C7WalkthroughScreenState extends ConsumerState<C7WalkthroughScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final condition =
         ref.watch(activeDesignProvider.select((d) => d?.roomCondition));
 
@@ -64,8 +66,8 @@ class _C7WalkthroughScreenState extends ConsumerState<C7WalkthroughScreen> {
                         DesignTokens.radiusFull,
                       ),
                     ),
-                    child: const Text(
-                      'Polda yurish mumkin — barmoq bilan suring',
+                    child: Text(
+                      l10n.interiorWalkthroughHint,
                       style: DesignTokens.caption,
                     ),
                   ),
@@ -134,7 +136,7 @@ class _C7WalkthroughScreenState extends ConsumerState<C7WalkthroughScreen> {
             child: SafeArea(
               child: OutlinedButton(
                 onPressed: () => context.push('/interior/c8'),
-                child: const Text('Rejaga o\'tish →'),
+                child: Text(l10n.interiorGoToPlan),
               ),
             ),
           ),

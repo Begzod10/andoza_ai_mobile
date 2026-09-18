@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/room_model.dart' show WallType;
 import '../../models/room_plan.dart';
 import '../../providers/lidar_provider.dart';
@@ -221,6 +222,7 @@ class _LiDARScanningScreenState extends ConsumerState<LiDARScanningScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final scanState = ref.watch(liDARScanProvider);
 
     ref.listen<LiDARScanState>(liDARScanProvider, (previous, next) {
@@ -251,7 +253,7 @@ class _LiDARScanningScreenState extends ConsumerState<LiDARScanningScreen>
                     children: [
                       _RoundIconButton(
                         icon: Icons.close,
-                        semanticLabel: 'Yopish',
+                        semanticLabel: l10n.actionClose,
                         onTap: () => Navigator.of(context).pop(),
                       ),
                     ],
@@ -297,16 +299,16 @@ class _LiDARScanningScreenState extends ConsumerState<LiDARScanningScreen>
                     child: child,
                   ),
                   child: Text(
-                    'Skanerlanyapti...',
+                    l10n.lidarScanning,
                     style: DesignTokens.subtitle1.copyWith(
                       color: DesignTokens.white,
                     ),
                   ),
                 ),
                 const Spacer(),
-                const _HintPill(
+                _HintPill(
                   icon: Icons.screen_rotation_alt_outlined,
-                  label: 'Telefonni sekin harakatlantiring',
+                  label: l10n.lidarMoveHint,
                 ),
                 const SizedBox(height: DesignTokens.spacingMd),
                 Container(
@@ -325,17 +327,17 @@ class _LiDARScanningScreenState extends ConsumerState<LiDARScanningScreen>
                     children: [
                       _FoundStat(
                         icon: Icons.crop_square_outlined,
-                        label: 'devor',
+                        label: l10n.lidarLabelWall,
                         count: scanState.wallsFound,
                       ),
                       _FoundStat(
                         icon: Icons.door_front_door_outlined,
-                        label: 'eshik',
+                        label: l10n.lidarLabelDoor,
                         count: scanState.doorsFound,
                       ),
                       _FoundStat(
                         icon: Icons.window_outlined,
-                        label: 'deraza',
+                        label: l10n.lidarLabelWindow,
                         count: scanState.windowsFound,
                       ),
                     ],

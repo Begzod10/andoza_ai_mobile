@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/design_selection_model.dart';
 import '../../providers/design_provider.dart';
 import '../../widgets/common/success_toast.dart';
@@ -49,11 +50,12 @@ class _B3DecorationRailScreenState
       _wallpaperColor = item.color;
       _showOnboarding = false;
     });
-    SuccessToast.show(context, '✓ Shpaklovka qo\'shildi');
+    SuccessToast.show(context, AppLocalizations.of(context)!.designToastShpaklovkaAdded);
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final design = ref.watch(activeDesignProvider);
     final condition = design?.roomCondition;
     final stageStates = condition == null
@@ -84,9 +86,9 @@ class _B3DecorationRailScreenState
                 ),
                 child: StageProgressLine(
                   currentStep: RenovationStage.boyoqOboi.index,
-                  totalSteps: RenovationStage.values.length,
+                  totalSteps: kRenovationStages.length,
                   stageStates: stageStates,
-                  stageLabel: 'Bo\'yoq/Oboi bosqichi',
+                  stageLabel: l10n.designStageBoyoqOboi,
                 ),
               ),
             ),
@@ -96,7 +98,7 @@ class _B3DecorationRailScreenState
             child: SafeArea(
               child: Room3DRail(
                 initiallyExpanded: true,
-                tabs: const [RailTab(label: 'Bo\'yoq', items: _paintSwatches)],
+                tabs: [RailTab(label: l10n.designRailTabBoyoq, items: _paintSwatches)],
                 onItemSelected: _applySwatch,
                 selectedItemId: null,
               ),
@@ -118,13 +120,13 @@ class _B3DecorationRailScreenState
                           DesignTokens.radiusLg,
                         ),
                       ),
-                      child: const Column(
+                      child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text('👆', style: TextStyle(fontSize: 40)),
-                          SizedBox(height: DesignTokens.spacingMd),
+                          const Text('👆', style: TextStyle(fontSize: 40)),
+                          const SizedBox(height: DesignTokens.spacingMd),
                           Text(
-                            'Materialni barmog\'ingiz bilan devorga sudrang',
+                            l10n.designDragHint,
                             textAlign: TextAlign.center,
                             style: DesignTokens.body1,
                           ),
@@ -147,7 +149,7 @@ class _B3DecorationRailScreenState
                   height: DesignTokens.buttonHeightLarge,
                   child: ElevatedButton(
                     onPressed: () => context.push('/interior/c1'),
-                    child: const Text('Keyingi bosqich →'),
+                    child: Text(l10n.designNextStage),
                   ),
                 ),
               ),

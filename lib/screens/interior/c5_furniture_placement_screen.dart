@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/design_selection_model.dart';
 import '../../providers/design_provider.dart';
 import '../../widgets/design/furniture_edit_card.dart';
@@ -77,6 +78,7 @@ class _C5FurniturePlacementScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final design = ref.watch(activeDesignProvider);
     final condition = design?.roomCondition;
     final placements = design?.furniture ?? const <FurniturePlacement>[];
@@ -159,7 +161,7 @@ class _C5FurniturePlacementScreenState
                   color: Colors.white.withValues(alpha: 0.92),
                   borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
                 ),
-                child: const Text('Mebel bosqichi', style: DesignTokens.subtitle2),
+                child: Text(l10n.interiorStageMebel, style: DesignTokens.subtitle2),
               ),
             ),
           ),
@@ -168,11 +170,11 @@ class _C5FurniturePlacementScreenState
             child: SafeArea(
               child: Room3DRail(
                 initiallyExpanded: true,
-                tabs: const [
-                  RailTab(label: 'Mehmonxona', items: _mehmonxonaFurniture),
-                  RailTab(label: 'Oshxona', items: _oshxonaFurniture),
-                  RailTab(label: 'Yotoqxona', items: _yotoqxonaFurniture),
-                  RailTab(label: 'Vanna', items: _vannaFurniture),
+                tabs: [
+                  RailTab(label: l10n.interiorRailTabMehmonxona, items: _mehmonxonaFurniture),
+                  RailTab(label: l10n.interiorRailTabOshxona, items: _oshxonaFurniture),
+                  RailTab(label: l10n.interiorRailTabYotoqxona, items: _yotoqxonaFurniture),
+                  RailTab(label: l10n.interiorRailTabVanna, items: _vannaFurniture),
                 ],
                 onItemSelected: (_) {}, // Placement happens via drag-drop only.
               ),
@@ -190,7 +192,7 @@ class _C5FurniturePlacementScreenState
                   height: DesignTokens.buttonHeightLarge,
                   child: ElevatedButton(
                     onPressed: () => context.push('/interior/c7'),
-                    child: const Text('Keyingi bosqich →'),
+                    child: Text(l10n.designNextStage),
                   ),
                 ),
               ),

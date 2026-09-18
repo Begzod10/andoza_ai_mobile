@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/api/api.dart';
+import '../../utils/error_mapper.dart';
 import '../../models/shop_model.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/orders_provider.dart';
@@ -114,13 +116,18 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Buyurtmani serverga saqlashda xatolik: $e')),
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context)!.shopOrderSaveError(mapErrorToMessage(e)),
+          ),
+        ),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final lines = ref.watch(cartProvider);
     final grouped = ref.watch(cartByDealerProvider);
     final materialsTotal = cartMaterialsTotal(lines);
@@ -135,7 +142,7 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: const Text('To\'lov', style: DesignTokens.heading3),
+        title: Text(l10n.shopCheckoutTitle, style: DesignTokens.heading3),
       ),
       body: Column(
         children: [
@@ -145,7 +152,7 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
                 DesignTokens.screenPaddingHorizontal,
               ),
               children: [
-                const Text('Yetkazish manzili', style: DesignTokens.subtitle2),
+                Text(l10n.shopDeliveryAddress, style: DesignTokens.subtitle2),
                 const SizedBox(height: DesignTokens.spacingSm),
                 Container(
                   height: 100,
@@ -164,16 +171,16 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
                 const SizedBox(height: DesignTokens.spacingSm),
                 TextField(
                   controller: _addressController,
-                  decoration: const InputDecoration(hintText: 'Manzil'),
+                  decoration: InputDecoration(hintText: l10n.shopAddressHint),
                 ),
                 const SizedBox(height: DesignTokens.spacingSm),
                 TextField(
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
-                  decoration: const InputDecoration(hintText: 'Telefon raqami'),
+                  decoration: InputDecoration(hintText: l10n.shopPhoneHint),
                 ),
                 const SizedBox(height: DesignTokens.spacingLg),
-                const Text('To\'lov usuli', style: DesignTokens.subtitle2),
+                Text(l10n.shopPaymentMethod, style: DesignTokens.subtitle2),
                 const SizedBox(height: DesignTokens.spacingSm),
                 GridView.count(
                   crossAxisCount: 2,
@@ -192,7 +199,7 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
                   ],
                 ),
                 const SizedBox(height: DesignTokens.spacingLg),
-                const Text('Buyurtma xulosasi', style: DesignTokens.subtitle2),
+                Text(l10n.shopOrderSummary, style: DesignTokens.subtitle2),
                 const SizedBox(height: DesignTokens.spacingSm),
                 Container(
                   padding: const EdgeInsets.all(DesignTokens.spacingMd),
@@ -204,11 +211,14 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
                   child: Column(
                     children: [
                       _Row(
-                        label: 'Materiallar',
+                        label: l10n.shopMaterials,
                         value: formatSom(materialsTotal),
                       ),
                       const SizedBox(height: DesignTokens.spacingXs),
-                      _Row(label: 'Yetkazish', value: formatSom(deliveryTotal)),
+                      _Row(
+                        label: l10n.shopDelivery,
+                        value: formatSom(deliveryTotal),
+                      ),
                     ],
                   ),
                 ),
@@ -229,7 +239,7 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('To\'lanadi', style: DesignTokens.subtitle1),
+                      Text(l10n.shopAmountDue, style: DesignTokens.subtitle1),
                       Text(
                         formatSom(grandTotal),
                         style: DesignTokens.heading3.copyWith(
@@ -257,7 +267,7 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
                                 color: DesignTokens.white,
                               ),
                             )
-                          : const Text('To\'lash'),
+                          : Text(l10n.shopPay),
                     ),
                   ),
                 ],
@@ -283,7 +293,10 @@ class _PaymentTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return Semantics(
+      button: true,
+      selected: selected,
+      child: InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
       child: Container(
@@ -323,6 +336,7 @@ class _PaymentTile extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

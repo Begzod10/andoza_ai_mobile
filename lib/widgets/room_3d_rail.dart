@@ -102,13 +102,16 @@ class _Room3DRailState extends State<Room3DRail>
       },
       child: Column(
         children: [
-          InkWell(
-            onTap: _toggle,
-            child: SizedBox(
-              height: 44,
-              child: Icon(
-                _isExpanded ? Icons.chevron_right : Icons.chevron_left,
-                color: DesignTokens.textGray,
+          Semantics(
+            button: true,
+            child: InkWell(
+              onTap: _toggle,
+              child: SizedBox(
+                height: 44,
+                child: Icon(
+                  _isExpanded ? Icons.chevron_right : Icons.chevron_left,
+                  color: DesignTokens.textGray,
+                ),
               ),
             ),
           ),
@@ -181,7 +184,11 @@ class _RailItemTile extends StatelessWidget {
         child: _swatch(opacity: 0.85),
       ),
       childWhenDragging: Opacity(opacity: 0.3, child: _swatch()),
-      child: GestureDetector(onTap: onTap, child: _swatch()),
+      child: Semantics(
+        button: true,
+        selected: selected,
+        child: GestureDetector(onTap: onTap, child: _swatch()),
+      ),
     );
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../providers/electrical_provider.dart';
 import '../../widgets/electrical/electrical_totals_card.dart';
 
@@ -12,6 +13,7 @@ class D9CostEstimateScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final layout = ref.watch(electricalLayoutProvider);
 
     return Scaffold(
@@ -19,7 +21,7 @@ class D9CostEstimateScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: const Text('Elektr natijasi', style: DesignTokens.heading3),
+        title: Text(l10n.electricalResult, style: DesignTokens.heading3),
       ),
       body: SafeArea(
         child: Padding(
@@ -39,7 +41,7 @@ class D9CostEstimateScreen extends ConsumerWidget {
                 height: DesignTokens.buttonHeightLarge,
                 child: ElevatedButton(
                   onPressed: () => context.push('/electrical/d10'),
-                  child: const Text('Yakunlash →'),
+                  child: Text(l10n.electricalFinish),
                 ),
               ),
             ],

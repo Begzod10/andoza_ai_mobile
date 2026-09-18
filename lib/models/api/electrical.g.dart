@@ -11,7 +11,11 @@ _$ElectricalDeviceOutImpl _$$ElectricalDeviceOutImplFromJson(
 ) => _$ElectricalDeviceOutImpl(
   id: json['id'] as String,
   roomId: json['room_id'] as String,
-  type: $enumDecode(_$ElectricalDeviceTypeEnumMap, json['type']),
+  type: $enumDecode(
+    _$ElectricalDeviceTypeEnumMap,
+    json['type'],
+    unknownValue: ElectricalDeviceType.unknown,
+  ),
   variant: json['variant'] as String?,
   wallIndex: (json['wall_index'] as num).toInt(),
   x: (json['x'] as num).toDouble(),
@@ -38,12 +42,17 @@ const _$ElectricalDeviceTypeEnumMap = {
   ElectricalDeviceType.light: 'light',
   ElectricalDeviceType.panel: 'panel',
   ElectricalDeviceType.box: 'box',
+  ElectricalDeviceType.unknown: 'unknown',
 };
 
 _$ElectricalDeviceCreateImpl _$$ElectricalDeviceCreateImplFromJson(
   Map<String, dynamic> json,
 ) => _$ElectricalDeviceCreateImpl(
-  type: $enumDecode(_$ElectricalDeviceTypeEnumMap, json['type']),
+  type: $enumDecode(
+    _$ElectricalDeviceTypeEnumMap,
+    json['type'],
+    unknownValue: ElectricalDeviceType.unknown,
+  ),
   variant: json['variant'] as String?,
   wallIndex: (json['wall_index'] as num).toInt(),
   x: (json['x'] as num).toDouble(),

@@ -13,7 +13,18 @@ enum WallType {
   wallC,
   @JsonValue('WALL_D')
   wallD,
+
+  /// Fallback for any wall identifier the backend adds that this client predates.
+  /// Deserialization maps unknown strings here instead of throwing.
+  unknown,
 }
+
+/// The 4 canonical walls (A–D), in order, EXCLUDING [WallType.unknown]
+/// (a deserialization-only fallback). Index-address walls through this list,
+/// never `WallType.values`, so a rectangular room's wall 0–3 map is stable.
+final List<WallType> kWallTypes = WallType.values
+    .where((w) => w != WallType.unknown)
+    .toList(growable: false);
 
 /// Shared opening type for both [Door] and [Window] fixtures.
 enum OpeningType {
@@ -23,6 +34,10 @@ enum OpeningType {
   dual,
   @JsonValue('SLIDING')
   sliding,
+
+  /// Fallback for any opening type the backend adds that this client predates.
+  /// Deserialization maps unknown strings here instead of throwing.
+  unknown,
 }
 
 /// Overall footprint of a captured room: width, height and length.
@@ -55,7 +70,7 @@ class WallMeasurements with _$WallMeasurements {
 class Wall with _$Wall {
   const factory Wall({
     required String id,
-    required WallType type,
+    @JsonKey(unknownEnumValue: WallType.unknown) required WallType type,
     required WallMeasurements measurements,
     String? texture,
   }) = _Wall;
@@ -73,7 +88,7 @@ class Door with _$Door {
     required double position,
     required double width,
     required double height,
-    required OpeningType type,
+    @JsonKey(unknownEnumValue: OpeningType.unknown) required OpeningType type,
   }) = _Door;
 
   factory Door.fromJson(Map<String, dynamic> json) => _$DoorFromJson(json);
@@ -89,7 +104,7 @@ class Window with _$Window {
     required double position,
     required double width,
     required double height,
-    required OpeningType type,
+    @JsonKey(unknownEnumValue: OpeningType.unknown) required OpeningType type,
   }) = _Window;
 
   factory Window.fromJson(Map<String, dynamic> json) => _$WindowFromJson(json);

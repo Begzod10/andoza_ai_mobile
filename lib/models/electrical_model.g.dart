@@ -10,7 +10,11 @@ _$ElectricalDeviceImpl _$$ElectricalDeviceImplFromJson(
   Map<String, dynamic> json,
 ) => _$ElectricalDeviceImpl(
   id: json['id'] as String,
-  type: $enumDecode(_$DeviceTypeEnumMap, json['type']),
+  type: $enumDecode(
+    _$DeviceTypeEnumMap,
+    json['type'],
+    unknownValue: DeviceType.unknown,
+  ),
   position: const OffsetConverter().fromJson(
     json['position'] as Map<String, dynamic>,
   ),
@@ -19,7 +23,11 @@ _$ElectricalDeviceImpl _$$ElectricalDeviceImplFromJson(
   heightCm: (json['heightCm'] as num?)?.toDouble() ?? 100,
   gangCount: (json['gangCount'] as num?)?.toInt() ?? 1,
   colorOption: json['colorOption'] as String?,
-  colorTemp: $enumDecodeNullable(_$ColorTempEnumMap, json['colorTemp']),
+  colorTemp: $enumDecodeNullable(
+    _$ColorTempEnumMap,
+    json['colorTemp'],
+    unknownValue: ColorTemp.unknown,
+  ),
 );
 
 Map<String, dynamic> _$$ElectricalDeviceImplToJson(
@@ -41,6 +49,7 @@ const _$DeviceTypeEnumMap = {
   DeviceType.lightSwitch: 'SWITCH',
   DeviceType.light: 'LIGHT',
   DeviceType.breaker: 'BREAKER',
+  DeviceType.unknown: 'unknown',
 };
 
 const _$ColorTempEnumMap = {
@@ -48,6 +57,7 @@ const _$ColorTempEnumMap = {
   ColorTemp.neutral: 'NEUTRAL',
   ColorTemp.cold: 'COLD',
   ColorTemp.rgb: 'RGB',
+  ColorTemp.unknown: 'unknown',
 };
 
 _$WireSegmentImpl _$$WireSegmentImplFromJson(Map<String, dynamic> json) =>
@@ -75,7 +85,11 @@ _$PipeSegmentImpl _$$PipeSegmentImplFromJson(Map<String, dynamic> json) =>
         json['from'] as Map<String, dynamic>,
       ),
       to: const OffsetConverter().fromJson(json['to'] as Map<String, dynamic>),
-      type: $enumDecode(_$PipeTypeEnumMap, json['type']),
+      type: $enumDecode(
+        _$PipeTypeEnumMap,
+        json['type'],
+        unknownValue: PipeType.unknown,
+      ),
     );
 
 Map<String, dynamic> _$$PipeSegmentImplToJson(_$PipeSegmentImpl instance) =>
@@ -86,7 +100,11 @@ Map<String, dynamic> _$$PipeSegmentImplToJson(_$PipeSegmentImpl instance) =>
       'type': _$PipeTypeEnumMap[instance.type]!,
     };
 
-const _$PipeTypeEnumMap = {PipeType.hot: 'HOT', PipeType.cold: 'COLD'};
+const _$PipeTypeEnumMap = {
+  PipeType.hot: 'HOT',
+  PipeType.cold: 'COLD',
+  PipeType.unknown: 'unknown',
+};
 
 _$JunctionBoxImpl _$$JunctionBoxImplFromJson(Map<String, dynamic> json) =>
     _$JunctionBoxImpl(

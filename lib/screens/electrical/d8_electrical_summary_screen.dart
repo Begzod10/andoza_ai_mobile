@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/design_selection_model.dart';
 import '../../providers/design_provider.dart';
 import '../../providers/electrical_provider.dart';
@@ -28,6 +29,7 @@ class _D8ElectricalSummaryScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final layout = ref.watch(electricalLayoutProvider);
     final room = ref.watch(activeRoomProvider);
 
@@ -36,7 +38,7 @@ class _D8ElectricalSummaryScreenState
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        title: const Text('Sim yo\'nalishi', style: DesignTokens.heading3),
+        title: Text(l10n.electricalWireRouting, style: DesignTokens.heading3),
       ),
       body: SafeArea(
         child: Column(
@@ -47,21 +49,21 @@ class _D8ElectricalSummaryScreenState
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ChoiceChip(
-                    label: const Text('2D reja'),
+                    label: Text(l10n.electricalView2d),
                     selected: _view == _RoutingView.plan2d,
                     onSelected: (_) =>
                         setState(() => _view = _RoutingView.plan2d),
                   ),
                   const SizedBox(width: DesignTokens.spacingSm),
                   ChoiceChip(
-                    label: const Text('3D'),
+                    label: Text(l10n.electricalView3d),
                     selected: _view == _RoutingView.view3d,
                     onSelected: (_) =>
                         setState(() => _view = _RoutingView.view3d),
                   ),
                   const SizedBox(width: DesignTokens.spacingSm),
                   ChoiceChip(
-                    label: const Text('Ikkalasi'),
+                    label: Text(l10n.electricalViewBoth),
                     selected: _view == _RoutingView.both,
                     onSelected: (_) =>
                         setState(() => _view = _RoutingView.both),
@@ -123,7 +125,7 @@ class _D8ElectricalSummaryScreenState
                             .recomputeWires();
                       },
                       icon: const Icon(Icons.refresh),
-                      label: const Text('Trassani qayta hisoblash'),
+                      label: Text(l10n.electricalRecomputeRoute),
                     ),
                   ),
                   const SizedBox(height: DesignTokens.spacingSm),
@@ -132,7 +134,7 @@ class _D8ElectricalSummaryScreenState
                     height: DesignTokens.buttonHeightLarge,
                     child: ElevatedButton(
                       onPressed: () => context.push('/electrical/d9'),
-                      child: const Text('Keyingi →'),
+                      child: Text(l10n.electricalNext),
                     ),
                   ),
                 ],

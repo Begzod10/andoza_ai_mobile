@@ -20,13 +20,13 @@ class RoomConditionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        for (final option in SurfaceCondition.values) ...[
+        for (final option in kSurfaceConditions) ...[
           _TextureOption(
             condition: option,
             selected: option == condition,
             onTap: () => onChanged(option),
           ),
-          if (option != SurfaceCondition.values.last)
+          if (option != kSurfaceConditions.last)
             const SizedBox(height: DesignTokens.spacingMd),
         ],
       ],
@@ -49,17 +49,22 @@ class _TextureOption extends StatelessWidget {
     SurfaceCondition.raw => 'Korobka (xom)',
     SurfaceCondition.plastered => 'Suvoq qilingan',
     SurfaceCondition.puttied => 'Shpaklovka qilingan',
+    SurfaceCondition.unknown => 'Korobka (xom)',
   };
 
   Color get _textureColor => switch (condition) {
     SurfaceCondition.raw => DesignTokens.roomState.korobka,
     SurfaceCondition.plastered => DesignTokens.roomState.suvoq,
     SurfaceCondition.puttied => DesignTokens.roomState.shpaklovka,
+    SurfaceCondition.unknown => DesignTokens.roomState.korobka,
   };
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return Semantics(
+      button: true,
+      selected: selected,
+      child: InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
       child: Container(
@@ -119,6 +124,7 @@ class _TextureOption extends StatelessWidget {
           ],
         ),
       ),
+      ),
     );
   }
 }
@@ -164,6 +170,7 @@ class _TexturePainter extends CustomPainter {
             speckPaint,
           );
         }
+      case SurfaceCondition.unknown:
       case SurfaceCondition.puttied:
         break; // Smooth, flat fill only.
     }

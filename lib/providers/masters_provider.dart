@@ -3,9 +3,9 @@ import '../models/api/usta.dart';
 import '../repositories/masters_repository.dart';
 import 'catalog_provider.dart';
 
-/// Trade categories per spec's exact color-per-trade mapping. No backend
-/// `/masters` endpoint exists — mock data only for this rebuild pass,
-/// consistent with the plan's guidance for Batch U/S.
+/// Trade categories per spec's exact color-per-trade mapping. NOTE: this is
+/// backend-wired — [mockMastersProvider] maps the real `/ustalar` directory
+/// (via [ustalarProvider]) onto the UI shape; the name is legacy, not mock data.
 enum Trade { elektrik, suvoqchi, kafelchi, santexnik, duradgor }
 
 extension TradeInfo on Trade {
@@ -70,6 +70,25 @@ final mockMastersProvider = Provider<List<MockMaster>>((ref) {
 
 /// No category/district filter → the full craftsmen directory.
 const UstaFilter _allUstalarFilter = (category: null, district: null);
+
+/// The error that made [mockMastersProvider] empty, if any. [mockMastersProvider]
+/// collapses loading AND error into an empty list, so a screen watching only it
+/// can't tell "backend down" from "no craftsmen". Watch this alongside it to show
+/// an error + retry instead of a misleading empty map/list; it's `null` while
+/// loading and on success.
+///
+/// Follow-up (not done here — the U1 map / U3 list screens are outside this
+/// change's ownership): have those screens watch this + [mastersLoadingProvider]
+/// and render an error/retry view.
+final mastersLoadErrorProvider = Provider<Object?>((ref) {
+  return ref.watch(ustalarProvider(_allUstalarFilter)).error;
+});
+
+/// Whether the craftsmen directory is still loading, so the UI can distinguish
+/// "loading" from "no results" — both of which leave [mockMastersProvider] empty.
+final mastersLoadingProvider = Provider<bool>((ref) {
+  return ref.watch(ustalarProvider(_allUstalarFilter)).isLoading;
+});
 
 /// Maps a backend [Usta] onto the UI's [MockMaster] shape. Fields the server
 /// doesn't provide ([MockMaster.experienceYears], [MockMaster.isOnline]) are

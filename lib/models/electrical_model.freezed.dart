@@ -22,6 +22,7 @@ ElectricalDevice _$ElectricalDeviceFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ElectricalDevice {
   String get id => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: DeviceType.unknown)
   DeviceType get type => throw _privateConstructorUsedError;
   @OffsetConverter()
   Offset get position => throw _privateConstructorUsedError;
@@ -30,6 +31,7 @@ mixin _$ElectricalDevice {
   double get heightCm => throw _privateConstructorUsedError;
   int get gangCount => throw _privateConstructorUsedError;
   String? get colorOption => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: ColorTemp.unknown)
   ColorTemp? get colorTemp => throw _privateConstructorUsedError;
 
   /// Serializes this ElectricalDevice to a JSON map.
@@ -51,14 +53,14 @@ abstract class $ElectricalDeviceCopyWith<$Res> {
   @useResult
   $Res call({
     String id,
-    DeviceType type,
+    @JsonKey(unknownEnumValue: DeviceType.unknown) DeviceType type,
     @OffsetConverter() Offset position,
     String wallId,
     double? amps,
     double heightCm,
     int gangCount,
     String? colorOption,
-    ColorTemp? colorTemp,
+    @JsonKey(unknownEnumValue: ColorTemp.unknown) ColorTemp? colorTemp,
   });
 }
 
@@ -142,14 +144,14 @@ abstract class _$$ElectricalDeviceImplCopyWith<$Res>
   @useResult
   $Res call({
     String id,
-    DeviceType type,
+    @JsonKey(unknownEnumValue: DeviceType.unknown) DeviceType type,
     @OffsetConverter() Offset position,
     String wallId,
     double? amps,
     double heightCm,
     int gangCount,
     String? colorOption,
-    ColorTemp? colorTemp,
+    @JsonKey(unknownEnumValue: ColorTemp.unknown) ColorTemp? colorTemp,
   });
 }
 
@@ -225,14 +227,14 @@ class __$$ElectricalDeviceImplCopyWithImpl<$Res>
 class _$ElectricalDeviceImpl implements _ElectricalDevice {
   const _$ElectricalDeviceImpl({
     required this.id,
-    required this.type,
+    @JsonKey(unknownEnumValue: DeviceType.unknown) required this.type,
     @OffsetConverter() required this.position,
     required this.wallId,
     this.amps,
     this.heightCm = 100,
     this.gangCount = 1,
     this.colorOption,
-    this.colorTemp,
+    @JsonKey(unknownEnumValue: ColorTemp.unknown) this.colorTemp,
   });
 
   factory _$ElectricalDeviceImpl.fromJson(Map<String, dynamic> json) =>
@@ -241,6 +243,7 @@ class _$ElectricalDeviceImpl implements _ElectricalDevice {
   @override
   final String id;
   @override
+  @JsonKey(unknownEnumValue: DeviceType.unknown)
   final DeviceType type;
   @override
   @OffsetConverter()
@@ -258,6 +261,7 @@ class _$ElectricalDeviceImpl implements _ElectricalDevice {
   @override
   final String? colorOption;
   @override
+  @JsonKey(unknownEnumValue: ColorTemp.unknown)
   final ColorTemp? colorTemp;
 
   @override
@@ -321,6 +325,7 @@ class _$ElectricalDeviceImpl implements _ElectricalDevice {
 abstract class _ElectricalDevice implements ElectricalDevice {
   const factory _ElectricalDevice({
     required final String id,
+    @JsonKey(unknownEnumValue: DeviceType.unknown)
     required final DeviceType type,
     @OffsetConverter() required final Offset position,
     required final String wallId,
@@ -328,7 +333,7 @@ abstract class _ElectricalDevice implements ElectricalDevice {
     final double heightCm,
     final int gangCount,
     final String? colorOption,
-    final ColorTemp? colorTemp,
+    @JsonKey(unknownEnumValue: ColorTemp.unknown) final ColorTemp? colorTemp,
   }) = _$ElectricalDeviceImpl;
 
   factory _ElectricalDevice.fromJson(Map<String, dynamic> json) =
@@ -337,6 +342,7 @@ abstract class _ElectricalDevice implements ElectricalDevice {
   @override
   String get id;
   @override
+  @JsonKey(unknownEnumValue: DeviceType.unknown)
   DeviceType get type;
   @override
   @OffsetConverter()
@@ -352,6 +358,7 @@ abstract class _ElectricalDevice implements ElectricalDevice {
   @override
   String? get colorOption;
   @override
+  @JsonKey(unknownEnumValue: ColorTemp.unknown)
   ColorTemp? get colorTemp;
 
   /// Create a copy of ElectricalDevice
@@ -602,6 +609,7 @@ mixin _$PipeSegment {
   Offset get from => throw _privateConstructorUsedError;
   @OffsetConverter()
   Offset get to => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: PipeType.unknown)
   PipeType get type => throw _privateConstructorUsedError;
 
   /// Serializes this PipeSegment to a JSON map.
@@ -625,7 +633,7 @@ abstract class $PipeSegmentCopyWith<$Res> {
     String id,
     @OffsetConverter() Offset from,
     @OffsetConverter() Offset to,
-    PipeType type,
+    @JsonKey(unknownEnumValue: PipeType.unknown) PipeType type,
   });
 }
 
@@ -686,7 +694,7 @@ abstract class _$$PipeSegmentImplCopyWith<$Res>
     String id,
     @OffsetConverter() Offset from,
     @OffsetConverter() Offset to,
-    PipeType type,
+    @JsonKey(unknownEnumValue: PipeType.unknown) PipeType type,
   });
 }
 
@@ -739,7 +747,7 @@ class _$PipeSegmentImpl implements _PipeSegment {
     required this.id,
     @OffsetConverter() required this.from,
     @OffsetConverter() required this.to,
-    required this.type,
+    @JsonKey(unknownEnumValue: PipeType.unknown) required this.type,
   });
 
   factory _$PipeSegmentImpl.fromJson(Map<String, dynamic> json) =>
@@ -754,6 +762,7 @@ class _$PipeSegmentImpl implements _PipeSegment {
   @OffsetConverter()
   final Offset to;
   @override
+  @JsonKey(unknownEnumValue: PipeType.unknown)
   final PipeType type;
 
   @override
@@ -795,7 +804,7 @@ abstract class _PipeSegment implements PipeSegment {
     required final String id,
     @OffsetConverter() required final Offset from,
     @OffsetConverter() required final Offset to,
-    required final PipeType type,
+    @JsonKey(unknownEnumValue: PipeType.unknown) required final PipeType type,
   }) = _$PipeSegmentImpl;
 
   factory _PipeSegment.fromJson(Map<String, dynamic> json) =
@@ -810,6 +819,7 @@ abstract class _PipeSegment implements PipeSegment {
   @OffsetConverter()
   Offset get to;
   @override
+  @JsonKey(unknownEnumValue: PipeType.unknown)
   PipeType get type;
 
   /// Create a copy of PipeSegment

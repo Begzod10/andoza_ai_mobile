@@ -198,7 +198,9 @@ Estimate buildEstimate({
   required bool diy,
 }) {
   final costs = _stageCosts(areas, electrical, furnitureCount);
-  final stages = RenovationStage.values.map((stage) {
+  // [kRenovationStages] excludes RenovationStage.unknown (a deserialization
+  // fallback with no cost entry) so it is never priced.
+  final stages = kRenovationStages.map((stage) {
     final cost = costs[stage]!;
     final scaledMaterial = cost.materialItems
         .map(
@@ -264,7 +266,7 @@ final estimateProvider = Provider<Estimate>((ref) {
   final excluded = design == null || condition == null
       ? <RenovationStage>{}
       : {
-          for (final stage in RenovationStage.values)
+          for (final stage in kRenovationStages)
             if (deriveStageStates(
                   condition: condition,
                   currentStage: design.renovationStage,

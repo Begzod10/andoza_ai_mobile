@@ -53,3 +53,18 @@ app.*.map.json
 # Large session transcript — exceeds GitHub's 100 MB file limit; kept on
 # disk but never committed.
 docs/development/session-transcript.jsonl
+
+# iOS signing material — NEVER commit these. Only their base64 goes into GitHub
+# secrets (see docs/mobile/IOS_BUILD.md). ios/ExportOptions.plist is committed
+# on purpose (it holds only __PLACEHOLDER__ tokens, no real ids).
+*.p12
+*.p8
+*.mobileprovision
+*.cer
+*.certSigningRequest
+*.csr
+ios_dist.key
+*.b64
+
+# Gradle build output (the root-level /build/ rule above does not cover it)
+android/build/

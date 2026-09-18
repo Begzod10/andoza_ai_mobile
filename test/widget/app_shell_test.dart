@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tamir_uy_mobile_flutter/l10n/app_localizations.dart';
 import 'package:tamir_uy_mobile_flutter/screens/app_shell.dart';
 
 /// A minimal GoRouter that reuses the real [AppShell] as its ShellRoute
@@ -38,7 +39,12 @@ GoRouter _testRouter() => GoRouter(
 Future<void> _pumpShell(WidgetTester tester) async {
   await tester.pumpWidget(
     ProviderScope(
-      child: MaterialApp.router(routerConfig: _testRouter()),
+      child: MaterialApp.router(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: const Locale('uz'),
+        routerConfig: _testRouter(),
+      ),
     ),
   );
   await tester.pumpAndSettle();

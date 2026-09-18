@@ -272,6 +272,7 @@ EstimateStage _$EstimateStageFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$EstimateStage {
+  @JsonKey(unknownEnumValue: RenovationStage.unknown)
   RenovationStage get name => throw _privateConstructorUsedError;
   List<EstimateLineItem> get lineItems => throw _privateConstructorUsedError;
   double get subtotal => throw _privateConstructorUsedError;
@@ -296,7 +297,7 @@ abstract class $EstimateStageCopyWith<$Res> {
   ) = _$EstimateStageCopyWithImpl<$Res, EstimateStage>;
   @useResult
   $Res call({
-    RenovationStage name,
+    @JsonKey(unknownEnumValue: RenovationStage.unknown) RenovationStage name,
     List<EstimateLineItem> lineItems,
     double subtotal,
     bool isExcluded,
@@ -363,7 +364,7 @@ abstract class _$$EstimateStageImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    RenovationStage name,
+    @JsonKey(unknownEnumValue: RenovationStage.unknown) RenovationStage name,
     List<EstimateLineItem> lineItems,
     double subtotal,
     bool isExcluded,
@@ -422,7 +423,7 @@ class __$$EstimateStageImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$EstimateStageImpl implements _EstimateStage {
   const _$EstimateStageImpl({
-    required this.name,
+    @JsonKey(unknownEnumValue: RenovationStage.unknown) required this.name,
     final List<EstimateLineItem> lineItems = const <EstimateLineItem>[],
     required this.subtotal,
     this.isExcluded = false,
@@ -433,6 +434,7 @@ class _$EstimateStageImpl implements _EstimateStage {
       _$$EstimateStageImplFromJson(json);
 
   @override
+  @JsonKey(unknownEnumValue: RenovationStage.unknown)
   final RenovationStage name;
   final List<EstimateLineItem> _lineItems;
   @override
@@ -502,6 +504,7 @@ class _$EstimateStageImpl implements _EstimateStage {
 
 abstract class _EstimateStage implements EstimateStage {
   const factory _EstimateStage({
+    @JsonKey(unknownEnumValue: RenovationStage.unknown)
     required final RenovationStage name,
     final List<EstimateLineItem> lineItems,
     required final double subtotal,
@@ -513,6 +516,7 @@ abstract class _EstimateStage implements EstimateStage {
       _$EstimateStageImpl.fromJson;
 
   @override
+  @JsonKey(unknownEnumValue: RenovationStage.unknown)
   RenovationStage get name;
   @override
   List<EstimateLineItem> get lineItems;

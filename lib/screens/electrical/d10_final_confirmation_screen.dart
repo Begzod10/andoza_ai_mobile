@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
 import '../../models/design_selection_model.dart';
 import '../../providers/design_provider.dart';
 import '../../widgets/room/room_perspective_view.dart';
@@ -14,6 +15,7 @@ class D10FinalConfirmationScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final condition =
         ref.watch(activeDesignProvider.select((d) => d?.roomCondition));
 
@@ -51,7 +53,7 @@ class D10FinalConfirmationScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: DesignTokens.spacingLg),
                   Text(
-                    'Loyihangiz tayyor',
+                    l10n.electricalProjectReady,
                     style: DesignTokens.heading2.copyWith(
                       color: DesignTokens.white,
                     ),
@@ -66,7 +68,7 @@ class D10FinalConfirmationScreen extends ConsumerWidget {
                         backgroundColor: DesignTokens.accentOrange,
                       ),
                       onPressed: () => context.push('/estimation/e1'),
-                      child: const Text('Smetani ko\'rish →'),
+                      child: Text(l10n.electricalViewEstimate),
                     ),
                   ),
                   const SizedBox(height: DesignTokens.spacingMd),
@@ -77,7 +79,7 @@ class D10FinalConfirmationScreen extends ConsumerWidget {
                         foregroundColor: DesignTokens.white,
                       ),
                       onPressed: () => context.go('/design/b2'),
-                      child: const Text('3D\'ga qaytish'),
+                      child: Text(l10n.commonBackTo3d),
                     ),
                   ),
                 ],

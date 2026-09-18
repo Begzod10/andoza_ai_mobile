@@ -12,6 +12,7 @@ part 'delta.g.dart';
 @freezed
 class DeltaStage with _$DeltaStage {
   const factory DeltaStage({
+    @JsonKey(unknownEnumValue: RoomStateValue.unknown)
     required RoomStateValue stage,
     @JsonKey(name: 'label_uz') required String labelUz,
     @JsonKey(name: 'already_done') required bool alreadyDone,
@@ -33,7 +34,8 @@ class DeltaStage with _$DeltaStage {
 class DeltaResponse with _$DeltaResponse {
   const factory DeltaResponse({
     @JsonKey(name: 'room_id') required String roomId,
-    @JsonKey(name: 'current_state') required RoomStateValue currentState,
+    @JsonKey(name: 'current_state', unknownEnumValue: RoomStateValue.unknown)
+    required RoomStateValue currentState,
     @JsonKey(name: 'full_lines') @Default(<EstimateLine>[]) List<EstimateLine> fullLines,
     @JsonKey(name: 'full_total_uzs') required int fullTotalUzs,
     @JsonKey(name: 'delta_lines') @Default(<EstimateLine>[]) List<EstimateLine> deltaLines,

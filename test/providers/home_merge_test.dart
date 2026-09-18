@@ -2,8 +2,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:tamir_uy_mobile_flutter/models/api/api.dart';
 import 'package:tamir_uy_mobile_flutter/models/design_selection_model.dart';
+import 'package:tamir_uy_mobile_flutter/models/project_item.dart';
 import 'package:tamir_uy_mobile_flutter/providers/apartment_provider.dart';
-import 'package:tamir_uy_mobile_flutter/screens/home/home_empty_screen.dart';
+import 'package:tamir_uy_mobile_flutter/providers/projects_provider.dart';
 
 RoomOut _room(String id, DateTime updatedAt) => RoomOut(
       id: id,
