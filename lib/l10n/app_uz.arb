@@ -1830,6 +1830,13 @@
       "error": { "type": "String" }
     }
   },
+  "scanReviewThumbnailFailed": "Xona ko'rinishi yuklanmadi: {error} Loyiha kartasi rasmsiz ko'rinadi.",
+  "@scanReviewThumbnailFailed": {
+    "description": "Room-scan review: snackbar shown in the studio when uploading the generated floor-plan thumbnail failed; the room itself was still created and only its project-card preview stays empty.",
+    "placeholders": {
+      "error": { "type": "String" }
+    }
+  },
   "scanReviewError": "Xatolik: {error}",
   "@scanReviewError": {
     "description": "Room-scan review: generic error snackbar with detail.",

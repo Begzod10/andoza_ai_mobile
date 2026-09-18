@@ -1,4 +1,6 @@
 import 'dart:math' as math;
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -119,6 +121,21 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
         _logger.w('roomscan artifact upload failed (Phase 4 endpoint?): $e');
         uploadError = mapErrorToMessage(e);
       }
+      // Best-effort: give the room a preview of its own shape, so it does not
+      // show as a blank card in the project list. Same non-blocking contract as
+      // the artifact upload above — the room is already saved either way.
+      String? thumbnailError;
+      try {
+        final png = await renderRoomScanThumbnailPng(
+          corners: plan.corners,
+          walls: plan.walls,
+          objects: _objects,
+        );
+        await ref.read(roomScanServiceProvider).uploadThumbnail(roomId, png);
+      } catch (e) {
+        _logger.w('roomscan thumbnail upload failed: $e');
+        thumbnailError = mapErrorToMessage(e);
+      }
       router.pushReplacement('/studio/$roomId');
       // Non-blocking: the user is already in the studio; the root
       // ScaffoldMessenger keeps this snackbar visible across the transition so
@@ -126,6 +143,11 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
       if (uploadError != null) {
         messenger.showSnackBar(
           SnackBar(content: Text(l10n.scanReviewUploadFailed(uploadError))),
+        );
+      }
+      if (thumbnailError != null) {
+        messenger.showSnackBar(
+          SnackBar(content: Text(l10n.scanReviewThumbnailFailed(thumbnailError))),
         );
       }
     } catch (e) {
@@ -506,4 +528,45 @@ class RoomScanPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant RoomScanPainter old) =>
       old.corners != corners || old.walls != walls || old.objects != objects;
+}
+
+/// Renders the same top-down plan the review screen shows into a square PNG,
+/// off-screen, so a freshly scanned room can carry its own project-card
+/// thumbnail. Reuses [RoomScanPainter] verbatim — there is deliberately no
+/// second renderer to keep in sync.
+///
+/// Throws if the engine cannot rasterise or encode the picture; the caller
+/// treats that as a best-effort failure.
+Future<Uint8List> renderRoomScanThumbnailPng({
+  required List<Vec2> corners,
+  required List<RoomWall> walls,
+  required List<ScanObjectPlacement> objects,
+  int size = 512,
+}) async {
+  final side = size.toDouble();
+  final recorder = ui.PictureRecorder();
+  final canvas = Canvas(recorder);
+  // Same card background as the in-app preview, so the thumbnail and the
+  // review screen read as the same drawing.
+  canvas.drawRect(
+    Rect.fromLTWH(0, 0, side, side),
+    Paint()..color = const Color(0xFFF7F8FA),
+  );
+  RoomScanPainter(corners: corners, walls: walls, objects: objects)
+      .paint(canvas, Size(side, side));
+  final picture = recorder.endRecording();
+  try {
+    final image = await picture.toImage(size, size);
+    try {
+      final data = await image.toByteData(format: ui.ImageByteFormat.png);
+      if (data == null) {
+        throw StateError('thumbnail encode failed');
+      }
+      return data.buffer.asUint8List();
+    } finally {
+      image.dispose();
+    }
+  } finally {
+    picture.dispose();
+  }
 }

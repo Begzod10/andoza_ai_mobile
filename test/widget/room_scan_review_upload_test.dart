@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -53,6 +55,10 @@ class _FailingScanService implements RoomScanService {
 
   @override
   Future<Map<String, dynamic>> upload(String roomId, ScanResult scan) async =>
+      throw const RoomScanException('upload_failed', 'HTTP 500');
+
+  @override
+  Future<Map<String, dynamic>> uploadThumbnail(String roomId, Uint8List png) async =>
       throw const RoomScanException('upload_failed', 'HTTP 500');
 }
 
@@ -112,7 +118,12 @@ void main() {
       final continueButton = find.text('Davom etish');
       await tester.scrollUntilVisible(continueButton, 300);
       await tester.pumpAndSettle();
-      await tester.tap(continueButton);
+      // runAsync: the thumbnail step rasterises off-screen via
+      // `Picture.toImage`, which only completes on the real event loop.
+      await tester.runAsync(() async {
+        await tester.tap(continueButton);
+        await Future<void>.delayed(const Duration(milliseconds: 500));
+      });
       await tester.pumpAndSettle();
 
       // Non-blocking: the room is valid, so the studio still opens…

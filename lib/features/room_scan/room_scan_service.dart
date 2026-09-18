@@ -158,6 +158,25 @@ class RoomScanService {
     );
   }
 
+  /// Upload [png] as the room's project-card thumbnail. A scanned room has no
+  /// preview otherwise (only the web studio ever populated one), so its card in
+  /// "Loyihalarim" stays blank until someone opens it on a desktop.
+  ///
+  /// Multipart shape verified against the live backend: field name `file`,
+  /// content type `image/png` (the router rejects any other field name with 422
+  /// and any non-image content type with 415).
+  Future<Map<String, dynamic>> uploadThumbnail(String roomId, Uint8List png) async {
+    _logger.i('roomscan uploadThumbnail → room=$roomId ${png.length}B');
+    return _api.uploadFile<Map<String, dynamic>>(
+      '/rooms/$roomId/thumbnail',
+      bytes: png,
+      filename: 'thumbnail.png',
+      fieldName: 'file',
+      contentType: 'image/png',
+      fromJson: (d) => (d as Map).cast<String, dynamic>(),
+    );
+  }
+
   /// Attach the scan artifacts (parametric JSON + `.usdz`) to an already-created
   /// room. The room itself is created first via the normal handoff, exactly like
   /// the manual flow; this only uploads the extras. Returns the room JSON the

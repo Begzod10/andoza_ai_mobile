@@ -1367,6 +1367,11 @@ class AppLocalizationsUz extends AppLocalizations {
   }
 
   @override
+  String scanReviewThumbnailFailed(String error) {
+    return 'Xona ko\'rinishi yuklanmadi: $error Loyiha kartasi rasmsiz ko\'rinadi.';
+  }
+
+  @override
   String scanReviewError(String error) {
     return 'Xatolik: $error';
   }

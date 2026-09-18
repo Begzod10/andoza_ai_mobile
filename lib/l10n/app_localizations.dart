@@ -2542,6 +2542,12 @@ abstract class AppLocalizations {
   /// **'Skan fayllari yuklanmadi: {error} Xona saqlandi, keyinroq qayta skanerlashingiz mumkin.'**
   String scanReviewUploadFailed(String error);
 
+  /// Room-scan review: snackbar shown in the studio when uploading the generated floor-plan thumbnail failed; the room itself was still created and only its project-card preview stays empty.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xona ko\'rinishi yuklanmadi: {error} Loyiha kartasi rasmsiz ko\'rinadi.'**
+  String scanReviewThumbnailFailed(String error);
+
   /// Room-scan review: generic error snackbar with detail.
   ///
   /// In uz, this message translates to:
