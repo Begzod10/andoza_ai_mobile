@@ -2482,6 +2482,54 @@ abstract class AppLocalizations {
   /// **'Qayta skanerlash'**
   String get scanReviewRescan;
 
+  /// Room-scan review: header of the compact 'what we detected' summary shown under the 2-D preview.
+  ///
+  /// In uz, this message translates to:
+  /// **'Nimalar aniqlandi'**
+  String get scanReviewSummaryTitle;
+
+  /// Room-scan review summary chip label: walls.
+  ///
+  /// In uz, this message translates to:
+  /// **'Devor'**
+  String get scanReviewSummaryWalls;
+
+  /// Room-scan review summary chip label: doors.
+  ///
+  /// In uz, this message translates to:
+  /// **'Eshik'**
+  String get scanReviewSummaryDoors;
+
+  /// Room-scan review summary chip label: windows.
+  ///
+  /// In uz, this message translates to:
+  /// **'Deraza'**
+  String get scanReviewSummaryWindows;
+
+  /// Room-scan review summary chip label: detected objects.
+  ///
+  /// In uz, this message translates to:
+  /// **'Buyum'**
+  String get scanReviewSummaryObjects;
+
+  /// Room-scan review summary: warning that some detected items carry a low RoomPlan confidence.
+  ///
+  /// In uz, this message translates to:
+  /// **'{count} ta element past aniqlikda o\'lchandi — o\'lchamlarni tekshiring.'**
+  String scanReviewSummaryLowConfidence(int count);
+
+  /// Room-scan review summary hint shown when zero doors or zero windows were detected.
+  ///
+  /// In uz, this message translates to:
+  /// **'Eshik yoki deraza topilmadi. Shisha va ochiq eshiklar ko\'pincha aniqlanmaydi.'**
+  String get scanReviewSummaryNoOpenings;
+
+  /// Room-scan review summary hint: second line telling the user how to improve the scan.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yaqinroqdan, sekinroq qayta skanerlang.'**
+  String get scanReviewSummaryRescanHint;
+
   /// Room-scan review: snackbar when the room could not be saved.
   ///
   /// In uz, this message translates to:

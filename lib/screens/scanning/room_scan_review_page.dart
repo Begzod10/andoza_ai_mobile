@@ -145,6 +145,16 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
         child: ListView(
           padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),
           children: [
+            // "What we detected" summary — lets the user judge the scan (and
+            // rescan) before committing, instead of discovering a missed door
+            // later in the studio.
+            ScanDetectionSummary(
+              plan: _plan,
+              objects: _objects,
+              room: widget.args.scan.room,
+            ),
+            const SizedBox(height: DesignTokens.spacingLg),
+
             // 2-D top-down preview.
             AspectRatio(
               aspectRatio: 1,
@@ -253,6 +263,140 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Compact "what we detected" summary: counts of walls / doors / windows /
+/// objects, a low-confidence warning, and — when RoomPlan reported no doors or
+/// no windows — a two-line hint that glass and open doorways are commonly
+/// missed and that a closer, slower rescan usually helps.
+///
+/// Counts come from the converted [plan]/[objects] (i.e. exactly what would be
+/// saved), while the confidence flag reads the raw [room], because
+/// [RoomOpening] carries no confidence field — the RoomPlan value survives only
+/// on the [CapturedRoom] that rides along on the scan result.
+class ScanDetectionSummary extends StatelessWidget {
+  const ScanDetectionSummary({
+    required this.plan,
+    required this.objects,
+    required this.room,
+    super.key,
+  });
+
+  final RoomPlan plan;
+  final List<ScanObjectPlacement> objects;
+  final CapturedRoom room;
+
+  int get _doors => _openings('door');
+  int get _windows => _openings('window');
+
+  int _openings(String type) {
+    var n = 0;
+    for (final w in plan.walls) {
+      for (final o in w.openings) {
+        if (o.type == type) n++;
+      }
+    }
+    return n;
+  }
+
+  /// Items RoomPlan itself flagged as low-confidence, across every surface kind
+  /// and the detected objects.
+  int get _lowConfidence {
+    var n = 0;
+    for (final s in [
+      ...room.walls,
+      ...room.doors,
+      ...room.windows,
+      ...room.openings,
+    ]) {
+      if (s.confidence == ScanConfidence.low) n++;
+    }
+    for (final o in room.objects) {
+      if (o.confidence == ScanConfidence.low) n++;
+    }
+    return n;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final low = _lowConfidence;
+    final missingOpenings = _doors == 0 || _windows == 0;
+    return Container(
+      padding: const EdgeInsets.all(DesignTokens.spacingMd),
+      decoration: BoxDecoration(
+        color: DesignTokens.primaryTint,
+        borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(l10n.scanReviewSummaryTitle, style: DesignTokens.subtitle2),
+          const SizedBox(height: DesignTokens.spacingSm),
+          Wrap(
+            spacing: DesignTokens.spacingSm,
+            runSpacing: DesignTokens.spacingXs,
+            children: [
+              _Count(count: plan.walls.length, label: l10n.scanReviewSummaryWalls),
+              _Count(count: _doors, label: l10n.scanReviewSummaryDoors),
+              _Count(count: _windows, label: l10n.scanReviewSummaryWindows),
+              _Count(count: objects.length, label: l10n.scanReviewSummaryObjects),
+            ],
+          ),
+          if (low > 0) ...[
+            const SizedBox(height: DesignTokens.spacingSm),
+            Text(
+              l10n.scanReviewSummaryLowConfidence(low),
+              style: DesignTokens.caption.copyWith(color: DesignTokens.textGray),
+            ),
+          ],
+          if (missingOpenings) ...[
+            const SizedBox(height: DesignTokens.spacingSm),
+            Text(
+              l10n.scanReviewSummaryNoOpenings,
+              style: DesignTokens.caption.copyWith(color: DesignTokens.textDark),
+            ),
+            Text(
+              l10n.scanReviewSummaryRescanHint,
+              style: DesignTokens.caption.copyWith(color: DesignTokens.textGray),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+/// One "N Label" pill in the detection summary.
+class _Count extends StatelessWidget {
+  const _Count({required this.count, required this.label});
+
+  final int count;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final zero = count == 0;
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: DesignTokens.spacingSm,
+        vertical: DesignTokens.spacingXs,
+      ),
+      decoration: BoxDecoration(
+        color: DesignTokens.white,
+        borderRadius: BorderRadius.circular(DesignTokens.radiusFull),
+        border: Border.all(
+          color: zero ? DesignTokens.warningYellow : DesignTokens.borderGray,
+        ),
+      ),
+      child: Text(
+        '$count $label',
+        style: DesignTokens.body2.copyWith(
+          color: zero ? DesignTokens.textGray : DesignTokens.textDark,
         ),
       ),
     );

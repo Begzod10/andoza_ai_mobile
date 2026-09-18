@@ -1330,6 +1330,34 @@ class AppLocalizationsUz extends AppLocalizations {
   String get scanReviewRescan => 'Qayta skanerlash';
 
   @override
+  String get scanReviewSummaryTitle => 'Nimalar aniqlandi';
+
+  @override
+  String get scanReviewSummaryWalls => 'Devor';
+
+  @override
+  String get scanReviewSummaryDoors => 'Eshik';
+
+  @override
+  String get scanReviewSummaryWindows => 'Deraza';
+
+  @override
+  String get scanReviewSummaryObjects => 'Buyum';
+
+  @override
+  String scanReviewSummaryLowConfidence(int count) {
+    return '$count ta element past aniqlikda o\'lchandi — o\'lchamlarni tekshiring.';
+  }
+
+  @override
+  String get scanReviewSummaryNoOpenings =>
+      'Eshik yoki deraza topilmadi. Shisha va ochiq eshiklar ko\'pincha aniqlanmaydi.';
+
+  @override
+  String get scanReviewSummaryRescanHint =>
+      'Yaqinroqdan, sekinroq qayta skanerlang.';
+
+  @override
   String get scanReviewSaveFailed =>
       'Xonani saqlab bo\'lmadi. Internetni tekshiring.';
 

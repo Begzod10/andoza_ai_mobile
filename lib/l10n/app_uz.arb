@@ -1784,6 +1784,41 @@
   "@scanReviewRescan": {
     "description": "Room-scan review: re-scan button."
   },
+  "scanReviewSummaryTitle": "Nimalar aniqlandi",
+  "@scanReviewSummaryTitle": {
+    "description": "Room-scan review: header of the compact 'what we detected' summary shown under the 2-D preview."
+  },
+  "scanReviewSummaryWalls": "Devor",
+  "@scanReviewSummaryWalls": {
+    "description": "Room-scan review summary chip label: walls."
+  },
+  "scanReviewSummaryDoors": "Eshik",
+  "@scanReviewSummaryDoors": {
+    "description": "Room-scan review summary chip label: doors."
+  },
+  "scanReviewSummaryWindows": "Deraza",
+  "@scanReviewSummaryWindows": {
+    "description": "Room-scan review summary chip label: windows."
+  },
+  "scanReviewSummaryObjects": "Buyum",
+  "@scanReviewSummaryObjects": {
+    "description": "Room-scan review summary chip label: detected objects."
+  },
+  "scanReviewSummaryLowConfidence": "{count} ta element past aniqlikda o'lchandi — o'lchamlarni tekshiring.",
+  "@scanReviewSummaryLowConfidence": {
+    "description": "Room-scan review summary: warning that some detected items carry a low RoomPlan confidence.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "scanReviewSummaryNoOpenings": "Eshik yoki deraza topilmadi. Shisha va ochiq eshiklar ko'pincha aniqlanmaydi.",
+  "@scanReviewSummaryNoOpenings": {
+    "description": "Room-scan review summary hint shown when zero doors or zero windows were detected."
+  },
+  "scanReviewSummaryRescanHint": "Yaqinroqdan, sekinroq qayta skanerlang.",
+  "@scanReviewSummaryRescanHint": {
+    "description": "Room-scan review summary hint: second line telling the user how to improve the scan."
+  },
   "scanReviewSaveFailed": "Xonani saqlab bo'lmadi. Internetni tekshiring.",
   "@scanReviewSaveFailed": {
     "description": "Room-scan review: snackbar when the room could not be saved."
