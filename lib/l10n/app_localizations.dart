@@ -2554,6 +2554,126 @@ abstract class AppLocalizations {
   /// **'Xatolik: {error}'**
   String scanReviewError(String error);
 
+  /// Post-scan summary sheet title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xona saqlandi'**
+  String get scanSummaryTitle;
+
+  /// Post-scan summary: room headline (area, ceiling height, wall count).
+  ///
+  /// In uz, this message translates to:
+  /// **'{area} m² · shift {height} · {walls} ta devor'**
+  String scanSummaryRoomLine(String area, String height, int walls);
+
+  /// Post-scan summary: estimate section title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Taxminiy smeta'**
+  String get scanSummaryEstimateTitle;
+
+  /// Post-scan summary: min-max range under the estimate total.
+  ///
+  /// In uz, this message translates to:
+  /// **'Oraliq: {min} — {max}'**
+  String scanSummaryRange(String min, String max);
+
+  /// Post-scan summary: part of the total coming from exactly priced lines.
+  ///
+  /// In uz, this message translates to:
+  /// **'Aniq: {value}'**
+  String scanSummaryExactTotal(String value);
+
+  /// Post-scan summary: part of the total coming from approximate lines.
+  ///
+  /// In uz, this message translates to:
+  /// **'Taxminiy: {value}'**
+  String scanSummaryApproxTotal(String value);
+
+  /// Post-scan summary: badge marking an approximate estimate line.
+  ///
+  /// In uz, this message translates to:
+  /// **'taxminiy'**
+  String get scanSummaryApproxBadge;
+
+  /// Post-scan summary: explains what the approximate badge means.
+  ///
+  /// In uz, this message translates to:
+  /// **'\"Taxminiy\" belgili qatorlar aniq o\'lchovga emas, o\'rtacha me\'yorga asoslangan.'**
+  String get scanSummaryApproxNote;
+
+  /// Post-scan summary: estimate preview request failed (non-blocking snackbar).
+  ///
+  /// In uz, this message translates to:
+  /// **'Smetani hisoblab bo\'lmadi: {error} Uni studiyada ochishingiz mumkin.'**
+  String scanSummaryEstimateFailed(String error);
+
+  /// Post-scan summary: electrical section title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Elektr rejasi'**
+  String get scanSummaryElectricalTitle;
+
+  /// Post-scan summary: total wiring length in metres.
+  ///
+  /// In uz, this message translates to:
+  /// **'Kabel: {value} m'**
+  String scanSummaryWiring(String value);
+
+  /// Electrical device name (socket), used in a count list.
+  ///
+  /// In uz, this message translates to:
+  /// **'rozetka'**
+  String get scanSummaryDeviceSocket;
+
+  /// Electrical device name (switch), used in a count list.
+  ///
+  /// In uz, this message translates to:
+  /// **'kalit'**
+  String get scanSummaryDeviceSwitch;
+
+  /// Electrical device name (light), used in a count list.
+  ///
+  /// In uz, this message translates to:
+  /// **'chiroq'**
+  String get scanSummaryDeviceLight;
+
+  /// Electrical device name (panel), used in a count list.
+  ///
+  /// In uz, this message translates to:
+  /// **'elektr qutisi'**
+  String get scanSummaryDevicePanel;
+
+  /// Electrical device name (mounting box), used in a count list.
+  ///
+  /// In uz, this message translates to:
+  /// **'podrozetnik'**
+  String get scanSummaryDeviceBox;
+
+  /// Electrical device name for a type this app version does not know.
+  ///
+  /// In uz, this message translates to:
+  /// **'boshqa nuqta'**
+  String get scanSummaryDeviceOther;
+
+  /// Post-scan summary: one 'N device' entry in the electrical device list.
+  ///
+  /// In uz, this message translates to:
+  /// **'{count} {name}'**
+  String scanSummaryDeviceCount(int count, String name);
+
+  /// Post-scan summary: the electrical plan was auto-generated, not confirmed.
+  ///
+  /// In uz, this message translates to:
+  /// **'Elektr nuqtalari skan asosida taxminan joylashtirildi — studiyada tahrirlashingiz mumkin.'**
+  String get scanSummaryElectricalApprox;
+
+  /// Post-scan summary: primary CTA opening the studio.
+  ///
+  /// In uz, this message translates to:
+  /// **'Studiyaga o\'tish'**
+  String get scanSummaryContinue;
+
   /// Room-scan screen error: a scan is already running.
   ///
   /// In uz, this message translates to:
