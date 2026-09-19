@@ -6,8 +6,8 @@ part of 'material_offer.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$MaterialOfferImpl _$$MaterialOfferImplFromJson(Map<String, dynamic> json) =>
-    _$MaterialOfferImpl(
+_MaterialOffer _$MaterialOfferFromJson(Map<String, dynamic> json) =>
+    _MaterialOffer(
       id: json['id'] as String,
       materialId: json['material_id'] as String,
       storeId: json['store_id'] as String,
@@ -19,7 +19,7 @@ _$MaterialOfferImpl _$$MaterialOfferImplFromJson(Map<String, dynamic> json) =>
       deliveryDays: (json['delivery_days'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$MaterialOfferImplToJson(_$MaterialOfferImpl instance) =>
+Map<String, dynamic> _$MaterialOfferToJson(_MaterialOffer instance) =>
     <String, dynamic>{
       'id': instance.id,
       'material_id': instance.materialId,

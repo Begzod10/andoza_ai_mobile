@@ -6,7 +6,7 @@ part 'decoration.g.dart';
 /// Wall decoration (`app/schemas/decoration.py::WallsDecoration`). [finish] is
 /// `paint` or `wallpaper`; [color] is a `#RRGGBB` hex or null.
 @freezed
-class WallsDecoration with _$WallsDecoration {
+abstract class WallsDecoration with _$WallsDecoration {
   const factory WallsDecoration({
     @JsonKey(name: 'material_id') String? materialId,
     @Default('paint') String finish,
@@ -19,7 +19,7 @@ class WallsDecoration with _$WallsDecoration {
 
 /// Floor decoration — just a material reference.
 @freezed
-class FloorDecoration with _$FloorDecoration {
+abstract class FloorDecoration with _$FloorDecoration {
   const factory FloorDecoration({
     @JsonKey(name: 'material_id') String? materialId,
   }) = _FloorDecoration;
@@ -30,7 +30,7 @@ class FloorDecoration with _$FloorDecoration {
 
 /// Ceiling decoration — just a material reference.
 @freezed
-class CeilingDecoration with _$CeilingDecoration {
+abstract class CeilingDecoration with _$CeilingDecoration {
   const factory CeilingDecoration({
     @JsonKey(name: 'material_id') String? materialId,
   }) = _CeilingDecoration;
@@ -41,7 +41,7 @@ class CeilingDecoration with _$CeilingDecoration {
 
 /// A furniture placement inside the decoration blob (position + rotation).
 @freezed
-class DecorationFurniture with _$DecorationFurniture {
+abstract class DecorationFurniture with _$DecorationFurniture {
   const factory DecorationFurniture({
     @JsonKey(name: 'furniture_id') required String furnitureId,
     required double x,
@@ -55,7 +55,7 @@ class DecorationFurniture with _$DecorationFurniture {
 
 /// The full decoration state for a room (`GET/PUT /rooms/{id}/decoration`).
 @freezed
-class Decoration with _$Decoration {
+abstract class Decoration with _$Decoration {
   const factory Decoration({
     @JsonKey(name: 'room_id') required String roomId,
     @Default(WallsDecoration()) WallsDecoration walls,

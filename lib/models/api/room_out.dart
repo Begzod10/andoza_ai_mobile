@@ -11,7 +11,7 @@ part 'room_out.g.dart';
 /// whereas the client model is a typed capture structure. Repositories map
 /// between the two.
 @freezed
-class RoomOut with _$RoomOut {
+abstract class RoomOut with _$RoomOut {
   const factory RoomOut({
     required String id,
     @JsonKey(name: 'apartment_id') required String apartmentId,

@@ -6,17 +6,16 @@ part of 'wallpaper.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$WallpaperImpl _$$WallpaperImplFromJson(Map<String, dynamic> json) =>
-    _$WallpaperImpl(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      url: json['url'] as String,
-      contentType: json['content_type'] as String,
-      sizeBytes: (json['size_bytes'] as num).toInt(),
-      createdAt: DateTime.parse(json['created_at'] as String),
-    );
+_Wallpaper _$WallpaperFromJson(Map<String, dynamic> json) => _Wallpaper(
+  id: json['id'] as String,
+  name: json['name'] as String,
+  url: json['url'] as String,
+  contentType: json['content_type'] as String,
+  sizeBytes: (json['size_bytes'] as num).toInt(),
+  createdAt: DateTime.parse(json['created_at'] as String),
+);
 
-Map<String, dynamic> _$$WallpaperImplToJson(_$WallpaperImpl instance) =>
+Map<String, dynamic> _$WallpaperToJson(_Wallpaper instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,

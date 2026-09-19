@@ -8,7 +8,7 @@ part 'ai.g.dart';
 /// `app/services/ai_builder.py` — every field is optional; only the keys the AI
 /// actually set are present.
 @freezed
-class AiPatch with _$AiPatch {
+abstract class AiPatch with _$AiPatch {
   const factory AiPatch({
     @JsonKey(name: 'ceiling_h') double? ceilingH,
     @JsonKey(name: 'wall_lengths') Map<String, double>? wallLengths,
@@ -98,7 +98,7 @@ class AiUnknown extends AiBuildEvent {
 
 /// Response from the smeta explainer (`POST /rooms/{id}/smeta/ask`).
 @freezed
-class SmetaAnswer with _$SmetaAnswer {
+abstract class SmetaAnswer with _$SmetaAnswer {
   const factory SmetaAnswer({
     @JsonKey(name: 'answer_uz') required String answerUz,
     @JsonKey(name: 'related_line_ids') @Default(<String>[]) List<String> relatedLineIds,

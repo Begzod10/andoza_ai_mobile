@@ -1,6 +1,6 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint
+// coverage:ignore-file
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'ai.dart';
@@ -9,534 +9,611 @@ part of 'ai.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
-AiPatch _$AiPatchFromJson(Map<String, dynamic> json) {
-  return _AiPatch.fromJson(json);
-}
 
 /// @nodoc
 mixin _$AiPatch {
-  @JsonKey(name: 'ceiling_h')
-  double? get ceilingH => throw _privateConstructorUsedError;
-  @JsonKey(name: 'wall_lengths')
-  Map<String, double>? get wallLengths => throw _privateConstructorUsedError;
-  Map<String, String>? get surfaces => throw _privateConstructorUsedError;
-  @JsonKey(name: 'material_colors')
-  Map<String, String>? get materialColors => throw _privateConstructorUsedError;
-  List<Map<String, dynamic>>? get furniture =>
-      throw _privateConstructorUsedError;
-  List<Map<String, dynamic>>? get lights => throw _privateConstructorUsedError;
+
+@JsonKey(name: 'ceiling_h') double? get ceilingH;@JsonKey(name: 'wall_lengths') Map<String, double>? get wallLengths; Map<String, String>? get surfaces;@JsonKey(name: 'material_colors') Map<String, String>? get materialColors; List<Map<String, dynamic>>? get furniture; List<Map<String, dynamic>>? get lights;
+/// Create a copy of AiPatch
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$AiPatchCopyWith<AiPatch> get copyWith => _$AiPatchCopyWithImpl<AiPatch>(this as AiPatch, _$identity);
 
   /// Serializes this AiPatch to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
 
-  /// Create a copy of AiPatch
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $AiPatchCopyWith<AiPatch> get copyWith => throw _privateConstructorUsedError;
+
+@override
+bool operator ==(Object other) {
+  final _this = this as AiPatch;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AiPatch&&(identical(other.ceilingH, _this.ceilingH) || other.ceilingH == _this.ceilingH)&&const DeepCollectionEquality().equals(other.wallLengths, _this.wallLengths)&&const DeepCollectionEquality().equals(other.surfaces, _this.surfaces)&&const DeepCollectionEquality().equals(other.materialColors, _this.materialColors)&&const DeepCollectionEquality().equals(other.furniture, _this.furniture)&&const DeepCollectionEquality().equals(other.lights, _this.lights));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as AiPatch;
+  return Object.hash(runtimeType,_this.ceilingH,const DeepCollectionEquality().hash(_this.wallLengths),const DeepCollectionEquality().hash(_this.surfaces),const DeepCollectionEquality().hash(_this.materialColors),const DeepCollectionEquality().hash(_this.furniture),const DeepCollectionEquality().hash(_this.lights));
+}
+
+@override
+String toString() {
+  final _this = this as AiPatch;
+  return 'AiPatch(ceilingH: ${_this.ceilingH}, wallLengths: ${_this.wallLengths}, surfaces: ${_this.surfaces}, materialColors: ${_this.materialColors}, furniture: ${_this.furniture}, lights: ${_this.lights})';
+}
+
+
 }
 
 /// @nodoc
-abstract class $AiPatchCopyWith<$Res> {
-  factory $AiPatchCopyWith(AiPatch value, $Res Function(AiPatch) then) =
-      _$AiPatchCopyWithImpl<$Res, AiPatch>;
-  @useResult
-  $Res call({
-    @JsonKey(name: 'ceiling_h') double? ceilingH,
-    @JsonKey(name: 'wall_lengths') Map<String, double>? wallLengths,
-    Map<String, String>? surfaces,
-    @JsonKey(name: 'material_colors') Map<String, String>? materialColors,
-    List<Map<String, dynamic>>? furniture,
-    List<Map<String, dynamic>>? lights,
-  });
-}
+abstract mixin class $AiPatchCopyWith<$Res>  {
+  factory $AiPatchCopyWith(AiPatch value, $Res Function(AiPatch) _then) = _$AiPatchCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'ceiling_h') double? ceilingH,@JsonKey(name: 'wall_lengths') Map<String, double>? wallLengths, Map<String, String>? surfaces,@JsonKey(name: 'material_colors') Map<String, String>? materialColors, List<Map<String, dynamic>>? furniture, List<Map<String, dynamic>>? lights
+});
 
+
+
+
+}
 /// @nodoc
-class _$AiPatchCopyWithImpl<$Res, $Val extends AiPatch>
+class _$AiPatchCopyWithImpl<$Res>
     implements $AiPatchCopyWith<$Res> {
-  _$AiPatchCopyWithImpl(this._value, this._then);
+  _$AiPatchCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final AiPatch _self;
+  final $Res Function(AiPatch) _then;
 
-  /// Create a copy of AiPatch
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? ceilingH = freezed,
-    Object? wallLengths = freezed,
-    Object? surfaces = freezed,
-    Object? materialColors = freezed,
-    Object? furniture = freezed,
-    Object? lights = freezed,
-  }) {
-    return _then(
-      _value.copyWith(
-            ceilingH: freezed == ceilingH
-                ? _value.ceilingH
-                : ceilingH // ignore: cast_nullable_to_non_nullable
-                      as double?,
-            wallLengths: freezed == wallLengths
-                ? _value.wallLengths
-                : wallLengths // ignore: cast_nullable_to_non_nullable
-                      as Map<String, double>?,
-            surfaces: freezed == surfaces
-                ? _value.surfaces
-                : surfaces // ignore: cast_nullable_to_non_nullable
-                      as Map<String, String>?,
-            materialColors: freezed == materialColors
-                ? _value.materialColors
-                : materialColors // ignore: cast_nullable_to_non_nullable
-                      as Map<String, String>?,
-            furniture: freezed == furniture
-                ? _value.furniture
-                : furniture // ignore: cast_nullable_to_non_nullable
-                      as List<Map<String, dynamic>>?,
-            lights: freezed == lights
-                ? _value.lights
-                : lights // ignore: cast_nullable_to_non_nullable
-                      as List<Map<String, dynamic>>?,
-          )
-          as $Val,
-    );
-  }
+/// Create a copy of AiPatch
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? ceilingH = freezed,Object? wallLengths = freezed,Object? surfaces = freezed,Object? materialColors = freezed,Object? furniture = freezed,Object? lights = freezed,}) {
+  return _then(AiPatch(
+ceilingH: freezed == ceilingH ? _self.ceilingH : ceilingH // ignore: cast_nullable_to_non_nullable
+as double?,wallLengths: freezed == wallLengths ? _self.wallLengths : wallLengths // ignore: cast_nullable_to_non_nullable
+as Map<String, double>?,surfaces: freezed == surfaces ? _self.surfaces : surfaces // ignore: cast_nullable_to_non_nullable
+as Map<String, String>?,materialColors: freezed == materialColors ? _self.materialColors : materialColors // ignore: cast_nullable_to_non_nullable
+as Map<String, String>?,furniture: freezed == furniture ? _self.furniture : furniture // ignore: cast_nullable_to_non_nullable
+as List<Map<String, dynamic>>?,lights: freezed == lights ? _self.lights : lights // ignore: cast_nullable_to_non_nullable
+as List<Map<String, dynamic>>?,
+  ));
 }
 
-/// @nodoc
-abstract class _$$AiPatchImplCopyWith<$Res> implements $AiPatchCopyWith<$Res> {
-  factory _$$AiPatchImplCopyWith(
-    _$AiPatchImpl value,
-    $Res Function(_$AiPatchImpl) then,
-  ) = __$$AiPatchImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({
-    @JsonKey(name: 'ceiling_h') double? ceilingH,
-    @JsonKey(name: 'wall_lengths') Map<String, double>? wallLengths,
-    Map<String, String>? surfaces,
-    @JsonKey(name: 'material_colors') Map<String, String>? materialColors,
-    List<Map<String, dynamic>>? furniture,
-    List<Map<String, dynamic>>? lights,
-  });
 }
 
-/// @nodoc
-class __$$AiPatchImplCopyWithImpl<$Res>
-    extends _$AiPatchCopyWithImpl<$Res, _$AiPatchImpl>
-    implements _$$AiPatchImplCopyWith<$Res> {
-  __$$AiPatchImplCopyWithImpl(
-    _$AiPatchImpl _value,
-    $Res Function(_$AiPatchImpl) _then,
-  ) : super(_value, _then);
 
-  /// Create a copy of AiPatch
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? ceilingH = freezed,
-    Object? wallLengths = freezed,
-    Object? surfaces = freezed,
-    Object? materialColors = freezed,
-    Object? furniture = freezed,
-    Object? lights = freezed,
-  }) {
-    return _then(
-      _$AiPatchImpl(
-        ceilingH: freezed == ceilingH
-            ? _value.ceilingH
-            : ceilingH // ignore: cast_nullable_to_non_nullable
-                  as double?,
-        wallLengths: freezed == wallLengths
-            ? _value._wallLengths
-            : wallLengths // ignore: cast_nullable_to_non_nullable
-                  as Map<String, double>?,
-        surfaces: freezed == surfaces
-            ? _value._surfaces
-            : surfaces // ignore: cast_nullable_to_non_nullable
-                  as Map<String, String>?,
-        materialColors: freezed == materialColors
-            ? _value._materialColors
-            : materialColors // ignore: cast_nullable_to_non_nullable
-                  as Map<String, String>?,
-        furniture: freezed == furniture
-            ? _value._furniture
-            : furniture // ignore: cast_nullable_to_non_nullable
-                  as List<Map<String, dynamic>>?,
-        lights: freezed == lights
-            ? _value._lights
-            : lights // ignore: cast_nullable_to_non_nullable
-                  as List<Map<String, dynamic>>?,
-      ),
-    );
-  }
+/// Adds pattern-matching-related methods to [AiPatch].
+extension AiPatchPatterns on AiPatch {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _AiPatch value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _AiPatch() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _AiPatch value)  $default,){
+final _that = this;
+switch (_that) {
+case _AiPatch():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _AiPatch value)?  $default,){
+final _that = this;
+switch (_that) {
+case _AiPatch() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'ceiling_h')  double? ceilingH, @JsonKey(name: 'wall_lengths')  Map<String, double>? wallLengths,  Map<String, String>? surfaces, @JsonKey(name: 'material_colors')  Map<String, String>? materialColors,  List<Map<String, dynamic>>? furniture,  List<Map<String, dynamic>>? lights)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _AiPatch() when $default != null:
+return $default(_that.ceilingH,_that.wallLengths,_that.surfaces,_that.materialColors,_that.furniture,_that.lights);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'ceiling_h')  double? ceilingH, @JsonKey(name: 'wall_lengths')  Map<String, double>? wallLengths,  Map<String, String>? surfaces, @JsonKey(name: 'material_colors')  Map<String, String>? materialColors,  List<Map<String, dynamic>>? furniture,  List<Map<String, dynamic>>? lights)  $default,) {final _that = this;
+switch (_that) {
+case _AiPatch():
+return $default(_that.ceilingH,_that.wallLengths,_that.surfaces,_that.materialColors,_that.furniture,_that.lights);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'ceiling_h')  double? ceilingH, @JsonKey(name: 'wall_lengths')  Map<String, double>? wallLengths,  Map<String, String>? surfaces, @JsonKey(name: 'material_colors')  Map<String, String>? materialColors,  List<Map<String, dynamic>>? furniture,  List<Map<String, dynamic>>? lights)?  $default,) {final _that = this;
+switch (_that) {
+case _AiPatch() when $default != null:
+return $default(_that.ceilingH,_that.wallLengths,_that.surfaces,_that.materialColors,_that.furniture,_that.lights);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$AiPatchImpl implements _AiPatch {
-  const _$AiPatchImpl({
-    @JsonKey(name: 'ceiling_h') this.ceilingH,
-    @JsonKey(name: 'wall_lengths') final Map<String, double>? wallLengths,
-    final Map<String, String>? surfaces,
-    @JsonKey(name: 'material_colors') final Map<String, String>? materialColors,
-    final List<Map<String, dynamic>>? furniture,
-    final List<Map<String, dynamic>>? lights,
-  }) : _wallLengths = wallLengths,
-       _surfaces = surfaces,
-       _materialColors = materialColors,
-       _furniture = furniture,
-       _lights = lights;
 
-  factory _$AiPatchImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AiPatchImplFromJson(json);
+class _AiPatch implements AiPatch {
+  const _AiPatch({@JsonKey(name: 'ceiling_h') this.ceilingH, @JsonKey(name: 'wall_lengths')  Map<String, double>? wallLengths,  Map<String, String>? surfaces, @JsonKey(name: 'material_colors')  Map<String, String>? materialColors,  List<Map<String, dynamic>>? furniture,  List<Map<String, dynamic>>? lights}): _wallLengths = wallLengths,_surfaces = surfaces,_materialColors = materialColors,_furniture = furniture,_lights = lights;
+  factory _AiPatch.fromJson(Map<String, dynamic> json) => _$AiPatchFromJson(json);
 
-  @override
-  @JsonKey(name: 'ceiling_h')
-  final double? ceilingH;
-  final Map<String, double>? _wallLengths;
-  @override
-  @JsonKey(name: 'wall_lengths')
-  Map<String, double>? get wallLengths {
-    final value = _wallLengths;
-    if (value == null) return null;
-    if (_wallLengths is EqualUnmodifiableMapView) return _wallLengths;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(value);
-  }
+@override@JsonKey(name: 'ceiling_h') final  double? ceilingH;
+ final  Map<String, double>? _wallLengths;
+@override@JsonKey(name: 'wall_lengths') Map<String, double>? get wallLengths {
+  final value = _wallLengths;
+  if (value == null) return null;
+  if (_wallLengths is EqualUnmodifiableMapView) return _wallLengths;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(value);
+}
 
-  final Map<String, String>? _surfaces;
-  @override
-  Map<String, String>? get surfaces {
-    final value = _surfaces;
-    if (value == null) return null;
-    if (_surfaces is EqualUnmodifiableMapView) return _surfaces;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(value);
-  }
+ final  Map<String, String>? _surfaces;
+@override Map<String, String>? get surfaces {
+  final value = _surfaces;
+  if (value == null) return null;
+  if (_surfaces is EqualUnmodifiableMapView) return _surfaces;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(value);
+}
 
-  final Map<String, String>? _materialColors;
-  @override
-  @JsonKey(name: 'material_colors')
-  Map<String, String>? get materialColors {
-    final value = _materialColors;
-    if (value == null) return null;
-    if (_materialColors is EqualUnmodifiableMapView) return _materialColors;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(value);
-  }
+ final  Map<String, String>? _materialColors;
+@override@JsonKey(name: 'material_colors') Map<String, String>? get materialColors {
+  final value = _materialColors;
+  if (value == null) return null;
+  if (_materialColors is EqualUnmodifiableMapView) return _materialColors;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(value);
+}
 
-  final List<Map<String, dynamic>>? _furniture;
-  @override
-  List<Map<String, dynamic>>? get furniture {
-    final value = _furniture;
-    if (value == null) return null;
-    if (_furniture is EqualUnmodifiableListView) return _furniture;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
+ final  List<Map<String, dynamic>>? _furniture;
+@override List<Map<String, dynamic>>? get furniture {
+  final value = _furniture;
+  if (value == null) return null;
+  if (_furniture is EqualUnmodifiableListView) return _furniture;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
 
-  final List<Map<String, dynamic>>? _lights;
-  @override
-  List<Map<String, dynamic>>? get lights {
-    final value = _lights;
-    if (value == null) return null;
-    if (_lights is EqualUnmodifiableListView) return _lights;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
+ final  List<Map<String, dynamic>>? _lights;
+@override List<Map<String, dynamic>>? get lights {
+  final value = _lights;
+  if (value == null) return null;
+  if (_lights is EqualUnmodifiableListView) return _lights;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(value);
+}
 
-  @override
-  String toString() {
+
+/// Create a copy of AiPatch
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$AiPatchCopyWith<_AiPatch> get copyWith => __$AiPatchCopyWithImpl<_AiPatch>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$AiPatchToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AiPatch&&(identical(other.ceilingH, ceilingH) || other.ceilingH == ceilingH)&&const DeepCollectionEquality().equals(other.wallLengths, _wallLengths)&&const DeepCollectionEquality().equals(other.surfaces, _surfaces)&&const DeepCollectionEquality().equals(other.materialColors, _materialColors)&&const DeepCollectionEquality().equals(other.furniture, _furniture)&&const DeepCollectionEquality().equals(other.lights, _lights));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,ceilingH,const DeepCollectionEquality().hash(_wallLengths),const DeepCollectionEquality().hash(_surfaces),const DeepCollectionEquality().hash(_materialColors),const DeepCollectionEquality().hash(_furniture),const DeepCollectionEquality().hash(_lights));
+}
+
+@override
+String toString() {
     return 'AiPatch(ceilingH: $ceilingH, wallLengths: $wallLengths, surfaces: $surfaces, materialColors: $materialColors, furniture: $furniture, lights: $lights)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$AiPatchImpl &&
-            (identical(other.ceilingH, ceilingH) ||
-                other.ceilingH == ceilingH) &&
-            const DeepCollectionEquality().equals(
-              other._wallLengths,
-              _wallLengths,
-            ) &&
-            const DeepCollectionEquality().equals(other._surfaces, _surfaces) &&
-            const DeepCollectionEquality().equals(
-              other._materialColors,
-              _materialColors,
-            ) &&
-            const DeepCollectionEquality().equals(
-              other._furniture,
-              _furniture,
-            ) &&
-            const DeepCollectionEquality().equals(other._lights, _lights));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    ceilingH,
-    const DeepCollectionEquality().hash(_wallLengths),
-    const DeepCollectionEquality().hash(_surfaces),
-    const DeepCollectionEquality().hash(_materialColors),
-    const DeepCollectionEquality().hash(_furniture),
-    const DeepCollectionEquality().hash(_lights),
-  );
-
-  /// Create a copy of AiPatch
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$AiPatchImplCopyWith<_$AiPatchImpl> get copyWith =>
-      __$$AiPatchImplCopyWithImpl<_$AiPatchImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$AiPatchImplToJson(this);
-  }
 }
 
-abstract class _AiPatch implements AiPatch {
-  const factory _AiPatch({
-    @JsonKey(name: 'ceiling_h') final double? ceilingH,
-    @JsonKey(name: 'wall_lengths') final Map<String, double>? wallLengths,
-    final Map<String, String>? surfaces,
-    @JsonKey(name: 'material_colors') final Map<String, String>? materialColors,
-    final List<Map<String, dynamic>>? furniture,
-    final List<Map<String, dynamic>>? lights,
-  }) = _$AiPatchImpl;
 
-  factory _AiPatch.fromJson(Map<String, dynamic> json) = _$AiPatchImpl.fromJson;
-
-  @override
-  @JsonKey(name: 'ceiling_h')
-  double? get ceilingH;
-  @override
-  @JsonKey(name: 'wall_lengths')
-  Map<String, double>? get wallLengths;
-  @override
-  Map<String, String>? get surfaces;
-  @override
-  @JsonKey(name: 'material_colors')
-  Map<String, String>? get materialColors;
-  @override
-  List<Map<String, dynamic>>? get furniture;
-  @override
-  List<Map<String, dynamic>>? get lights;
-
-  /// Create a copy of AiPatch
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AiPatchImplCopyWith<_$AiPatchImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
-SmetaAnswer _$SmetaAnswerFromJson(Map<String, dynamic> json) {
-  return _SmetaAnswer.fromJson(json);
+/// @nodoc
+abstract mixin class _$AiPatchCopyWith<$Res> implements $AiPatchCopyWith<$Res> {
+  factory _$AiPatchCopyWith(_AiPatch value, $Res Function(_AiPatch) _then) = __$AiPatchCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'ceiling_h') double? ceilingH,@JsonKey(name: 'wall_lengths') Map<String, double>? wallLengths, Map<String, String>? surfaces,@JsonKey(name: 'material_colors') Map<String, String>? materialColors, List<Map<String, dynamic>>? furniture, List<Map<String, dynamic>>? lights
+});
+
+
+
+
 }
+/// @nodoc
+class __$AiPatchCopyWithImpl<$Res>
+    implements _$AiPatchCopyWith<$Res> {
+  __$AiPatchCopyWithImpl(this._self, this._then);
+
+  final _AiPatch _self;
+  final $Res Function(_AiPatch) _then;
+
+/// Create a copy of AiPatch
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? ceilingH = freezed,Object? wallLengths = freezed,Object? surfaces = freezed,Object? materialColors = freezed,Object? furniture = freezed,Object? lights = freezed,}) {
+  return _then(_AiPatch(
+ceilingH: freezed == ceilingH ? _self.ceilingH : ceilingH // ignore: cast_nullable_to_non_nullable
+as double?,wallLengths: freezed == wallLengths ? _self._wallLengths : wallLengths // ignore: cast_nullable_to_non_nullable
+as Map<String, double>?,surfaces: freezed == surfaces ? _self._surfaces : surfaces // ignore: cast_nullable_to_non_nullable
+as Map<String, String>?,materialColors: freezed == materialColors ? _self._materialColors : materialColors // ignore: cast_nullable_to_non_nullable
+as Map<String, String>?,furniture: freezed == furniture ? _self._furniture : furniture // ignore: cast_nullable_to_non_nullable
+as List<Map<String, dynamic>>?,lights: freezed == lights ? _self._lights : lights // ignore: cast_nullable_to_non_nullable
+as List<Map<String, dynamic>>?,
+  ));
+}
+
+
+}
+
 
 /// @nodoc
 mixin _$SmetaAnswer {
-  @JsonKey(name: 'answer_uz')
-  String get answerUz => throw _privateConstructorUsedError;
-  @JsonKey(name: 'related_line_ids')
-  List<String> get relatedLineIds => throw _privateConstructorUsedError;
+
+@JsonKey(name: 'answer_uz') String get answerUz;@JsonKey(name: 'related_line_ids') List<String> get relatedLineIds;
+/// Create a copy of SmetaAnswer
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$SmetaAnswerCopyWith<SmetaAnswer> get copyWith => _$SmetaAnswerCopyWithImpl<SmetaAnswer>(this as SmetaAnswer, _$identity);
 
   /// Serializes this SmetaAnswer to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
 
-  /// Create a copy of SmetaAnswer
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $SmetaAnswerCopyWith<SmetaAnswer> get copyWith =>
-      throw _privateConstructorUsedError;
+
+@override
+bool operator ==(Object other) {
+  final _this = this as SmetaAnswer;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SmetaAnswer&&(identical(other.answerUz, _this.answerUz) || other.answerUz == _this.answerUz)&&const DeepCollectionEquality().equals(other.relatedLineIds, _this.relatedLineIds));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as SmetaAnswer;
+  return Object.hash(runtimeType,_this.answerUz,const DeepCollectionEquality().hash(_this.relatedLineIds));
+}
+
+@override
+String toString() {
+  final _this = this as SmetaAnswer;
+  return 'SmetaAnswer(answerUz: ${_this.answerUz}, relatedLineIds: ${_this.relatedLineIds})';
+}
+
+
 }
 
 /// @nodoc
-abstract class $SmetaAnswerCopyWith<$Res> {
-  factory $SmetaAnswerCopyWith(
-    SmetaAnswer value,
-    $Res Function(SmetaAnswer) then,
-  ) = _$SmetaAnswerCopyWithImpl<$Res, SmetaAnswer>;
-  @useResult
-  $Res call({
-    @JsonKey(name: 'answer_uz') String answerUz,
-    @JsonKey(name: 'related_line_ids') List<String> relatedLineIds,
-  });
-}
+abstract mixin class $SmetaAnswerCopyWith<$Res>  {
+  factory $SmetaAnswerCopyWith(SmetaAnswer value, $Res Function(SmetaAnswer) _then) = _$SmetaAnswerCopyWithImpl;
+@useResult
+$Res call({
+@JsonKey(name: 'answer_uz') String answerUz,@JsonKey(name: 'related_line_ids') List<String> relatedLineIds
+});
 
+
+
+
+}
 /// @nodoc
-class _$SmetaAnswerCopyWithImpl<$Res, $Val extends SmetaAnswer>
+class _$SmetaAnswerCopyWithImpl<$Res>
     implements $SmetaAnswerCopyWith<$Res> {
-  _$SmetaAnswerCopyWithImpl(this._value, this._then);
+  _$SmetaAnswerCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final SmetaAnswer _self;
+  final $Res Function(SmetaAnswer) _then;
 
-  /// Create a copy of SmetaAnswer
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? answerUz = null, Object? relatedLineIds = null}) {
-    return _then(
-      _value.copyWith(
-            answerUz: null == answerUz
-                ? _value.answerUz
-                : answerUz // ignore: cast_nullable_to_non_nullable
-                      as String,
-            relatedLineIds: null == relatedLineIds
-                ? _value.relatedLineIds
-                : relatedLineIds // ignore: cast_nullable_to_non_nullable
-                      as List<String>,
-          )
-          as $Val,
-    );
-  }
+/// Create a copy of SmetaAnswer
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? answerUz = null,Object? relatedLineIds = null,}) {
+  return _then(SmetaAnswer(
+answerUz: null == answerUz ? _self.answerUz : answerUz // ignore: cast_nullable_to_non_nullable
+as String,relatedLineIds: null == relatedLineIds ? _self.relatedLineIds : relatedLineIds // ignore: cast_nullable_to_non_nullable
+as List<String>,
+  ));
 }
 
-/// @nodoc
-abstract class _$$SmetaAnswerImplCopyWith<$Res>
-    implements $SmetaAnswerCopyWith<$Res> {
-  factory _$$SmetaAnswerImplCopyWith(
-    _$SmetaAnswerImpl value,
-    $Res Function(_$SmetaAnswerImpl) then,
-  ) = __$$SmetaAnswerImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({
-    @JsonKey(name: 'answer_uz') String answerUz,
-    @JsonKey(name: 'related_line_ids') List<String> relatedLineIds,
-  });
 }
 
-/// @nodoc
-class __$$SmetaAnswerImplCopyWithImpl<$Res>
-    extends _$SmetaAnswerCopyWithImpl<$Res, _$SmetaAnswerImpl>
-    implements _$$SmetaAnswerImplCopyWith<$Res> {
-  __$$SmetaAnswerImplCopyWithImpl(
-    _$SmetaAnswerImpl _value,
-    $Res Function(_$SmetaAnswerImpl) _then,
-  ) : super(_value, _then);
 
-  /// Create a copy of SmetaAnswer
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? answerUz = null, Object? relatedLineIds = null}) {
-    return _then(
-      _$SmetaAnswerImpl(
-        answerUz: null == answerUz
-            ? _value.answerUz
-            : answerUz // ignore: cast_nullable_to_non_nullable
-                  as String,
-        relatedLineIds: null == relatedLineIds
-            ? _value._relatedLineIds
-            : relatedLineIds // ignore: cast_nullable_to_non_nullable
-                  as List<String>,
-      ),
-    );
-  }
+/// Adds pattern-matching-related methods to [SmetaAnswer].
+extension SmetaAnswerPatterns on SmetaAnswer {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _SmetaAnswer value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _SmetaAnswer() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _SmetaAnswer value)  $default,){
+final _that = this;
+switch (_that) {
+case _SmetaAnswer():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _SmetaAnswer value)?  $default,){
+final _that = this;
+switch (_that) {
+case _SmetaAnswer() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function(@JsonKey(name: 'answer_uz')  String answerUz, @JsonKey(name: 'related_line_ids')  List<String> relatedLineIds)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _SmetaAnswer() when $default != null:
+return $default(_that.answerUz,_that.relatedLineIds);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function(@JsonKey(name: 'answer_uz')  String answerUz, @JsonKey(name: 'related_line_ids')  List<String> relatedLineIds)  $default,) {final _that = this;
+switch (_that) {
+case _SmetaAnswer():
+return $default(_that.answerUz,_that.relatedLineIds);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function(@JsonKey(name: 'answer_uz')  String answerUz, @JsonKey(name: 'related_line_ids')  List<String> relatedLineIds)?  $default,) {final _that = this;
+switch (_that) {
+case _SmetaAnswer() when $default != null:
+return $default(_that.answerUz,_that.relatedLineIds);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$SmetaAnswerImpl implements _SmetaAnswer {
-  const _$SmetaAnswerImpl({
-    @JsonKey(name: 'answer_uz') required this.answerUz,
-    @JsonKey(name: 'related_line_ids')
-    final List<String> relatedLineIds = const <String>[],
-  }) : _relatedLineIds = relatedLineIds;
 
-  factory _$SmetaAnswerImpl.fromJson(Map<String, dynamic> json) =>
-      _$$SmetaAnswerImplFromJson(json);
+class _SmetaAnswer implements SmetaAnswer {
+  const _SmetaAnswer({@JsonKey(name: 'answer_uz') required this.answerUz, @JsonKey(name: 'related_line_ids')  List<String> relatedLineIds = const <String>[]}): _relatedLineIds = relatedLineIds;
+  factory _SmetaAnswer.fromJson(Map<String, dynamic> json) => _$SmetaAnswerFromJson(json);
 
-  @override
-  @JsonKey(name: 'answer_uz')
-  final String answerUz;
-  final List<String> _relatedLineIds;
-  @override
-  @JsonKey(name: 'related_line_ids')
-  List<String> get relatedLineIds {
-    if (_relatedLineIds is EqualUnmodifiableListView) return _relatedLineIds;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_relatedLineIds);
-  }
+@override@JsonKey(name: 'answer_uz') final  String answerUz;
+ final  List<String> _relatedLineIds;
+@override@JsonKey(name: 'related_line_ids') List<String> get relatedLineIds {
+  if (_relatedLineIds is EqualUnmodifiableListView) return _relatedLineIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_relatedLineIds);
+}
 
-  @override
-  String toString() {
+
+/// Create a copy of SmetaAnswer
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SmetaAnswerCopyWith<_SmetaAnswer> get copyWith => __$SmetaAnswerCopyWithImpl<_SmetaAnswer>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$SmetaAnswerToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SmetaAnswer&&(identical(other.answerUz, answerUz) || other.answerUz == answerUz)&&const DeepCollectionEquality().equals(other.relatedLineIds, _relatedLineIds));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,answerUz,const DeepCollectionEquality().hash(_relatedLineIds));
+}
+
+@override
+String toString() {
     return 'SmetaAnswer(answerUz: $answerUz, relatedLineIds: $relatedLineIds)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SmetaAnswerImpl &&
-            (identical(other.answerUz, answerUz) ||
-                other.answerUz == answerUz) &&
-            const DeepCollectionEquality().equals(
-              other._relatedLineIds,
-              _relatedLineIds,
-            ));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    answerUz,
-    const DeepCollectionEquality().hash(_relatedLineIds),
-  );
-
-  /// Create a copy of SmetaAnswer
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$SmetaAnswerImplCopyWith<_$SmetaAnswerImpl> get copyWith =>
-      __$$SmetaAnswerImplCopyWithImpl<_$SmetaAnswerImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$SmetaAnswerImplToJson(this);
-  }
 }
 
-abstract class _SmetaAnswer implements SmetaAnswer {
-  const factory _SmetaAnswer({
-    @JsonKey(name: 'answer_uz') required final String answerUz,
-    @JsonKey(name: 'related_line_ids') final List<String> relatedLineIds,
-  }) = _$SmetaAnswerImpl;
 
-  factory _SmetaAnswer.fromJson(Map<String, dynamic> json) =
-      _$SmetaAnswerImpl.fromJson;
-
-  @override
-  @JsonKey(name: 'answer_uz')
-  String get answerUz;
-  @override
-  @JsonKey(name: 'related_line_ids')
-  List<String> get relatedLineIds;
-
-  /// Create a copy of SmetaAnswer
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SmetaAnswerImplCopyWith<_$SmetaAnswerImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+abstract mixin class _$SmetaAnswerCopyWith<$Res> implements $SmetaAnswerCopyWith<$Res> {
+  factory _$SmetaAnswerCopyWith(_SmetaAnswer value, $Res Function(_SmetaAnswer) _then) = __$SmetaAnswerCopyWithImpl;
+@override @useResult
+$Res call({
+@JsonKey(name: 'answer_uz') String answerUz,@JsonKey(name: 'related_line_ids') List<String> relatedLineIds
+});
+
+
+
+
+}
+/// @nodoc
+class __$SmetaAnswerCopyWithImpl<$Res>
+    implements _$SmetaAnswerCopyWith<$Res> {
+  __$SmetaAnswerCopyWithImpl(this._self, this._then);
+
+  final _SmetaAnswer _self;
+  final $Res Function(_SmetaAnswer) _then;
+
+/// Create a copy of SmetaAnswer
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? answerUz = null,Object? relatedLineIds = null,}) {
+  return _then(_SmetaAnswer(
+answerUz: null == answerUz ? _self.answerUz : answerUz // ignore: cast_nullable_to_non_nullable
+as String,relatedLineIds: null == relatedLineIds ? _self._relatedLineIds : relatedLineIds // ignore: cast_nullable_to_non_nullable
+as List<String>,
+  ));
+}
+
+
+}
+
+// dart format on

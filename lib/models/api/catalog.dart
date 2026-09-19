@@ -8,7 +8,7 @@ part 'catalog.g.dart';
 /// Mirrors `app/schemas/material.py::MaterialOut`. Categories are free-form
 /// strings on purpose (boyoq, oboy, laminat, plitka, eshik, deraza, gips, …).
 @freezed
-class Material with _$Material {
+abstract class Material with _$Material {
   const factory Material({
     required String id,
     @JsonKey(name: 'store_id') required String storeId,
@@ -28,7 +28,7 @@ class Material with _$Material {
 
 /// Paginated envelope for `GET /api/v1/materials`.
 @freezed
-class PaginatedMaterials with _$PaginatedMaterials {
+abstract class PaginatedMaterials with _$PaginatedMaterials {
   const factory PaginatedMaterials({
     @Default(<Material>[]) List<Material> items,
     @Default(0) int total,
@@ -45,7 +45,7 @@ class PaginatedMaterials with _$PaginatedMaterials {
 /// Mirrors `app/schemas/catalog.py::FurnitureOut`. [glbKey] points at the GLB
 /// model in object storage; [footprintW]/[footprintD] are in centimetres.
 @freezed
-class Furniture with _$Furniture {
+abstract class Furniture with _$Furniture {
   const factory Furniture({
     required String id,
     @JsonKey(name: 'store_id') String? storeId,
@@ -63,7 +63,7 @@ class Furniture with _$Furniture {
 
 /// Paginated envelope for `GET /api/v1/furniture`.
 @freezed
-class PaginatedFurniture with _$PaginatedFurniture {
+abstract class PaginatedFurniture with _$PaginatedFurniture {
   const factory PaginatedFurniture({
     @Default(<Furniture>[]) List<Furniture> items,
     @Default(0) int total,
@@ -79,7 +79,7 @@ class PaginatedFurniture with _$PaginatedFurniture {
 ///
 /// Mirrors `app/schemas/catalog.py::StoreOut`.
 @freezed
-class Store with _$Store {
+abstract class Store with _$Store {
   const factory Store({
     required String id,
     required String name,

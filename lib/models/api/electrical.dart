@@ -21,10 +21,12 @@ enum ElectricalDeviceType {
   unknown,
 }
 
-/// A placed electrical device (`DeviceOut`). [wallIndex] is 0–3 (A–D),
+/// A placed electrical device (`DeviceOut`). [wallIndex] is the 0-based index
+/// of the wall in polygon order — 0..n-1, not just 0-3: a scanned or drawn room
+/// has N walls (see migration 1786000003, which widened the CHECK constraint).
 /// [x]/[y] are positions along/up the wall, [count] groups identical devices.
 @freezed
-class ElectricalDeviceOut with _$ElectricalDeviceOut {
+abstract class ElectricalDeviceOut with _$ElectricalDeviceOut {
   const factory ElectricalDeviceOut({
     required String id,
     @JsonKey(name: 'room_id') required String roomId,
@@ -43,7 +45,7 @@ class ElectricalDeviceOut with _$ElectricalDeviceOut {
 
 /// A device in a plan-replace request (`DeviceCreate`).
 @freezed
-class ElectricalDeviceCreate with _$ElectricalDeviceCreate {
+abstract class ElectricalDeviceCreate with _$ElectricalDeviceCreate {
   const factory ElectricalDeviceCreate({
     @JsonKey(unknownEnumValue: ElectricalDeviceType.unknown)
     required ElectricalDeviceType type,
@@ -60,7 +62,7 @@ class ElectricalDeviceCreate with _$ElectricalDeviceCreate {
 
 /// The full electrical plan for a room (`GET/PUT /rooms/{id}/electrical`).
 @freezed
-class ElectricalPlan with _$ElectricalPlan {
+abstract class ElectricalPlan with _$ElectricalPlan {
   const factory ElectricalPlan({
     @JsonKey(name: 'room_id') required String roomId,
     @Default(<ElectricalDeviceOut>[]) List<ElectricalDeviceOut> devices,

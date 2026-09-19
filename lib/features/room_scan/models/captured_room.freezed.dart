@@ -1,6 +1,6 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint
+// coverage:ignore-file
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'captured_room.dart';
@@ -9,1026 +9,1468 @@ part of 'captured_room.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
 /// @nodoc
 mixin _$Vec3 {
-  double get x => throw _privateConstructorUsedError;
-  double get y => throw _privateConstructorUsedError;
-  double get z => throw _privateConstructorUsedError;
 
-  /// Create a copy of Vec3
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $Vec3CopyWith<Vec3> get copyWith => throw _privateConstructorUsedError;
+ double get x; double get y; double get z;
+/// Create a copy of Vec3
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$Vec3CopyWith<Vec3> get copyWith => _$Vec3CopyWithImpl<Vec3>(this as Vec3, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  final _this = this as Vec3;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Vec3&&(identical(other.x, _this.x) || other.x == _this.x)&&(identical(other.y, _this.y) || other.y == _this.y)&&(identical(other.z, _this.z) || other.z == _this.z));
+}
+
+
+@override
+int get hashCode {
+  final _this = this as Vec3;
+  return Object.hash(runtimeType,_this.x,_this.y,_this.z);
+}
+
+@override
+String toString() {
+  final _this = this as Vec3;
+  return 'Vec3(x: ${_this.x}, y: ${_this.y}, z: ${_this.z})';
+}
+
+
 }
 
 /// @nodoc
-abstract class $Vec3CopyWith<$Res> {
-  factory $Vec3CopyWith(Vec3 value, $Res Function(Vec3) then) =
-      _$Vec3CopyWithImpl<$Res, Vec3>;
-  @useResult
-  $Res call({double x, double y, double z});
-}
+abstract mixin class $Vec3CopyWith<$Res>  {
+  factory $Vec3CopyWith(Vec3 value, $Res Function(Vec3) _then) = _$Vec3CopyWithImpl;
+@useResult
+$Res call({
+ double x, double y, double z
+});
 
+
+
+
+}
 /// @nodoc
-class _$Vec3CopyWithImpl<$Res, $Val extends Vec3>
+class _$Vec3CopyWithImpl<$Res>
     implements $Vec3CopyWith<$Res> {
-  _$Vec3CopyWithImpl(this._value, this._then);
+  _$Vec3CopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final Vec3 _self;
+  final $Res Function(Vec3) _then;
 
-  /// Create a copy of Vec3
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? x = null, Object? y = null, Object? z = null}) {
-    return _then(
-      _value.copyWith(
-            x: null == x
-                ? _value.x
-                : x // ignore: cast_nullable_to_non_nullable
-                      as double,
-            y: null == y
-                ? _value.y
-                : y // ignore: cast_nullable_to_non_nullable
-                      as double,
-            z: null == z
-                ? _value.z
-                : z // ignore: cast_nullable_to_non_nullable
-                      as double,
-          )
-          as $Val,
-    );
-  }
+/// Create a copy of Vec3
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? x = null,Object? y = null,Object? z = null,}) {
+  return _then(Vec3(
+null == x ? _self.x : x // ignore: cast_nullable_to_non_nullable
+as double,null == y ? _self.y : y // ignore: cast_nullable_to_non_nullable
+as double,null == z ? _self.z : z // ignore: cast_nullable_to_non_nullable
+as double,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [Vec3].
+extension Vec3Patterns on Vec3 {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Vec3 value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _Vec3() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Vec3 value)  $default,){
+final _that = this;
+switch (_that) {
+case _Vec3():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Vec3 value)?  $default,){
+final _that = this;
+switch (_that) {
+case _Vec3() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( double x,  double y,  double z)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _Vec3() when $default != null:
+return $default(_that.x,_that.y,_that.z);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( double x,  double y,  double z)  $default,) {final _that = this;
+switch (_that) {
+case _Vec3():
+return $default(_that.x,_that.y,_that.z);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( double x,  double y,  double z)?  $default,) {final _that = this;
+switch (_that) {
+case _Vec3() when $default != null:
+return $default(_that.x,_that.y,_that.z);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
-abstract class _$$Vec3ImplCopyWith<$Res> implements $Vec3CopyWith<$Res> {
-  factory _$$Vec3ImplCopyWith(
-    _$Vec3Impl value,
-    $Res Function(_$Vec3Impl) then,
-  ) = __$$Vec3ImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({double x, double y, double z});
+
+
+class _Vec3 implements Vec3 {
+  const _Vec3(this.x, this.y, this.z);
+  
+
+@override final  double x;
+@override final  double y;
+@override final  double z;
+
+/// Create a copy of Vec3
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$Vec3CopyWith<_Vec3> get copyWith => __$Vec3CopyWithImpl<_Vec3>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Vec3&&(identical(other.x, x) || other.x == x)&&(identical(other.y, y) || other.y == y)&&(identical(other.z, z) || other.z == z));
 }
 
-/// @nodoc
-class __$$Vec3ImplCopyWithImpl<$Res>
-    extends _$Vec3CopyWithImpl<$Res, _$Vec3Impl>
-    implements _$$Vec3ImplCopyWith<$Res> {
-  __$$Vec3ImplCopyWithImpl(_$Vec3Impl _value, $Res Function(_$Vec3Impl) _then)
-    : super(_value, _then);
 
-  /// Create a copy of Vec3
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? x = null, Object? y = null, Object? z = null}) {
-    return _then(
-      _$Vec3Impl(
-        null == x
-            ? _value.x
-            : x // ignore: cast_nullable_to_non_nullable
-                  as double,
-        null == y
-            ? _value.y
-            : y // ignore: cast_nullable_to_non_nullable
-                  as double,
-        null == z
-            ? _value.z
-            : z // ignore: cast_nullable_to_non_nullable
-                  as double,
-      ),
-    );
-  }
+@override
+int get hashCode {
+    return Object.hash(runtimeType,x,y,z);
 }
 
-/// @nodoc
-
-class _$Vec3Impl implements _Vec3 {
-  const _$Vec3Impl(this.x, this.y, this.z);
-
-  @override
-  final double x;
-  @override
-  final double y;
-  @override
-  final double z;
-
-  @override
-  String toString() {
+@override
+String toString() {
     return 'Vec3(x: $x, y: $y, z: $z)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$Vec3Impl &&
-            (identical(other.x, x) || other.x == x) &&
-            (identical(other.y, y) || other.y == y) &&
-            (identical(other.z, z) || other.z == z));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, x, y, z);
-
-  /// Create a copy of Vec3
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$Vec3ImplCopyWith<_$Vec3Impl> get copyWith =>
-      __$$Vec3ImplCopyWithImpl<_$Vec3Impl>(this, _$identity);
 }
 
-abstract class _Vec3 implements Vec3 {
-  const factory _Vec3(final double x, final double y, final double z) =
-      _$Vec3Impl;
 
-  @override
-  double get x;
-  @override
-  double get y;
-  @override
-  double get z;
+}
 
-  /// Create a copy of Vec3
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$Vec3ImplCopyWith<_$Vec3Impl> get copyWith =>
-      throw _privateConstructorUsedError;
+/// @nodoc
+abstract mixin class _$Vec3CopyWith<$Res> implements $Vec3CopyWith<$Res> {
+  factory _$Vec3CopyWith(_Vec3 value, $Res Function(_Vec3) _then) = __$Vec3CopyWithImpl;
+@override @useResult
+$Res call({
+ double x, double y, double z
+});
+
+
+
+
+}
+/// @nodoc
+class __$Vec3CopyWithImpl<$Res>
+    implements _$Vec3CopyWith<$Res> {
+  __$Vec3CopyWithImpl(this._self, this._then);
+
+  final _Vec3 _self;
+  final $Res Function(_Vec3) _then;
+
+/// Create a copy of Vec3
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? x = null,Object? y = null,Object? z = null,}) {
+  return _then(_Vec3(
+null == x ? _self.x : x // ignore: cast_nullable_to_non_nullable
+as double,null == y ? _self.y : y // ignore: cast_nullable_to_non_nullable
+as double,null == z ? _self.z : z // ignore: cast_nullable_to_non_nullable
+as double,
+  ));
+}
+
+
 }
 
 /// @nodoc
 mixin _$ScanTransform {
-  List<double> get m => throw _privateConstructorUsedError;
 
-  /// Create a copy of ScanTransform
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ScanTransformCopyWith<ScanTransform> get copyWith =>
-      throw _privateConstructorUsedError;
+ List<double> get m;
+/// Create a copy of ScanTransform
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ScanTransformCopyWith<ScanTransform> get copyWith => _$ScanTransformCopyWithImpl<ScanTransform>(this as ScanTransform, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  final _this = this as ScanTransform;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScanTransform&&const DeepCollectionEquality().equals(other.m, _this.m));
+}
+
+
+@override
+int get hashCode {
+  final _this = this as ScanTransform;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.m));
+}
+
+@override
+String toString() {
+  final _this = this as ScanTransform;
+  return 'ScanTransform(m: ${_this.m})';
+}
+
+
 }
 
 /// @nodoc
-abstract class $ScanTransformCopyWith<$Res> {
-  factory $ScanTransformCopyWith(
-    ScanTransform value,
-    $Res Function(ScanTransform) then,
-  ) = _$ScanTransformCopyWithImpl<$Res, ScanTransform>;
-  @useResult
-  $Res call({List<double> m});
-}
+abstract mixin class $ScanTransformCopyWith<$Res>  {
+  factory $ScanTransformCopyWith(ScanTransform value, $Res Function(ScanTransform) _then) = _$ScanTransformCopyWithImpl;
+@useResult
+$Res call({
+ List<double> m
+});
 
+
+
+
+}
 /// @nodoc
-class _$ScanTransformCopyWithImpl<$Res, $Val extends ScanTransform>
+class _$ScanTransformCopyWithImpl<$Res>
     implements $ScanTransformCopyWith<$Res> {
-  _$ScanTransformCopyWithImpl(this._value, this._then);
+  _$ScanTransformCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final ScanTransform _self;
+  final $Res Function(ScanTransform) _then;
 
-  /// Create a copy of ScanTransform
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? m = null}) {
-    return _then(
-      _value.copyWith(
-            m: null == m
-                ? _value.m
-                : m // ignore: cast_nullable_to_non_nullable
-                      as List<double>,
-          )
-          as $Val,
-    );
-  }
+/// Create a copy of ScanTransform
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? m = null,}) {
+  return _then(ScanTransform(
+null == m ? _self.m : m // ignore: cast_nullable_to_non_nullable
+as List<double>,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [ScanTransform].
+extension ScanTransformPatterns on ScanTransform {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ScanTransform value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ScanTransform() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ScanTransform value)  $default,){
+final _that = this;
+switch (_that) {
+case _ScanTransform():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ScanTransform value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ScanTransform() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<double> m)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ScanTransform() when $default != null:
+return $default(_that.m);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<double> m)  $default,) {final _that = this;
+switch (_that) {
+case _ScanTransform():
+return $default(_that.m);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<double> m)?  $default,) {final _that = this;
+switch (_that) {
+case _ScanTransform() when $default != null:
+return $default(_that.m);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
-abstract class _$$ScanTransformImplCopyWith<$Res>
-    implements $ScanTransformCopyWith<$Res> {
-  factory _$$ScanTransformImplCopyWith(
-    _$ScanTransformImpl value,
-    $Res Function(_$ScanTransformImpl) then,
-  ) = __$$ScanTransformImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({List<double> m});
+
+
+class _ScanTransform extends ScanTransform {
+  const _ScanTransform( List<double> m): _m = m,super._();
+  
+
+ final  List<double> _m;
+@override List<double> get m {
+  if (_m is EqualUnmodifiableListView) return _m;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_m);
 }
 
-/// @nodoc
-class __$$ScanTransformImplCopyWithImpl<$Res>
-    extends _$ScanTransformCopyWithImpl<$Res, _$ScanTransformImpl>
-    implements _$$ScanTransformImplCopyWith<$Res> {
-  __$$ScanTransformImplCopyWithImpl(
-    _$ScanTransformImpl _value,
-    $Res Function(_$ScanTransformImpl) _then,
-  ) : super(_value, _then);
 
-  /// Create a copy of ScanTransform
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? m = null}) {
-    return _then(
-      _$ScanTransformImpl(
-        null == m
-            ? _value._m
-            : m // ignore: cast_nullable_to_non_nullable
-                  as List<double>,
-      ),
-    );
-  }
+/// Create a copy of ScanTransform
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ScanTransformCopyWith<_ScanTransform> get copyWith => __$ScanTransformCopyWithImpl<_ScanTransform>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ScanTransform&&const DeepCollectionEquality().equals(other.m, _m));
 }
 
-/// @nodoc
 
-class _$ScanTransformImpl extends _ScanTransform {
-  const _$ScanTransformImpl(final List<double> m) : _m = m, super._();
+@override
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_m));
+}
 
-  final List<double> _m;
-  @override
-  List<double> get m {
-    if (_m is EqualUnmodifiableListView) return _m;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_m);
-  }
-
-  @override
-  String toString() {
+@override
+String toString() {
     return 'ScanTransform(m: $m)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ScanTransformImpl &&
-            const DeepCollectionEquality().equals(other._m, _m));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_m));
-
-  /// Create a copy of ScanTransform
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ScanTransformImplCopyWith<_$ScanTransformImpl> get copyWith =>
-      __$$ScanTransformImplCopyWithImpl<_$ScanTransformImpl>(this, _$identity);
 }
 
-abstract class _ScanTransform extends ScanTransform {
-  const factory _ScanTransform(final List<double> m) = _$ScanTransformImpl;
-  const _ScanTransform._() : super._();
 
-  @override
-  List<double> get m;
+}
 
-  /// Create a copy of ScanTransform
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ScanTransformImplCopyWith<_$ScanTransformImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+/// @nodoc
+abstract mixin class _$ScanTransformCopyWith<$Res> implements $ScanTransformCopyWith<$Res> {
+  factory _$ScanTransformCopyWith(_ScanTransform value, $Res Function(_ScanTransform) _then) = __$ScanTransformCopyWithImpl;
+@override @useResult
+$Res call({
+ List<double> m
+});
+
+
+
+
+}
+/// @nodoc
+class __$ScanTransformCopyWithImpl<$Res>
+    implements _$ScanTransformCopyWith<$Res> {
+  __$ScanTransformCopyWithImpl(this._self, this._then);
+
+  final _ScanTransform _self;
+  final $Res Function(_ScanTransform) _then;
+
+/// Create a copy of ScanTransform
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? m = null,}) {
+  return _then(_ScanTransform(
+null == m ? _self._m : m // ignore: cast_nullable_to_non_nullable
+as List<double>,
+  ));
+}
+
+
 }
 
 /// @nodoc
 mixin _$ScanSurface {
-  Vec3 get dimensions => throw _privateConstructorUsedError;
-  ScanTransform get transform => throw _privateConstructorUsedError;
-  ScanConfidence get confidence => throw _privateConstructorUsedError;
 
-  /// Create a copy of ScanSurface
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ScanSurfaceCopyWith<ScanSurface> get copyWith =>
-      throw _privateConstructorUsedError;
+ Vec3 get dimensions; ScanTransform get transform; ScanConfidence get confidence;
+/// Create a copy of ScanSurface
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ScanSurfaceCopyWith<ScanSurface> get copyWith => _$ScanSurfaceCopyWithImpl<ScanSurface>(this as ScanSurface, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  final _this = this as ScanSurface;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScanSurface&&(identical(other.dimensions, _this.dimensions) || other.dimensions == _this.dimensions)&&(identical(other.transform, _this.transform) || other.transform == _this.transform)&&(identical(other.confidence, _this.confidence) || other.confidence == _this.confidence));
+}
+
+
+@override
+int get hashCode {
+  final _this = this as ScanSurface;
+  return Object.hash(runtimeType,_this.dimensions,_this.transform,_this.confidence);
+}
+
+@override
+String toString() {
+  final _this = this as ScanSurface;
+  return 'ScanSurface(dimensions: ${_this.dimensions}, transform: ${_this.transform}, confidence: ${_this.confidence})';
+}
+
+
 }
 
 /// @nodoc
-abstract class $ScanSurfaceCopyWith<$Res> {
-  factory $ScanSurfaceCopyWith(
-    ScanSurface value,
-    $Res Function(ScanSurface) then,
-  ) = _$ScanSurfaceCopyWithImpl<$Res, ScanSurface>;
-  @useResult
-  $Res call({
-    Vec3 dimensions,
-    ScanTransform transform,
-    ScanConfidence confidence,
-  });
+abstract mixin class $ScanSurfaceCopyWith<$Res>  {
+  factory $ScanSurfaceCopyWith(ScanSurface value, $Res Function(ScanSurface) _then) = _$ScanSurfaceCopyWithImpl;
+@useResult
+$Res call({
+ Vec3 dimensions, ScanTransform transform, ScanConfidence confidence
+});
 
-  $Vec3CopyWith<$Res> get dimensions;
-  $ScanTransformCopyWith<$Res> get transform;
+
+$Vec3CopyWith<$Res> get dimensions;$ScanTransformCopyWith<$Res> get transform;
+
 }
-
 /// @nodoc
-class _$ScanSurfaceCopyWithImpl<$Res, $Val extends ScanSurface>
+class _$ScanSurfaceCopyWithImpl<$Res>
     implements $ScanSurfaceCopyWith<$Res> {
-  _$ScanSurfaceCopyWithImpl(this._value, this._then);
+  _$ScanSurfaceCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final ScanSurface _self;
+  final $Res Function(ScanSurface) _then;
 
-  /// Create a copy of ScanSurface
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? dimensions = null,
-    Object? transform = null,
-    Object? confidence = null,
-  }) {
-    return _then(
-      _value.copyWith(
-            dimensions: null == dimensions
-                ? _value.dimensions
-                : dimensions // ignore: cast_nullable_to_non_nullable
-                      as Vec3,
-            transform: null == transform
-                ? _value.transform
-                : transform // ignore: cast_nullable_to_non_nullable
-                      as ScanTransform,
-            confidence: null == confidence
-                ? _value.confidence
-                : confidence // ignore: cast_nullable_to_non_nullable
-                      as ScanConfidence,
-          )
-          as $Val,
-    );
-  }
-
-  /// Create a copy of ScanSurface
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Vec3CopyWith<$Res> get dimensions {
-    return $Vec3CopyWith<$Res>(_value.dimensions, (value) {
-      return _then(_value.copyWith(dimensions: value) as $Val);
-    });
-  }
-
-  /// Create a copy of ScanSurface
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $ScanTransformCopyWith<$Res> get transform {
-    return $ScanTransformCopyWith<$Res>(_value.transform, (value) {
-      return _then(_value.copyWith(transform: value) as $Val);
-    });
-  }
+/// Create a copy of ScanSurface
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? dimensions = null,Object? transform = null,Object? confidence = null,}) {
+  return _then(ScanSurface(
+dimensions: null == dimensions ? _self.dimensions : dimensions // ignore: cast_nullable_to_non_nullable
+as Vec3,transform: null == transform ? _self.transform : transform // ignore: cast_nullable_to_non_nullable
+as ScanTransform,confidence: null == confidence ? _self.confidence : confidence // ignore: cast_nullable_to_non_nullable
+as ScanConfidence,
+  ));
 }
-
-/// @nodoc
-abstract class _$$ScanSurfaceImplCopyWith<$Res>
-    implements $ScanSurfaceCopyWith<$Res> {
-  factory _$$ScanSurfaceImplCopyWith(
-    _$ScanSurfaceImpl value,
-    $Res Function(_$ScanSurfaceImpl) then,
-  ) = __$$ScanSurfaceImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({
-    Vec3 dimensions,
-    ScanTransform transform,
-    ScanConfidence confidence,
+/// Create a copy of ScanSurface
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$Vec3CopyWith<$Res> get dimensions {
+  
+  return $Vec3CopyWith<$Res>(_self.dimensions, (value) {
+    return _then(_self.copyWith(dimensions: value));
   });
-
-  @override
-  $Vec3CopyWith<$Res> get dimensions;
-  @override
-  $ScanTransformCopyWith<$Res> get transform;
-}
-
-/// @nodoc
-class __$$ScanSurfaceImplCopyWithImpl<$Res>
-    extends _$ScanSurfaceCopyWithImpl<$Res, _$ScanSurfaceImpl>
-    implements _$$ScanSurfaceImplCopyWith<$Res> {
-  __$$ScanSurfaceImplCopyWithImpl(
-    _$ScanSurfaceImpl _value,
-    $Res Function(_$ScanSurfaceImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of ScanSurface
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? dimensions = null,
-    Object? transform = null,
-    Object? confidence = null,
-  }) {
-    return _then(
-      _$ScanSurfaceImpl(
-        dimensions: null == dimensions
-            ? _value.dimensions
-            : dimensions // ignore: cast_nullable_to_non_nullable
-                  as Vec3,
-        transform: null == transform
-            ? _value.transform
-            : transform // ignore: cast_nullable_to_non_nullable
-                  as ScanTransform,
-        confidence: null == confidence
-            ? _value.confidence
-            : confidence // ignore: cast_nullable_to_non_nullable
-                  as ScanConfidence,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-
-class _$ScanSurfaceImpl implements _ScanSurface {
-  const _$ScanSurfaceImpl({
-    required this.dimensions,
-    required this.transform,
-    this.confidence = ScanConfidence.medium,
+}/// Create a copy of ScanSurface
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ScanTransformCopyWith<$Res> get transform {
+  
+  return $ScanTransformCopyWith<$Res>(_self.transform, (value) {
+    return _then(_self.copyWith(transform: value));
   });
+}
+}
 
-  @override
-  final Vec3 dimensions;
-  @override
-  final ScanTransform transform;
-  @override
-  @JsonKey()
-  final ScanConfidence confidence;
 
-  @override
-  String toString() {
+/// Adds pattern-matching-related methods to [ScanSurface].
+extension ScanSurfacePatterns on ScanSurface {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ScanSurface value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ScanSurface() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ScanSurface value)  $default,){
+final _that = this;
+switch (_that) {
+case _ScanSurface():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ScanSurface value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ScanSurface() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( Vec3 dimensions,  ScanTransform transform,  ScanConfidence confidence)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ScanSurface() when $default != null:
+return $default(_that.dimensions,_that.transform,_that.confidence);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( Vec3 dimensions,  ScanTransform transform,  ScanConfidence confidence)  $default,) {final _that = this;
+switch (_that) {
+case _ScanSurface():
+return $default(_that.dimensions,_that.transform,_that.confidence);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( Vec3 dimensions,  ScanTransform transform,  ScanConfidence confidence)?  $default,) {final _that = this;
+switch (_that) {
+case _ScanSurface() when $default != null:
+return $default(_that.dimensions,_that.transform,_that.confidence);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _ScanSurface implements ScanSurface {
+  const _ScanSurface({required this.dimensions, required this.transform, this.confidence = ScanConfidence.medium});
+  
+
+@override final  Vec3 dimensions;
+@override final  ScanTransform transform;
+@override@JsonKey() final  ScanConfidence confidence;
+
+/// Create a copy of ScanSurface
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ScanSurfaceCopyWith<_ScanSurface> get copyWith => __$ScanSurfaceCopyWithImpl<_ScanSurface>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ScanSurface&&(identical(other.dimensions, dimensions) || other.dimensions == dimensions)&&(identical(other.transform, transform) || other.transform == transform)&&(identical(other.confidence, confidence) || other.confidence == confidence));
+}
+
+
+@override
+int get hashCode {
+    return Object.hash(runtimeType,dimensions,transform,confidence);
+}
+
+@override
+String toString() {
     return 'ScanSurface(dimensions: $dimensions, transform: $transform, confidence: $confidence)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ScanSurfaceImpl &&
-            (identical(other.dimensions, dimensions) ||
-                other.dimensions == dimensions) &&
-            (identical(other.transform, transform) ||
-                other.transform == transform) &&
-            (identical(other.confidence, confidence) ||
-                other.confidence == confidence));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, dimensions, transform, confidence);
-
-  /// Create a copy of ScanSurface
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ScanSurfaceImplCopyWith<_$ScanSurfaceImpl> get copyWith =>
-      __$$ScanSurfaceImplCopyWithImpl<_$ScanSurfaceImpl>(this, _$identity);
 }
 
-abstract class _ScanSurface implements ScanSurface {
-  const factory _ScanSurface({
-    required final Vec3 dimensions,
-    required final ScanTransform transform,
-    final ScanConfidence confidence,
-  }) = _$ScanSurfaceImpl;
 
-  @override
-  Vec3 get dimensions;
-  @override
-  ScanTransform get transform;
-  @override
-  ScanConfidence get confidence;
+}
 
-  /// Create a copy of ScanSurface
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ScanSurfaceImplCopyWith<_$ScanSurfaceImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+/// @nodoc
+abstract mixin class _$ScanSurfaceCopyWith<$Res> implements $ScanSurfaceCopyWith<$Res> {
+  factory _$ScanSurfaceCopyWith(_ScanSurface value, $Res Function(_ScanSurface) _then) = __$ScanSurfaceCopyWithImpl;
+@override @useResult
+$Res call({
+ Vec3 dimensions, ScanTransform transform, ScanConfidence confidence
+});
+
+
+@override $Vec3CopyWith<$Res> get dimensions;@override $ScanTransformCopyWith<$Res> get transform;
+
+}
+/// @nodoc
+class __$ScanSurfaceCopyWithImpl<$Res>
+    implements _$ScanSurfaceCopyWith<$Res> {
+  __$ScanSurfaceCopyWithImpl(this._self, this._then);
+
+  final _ScanSurface _self;
+  final $Res Function(_ScanSurface) _then;
+
+/// Create a copy of ScanSurface
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? dimensions = null,Object? transform = null,Object? confidence = null,}) {
+  return _then(_ScanSurface(
+dimensions: null == dimensions ? _self.dimensions : dimensions // ignore: cast_nullable_to_non_nullable
+as Vec3,transform: null == transform ? _self.transform : transform // ignore: cast_nullable_to_non_nullable
+as ScanTransform,confidence: null == confidence ? _self.confidence : confidence // ignore: cast_nullable_to_non_nullable
+as ScanConfidence,
+  ));
+}
+
+/// Create a copy of ScanSurface
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$Vec3CopyWith<$Res> get dimensions {
+  
+  return $Vec3CopyWith<$Res>(_self.dimensions, (value) {
+    return _then(_self.copyWith(dimensions: value));
+  });
+}/// Create a copy of ScanSurface
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ScanTransformCopyWith<$Res> get transform {
+  
+  return $ScanTransformCopyWith<$Res>(_self.transform, (value) {
+    return _then(_self.copyWith(transform: value));
+  });
+}
 }
 
 /// @nodoc
 mixin _$ScanObject {
-  ScanObjectCategory get category => throw _privateConstructorUsedError;
-  Vec3 get dimensions => throw _privateConstructorUsedError;
-  ScanTransform get transform => throw _privateConstructorUsedError;
-  ScanConfidence get confidence => throw _privateConstructorUsedError;
 
-  /// Create a copy of ScanObject
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ScanObjectCopyWith<ScanObject> get copyWith =>
-      throw _privateConstructorUsedError;
+ ScanObjectCategory get category; Vec3 get dimensions; ScanTransform get transform; ScanConfidence get confidence;
+/// Create a copy of ScanObject
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ScanObjectCopyWith<ScanObject> get copyWith => _$ScanObjectCopyWithImpl<ScanObject>(this as ScanObject, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  final _this = this as ScanObject;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ScanObject&&(identical(other.category, _this.category) || other.category == _this.category)&&(identical(other.dimensions, _this.dimensions) || other.dimensions == _this.dimensions)&&(identical(other.transform, _this.transform) || other.transform == _this.transform)&&(identical(other.confidence, _this.confidence) || other.confidence == _this.confidence));
+}
+
+
+@override
+int get hashCode {
+  final _this = this as ScanObject;
+  return Object.hash(runtimeType,_this.category,_this.dimensions,_this.transform,_this.confidence);
+}
+
+@override
+String toString() {
+  final _this = this as ScanObject;
+  return 'ScanObject(category: ${_this.category}, dimensions: ${_this.dimensions}, transform: ${_this.transform}, confidence: ${_this.confidence})';
+}
+
+
 }
 
 /// @nodoc
-abstract class $ScanObjectCopyWith<$Res> {
-  factory $ScanObjectCopyWith(
-    ScanObject value,
-    $Res Function(ScanObject) then,
-  ) = _$ScanObjectCopyWithImpl<$Res, ScanObject>;
-  @useResult
-  $Res call({
-    ScanObjectCategory category,
-    Vec3 dimensions,
-    ScanTransform transform,
-    ScanConfidence confidence,
-  });
+abstract mixin class $ScanObjectCopyWith<$Res>  {
+  factory $ScanObjectCopyWith(ScanObject value, $Res Function(ScanObject) _then) = _$ScanObjectCopyWithImpl;
+@useResult
+$Res call({
+ ScanObjectCategory category, Vec3 dimensions, ScanTransform transform, ScanConfidence confidence
+});
 
-  $Vec3CopyWith<$Res> get dimensions;
-  $ScanTransformCopyWith<$Res> get transform;
+
+$Vec3CopyWith<$Res> get dimensions;$ScanTransformCopyWith<$Res> get transform;
+
 }
-
 /// @nodoc
-class _$ScanObjectCopyWithImpl<$Res, $Val extends ScanObject>
+class _$ScanObjectCopyWithImpl<$Res>
     implements $ScanObjectCopyWith<$Res> {
-  _$ScanObjectCopyWithImpl(this._value, this._then);
+  _$ScanObjectCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final ScanObject _self;
+  final $Res Function(ScanObject) _then;
 
-  /// Create a copy of ScanObject
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? category = null,
-    Object? dimensions = null,
-    Object? transform = null,
-    Object? confidence = null,
-  }) {
-    return _then(
-      _value.copyWith(
-            category: null == category
-                ? _value.category
-                : category // ignore: cast_nullable_to_non_nullable
-                      as ScanObjectCategory,
-            dimensions: null == dimensions
-                ? _value.dimensions
-                : dimensions // ignore: cast_nullable_to_non_nullable
-                      as Vec3,
-            transform: null == transform
-                ? _value.transform
-                : transform // ignore: cast_nullable_to_non_nullable
-                      as ScanTransform,
-            confidence: null == confidence
-                ? _value.confidence
-                : confidence // ignore: cast_nullable_to_non_nullable
-                      as ScanConfidence,
-          )
-          as $Val,
-    );
-  }
-
-  /// Create a copy of ScanObject
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Vec3CopyWith<$Res> get dimensions {
-    return $Vec3CopyWith<$Res>(_value.dimensions, (value) {
-      return _then(_value.copyWith(dimensions: value) as $Val);
-    });
-  }
-
-  /// Create a copy of ScanObject
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $ScanTransformCopyWith<$Res> get transform {
-    return $ScanTransformCopyWith<$Res>(_value.transform, (value) {
-      return _then(_value.copyWith(transform: value) as $Val);
-    });
-  }
+/// Create a copy of ScanObject
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? category = null,Object? dimensions = null,Object? transform = null,Object? confidence = null,}) {
+  return _then(ScanObject(
+category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
+as ScanObjectCategory,dimensions: null == dimensions ? _self.dimensions : dimensions // ignore: cast_nullable_to_non_nullable
+as Vec3,transform: null == transform ? _self.transform : transform // ignore: cast_nullable_to_non_nullable
+as ScanTransform,confidence: null == confidence ? _self.confidence : confidence // ignore: cast_nullable_to_non_nullable
+as ScanConfidence,
+  ));
 }
-
-/// @nodoc
-abstract class _$$ScanObjectImplCopyWith<$Res>
-    implements $ScanObjectCopyWith<$Res> {
-  factory _$$ScanObjectImplCopyWith(
-    _$ScanObjectImpl value,
-    $Res Function(_$ScanObjectImpl) then,
-  ) = __$$ScanObjectImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({
-    ScanObjectCategory category,
-    Vec3 dimensions,
-    ScanTransform transform,
-    ScanConfidence confidence,
+/// Create a copy of ScanObject
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$Vec3CopyWith<$Res> get dimensions {
+  
+  return $Vec3CopyWith<$Res>(_self.dimensions, (value) {
+    return _then(_self.copyWith(dimensions: value));
   });
-
-  @override
-  $Vec3CopyWith<$Res> get dimensions;
-  @override
-  $ScanTransformCopyWith<$Res> get transform;
-}
-
-/// @nodoc
-class __$$ScanObjectImplCopyWithImpl<$Res>
-    extends _$ScanObjectCopyWithImpl<$Res, _$ScanObjectImpl>
-    implements _$$ScanObjectImplCopyWith<$Res> {
-  __$$ScanObjectImplCopyWithImpl(
-    _$ScanObjectImpl _value,
-    $Res Function(_$ScanObjectImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of ScanObject
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? category = null,
-    Object? dimensions = null,
-    Object? transform = null,
-    Object? confidence = null,
-  }) {
-    return _then(
-      _$ScanObjectImpl(
-        category: null == category
-            ? _value.category
-            : category // ignore: cast_nullable_to_non_nullable
-                  as ScanObjectCategory,
-        dimensions: null == dimensions
-            ? _value.dimensions
-            : dimensions // ignore: cast_nullable_to_non_nullable
-                  as Vec3,
-        transform: null == transform
-            ? _value.transform
-            : transform // ignore: cast_nullable_to_non_nullable
-                  as ScanTransform,
-        confidence: null == confidence
-            ? _value.confidence
-            : confidence // ignore: cast_nullable_to_non_nullable
-                  as ScanConfidence,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-
-class _$ScanObjectImpl implements _ScanObject {
-  const _$ScanObjectImpl({
-    required this.category,
-    required this.dimensions,
-    required this.transform,
-    this.confidence = ScanConfidence.medium,
+}/// Create a copy of ScanObject
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ScanTransformCopyWith<$Res> get transform {
+  
+  return $ScanTransformCopyWith<$Res>(_self.transform, (value) {
+    return _then(_self.copyWith(transform: value));
   });
+}
+}
 
-  @override
-  final ScanObjectCategory category;
-  @override
-  final Vec3 dimensions;
-  @override
-  final ScanTransform transform;
-  @override
-  @JsonKey()
-  final ScanConfidence confidence;
 
-  @override
-  String toString() {
+/// Adds pattern-matching-related methods to [ScanObject].
+extension ScanObjectPatterns on ScanObject {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ScanObject value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ScanObject() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ScanObject value)  $default,){
+final _that = this;
+switch (_that) {
+case _ScanObject():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ScanObject value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ScanObject() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( ScanObjectCategory category,  Vec3 dimensions,  ScanTransform transform,  ScanConfidence confidence)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ScanObject() when $default != null:
+return $default(_that.category,_that.dimensions,_that.transform,_that.confidence);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( ScanObjectCategory category,  Vec3 dimensions,  ScanTransform transform,  ScanConfidence confidence)  $default,) {final _that = this;
+switch (_that) {
+case _ScanObject():
+return $default(_that.category,_that.dimensions,_that.transform,_that.confidence);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( ScanObjectCategory category,  Vec3 dimensions,  ScanTransform transform,  ScanConfidence confidence)?  $default,) {final _that = this;
+switch (_that) {
+case _ScanObject() when $default != null:
+return $default(_that.category,_that.dimensions,_that.transform,_that.confidence);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _ScanObject implements ScanObject {
+  const _ScanObject({required this.category, required this.dimensions, required this.transform, this.confidence = ScanConfidence.medium});
+  
+
+@override final  ScanObjectCategory category;
+@override final  Vec3 dimensions;
+@override final  ScanTransform transform;
+@override@JsonKey() final  ScanConfidence confidence;
+
+/// Create a copy of ScanObject
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ScanObjectCopyWith<_ScanObject> get copyWith => __$ScanObjectCopyWithImpl<_ScanObject>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ScanObject&&(identical(other.category, category) || other.category == category)&&(identical(other.dimensions, dimensions) || other.dimensions == dimensions)&&(identical(other.transform, transform) || other.transform == transform)&&(identical(other.confidence, confidence) || other.confidence == confidence));
+}
+
+
+@override
+int get hashCode {
+    return Object.hash(runtimeType,category,dimensions,transform,confidence);
+}
+
+@override
+String toString() {
     return 'ScanObject(category: $category, dimensions: $dimensions, transform: $transform, confidence: $confidence)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ScanObjectImpl &&
-            (identical(other.category, category) ||
-                other.category == category) &&
-            (identical(other.dimensions, dimensions) ||
-                other.dimensions == dimensions) &&
-            (identical(other.transform, transform) ||
-                other.transform == transform) &&
-            (identical(other.confidence, confidence) ||
-                other.confidence == confidence));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, category, dimensions, transform, confidence);
-
-  /// Create a copy of ScanObject
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ScanObjectImplCopyWith<_$ScanObjectImpl> get copyWith =>
-      __$$ScanObjectImplCopyWithImpl<_$ScanObjectImpl>(this, _$identity);
 }
 
-abstract class _ScanObject implements ScanObject {
-  const factory _ScanObject({
-    required final ScanObjectCategory category,
-    required final Vec3 dimensions,
-    required final ScanTransform transform,
-    final ScanConfidence confidence,
-  }) = _$ScanObjectImpl;
 
-  @override
-  ScanObjectCategory get category;
-  @override
-  Vec3 get dimensions;
-  @override
-  ScanTransform get transform;
-  @override
-  ScanConfidence get confidence;
+}
 
-  /// Create a copy of ScanObject
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ScanObjectImplCopyWith<_$ScanObjectImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+/// @nodoc
+abstract mixin class _$ScanObjectCopyWith<$Res> implements $ScanObjectCopyWith<$Res> {
+  factory _$ScanObjectCopyWith(_ScanObject value, $Res Function(_ScanObject) _then) = __$ScanObjectCopyWithImpl;
+@override @useResult
+$Res call({
+ ScanObjectCategory category, Vec3 dimensions, ScanTransform transform, ScanConfidence confidence
+});
+
+
+@override $Vec3CopyWith<$Res> get dimensions;@override $ScanTransformCopyWith<$Res> get transform;
+
+}
+/// @nodoc
+class __$ScanObjectCopyWithImpl<$Res>
+    implements _$ScanObjectCopyWith<$Res> {
+  __$ScanObjectCopyWithImpl(this._self, this._then);
+
+  final _ScanObject _self;
+  final $Res Function(_ScanObject) _then;
+
+/// Create a copy of ScanObject
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? category = null,Object? dimensions = null,Object? transform = null,Object? confidence = null,}) {
+  return _then(_ScanObject(
+category: null == category ? _self.category : category // ignore: cast_nullable_to_non_nullable
+as ScanObjectCategory,dimensions: null == dimensions ? _self.dimensions : dimensions // ignore: cast_nullable_to_non_nullable
+as Vec3,transform: null == transform ? _self.transform : transform // ignore: cast_nullable_to_non_nullable
+as ScanTransform,confidence: null == confidence ? _self.confidence : confidence // ignore: cast_nullable_to_non_nullable
+as ScanConfidence,
+  ));
+}
+
+/// Create a copy of ScanObject
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$Vec3CopyWith<$Res> get dimensions {
+  
+  return $Vec3CopyWith<$Res>(_self.dimensions, (value) {
+    return _then(_self.copyWith(dimensions: value));
+  });
+}/// Create a copy of ScanObject
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$ScanTransformCopyWith<$Res> get transform {
+  
+  return $ScanTransformCopyWith<$Res>(_self.transform, (value) {
+    return _then(_self.copyWith(transform: value));
+  });
+}
 }
 
 /// @nodoc
 mixin _$CapturedRoom {
-  List<ScanSurface> get walls => throw _privateConstructorUsedError;
-  List<ScanSurface> get doors => throw _privateConstructorUsedError;
-  List<ScanSurface> get windows => throw _privateConstructorUsedError;
-  List<ScanSurface> get openings => throw _privateConstructorUsedError;
-  List<ScanObject> get objects => throw _privateConstructorUsedError;
 
-  /// Create a copy of CapturedRoom
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $CapturedRoomCopyWith<CapturedRoom> get copyWith =>
-      throw _privateConstructorUsedError;
+ List<ScanSurface> get walls; List<ScanSurface> get doors; List<ScanSurface> get windows; List<ScanSurface> get openings; List<ScanObject> get objects;
+/// Create a copy of CapturedRoom
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$CapturedRoomCopyWith<CapturedRoom> get copyWith => _$CapturedRoomCopyWithImpl<CapturedRoom>(this as CapturedRoom, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  final _this = this as CapturedRoom;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CapturedRoom&&const DeepCollectionEquality().equals(other.walls, _this.walls)&&const DeepCollectionEquality().equals(other.doors, _this.doors)&&const DeepCollectionEquality().equals(other.windows, _this.windows)&&const DeepCollectionEquality().equals(other.openings, _this.openings)&&const DeepCollectionEquality().equals(other.objects, _this.objects));
+}
+
+
+@override
+int get hashCode {
+  final _this = this as CapturedRoom;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.walls),const DeepCollectionEquality().hash(_this.doors),const DeepCollectionEquality().hash(_this.windows),const DeepCollectionEquality().hash(_this.openings),const DeepCollectionEquality().hash(_this.objects));
+}
+
+@override
+String toString() {
+  final _this = this as CapturedRoom;
+  return 'CapturedRoom(walls: ${_this.walls}, doors: ${_this.doors}, windows: ${_this.windows}, openings: ${_this.openings}, objects: ${_this.objects})';
+}
+
+
 }
 
 /// @nodoc
-abstract class $CapturedRoomCopyWith<$Res> {
-  factory $CapturedRoomCopyWith(
-    CapturedRoom value,
-    $Res Function(CapturedRoom) then,
-  ) = _$CapturedRoomCopyWithImpl<$Res, CapturedRoom>;
-  @useResult
-  $Res call({
-    List<ScanSurface> walls,
-    List<ScanSurface> doors,
-    List<ScanSurface> windows,
-    List<ScanSurface> openings,
-    List<ScanObject> objects,
-  });
-}
+abstract mixin class $CapturedRoomCopyWith<$Res>  {
+  factory $CapturedRoomCopyWith(CapturedRoom value, $Res Function(CapturedRoom) _then) = _$CapturedRoomCopyWithImpl;
+@useResult
+$Res call({
+ List<ScanSurface> walls, List<ScanSurface> doors, List<ScanSurface> windows, List<ScanSurface> openings, List<ScanObject> objects
+});
 
+
+
+
+}
 /// @nodoc
-class _$CapturedRoomCopyWithImpl<$Res, $Val extends CapturedRoom>
+class _$CapturedRoomCopyWithImpl<$Res>
     implements $CapturedRoomCopyWith<$Res> {
-  _$CapturedRoomCopyWithImpl(this._value, this._then);
+  _$CapturedRoomCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final CapturedRoom _self;
+  final $Res Function(CapturedRoom) _then;
 
-  /// Create a copy of CapturedRoom
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? walls = null,
-    Object? doors = null,
-    Object? windows = null,
-    Object? openings = null,
-    Object? objects = null,
-  }) {
-    return _then(
-      _value.copyWith(
-            walls: null == walls
-                ? _value.walls
-                : walls // ignore: cast_nullable_to_non_nullable
-                      as List<ScanSurface>,
-            doors: null == doors
-                ? _value.doors
-                : doors // ignore: cast_nullable_to_non_nullable
-                      as List<ScanSurface>,
-            windows: null == windows
-                ? _value.windows
-                : windows // ignore: cast_nullable_to_non_nullable
-                      as List<ScanSurface>,
-            openings: null == openings
-                ? _value.openings
-                : openings // ignore: cast_nullable_to_non_nullable
-                      as List<ScanSurface>,
-            objects: null == objects
-                ? _value.objects
-                : objects // ignore: cast_nullable_to_non_nullable
-                      as List<ScanObject>,
-          )
-          as $Val,
-    );
-  }
+/// Create a copy of CapturedRoom
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? walls = null,Object? doors = null,Object? windows = null,Object? openings = null,Object? objects = null,}) {
+  return _then(CapturedRoom(
+walls: null == walls ? _self.walls : walls // ignore: cast_nullable_to_non_nullable
+as List<ScanSurface>,doors: null == doors ? _self.doors : doors // ignore: cast_nullable_to_non_nullable
+as List<ScanSurface>,windows: null == windows ? _self.windows : windows // ignore: cast_nullable_to_non_nullable
+as List<ScanSurface>,openings: null == openings ? _self.openings : openings // ignore: cast_nullable_to_non_nullable
+as List<ScanSurface>,objects: null == objects ? _self.objects : objects // ignore: cast_nullable_to_non_nullable
+as List<ScanObject>,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [CapturedRoom].
+extension CapturedRoomPatterns on CapturedRoom {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _CapturedRoom value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _CapturedRoom() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _CapturedRoom value)  $default,){
+final _that = this;
+switch (_that) {
+case _CapturedRoom():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _CapturedRoom value)?  $default,){
+final _that = this;
+switch (_that) {
+case _CapturedRoom() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( List<ScanSurface> walls,  List<ScanSurface> doors,  List<ScanSurface> windows,  List<ScanSurface> openings,  List<ScanObject> objects)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _CapturedRoom() when $default != null:
+return $default(_that.walls,_that.doors,_that.windows,_that.openings,_that.objects);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( List<ScanSurface> walls,  List<ScanSurface> doors,  List<ScanSurface> windows,  List<ScanSurface> openings,  List<ScanObject> objects)  $default,) {final _that = this;
+switch (_that) {
+case _CapturedRoom():
+return $default(_that.walls,_that.doors,_that.windows,_that.openings,_that.objects);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( List<ScanSurface> walls,  List<ScanSurface> doors,  List<ScanSurface> windows,  List<ScanSurface> openings,  List<ScanObject> objects)?  $default,) {final _that = this;
+switch (_that) {
+case _CapturedRoom() when $default != null:
+return $default(_that.walls,_that.doors,_that.windows,_that.openings,_that.objects);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
-abstract class _$$CapturedRoomImplCopyWith<$Res>
-    implements $CapturedRoomCopyWith<$Res> {
-  factory _$$CapturedRoomImplCopyWith(
-    _$CapturedRoomImpl value,
-    $Res Function(_$CapturedRoomImpl) then,
-  ) = __$$CapturedRoomImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({
-    List<ScanSurface> walls,
-    List<ScanSurface> doors,
-    List<ScanSurface> windows,
-    List<ScanSurface> openings,
-    List<ScanObject> objects,
-  });
+
+
+class _CapturedRoom implements CapturedRoom {
+  const _CapturedRoom({ List<ScanSurface> walls = const <ScanSurface>[],  List<ScanSurface> doors = const <ScanSurface>[],  List<ScanSurface> windows = const <ScanSurface>[],  List<ScanSurface> openings = const <ScanSurface>[],  List<ScanObject> objects = const <ScanObject>[]}): _walls = walls,_doors = doors,_windows = windows,_openings = openings,_objects = objects;
+  
+
+ final  List<ScanSurface> _walls;
+@override@JsonKey() List<ScanSurface> get walls {
+  if (_walls is EqualUnmodifiableListView) return _walls;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_walls);
 }
 
-/// @nodoc
-class __$$CapturedRoomImplCopyWithImpl<$Res>
-    extends _$CapturedRoomCopyWithImpl<$Res, _$CapturedRoomImpl>
-    implements _$$CapturedRoomImplCopyWith<$Res> {
-  __$$CapturedRoomImplCopyWithImpl(
-    _$CapturedRoomImpl _value,
-    $Res Function(_$CapturedRoomImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of CapturedRoom
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? walls = null,
-    Object? doors = null,
-    Object? windows = null,
-    Object? openings = null,
-    Object? objects = null,
-  }) {
-    return _then(
-      _$CapturedRoomImpl(
-        walls: null == walls
-            ? _value._walls
-            : walls // ignore: cast_nullable_to_non_nullable
-                  as List<ScanSurface>,
-        doors: null == doors
-            ? _value._doors
-            : doors // ignore: cast_nullable_to_non_nullable
-                  as List<ScanSurface>,
-        windows: null == windows
-            ? _value._windows
-            : windows // ignore: cast_nullable_to_non_nullable
-                  as List<ScanSurface>,
-        openings: null == openings
-            ? _value._openings
-            : openings // ignore: cast_nullable_to_non_nullable
-                  as List<ScanSurface>,
-        objects: null == objects
-            ? _value._objects
-            : objects // ignore: cast_nullable_to_non_nullable
-                  as List<ScanObject>,
-      ),
-    );
-  }
+ final  List<ScanSurface> _doors;
+@override@JsonKey() List<ScanSurface> get doors {
+  if (_doors is EqualUnmodifiableListView) return _doors;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_doors);
 }
 
-/// @nodoc
+ final  List<ScanSurface> _windows;
+@override@JsonKey() List<ScanSurface> get windows {
+  if (_windows is EqualUnmodifiableListView) return _windows;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_windows);
+}
 
-class _$CapturedRoomImpl implements _CapturedRoom {
-  const _$CapturedRoomImpl({
-    final List<ScanSurface> walls = const <ScanSurface>[],
-    final List<ScanSurface> doors = const <ScanSurface>[],
-    final List<ScanSurface> windows = const <ScanSurface>[],
-    final List<ScanSurface> openings = const <ScanSurface>[],
-    final List<ScanObject> objects = const <ScanObject>[],
-  }) : _walls = walls,
-       _doors = doors,
-       _windows = windows,
-       _openings = openings,
-       _objects = objects;
+ final  List<ScanSurface> _openings;
+@override@JsonKey() List<ScanSurface> get openings {
+  if (_openings is EqualUnmodifiableListView) return _openings;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_openings);
+}
 
-  final List<ScanSurface> _walls;
-  @override
-  @JsonKey()
-  List<ScanSurface> get walls {
-    if (_walls is EqualUnmodifiableListView) return _walls;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_walls);
-  }
+ final  List<ScanObject> _objects;
+@override@JsonKey() List<ScanObject> get objects {
+  if (_objects is EqualUnmodifiableListView) return _objects;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_objects);
+}
 
-  final List<ScanSurface> _doors;
-  @override
-  @JsonKey()
-  List<ScanSurface> get doors {
-    if (_doors is EqualUnmodifiableListView) return _doors;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_doors);
-  }
 
-  final List<ScanSurface> _windows;
-  @override
-  @JsonKey()
-  List<ScanSurface> get windows {
-    if (_windows is EqualUnmodifiableListView) return _windows;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_windows);
-  }
+/// Create a copy of CapturedRoom
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$CapturedRoomCopyWith<_CapturedRoom> get copyWith => __$CapturedRoomCopyWithImpl<_CapturedRoom>(this, _$identity);
 
-  final List<ScanSurface> _openings;
-  @override
-  @JsonKey()
-  List<ScanSurface> get openings {
-    if (_openings is EqualUnmodifiableListView) return _openings;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_openings);
-  }
 
-  final List<ScanObject> _objects;
-  @override
-  @JsonKey()
-  List<ScanObject> get objects {
-    if (_objects is EqualUnmodifiableListView) return _objects;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_objects);
-  }
 
-  @override
-  String toString() {
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CapturedRoom&&const DeepCollectionEquality().equals(other.walls, _walls)&&const DeepCollectionEquality().equals(other.doors, _doors)&&const DeepCollectionEquality().equals(other.windows, _windows)&&const DeepCollectionEquality().equals(other.openings, _openings)&&const DeepCollectionEquality().equals(other.objects, _objects));
+}
+
+
+@override
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_walls),const DeepCollectionEquality().hash(_doors),const DeepCollectionEquality().hash(_windows),const DeepCollectionEquality().hash(_openings),const DeepCollectionEquality().hash(_objects));
+}
+
+@override
+String toString() {
     return 'CapturedRoom(walls: $walls, doors: $doors, windows: $windows, openings: $openings, objects: $objects)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$CapturedRoomImpl &&
-            const DeepCollectionEquality().equals(other._walls, _walls) &&
-            const DeepCollectionEquality().equals(other._doors, _doors) &&
-            const DeepCollectionEquality().equals(other._windows, _windows) &&
-            const DeepCollectionEquality().equals(other._openings, _openings) &&
-            const DeepCollectionEquality().equals(other._objects, _objects));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    const DeepCollectionEquality().hash(_walls),
-    const DeepCollectionEquality().hash(_doors),
-    const DeepCollectionEquality().hash(_windows),
-    const DeepCollectionEquality().hash(_openings),
-    const DeepCollectionEquality().hash(_objects),
-  );
-
-  /// Create a copy of CapturedRoom
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$CapturedRoomImplCopyWith<_$CapturedRoomImpl> get copyWith =>
-      __$$CapturedRoomImplCopyWithImpl<_$CapturedRoomImpl>(this, _$identity);
 }
 
-abstract class _CapturedRoom implements CapturedRoom {
-  const factory _CapturedRoom({
-    final List<ScanSurface> walls,
-    final List<ScanSurface> doors,
-    final List<ScanSurface> windows,
-    final List<ScanSurface> openings,
-    final List<ScanObject> objects,
-  }) = _$CapturedRoomImpl;
 
-  @override
-  List<ScanSurface> get walls;
-  @override
-  List<ScanSurface> get doors;
-  @override
-  List<ScanSurface> get windows;
-  @override
-  List<ScanSurface> get openings;
-  @override
-  List<ScanObject> get objects;
-
-  /// Create a copy of CapturedRoom
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$CapturedRoomImplCopyWith<_$CapturedRoomImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+abstract mixin class _$CapturedRoomCopyWith<$Res> implements $CapturedRoomCopyWith<$Res> {
+  factory _$CapturedRoomCopyWith(_CapturedRoom value, $Res Function(_CapturedRoom) _then) = __$CapturedRoomCopyWithImpl;
+@override @useResult
+$Res call({
+ List<ScanSurface> walls, List<ScanSurface> doors, List<ScanSurface> windows, List<ScanSurface> openings, List<ScanObject> objects
+});
+
+
+
+
+}
+/// @nodoc
+class __$CapturedRoomCopyWithImpl<$Res>
+    implements _$CapturedRoomCopyWith<$Res> {
+  __$CapturedRoomCopyWithImpl(this._self, this._then);
+
+  final _CapturedRoom _self;
+  final $Res Function(_CapturedRoom) _then;
+
+/// Create a copy of CapturedRoom
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? walls = null,Object? doors = null,Object? windows = null,Object? openings = null,Object? objects = null,}) {
+  return _then(_CapturedRoom(
+walls: null == walls ? _self._walls : walls // ignore: cast_nullable_to_non_nullable
+as List<ScanSurface>,doors: null == doors ? _self._doors : doors // ignore: cast_nullable_to_non_nullable
+as List<ScanSurface>,windows: null == windows ? _self._windows : windows // ignore: cast_nullable_to_non_nullable
+as List<ScanSurface>,openings: null == openings ? _self._openings : openings // ignore: cast_nullable_to_non_nullable
+as List<ScanSurface>,objects: null == objects ? _self._objects : objects // ignore: cast_nullable_to_non_nullable
+as List<ScanObject>,
+  ));
+}
+
+
+}
+
+// dart format on

@@ -42,7 +42,7 @@ enum OpeningType {
 
 /// Overall footprint of a captured room: width, height and length.
 @freezed
-class RoomDimensions with _$RoomDimensions {
+abstract class RoomDimensions with _$RoomDimensions {
   const factory RoomDimensions({
     required double width,
     required double height,
@@ -55,7 +55,7 @@ class RoomDimensions with _$RoomDimensions {
 
 /// Height and length captured for a single [Wall].
 @freezed
-class WallMeasurements with _$WallMeasurements {
+abstract class WallMeasurements with _$WallMeasurements {
   const factory WallMeasurements({
     required double height,
     required double length,
@@ -67,7 +67,7 @@ class WallMeasurements with _$WallMeasurements {
 
 /// A single scanned wall belonging to a [Room].
 @freezed
-class Wall with _$Wall {
+abstract class Wall with _$Wall {
   const factory Wall({
     required String id,
     @JsonKey(unknownEnumValue: WallType.unknown) required WallType type,
@@ -81,7 +81,7 @@ class Wall with _$Wall {
 /// A door opening located on a wall, positioned as a fraction of the
 /// wall's length via [position] (expected range: 0.0-1.0).
 @freezed
-class Door with _$Door {
+abstract class Door with _$Door {
   const factory Door({
     required String id,
     required String wallId,
@@ -97,7 +97,7 @@ class Door with _$Door {
 /// A window opening located on a wall, positioned as a fraction of the
 /// wall's length via [position] (expected range: 0.0-1.0).
 @freezed
-class Window with _$Window {
+abstract class Window with _$Window {
   const factory Window({
     required String id,
     required String wallId,
@@ -113,7 +113,7 @@ class Window with _$Window {
 /// A fully captured room, including its walls and any doors/windows
 /// attached to those walls.
 @freezed
-class Room with _$Room {
+abstract class Room with _$Room {
   const factory Room({
     required String id,
     required String name,

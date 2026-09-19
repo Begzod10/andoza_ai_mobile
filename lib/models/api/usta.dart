@@ -8,7 +8,7 @@ part 'usta.g.dart';
 /// Mirrors `app/schemas/usta.py::UstaOut`. [priceMin]/[priceMax] are a UZS
 /// per-unit range and may be null when the usta hasn't published pricing.
 @freezed
-class Usta with _$Usta {
+abstract class Usta with _$Usta {
   const factory Usta({
     required String id,
     required String name,

@@ -55,7 +55,7 @@ enum DeviceType {
 /// A single electrical device (outlet, switch, light or breaker) placed
 /// on a wall at a given canvas [position].
 @freezed
-class ElectricalDevice with _$ElectricalDevice {
+abstract class ElectricalDevice with _$ElectricalDevice {
   const factory ElectricalDevice({
     required String id,
     @JsonKey(unknownEnumValue: DeviceType.unknown) required DeviceType type,
@@ -74,7 +74,7 @@ class ElectricalDevice with _$ElectricalDevice {
 
 /// A single wire run between two points on the electrical layout canvas.
 @freezed
-class WireSegment with _$WireSegment {
+abstract class WireSegment with _$WireSegment {
   const factory WireSegment({
     required String id,
     @OffsetConverter() required Offset from,
@@ -88,7 +88,7 @@ class WireSegment with _$WireSegment {
 
 /// A single pipe segment in a plumbing line (hot/cold water or drain).
 @freezed
-class PipeSegment with _$PipeSegment {
+abstract class PipeSegment with _$PipeSegment {
   const factory PipeSegment({
     required String id,
     @OffsetConverter() required Offset from,
@@ -103,7 +103,7 @@ class PipeSegment with _$PipeSegment {
 /// A junction box connecting one or more [WireSegment]s at a point on
 /// the electrical layout canvas.
 @freezed
-class JunctionBox with _$JunctionBox {
+abstract class JunctionBox with _$JunctionBox {
   const factory JunctionBox({
     required String id,
     @OffsetConverter() required Offset position,
@@ -118,7 +118,7 @@ class JunctionBox with _$JunctionBox {
 /// The complete electrical layout designed for a single room: devices,
 /// the wiring connecting them, junction boxes, and plumbing.
 @freezed
-class ElectricalLayout with _$ElectricalLayout {
+abstract class ElectricalLayout with _$ElectricalLayout {
   const factory ElectricalLayout({
     required String id,
     required String roomId,

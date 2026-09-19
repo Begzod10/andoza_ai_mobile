@@ -23,7 +23,7 @@ enum SurfaceCondition {
 /// Baseline condition of room surfaces (walls, floor, ceiling).
 /// Used to compute delta (difference) between current and target finish states.
 @freezed
-class RoomCondition with _$RoomCondition {
+abstract class RoomCondition with _$RoomCondition {
   const factory RoomCondition({
     @JsonKey(unknownEnumValue: SurfaceCondition.unknown)
     required SurfaceCondition wall,
@@ -132,7 +132,7 @@ Set<RenovationStage> _excludedStages(RoomCondition condition) {
 
 /// A single furniture item placed in a room with position, rotation, and color.
 @freezed
-class FurniturePlacement with _$FurniturePlacement {
+abstract class FurniturePlacement with _$FurniturePlacement {
   const factory FurniturePlacement({
     required String id,
     required String itemId,
@@ -183,7 +183,7 @@ enum MaterialType {
 /// A single material choice applied to a surface (e.g. one wall or the
 /// floor), including its priced area.
 @freezed
-class MaterialSelection with _$MaterialSelection {
+abstract class MaterialSelection with _$MaterialSelection {
   const factory MaterialSelection({
     required String materialId,
     @JsonKey(unknownEnumValue: MaterialType.unknown)
@@ -200,7 +200,7 @@ class MaterialSelection with _$MaterialSelection {
 /// The set of design/material selections made for a single room, keyed
 /// by an arbitrary surface identifier (e.g. wall id, "floor").
 @freezed
-class DesignSelection with _$DesignSelection {
+abstract class DesignSelection with _$DesignSelection {
   const factory DesignSelection({
     required String id,
     required String roomId,

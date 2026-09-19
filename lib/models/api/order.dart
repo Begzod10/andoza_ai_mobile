@@ -26,7 +26,7 @@ enum OrderStatus {
 /// catalog material UUID when known, else null (free-text / synthetic item).
 /// The server computes the order total from these lines.
 @freezed
-class OrderLineCreate with _$OrderLineCreate {
+abstract class OrderLineCreate with _$OrderLineCreate {
   const factory OrderLineCreate({
     @JsonKey(name: 'material_id') String? materialId,
     @JsonKey(name: 'product_name') required String productName,
@@ -41,7 +41,7 @@ class OrderLineCreate with _$OrderLineCreate {
 
 /// A persisted order line (`OrderLineOut`).
 @freezed
-class ServerOrderLine with _$ServerOrderLine {
+abstract class ServerOrderLine with _$ServerOrderLine {
   const factory ServerOrderLine({
     required String id,
     @JsonKey(name: 'material_id') String? materialId,
@@ -58,7 +58,7 @@ class ServerOrderLine with _$ServerOrderLine {
 /// A persisted order (`GET /orders` element / `OrderOut`). Newest first from
 /// the list endpoint. `totalUzs` is server-computed.
 @freezed
-class ServerOrder with _$ServerOrder {
+abstract class ServerOrder with _$ServerOrder {
   const factory ServerOrder({
     required String id,
     @JsonKey(name: 'user_id') required String userId,

@@ -8,7 +8,7 @@ part 'wallpaper.g.dart';
 /// Mirrors `app/schemas/wallpaper.py::WallpaperOut`. [url] is always absolute
 /// so it can be loaded straight into a texture regardless of API host.
 @freezed
-class Wallpaper with _$Wallpaper {
+abstract class Wallpaper with _$Wallpaper {
   const factory Wallpaper({
     required String id,
     required String name,

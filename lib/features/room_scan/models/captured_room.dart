@@ -39,14 +39,14 @@ enum ScanObjectCategory {
 }
 
 @freezed
-class Vec3 with _$Vec3 {
+abstract class Vec3 with _$Vec3 {
   const factory Vec3(double x, double y, double z) = _Vec3;
 }
 
 /// A 4×4 transform, stored as 16 floats in **column-major** order (Apple's
 /// `simd_float4x4`). Element (row r, col c) is at index `c * 4 + r`.
 @freezed
-class ScanTransform with _$ScanTransform {
+abstract class ScanTransform with _$ScanTransform {
   const ScanTransform._();
   const factory ScanTransform(List<double> m) = _ScanTransform;
 
@@ -67,7 +67,7 @@ class ScanTransform with _$ScanTransform {
 /// determined by which list it lives in on [CapturedRoom], so it isn't stored
 /// here.
 @freezed
-class ScanSurface with _$ScanSurface {
+abstract class ScanSurface with _$ScanSurface {
   const factory ScanSurface({
     required Vec3 dimensions,
     required ScanTransform transform,
@@ -77,7 +77,7 @@ class ScanSurface with _$ScanSurface {
 
 /// A detected furniture/object in the room.
 @freezed
-class ScanObject with _$ScanObject {
+abstract class ScanObject with _$ScanObject {
   const factory ScanObject({
     required ScanObjectCategory category,
     required Vec3 dimensions,
@@ -87,7 +87,7 @@ class ScanObject with _$ScanObject {
 }
 
 @freezed
-class CapturedRoom with _$CapturedRoom {
+abstract class CapturedRoom with _$CapturedRoom {
   const factory CapturedRoom({
     @Default(<ScanSurface>[]) List<ScanSurface> walls,
     @Default(<ScanSurface>[]) List<ScanSurface> doors,

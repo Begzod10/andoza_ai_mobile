@@ -6,7 +6,7 @@ part of 'usta.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$UstaImpl _$$UstaImplFromJson(Map<String, dynamic> json) => _$UstaImpl(
+_Usta _$UstaFromJson(Map<String, dynamic> json) => _Usta(
   id: json['id'] as String,
   name: json['name'] as String,
   category: json['category'] as String,
@@ -23,20 +23,19 @@ _$UstaImpl _$$UstaImplFromJson(Map<String, dynamic> json) => _$UstaImpl(
   avatarUrl: json['avatar_url'] as String?,
 );
 
-Map<String, dynamic> _$$UstaImplToJson(_$UstaImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'category': instance.category,
-      'district': instance.district,
-      'phone': instance.phone,
-      'telegram': instance.telegram,
-      'rating': instance.rating,
-      'jobs_count': instance.jobsCount,
-      'price_min': instance.priceMin,
-      'price_max': instance.priceMax,
-      'verified': instance.verified,
-      'lat': instance.lat,
-      'lng': instance.lng,
-      'avatar_url': instance.avatarUrl,
-    };
+Map<String, dynamic> _$UstaToJson(_Usta instance) => <String, dynamic>{
+  'id': instance.id,
+  'name': instance.name,
+  'category': instance.category,
+  'district': instance.district,
+  'phone': instance.phone,
+  'telegram': instance.telegram,
+  'rating': instance.rating,
+  'jobs_count': instance.jobsCount,
+  'price_min': instance.priceMin,
+  'price_max': instance.priceMax,
+  'verified': instance.verified,
+  'lat': instance.lat,
+  'lng': instance.lng,
+  'avatar_url': instance.avatarUrl,
+};
