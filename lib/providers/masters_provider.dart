@@ -3,34 +3,59 @@ import '../models/api/usta.dart';
 import '../repositories/masters_repository.dart';
 import 'catalog_provider.dart';
 
-/// Trade categories per spec's exact color-per-trade mapping. NOTE: this is
-/// backend-wired — [mockMastersProvider] maps the real `/ustalar` directory
-/// (via [ustalarProvider]) onto the UI shape; the name is legacy, not mock data.
-enum Trade { elektrik, suvoqchi, kafelchi, santexnik, duradgor }
+/// Trade categories, one per backend `usta_category` value, plus [Trade.boshqa]
+/// for anything the app hasn't been taught. NOTE: this is backend-wired —
+/// [mockMastersProvider] maps the real `/ustalar` directory (via
+/// [ustalarProvider]) onto the UI shape; the name is legacy, not mock data.
+enum Trade {
+  elektrik,
+  /// Design engineer, not an installer: draws and stamps the electrical
+  /// project from the written norms, before any cable is pulled.
+  elektrikLoyihachi,
+  santexnik,
+  malyar,
+  oboy,
+  laminat,
+  brigada,
+  /// A category the backend has and this build doesn't. Rendered neutrally on
+  /// purpose — see [_tradeFromCategory].
+  boshqa,
+}
 
 extension TradeInfo on Trade {
   String get label => switch (this) {
     Trade.elektrik => 'Elektrik',
-    Trade.suvoqchi => 'Suvoqchi',
-    Trade.kafelchi => 'Kafelchi',
+    Trade.elektrikLoyihachi => 'Elektrik loyihachi',
     Trade.santexnik => 'Santexnik',
-    Trade.duradgor => 'Duradgor',
+    Trade.malyar => 'Malyar',
+    Trade.oboy => 'Oboychi',
+    Trade.laminat => 'Laminatchi',
+    Trade.brigada => 'Brigada',
+    Trade.boshqa => 'Boshqa usta',
   };
 
   String get emoji => switch (this) {
     Trade.elektrik => '⚡',
-    Trade.suvoqchi => '🎨',
-    Trade.kafelchi => '🧱',
+    Trade.elektrikLoyihachi => '📐',
     Trade.santexnik => '🔧',
-    Trade.duradgor => '🪚',
+    Trade.malyar => '🎨',
+    Trade.oboy => '🧻',
+    Trade.laminat => '🪵',
+    Trade.brigada => '👷',
+    Trade.boshqa => '🛠️',
   };
 
   int get colorValue => switch (this) {
     Trade.elektrik => 0xFFF59E0B,
-    Trade.suvoqchi => 0xFF8B5CF6,
-    Trade.kafelchi => 0xFF0EA5E9,
+    Trade.elektrikLoyihachi => 0xFF4F46E5,
     Trade.santexnik => 0xFF10B981,
-    Trade.duradgor => 0xFFB45309,
+    Trade.malyar => 0xFF8B5CF6,
+    Trade.oboy => 0xFFEC4899,
+    Trade.laminat => 0xFFB45309,
+    Trade.brigada => 0xFF0EA5E9,
+    // Deliberately the only grey pin: an unmapped category must look inert,
+    // not like a real trade.
+    Trade.boshqa => 0xFF6B7280,
   };
 }
 
@@ -120,25 +145,30 @@ MockMaster _toMockMaster(Usta usta) {
   );
 }
 
-/// Maps a server `category` slug onto the UI [Trade] enum. The enum has fewer
-/// members than the catalog, so several categories collapse onto the closest
-/// visual trade. Unknown/unmapped values default to [Trade.elektrik] so the
-/// pin still renders instead of crashing.
+/// Maps a server `category` slug onto the UI [Trade] enum, one-to-one with the
+/// backend's `usta_category` values. Anything unrecognised — a category added
+/// server-side that this build predates — becomes [Trade.boshqa]: a grey pin
+/// with a neutral label that obviously isn't a real trade. A visibly
+/// wrong-looking pin beats a plausible wrong one; the old default of
+/// [Trade.elektrik] gave an unknown craftsman an electrician's name, icon and
+/// colour, so the user had no way to tell they were calling the wrong trade.
 Trade _tradeFromCategory(String category) {
   switch (category.toLowerCase()) {
     case 'elektrik':
       return Trade.elektrik;
+    case 'elektrik_loyihachi':
+      return Trade.elektrikLoyihachi;
     case 'santexnik':
       return Trade.santexnik;
     case 'malyar':
-      return Trade.suvoqchi;
+      return Trade.malyar;
     case 'oboy':
-      return Trade.suvoqchi;
+      return Trade.oboy;
     case 'laminat':
-      return Trade.kafelchi;
+      return Trade.laminat;
     case 'brigada':
-      return Trade.duradgor;
+      return Trade.brigada;
     default:
-      return Trade.elektrik;
+      return Trade.boshqa;
   }
 }
