@@ -14,6 +14,7 @@ import '../../widgets/room/isometric_room_view.dart';
 import '../home/home_empty_screen.dart';
 import 'door_window_modal.dart';
 import 'wall_measurements_screen.dart';
+import '../../utils/opening_position.dart';
 
 /// Native room-capture wizard: an isometric 3D room preview on top, and a
 /// single flow of steps below — ceiling height → each wall's length + openings
@@ -100,7 +101,11 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
             type: o.type == 'window' ? OpeningType.dual : OpeningType.single,
             width: o.width,
             height: o.height,
-            offset: o.position * length,
+            offset: centreFractionToLeftEdgeM(
+              position: o.position,
+              wallLengthM: length,
+              widthM: o.width,
+            ),
           ),
       ],
     );

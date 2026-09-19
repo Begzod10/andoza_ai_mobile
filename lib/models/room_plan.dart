@@ -19,7 +19,11 @@ class RoomOpening {
   /// Opening height in metres.
   final double height;
 
-  /// Fractional position along the wall (0..1).
+  /// The opening's CENTRE along the wall, as a fraction (0..1) — not its left
+  /// edge. Matches the backend's `WallElement.position`, which the LiDAR
+  /// converter, the smeta and the auto-electrical generator all read as a
+  /// centre. Convert to/from the measuring UI's left-edge offset with
+  /// `utils/opening_position.dart`.
   final double position;
 
   /// Sill height in metres (distance from the floor to the opening's bottom).

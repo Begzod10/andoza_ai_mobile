@@ -11,6 +11,7 @@ import '../../providers/room_provider.dart';
 import '../home/home_empty_screen.dart';
 import '../room_setup/new_project_sheet.dart';
 import 'wall_measurements_screen.dart';
+import '../../utils/opening_position.dart';
 
 const _summaryRoomName = 'Mehmonxona ta\'miri';
 
@@ -38,7 +39,11 @@ RoomPlan _planFromWalls(List<WallMeasurement> walls) {
           type: o.type == OpeningType.dual ? 'window' : 'door',
           width: o.width,
           height: o.height,
-          position: edgeLen == 0 ? 0.0 : (o.offset / edgeLen).clamp(0.0, 1.0),
+          position: leftEdgeToCentreFraction(
+            offsetM: o.offset,
+            wallLengthM: edgeLen,
+            widthM: o.width,
+          ),
         ),
     ];
   }
