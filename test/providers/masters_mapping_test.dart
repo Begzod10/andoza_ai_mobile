@@ -19,6 +19,18 @@ Future<List<MockMaster>> _masters(List<Usta> ustalar) async {
   return container.read(mockMastersProvider);
 }
 
+/// The backend's `usta_category` enum, verbatim. Every value must map onto a
+/// Trade of its own; [Trade.boshqa] exists only for values NOT in this list.
+const List<String> _backendCategories = [
+  'elektrik',
+  'elektrik_loyihachi',
+  'santexnik',
+  'malyar',
+  'oboy',
+  'laminat',
+  'brigada',
+];
+
 Usta _usta({
   required String id,
   required String category,
@@ -46,28 +58,72 @@ Usta _usta({
 
 void main() {
   group('_tradeFromCategory (via mockMastersProvider)', () {
-    test('maps each server category slug onto the right UI trade', () async {
+    test('every backend usta_category maps to its own distinct trade',
+        () async {
       final masters = await _masters([
-        _usta(id: 'e', category: 'elektrik'),
-        _usta(id: 's', category: 'santexnik'),
-        _usta(id: 'm', category: 'malyar'),
-        _usta(id: 'o', category: 'oboy'),
-        _usta(id: 'l', category: 'laminat'),
-        _usta(id: 'b', category: 'brigada'),
+        for (final c in _backendCategories) _usta(id: c, category: c),
       ]);
-      final byId = {for (final m in masters) m.master.id: m.trade};
-      expect(byId['e'], Trade.elektrik);
-      expect(byId['s'], Trade.santexnik);
-      expect(byId['m'], Trade.suvoqchi); // malyar → suvoqchi (painter)
-      expect(byId['o'], Trade.suvoqchi); // oboy → suvoqchi
-      expect(byId['l'], Trade.kafelchi); // laminat → kafelchi
-      expect(byId['b'], Trade.duradgor); // brigada → duradgor
+      final byCategory = {for (final m in masters) m.master.id: m.trade};
+
+      expect(byCategory['elektrik'], Trade.elektrik);
+      // Mapped explicitly, not via the unknown-category fallback — a design
+      // engineer must never render as the installer.
+      expect(byCategory['elektrik_loyihachi'], Trade.elektrikLoyihachi);
+      expect(byCategory['santexnik'], Trade.santexnik);
+      expect(byCategory['malyar'], Trade.malyar);
+      expect(byCategory['oboy'], Trade.oboy);
+      expect(byCategory['laminat'], Trade.laminat);
+      expect(byCategory['brigada'], Trade.brigada);
+
+      // No two categories may share a trade — the regression that let the
+      // painter and the wallpaper fitter collapse into one filter chip.
+      expect(
+        byCategory.values.toSet().length,
+        _backendCategories.length,
+        reason: 'two backend categories map onto the same Trade',
+      );
+      // And none of them may land on the unknown bucket: a category the
+      // backend has must be taught to the app, not silently swept up.
+      expect(byCategory.values, isNot(contains(Trade.boshqa)));
     });
 
-    test('an unknown category defaults to elektrik instead of crashing',
+    test('an unknown category maps to boshqa, never to elektrik', () async {
+      final masters = await _masters([
+        _usta(id: 'x', category: 'mystery_trade'),
+        _usta(id: 'y', category: ''),
+      ]);
+      for (final m in masters) {
+        expect(
+          m.trade,
+          Trade.boshqa,
+          reason: 'an unmapped category must fail visibly, not pose as an '
+              'electrician',
+        );
+      }
+    });
+
+    test('a new backend category cannot be added without teaching the app',
         () async {
-      final masters = await _masters([_usta(id: 'x', category: 'mystery_trade')]);
-      expect(masters.single.trade, Trade.elektrik);
+      // Guard: keep [_backendCategories] in step with the server's
+      // `usta_category` enum. Adding one there without a case in
+      // _tradeFromCategory makes the distinctness test above fail loudly.
+      expect(_backendCategories, hasLength(Trade.values.length - 1));
+    });
+
+    test('every trade has a non-empty label, an emoji and a colour', () {
+      for (final trade in Trade.values) {
+        expect(trade.label, isNotEmpty, reason: '${trade.name} has no label');
+        expect(trade.emoji, isNotEmpty, reason: '${trade.name} has no emoji');
+        // Opaque ARGB — a 0 colour would paint an invisible pin.
+        expect(trade.colorValue & 0xFF000000, 0xFF000000,
+            reason: '${trade.name} has no opaque colour');
+      }
+      // Labels and pin colours are what the user actually tells trades apart
+      // by, so they must be distinct too.
+      expect(Trade.values.map((t) => t.label).toSet(),
+          hasLength(Trade.values.length));
+      expect(Trade.values.map((t) => t.colorValue).toSet(),
+          hasLength(Trade.values.length));
     });
   });
 
