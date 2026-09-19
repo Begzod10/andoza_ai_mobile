@@ -11,10 +11,8 @@ import 'package:tamir_uy_mobile_flutter/geometry/room_geometry.dart';
 import 'package:tamir_uy_mobile_flutter/l10n/app_localizations.dart';
 import 'package:tamir_uy_mobile_flutter/models/api/api.dart';
 import 'package:tamir_uy_mobile_flutter/models/room_plan.dart';
-import 'package:tamir_uy_mobile_flutter/providers/design_persistence_provider.dart';
 import 'package:tamir_uy_mobile_flutter/providers/estimate_api_provider.dart';
 import 'package:tamir_uy_mobile_flutter/providers/room_persistence_provider.dart';
-import 'package:tamir_uy_mobile_flutter/repositories/electrical_repository.dart';
 import 'package:tamir_uy_mobile_flutter/repositories/estimate_repository.dart';
 import 'package:tamir_uy_mobile_flutter/screens/scanning/room_scan_review_page.dart';
 import 'package:tamir_uy_mobile_flutter/screens/scanning/room_scan_summary_sheet.dart';
@@ -59,49 +57,6 @@ Estimate _estimate() => Estimate(
       totalMax: 1358500,
       createdAt: DateTime(2026, 9, 1),
       hasElectrical: true,
-    );
-
-ElectricalPlan _electrical() => ElectricalPlan(
-      roomId: 'room-9',
-      devices: const [
-        ElectricalDeviceOut(
-          id: 'd1',
-          roomId: 'room-9',
-          type: ElectricalDeviceType.socket,
-          wallIndex: 0,
-          x: 1,
-          y: 0.3,
-          count: 4,
-        ),
-        ElectricalDeviceOut(
-          id: 'd2',
-          roomId: 'room-9',
-          type: ElectricalDeviceType.socket,
-          wallIndex: 2,
-          x: 1,
-          y: 0.3,
-          count: 2,
-        ),
-        ElectricalDeviceOut(
-          id: 'd3',
-          roomId: 'room-9',
-          type: ElectricalDeviceType.switch_,
-          wallIndex: 1,
-          x: 0.2,
-          y: 1.1,
-          count: 2,
-        ),
-        ElectricalDeviceOut(
-          id: 'd4',
-          roomId: 'room-9',
-          type: ElectricalDeviceType.panel,
-          wallIndex: 3,
-          x: 0.5,
-          y: 1.6,
-        ),
-      ],
-      wiringMeters: 62.5,
-      updatedAt: DateTime(2026, 9, 1),
     );
 
 /// Persists nothing but reports a server room id, so the review page's handoff
@@ -167,22 +122,6 @@ class _FakeEstimateRepo implements EstimateRepository {
   noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
 
-class _FakeElectricalRepo implements ElectricalRepository {
-  _FakeElectricalRepo(this._result);
-
-  final ElectricalPlan? _result;
-
-  @override
-  Future<ElectricalPlan> getPlan(String roomId) async {
-    final r = _result;
-    if (r == null) throw Exception('boom');
-    return r;
-  }
-
-  @override
-  noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
-}
-
 RoomScanReviewArgs _args() => RoomScanReviewArgs(
       draft: RoomScanDraft(plan: _plan(), objects: const []),
       scan: const ScanResult(
@@ -197,7 +136,6 @@ RoomScanReviewArgs _args() => RoomScanReviewArgs(
 Future<GoRouter> _runContinue(
   WidgetTester tester, {
   Estimate? estimate,
-  ElectricalPlan? electrical,
 }) async {
   final router = GoRouter(
     initialLocation: '/review',
@@ -221,8 +159,6 @@ Future<GoRouter> _runContinue(
         roomScanServiceProvider.overrideWithValue(_OkScanService()),
         estimateRepositoryProvider
             .overrideWithValue(_FakeEstimateRepo(estimate)),
-        electricalRepositoryProvider
-            .overrideWithValue(_FakeElectricalRepo(electrical)),
       ],
       child: MaterialApp.router(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -261,7 +197,6 @@ void main() {
           body: RoomScanSummaryContent(
             plan: _plan(),
             estimate: _estimate(),
-            electrical: _electrical(),
             onContinue: () {},
           ),
         ),
@@ -298,30 +233,9 @@ void main() {
       expect(find.text('Elektr kabel'), findsOneWidget);
     });
 
-    testWidgets('aggregates electrical devices by type and shows the wiring',
-        (tester) async {
-      await pumpLocalized(
-        tester,
-        Scaffold(
-          body: RoomScanSummaryContent(
-            plan: _plan(),
-            estimate: _estimate(),
-            electrical: _electrical(),
-            onContinue: () {},
-          ),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      // 4 + 2 sockets arrive as two rows and must read as one count.
-      expect(find.text('6 rozetka'), findsOneWidget);
-      expect(find.text('2 kalit'), findsOneWidget);
-      expect(find.text('1 elektr qutisi'), findsOneWidget);
-      expect(find.text('Kabel: 62.5 m'), findsOneWidget);
-    });
-
-    testWidgets('omits the electrical section when the plan is empty',
-        (tester) async {
+    testWidgets('never shows an electrical section', (tester) async {
+      // The scan no longer generates an electrical plan, so the sheet has no
+      // electrical section at all — only the smeta.
       await pumpLocalized(
         tester,
         Scaffold(
@@ -335,6 +249,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('Elektr rejasi'), findsNothing);
+      expect(find.textContaining('rozetka'), findsNothing);
+      expect(find.textContaining('Kabel:'), findsNothing);
       expect(find.text("1 235 000 so'm"), findsOneWidget);
     });
   });
@@ -342,11 +258,7 @@ void main() {
   group('post-scan flow', () {
     testWidgets('a saved scan shows the smeta before the studio opens',
         (tester) async {
-      await _runContinue(
-        tester,
-        estimate: _estimate(),
-        electrical: _electrical(),
-      );
+      await _runContinue(tester, estimate: _estimate());
 
       expect(find.text('Xona saqlandi'), findsOneWidget);
       expect(find.text("1 235 000 so'm"), findsOneWidget);
@@ -366,7 +278,7 @@ void main() {
 
     testWidgets('a failed estimate never traps the user short of the studio',
         (tester) async {
-      await _runContinue(tester, electrical: null);
+      await _runContinue(tester);
 
       expect(find.text('Xona saqlandi'), findsNothing);
       expect(find.text('studio room-9'), findsOneWidget);

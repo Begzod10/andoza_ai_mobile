@@ -7,7 +7,7 @@ import '../../models/api/api.dart';
 import '../../models/room_plan.dart';
 import '../../utils/currency.dart';
 
-/// Shows the post-scan summary (smeta + electrical plan) as a modal sheet.
+/// Shows the post-scan summary (smeta) as a modal sheet.
 ///
 /// Presented between saving a scanned room and opening the studio, so the user
 /// sees numbers for the room they just walked instead of landing in an empty
@@ -18,7 +18,6 @@ Future<void> showRoomScanSummarySheet(
   BuildContext context, {
   required RoomPlan plan,
   Estimate? estimate,
-  ElectricalPlan? electrical,
 }) {
   return showModalBottomSheet<void>(
     context: context,
@@ -35,7 +34,6 @@ Future<void> showRoomScanSummarySheet(
       builder: (_, scrollController) => RoomScanSummaryContent(
         plan: plan,
         estimate: estimate,
-        electrical: electrical,
         scrollController: scrollController,
         onContinue: () => Navigator.of(sheetCtx).pop(),
       ),
@@ -43,7 +41,7 @@ Future<void> showRoomScanSummarySheet(
   );
 }
 
-/// The sheet body: room headline, smeta breakdown, electrical plan, CTA.
+/// The sheet body: room headline, smeta breakdown, CTA.
 ///
 /// Split out from [showRoomScanSummarySheet] so it can be pumped directly in a
 /// widget test without driving a modal route.
@@ -52,14 +50,12 @@ class RoomScanSummaryContent extends StatelessWidget {
     required this.plan,
     required this.onContinue,
     this.estimate,
-    this.electrical,
     this.scrollController,
     super.key,
   });
 
   final RoomPlan plan;
   final Estimate? estimate;
-  final ElectricalPlan? electrical;
   final ScrollController? scrollController;
   final VoidCallback onContinue;
 
@@ -93,18 +89,6 @@ class RoomScanSummaryContent extends StatelessWidget {
                 const SizedBox(height: DesignTokens.spacingLg),
                 _EstimateSection(estimate: est),
               ],
-              // Omitted entirely when the backend has no plan for this room yet
-              // (an older backend, or auto-generation that found nothing).
-              if (_deviceCounts.isNotEmpty || _wiringMeters != null) ...[
-                const SizedBox(height: DesignTokens.spacingLg),
-                _ElectricalSection(
-                  counts: _deviceCounts,
-                  wiringMeters: _wiringMeters,
-                  // The smeta is the only place that knows whether the device counts
-                  // are real; fall back to "approximate" when there is no smeta.
-                  confirmed: est?.electricalConfirmed ?? false,
-                ),
-              ],
             ],
           ),
         ),
@@ -128,18 +112,6 @@ class RoomScanSummaryContent extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  double? get _wiringMeters => electrical?.wiringMeters;
-
-  /// Device totals by type, honouring each device's [ElectricalDeviceOut.count]
-  /// (the backend groups identical adjacent devices into one row).
-  Map<ElectricalDeviceType, int> get _deviceCounts {
-    final counts = <ElectricalDeviceType, int>{};
-    for (final d in electrical?.devices ?? const <ElectricalDeviceOut>[]) {
-      counts[d.type] = (counts[d.type] ?? 0) + d.count;
-    }
-    return counts;
   }
 }
 
@@ -289,106 +261,6 @@ class _EstimateLineRow extends StatelessWidget {
                   DesignTokens.caption.copyWith(color: DesignTokens.textGray),
             ),
         ],
-      ),
-    );
-  }
-}
-
-/// Electrical block: device counts by type plus the total wiring length.
-class _ElectricalSection extends StatelessWidget {
-  const _ElectricalSection({
-    required this.counts,
-    required this.wiringMeters,
-    required this.confirmed,
-  });
-
-  final Map<ElectricalDeviceType, int> counts;
-  final double? wiringMeters;
-  final bool confirmed;
-
-  /// Stable, human-sensible ordering — the map's own iteration order follows
-  /// whatever order the backend happened to return devices in.
-  static const List<ElectricalDeviceType> _order = [
-    ElectricalDeviceType.socket,
-    ElectricalDeviceType.switch_,
-    ElectricalDeviceType.panel,
-    ElectricalDeviceType.light,
-    ElectricalDeviceType.box,
-    ElectricalDeviceType.unknown,
-  ];
-
-  String _name(AppLocalizations l10n, ElectricalDeviceType t) => switch (t) {
-        ElectricalDeviceType.socket => l10n.scanSummaryDeviceSocket,
-        ElectricalDeviceType.switch_ => l10n.scanSummaryDeviceSwitch,
-        ElectricalDeviceType.light => l10n.scanSummaryDeviceLight,
-        ElectricalDeviceType.panel => l10n.scanSummaryDevicePanel,
-        ElectricalDeviceType.box => l10n.scanSummaryDeviceBox,
-        ElectricalDeviceType.unknown => l10n.scanSummaryDeviceOther,
-      };
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    final metres = wiringMeters;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(l10n.scanSummaryElectricalTitle, style: DesignTokens.subtitle2),
-        const SizedBox(height: DesignTokens.spacingSm),
-        Wrap(
-          spacing: DesignTokens.spacingSm,
-          runSpacing: DesignTokens.spacingXs,
-          children: [
-            for (final type in _order)
-              if ((counts[type] ?? 0) > 0)
-                _DevicePill(
-                  label: l10n.scanSummaryDeviceCount(
-                    counts[type]!,
-                    _name(l10n, type),
-                  ),
-                ),
-          ],
-        ),
-        if (metres != null && metres > 0) ...[
-          const SizedBox(height: DesignTokens.spacingSm),
-          Text(
-            l10n.scanSummaryWiring(formatQuantity(metres)),
-            style: DesignTokens.body2,
-          ),
-        ],
-        if (!confirmed) ...[
-          const SizedBox(height: DesignTokens.spacingSm),
-          Text(
-            l10n.scanSummaryElectricalApprox,
-            style: DesignTokens.caption.copyWith(color: DesignTokens.textGray),
-          ),
-        ],
-      ],
-    );
-  }
-}
-
-/// One "N rozetka" pill in the electrical block.
-class _DevicePill extends StatelessWidget {
-  const _DevicePill({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: DesignTokens.spacingSm,
-        vertical: DesignTokens.spacingXs,
-      ),
-      decoration: BoxDecoration(
-        color: DesignTokens.white,
-        borderRadius: BorderRadius.circular(DesignTokens.radiusFull),
-        border: Border.all(color: DesignTokens.borderGray),
-      ),
-      child: Text(
-        label,
-        style: DesignTokens.body2.copyWith(color: DesignTokens.textDark),
       ),
     );
   }

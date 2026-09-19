@@ -2608,66 +2608,6 @@ abstract class AppLocalizations {
   /// **'Smetani hisoblab bo\'lmadi: {error} Uni studiyada ochishingiz mumkin.'**
   String scanSummaryEstimateFailed(String error);
 
-  /// Post-scan summary: electrical section title.
-  ///
-  /// In uz, this message translates to:
-  /// **'Elektr rejasi'**
-  String get scanSummaryElectricalTitle;
-
-  /// Post-scan summary: total wiring length in metres.
-  ///
-  /// In uz, this message translates to:
-  /// **'Kabel: {value} m'**
-  String scanSummaryWiring(String value);
-
-  /// Electrical device name (socket), used in a count list.
-  ///
-  /// In uz, this message translates to:
-  /// **'rozetka'**
-  String get scanSummaryDeviceSocket;
-
-  /// Electrical device name (switch), used in a count list.
-  ///
-  /// In uz, this message translates to:
-  /// **'kalit'**
-  String get scanSummaryDeviceSwitch;
-
-  /// Electrical device name (light), used in a count list.
-  ///
-  /// In uz, this message translates to:
-  /// **'chiroq'**
-  String get scanSummaryDeviceLight;
-
-  /// Electrical device name (panel), used in a count list.
-  ///
-  /// In uz, this message translates to:
-  /// **'elektr qutisi'**
-  String get scanSummaryDevicePanel;
-
-  /// Electrical device name (mounting box), used in a count list.
-  ///
-  /// In uz, this message translates to:
-  /// **'podrozetnik'**
-  String get scanSummaryDeviceBox;
-
-  /// Electrical device name for a type this app version does not know.
-  ///
-  /// In uz, this message translates to:
-  /// **'boshqa nuqta'**
-  String get scanSummaryDeviceOther;
-
-  /// Post-scan summary: one 'N device' entry in the electrical device list.
-  ///
-  /// In uz, this message translates to:
-  /// **'{count} {name}'**
-  String scanSummaryDeviceCount(int count, String name);
-
-  /// Post-scan summary: the electrical plan was auto-generated, not confirmed.
-  ///
-  /// In uz, this message translates to:
-  /// **'Elektr nuqtalari skan asosida taxminan joylashtirildi — studiyada tahrirlashingiz mumkin.'**
-  String get scanSummaryElectricalApprox;
-
   /// Post-scan summary: primary CTA opening the studio.
   ///
   /// In uz, this message translates to:

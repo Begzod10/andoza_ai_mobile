@@ -15,7 +15,6 @@ import '../../features/room_scan/room_scan_service.dart';
 import '../../geometry/room_geometry.dart';
 import '../../models/api/api.dart';
 import '../../models/room_plan.dart';
-import '../../providers/design_persistence_provider.dart';
 import '../../providers/estimate_api_provider.dart';
 import '../../services/room_plan_handoff.dart';
 import '../../utils/error_mapper.dart';
@@ -152,26 +151,13 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
         _logger.w('roomscan estimate preview failed: $e');
         estimateError = mapErrorToMessage(e);
       }
-      // No error surfaced for the electrical plan: it is a secondary section
-      // that simply disappears, and a backend that does not auto-generate a
-      // plan for a fresh scan legitimately has nothing to return here.
-      ElectricalPlan? electrical;
-      try {
-        electrical = await ref.read(electricalRepositoryProvider).getPlan(roomId);
-      } catch (e) {
-        _logger.w('roomscan electrical plan fetch failed: $e');
-      }
-
-      // Nothing worth a sheet when both came back empty — fall through to the
-      // studio exactly as this flow did before the summary existed.
-      final hasSummary =
-          estimate != null || (electrical?.devices.isNotEmpty ?? false);
-      if (mounted && hasSummary) {
+      // Nothing worth a sheet without a smeta — fall through to the studio
+      // exactly as this flow did before the summary existed.
+      if (mounted && estimate != null) {
         await showRoomScanSummarySheet(
           context,
           plan: plan,
           estimate: estimate,
-          electrical: electrical,
         );
       }
 
