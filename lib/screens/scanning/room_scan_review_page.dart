@@ -13,12 +13,9 @@ import '../../features/room_scan/models/captured_room.dart';
 import '../../features/room_scan/room_scan_converter.dart';
 import '../../features/room_scan/room_scan_service.dart';
 import '../../geometry/room_geometry.dart';
-import '../../models/api/api.dart';
 import '../../models/room_plan.dart';
-import '../../providers/estimate_api_provider.dart';
 import '../../services/room_plan_handoff.dart';
 import '../../utils/error_mapper.dart';
-import 'room_scan_summary_sheet.dart';
 
 /// Nav payload for [RoomScanReviewPage] (passed via go_router `extra`).
 class RoomScanReviewArgs {
@@ -139,28 +136,6 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
         _logger.w('roomscan thumbnail upload failed: $e');
         thumbnailError = mapErrorToMessage(e);
       }
-      // Best-effort: the numbers for the room the user just walked, so the
-      // studio does not open on a room with no price attached to it. Same
-      // non-blocking contract again — the room is saved, so a smeta that will
-      // not compute must never trap the user short of the studio.
-      String? estimateError;
-      Estimate? estimate;
-      try {
-        estimate = await ref.read(estimateRepositoryProvider).preview(roomId);
-      } catch (e) {
-        _logger.w('roomscan estimate preview failed: $e');
-        estimateError = mapErrorToMessage(e);
-      }
-      // Nothing worth a sheet without a smeta — fall through to the studio
-      // exactly as this flow did before the summary existed.
-      if (mounted && estimate != null) {
-        await showRoomScanSummarySheet(
-          context,
-          plan: plan,
-          estimate: estimate,
-        );
-      }
-
       router.pushReplacement('/studio/$roomId');
       // Non-blocking: the user is already in the studio; the root
       // ScaffoldMessenger keeps this snackbar visible across the transition so
@@ -173,11 +148,6 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
       if (thumbnailError != null) {
         messenger.showSnackBar(
           SnackBar(content: Text(l10n.scanReviewThumbnailFailed(thumbnailError))),
-        );
-      }
-      if (estimateError != null) {
-        messenger.showSnackBar(
-          SnackBar(content: Text(l10n.scanSummaryEstimateFailed(estimateError))),
         );
       }
     } catch (e) {

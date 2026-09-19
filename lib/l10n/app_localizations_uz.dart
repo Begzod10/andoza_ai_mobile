@@ -1377,47 +1377,6 @@ class AppLocalizationsUz extends AppLocalizations {
   }
 
   @override
-  String get scanSummaryTitle => 'Xona saqlandi';
-
-  @override
-  String scanSummaryRoomLine(String area, String height, int walls) {
-    return '$area m² · shift $height · $walls ta devor';
-  }
-
-  @override
-  String get scanSummaryEstimateTitle => 'Taxminiy smeta';
-
-  @override
-  String scanSummaryRange(String min, String max) {
-    return 'Oraliq: $min — $max';
-  }
-
-  @override
-  String scanSummaryExactTotal(String value) {
-    return 'Aniq: $value';
-  }
-
-  @override
-  String scanSummaryApproxTotal(String value) {
-    return 'Taxminiy: $value';
-  }
-
-  @override
-  String get scanSummaryApproxBadge => 'taxminiy';
-
-  @override
-  String get scanSummaryApproxNote =>
-      '\"Taxminiy\" belgili qatorlar aniq o\'lchovga emas, o\'rtacha me\'yorga asoslangan.';
-
-  @override
-  String scanSummaryEstimateFailed(String error) {
-    return 'Smetani hisoblab bo\'lmadi: $error Uni studiyada ochishingiz mumkin.';
-  }
-
-  @override
-  String get scanSummaryContinue => 'Studiyaga o\'tish';
-
-  @override
   String get scanBusy => 'Skaner allaqachon ishlayapti.';
 
   @override

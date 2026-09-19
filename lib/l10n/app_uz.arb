@@ -1845,65 +1845,6 @@
     }
   },
 
-  "scanSummaryTitle": "Xona saqlandi",
-  "@scanSummaryTitle": {
-    "description": "Post-scan summary sheet title."
-  },
-  "scanSummaryRoomLine": "{area} m\u00b2 \u00b7 shift {height} \u00b7 {walls} ta devor",
-  "@scanSummaryRoomLine": {
-    "description": "Post-scan summary: room headline (area, ceiling height, wall count).",
-    "placeholders": {
-      "area": { "type": "String" },
-      "height": { "type": "String" },
-      "walls": { "type": "int" }
-    }
-  },
-  "scanSummaryEstimateTitle": "Taxminiy smeta",
-  "@scanSummaryEstimateTitle": {
-    "description": "Post-scan summary: estimate section title."
-  },
-  "scanSummaryRange": "Oraliq: {min} \u2014 {max}",
-  "@scanSummaryRange": {
-    "description": "Post-scan summary: min-max range under the estimate total.",
-    "placeholders": {
-      "min": { "type": "String" },
-      "max": { "type": "String" }
-    }
-  },
-  "scanSummaryExactTotal": "Aniq: {value}",
-  "@scanSummaryExactTotal": {
-    "description": "Post-scan summary: part of the total coming from exactly priced lines.",
-    "placeholders": {
-      "value": { "type": "String" }
-    }
-  },
-  "scanSummaryApproxTotal": "Taxminiy: {value}",
-  "@scanSummaryApproxTotal": {
-    "description": "Post-scan summary: part of the total coming from approximate lines.",
-    "placeholders": {
-      "value": { "type": "String" }
-    }
-  },
-  "scanSummaryApproxBadge": "taxminiy",
-  "@scanSummaryApproxBadge": {
-    "description": "Post-scan summary: badge marking an approximate estimate line."
-  },
-  "scanSummaryApproxNote": "\"Taxminiy\" belgili qatorlar aniq o'lchovga emas, o'rtacha me'yorga asoslangan.",
-  "@scanSummaryApproxNote": {
-    "description": "Post-scan summary: explains what the approximate badge means."
-  },
-  "scanSummaryEstimateFailed": "Smetani hisoblab bo'lmadi: {error} Uni studiyada ochishingiz mumkin.",
-  "@scanSummaryEstimateFailed": {
-    "description": "Post-scan summary: estimate preview request failed (non-blocking snackbar).",
-    "placeholders": {
-      "error": { "type": "String" }
-    }
-  },
-  "scanSummaryContinue": "Studiyaga o'tish",
-  "@scanSummaryContinue": {
-    "description": "Post-scan summary: primary CTA opening the studio."
-  },
-
   "scanBusy": "Skaner allaqachon ishlayapti.",
   "@scanBusy": {
     "description": "Room-scan screen error: a scan is already running."
