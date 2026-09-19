@@ -1,6 +1,6 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint
+// coverage:ignore-file
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'electrical_model.dart';
@@ -9,1360 +9,1447 @@ part of 'electrical_model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
-ElectricalDevice _$ElectricalDeviceFromJson(Map<String, dynamic> json) {
-  return _ElectricalDevice.fromJson(json);
-}
 
 /// @nodoc
 mixin _$ElectricalDevice {
-  String get id => throw _privateConstructorUsedError;
-  @JsonKey(unknownEnumValue: DeviceType.unknown)
-  DeviceType get type => throw _privateConstructorUsedError;
-  @OffsetConverter()
-  Offset get position => throw _privateConstructorUsedError;
-  String get wallId => throw _privateConstructorUsedError;
-  double? get amps => throw _privateConstructorUsedError;
-  double get heightCm => throw _privateConstructorUsedError;
-  int get gangCount => throw _privateConstructorUsedError;
-  String? get colorOption => throw _privateConstructorUsedError;
-  @JsonKey(unknownEnumValue: ColorTemp.unknown)
-  ColorTemp? get colorTemp => throw _privateConstructorUsedError;
+
+ String get id;@JsonKey(unknownEnumValue: DeviceType.unknown) DeviceType get type;@OffsetConverter() Offset get position; String get wallId; double? get amps; double get heightCm; int get gangCount; String? get colorOption;@JsonKey(unknownEnumValue: ColorTemp.unknown) ColorTemp? get colorTemp;
+/// Create a copy of ElectricalDevice
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ElectricalDeviceCopyWith<ElectricalDevice> get copyWith => _$ElectricalDeviceCopyWithImpl<ElectricalDevice>(this as ElectricalDevice, _$identity);
 
   /// Serializes this ElectricalDevice to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
 
-  /// Create a copy of ElectricalDevice
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ElectricalDeviceCopyWith<ElectricalDevice> get copyWith =>
-      throw _privateConstructorUsedError;
+
+@override
+bool operator ==(Object other) {
+  final _this = this as ElectricalDevice;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ElectricalDevice&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.type, _this.type) || other.type == _this.type)&&(identical(other.position, _this.position) || other.position == _this.position)&&(identical(other.wallId, _this.wallId) || other.wallId == _this.wallId)&&(identical(other.amps, _this.amps) || other.amps == _this.amps)&&(identical(other.heightCm, _this.heightCm) || other.heightCm == _this.heightCm)&&(identical(other.gangCount, _this.gangCount) || other.gangCount == _this.gangCount)&&(identical(other.colorOption, _this.colorOption) || other.colorOption == _this.colorOption)&&(identical(other.colorTemp, _this.colorTemp) || other.colorTemp == _this.colorTemp));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as ElectricalDevice;
+  return Object.hash(runtimeType,_this.id,_this.type,_this.position,_this.wallId,_this.amps,_this.heightCm,_this.gangCount,_this.colorOption,_this.colorTemp);
+}
+
+@override
+String toString() {
+  final _this = this as ElectricalDevice;
+  return 'ElectricalDevice(id: ${_this.id}, type: ${_this.type}, position: ${_this.position}, wallId: ${_this.wallId}, amps: ${_this.amps}, heightCm: ${_this.heightCm}, gangCount: ${_this.gangCount}, colorOption: ${_this.colorOption}, colorTemp: ${_this.colorTemp})';
+}
+
+
 }
 
 /// @nodoc
-abstract class $ElectricalDeviceCopyWith<$Res> {
-  factory $ElectricalDeviceCopyWith(
-    ElectricalDevice value,
-    $Res Function(ElectricalDevice) then,
-  ) = _$ElectricalDeviceCopyWithImpl<$Res, ElectricalDevice>;
-  @useResult
-  $Res call({
-    String id,
-    @JsonKey(unknownEnumValue: DeviceType.unknown) DeviceType type,
-    @OffsetConverter() Offset position,
-    String wallId,
-    double? amps,
-    double heightCm,
-    int gangCount,
-    String? colorOption,
-    @JsonKey(unknownEnumValue: ColorTemp.unknown) ColorTemp? colorTemp,
-  });
-}
+abstract mixin class $ElectricalDeviceCopyWith<$Res>  {
+  factory $ElectricalDeviceCopyWith(ElectricalDevice value, $Res Function(ElectricalDevice) _then) = _$ElectricalDeviceCopyWithImpl;
+@useResult
+$Res call({
+ String id,@JsonKey(unknownEnumValue: DeviceType.unknown) DeviceType type,@OffsetConverter() Offset position, String wallId, double? amps, double heightCm, int gangCount, String? colorOption,@JsonKey(unknownEnumValue: ColorTemp.unknown) ColorTemp? colorTemp
+});
 
+
+
+
+}
 /// @nodoc
-class _$ElectricalDeviceCopyWithImpl<$Res, $Val extends ElectricalDevice>
+class _$ElectricalDeviceCopyWithImpl<$Res>
     implements $ElectricalDeviceCopyWith<$Res> {
-  _$ElectricalDeviceCopyWithImpl(this._value, this._then);
+  _$ElectricalDeviceCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final ElectricalDevice _self;
+  final $Res Function(ElectricalDevice) _then;
 
-  /// Create a copy of ElectricalDevice
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? type = null,
-    Object? position = null,
-    Object? wallId = null,
-    Object? amps = freezed,
-    Object? heightCm = null,
-    Object? gangCount = null,
-    Object? colorOption = freezed,
-    Object? colorTemp = freezed,
-  }) {
-    return _then(
-      _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as String,
-            type: null == type
-                ? _value.type
-                : type // ignore: cast_nullable_to_non_nullable
-                      as DeviceType,
-            position: null == position
-                ? _value.position
-                : position // ignore: cast_nullable_to_non_nullable
-                      as Offset,
-            wallId: null == wallId
-                ? _value.wallId
-                : wallId // ignore: cast_nullable_to_non_nullable
-                      as String,
-            amps: freezed == amps
-                ? _value.amps
-                : amps // ignore: cast_nullable_to_non_nullable
-                      as double?,
-            heightCm: null == heightCm
-                ? _value.heightCm
-                : heightCm // ignore: cast_nullable_to_non_nullable
-                      as double,
-            gangCount: null == gangCount
-                ? _value.gangCount
-                : gangCount // ignore: cast_nullable_to_non_nullable
-                      as int,
-            colorOption: freezed == colorOption
-                ? _value.colorOption
-                : colorOption // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            colorTemp: freezed == colorTemp
-                ? _value.colorTemp
-                : colorTemp // ignore: cast_nullable_to_non_nullable
-                      as ColorTemp?,
-          )
-          as $Val,
-    );
-  }
+/// Create a copy of ElectricalDevice
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? type = null,Object? position = null,Object? wallId = null,Object? amps = freezed,Object? heightCm = null,Object? gangCount = null,Object? colorOption = freezed,Object? colorTemp = freezed,}) {
+  return _then(ElectricalDevice(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as DeviceType,position: null == position ? _self.position : position // ignore: cast_nullable_to_non_nullable
+as Offset,wallId: null == wallId ? _self.wallId : wallId // ignore: cast_nullable_to_non_nullable
+as String,amps: freezed == amps ? _self.amps : amps // ignore: cast_nullable_to_non_nullable
+as double?,heightCm: null == heightCm ? _self.heightCm : heightCm // ignore: cast_nullable_to_non_nullable
+as double,gangCount: null == gangCount ? _self.gangCount : gangCount // ignore: cast_nullable_to_non_nullable
+as int,colorOption: freezed == colorOption ? _self.colorOption : colorOption // ignore: cast_nullable_to_non_nullable
+as String?,colorTemp: freezed == colorTemp ? _self.colorTemp : colorTemp // ignore: cast_nullable_to_non_nullable
+as ColorTemp?,
+  ));
 }
 
-/// @nodoc
-abstract class _$$ElectricalDeviceImplCopyWith<$Res>
-    implements $ElectricalDeviceCopyWith<$Res> {
-  factory _$$ElectricalDeviceImplCopyWith(
-    _$ElectricalDeviceImpl value,
-    $Res Function(_$ElectricalDeviceImpl) then,
-  ) = __$$ElectricalDeviceImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({
-    String id,
-    @JsonKey(unknownEnumValue: DeviceType.unknown) DeviceType type,
-    @OffsetConverter() Offset position,
-    String wallId,
-    double? amps,
-    double heightCm,
-    int gangCount,
-    String? colorOption,
-    @JsonKey(unknownEnumValue: ColorTemp.unknown) ColorTemp? colorTemp,
-  });
 }
 
-/// @nodoc
-class __$$ElectricalDeviceImplCopyWithImpl<$Res>
-    extends _$ElectricalDeviceCopyWithImpl<$Res, _$ElectricalDeviceImpl>
-    implements _$$ElectricalDeviceImplCopyWith<$Res> {
-  __$$ElectricalDeviceImplCopyWithImpl(
-    _$ElectricalDeviceImpl _value,
-    $Res Function(_$ElectricalDeviceImpl) _then,
-  ) : super(_value, _then);
 
-  /// Create a copy of ElectricalDevice
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? type = null,
-    Object? position = null,
-    Object? wallId = null,
-    Object? amps = freezed,
-    Object? heightCm = null,
-    Object? gangCount = null,
-    Object? colorOption = freezed,
-    Object? colorTemp = freezed,
-  }) {
-    return _then(
-      _$ElectricalDeviceImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as String,
-        type: null == type
-            ? _value.type
-            : type // ignore: cast_nullable_to_non_nullable
-                  as DeviceType,
-        position: null == position
-            ? _value.position
-            : position // ignore: cast_nullable_to_non_nullable
-                  as Offset,
-        wallId: null == wallId
-            ? _value.wallId
-            : wallId // ignore: cast_nullable_to_non_nullable
-                  as String,
-        amps: freezed == amps
-            ? _value.amps
-            : amps // ignore: cast_nullable_to_non_nullable
-                  as double?,
-        heightCm: null == heightCm
-            ? _value.heightCm
-            : heightCm // ignore: cast_nullable_to_non_nullable
-                  as double,
-        gangCount: null == gangCount
-            ? _value.gangCount
-            : gangCount // ignore: cast_nullable_to_non_nullable
-                  as int,
-        colorOption: freezed == colorOption
-            ? _value.colorOption
-            : colorOption // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        colorTemp: freezed == colorTemp
-            ? _value.colorTemp
-            : colorTemp // ignore: cast_nullable_to_non_nullable
-                  as ColorTemp?,
-      ),
-    );
-  }
+/// Adds pattern-matching-related methods to [ElectricalDevice].
+extension ElectricalDevicePatterns on ElectricalDevice {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ElectricalDevice value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ElectricalDevice() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ElectricalDevice value)  $default,){
+final _that = this;
+switch (_that) {
+case _ElectricalDevice():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ElectricalDevice value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ElectricalDevice() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(unknownEnumValue: DeviceType.unknown)  DeviceType type, @OffsetConverter()  Offset position,  String wallId,  double? amps,  double heightCm,  int gangCount,  String? colorOption, @JsonKey(unknownEnumValue: ColorTemp.unknown)  ColorTemp? colorTemp)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ElectricalDevice() when $default != null:
+return $default(_that.id,_that.type,_that.position,_that.wallId,_that.amps,_that.heightCm,_that.gangCount,_that.colorOption,_that.colorTemp);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(unknownEnumValue: DeviceType.unknown)  DeviceType type, @OffsetConverter()  Offset position,  String wallId,  double? amps,  double heightCm,  int gangCount,  String? colorOption, @JsonKey(unknownEnumValue: ColorTemp.unknown)  ColorTemp? colorTemp)  $default,) {final _that = this;
+switch (_that) {
+case _ElectricalDevice():
+return $default(_that.id,_that.type,_that.position,_that.wallId,_that.amps,_that.heightCm,_that.gangCount,_that.colorOption,_that.colorTemp);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(unknownEnumValue: DeviceType.unknown)  DeviceType type, @OffsetConverter()  Offset position,  String wallId,  double? amps,  double heightCm,  int gangCount,  String? colorOption, @JsonKey(unknownEnumValue: ColorTemp.unknown)  ColorTemp? colorTemp)?  $default,) {final _that = this;
+switch (_that) {
+case _ElectricalDevice() when $default != null:
+return $default(_that.id,_that.type,_that.position,_that.wallId,_that.amps,_that.heightCm,_that.gangCount,_that.colorOption,_that.colorTemp);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$ElectricalDeviceImpl implements _ElectricalDevice {
-  const _$ElectricalDeviceImpl({
-    required this.id,
-    @JsonKey(unknownEnumValue: DeviceType.unknown) required this.type,
-    @OffsetConverter() required this.position,
-    required this.wallId,
-    this.amps,
-    this.heightCm = 100,
-    this.gangCount = 1,
-    this.colorOption,
-    @JsonKey(unknownEnumValue: ColorTemp.unknown) this.colorTemp,
-  });
 
-  factory _$ElectricalDeviceImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ElectricalDeviceImplFromJson(json);
+class _ElectricalDevice implements ElectricalDevice {
+  const _ElectricalDevice({required this.id, @JsonKey(unknownEnumValue: DeviceType.unknown) required this.type, @OffsetConverter() required this.position, required this.wallId, this.amps, this.heightCm = 100, this.gangCount = 1, this.colorOption, @JsonKey(unknownEnumValue: ColorTemp.unknown) this.colorTemp});
+  factory _ElectricalDevice.fromJson(Map<String, dynamic> json) => _$ElectricalDeviceFromJson(json);
 
-  @override
-  final String id;
-  @override
-  @JsonKey(unknownEnumValue: DeviceType.unknown)
-  final DeviceType type;
-  @override
-  @OffsetConverter()
-  final Offset position;
-  @override
-  final String wallId;
-  @override
-  final double? amps;
-  @override
-  @JsonKey()
-  final double heightCm;
-  @override
-  @JsonKey()
-  final int gangCount;
-  @override
-  final String? colorOption;
-  @override
-  @JsonKey(unknownEnumValue: ColorTemp.unknown)
-  final ColorTemp? colorTemp;
+@override final  String id;
+@override@JsonKey(unknownEnumValue: DeviceType.unknown) final  DeviceType type;
+@override@OffsetConverter() final  Offset position;
+@override final  String wallId;
+@override final  double? amps;
+@override@JsonKey() final  double heightCm;
+@override@JsonKey() final  int gangCount;
+@override final  String? colorOption;
+@override@JsonKey(unknownEnumValue: ColorTemp.unknown) final  ColorTemp? colorTemp;
 
-  @override
-  String toString() {
+/// Create a copy of ElectricalDevice
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ElectricalDeviceCopyWith<_ElectricalDevice> get copyWith => __$ElectricalDeviceCopyWithImpl<_ElectricalDevice>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ElectricalDeviceToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ElectricalDevice&&(identical(other.id, id) || other.id == id)&&(identical(other.type, type) || other.type == type)&&(identical(other.position, position) || other.position == position)&&(identical(other.wallId, wallId) || other.wallId == wallId)&&(identical(other.amps, amps) || other.amps == amps)&&(identical(other.heightCm, heightCm) || other.heightCm == heightCm)&&(identical(other.gangCount, gangCount) || other.gangCount == gangCount)&&(identical(other.colorOption, colorOption) || other.colorOption == colorOption)&&(identical(other.colorTemp, colorTemp) || other.colorTemp == colorTemp));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,id,type,position,wallId,amps,heightCm,gangCount,colorOption,colorTemp);
+}
+
+@override
+String toString() {
     return 'ElectricalDevice(id: $id, type: $type, position: $position, wallId: $wallId, amps: $amps, heightCm: $heightCm, gangCount: $gangCount, colorOption: $colorOption, colorTemp: $colorTemp)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ElectricalDeviceImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.type, type) || other.type == type) &&
-            (identical(other.position, position) ||
-                other.position == position) &&
-            (identical(other.wallId, wallId) || other.wallId == wallId) &&
-            (identical(other.amps, amps) || other.amps == amps) &&
-            (identical(other.heightCm, heightCm) ||
-                other.heightCm == heightCm) &&
-            (identical(other.gangCount, gangCount) ||
-                other.gangCount == gangCount) &&
-            (identical(other.colorOption, colorOption) ||
-                other.colorOption == colorOption) &&
-            (identical(other.colorTemp, colorTemp) ||
-                other.colorTemp == colorTemp));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    id,
-    type,
-    position,
-    wallId,
-    amps,
-    heightCm,
-    gangCount,
-    colorOption,
-    colorTemp,
-  );
-
-  /// Create a copy of ElectricalDevice
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ElectricalDeviceImplCopyWith<_$ElectricalDeviceImpl> get copyWith =>
-      __$$ElectricalDeviceImplCopyWithImpl<_$ElectricalDeviceImpl>(
-        this,
-        _$identity,
-      );
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ElectricalDeviceImplToJson(this);
-  }
 }
 
-abstract class _ElectricalDevice implements ElectricalDevice {
-  const factory _ElectricalDevice({
-    required final String id,
-    @JsonKey(unknownEnumValue: DeviceType.unknown)
-    required final DeviceType type,
-    @OffsetConverter() required final Offset position,
-    required final String wallId,
-    final double? amps,
-    final double heightCm,
-    final int gangCount,
-    final String? colorOption,
-    @JsonKey(unknownEnumValue: ColorTemp.unknown) final ColorTemp? colorTemp,
-  }) = _$ElectricalDeviceImpl;
 
-  factory _ElectricalDevice.fromJson(Map<String, dynamic> json) =
-      _$ElectricalDeviceImpl.fromJson;
-
-  @override
-  String get id;
-  @override
-  @JsonKey(unknownEnumValue: DeviceType.unknown)
-  DeviceType get type;
-  @override
-  @OffsetConverter()
-  Offset get position;
-  @override
-  String get wallId;
-  @override
-  double? get amps;
-  @override
-  double get heightCm;
-  @override
-  int get gangCount;
-  @override
-  String? get colorOption;
-  @override
-  @JsonKey(unknownEnumValue: ColorTemp.unknown)
-  ColorTemp? get colorTemp;
-
-  /// Create a copy of ElectricalDevice
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ElectricalDeviceImplCopyWith<_$ElectricalDeviceImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
-WireSegment _$WireSegmentFromJson(Map<String, dynamic> json) {
-  return _WireSegment.fromJson(json);
+/// @nodoc
+abstract mixin class _$ElectricalDeviceCopyWith<$Res> implements $ElectricalDeviceCopyWith<$Res> {
+  factory _$ElectricalDeviceCopyWith(_ElectricalDevice value, $Res Function(_ElectricalDevice) _then) = __$ElectricalDeviceCopyWithImpl;
+@override @useResult
+$Res call({
+ String id,@JsonKey(unknownEnumValue: DeviceType.unknown) DeviceType type,@OffsetConverter() Offset position, String wallId, double? amps, double heightCm, int gangCount, String? colorOption,@JsonKey(unknownEnumValue: ColorTemp.unknown) ColorTemp? colorTemp
+});
+
+
+
+
 }
+/// @nodoc
+class __$ElectricalDeviceCopyWithImpl<$Res>
+    implements _$ElectricalDeviceCopyWith<$Res> {
+  __$ElectricalDeviceCopyWithImpl(this._self, this._then);
+
+  final _ElectricalDevice _self;
+  final $Res Function(_ElectricalDevice) _then;
+
+/// Create a copy of ElectricalDevice
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? type = null,Object? position = null,Object? wallId = null,Object? amps = freezed,Object? heightCm = null,Object? gangCount = null,Object? colorOption = freezed,Object? colorTemp = freezed,}) {
+  return _then(_ElectricalDevice(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as DeviceType,position: null == position ? _self.position : position // ignore: cast_nullable_to_non_nullable
+as Offset,wallId: null == wallId ? _self.wallId : wallId // ignore: cast_nullable_to_non_nullable
+as String,amps: freezed == amps ? _self.amps : amps // ignore: cast_nullable_to_non_nullable
+as double?,heightCm: null == heightCm ? _self.heightCm : heightCm // ignore: cast_nullable_to_non_nullable
+as double,gangCount: null == gangCount ? _self.gangCount : gangCount // ignore: cast_nullable_to_non_nullable
+as int,colorOption: freezed == colorOption ? _self.colorOption : colorOption // ignore: cast_nullable_to_non_nullable
+as String?,colorTemp: freezed == colorTemp ? _self.colorTemp : colorTemp // ignore: cast_nullable_to_non_nullable
+as ColorTemp?,
+  ));
+}
+
+
+}
+
 
 /// @nodoc
 mixin _$WireSegment {
-  String get id => throw _privateConstructorUsedError;
-  @OffsetConverter()
-  Offset get from => throw _privateConstructorUsedError;
-  @OffsetConverter()
-  Offset get to => throw _privateConstructorUsedError;
-  int get gauge => throw _privateConstructorUsedError;
+
+ String get id;@OffsetConverter() Offset get from;@OffsetConverter() Offset get to; int get gauge;
+/// Create a copy of WireSegment
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$WireSegmentCopyWith<WireSegment> get copyWith => _$WireSegmentCopyWithImpl<WireSegment>(this as WireSegment, _$identity);
 
   /// Serializes this WireSegment to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
 
-  /// Create a copy of WireSegment
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $WireSegmentCopyWith<WireSegment> get copyWith =>
-      throw _privateConstructorUsedError;
+
+@override
+bool operator ==(Object other) {
+  final _this = this as WireSegment;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is WireSegment&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.from, _this.from) || other.from == _this.from)&&(identical(other.to, _this.to) || other.to == _this.to)&&(identical(other.gauge, _this.gauge) || other.gauge == _this.gauge));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as WireSegment;
+  return Object.hash(runtimeType,_this.id,_this.from,_this.to,_this.gauge);
+}
+
+@override
+String toString() {
+  final _this = this as WireSegment;
+  return 'WireSegment(id: ${_this.id}, from: ${_this.from}, to: ${_this.to}, gauge: ${_this.gauge})';
+}
+
+
 }
 
 /// @nodoc
-abstract class $WireSegmentCopyWith<$Res> {
-  factory $WireSegmentCopyWith(
-    WireSegment value,
-    $Res Function(WireSegment) then,
-  ) = _$WireSegmentCopyWithImpl<$Res, WireSegment>;
-  @useResult
-  $Res call({
-    String id,
-    @OffsetConverter() Offset from,
-    @OffsetConverter() Offset to,
-    int gauge,
-  });
-}
+abstract mixin class $WireSegmentCopyWith<$Res>  {
+  factory $WireSegmentCopyWith(WireSegment value, $Res Function(WireSegment) _then) = _$WireSegmentCopyWithImpl;
+@useResult
+$Res call({
+ String id,@OffsetConverter() Offset from,@OffsetConverter() Offset to, int gauge
+});
 
+
+
+
+}
 /// @nodoc
-class _$WireSegmentCopyWithImpl<$Res, $Val extends WireSegment>
+class _$WireSegmentCopyWithImpl<$Res>
     implements $WireSegmentCopyWith<$Res> {
-  _$WireSegmentCopyWithImpl(this._value, this._then);
+  _$WireSegmentCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final WireSegment _self;
+  final $Res Function(WireSegment) _then;
 
-  /// Create a copy of WireSegment
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? from = null,
-    Object? to = null,
-    Object? gauge = null,
-  }) {
-    return _then(
-      _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as String,
-            from: null == from
-                ? _value.from
-                : from // ignore: cast_nullable_to_non_nullable
-                      as Offset,
-            to: null == to
-                ? _value.to
-                : to // ignore: cast_nullable_to_non_nullable
-                      as Offset,
-            gauge: null == gauge
-                ? _value.gauge
-                : gauge // ignore: cast_nullable_to_non_nullable
-                      as int,
-          )
-          as $Val,
-    );
-  }
+/// Create a copy of WireSegment
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? from = null,Object? to = null,Object? gauge = null,}) {
+  return _then(WireSegment(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,from: null == from ? _self.from : from // ignore: cast_nullable_to_non_nullable
+as Offset,to: null == to ? _self.to : to // ignore: cast_nullable_to_non_nullable
+as Offset,gauge: null == gauge ? _self.gauge : gauge // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
 }
 
-/// @nodoc
-abstract class _$$WireSegmentImplCopyWith<$Res>
-    implements $WireSegmentCopyWith<$Res> {
-  factory _$$WireSegmentImplCopyWith(
-    _$WireSegmentImpl value,
-    $Res Function(_$WireSegmentImpl) then,
-  ) = __$$WireSegmentImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({
-    String id,
-    @OffsetConverter() Offset from,
-    @OffsetConverter() Offset to,
-    int gauge,
-  });
 }
 
-/// @nodoc
-class __$$WireSegmentImplCopyWithImpl<$Res>
-    extends _$WireSegmentCopyWithImpl<$Res, _$WireSegmentImpl>
-    implements _$$WireSegmentImplCopyWith<$Res> {
-  __$$WireSegmentImplCopyWithImpl(
-    _$WireSegmentImpl _value,
-    $Res Function(_$WireSegmentImpl) _then,
-  ) : super(_value, _then);
 
-  /// Create a copy of WireSegment
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? from = null,
-    Object? to = null,
-    Object? gauge = null,
-  }) {
-    return _then(
-      _$WireSegmentImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as String,
-        from: null == from
-            ? _value.from
-            : from // ignore: cast_nullable_to_non_nullable
-                  as Offset,
-        to: null == to
-            ? _value.to
-            : to // ignore: cast_nullable_to_non_nullable
-                  as Offset,
-        gauge: null == gauge
-            ? _value.gauge
-            : gauge // ignore: cast_nullable_to_non_nullable
-                  as int,
-      ),
-    );
-  }
+/// Adds pattern-matching-related methods to [WireSegment].
+extension WireSegmentPatterns on WireSegment {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _WireSegment value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _WireSegment() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _WireSegment value)  $default,){
+final _that = this;
+switch (_that) {
+case _WireSegment():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _WireSegment value)?  $default,){
+final _that = this;
+switch (_that) {
+case _WireSegment() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @OffsetConverter()  Offset from, @OffsetConverter()  Offset to,  int gauge)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _WireSegment() when $default != null:
+return $default(_that.id,_that.from,_that.to,_that.gauge);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @OffsetConverter()  Offset from, @OffsetConverter()  Offset to,  int gauge)  $default,) {final _that = this;
+switch (_that) {
+case _WireSegment():
+return $default(_that.id,_that.from,_that.to,_that.gauge);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @OffsetConverter()  Offset from, @OffsetConverter()  Offset to,  int gauge)?  $default,) {final _that = this;
+switch (_that) {
+case _WireSegment() when $default != null:
+return $default(_that.id,_that.from,_that.to,_that.gauge);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$WireSegmentImpl implements _WireSegment {
-  const _$WireSegmentImpl({
-    required this.id,
-    @OffsetConverter() required this.from,
-    @OffsetConverter() required this.to,
-    required this.gauge,
-  });
 
-  factory _$WireSegmentImpl.fromJson(Map<String, dynamic> json) =>
-      _$$WireSegmentImplFromJson(json);
+class _WireSegment implements WireSegment {
+  const _WireSegment({required this.id, @OffsetConverter() required this.from, @OffsetConverter() required this.to, required this.gauge});
+  factory _WireSegment.fromJson(Map<String, dynamic> json) => _$WireSegmentFromJson(json);
 
-  @override
-  final String id;
-  @override
-  @OffsetConverter()
-  final Offset from;
-  @override
-  @OffsetConverter()
-  final Offset to;
-  @override
-  final int gauge;
+@override final  String id;
+@override@OffsetConverter() final  Offset from;
+@override@OffsetConverter() final  Offset to;
+@override final  int gauge;
 
-  @override
-  String toString() {
+/// Create a copy of WireSegment
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$WireSegmentCopyWith<_WireSegment> get copyWith => __$WireSegmentCopyWithImpl<_WireSegment>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$WireSegmentToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _WireSegment&&(identical(other.id, id) || other.id == id)&&(identical(other.from, from) || other.from == from)&&(identical(other.to, to) || other.to == to)&&(identical(other.gauge, gauge) || other.gauge == gauge));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,id,from,to,gauge);
+}
+
+@override
+String toString() {
     return 'WireSegment(id: $id, from: $from, to: $to, gauge: $gauge)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$WireSegmentImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.from, from) || other.from == from) &&
-            (identical(other.to, to) || other.to == to) &&
-            (identical(other.gauge, gauge) || other.gauge == gauge));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id, from, to, gauge);
-
-  /// Create a copy of WireSegment
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$WireSegmentImplCopyWith<_$WireSegmentImpl> get copyWith =>
-      __$$WireSegmentImplCopyWithImpl<_$WireSegmentImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$WireSegmentImplToJson(this);
-  }
 }
 
-abstract class _WireSegment implements WireSegment {
-  const factory _WireSegment({
-    required final String id,
-    @OffsetConverter() required final Offset from,
-    @OffsetConverter() required final Offset to,
-    required final int gauge,
-  }) = _$WireSegmentImpl;
 
-  factory _WireSegment.fromJson(Map<String, dynamic> json) =
-      _$WireSegmentImpl.fromJson;
-
-  @override
-  String get id;
-  @override
-  @OffsetConverter()
-  Offset get from;
-  @override
-  @OffsetConverter()
-  Offset get to;
-  @override
-  int get gauge;
-
-  /// Create a copy of WireSegment
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$WireSegmentImplCopyWith<_$WireSegmentImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
-PipeSegment _$PipeSegmentFromJson(Map<String, dynamic> json) {
-  return _PipeSegment.fromJson(json);
+/// @nodoc
+abstract mixin class _$WireSegmentCopyWith<$Res> implements $WireSegmentCopyWith<$Res> {
+  factory _$WireSegmentCopyWith(_WireSegment value, $Res Function(_WireSegment) _then) = __$WireSegmentCopyWithImpl;
+@override @useResult
+$Res call({
+ String id,@OffsetConverter() Offset from,@OffsetConverter() Offset to, int gauge
+});
+
+
+
+
 }
+/// @nodoc
+class __$WireSegmentCopyWithImpl<$Res>
+    implements _$WireSegmentCopyWith<$Res> {
+  __$WireSegmentCopyWithImpl(this._self, this._then);
+
+  final _WireSegment _self;
+  final $Res Function(_WireSegment) _then;
+
+/// Create a copy of WireSegment
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? from = null,Object? to = null,Object? gauge = null,}) {
+  return _then(_WireSegment(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,from: null == from ? _self.from : from // ignore: cast_nullable_to_non_nullable
+as Offset,to: null == to ? _self.to : to // ignore: cast_nullable_to_non_nullable
+as Offset,gauge: null == gauge ? _self.gauge : gauge // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
 
 /// @nodoc
 mixin _$PipeSegment {
-  String get id => throw _privateConstructorUsedError;
-  @OffsetConverter()
-  Offset get from => throw _privateConstructorUsedError;
-  @OffsetConverter()
-  Offset get to => throw _privateConstructorUsedError;
-  @JsonKey(unknownEnumValue: PipeType.unknown)
-  PipeType get type => throw _privateConstructorUsedError;
+
+ String get id;@OffsetConverter() Offset get from;@OffsetConverter() Offset get to;@JsonKey(unknownEnumValue: PipeType.unknown) PipeType get type;
+/// Create a copy of PipeSegment
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$PipeSegmentCopyWith<PipeSegment> get copyWith => _$PipeSegmentCopyWithImpl<PipeSegment>(this as PipeSegment, _$identity);
 
   /// Serializes this PipeSegment to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
 
-  /// Create a copy of PipeSegment
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $PipeSegmentCopyWith<PipeSegment> get copyWith =>
-      throw _privateConstructorUsedError;
+
+@override
+bool operator ==(Object other) {
+  final _this = this as PipeSegment;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is PipeSegment&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.from, _this.from) || other.from == _this.from)&&(identical(other.to, _this.to) || other.to == _this.to)&&(identical(other.type, _this.type) || other.type == _this.type));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as PipeSegment;
+  return Object.hash(runtimeType,_this.id,_this.from,_this.to,_this.type);
+}
+
+@override
+String toString() {
+  final _this = this as PipeSegment;
+  return 'PipeSegment(id: ${_this.id}, from: ${_this.from}, to: ${_this.to}, type: ${_this.type})';
+}
+
+
 }
 
 /// @nodoc
-abstract class $PipeSegmentCopyWith<$Res> {
-  factory $PipeSegmentCopyWith(
-    PipeSegment value,
-    $Res Function(PipeSegment) then,
-  ) = _$PipeSegmentCopyWithImpl<$Res, PipeSegment>;
-  @useResult
-  $Res call({
-    String id,
-    @OffsetConverter() Offset from,
-    @OffsetConverter() Offset to,
-    @JsonKey(unknownEnumValue: PipeType.unknown) PipeType type,
-  });
-}
+abstract mixin class $PipeSegmentCopyWith<$Res>  {
+  factory $PipeSegmentCopyWith(PipeSegment value, $Res Function(PipeSegment) _then) = _$PipeSegmentCopyWithImpl;
+@useResult
+$Res call({
+ String id,@OffsetConverter() Offset from,@OffsetConverter() Offset to,@JsonKey(unknownEnumValue: PipeType.unknown) PipeType type
+});
 
+
+
+
+}
 /// @nodoc
-class _$PipeSegmentCopyWithImpl<$Res, $Val extends PipeSegment>
+class _$PipeSegmentCopyWithImpl<$Res>
     implements $PipeSegmentCopyWith<$Res> {
-  _$PipeSegmentCopyWithImpl(this._value, this._then);
+  _$PipeSegmentCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final PipeSegment _self;
+  final $Res Function(PipeSegment) _then;
 
-  /// Create a copy of PipeSegment
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? from = null,
-    Object? to = null,
-    Object? type = null,
-  }) {
-    return _then(
-      _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as String,
-            from: null == from
-                ? _value.from
-                : from // ignore: cast_nullable_to_non_nullable
-                      as Offset,
-            to: null == to
-                ? _value.to
-                : to // ignore: cast_nullable_to_non_nullable
-                      as Offset,
-            type: null == type
-                ? _value.type
-                : type // ignore: cast_nullable_to_non_nullable
-                      as PipeType,
-          )
-          as $Val,
-    );
-  }
+/// Create a copy of PipeSegment
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? from = null,Object? to = null,Object? type = null,}) {
+  return _then(PipeSegment(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,from: null == from ? _self.from : from // ignore: cast_nullable_to_non_nullable
+as Offset,to: null == to ? _self.to : to // ignore: cast_nullable_to_non_nullable
+as Offset,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as PipeType,
+  ));
 }
 
-/// @nodoc
-abstract class _$$PipeSegmentImplCopyWith<$Res>
-    implements $PipeSegmentCopyWith<$Res> {
-  factory _$$PipeSegmentImplCopyWith(
-    _$PipeSegmentImpl value,
-    $Res Function(_$PipeSegmentImpl) then,
-  ) = __$$PipeSegmentImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({
-    String id,
-    @OffsetConverter() Offset from,
-    @OffsetConverter() Offset to,
-    @JsonKey(unknownEnumValue: PipeType.unknown) PipeType type,
-  });
 }
 
-/// @nodoc
-class __$$PipeSegmentImplCopyWithImpl<$Res>
-    extends _$PipeSegmentCopyWithImpl<$Res, _$PipeSegmentImpl>
-    implements _$$PipeSegmentImplCopyWith<$Res> {
-  __$$PipeSegmentImplCopyWithImpl(
-    _$PipeSegmentImpl _value,
-    $Res Function(_$PipeSegmentImpl) _then,
-  ) : super(_value, _then);
 
-  /// Create a copy of PipeSegment
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? from = null,
-    Object? to = null,
-    Object? type = null,
-  }) {
-    return _then(
-      _$PipeSegmentImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as String,
-        from: null == from
-            ? _value.from
-            : from // ignore: cast_nullable_to_non_nullable
-                  as Offset,
-        to: null == to
-            ? _value.to
-            : to // ignore: cast_nullable_to_non_nullable
-                  as Offset,
-        type: null == type
-            ? _value.type
-            : type // ignore: cast_nullable_to_non_nullable
-                  as PipeType,
-      ),
-    );
-  }
+/// Adds pattern-matching-related methods to [PipeSegment].
+extension PipeSegmentPatterns on PipeSegment {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _PipeSegment value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _PipeSegment() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _PipeSegment value)  $default,){
+final _that = this;
+switch (_that) {
+case _PipeSegment():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _PipeSegment value)?  $default,){
+final _that = this;
+switch (_that) {
+case _PipeSegment() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @OffsetConverter()  Offset from, @OffsetConverter()  Offset to, @JsonKey(unknownEnumValue: PipeType.unknown)  PipeType type)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _PipeSegment() when $default != null:
+return $default(_that.id,_that.from,_that.to,_that.type);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @OffsetConverter()  Offset from, @OffsetConverter()  Offset to, @JsonKey(unknownEnumValue: PipeType.unknown)  PipeType type)  $default,) {final _that = this;
+switch (_that) {
+case _PipeSegment():
+return $default(_that.id,_that.from,_that.to,_that.type);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @OffsetConverter()  Offset from, @OffsetConverter()  Offset to, @JsonKey(unknownEnumValue: PipeType.unknown)  PipeType type)?  $default,) {final _that = this;
+switch (_that) {
+case _PipeSegment() when $default != null:
+return $default(_that.id,_that.from,_that.to,_that.type);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$PipeSegmentImpl implements _PipeSegment {
-  const _$PipeSegmentImpl({
-    required this.id,
-    @OffsetConverter() required this.from,
-    @OffsetConverter() required this.to,
-    @JsonKey(unknownEnumValue: PipeType.unknown) required this.type,
-  });
 
-  factory _$PipeSegmentImpl.fromJson(Map<String, dynamic> json) =>
-      _$$PipeSegmentImplFromJson(json);
+class _PipeSegment implements PipeSegment {
+  const _PipeSegment({required this.id, @OffsetConverter() required this.from, @OffsetConverter() required this.to, @JsonKey(unknownEnumValue: PipeType.unknown) required this.type});
+  factory _PipeSegment.fromJson(Map<String, dynamic> json) => _$PipeSegmentFromJson(json);
 
-  @override
-  final String id;
-  @override
-  @OffsetConverter()
-  final Offset from;
-  @override
-  @OffsetConverter()
-  final Offset to;
-  @override
-  @JsonKey(unknownEnumValue: PipeType.unknown)
-  final PipeType type;
+@override final  String id;
+@override@OffsetConverter() final  Offset from;
+@override@OffsetConverter() final  Offset to;
+@override@JsonKey(unknownEnumValue: PipeType.unknown) final  PipeType type;
 
-  @override
-  String toString() {
+/// Create a copy of PipeSegment
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$PipeSegmentCopyWith<_PipeSegment> get copyWith => __$PipeSegmentCopyWithImpl<_PipeSegment>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$PipeSegmentToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _PipeSegment&&(identical(other.id, id) || other.id == id)&&(identical(other.from, from) || other.from == from)&&(identical(other.to, to) || other.to == to)&&(identical(other.type, type) || other.type == type));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,id,from,to,type);
+}
+
+@override
+String toString() {
     return 'PipeSegment(id: $id, from: $from, to: $to, type: $type)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$PipeSegmentImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.from, from) || other.from == from) &&
-            (identical(other.to, to) || other.to == to) &&
-            (identical(other.type, type) || other.type == type));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, id, from, to, type);
-
-  /// Create a copy of PipeSegment
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$PipeSegmentImplCopyWith<_$PipeSegmentImpl> get copyWith =>
-      __$$PipeSegmentImplCopyWithImpl<_$PipeSegmentImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$PipeSegmentImplToJson(this);
-  }
 }
 
-abstract class _PipeSegment implements PipeSegment {
-  const factory _PipeSegment({
-    required final String id,
-    @OffsetConverter() required final Offset from,
-    @OffsetConverter() required final Offset to,
-    @JsonKey(unknownEnumValue: PipeType.unknown) required final PipeType type,
-  }) = _$PipeSegmentImpl;
 
-  factory _PipeSegment.fromJson(Map<String, dynamic> json) =
-      _$PipeSegmentImpl.fromJson;
-
-  @override
-  String get id;
-  @override
-  @OffsetConverter()
-  Offset get from;
-  @override
-  @OffsetConverter()
-  Offset get to;
-  @override
-  @JsonKey(unknownEnumValue: PipeType.unknown)
-  PipeType get type;
-
-  /// Create a copy of PipeSegment
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PipeSegmentImplCopyWith<_$PipeSegmentImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
-JunctionBox _$JunctionBoxFromJson(Map<String, dynamic> json) {
-  return _JunctionBox.fromJson(json);
+/// @nodoc
+abstract mixin class _$PipeSegmentCopyWith<$Res> implements $PipeSegmentCopyWith<$Res> {
+  factory _$PipeSegmentCopyWith(_PipeSegment value, $Res Function(_PipeSegment) _then) = __$PipeSegmentCopyWithImpl;
+@override @useResult
+$Res call({
+ String id,@OffsetConverter() Offset from,@OffsetConverter() Offset to,@JsonKey(unknownEnumValue: PipeType.unknown) PipeType type
+});
+
+
+
+
 }
+/// @nodoc
+class __$PipeSegmentCopyWithImpl<$Res>
+    implements _$PipeSegmentCopyWith<$Res> {
+  __$PipeSegmentCopyWithImpl(this._self, this._then);
+
+  final _PipeSegment _self;
+  final $Res Function(_PipeSegment) _then;
+
+/// Create a copy of PipeSegment
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? from = null,Object? to = null,Object? type = null,}) {
+  return _then(_PipeSegment(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,from: null == from ? _self.from : from // ignore: cast_nullable_to_non_nullable
+as Offset,to: null == to ? _self.to : to // ignore: cast_nullable_to_non_nullable
+as Offset,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
+as PipeType,
+  ));
+}
+
+
+}
+
 
 /// @nodoc
 mixin _$JunctionBox {
-  String get id => throw _privateConstructorUsedError;
-  @OffsetConverter()
-  Offset get position => throw _privateConstructorUsedError;
-  int get capacity => throw _privateConstructorUsedError;
-  int get connections => throw _privateConstructorUsedError;
+
+ String get id;@OffsetConverter() Offset get position; int get capacity; int get connections;
+/// Create a copy of JunctionBox
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$JunctionBoxCopyWith<JunctionBox> get copyWith => _$JunctionBoxCopyWithImpl<JunctionBox>(this as JunctionBox, _$identity);
 
   /// Serializes this JunctionBox to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
 
-  /// Create a copy of JunctionBox
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $JunctionBoxCopyWith<JunctionBox> get copyWith =>
-      throw _privateConstructorUsedError;
+
+@override
+bool operator ==(Object other) {
+  final _this = this as JunctionBox;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is JunctionBox&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.position, _this.position) || other.position == _this.position)&&(identical(other.capacity, _this.capacity) || other.capacity == _this.capacity)&&(identical(other.connections, _this.connections) || other.connections == _this.connections));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as JunctionBox;
+  return Object.hash(runtimeType,_this.id,_this.position,_this.capacity,_this.connections);
+}
+
+@override
+String toString() {
+  final _this = this as JunctionBox;
+  return 'JunctionBox(id: ${_this.id}, position: ${_this.position}, capacity: ${_this.capacity}, connections: ${_this.connections})';
+}
+
+
 }
 
 /// @nodoc
-abstract class $JunctionBoxCopyWith<$Res> {
-  factory $JunctionBoxCopyWith(
-    JunctionBox value,
-    $Res Function(JunctionBox) then,
-  ) = _$JunctionBoxCopyWithImpl<$Res, JunctionBox>;
-  @useResult
-  $Res call({
-    String id,
-    @OffsetConverter() Offset position,
-    int capacity,
-    int connections,
-  });
-}
+abstract mixin class $JunctionBoxCopyWith<$Res>  {
+  factory $JunctionBoxCopyWith(JunctionBox value, $Res Function(JunctionBox) _then) = _$JunctionBoxCopyWithImpl;
+@useResult
+$Res call({
+ String id,@OffsetConverter() Offset position, int capacity, int connections
+});
 
+
+
+
+}
 /// @nodoc
-class _$JunctionBoxCopyWithImpl<$Res, $Val extends JunctionBox>
+class _$JunctionBoxCopyWithImpl<$Res>
     implements $JunctionBoxCopyWith<$Res> {
-  _$JunctionBoxCopyWithImpl(this._value, this._then);
+  _$JunctionBoxCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final JunctionBox _self;
+  final $Res Function(JunctionBox) _then;
 
-  /// Create a copy of JunctionBox
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? position = null,
-    Object? capacity = null,
-    Object? connections = null,
-  }) {
-    return _then(
-      _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as String,
-            position: null == position
-                ? _value.position
-                : position // ignore: cast_nullable_to_non_nullable
-                      as Offset,
-            capacity: null == capacity
-                ? _value.capacity
-                : capacity // ignore: cast_nullable_to_non_nullable
-                      as int,
-            connections: null == connections
-                ? _value.connections
-                : connections // ignore: cast_nullable_to_non_nullable
-                      as int,
-          )
-          as $Val,
-    );
-  }
+/// Create a copy of JunctionBox
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? position = null,Object? capacity = null,Object? connections = null,}) {
+  return _then(JunctionBox(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,position: null == position ? _self.position : position // ignore: cast_nullable_to_non_nullable
+as Offset,capacity: null == capacity ? _self.capacity : capacity // ignore: cast_nullable_to_non_nullable
+as int,connections: null == connections ? _self.connections : connections // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
 }
 
-/// @nodoc
-abstract class _$$JunctionBoxImplCopyWith<$Res>
-    implements $JunctionBoxCopyWith<$Res> {
-  factory _$$JunctionBoxImplCopyWith(
-    _$JunctionBoxImpl value,
-    $Res Function(_$JunctionBoxImpl) then,
-  ) = __$$JunctionBoxImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({
-    String id,
-    @OffsetConverter() Offset position,
-    int capacity,
-    int connections,
-  });
 }
 
-/// @nodoc
-class __$$JunctionBoxImplCopyWithImpl<$Res>
-    extends _$JunctionBoxCopyWithImpl<$Res, _$JunctionBoxImpl>
-    implements _$$JunctionBoxImplCopyWith<$Res> {
-  __$$JunctionBoxImplCopyWithImpl(
-    _$JunctionBoxImpl _value,
-    $Res Function(_$JunctionBoxImpl) _then,
-  ) : super(_value, _then);
 
-  /// Create a copy of JunctionBox
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? position = null,
-    Object? capacity = null,
-    Object? connections = null,
-  }) {
-    return _then(
-      _$JunctionBoxImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as String,
-        position: null == position
-            ? _value.position
-            : position // ignore: cast_nullable_to_non_nullable
-                  as Offset,
-        capacity: null == capacity
-            ? _value.capacity
-            : capacity // ignore: cast_nullable_to_non_nullable
-                  as int,
-        connections: null == connections
-            ? _value.connections
-            : connections // ignore: cast_nullable_to_non_nullable
-                  as int,
-      ),
-    );
-  }
+/// Adds pattern-matching-related methods to [JunctionBox].
+extension JunctionBoxPatterns on JunctionBox {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _JunctionBox value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _JunctionBox() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _JunctionBox value)  $default,){
+final _that = this;
+switch (_that) {
+case _JunctionBox():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _JunctionBox value)?  $default,){
+final _that = this;
+switch (_that) {
+case _JunctionBox() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @OffsetConverter()  Offset position,  int capacity,  int connections)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _JunctionBox() when $default != null:
+return $default(_that.id,_that.position,_that.capacity,_that.connections);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @OffsetConverter()  Offset position,  int capacity,  int connections)  $default,) {final _that = this;
+switch (_that) {
+case _JunctionBox():
+return $default(_that.id,_that.position,_that.capacity,_that.connections);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @OffsetConverter()  Offset position,  int capacity,  int connections)?  $default,) {final _that = this;
+switch (_that) {
+case _JunctionBox() when $default != null:
+return $default(_that.id,_that.position,_that.capacity,_that.connections);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$JunctionBoxImpl implements _JunctionBox {
-  const _$JunctionBoxImpl({
-    required this.id,
-    @OffsetConverter() required this.position,
-    required this.capacity,
-    required this.connections,
-  });
 
-  factory _$JunctionBoxImpl.fromJson(Map<String, dynamic> json) =>
-      _$$JunctionBoxImplFromJson(json);
+class _JunctionBox implements JunctionBox {
+  const _JunctionBox({required this.id, @OffsetConverter() required this.position, required this.capacity, required this.connections});
+  factory _JunctionBox.fromJson(Map<String, dynamic> json) => _$JunctionBoxFromJson(json);
 
-  @override
-  final String id;
-  @override
-  @OffsetConverter()
-  final Offset position;
-  @override
-  final int capacity;
-  @override
-  final int connections;
+@override final  String id;
+@override@OffsetConverter() final  Offset position;
+@override final  int capacity;
+@override final  int connections;
 
-  @override
-  String toString() {
+/// Create a copy of JunctionBox
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$JunctionBoxCopyWith<_JunctionBox> get copyWith => __$JunctionBoxCopyWithImpl<_JunctionBox>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$JunctionBoxToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _JunctionBox&&(identical(other.id, id) || other.id == id)&&(identical(other.position, position) || other.position == position)&&(identical(other.capacity, capacity) || other.capacity == capacity)&&(identical(other.connections, connections) || other.connections == connections));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,id,position,capacity,connections);
+}
+
+@override
+String toString() {
     return 'JunctionBox(id: $id, position: $position, capacity: $capacity, connections: $connections)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$JunctionBoxImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.position, position) ||
-                other.position == position) &&
-            (identical(other.capacity, capacity) ||
-                other.capacity == capacity) &&
-            (identical(other.connections, connections) ||
-                other.connections == connections));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, position, capacity, connections);
-
-  /// Create a copy of JunctionBox
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$JunctionBoxImplCopyWith<_$JunctionBoxImpl> get copyWith =>
-      __$$JunctionBoxImplCopyWithImpl<_$JunctionBoxImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$JunctionBoxImplToJson(this);
-  }
 }
 
-abstract class _JunctionBox implements JunctionBox {
-  const factory _JunctionBox({
-    required final String id,
-    @OffsetConverter() required final Offset position,
-    required final int capacity,
-    required final int connections,
-  }) = _$JunctionBoxImpl;
 
-  factory _JunctionBox.fromJson(Map<String, dynamic> json) =
-      _$JunctionBoxImpl.fromJson;
-
-  @override
-  String get id;
-  @override
-  @OffsetConverter()
-  Offset get position;
-  @override
-  int get capacity;
-  @override
-  int get connections;
-
-  /// Create a copy of JunctionBox
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$JunctionBoxImplCopyWith<_$JunctionBoxImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
-ElectricalLayout _$ElectricalLayoutFromJson(Map<String, dynamic> json) {
-  return _ElectricalLayout.fromJson(json);
+/// @nodoc
+abstract mixin class _$JunctionBoxCopyWith<$Res> implements $JunctionBoxCopyWith<$Res> {
+  factory _$JunctionBoxCopyWith(_JunctionBox value, $Res Function(_JunctionBox) _then) = __$JunctionBoxCopyWithImpl;
+@override @useResult
+$Res call({
+ String id,@OffsetConverter() Offset position, int capacity, int connections
+});
+
+
+
+
 }
+/// @nodoc
+class __$JunctionBoxCopyWithImpl<$Res>
+    implements _$JunctionBoxCopyWith<$Res> {
+  __$JunctionBoxCopyWithImpl(this._self, this._then);
+
+  final _JunctionBox _self;
+  final $Res Function(_JunctionBox) _then;
+
+/// Create a copy of JunctionBox
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? position = null,Object? capacity = null,Object? connections = null,}) {
+  return _then(_JunctionBox(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,position: null == position ? _self.position : position // ignore: cast_nullable_to_non_nullable
+as Offset,capacity: null == capacity ? _self.capacity : capacity // ignore: cast_nullable_to_non_nullable
+as int,connections: null == connections ? _self.connections : connections // ignore: cast_nullable_to_non_nullable
+as int,
+  ));
+}
+
+
+}
+
 
 /// @nodoc
 mixin _$ElectricalLayout {
-  String get id => throw _privateConstructorUsedError;
-  String get roomId => throw _privateConstructorUsedError;
-  List<ElectricalDevice> get devices => throw _privateConstructorUsedError;
-  List<WireSegment> get wires => throw _privateConstructorUsedError;
-  List<JunctionBox> get junctionBoxes => throw _privateConstructorUsedError;
-  List<PipeSegment> get pipes => throw _privateConstructorUsedError;
+
+ String get id; String get roomId; List<ElectricalDevice> get devices; List<WireSegment> get wires; List<JunctionBox> get junctionBoxes; List<PipeSegment> get pipes;
+/// Create a copy of ElectricalLayout
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ElectricalLayoutCopyWith<ElectricalLayout> get copyWith => _$ElectricalLayoutCopyWithImpl<ElectricalLayout>(this as ElectricalLayout, _$identity);
 
   /// Serializes this ElectricalLayout to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
 
-  /// Create a copy of ElectricalLayout
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $ElectricalLayoutCopyWith<ElectricalLayout> get copyWith =>
-      throw _privateConstructorUsedError;
+
+@override
+bool operator ==(Object other) {
+  final _this = this as ElectricalLayout;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ElectricalLayout&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.roomId, _this.roomId) || other.roomId == _this.roomId)&&const DeepCollectionEquality().equals(other.devices, _this.devices)&&const DeepCollectionEquality().equals(other.wires, _this.wires)&&const DeepCollectionEquality().equals(other.junctionBoxes, _this.junctionBoxes)&&const DeepCollectionEquality().equals(other.pipes, _this.pipes));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as ElectricalLayout;
+  return Object.hash(runtimeType,_this.id,_this.roomId,const DeepCollectionEquality().hash(_this.devices),const DeepCollectionEquality().hash(_this.wires),const DeepCollectionEquality().hash(_this.junctionBoxes),const DeepCollectionEquality().hash(_this.pipes));
+}
+
+@override
+String toString() {
+  final _this = this as ElectricalLayout;
+  return 'ElectricalLayout(id: ${_this.id}, roomId: ${_this.roomId}, devices: ${_this.devices}, wires: ${_this.wires}, junctionBoxes: ${_this.junctionBoxes}, pipes: ${_this.pipes})';
+}
+
+
 }
 
 /// @nodoc
-abstract class $ElectricalLayoutCopyWith<$Res> {
-  factory $ElectricalLayoutCopyWith(
-    ElectricalLayout value,
-    $Res Function(ElectricalLayout) then,
-  ) = _$ElectricalLayoutCopyWithImpl<$Res, ElectricalLayout>;
-  @useResult
-  $Res call({
-    String id,
-    String roomId,
-    List<ElectricalDevice> devices,
-    List<WireSegment> wires,
-    List<JunctionBox> junctionBoxes,
-    List<PipeSegment> pipes,
-  });
-}
+abstract mixin class $ElectricalLayoutCopyWith<$Res>  {
+  factory $ElectricalLayoutCopyWith(ElectricalLayout value, $Res Function(ElectricalLayout) _then) = _$ElectricalLayoutCopyWithImpl;
+@useResult
+$Res call({
+ String id, String roomId, List<ElectricalDevice> devices, List<WireSegment> wires, List<JunctionBox> junctionBoxes, List<PipeSegment> pipes
+});
 
+
+
+
+}
 /// @nodoc
-class _$ElectricalLayoutCopyWithImpl<$Res, $Val extends ElectricalLayout>
+class _$ElectricalLayoutCopyWithImpl<$Res>
     implements $ElectricalLayoutCopyWith<$Res> {
-  _$ElectricalLayoutCopyWithImpl(this._value, this._then);
+  _$ElectricalLayoutCopyWithImpl(this._self, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final ElectricalLayout _self;
+  final $Res Function(ElectricalLayout) _then;
 
-  /// Create a copy of ElectricalLayout
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? roomId = null,
-    Object? devices = null,
-    Object? wires = null,
-    Object? junctionBoxes = null,
-    Object? pipes = null,
-  }) {
-    return _then(
-      _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as String,
-            roomId: null == roomId
-                ? _value.roomId
-                : roomId // ignore: cast_nullable_to_non_nullable
-                      as String,
-            devices: null == devices
-                ? _value.devices
-                : devices // ignore: cast_nullable_to_non_nullable
-                      as List<ElectricalDevice>,
-            wires: null == wires
-                ? _value.wires
-                : wires // ignore: cast_nullable_to_non_nullable
-                      as List<WireSegment>,
-            junctionBoxes: null == junctionBoxes
-                ? _value.junctionBoxes
-                : junctionBoxes // ignore: cast_nullable_to_non_nullable
-                      as List<JunctionBox>,
-            pipes: null == pipes
-                ? _value.pipes
-                : pipes // ignore: cast_nullable_to_non_nullable
-                      as List<PipeSegment>,
-          )
-          as $Val,
-    );
-  }
+/// Create a copy of ElectricalLayout
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? roomId = null,Object? devices = null,Object? wires = null,Object? junctionBoxes = null,Object? pipes = null,}) {
+  return _then(ElectricalLayout(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,roomId: null == roomId ? _self.roomId : roomId // ignore: cast_nullable_to_non_nullable
+as String,devices: null == devices ? _self.devices : devices // ignore: cast_nullable_to_non_nullable
+as List<ElectricalDevice>,wires: null == wires ? _self.wires : wires // ignore: cast_nullable_to_non_nullable
+as List<WireSegment>,junctionBoxes: null == junctionBoxes ? _self.junctionBoxes : junctionBoxes // ignore: cast_nullable_to_non_nullable
+as List<JunctionBox>,pipes: null == pipes ? _self.pipes : pipes // ignore: cast_nullable_to_non_nullable
+as List<PipeSegment>,
+  ));
 }
 
-/// @nodoc
-abstract class _$$ElectricalLayoutImplCopyWith<$Res>
-    implements $ElectricalLayoutCopyWith<$Res> {
-  factory _$$ElectricalLayoutImplCopyWith(
-    _$ElectricalLayoutImpl value,
-    $Res Function(_$ElectricalLayoutImpl) then,
-  ) = __$$ElectricalLayoutImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({
-    String id,
-    String roomId,
-    List<ElectricalDevice> devices,
-    List<WireSegment> wires,
-    List<JunctionBox> junctionBoxes,
-    List<PipeSegment> pipes,
-  });
 }
 
-/// @nodoc
-class __$$ElectricalLayoutImplCopyWithImpl<$Res>
-    extends _$ElectricalLayoutCopyWithImpl<$Res, _$ElectricalLayoutImpl>
-    implements _$$ElectricalLayoutImplCopyWith<$Res> {
-  __$$ElectricalLayoutImplCopyWithImpl(
-    _$ElectricalLayoutImpl _value,
-    $Res Function(_$ElectricalLayoutImpl) _then,
-  ) : super(_value, _then);
 
-  /// Create a copy of ElectricalLayout
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? roomId = null,
-    Object? devices = null,
-    Object? wires = null,
-    Object? junctionBoxes = null,
-    Object? pipes = null,
-  }) {
-    return _then(
-      _$ElectricalLayoutImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as String,
-        roomId: null == roomId
-            ? _value.roomId
-            : roomId // ignore: cast_nullable_to_non_nullable
-                  as String,
-        devices: null == devices
-            ? _value._devices
-            : devices // ignore: cast_nullable_to_non_nullable
-                  as List<ElectricalDevice>,
-        wires: null == wires
-            ? _value._wires
-            : wires // ignore: cast_nullable_to_non_nullable
-                  as List<WireSegment>,
-        junctionBoxes: null == junctionBoxes
-            ? _value._junctionBoxes
-            : junctionBoxes // ignore: cast_nullable_to_non_nullable
-                  as List<JunctionBox>,
-        pipes: null == pipes
-            ? _value._pipes
-            : pipes // ignore: cast_nullable_to_non_nullable
-                  as List<PipeSegment>,
-      ),
-    );
-  }
+/// Adds pattern-matching-related methods to [ElectricalLayout].
+extension ElectricalLayoutPatterns on ElectricalLayout {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ElectricalLayout value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ElectricalLayout() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ElectricalLayout value)  $default,){
+final _that = this;
+switch (_that) {
+case _ElectricalLayout():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ElectricalLayout value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ElectricalLayout() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String roomId,  List<ElectricalDevice> devices,  List<WireSegment> wires,  List<JunctionBox> junctionBoxes,  List<PipeSegment> pipes)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ElectricalLayout() when $default != null:
+return $default(_that.id,_that.roomId,_that.devices,_that.wires,_that.junctionBoxes,_that.pipes);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String roomId,  List<ElectricalDevice> devices,  List<WireSegment> wires,  List<JunctionBox> junctionBoxes,  List<PipeSegment> pipes)  $default,) {final _that = this;
+switch (_that) {
+case _ElectricalLayout():
+return $default(_that.id,_that.roomId,_that.devices,_that.wires,_that.junctionBoxes,_that.pipes);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String roomId,  List<ElectricalDevice> devices,  List<WireSegment> wires,  List<JunctionBox> junctionBoxes,  List<PipeSegment> pipes)?  $default,) {final _that = this;
+switch (_that) {
+case _ElectricalLayout() when $default != null:
+return $default(_that.id,_that.roomId,_that.devices,_that.wires,_that.junctionBoxes,_that.pipes);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$ElectricalLayoutImpl implements _ElectricalLayout {
-  const _$ElectricalLayoutImpl({
-    required this.id,
-    required this.roomId,
-    final List<ElectricalDevice> devices = const <ElectricalDevice>[],
-    final List<WireSegment> wires = const <WireSegment>[],
-    final List<JunctionBox> junctionBoxes = const <JunctionBox>[],
-    final List<PipeSegment> pipes = const <PipeSegment>[],
-  }) : _devices = devices,
-       _wires = wires,
-       _junctionBoxes = junctionBoxes,
-       _pipes = pipes;
 
-  factory _$ElectricalLayoutImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ElectricalLayoutImplFromJson(json);
+class _ElectricalLayout implements ElectricalLayout {
+  const _ElectricalLayout({required this.id, required this.roomId,  List<ElectricalDevice> devices = const <ElectricalDevice>[],  List<WireSegment> wires = const <WireSegment>[],  List<JunctionBox> junctionBoxes = const <JunctionBox>[],  List<PipeSegment> pipes = const <PipeSegment>[]}): _devices = devices,_wires = wires,_junctionBoxes = junctionBoxes,_pipes = pipes;
+  factory _ElectricalLayout.fromJson(Map<String, dynamic> json) => _$ElectricalLayoutFromJson(json);
 
-  @override
-  final String id;
-  @override
-  final String roomId;
-  final List<ElectricalDevice> _devices;
-  @override
-  @JsonKey()
-  List<ElectricalDevice> get devices {
-    if (_devices is EqualUnmodifiableListView) return _devices;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_devices);
-  }
+@override final  String id;
+@override final  String roomId;
+ final  List<ElectricalDevice> _devices;
+@override@JsonKey() List<ElectricalDevice> get devices {
+  if (_devices is EqualUnmodifiableListView) return _devices;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_devices);
+}
 
-  final List<WireSegment> _wires;
-  @override
-  @JsonKey()
-  List<WireSegment> get wires {
-    if (_wires is EqualUnmodifiableListView) return _wires;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_wires);
-  }
+ final  List<WireSegment> _wires;
+@override@JsonKey() List<WireSegment> get wires {
+  if (_wires is EqualUnmodifiableListView) return _wires;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_wires);
+}
 
-  final List<JunctionBox> _junctionBoxes;
-  @override
-  @JsonKey()
-  List<JunctionBox> get junctionBoxes {
-    if (_junctionBoxes is EqualUnmodifiableListView) return _junctionBoxes;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_junctionBoxes);
-  }
+ final  List<JunctionBox> _junctionBoxes;
+@override@JsonKey() List<JunctionBox> get junctionBoxes {
+  if (_junctionBoxes is EqualUnmodifiableListView) return _junctionBoxes;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_junctionBoxes);
+}
 
-  final List<PipeSegment> _pipes;
-  @override
-  @JsonKey()
-  List<PipeSegment> get pipes {
-    if (_pipes is EqualUnmodifiableListView) return _pipes;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_pipes);
-  }
+ final  List<PipeSegment> _pipes;
+@override@JsonKey() List<PipeSegment> get pipes {
+  if (_pipes is EqualUnmodifiableListView) return _pipes;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_pipes);
+}
 
-  @override
-  String toString() {
+
+/// Create a copy of ElectricalLayout
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ElectricalLayoutCopyWith<_ElectricalLayout> get copyWith => __$ElectricalLayoutCopyWithImpl<_ElectricalLayout>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ElectricalLayoutToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ElectricalLayout&&(identical(other.id, id) || other.id == id)&&(identical(other.roomId, roomId) || other.roomId == roomId)&&const DeepCollectionEquality().equals(other.devices, _devices)&&const DeepCollectionEquality().equals(other.wires, _wires)&&const DeepCollectionEquality().equals(other.junctionBoxes, _junctionBoxes)&&const DeepCollectionEquality().equals(other.pipes, _pipes));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,id,roomId,const DeepCollectionEquality().hash(_devices),const DeepCollectionEquality().hash(_wires),const DeepCollectionEquality().hash(_junctionBoxes),const DeepCollectionEquality().hash(_pipes));
+}
+
+@override
+String toString() {
     return 'ElectricalLayout(id: $id, roomId: $roomId, devices: $devices, wires: $wires, junctionBoxes: $junctionBoxes, pipes: $pipes)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ElectricalLayoutImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.roomId, roomId) || other.roomId == roomId) &&
-            const DeepCollectionEquality().equals(other._devices, _devices) &&
-            const DeepCollectionEquality().equals(other._wires, _wires) &&
-            const DeepCollectionEquality().equals(
-              other._junctionBoxes,
-              _junctionBoxes,
-            ) &&
-            const DeepCollectionEquality().equals(other._pipes, _pipes));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    id,
-    roomId,
-    const DeepCollectionEquality().hash(_devices),
-    const DeepCollectionEquality().hash(_wires),
-    const DeepCollectionEquality().hash(_junctionBoxes),
-    const DeepCollectionEquality().hash(_pipes),
-  );
-
-  /// Create a copy of ElectricalLayout
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$ElectricalLayoutImplCopyWith<_$ElectricalLayoutImpl> get copyWith =>
-      __$$ElectricalLayoutImplCopyWithImpl<_$ElectricalLayoutImpl>(
-        this,
-        _$identity,
-      );
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$ElectricalLayoutImplToJson(this);
-  }
 }
 
-abstract class _ElectricalLayout implements ElectricalLayout {
-  const factory _ElectricalLayout({
-    required final String id,
-    required final String roomId,
-    final List<ElectricalDevice> devices,
-    final List<WireSegment> wires,
-    final List<JunctionBox> junctionBoxes,
-    final List<PipeSegment> pipes,
-  }) = _$ElectricalLayoutImpl;
 
-  factory _ElectricalLayout.fromJson(Map<String, dynamic> json) =
-      _$ElectricalLayoutImpl.fromJson;
-
-  @override
-  String get id;
-  @override
-  String get roomId;
-  @override
-  List<ElectricalDevice> get devices;
-  @override
-  List<WireSegment> get wires;
-  @override
-  List<JunctionBox> get junctionBoxes;
-  @override
-  List<PipeSegment> get pipes;
-
-  /// Create a copy of ElectricalLayout
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ElectricalLayoutImplCopyWith<_$ElectricalLayoutImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+abstract mixin class _$ElectricalLayoutCopyWith<$Res> implements $ElectricalLayoutCopyWith<$Res> {
+  factory _$ElectricalLayoutCopyWith(_ElectricalLayout value, $Res Function(_ElectricalLayout) _then) = __$ElectricalLayoutCopyWithImpl;
+@override @useResult
+$Res call({
+ String id, String roomId, List<ElectricalDevice> devices, List<WireSegment> wires, List<JunctionBox> junctionBoxes, List<PipeSegment> pipes
+});
+
+
+
+
+}
+/// @nodoc
+class __$ElectricalLayoutCopyWithImpl<$Res>
+    implements _$ElectricalLayoutCopyWith<$Res> {
+  __$ElectricalLayoutCopyWithImpl(this._self, this._then);
+
+  final _ElectricalLayout _self;
+  final $Res Function(_ElectricalLayout) _then;
+
+/// Create a copy of ElectricalLayout
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? roomId = null,Object? devices = null,Object? wires = null,Object? junctionBoxes = null,Object? pipes = null,}) {
+  return _then(_ElectricalLayout(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as String,roomId: null == roomId ? _self.roomId : roomId // ignore: cast_nullable_to_non_nullable
+as String,devices: null == devices ? _self._devices : devices // ignore: cast_nullable_to_non_nullable
+as List<ElectricalDevice>,wires: null == wires ? _self._wires : wires // ignore: cast_nullable_to_non_nullable
+as List<WireSegment>,junctionBoxes: null == junctionBoxes ? _self._junctionBoxes : junctionBoxes // ignore: cast_nullable_to_non_nullable
+as List<JunctionBox>,pipes: null == pipes ? _self._pipes : pipes // ignore: cast_nullable_to_non_nullable
+as List<PipeSegment>,
+  ));
+}
+
+
+}
+
+// dart format on

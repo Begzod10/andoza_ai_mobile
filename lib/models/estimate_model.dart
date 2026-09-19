@@ -8,7 +8,7 @@ part 'estimate_model.g.dart';
 /// A single priced line within an [EstimateStage] (e.g. one material or
 /// labor item).
 @freezed
-class EstimateLineItem with _$EstimateLineItem {
+abstract class EstimateLineItem with _$EstimateLineItem {
   const factory EstimateLineItem({
     required String id,
     required String description,
@@ -32,7 +32,7 @@ class EstimateLineItem with _$EstimateLineItem {
 /// populated even when [isExcluded] is `true`, since the savings banner
 /// needs both figures simultaneously.
 @freezed
-class EstimateStage with _$EstimateStage {
+abstract class EstimateStage with _$EstimateStage {
   const factory EstimateStage({
     @JsonKey(unknownEnumValue: RenovationStage.unknown)
     required RenovationStage name,
@@ -49,7 +49,7 @@ class EstimateStage with _$EstimateStage {
 /// The full cost estimate generated for a single room, aggregating every
 /// priced stage of work into a total.
 @freezed
-class Estimate with _$Estimate {
+abstract class Estimate with _$Estimate {
   const factory Estimate({
     required String id,
     required String roomId,

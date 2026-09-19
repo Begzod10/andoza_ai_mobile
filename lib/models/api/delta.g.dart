@@ -6,18 +6,17 @@ part of 'delta.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$DeltaStageImpl _$$DeltaStageImplFromJson(Map<String, dynamic> json) =>
-    _$DeltaStageImpl(
-      stage: $enumDecode(
-        _$RoomStateValueEnumMap,
-        json['stage'],
-        unknownValue: RoomStateValue.unknown,
-      ),
-      labelUz: json['label_uz'] as String,
-      alreadyDone: json['already_done'] as bool,
-    );
+_DeltaStage _$DeltaStageFromJson(Map<String, dynamic> json) => _DeltaStage(
+  stage: $enumDecode(
+    _$RoomStateValueEnumMap,
+    json['stage'],
+    unknownValue: RoomStateValue.unknown,
+  ),
+  labelUz: json['label_uz'] as String,
+  alreadyDone: json['already_done'] as bool,
+);
 
-Map<String, dynamic> _$$DeltaStageImplToJson(_$DeltaStageImpl instance) =>
+Map<String, dynamic> _$DeltaStageToJson(_DeltaStage instance) =>
     <String, dynamic>{
       'stage': _$RoomStateValueEnumMap[instance.stage]!,
       'label_uz': instance.labelUz,
@@ -32,8 +31,8 @@ const _$RoomStateValueEnumMap = {
   RoomStateValue.unknown: 'unknown',
 };
 
-_$DeltaResponseImpl _$$DeltaResponseImplFromJson(Map<String, dynamic> json) =>
-    _$DeltaResponseImpl(
+_DeltaResponse _$DeltaResponseFromJson(Map<String, dynamic> json) =>
+    _DeltaResponse(
       roomId: json['room_id'] as String,
       currentState: $enumDecode(
         _$RoomStateValueEnumMap,
@@ -65,7 +64,7 @@ _$DeltaResponseImpl _$$DeltaResponseImplFromJson(Map<String, dynamic> json) =>
           const <DeltaStage>[],
     );
 
-Map<String, dynamic> _$$DeltaResponseImplToJson(_$DeltaResponseImpl instance) =>
+Map<String, dynamic> _$DeltaResponseToJson(_DeltaResponse instance) =>
     <String, dynamic>{
       'room_id': instance.roomId,
       'current_state': _$RoomStateValueEnumMap[instance.currentState]!,

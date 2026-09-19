@@ -10,7 +10,7 @@ part 'delta.g.dart';
 ///
 /// Mirrors `app/schemas/delta.py::DeltaStage`.
 @freezed
-class DeltaStage with _$DeltaStage {
+abstract class DeltaStage with _$DeltaStage {
   const factory DeltaStage({
     @JsonKey(unknownEnumValue: RoomStateValue.unknown)
     required RoomStateValue stage,
@@ -31,7 +31,7 @@ class DeltaStage with _$DeltaStage {
 /// actually pays, and [deltaSavingsUzs] feeds the "tejaldingiz" (you saved)
 /// banner.
 @freezed
-class DeltaResponse with _$DeltaResponse {
+abstract class DeltaResponse with _$DeltaResponse {
   const factory DeltaResponse({
     @JsonKey(name: 'room_id') required String roomId,
     @JsonKey(name: 'current_state', unknownEnumValue: RoomStateValue.unknown)

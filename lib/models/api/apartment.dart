@@ -10,7 +10,7 @@ part 'apartment.g.dart';
 /// Mirrors `app/schemas/apartment.py::ApartmentOut`. The list endpoint returns
 /// the [ApartmentWithRooms] variant with nested rooms populated.
 @freezed
-class Apartment with _$Apartment {
+abstract class Apartment with _$Apartment {
   const factory Apartment({
     required String id,
     @JsonKey(name: 'user_id') required String userId,

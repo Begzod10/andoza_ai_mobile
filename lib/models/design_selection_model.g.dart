@@ -6,8 +6,8 @@ part of 'design_selection_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$RoomConditionImpl _$$RoomConditionImplFromJson(Map<String, dynamic> json) =>
-    _$RoomConditionImpl(
+_RoomCondition _$RoomConditionFromJson(Map<String, dynamic> json) =>
+    _RoomCondition(
       wall: $enumDecode(
         _$SurfaceConditionEnumMap,
         json['wall'],
@@ -25,7 +25,7 @@ _$RoomConditionImpl _$$RoomConditionImplFromJson(Map<String, dynamic> json) =>
       ),
     );
 
-Map<String, dynamic> _$$RoomConditionImplToJson(_$RoomConditionImpl instance) =>
+Map<String, dynamic> _$RoomConditionToJson(_RoomCondition instance) =>
     <String, dynamic>{
       'wall': _$SurfaceConditionEnumMap[instance.wall]!,
       'floor': _$SurfaceConditionEnumMap[instance.floor],
@@ -39,53 +39,49 @@ const _$SurfaceConditionEnumMap = {
   SurfaceCondition.unknown: 'unknown',
 };
 
-_$FurniturePlacementImpl _$$FurniturePlacementImplFromJson(
-  Map<String, dynamic> json,
-) => _$FurniturePlacementImpl(
-  id: json['id'] as String,
-  itemId: json['itemId'] as String,
-  name: json['name'] as String,
-  position: const OffsetConverter().fromJson(
-    json['position'] as Map<String, dynamic>,
-  ),
-  rotationDegrees: (json['rotationDegrees'] as num?)?.toDouble() ?? 0,
-  selectedColor: json['selectedColor'] as String,
-);
+_FurniturePlacement _$FurniturePlacementFromJson(Map<String, dynamic> json) =>
+    _FurniturePlacement(
+      id: json['id'] as String,
+      itemId: json['itemId'] as String,
+      name: json['name'] as String,
+      position: const OffsetConverter().fromJson(
+        json['position'] as Map<String, dynamic>,
+      ),
+      rotationDegrees: (json['rotationDegrees'] as num?)?.toDouble() ?? 0,
+      selectedColor: json['selectedColor'] as String,
+    );
 
-Map<String, dynamic> _$$FurniturePlacementImplToJson(
-  _$FurniturePlacementImpl instance,
-) => <String, dynamic>{
-  'id': instance.id,
-  'itemId': instance.itemId,
-  'name': instance.name,
-  'position': const OffsetConverter().toJson(instance.position),
-  'rotationDegrees': instance.rotationDegrees,
-  'selectedColor': instance.selectedColor,
-};
+Map<String, dynamic> _$FurniturePlacementToJson(_FurniturePlacement instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'itemId': instance.itemId,
+      'name': instance.name,
+      'position': const OffsetConverter().toJson(instance.position),
+      'rotationDegrees': instance.rotationDegrees,
+      'selectedColor': instance.selectedColor,
+    };
 
-_$MaterialSelectionImpl _$$MaterialSelectionImplFromJson(
-  Map<String, dynamic> json,
-) => _$MaterialSelectionImpl(
-  materialId: json['materialId'] as String,
-  material: $enumDecode(
-    _$MaterialTypeEnumMap,
-    json['material'],
-    unknownValue: MaterialType.unknown,
-  ),
-  color: json['color'] as String,
-  price: (json['price'] as num).toDouble(),
-  area: (json['area'] as num).toDouble(),
-);
+_MaterialSelection _$MaterialSelectionFromJson(Map<String, dynamic> json) =>
+    _MaterialSelection(
+      materialId: json['materialId'] as String,
+      material: $enumDecode(
+        _$MaterialTypeEnumMap,
+        json['material'],
+        unknownValue: MaterialType.unknown,
+      ),
+      color: json['color'] as String,
+      price: (json['price'] as num).toDouble(),
+      area: (json['area'] as num).toDouble(),
+    );
 
-Map<String, dynamic> _$$MaterialSelectionImplToJson(
-  _$MaterialSelectionImpl instance,
-) => <String, dynamic>{
-  'materialId': instance.materialId,
-  'material': _$MaterialTypeEnumMap[instance.material]!,
-  'color': instance.color,
-  'price': instance.price,
-  'area': instance.area,
-};
+Map<String, dynamic> _$MaterialSelectionToJson(_MaterialSelection instance) =>
+    <String, dynamic>{
+      'materialId': instance.materialId,
+      'material': _$MaterialTypeEnumMap[instance.material]!,
+      'color': instance.color,
+      'price': instance.price,
+      'area': instance.area,
+    };
 
 const _$MaterialTypeEnumMap = {
   MaterialType.paint: 'PAINT',
@@ -96,9 +92,9 @@ const _$MaterialTypeEnumMap = {
   MaterialType.unknown: 'unknown',
 };
 
-_$DesignSelectionImpl _$$DesignSelectionImplFromJson(
+_DesignSelection _$DesignSelectionFromJson(
   Map<String, dynamic> json,
-) => _$DesignSelectionImpl(
+) => _DesignSelection(
   id: json['id'] as String,
   roomId: json['roomId'] as String,
   stage: $enumDecode(
@@ -129,17 +125,16 @@ _$DesignSelectionImpl _$$DesignSelectionImplFromJson(
       RenovationStage.suvoq,
 );
 
-Map<String, dynamic> _$$DesignSelectionImplToJson(
-  _$DesignSelectionImpl instance,
-) => <String, dynamic>{
-  'id': instance.id,
-  'roomId': instance.roomId,
-  'stage': _$DesignStageEnumMap[instance.stage]!,
-  'selections': instance.selections,
-  'roomCondition': instance.roomCondition,
-  'furniture': instance.furniture,
-  'renovationStage': _$RenovationStageEnumMap[instance.renovationStage]!,
-};
+Map<String, dynamic> _$DesignSelectionToJson(_DesignSelection instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'roomId': instance.roomId,
+      'stage': _$DesignStageEnumMap[instance.stage]!,
+      'selections': instance.selections,
+      'roomCondition': instance.roomCondition,
+      'furniture': instance.furniture,
+      'renovationStage': _$RenovationStageEnumMap[instance.renovationStage]!,
+    };
 
 const _$DesignStageEnumMap = {
   DesignStage.floor: 'FLOOR',

@@ -6,68 +6,63 @@ part of 'order.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$OrderLineCreateImpl _$$OrderLineCreateImplFromJson(
-  Map<String, dynamic> json,
-) => _$OrderLineCreateImpl(
-  materialId: json['material_id'] as String?,
-  productName: json['product_name'] as String,
-  unit: json['unit'] as String,
-  unitPriceUzs: (json['unit_price_uzs'] as num).toInt(),
-  quantity: json['quantity'] as num,
-);
-
-Map<String, dynamic> _$$OrderLineCreateImplToJson(
-  _$OrderLineCreateImpl instance,
-) => <String, dynamic>{
-  'material_id': instance.materialId,
-  'product_name': instance.productName,
-  'unit': instance.unit,
-  'unit_price_uzs': instance.unitPriceUzs,
-  'quantity': instance.quantity,
-};
-
-_$ServerOrderLineImpl _$$ServerOrderLineImplFromJson(
-  Map<String, dynamic> json,
-) => _$ServerOrderLineImpl(
-  id: json['id'] as String,
-  materialId: json['material_id'] as String?,
-  productName: json['product_name'] as String,
-  unit: json['unit'] as String,
-  unitPriceUzs: (json['unit_price_uzs'] as num).toInt(),
-  quantity: json['quantity'] as num,
-);
-
-Map<String, dynamic> _$$ServerOrderLineImplToJson(
-  _$ServerOrderLineImpl instance,
-) => <String, dynamic>{
-  'id': instance.id,
-  'material_id': instance.materialId,
-  'product_name': instance.productName,
-  'unit': instance.unit,
-  'unit_price_uzs': instance.unitPriceUzs,
-  'quantity': instance.quantity,
-};
-
-_$ServerOrderImpl _$$ServerOrderImplFromJson(Map<String, dynamic> json) =>
-    _$ServerOrderImpl(
-      id: json['id'] as String,
-      userId: json['user_id'] as String,
-      dealerName: json['dealer_name'] as String,
-      totalUzs: (json['total_uzs'] as num).toInt(),
-      status: $enumDecode(
-        _$OrderStatusEnumMap,
-        json['status'],
-        unknownValue: OrderStatus.unknown,
-      ),
-      createdAt: DateTime.parse(json['created_at'] as String),
-      lines:
-          (json['lines'] as List<dynamic>?)
-              ?.map((e) => ServerOrderLine.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const <ServerOrderLine>[],
+_OrderLineCreate _$OrderLineCreateFromJson(Map<String, dynamic> json) =>
+    _OrderLineCreate(
+      materialId: json['material_id'] as String?,
+      productName: json['product_name'] as String,
+      unit: json['unit'] as String,
+      unitPriceUzs: (json['unit_price_uzs'] as num).toInt(),
+      quantity: json['quantity'] as num,
     );
 
-Map<String, dynamic> _$$ServerOrderImplToJson(_$ServerOrderImpl instance) =>
+Map<String, dynamic> _$OrderLineCreateToJson(_OrderLineCreate instance) =>
+    <String, dynamic>{
+      'material_id': instance.materialId,
+      'product_name': instance.productName,
+      'unit': instance.unit,
+      'unit_price_uzs': instance.unitPriceUzs,
+      'quantity': instance.quantity,
+    };
+
+_ServerOrderLine _$ServerOrderLineFromJson(Map<String, dynamic> json) =>
+    _ServerOrderLine(
+      id: json['id'] as String,
+      materialId: json['material_id'] as String?,
+      productName: json['product_name'] as String,
+      unit: json['unit'] as String,
+      unitPriceUzs: (json['unit_price_uzs'] as num).toInt(),
+      quantity: json['quantity'] as num,
+    );
+
+Map<String, dynamic> _$ServerOrderLineToJson(_ServerOrderLine instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'material_id': instance.materialId,
+      'product_name': instance.productName,
+      'unit': instance.unit,
+      'unit_price_uzs': instance.unitPriceUzs,
+      'quantity': instance.quantity,
+    };
+
+_ServerOrder _$ServerOrderFromJson(Map<String, dynamic> json) => _ServerOrder(
+  id: json['id'] as String,
+  userId: json['user_id'] as String,
+  dealerName: json['dealer_name'] as String,
+  totalUzs: (json['total_uzs'] as num).toInt(),
+  status: $enumDecode(
+    _$OrderStatusEnumMap,
+    json['status'],
+    unknownValue: OrderStatus.unknown,
+  ),
+  createdAt: DateTime.parse(json['created_at'] as String),
+  lines:
+      (json['lines'] as List<dynamic>?)
+          ?.map((e) => ServerOrderLine.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      const <ServerOrderLine>[],
+);
+
+Map<String, dynamic> _$ServerOrderToJson(_ServerOrder instance) =>
     <String, dynamic>{
       'id': instance.id,
       'user_id': instance.userId,

@@ -10,7 +10,7 @@ part 'material_offer.g.dart';
 /// old synthetic `dealersForProduct()` fabrication in S4. [storePartnerTier]
 /// ∈ standard|gold|platinum.
 @freezed
-class MaterialOffer with _$MaterialOffer {
+abstract class MaterialOffer with _$MaterialOffer {
   const factory MaterialOffer({
     required String id,
     @JsonKey(name: 'material_id') required String materialId,

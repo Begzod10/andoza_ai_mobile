@@ -34,7 +34,7 @@ enum RoomStateValue {
 /// Mirrors `app/schemas/room_state.py::RoomStateOut`. Surface-level states are
 /// optional and fall back to [currentState] when null.
 @freezed
-class RoomState with _$RoomState {
+abstract class RoomState with _$RoomState {
   const factory RoomState({
     @JsonKey(name: 'room_id') required String roomId,
     @JsonKey(name: 'current_state', unknownEnumValue: RoomStateValue.unknown)

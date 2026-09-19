@@ -70,6 +70,74 @@ void main() {
     });
   });
 
+  group('Estimate (exact/approximate split)', () {
+    // The split, the per-line warning and the USD conversion are newer fields:
+    // the payload above predates them, so these check both that they parse and
+    // that an older payload without them still deserialises.
+    final json = {
+      'id': 'bf4e3f1f-1e40-4cbb-918a-bbc67bd47393',
+      'room_id': 'ad739348-d884-4810-96ab-5395120a4909',
+      'lines': [
+        {
+          'label': 'Elektr kabel (taxminiy)',
+          'formula': '8 nuqta x 8.0 m x 1.15 (zaxira) = 74 m',
+          'quantity': 74.0,
+          'unit': 'm',
+          'unit_price': 10000,
+          'total_uzs': 740000,
+          'is_approximate': true,
+          'category': 'elektr',
+          'warning': 'Nuqtalar soni taxminiy hisoblandi',
+        },
+      ],
+      'total_uzs': 840000,
+      'total_exact_uzs': 100000,
+      'total_approx_uzs': 740000,
+      'total_min': 756000,
+      'total_max': 924000,
+      'created_at': '2026-08-05T18:40:22.663613Z',
+      'has_electrical': true,
+      'electrical_confirmed': true,
+      'usd_rate': 12600.0,
+      'total_usd': 67,
+    };
+
+    test('parses the totals split, the USD conversion and the line warning',
+        () {
+      final est = Estimate.fromJson(json);
+      expect(est.totalExactUzs, 100000);
+      expect(est.totalApproxUzs, 740000);
+      expect(est.electricalConfirmed, isTrue);
+      expect(est.usdRate, 12600.0);
+      expect(est.totalUsd, 67);
+      expect(est.lines.single.warning, 'Nuqtalar soni taxminiy hisoblandi');
+    });
+
+    test('defaults the new fields when an older payload omits them', () {
+      final old = Map<String, dynamic>.from(json)
+        ..remove('total_exact_uzs')
+        ..remove('total_approx_uzs')
+        ..remove('electrical_confirmed')
+        ..remove('usd_rate')
+        ..remove('total_usd');
+      final est = Estimate.fromJson(old);
+      expect(est.totalExactUzs, 0);
+      expect(est.totalApproxUzs, 0);
+      expect(est.electricalConfirmed, isFalse);
+      expect(est.usdRate, 0.0);
+      expect(est.totalUsd, 0);
+    });
+
+    test('writes the new fields back out under their wire names', () {
+      final out = Estimate.fromJson(json).toJson();
+      expect(out['total_exact_uzs'], 100000);
+      expect(out['total_approx_uzs'], 740000);
+      expect(out['electrical_confirmed'], isTrue);
+      expect(out['usd_rate'], 12600.0);
+      expect(out['total_usd'], 67);
+    });
+  });
+
   group('PaginatedEstimates (history)', () {
     test('parses a real history envelope', () {
       final page = PaginatedEstimates.fromJson({

@@ -6,25 +6,24 @@ part of 'electrical.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ElectricalDeviceOutImpl _$$ElectricalDeviceOutImplFromJson(
-  Map<String, dynamic> json,
-) => _$ElectricalDeviceOutImpl(
-  id: json['id'] as String,
-  roomId: json['room_id'] as String,
-  type: $enumDecode(
-    _$ElectricalDeviceTypeEnumMap,
-    json['type'],
-    unknownValue: ElectricalDeviceType.unknown,
-  ),
-  variant: json['variant'] as String?,
-  wallIndex: (json['wall_index'] as num).toInt(),
-  x: (json['x'] as num).toDouble(),
-  y: (json['y'] as num).toDouble(),
-  count: (json['count'] as num?)?.toInt() ?? 1,
-);
+_ElectricalDeviceOut _$ElectricalDeviceOutFromJson(Map<String, dynamic> json) =>
+    _ElectricalDeviceOut(
+      id: json['id'] as String,
+      roomId: json['room_id'] as String,
+      type: $enumDecode(
+        _$ElectricalDeviceTypeEnumMap,
+        json['type'],
+        unknownValue: ElectricalDeviceType.unknown,
+      ),
+      variant: json['variant'] as String?,
+      wallIndex: (json['wall_index'] as num).toInt(),
+      x: (json['x'] as num).toDouble(),
+      y: (json['y'] as num).toDouble(),
+      count: (json['count'] as num?)?.toInt() ?? 1,
+    );
 
-Map<String, dynamic> _$$ElectricalDeviceOutImplToJson(
-  _$ElectricalDeviceOutImpl instance,
+Map<String, dynamic> _$ElectricalDeviceOutToJson(
+  _ElectricalDeviceOut instance,
 ) => <String, dynamic>{
   'id': instance.id,
   'room_id': instance.roomId,
@@ -45,9 +44,9 @@ const _$ElectricalDeviceTypeEnumMap = {
   ElectricalDeviceType.unknown: 'unknown',
 };
 
-_$ElectricalDeviceCreateImpl _$$ElectricalDeviceCreateImplFromJson(
+_ElectricalDeviceCreate _$ElectricalDeviceCreateFromJson(
   Map<String, dynamic> json,
-) => _$ElectricalDeviceCreateImpl(
+) => _ElectricalDeviceCreate(
   type: $enumDecode(
     _$ElectricalDeviceTypeEnumMap,
     json['type'],
@@ -60,8 +59,8 @@ _$ElectricalDeviceCreateImpl _$$ElectricalDeviceCreateImplFromJson(
   count: (json['count'] as num?)?.toInt() ?? 1,
 );
 
-Map<String, dynamic> _$$ElectricalDeviceCreateImplToJson(
-  _$ElectricalDeviceCreateImpl instance,
+Map<String, dynamic> _$ElectricalDeviceCreateToJson(
+  _ElectricalDeviceCreate instance,
 ) => <String, dynamic>{
   'type': _$ElectricalDeviceTypeEnumMap[instance.type]!,
   'variant': instance.variant,
@@ -71,8 +70,8 @@ Map<String, dynamic> _$$ElectricalDeviceCreateImplToJson(
   'count': instance.count,
 };
 
-_$ElectricalPlanImpl _$$ElectricalPlanImplFromJson(Map<String, dynamic> json) =>
-    _$ElectricalPlanImpl(
+_ElectricalPlan _$ElectricalPlanFromJson(Map<String, dynamic> json) =>
+    _ElectricalPlan(
       roomId: json['room_id'] as String,
       devices:
           (json['devices'] as List<dynamic>?)
@@ -85,11 +84,10 @@ _$ElectricalPlanImpl _$$ElectricalPlanImplFromJson(Map<String, dynamic> json) =>
       updatedAt: DateTime.parse(json['updated_at'] as String),
     );
 
-Map<String, dynamic> _$$ElectricalPlanImplToJson(
-  _$ElectricalPlanImpl instance,
-) => <String, dynamic>{
-  'room_id': instance.roomId,
-  'devices': instance.devices,
-  'wiring_meters': instance.wiringMeters,
-  'updated_at': instance.updatedAt.toIso8601String(),
-};
+Map<String, dynamic> _$ElectricalPlanToJson(_ElectricalPlan instance) =>
+    <String, dynamic>{
+      'room_id': instance.roomId,
+      'devices': instance.devices,
+      'wiring_meters': instance.wiringMeters,
+      'updated_at': instance.updatedAt.toIso8601String(),
+    };

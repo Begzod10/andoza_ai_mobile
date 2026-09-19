@@ -6,33 +6,30 @@ part of 'room_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$RoomDimensionsImpl _$$RoomDimensionsImplFromJson(Map<String, dynamic> json) =>
-    _$RoomDimensionsImpl(
+_RoomDimensions _$RoomDimensionsFromJson(Map<String, dynamic> json) =>
+    _RoomDimensions(
       width: (json['width'] as num).toDouble(),
       height: (json['height'] as num).toDouble(),
       length: (json['length'] as num).toDouble(),
     );
 
-Map<String, dynamic> _$$RoomDimensionsImplToJson(
-  _$RoomDimensionsImpl instance,
-) => <String, dynamic>{
-  'width': instance.width,
-  'height': instance.height,
-  'length': instance.length,
-};
+Map<String, dynamic> _$RoomDimensionsToJson(_RoomDimensions instance) =>
+    <String, dynamic>{
+      'width': instance.width,
+      'height': instance.height,
+      'length': instance.length,
+    };
 
-_$WallMeasurementsImpl _$$WallMeasurementsImplFromJson(
-  Map<String, dynamic> json,
-) => _$WallMeasurementsImpl(
-  height: (json['height'] as num).toDouble(),
-  length: (json['length'] as num).toDouble(),
-);
+_WallMeasurements _$WallMeasurementsFromJson(Map<String, dynamic> json) =>
+    _WallMeasurements(
+      height: (json['height'] as num).toDouble(),
+      length: (json['length'] as num).toDouble(),
+    );
 
-Map<String, dynamic> _$$WallMeasurementsImplToJson(
-  _$WallMeasurementsImpl instance,
-) => <String, dynamic>{'height': instance.height, 'length': instance.length};
+Map<String, dynamic> _$WallMeasurementsToJson(_WallMeasurements instance) =>
+    <String, dynamic>{'height': instance.height, 'length': instance.length};
 
-_$WallImpl _$$WallImplFromJson(Map<String, dynamic> json) => _$WallImpl(
+_Wall _$WallFromJson(Map<String, dynamic> json) => _Wall(
   id: json['id'] as String,
   type: $enumDecode(
     _$WallTypeEnumMap,
@@ -45,13 +42,12 @@ _$WallImpl _$$WallImplFromJson(Map<String, dynamic> json) => _$WallImpl(
   texture: json['texture'] as String?,
 );
 
-Map<String, dynamic> _$$WallImplToJson(_$WallImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'type': _$WallTypeEnumMap[instance.type]!,
-      'measurements': instance.measurements,
-      'texture': instance.texture,
-    };
+Map<String, dynamic> _$WallToJson(_Wall instance) => <String, dynamic>{
+  'id': instance.id,
+  'type': _$WallTypeEnumMap[instance.type]!,
+  'measurements': instance.measurements,
+  'texture': instance.texture,
+};
 
 const _$WallTypeEnumMap = {
   WallType.wallA: 'WALL_A',
@@ -61,7 +57,7 @@ const _$WallTypeEnumMap = {
   WallType.unknown: 'unknown',
 };
 
-_$DoorImpl _$$DoorImplFromJson(Map<String, dynamic> json) => _$DoorImpl(
+_Door _$DoorFromJson(Map<String, dynamic> json) => _Door(
   id: json['id'] as String,
   wallId: json['wallId'] as String,
   position: (json['position'] as num).toDouble(),
@@ -74,15 +70,14 @@ _$DoorImpl _$$DoorImplFromJson(Map<String, dynamic> json) => _$DoorImpl(
   ),
 );
 
-Map<String, dynamic> _$$DoorImplToJson(_$DoorImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'wallId': instance.wallId,
-      'position': instance.position,
-      'width': instance.width,
-      'height': instance.height,
-      'type': _$OpeningTypeEnumMap[instance.type]!,
-    };
+Map<String, dynamic> _$DoorToJson(_Door instance) => <String, dynamic>{
+  'id': instance.id,
+  'wallId': instance.wallId,
+  'position': instance.position,
+  'width': instance.width,
+  'height': instance.height,
+  'type': _$OpeningTypeEnumMap[instance.type]!,
+};
 
 const _$OpeningTypeEnumMap = {
   OpeningType.single: 'SINGLE',
@@ -91,7 +86,7 @@ const _$OpeningTypeEnumMap = {
   OpeningType.unknown: 'unknown',
 };
 
-_$WindowImpl _$$WindowImplFromJson(Map<String, dynamic> json) => _$WindowImpl(
+_Window _$WindowFromJson(Map<String, dynamic> json) => _Window(
   id: json['id'] as String,
   wallId: json['wallId'] as String,
   position: (json['position'] as num).toDouble(),
@@ -104,17 +99,16 @@ _$WindowImpl _$$WindowImplFromJson(Map<String, dynamic> json) => _$WindowImpl(
   ),
 );
 
-Map<String, dynamic> _$$WindowImplToJson(_$WindowImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'wallId': instance.wallId,
-      'position': instance.position,
-      'width': instance.width,
-      'height': instance.height,
-      'type': _$OpeningTypeEnumMap[instance.type]!,
-    };
+Map<String, dynamic> _$WindowToJson(_Window instance) => <String, dynamic>{
+  'id': instance.id,
+  'wallId': instance.wallId,
+  'position': instance.position,
+  'width': instance.width,
+  'height': instance.height,
+  'type': _$OpeningTypeEnumMap[instance.type]!,
+};
 
-_$RoomImpl _$$RoomImplFromJson(Map<String, dynamic> json) => _$RoomImpl(
+_Room _$RoomFromJson(Map<String, dynamic> json) => _Room(
   id: json['id'] as String,
   name: json['name'] as String,
   dimensions: RoomDimensions.fromJson(
@@ -138,13 +132,12 @@ _$RoomImpl _$$RoomImplFromJson(Map<String, dynamic> json) => _$RoomImpl(
   createdAt: DateTime.parse(json['createdAt'] as String),
 );
 
-Map<String, dynamic> _$$RoomImplToJson(_$RoomImpl instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'name': instance.name,
-      'dimensions': instance.dimensions,
-      'walls': instance.walls,
-      'doors': instance.doors,
-      'windows': instance.windows,
-      'createdAt': instance.createdAt.toIso8601String(),
-    };
+Map<String, dynamic> _$RoomToJson(_Room instance) => <String, dynamic>{
+  'id': instance.id,
+  'name': instance.name,
+  'dimensions': instance.dimensions,
+  'walls': instance.walls,
+  'doors': instance.doors,
+  'windows': instance.windows,
+  'createdAt': instance.createdAt.toIso8601String(),
+};

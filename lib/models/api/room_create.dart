@@ -26,7 +26,7 @@ enum WallElementType {
 /// Backend bounds: width 0.3–5.0, height 0.3–3.5, sillHeight 0.0–2.5,
 /// position 0.0–1.0 (fraction along the wall).
 @freezed
-class WallElementCreate with _$WallElementCreate {
+abstract class WallElementCreate with _$WallElementCreate {
   const factory WallElementCreate({
     @JsonKey(unknownEnumValue: WallElementType.unknown)
     required WallElementType type,
@@ -42,7 +42,7 @@ class WallElementCreate with _$WallElementCreate {
 
 /// A wall in the create-room request. Backend bounds: length 0.5–25.0 m.
 @freezed
-class WallCreate with _$WallCreate {
+abstract class WallCreate with _$WallCreate {
   const factory WallCreate({
     required String id,
     required double length,
@@ -59,7 +59,7 @@ class WallCreate with _$WallCreate {
 /// [vertices] (metres, `[[x, y], …]`) plus one wall per edge so the web 3D
 /// Studio can render the actual shape instead of a bounding box.
 @freezed
-class RoomGeometryCreate with _$RoomGeometryCreate {
+abstract class RoomGeometryCreate with _$RoomGeometryCreate {
   const factory RoomGeometryCreate({
     required List<WallCreate> walls,
     @JsonKey(name: 'vertices', includeIfNull: false)
@@ -74,7 +74,7 @@ class RoomGeometryCreate with _$RoomGeometryCreate {
 /// Backend bounds: ceilingH 1.8–6.0 m; opening height + sill must not exceed
 /// the ceiling height.
 @freezed
-class RoomCreate with _$RoomCreate {
+abstract class RoomCreate with _$RoomCreate {
   const factory RoomCreate({
     required String name,
     @JsonKey(name: 'ceiling_h') required double ceilingH,
