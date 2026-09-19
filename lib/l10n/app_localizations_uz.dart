@@ -1415,41 +1415,6 @@ class AppLocalizationsUz extends AppLocalizations {
   }
 
   @override
-  String get scanSummaryElectricalTitle => 'Elektr rejasi';
-
-  @override
-  String scanSummaryWiring(String value) {
-    return 'Kabel: $value m';
-  }
-
-  @override
-  String get scanSummaryDeviceSocket => 'rozetka';
-
-  @override
-  String get scanSummaryDeviceSwitch => 'kalit';
-
-  @override
-  String get scanSummaryDeviceLight => 'chiroq';
-
-  @override
-  String get scanSummaryDevicePanel => 'elektr qutisi';
-
-  @override
-  String get scanSummaryDeviceBox => 'podrozetnik';
-
-  @override
-  String get scanSummaryDeviceOther => 'boshqa nuqta';
-
-  @override
-  String scanSummaryDeviceCount(int count, String name) {
-    return '$count $name';
-  }
-
-  @override
-  String get scanSummaryElectricalApprox =>
-      'Elektr nuqtalari skan asosida taxminan joylashtirildi — studiyada tahrirlashingiz mumkin.';
-
-  @override
   String get scanSummaryContinue => 'Studiyaga o\'tish';
 
   @override

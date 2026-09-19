@@ -1899,53 +1899,6 @@
       "error": { "type": "String" }
     }
   },
-  "scanSummaryElectricalTitle": "Elektr rejasi",
-  "@scanSummaryElectricalTitle": {
-    "description": "Post-scan summary: electrical section title."
-  },
-  "scanSummaryWiring": "Kabel: {value} m",
-  "@scanSummaryWiring": {
-    "description": "Post-scan summary: total wiring length in metres.",
-    "placeholders": {
-      "value": { "type": "String" }
-    }
-  },
-  "scanSummaryDeviceSocket": "rozetka",
-  "@scanSummaryDeviceSocket": {
-    "description": "Electrical device name (socket), used in a count list."
-  },
-  "scanSummaryDeviceSwitch": "kalit",
-  "@scanSummaryDeviceSwitch": {
-    "description": "Electrical device name (switch), used in a count list."
-  },
-  "scanSummaryDeviceLight": "chiroq",
-  "@scanSummaryDeviceLight": {
-    "description": "Electrical device name (light), used in a count list."
-  },
-  "scanSummaryDevicePanel": "elektr qutisi",
-  "@scanSummaryDevicePanel": {
-    "description": "Electrical device name (panel), used in a count list."
-  },
-  "scanSummaryDeviceBox": "podrozetnik",
-  "@scanSummaryDeviceBox": {
-    "description": "Electrical device name (mounting box), used in a count list."
-  },
-  "scanSummaryDeviceOther": "boshqa nuqta",
-  "@scanSummaryDeviceOther": {
-    "description": "Electrical device name for a type this app version does not know."
-  },
-  "scanSummaryDeviceCount": "{count} {name}",
-  "@scanSummaryDeviceCount": {
-    "description": "Post-scan summary: one 'N device' entry in the electrical device list.",
-    "placeholders": {
-      "count": { "type": "int" },
-      "name": { "type": "String" }
-    }
-  },
-  "scanSummaryElectricalApprox": "Elektr nuqtalari skan asosida taxminan joylashtirildi \u2014 studiyada tahrirlashingiz mumkin.",
-  "@scanSummaryElectricalApprox": {
-    "description": "Post-scan summary: the electrical plan was auto-generated, not confirmed."
-  },
   "scanSummaryContinue": "Studiyaga o'tish",
   "@scanSummaryContinue": {
     "description": "Post-scan summary: primary CTA opening the studio."
