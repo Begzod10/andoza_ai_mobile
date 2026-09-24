@@ -32,6 +32,13 @@ class ApiClient {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
+        // Tells the API this is a native client, not a browser. Without it the
+        // server treats us as web and returns `access_token`/`refresh_token`
+        // as null in the body — tokens go to HttpOnly cookies only, which a
+        // Dart HTTP client has no jar for — and login fails on the null cast
+        // in AuthResponse.fromJson. See `_is_native_client()` in the backend's
+        // app/routers/auth.py.
+        'X-Client-Type': 'mobile',
       },
     );
     _dio = Dio(baseOptions);

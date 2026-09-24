@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:logger/logger.dart';
 import 'package:tamir_uy_mobile_flutter/services/api_client.dart';
 import 'package:tamir_uy_mobile_flutter/utils/error_mapper.dart';
 
@@ -15,6 +16,22 @@ DioException _dio(DioExceptionType type, {int? statusCode, Object? error}) {
         ? null
         : Response<dynamic>(requestOptions: options, statusCode: statusCode),
   );
+}
+
+/// Captures both the raw [LogEvent]s and the fully rendered lines, so a test
+/// can assert on the structured fields *and* on every character that would
+/// actually reach the device log.
+class _CapturingOutput extends LogOutput {
+  final List<OutputEvent> events = [];
+  final List<String> lines = [];
+
+  @override
+  void output(OutputEvent event) {
+    events.add(event);
+    lines.addAll(event.lines);
+  }
+
+  String get rendered => lines.join('\n');
 }
 
 void main() {
@@ -212,6 +229,111 @@ void main() {
 
     test('null → generic fallback', () {
       expect(mapErrorToMessage(null), errorGeneric);
+    });
+  });
+
+  group('mapErrorToMessage — diagnostics', () {
+    late _CapturingOutput output;
+    late Logger original;
+
+    setUp(() {
+      output = _CapturingOutput();
+      original = errorMapperLogger;
+      errorMapperLogger = Logger(
+        filter: ProductionFilter(),
+        printer: PrettyPrinter(colors: false, printEmojis: false),
+        output: output,
+      );
+    });
+
+    tearDown(() => errorMapperLogger = original);
+
+    test('an unrecognised error reaches the logger with its type and message',
+        () {
+      // The regression that cost hours: a _TypeError from a null access_token
+      // collapsed into errorGeneric with nothing written anywhere.
+      final error = TypeError();
+      expect(mapErrorToMessage(error), errorGeneric);
+
+      expect(output.events, hasLength(1));
+      expect(output.events.single.level, Level.error);
+      expect(output.rendered, contains('${error.runtimeType}'));
+      expect(output.rendered, contains(error.toString()));
+    });
+
+    test('an unrecognised exception message reaches the logger', () {
+      expect(
+        mapErrorToMessage(const FormatException('access_token was null')),
+        errorGeneric,
+      );
+
+      expect(output.rendered, contains('FormatException'));
+      expect(output.rendered, contains('access_token was null'));
+    });
+
+    test('a bare SocketException is not logged (offline is not a defect)', () {
+      expect(mapErrorToMessage(const SocketException('down')), errorNoInternet);
+      expect(output.events, isEmpty);
+    });
+
+    test('a DioException logs only enumerated safe fields — never credentials',
+        () {
+      // A real failed login: the password is in the request body, a bearer
+      // token is in the headers, and the server echoed part of the payload
+      // back in both the response body and the underlying error.
+      const password = 'hunter2-PLAINTEXT-PASSWORD';
+      const token = 'eyJhbGciOiJIUzI1NiJ9.SECRET-BEARER-TOKEN';
+      const responseBody = 'CONFIDENTIAL-RESPONSE-BODY';
+      final options = RequestOptions(
+        path: '/auth/login',
+        method: 'POST',
+        data: {'username': 'rimefara', 'password': password},
+        headers: {'Authorization': 'Bearer $token'},
+      );
+      final error = DioException(
+        requestOptions: options,
+        type: DioExceptionType.badResponse,
+        error: Exception('encode failed for {"password":"$password"}'),
+        response: Response<dynamic>(
+          requestOptions: options,
+          statusCode: 401,
+          data: {'detail': responseBody, 'echo': password},
+        ),
+      );
+
+      expect(mapErrorToMessage(error), errorSession);
+
+      final rendered = output.rendered;
+      expect(rendered, isNot(contains(password)));
+      expect(rendered, isNot(contains(token)));
+      expect(rendered, isNot(contains('Authorization')));
+      expect(rendered, isNot(contains(responseBody)));
+
+      // Whitelist, not just blacklist: the logged message must be exactly the
+      // enumerated-fields summary, so no future edit can widen it back into a
+      // stringified exception that drags RequestOptions along.
+      expect(
+        output.events.single.origin.message,
+        'DioException(badResponse) POST /auth/login → 401',
+      );
+      expect(output.events.single.origin.error, isNull);
+    });
+
+    test('an ApiException logs its status code but not its message/body', () {
+      expect(
+        mapErrorToMessage(
+          ApiException(
+            message: 'Unauthorized: CONFIDENTIAL-SERVER-DETAIL',
+            statusCode: 401,
+            response: {'detail': 'CONFIDENTIAL-RESPONSE-BODY'},
+          ),
+        ),
+        errorSession,
+      );
+
+      expect(output.rendered, isNot(contains('CONFIDENTIAL')));
+      expect(output.events.single.origin.message,
+          'ApiException(statusCode: 401)');
     });
   });
 }
