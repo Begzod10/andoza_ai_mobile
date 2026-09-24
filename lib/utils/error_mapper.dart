@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:logger/logger.dart';
 
 import '../services/api_client.dart';
 
@@ -15,10 +17,63 @@ import '../services/api_client.dart';
 /// 401 (session expired), 403 (forbidden), 404 (not found), 409 (conflict),
 /// 5xx / server, and a generic fallback for everything else.
 String mapErrorToMessage(Object? error) {
-  if (error is DioException) return _mapDio(error);
-  if (error is ApiException) return _mapApiException(error);
+  if (error is DioException) {
+    // One compact line per transport/HTTP failure. Only fields that are safe
+    // by construction — never the object itself: DioException.toString()
+    // embeds RequestOptions, i.e. the login body (plaintext password) and the
+    // Authorization header. No stack trace: a Dio failure's stack points at
+    // Dio's own construction site, so it would be noise on every 4xx.
+    errorMapperLogger.w(_describeDio(error));
+    return _mapDio(error);
+  }
+  if (error is ApiException) {
+    // Status code only: ApiException.message (and toString()) can embed the
+    // server's response body via ApiClient._extractErrorMessage, and
+    // .response holds the raw body outright.
+    errorMapperLogger.w(
+      'ApiException(statusCode: ${error.statusCode ?? '-'})',
+    );
+    return _mapApiException(error);
+  }
+  // A bare SocketException means "offline", which the returned message already
+  // says and the user already knows. Logging every one would be pure noise.
   if (error is SocketException) return errorNoInternet;
+  // The fallback is the loud one. A login outage once cost hours of
+  // print()-patching and rebuilds because a `_TypeError` ("type 'Null' is not
+  // a subtype of type 'String' in type cast", from a server that had started
+  // returning a null access_token) died here and reached the user as nothing
+  // but errorGeneric. A parse failure, a platform-channel failure and a null
+  // dereference must not be indistinguishable in the logs too — this is why
+  // the mapper is no longer a pure function.
+  errorMapperLogger.e(
+    'Unmapped error: ${error.runtimeType}',
+    error: error?.toString(),
+    stackTrace: error is Error ? error.stackTrace : null,
+  );
   return errorGeneric;
+}
+
+/// Logger used for the diagnostics above.
+///
+/// Deliberately built with a [ProductionFilter] rather than the package
+/// default ([DevelopmentFilter], which drops everything outside [kDebugMode]),
+/// unlike `ApiClient`'s `_LoggingInterceptor` — that one is debug-gated
+/// because it logs *every* request. This one only fires on failures and only
+/// ever emits sanitised fields, and the incident it exists for happened on a
+/// release build on a physical device, where a debug-only log is worth
+/// nothing.
+///
+/// Replaceable so tests can capture what was written.
+@visibleForTesting
+Logger errorMapperLogger = Logger(filter: ProductionFilter());
+
+/// Safe one-line summary of a [DioException] — explicitly enumerated fields,
+/// never `toString()`. Carries no request body, no headers, no response body.
+String _describeDio(DioException error) {
+  final statusCode = error.response?.statusCode;
+  return 'DioException(${error.type.name}) '
+      '${error.requestOptions.method} ${error.requestOptions.path}'
+      '${statusCode == null ? '' : ' → $statusCode'}';
 }
 
 /// "No internet / connection" — the device can't reach the network at all.
