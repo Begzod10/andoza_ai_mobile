@@ -86,11 +86,29 @@ RoomCreate roomToRoomCreate(client.Room room) {
 RoomCreate roomPlanToPolygonRoomCreate(RoomPlan plan, {String name = 'Xona'}) {
   final ceiling = _clamp(plan.ceilingHeightM, 1.8, 6.0);
 
+  // Same "must fit under the ceiling given its sill" clamp [roomToRoomCreate]
+  // applies — without it a scanned opening whose raw height (from RoomPlan,
+  // not backend-validated) exceeds the ceiling would 422 the whole room.
+  double openingHeight(double raw, double sill) =>
+      _clamp(raw, 0.3, (ceiling - sill - 0.01).clamp(0.3, 3.5));
+
   final walls = <WallCreate>[
     for (var i = 0; i < plan.walls.length; i++)
       WallCreate(
         id: '$i',
         length: _clamp(plan.walls[i].lengthM, 0.51, 24.9),
+        elements: [
+          for (final opening in plan.walls[i].openings)
+            WallElementCreate(
+              type: opening.type == 'window'
+                  ? WallElementType.deraza
+                  : WallElementType.eshik,
+              width: _clamp(opening.width, 0.3, 5.0),
+              height: openingHeight(opening.height, opening.sillHeight),
+              sillHeight: _clamp(opening.sillHeight, 0.0, 2.5),
+              position: _clamp(opening.position, 0.0, 1.0),
+            ),
+        ],
       ),
   ];
 
