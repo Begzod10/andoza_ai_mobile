@@ -196,18 +196,13 @@ void main() {
       expect(window.sillHeight, closeTo(0.8, 0.01));
     });
 
-    test('objects go to scanObjects, not into the room geometry', () {
-      expect(draft.objects, hasLength(2));
-      final cats = draft.objects.map((o) => o.category).toSet();
-      expect(cats, containsAll(<ScanObjectCategory>[
-        ScanObjectCategory.table,
-        ScanObjectCategory.chair,
-      ]));
-      final table = draft.objects.firstWhere(
-          (o) => o.category == ScanObjectCategory.table);
-      expect(table.width, closeTo(1.2, 0.01)); // dims.x
-      expect(table.depth, closeTo(0.8, 0.01)); // dims.z
-      expect(table.height, closeTo(0.75, 0.01)); // dims.y
+    test('furniture detection is dropped — objects is always empty', () {
+      // A LiDAR scan covers the room's own shape; furniture guesses from
+      // RoomPlan are deliberately not carried into the draft. The fixture
+      // still has 2 objects in its raw CapturedRoom (checked below, to prove
+      // this is a deliberate drop and not an accident of empty test data).
+      expect(_fixtureRoom().objects, hasLength(2));
+      expect(draft.objects, isEmpty);
     });
   });
 

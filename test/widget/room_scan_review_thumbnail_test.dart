@@ -84,7 +84,6 @@ void main() {
     final png = (await tester.runAsync(() => renderRoomScanThumbnailPng(
           corners: draft.plan.corners,
           walls: draft.plan.walls,
-          objects: draft.objects,
         )))!;
 
     expect(png, isNotEmpty);
@@ -98,8 +97,9 @@ void main() {
     expect(header.getUint32(0), 512);
     expect(header.getUint32(4), 512);
     // A drawn plan, not a blank canvas: a 512×512 flat fill compresses to a
-    // few hundred bytes, the floor/walls/16 object footprints to far more.
-    expect(png.length, greaterThan(2000));
+    // few hundred bytes, the floor/walls (no furniture — see
+    // RoomScanConverter) to somewhat more.
+    expect(png.length, greaterThan(500));
   });
 
   testWidgets('a failed thumbnail upload still opens the studio but warns',

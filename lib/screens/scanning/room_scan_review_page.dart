@@ -27,46 +27,10 @@ class RoomScanReviewArgs {
 
 const List<double> _ceilingChips = [2.5, 2.7, 2.8, 3.0, 3.2];
 
-/// Localized label for a scanned object category.
-String scanCategoryLabel(AppLocalizations l10n, ScanObjectCategory c) {
-  switch (c) {
-    case ScanObjectCategory.table:
-      return l10n.scanCategoryTable;
-    case ScanObjectCategory.chair:
-      return l10n.scanCategoryChair;
-    case ScanObjectCategory.sofa:
-      return l10n.scanCategorySofa;
-    case ScanObjectCategory.bed:
-      return l10n.scanCategoryBed;
-    case ScanObjectCategory.storage:
-      return l10n.scanCategoryStorage;
-    case ScanObjectCategory.refrigerator:
-      return l10n.scanCategoryRefrigerator;
-    case ScanObjectCategory.stove:
-      return l10n.scanCategoryStove;
-    case ScanObjectCategory.sink:
-      return l10n.scanCategorySink;
-    case ScanObjectCategory.toilet:
-      return l10n.scanCategoryToilet;
-    case ScanObjectCategory.bathtub:
-      return l10n.scanCategoryBathtub;
-    case ScanObjectCategory.washer:
-      return l10n.scanCategoryWasher;
-    case ScanObjectCategory.television:
-      return l10n.scanCategoryTelevision;
-    case ScanObjectCategory.fireplace:
-      return l10n.scanCategoryFireplace;
-    case ScanObjectCategory.stairs:
-      return l10n.scanCategoryStairs;
-    case ScanObjectCategory.other:
-      return l10n.scanCategoryOther;
-  }
-}
-
 /// Review + confirm a LiDAR-scanned room before creating the project: a 2-D
-/// top-down preview, an editable ceiling height, per-wall lengths and the list
-/// of detected objects. "Davom etish" persists the room (same handoff as the
-/// manual flow), uploads the scan artifacts, then opens the studio.
+/// top-down preview, an editable ceiling height and per-wall lengths.
+/// "Davom etish" persists the room (same handoff as the manual flow),
+/// uploads the scan artifacts, then opens the studio.
 class RoomScanReviewPage extends ConsumerStatefulWidget {
   const RoomScanReviewPage({required this.args, super.key});
 
@@ -82,7 +46,6 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
   bool _busy = false;
 
   RoomPlan get _plan => widget.args.draft.plan;
-  List<ScanObjectPlacement> get _objects => widget.args.draft.objects;
 
   @override
   void initState() {
@@ -139,7 +102,6 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
         final png = await renderRoomScanThumbnailPng(
           corners: plan.corners,
           walls: plan.walls,
-          objects: _objects,
         );
         await ref.read(roomScanServiceProvider).uploadThumbnail(roomId, png);
       } catch (e) {
@@ -149,10 +111,7 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
       router.pushReplacement('/studio/$roomId');
       // Non-blocking: the user is already in the studio; the root
       // ScaffoldMessenger keeps this snackbar visible across the transition so
-      // a silently lost mesh is at least noticed. Snackbars queue one at a
-      // time, so an upload/thumbnail failure always takes priority over the
-      // detected-objects notice below — a real problem must never be pushed
-      // back in the queue by a nice-to-have.
+      // a silently lost mesh is at least noticed.
       if (uploadError != null) {
         messenger.showSnackBar(
           SnackBar(content: Text(l10n.scanReviewUploadFailed(uploadError))),
@@ -161,20 +120,6 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
       if (thumbnailError != null) {
         messenger.showSnackBar(
           SnackBar(content: Text(l10n.scanReviewThumbnailFailed(thumbnailError))),
-        );
-      }
-      // Points the user at the studio's scan-overlay toggle (now on by
-      // default — see ThreeDPage.tsx's showScan initializer — so this is
-      // reinforcement, not the only way to notice the detection) rather than
-      // leaving detected furniture as a silent, easy-to-miss fact. Only shown
-      // when nothing above already needs the user's attention.
-      if (_objects.isNotEmpty && uploadError == null && thumbnailError == null) {
-        messenger.showSnackBar(
-          SnackBar(
-            content: Text(
-              l10n.scanReviewObjectsDetectedNotice(_objects.length),
-            ),
-          ),
         );
       }
     } catch (e) {
@@ -199,7 +144,6 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
             // later in the studio.
             ScanDetectionSummary(
               plan: _plan,
-              objects: _objects,
               room: widget.args.scan.room,
             ),
             const SizedBox(height: DesignTokens.spacingLg),
@@ -217,7 +161,6 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
                   painter: RoomScanPainter(
                     corners: corners,
                     walls: _plan.walls,
-                    objects: _objects,
                   ),
                 ),
               ),
@@ -259,30 +202,6 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
                   ],
                 ),
               ),
-            const SizedBox(height: DesignTokens.spacingLg),
-
-            // Detected objects.
-            Text(l10n.scanReviewObjects(_objects.length),
-                style: DesignTokens.subtitle2),
-            const SizedBox(height: DesignTokens.spacingXs),
-            if (_objects.isEmpty)
-              Text(l10n.scanReviewNoObjects,
-                  style: DesignTokens.caption.copyWith(color: DesignTokens.textMuted))
-            else
-              for (final o in _objects)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 2),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(scanCategoryLabel(l10n, o.category), style: DesignTokens.body2),
-                      Text(
-                        '${o.width.toStringAsFixed(2)}×${o.depth.toStringAsFixed(2)} m',
-                        style: DesignTokens.body2.copyWith(color: DesignTokens.textGray),
-                      ),
-                    ],
-                  ),
-                ),
             const SizedBox(height: DesignTokens.spacingXl),
 
             // Actions.
@@ -318,25 +237,25 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
   }
 }
 
-/// Compact "what we detected" summary: counts of walls / doors / windows /
-/// objects, a low-confidence warning, and — when RoomPlan reported no doors or
-/// no windows — a two-line hint that glass and open doorways are commonly
-/// missed and that a closer, slower rescan usually helps.
+/// Compact "what we detected" summary: counts of
+/// walls/doors/windows, a low-confidence warning, and — when RoomPlan
+/// reported no doors or no windows — a two-line hint that glass and open
+/// doorways are commonly missed and that a closer, slower rescan usually
+/// helps. Furniture is out of scope: a LiDAR scan is for the room's own
+/// shape, not what's in it (see [RoomScanConverter.toRoomDraft]).
 ///
-/// Counts come from the converted [plan]/[objects] (i.e. exactly what would be
-/// saved), while the confidence flag reads the raw [room], because
-/// [RoomOpening] carries no confidence field — the RoomPlan value survives only
-/// on the [CapturedRoom] that rides along on the scan result.
+/// Counts come from the converted [plan] (i.e. exactly what would be saved),
+/// while the confidence flag reads the raw [room], because [RoomOpening]
+/// carries no confidence field — the RoomPlan value survives only on the
+/// [CapturedRoom] that rides along on the scan result.
 class ScanDetectionSummary extends StatelessWidget {
   const ScanDetectionSummary({
     required this.plan,
-    required this.objects,
     required this.room,
     super.key,
   });
 
   final RoomPlan plan;
-  final List<ScanObjectPlacement> objects;
   final CapturedRoom room;
 
   int get _doors => _openings('door');
@@ -352,8 +271,7 @@ class ScanDetectionSummary extends StatelessWidget {
     return n;
   }
 
-  /// Items RoomPlan itself flagged as low-confidence, across every surface kind
-  /// and the detected objects.
+  /// Walls/doors/windows RoomPlan itself flagged as low-confidence.
   int get _lowConfidence {
     var n = 0;
     for (final s in [
@@ -363,9 +281,6 @@ class ScanDetectionSummary extends StatelessWidget {
       ...room.openings,
     ]) {
       if (s.confidence == ScanConfidence.low) n++;
-    }
-    for (final o in room.objects) {
-      if (o.confidence == ScanConfidence.low) n++;
     }
     return n;
   }
@@ -393,7 +308,6 @@ class ScanDetectionSummary extends StatelessWidget {
               _Count(count: plan.walls.length, label: l10n.scanReviewSummaryWalls),
               _Count(count: _doors, label: l10n.scanReviewSummaryDoors),
               _Count(count: _windows, label: l10n.scanReviewSummaryWindows),
-              _Count(count: objects.length, label: l10n.scanReviewSummaryObjects),
             ],
           ),
           if (low > 0) ...[
@@ -452,18 +366,17 @@ class _Count extends StatelessWidget {
   }
 }
 
-/// Draws a top-down floor plan of the scanned room: floor polygon, walls,
-/// openings (door = green, window = blue) and detected-object footprints.
+/// Draws a top-down floor plan of the scanned room: floor polygon, walls and
+/// openings (door = green, window = blue). Furniture is deliberately not
+/// drawn — a LiDAR scan covers the room's own shape, not what's in it.
 class RoomScanPainter extends CustomPainter {
   RoomScanPainter({
     required this.corners,
     required this.walls,
-    required this.objects,
   });
 
   final List<Vec2> corners;
   final List<RoomWall> walls;
-  final List<ScanObjectPlacement> objects;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -498,24 +411,6 @@ class RoomScanPainter extends CustomPainter {
     }
     path.close();
     canvas.drawPath(path, Paint()..color = const Color(0xFFE9ECF2));
-
-    // Object footprints (under the walls, above the floor).
-    final objFill = Paint()..color = const Color(0x33F59E0B);
-    final objStroke = Paint()
-      ..color = const Color(0xFFB77300)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1;
-    for (final o in objects) {
-      final centre = p(Vec2(o.x, o.y));
-      canvas.save();
-      canvas.translate(centre.dx, centre.dy);
-      canvas.rotate(-o.rotationRad); // screen Y is flipped
-      final w = o.width * scale, d = o.depth * scale;
-      final rect = Rect.fromCenter(center: Offset.zero, width: w, height: d);
-      canvas.drawRect(rect, objFill);
-      canvas.drawRect(rect, objStroke);
-      canvas.restore();
-    }
 
     // Walls + openings.
     final wallPaint = Paint()
@@ -554,7 +449,7 @@ class RoomScanPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant RoomScanPainter old) =>
-      old.corners != corners || old.walls != walls || old.objects != objects;
+      old.corners != corners || old.walls != walls;
 }
 
 /// Renders the same top-down plan the review screen shows into a square PNG,
@@ -567,7 +462,6 @@ class RoomScanPainter extends CustomPainter {
 Future<Uint8List> renderRoomScanThumbnailPng({
   required List<Vec2> corners,
   required List<RoomWall> walls,
-  required List<ScanObjectPlacement> objects,
   int size = 512,
 }) async {
   final side = size.toDouble();
@@ -579,8 +473,7 @@ Future<Uint8List> renderRoomScanThumbnailPng({
     Rect.fromLTWH(0, 0, side, side),
     Paint()..color = const Color(0xFFF7F8FA),
   );
-  RoomScanPainter(corners: corners, walls: walls, objects: objects)
-      .paint(canvas, Size(side, side));
+  RoomScanPainter(corners: corners, walls: walls).paint(canvas, Size(side, side));
   final picture = recorder.endRecording();
   try {
     final image = await picture.toImage(size, size);

@@ -37,7 +37,7 @@ Future<void> _pump(WidgetTester tester, CapturedRoom room) async {
 }
 
 void main() {
-  testWidgets('the summary reports the detected walls, door, window and objects',
+  testWidgets('the summary reports the detected walls, door and window — no furniture count',
       (tester) async {
     await _pump(
       tester,
@@ -53,7 +53,9 @@ void main() {
     expect(find.text('5 Devor'), findsOneWidget);
     expect(find.text('1 Eshik'), findsOneWidget);
     expect(find.text('1 Deraza'), findsOneWidget);
-    expect(find.text('16 Buyum'), findsOneWidget);
+    // Furniture detection is dropped — the summary never shows an object
+    // count, even though the raw scan carried 16 of them.
+    expect(find.text('16 Buyum'), findsNothing);
     // Both openings were found, so the rescan hint stays out of the way.
     expect(find.textContaining('Shisha va ochiq eshiklar'), findsNothing);
   });

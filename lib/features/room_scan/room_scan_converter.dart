@@ -158,26 +158,13 @@ class RoomScanConverter {
     // 6. Assemble the RoomPlan (corners + walls carrying their openings).
     final plan = _assemble(corners, openingsPerWall, ceiling, source, name);
 
-    // 7. Objects → separate scanObjects payload. Same low-confidence skip as
-    //    doors/windows/openings above — a furniture guess RoomPlan itself
-    //    isn't sure about shouldn't land in the room as if it were.
-    final objects = <ScanObjectPlacement>[
-      for (final o in room.objects)
-        if (o.confidence != ScanConfidence.low)
-        () {
-          final c = _worldToPlane(o.transform) - origin;
-          return ScanObjectPlacement(
-            category: o.category,
-            x: c.x,
-            y: c.y,
-            width: o.dimensions.x,
-            depth: o.dimensions.z,
-            height: o.dimensions.y,
-            rotationRad: o.transform.yRotationRad,
-            confidence: o.confidence,
-          );
-        }(),
-    ];
+    // 7. Furniture detection is deliberately dropped: a LiDAR scan is for the
+    //    room's own shape (walls, doors, windows), and RoomPlan's furniture
+    //    guesses — boxy, often-wrong placeholders the review screen and
+    //    studio had to render as "ghost" boxes to avoid passing off as real
+    //    models — just aren't part of that job. `room.objects` is otherwise
+    //    unused from here down.
+    const objects = <ScanObjectPlacement>[];
 
     return RoomScanDraft(plan: plan, objects: objects);
   }
