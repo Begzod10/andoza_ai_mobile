@@ -174,12 +174,12 @@ final class RoomScanViewController: UIViewController {
 
   static func uzbekInstruction(_ instruction: RoomCaptureSession.Instruction) -> String {
     switch instruction {
-    case .moveCloseToWall: return "Devorga yaqinroq boring"
-    case .moveAwayFromWall: return "Devordan biroz uzoqlashing"
-    case .slowDown: return "Sekinroq harakatlaning"
-    case .turnOnLight: return "Yorug'likni yoqing"
-    case .lowTexture: return "Yuzada naqsh yetarli emas — boshqa joyga qarating"
-    case .normal: return "Yaxshi — xonani aylanishda davom eting"
+    case .moveCloseToWall: return "Telefonni devorga yaqinroq tuting"
+    case .moveAwayFromWall: return "Telefonni devordan birozroq uzoqlashtiring"
+    case .slowDown: return "Juda tez harakatlanyapsiz — sekinroq aylaning"
+    case .turnOnLight: return "Xona qorong'i — yorug'likni yoqing"
+    case .lowTexture: return "Bu yuza silliq/bir xil — kamerani boshqa tomonga burang"
+    case .normal: return "Zo'r ketyapti — xonani shu tezlikda aylanib chiqing"
     @unknown default: return "Skanerlashda davom eting"
     }
   }

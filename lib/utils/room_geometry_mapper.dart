@@ -99,15 +99,26 @@ RoomCreate roomPlanToPolygonRoomCreate(RoomPlan plan, {String name = 'Xona'}) {
         length: _clamp(plan.walls[i].lengthM, 0.51, 24.9),
         elements: [
           for (final opening in plan.walls[i].openings)
-            WallElementCreate(
-              type: opening.type == 'window'
-                  ? WallElementType.deraza
-                  : WallElementType.eshik,
-              width: _clamp(opening.width, 0.3, 5.0),
-              height: openingHeight(opening.height, opening.sillHeight),
-              sillHeight: _clamp(opening.sillHeight, 0.0, 2.5),
-              position: _clamp(opening.position, 0.0, 1.0),
-            ),
+            () {
+              // The height bound MUST be computed from the same sill value
+              // that actually gets stored below — using the raw (unclamped)
+              // sill here let a noisy scan (e.g. a slightly negative sill
+              // from the floor-plane estimate) compute a too-generous height
+              // ceiling, while the stored sill clamped up to 0.0. The two
+              // disagreeing meant `height + sill_height` could still exceed
+              // ceiling_h after clamping — exactly the 422 this clamp exists
+              // to prevent, just reintroduced through the back door.
+              final sill = _clamp(opening.sillHeight, 0.0, 2.5);
+              return WallElementCreate(
+                type: opening.type == 'window'
+                    ? WallElementType.deraza
+                    : WallElementType.eshik,
+                width: _clamp(opening.width, 0.3, 5.0),
+                height: openingHeight(opening.height, sill),
+                sillHeight: sill,
+                position: _clamp(opening.position, 0.0, 1.0),
+              );
+            }(),
         ],
       ),
   ];

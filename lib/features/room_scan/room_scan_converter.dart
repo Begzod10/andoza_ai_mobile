@@ -121,6 +121,14 @@ class RoomScanConverter {
         List<List<RoomOpening>>.generate(corners.length, (_) => <RoomOpening>[]);
     if (corners.length >= 3) {
       void assign(ScanSurface s, String type) {
+        // RoomPlan still reports a low-confidence hit when it noticed
+        // *something* (glass, a reflection, poor lighting) but isn't sure it
+        // was really a door/window — folding those into the plan as if they
+        // were solid detections used to plant openings that were never
+        // there. Skipping them trades a few missed real openings (rare: a
+        // genuine opening in good scan conditions is normally medium/high)
+        // for far fewer fabricated ones.
+        if (s.confidence == ScanConfidence.low) return;
         final centre = _worldToPlane(s.transform) - origin;
         final hit = _nearestWall(corners, centre);
         if (hit == null) return;
@@ -150,9 +158,12 @@ class RoomScanConverter {
     // 6. Assemble the RoomPlan (corners + walls carrying their openings).
     final plan = _assemble(corners, openingsPerWall, ceiling, source, name);
 
-    // 7. Objects → separate scanObjects payload.
+    // 7. Objects → separate scanObjects payload. Same low-confidence skip as
+    //    doors/windows/openings above — a furniture guess RoomPlan itself
+    //    isn't sure about shouldn't land in the room as if it were.
     final objects = <ScanObjectPlacement>[
       for (final o in room.objects)
+        if (o.confidence != ScanConfidence.low)
         () {
           final c = _worldToPlane(o.transform) - origin;
           return ScanObjectPlacement(
