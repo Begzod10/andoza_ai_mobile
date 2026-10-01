@@ -41,6 +41,7 @@ dependencies:
 
   # Maps (Batch U — Ustalar craftsman marketplace)
   flutter_map: ^7.0.2
+  flutter_map_marker_cluster: ^1.4.0
   latlong2: ^0.9.1
 
   # State Management
@@ -76,6 +77,9 @@ dependencies:
   # Disk-cached network images (marketplace/thumbnail images) — avoids
   # re-downloading on every cold scroll (raw Image.network is memory-only)
   cached_network_image: ^3.4.1
+  url_launcher: ^6.3.2
+  shared_preferences: ^2.5.5
+  package_info_plus: ^9.0.1
 
 dev_dependencies:
   flutter_test:

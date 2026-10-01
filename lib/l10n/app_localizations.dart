@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_en.dart';
+import 'app_localizations_ru.dart';
 import 'app_localizations_uz.dart';
 
 // ignore_for_file: type=lint
@@ -92,7 +94,11 @@ abstract class AppLocalizations {
       ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('uz')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('ru'),
+    Locale('uz'),
+  ];
 
   /// Product name. Shown as the login screen heading and used as the app's brand label.
   ///
@@ -544,17 +550,11 @@ abstract class AppLocalizations {
   /// **'Loyihalarni yuklab bo\'lmadi'**
   String get homeProjectsLoadError;
 
-  /// Home (with projects): 'Your projects' section title.
+  /// Home (with projects): button revealing the next page of project cards.
   ///
   /// In uz, this message translates to:
-  /// **'Loyihalaringiz'**
-  String get homeYourProjects;
-
-  /// Home (with projects): 'See all' link opening the full project list.
-  ///
-  /// In uz, this message translates to:
-  /// **'Barchasi'**
-  String get homeSeeAll;
+  /// **'Yana ko\'rsatish'**
+  String get homeLoadMore;
 
   /// Home (with projects): progress legend for stages that already existed and are not counted.
   ///
@@ -615,6 +615,48 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Bosqichni saqlab bo\'lmadi'**
   String get homeStageSaveError;
+
+  /// Home (with projects): room count shown under a project's name (hero card and list rows).
+  ///
+  /// In uz, this message translates to:
+  /// **'{count} xona'**
+  String homeRoomCount(int count);
+
+  /// Home (with projects): stat-chip label for the room's floor area.
+  ///
+  /// In uz, this message translates to:
+  /// **'Maydon'**
+  String get homeStatAreaLabel;
+
+  /// Home (with projects): stat-chip label for the count of placed 3D furniture models.
+  ///
+  /// In uz, this message translates to:
+  /// **'3D model'**
+  String get homeStatModelsLabel;
+
+  /// Home (with projects): stat-chip label for the room's cost estimate.
+  ///
+  /// In uz, this message translates to:
+  /// **'Smeta'**
+  String get homeStatEstimateLabel;
+
+  /// Home (with projects): floor-area stat-chip value, e.g. "24.5 m²".
+  ///
+  /// In uz, this message translates to:
+  /// **'{area} m²'**
+  String homeAreaValue(String area);
+
+  /// Home (with projects): estimate stat-chip value in millions of UZS, e.g. "12.4 mln".
+  ///
+  /// In uz, this message translates to:
+  /// **'{amount} mln'**
+  String homeEstimateMln(String amount);
+
+  /// Home (with projects): stat-chip value shown when the room has no data for that stat yet.
+  ///
+  /// In uz, this message translates to:
+  /// **'—'**
+  String get homeStatDash;
 
   /// Renovation stage name: plastering (suvoq).
   ///
@@ -694,36 +736,6 @@ abstract class AppLocalizations {
   /// **'Barchasi'**
   String get shopFilterAll;
 
-  /// S1 shop home: small uppercase eyebrow label on the project banner ('YOUR PROJECT').
-  ///
-  /// In uz, this message translates to:
-  /// **'SIZNING LOYIHANGIZ'**
-  String get shopProjectBannerLabel;
-
-  /// S1 shop home: project banner title line ('For your living-room project').
-  ///
-  /// In uz, this message translates to:
-  /// **'Mehmonxona loyihangiz uchun'**
-  String get shopProjectBannerTitle;
-
-  /// S1 shop home: project banner line stating how many material types are needed.
-  ///
-  /// In uz, this message translates to:
-  /// **'{count} turdagi material kerak'**
-  String shopProjectBannerCount(int count);
-
-  /// S1 shop home: project banner line while the required materials are still being computed.
-  ///
-  /// In uz, this message translates to:
-  /// **'Loyiha materiallari hisoblanmoqda'**
-  String get shopProjectBannerCalculating;
-
-  /// S1 shop home: 'See all →' link on the project banner opening the materials list.
-  ///
-  /// In uz, this message translates to:
-  /// **'Hammasini ko\'rish →'**
-  String get shopSeeAllArrow;
-
   /// Shop: small tag on product cards/rows marking an item the active project needs (S1 and E10).
   ///
   /// In uz, this message translates to:
@@ -742,11 +754,23 @@ abstract class AppLocalizations {
   /// **'App loyihangiz asosida avtomatik hisobladi — {area} m², {count} bosqich'**
   String shopMaterialsAutoCalc(String area, int count);
 
-  /// S2 project materials: sticky button that adds every required material to the cart.
+  /// S2 project materials: sticky button that adds every checked material to the cart.
   ///
   /// In uz, this message translates to:
-  /// **'Hammasini savatga'**
+  /// **'Tanlanganlarni savatga'**
   String get shopAddAllToCart;
+
+  /// S2 project materials: label above the room picker chips.
+  ///
+  /// In uz, this message translates to:
+  /// **'Qaysi xona uchun?'**
+  String get shopSelectRoomLabel;
+
+  /// S2 project materials: count of checked materials shown in the totals bar.
+  ///
+  /// In uz, this message translates to:
+  /// **'{count} ta tanlandi'**
+  String shopSelectedCount(int count);
 
   /// S3 product detail: badge shown when the product is sold by an official dealer.
   ///
@@ -789,6 +813,12 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Qayerdan olish — {name}'**
   String shopWhereToBuy(String name);
+
+  /// S3 product detail: small caption under the headline price, naming which dealer that price is from (the auto-selected cheapest dealer, not necessarily the product's catalog brand).
+  ///
+  /// In uz, this message translates to:
+  /// **'{dealer} narxi'**
+  String shopPriceFromDealer(String dealer);
 
   /// Shop: snackbar confirming an item was added to the cart (S3, S4, E10).
   ///
@@ -1048,6 +1078,12 @@ abstract class AppLocalizations {
   /// **'Portfolio'**
   String get mastersPortfolio;
 
+  /// U4 master profile: empty state shown when the master has no portfolio photos.
+  ///
+  /// In uz, this message translates to:
+  /// **'Hali portfolio surat qo\'shilmagan'**
+  String get mastersPortfolioEmpty;
+
   /// U4 master profile: services section title.
   ///
   /// In uz, this message translates to:
@@ -1222,12 +1258,6 @@ abstract class AppLocalizations {
   /// **'O\'zbekcha'**
   String get profileLanguageUzbek;
 
-  /// E5 projects: FAB label to start a new project ('New project').
-  ///
-  /// In uz, this message translates to:
-  /// **'Yangi loyiha'**
-  String get profileNewProject;
-
   /// E5 projects: filter chip / status badge for ongoing projects.
   ///
   /// In uz, this message translates to:
@@ -1275,6 +1305,30 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Do\'kondan xarid qilganingizda shu yerda ko\'rinadi'**
   String get profileOrdersEmptyMessage;
+
+  /// Order status: order accepted.
+  ///
+  /// In uz, this message translates to:
+  /// **'Qabul qilindi'**
+  String get orderStepAccepted;
+
+  /// Order status: items being gathered.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yig\'ilmoqda'**
+  String get orderStepGathering;
+
+  /// Order status: order out for delivery.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yo\'lda'**
+  String get orderStepOnTheWay;
+
+  /// Order status: order delivered.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yetkazildi'**
+  String get orderStepDelivered;
 
   /// E11 saved designs: empty state title ('No saved designs').
   ///
@@ -1473,6 +1527,24 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Xonangiz shu holatda — {condition}. Endi bosqichma-bosqich bezaymiz.'**
   String designRoomEntryIntro(String condition);
+
+  /// B2 room entry: wall condition label for the raw/bare-shell state, used inside designRoomEntryIntro.
+  ///
+  /// In uz, this message translates to:
+  /// **'korobka holatida'**
+  String get designConditionRaw;
+
+  /// B2 room entry: wall condition label for the plastered state, used inside designRoomEntryIntro.
+  ///
+  /// In uz, this message translates to:
+  /// **'suvoq qilingan'**
+  String get designConditionPlastered;
+
+  /// B2 room entry: wall condition label for the puttied state, used inside designRoomEntryIntro.
+  ///
+  /// In uz, this message translates to:
+  /// **'shpaklovka qilingan'**
+  String get designConditionPuttied;
 
   /// B3 decoration rail: success toast after applying a paint/putty swatch to the wall.
   ///
@@ -1930,6 +2002,12 @@ abstract class AppLocalizations {
   /// **'Studio yuklanmadi: {error}'**
   String studioLoadFailed(String error);
 
+  /// Studio WebView: default app-bar title when no room-specific title is given.
+  ///
+  /// In uz, this message translates to:
+  /// **'3D Studio'**
+  String get studioWebViewTitle;
+
   /// Generic 'Add' button label used in the add-room dialog.
   ///
   /// In uz, this message translates to:
@@ -2203,7 +2281,7 @@ abstract class AppLocalizations {
   /// New-project entry: 3D wizard title.
   ///
   /// In uz, this message translates to:
-  /// **'3D Sehrgar'**
+  /// **'3D Master'**
   String get newProjectWizardTitle;
 
   /// New-project entry: 3D wizard description.
@@ -2295,6 +2373,42 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'+ Yangi xona qo\'shish'**
   String get summaryAddRoom;
+
+  /// Default name given to a newly measured room/project, used until the user renames it.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mehmonxona ta\'miri'**
+  String get roomSetupDefaultProjectName;
+
+  /// Wall measurements screen: app-bar title for wall A.
+  ///
+  /// In uz, this message translates to:
+  /// **'Devor A'**
+  String get roomSetupWallLabelA;
+
+  /// Wall measurements screen: app-bar title for wall B.
+  ///
+  /// In uz, this message translates to:
+  /// **'Devor B'**
+  String get roomSetupWallLabelB;
+
+  /// Wall measurements screen: app-bar title for wall C.
+  ///
+  /// In uz, this message translates to:
+  /// **'Devor C'**
+  String get roomSetupWallLabelC;
+
+  /// Wall measurements screen: app-bar title for wall D.
+  ///
+  /// In uz, this message translates to:
+  /// **'Devor D'**
+  String get roomSetupWallLabelD;
+
+  /// Wall measurements screen: generic app-bar title fallback for an unknown wall type.
+  ///
+  /// In uz, this message translates to:
+  /// **'Devor'**
+  String get roomSetupWallLabelFallback;
 
   /// 3D room wizard app bar title ('New room').
   ///
@@ -2476,6 +2590,12 @@ abstract class AppLocalizations {
   /// **'Buyum topilmadi'**
   String get scanReviewNoObjects;
 
+  /// Room-scan review: snackbar shown right after continuing to the studio, when the scan detected at least one object, pointing the user at the studio's scan-overlay toggle so the detection isn't missed.
+  ///
+  /// In uz, this message translates to:
+  /// **'{count} ta buyum aniqlandi — Studio\'da \"Skan ko\'rinishi\"da ko\'rasiz'**
+  String scanReviewObjectsDetectedNotice(int count);
+
   /// Room-scan review: re-scan button.
   ///
   /// In uz, this message translates to:
@@ -2553,6 +2673,126 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Xatolik: {error}'**
   String scanReviewError(String error);
+
+  /// Room-scan review: ceiling-height choice chip label, e.g. '2.7 m'.
+  ///
+  /// In uz, this message translates to:
+  /// **'{h} m'**
+  String scanReviewCeilingHeightValue(String h);
+
+  /// Dialog title offered at app start when a LiDAR scan was interrupted before being saved.
+  ///
+  /// In uz, this message translates to:
+  /// **'Tugallanmagan skan topildi'**
+  String get pendingScanTitle;
+
+  /// Dialog body for the resume-interrupted-scan prompt.
+  ///
+  /// In uz, this message translates to:
+  /// **'Siz oldin xonani skanerlagansiz, lekin \"Davom etish\"ni bosmasdan chiqib ketgansiz. Davom ettiramizmi?'**
+  String get pendingScanBody;
+
+  /// Resume-interrupted-scan dialog: button to go back to the review screen.
+  ///
+  /// In uz, this message translates to:
+  /// **'Davom etish'**
+  String get pendingScanResume;
+
+  /// Resume-interrupted-scan dialog: button to discard the saved scan.
+  ///
+  /// In uz, this message translates to:
+  /// **'Bekor qilish'**
+  String get pendingScanDiscard;
+
+  /// Detected-object category label: table.
+  ///
+  /// In uz, this message translates to:
+  /// **'Stol'**
+  String get scanCategoryTable;
+
+  /// Detected-object category label: chair.
+  ///
+  /// In uz, this message translates to:
+  /// **'Stul'**
+  String get scanCategoryChair;
+
+  /// Detected-object category label: sofa.
+  ///
+  /// In uz, this message translates to:
+  /// **'Divan'**
+  String get scanCategorySofa;
+
+  /// Detected-object category label: bed.
+  ///
+  /// In uz, this message translates to:
+  /// **'Karavot'**
+  String get scanCategoryBed;
+
+  /// Detected-object category label: storage (cabinet/wardrobe).
+  ///
+  /// In uz, this message translates to:
+  /// **'Shkaf'**
+  String get scanCategoryStorage;
+
+  /// Detected-object category label: refrigerator.
+  ///
+  /// In uz, this message translates to:
+  /// **'Muzlatgich'**
+  String get scanCategoryRefrigerator;
+
+  /// Detected-object category label: stove.
+  ///
+  /// In uz, this message translates to:
+  /// **'Plita'**
+  String get scanCategoryStove;
+
+  /// Detected-object category label: sink.
+  ///
+  /// In uz, this message translates to:
+  /// **'Rakovina'**
+  String get scanCategorySink;
+
+  /// Detected-object category label: toilet.
+  ///
+  /// In uz, this message translates to:
+  /// **'Unitaz'**
+  String get scanCategoryToilet;
+
+  /// Detected-object category label: bathtub.
+  ///
+  /// In uz, this message translates to:
+  /// **'Vanna'**
+  String get scanCategoryBathtub;
+
+  /// Detected-object category label: washing machine.
+  ///
+  /// In uz, this message translates to:
+  /// **'Kir yuvish mashinasi'**
+  String get scanCategoryWasher;
+
+  /// Detected-object category label: television.
+  ///
+  /// In uz, this message translates to:
+  /// **'Televizor'**
+  String get scanCategoryTelevision;
+
+  /// Detected-object category label: fireplace.
+  ///
+  /// In uz, this message translates to:
+  /// **'Kamin'**
+  String get scanCategoryFireplace;
+
+  /// Detected-object category label: stairs.
+  ///
+  /// In uz, this message translates to:
+  /// **'Zina'**
+  String get scanCategoryStairs;
+
+  /// Detected-object category label: fallback for an unrecognized category.
+  ///
+  /// In uz, this message translates to:
+  /// **'Boshqa'**
+  String get scanCategoryOther;
 
   /// Room-scan screen error: a scan is already running.
   ///
@@ -2734,6 +2974,18 @@ abstract class AppLocalizations {
   /// **'Xabar yuborish'**
   String get a11yMessageDealer;
 
+  /// S7 order confirmation: snackbar shown when tapping the dealer's call button before it's wired up.
+  ///
+  /// In uz, this message translates to:
+  /// **'{dealer}: telefon raqami hali mavjud emas'**
+  String shopDealerPhoneUnavailable(String dealer);
+
+  /// S7 order confirmation: snackbar shown when tapping the dealer's message button before it's wired up.
+  ///
+  /// In uz, this message translates to:
+  /// **'{dealer} bilan xabar almashish hali mavjud emas'**
+  String shopDealerMessageUnavailable(String dealer);
+
   /// Accessibility label for the icon-only edit button next to the profile name.
   ///
   /// In uz, this message translates to:
@@ -2745,6 +2997,264 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Ro\'yxat ko\'rinishi'**
   String get a11yMastersListView;
+
+  /// E9 preferences screen: AppBar title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Sozlamalar'**
+  String get settingsScreenTitle;
+
+  /// E9 preferences screen: 'Notifications' section header.
+  ///
+  /// In uz, this message translates to:
+  /// **'Bildirishnomalar'**
+  String get settingsNotificationsSectionTitle;
+
+  /// E9 preferences screen: push notifications toggle title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Push-bildirishnomalar'**
+  String get settingsPushNotificationsTitle;
+
+  /// E9 preferences screen: push notifications toggle subtitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Loyihalar va pudratchilar haqida yangiliklarni oling'**
+  String get settingsPushNotificationsSubtitle;
+
+  /// E9 preferences screen: email digest toggle title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Elektron pochta xulosasi'**
+  String get settingsEmailDigestTitle;
+
+  /// E9 preferences screen: email digest toggle subtitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Loyihalaringiz bo\'yicha haftalik xulosa'**
+  String get settingsEmailDigestSubtitle;
+
+  /// E9 preferences screen: marketing emails toggle title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Reklama xabarlari'**
+  String get settingsMarketingEmailsTitle;
+
+  /// E9 preferences screen: marketing emails toggle subtitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yangi imkoniyatlar va takliflar haqida xabarlar'**
+  String get settingsMarketingEmailsSubtitle;
+
+  /// E9 preferences screen: 'Units & Display' section header.
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'lchov birliklari va ekran'**
+  String get settingsUnitsDisplaySectionTitle;
+
+  /// E9 preferences screen: measurement units dropdown label.
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'lchov birliklari'**
+  String get settingsMeasurementUnitsTitle;
+
+  /// E9 preferences screen: metric unit system dropdown option.
+  ///
+  /// In uz, this message translates to:
+  /// **'Metrik (m²)'**
+  String get settingsUnitMetric;
+
+  /// E9 preferences screen: imperial unit system dropdown option.
+  ///
+  /// In uz, this message translates to:
+  /// **'Imperial (ft²)'**
+  String get settingsUnitImperial;
+
+  /// E9 preferences screen: theme dropdown label.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mavzu'**
+  String get settingsThemeTitle;
+
+  /// E9 preferences screen: light theme dropdown option.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yorug\''**
+  String get settingsThemeLight;
+
+  /// E9 preferences screen: dark theme dropdown option.
+  ///
+  /// In uz, this message translates to:
+  /// **'Qorong\'i'**
+  String get settingsThemeDark;
+
+  /// E9 preferences screen: system theme dropdown option.
+  ///
+  /// In uz, this message translates to:
+  /// **'Tizim'**
+  String get settingsThemeSystem;
+
+  /// E9 preferences screen: large text toggle title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Katta matn'**
+  String get settingsLargeTextTitle;
+
+  /// E9 preferences screen: large text toggle subtitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'qishni qulaylashtirish uchun matn hajmini kattalashtiring'**
+  String get settingsLargeTextSubtitle;
+
+  /// E9 preferences screen: 'Project Settings' section header.
+  ///
+  /// In uz, this message translates to:
+  /// **'Loyiha sozlamalari'**
+  String get settingsProjectSettingsSectionTitle;
+
+  /// E9 preferences screen: auto-save toggle title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Loyihalarni avtomatik saqlash'**
+  String get settingsAutoSaveTitle;
+
+  /// E9 preferences screen: auto-save toggle subtitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ishingiz jarayonida avtomatik ravishda saqlanadi'**
+  String get settingsAutoSaveSubtitle;
+
+  /// E9 preferences screen: cloud sync toggle title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Bulutli sinxronizatsiya'**
+  String get settingsCloudSyncTitle;
+
+  /// E9 preferences screen: cloud sync toggle subtitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Loyihalarni barcha qurilmalaringizda sinxronlang'**
+  String get settingsCloudSyncSubtitle;
+
+  /// E9 preferences screen: snackbar shown after turning cloud sync on.
+  ///
+  /// In uz, this message translates to:
+  /// **'Cloud sync yoqildi'**
+  String get settingsCloudSyncEnabledMessage;
+
+  /// E9 preferences screen: snackbar shown after turning cloud sync off.
+  ///
+  /// In uz, this message translates to:
+  /// **'Cloud sync o\'chirildi'**
+  String get settingsCloudSyncDisabledMessage;
+
+  /// E9 preferences screen: clear cache action tile title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Keshni tozalash'**
+  String get settingsClearCacheTitle;
+
+  /// E9 preferences screen: clear cache action tile subtitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xotiradagi bo\'sh joyni ko\'paytiring'**
+  String get settingsClearCacheSubtitle;
+
+  /// E9 preferences screen: clear cache action tile subtitle while the cache clear is in progress.
+  ///
+  /// In uz, this message translates to:
+  /// **'Tozalanmoqda...'**
+  String get settingsClearingCacheInProgress;
+
+  /// E9 preferences screen: snackbar shown after cache is cleared successfully.
+  ///
+  /// In uz, this message translates to:
+  /// **'Kesh tozalandi'**
+  String get settingsCacheClearedMessage;
+
+  /// E9 preferences screen: snackbar shown when clearing the cache fails.
+  ///
+  /// In uz, this message translates to:
+  /// **'Keshni tozalab bo\'lmadi: {error}'**
+  String settingsCacheClearFailedMessage(String error);
+
+  /// E9 preferences screen: 'Privacy & Security' section header.
+  ///
+  /// In uz, this message translates to:
+  /// **'Maxfiylik va xavfsizlik'**
+  String get settingsPrivacySecuritySectionTitle;
+
+  /// E9 preferences screen: privacy policy action tile title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Maxfiylik siyosati'**
+  String get settingsPrivacyPolicyTitle;
+
+  /// E9 preferences screen: privacy policy action tile subtitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Maxfiylik siyosatimiz bilan tanishing'**
+  String get settingsPrivacyPolicySubtitle;
+
+  /// E9 preferences screen: terms of service action tile title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Foydalanish shartlari'**
+  String get settingsTermsOfServiceTitle;
+
+  /// E9 preferences screen: terms of service action tile subtitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Shartlar va qoidalarni ko\'rib chiqing'**
+  String get settingsTermsOfServiceSubtitle;
+
+  /// E9 preferences screen: snackbar shown when a privacy/terms link fails to open.
+  ///
+  /// In uz, this message translates to:
+  /// **'Havolani ochib bo\'lmadi: {url}'**
+  String settingsLinkOpenFailedMessage(String url);
+
+  /// E9 preferences screen: 'About' section header.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ilova haqida'**
+  String get settingsAboutSectionTitle;
+
+  /// E9 preferences screen: app version row label.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ilova versiyasi'**
+  String get settingsAppVersionLabel;
+
+  /// E9 preferences screen: build number row label.
+  ///
+  /// In uz, this message translates to:
+  /// **'Build raqami'**
+  String get settingsBuildNumberLabel;
+
+  /// E9 preferences screen: 'Check for Updates' button.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yangilanishlarni tekshirish'**
+  String get settingsCheckForUpdatesButton;
+
+  /// E9 preferences screen: check-for-updates dialog title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yangilanishlar'**
+  String get settingsUpdatesDialogTitle;
+
+  /// E9 preferences screen: check-for-updates dialog body.
+  ///
+  /// In uz, this message translates to:
+  /// **'Siz ilovaning eng so\'nggi versiyasidasiz.'**
+  String get settingsUpdatesDialogBody;
+
+  /// E9 preferences screen: check-for-updates dialog dismiss button.
+  ///
+  /// In uz, this message translates to:
+  /// **'OK'**
+  String get settingsUpdatesDialogOk;
 }
 
 class _AppLocalizationsDelegate
@@ -2758,7 +3268,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['uz'].contains(locale.languageCode);
+      <String>['en', 'ru', 'uz'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -2767,6 +3277,10 @@ class _AppLocalizationsDelegate
 AppLocalizations lookupAppLocalizations(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'en':
+      return AppLocalizationsEn();
+    case 'ru':
+      return AppLocalizationsRu();
     case 'uz':
       return AppLocalizationsUz();
   }

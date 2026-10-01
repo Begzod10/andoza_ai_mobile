@@ -1448,6 +1448,19 @@ class AppLocalizationsUz extends AppLocalizations {
   }
 
   @override
+  String get pendingScanTitle => 'Tugallanmagan skan topildi';
+
+  @override
+  String get pendingScanBody =>
+      'Siz oldin xonani skanerlagansiz, lekin \"Davom etish\"ni bosmasdan chiqib ketgansiz. Davom ettiramizmi?';
+
+  @override
+  String get pendingScanResume => 'Davom etish';
+
+  @override
+  String get pendingScanDiscard => 'Bekor qilish';
+
+  @override
   String get scanCategoryTable => 'Stol';
 
   @override

@@ -1,65 +1,61 @@
 {
-  "@@locale": "uz",
-
+  "@@locale": "en",
   "appTitle": "Andoza AI",
   "@appTitle": {
     "description": "Product name. Shown as the login screen heading and used as the app's brand label."
   },
-
-  "actionRetry": "Qayta urinish",
+  "actionRetry": "Retry",
   "@actionRetry": {
     "description": "Retry. Button on error views that re-attempts the failed action."
   },
-  "actionBack": "Orqaga",
+  "actionBack": "Back",
   "@actionBack": {
     "description": "Back. Navigates to the previous screen/step."
   },
-  "actionNext": "Keyingi",
+  "actionNext": "Next",
   "@actionNext": {
     "description": "Next. Advances to the next screen/step."
   },
-  "actionContinue": "Davom etish",
+  "actionContinue": "Continue",
   "@actionContinue": {
     "description": "Continue. Proceeds with the current flow."
   },
-  "actionCancel": "Bekor qilish",
+  "actionCancel": "Cancel",
   "@actionCancel": {
     "description": "Cancel. Dismisses a dialog/sheet without applying changes."
   },
-  "actionSave": "Saqlash",
+  "actionSave": "Save",
   "@actionSave": {
     "description": "Save. Persists the current changes/selection."
   },
-  "actionClose": "Yopish",
+  "actionClose": "Close",
   "@actionClose": {
     "description": "Close. Dismisses a sheet, dialog or overlay."
   },
-  "actionDone": "Tayyor",
+  "actionDone": "Done",
   "@actionDone": {
     "description": "Done. Confirms completion of a step/action."
   },
-  "actionFinish": "Yakunlash",
+  "actionFinish": "Finish",
   "@actionFinish": {
     "description": "Finish. Completes a multi-step flow."
   },
-
-  "navHome": "Uy",
+  "navHome": "Home",
   "@navHome": {
     "description": "Bottom navigation tab: Home."
   },
-  "navShop": "Do'kon",
+  "navShop": "Shop",
   "@navShop": {
     "description": "Bottom navigation tab: Shop (materials marketplace)."
   },
-  "navMasters": "Ustalar",
+  "navMasters": "Masters",
   "@navMasters": {
     "description": "Bottom navigation tab: Masters (craftsman marketplace)."
   },
-  "navProfile": "Profil",
+  "navProfile": "Profile",
   "@navProfile": {
     "description": "Bottom navigation tab: Profile."
   },
-
   "loginEmailHint": "Email",
   "@loginEmailHint": {
     "description": "Login screen: hint text for the email/username field."
@@ -76,7 +72,7 @@
   "@loginHidePassword": {
     "description": "Login screen: tooltip on the eye icon that masks the password."
   },
-  "loginButton": "Login",
+  "loginButton": "Log in",
   "@loginButton": {
     "description": "Login screen: submit button label."
   },
@@ -84,39 +80,35 @@
   "@loginEmptyFields": {
     "description": "Login screen: snackbar shown when the user submits with an empty email or password."
   },
-
-  "b1Question": "Xonangiz hozir qaysi holatda?",
+  "b1Question": "What condition is your room in right now?",
   "@b1Question": {
     "description": "B1 room-condition step: the single question asking the room's current baseline surface condition."
   },
-  "b1DontKnowDifference": "Farqini bilmayapsizmi? →",
+  "b1DontKnowDifference": "Not sure of the difference? →",
   "@b1DontKnowDifference": {
     "description": "B1 room-condition step: link opening the floor/ceiling help sheet for users unsure of the difference."
   },
-  "b1FloorCeilingDifferent": "Pol yoki shift boshqacha bo'lsa →",
+  "b1FloorCeilingDifferent": "If the floor or ceiling differs →",
   "@b1FloorCeilingDifferent": {
     "description": "B1 room-condition step: link to override floor/ceiling condition when they differ from the walls."
   },
-  "b1EnterRoom": "Xonaga kirish",
+  "b1EnterRoom": "Enter room",
   "@b1EnterRoom": {
     "description": "B1 room-condition step: primary button that saves the condition and enters the room designer."
   },
-
   "brandName": "AndozaAI",
   "@brandName": {
     "description": "Brand wordmark (no space). Shown on the splash screen and the Home status pill."
   },
-
-  "navAddProject": "Yangi loyiha qo'shish",
+  "navAddProject": "Add new project",
   "@navAddProject": {
     "description": "Accessibility label for the center orange FAB in the bottom nav that opens the new-project sheet."
   },
-
-  "loginPhoneLabel": "Telefon raqam",
+  "loginPhoneLabel": "Phone number",
   "@loginPhoneLabel": {
     "description": "Login (phone-OTP step): heading and the phone-number field label."
   },
-  "loginPhoneSubtitle": "Loginiga uchun telefon raqam talab qilinadi",
+  "loginPhoneSubtitle": "A phone number is required to log in",
   "@loginPhoneSubtitle": {
     "description": "Login (phone-OTP step): subtitle under the heading explaining a phone number is required to log in."
   },
@@ -124,50 +116,52 @@
   "@loginPhoneHint": {
     "description": "Login (phone-OTP step): placeholder text inside the phone-number input."
   },
-  "loginPhoneSmsHint": "Sms kod shu raqamga yuboriladi",
+  "loginPhoneSmsHint": "An SMS code will be sent to this number",
   "@loginPhoneSmsHint": {
     "description": "Login (phone-OTP step): helper note that the SMS code goes to the entered number."
   },
-  "loginSendOtp": "OTP Yuborish",
+  "loginSendOtp": "Send OTP",
   "@loginSendOtp": {
     "description": "Login (phone-OTP step): primary button that requests the OTP code."
   },
-  "loginOtpInfoBox": "📱 Siz kiritgan raqamga 6 xonali kod yuboriladi. Agar SMS kelmaydigan bo'lsa, 2-3 minutdan keyin qayta urinib ko'ring.",
+  "loginOtpInfoBox": "📱 A 6-digit code will be sent to the number you entered. If the SMS doesn't arrive, try again in 2-3 minutes.",
   "@loginOtpInfoBox": {
     "description": "Login (phone-OTP step): informational tip box about the 6-digit code and retrying if SMS is delayed."
   },
-  "loginWithUsername": "🔐 Username bilan kirish",
+  "loginWithUsername": "🔐 Sign in with username",
   "@loginWithUsername": {
     "description": "Login (phone-OTP step): outlined button switching to the username/password login form."
   },
-  "loginCodeSentTitle": "✓ Kod yuborildi",
+  "loginCodeSentTitle": "✓ Code sent",
   "@loginCodeSentTitle": {
     "description": "Login (OTP code step): heading confirming the code was sent."
   },
-  "loginCodeSentSuffix": " raqamiga 6 xonali kod yuboramiz",
+  "loginCodeSentSuffix": " — we'll send a 6-digit code to this number",
   "@loginCodeSentSuffix": {
     "description": "Login (OTP code step): sentence fragment following the phone number ('... we will send a 6-digit code to <number>')."
   },
-  "loginVerify": "Tasdiqlash",
+  "loginVerify": "Verify",
   "@loginVerify": {
     "description": "Login (OTP code step): primary button that verifies the entered code."
   },
-  "loginResend": "Qayta yuborish",
+  "loginResend": "Resend",
   "@loginResend": {
     "description": "Login (OTP code step): button to resend the code once the cooldown elapses."
   },
-  "loginResendCountdown": "Qayta yuborish ({seconds} s)",
+  "loginResendCountdown": "Resend ({seconds}s)",
   "@loginResendCountdown": {
     "description": "Login (OTP code step): resend button label during the cooldown, showing remaining seconds.",
     "placeholders": {
-      "seconds": { "type": "int" }
+      "seconds": {
+        "type": "int"
+      }
     }
   },
-  "loginBackArrow": "← Orqaga",
+  "loginBackArrow": "← Back",
   "@loginBackArrow": {
     "description": "Login (OTP code step): text button with a left arrow returning to the phone-entry step."
   },
-  "loginSignIn": "Kirish",
+  "loginSignIn": "Sign in",
   "@loginSignIn": {
     "description": "Login (username step): heading and submit button label ('Sign in')."
   },
@@ -175,39 +169,39 @@
   "@loginUsernameHint": {
     "description": "Login/register: placeholder text for the username field."
   },
-  "loginPasswordLabel": "Parol",
+  "loginPasswordLabel": "Password",
   "@loginPasswordLabel": {
     "description": "Login/register: placeholder text for the password field."
   },
-  "loginNoAccount": "Akkauntingiz yo'qmi? ",
+  "loginNoAccount": "Don't have an account? ",
   "@loginNoAccount": {
     "description": "Login (username step): prompt preceding the register link ('No account? ')."
   },
-  "loginRegister": "Ro'yxatdan o'tish",
+  "loginRegister": "Sign up",
   "@loginRegister": {
     "description": "Register: link, heading and submit button label ('Sign up')."
   },
-  "loginNameHint": "Ism (ixtiyoriy)",
+  "loginNameHint": "Name (optional)",
   "@loginNameHint": {
     "description": "Register: placeholder for the optional name field."
   },
-  "loginConfirmPasswordHint": "Parolni tasdiqlang",
+  "loginConfirmPasswordHint": "Confirm password",
   "@loginConfirmPasswordHint": {
     "description": "Register: placeholder for the confirm-password field."
   },
-  "loginHaveAccount": "Allaqachon akkauntingiz bormi? ",
+  "loginHaveAccount": "Already have an account? ",
   "@loginHaveAccount": {
     "description": "Register: prompt preceding the sign-in link ('Already have an account? ')."
   },
-  "loginOr": "yoki",
+  "loginOr": "or",
   "@loginOr": {
     "description": "Login: 'or' divider between the OTP and username entry points."
   },
-  "loginGreeting": "👋 Salom",
+  "loginGreeting": "👋 Hi",
   "@loginGreeting": {
     "description": "Login: large greeting above the auth card ('Hello')."
   },
-  "loginWelcomeSubtitle": "Andoza AI-ga xush kelibsiz",
+  "loginWelcomeSubtitle": "Welcome to Andoza AI",
   "@loginWelcomeSubtitle": {
     "description": "Login: welcome subtitle under the greeting."
   },
@@ -215,67 +209,68 @@
   "@loginVersion": {
     "description": "Login: app-version footnote below the auth card."
   },
-  "loginErrorInvalidPhone": "Telefon raqam noto'g'ri. Masalan: 90 123 45 67",
+  "loginErrorInvalidPhone": "Invalid phone number. Example: 90 123 45 67",
   "@loginErrorInvalidPhone": {
     "description": "Login error: the entered phone number is invalid, with an example format."
   },
-  "loginErrorServer": "Serverda xatolik. Qayta urinib ko'ring.",
+  "loginErrorServer": "Server error. Please try again.",
   "@loginErrorServer": {
     "description": "Login error: a generic server failure, asking the user to retry."
   },
-  "loginErrorInvalidCode": "Kod noto'g'ri yoki eskirgan.",
+  "loginErrorInvalidCode": "The code is incorrect or expired.",
   "@loginErrorInvalidCode": {
     "description": "Login error: the entered OTP code is wrong or expired."
   },
-  "loginErrorCredentialsRequired": "Username va parol majburiy.",
+  "loginErrorCredentialsRequired": "Username and password are required.",
   "@loginErrorCredentialsRequired": {
     "description": "Login error: username and password are both required."
   },
-  "loginErrorWrongCredentials": "Username yoki parol noto'g'ri.",
+  "loginErrorWrongCredentials": "Incorrect username or password.",
   "@loginErrorWrongCredentials": {
     "description": "Login error: the username or password is incorrect."
   },
-  "loginErrorUsernameShort": "Username kamida 3 ta belgidan iborat bo'lishi kerak.",
+  "loginErrorUsernameShort": "Username must be at least 3 characters.",
   "@loginErrorUsernameShort": {
     "description": "Register error: username must be at least 3 characters."
   },
-  "loginErrorPasswordShort": "Parol kamida 6 ta belgidan iborat bo'lishi kerak.",
+  "loginErrorPasswordShort": "Password must be at least 6 characters.",
   "@loginErrorPasswordShort": {
     "description": "Register error: password must be at least 6 characters."
   },
-  "loginErrorPasswordMismatch": "Parollar mos kelmadi.",
+  "loginErrorPasswordMismatch": "Passwords do not match.",
   "@loginErrorPasswordMismatch": {
     "description": "Register error: the two passwords do not match."
   },
-  "loginErrorUsernameTaken": "Bu username allaqachon band.",
+  "loginErrorUsernameTaken": "This username is already taken.",
   "@loginErrorUsernameTaken": {
     "description": "Register error: the chosen username is already taken."
   },
-  "loginErrorRegisterFailed": "Ro'yxatdan o'tishda xato yuz berdi.",
+  "loginErrorRegisterFailed": "Registration failed.",
   "@loginErrorRegisterFailed": {
     "description": "Register error: a generic registration failure."
   },
-
-  "homeWelcome": "Xush kelibsiz",
+  "homeWelcome": "Welcome",
   "@homeWelcome": {
     "description": "Home header: small 'Welcome' label above the user's name."
   },
-  "homeGreetingNamed": "Salom, {name}! 👋",
+  "homeGreetingNamed": "Hi, {name}! 👋",
   "@homeGreetingNamed": {
     "description": "Home header: personalized greeting when the user's name is known.",
     "placeholders": {
-      "name": { "type": "String" }
+      "name": {
+        "type": "String"
+      }
     }
   },
-  "homeGreeting": "Salom! 👋",
+  "homeGreeting": "Hi! 👋",
   "@homeGreeting": {
     "description": "Home header: greeting fallback when the user's name is unknown."
   },
-  "homeStoryHowItWorks": "Qanday ishlaydi?",
+  "homeStoryHowItWorks": "How it works?",
   "@homeStoryHowItWorks": {
     "description": "Home: onboarding story-circle label opening the 'how it works' guide."
   },
-  "homeStoryDemoGuide": "Demo qo'llanma",
+  "homeStoryDemoGuide": "Demo guide",
   "@homeStoryDemoGuide": {
     "description": "Home: onboarding story-circle label opening the demo guide."
   },
@@ -283,448 +278,447 @@
   "@homeStoryDemo": {
     "description": "Home: onboarding story-circle label opening the demo."
   },
-  "homeEmptyTitle": "Birinchi xonangizni qo'shing",
+  "homeEmptyTitle": "Add your first room",
   "@homeEmptyTitle": {
     "description": "Home empty state: title prompting the user to add their first room."
   },
-  "homeEmptyMessage": "Hali loyiha yo'q — yangi loyiha boshlang",
+  "homeEmptyMessage": "No projects yet — start a new project",
   "@homeEmptyMessage": {
     "description": "Home empty state: message noting there are no projects yet."
   },
-  "homeEmptyAction": "+ Loyiha qo'shish",
+  "homeEmptyAction": "+ Add project",
   "@homeEmptyAction": {
     "description": "Home empty state: button that starts a new project."
   },
-  "homeQuickActions": "Tezkor amallar",
+  "homeQuickActions": "Quick actions",
   "@homeQuickActions": {
     "description": "Home: section title above the quick-action grid."
   },
-  "homeQuickScan": "Xonani skanlash",
+  "homeQuickScan": "Scan room",
   "@homeQuickScan": {
     "description": "Home quick action: scan a room."
   },
-  "homeQuickEstimate": "Smeta",
+  "homeQuickEstimate": "Estimate",
   "@homeQuickEstimate": {
     "description": "Home quick action: cost estimate."
   },
-  "homeQuickDealers": "Dilerlar",
+  "homeQuickDealers": "Dealers",
   "@homeQuickDealers": {
     "description": "Home quick action: dealers/shops."
   },
-
-  "homeProjectsLoadError": "Loyihalarni yuklab bo'lmadi",
+  "homeProjectsLoadError": "Couldn't load projects",
   "@homeProjectsLoadError": {
     "description": "Home (with projects): error-view title when the project list fails to load."
   },
-  "homeLoadMore": "Yana ko'rsatish",
-  "@homeLoadMore": {
-    "description": "Home (with projects): button revealing the next page of project cards."
-  },
-  "homeLegendExisting": "Mavjud (hisoblanmaydi)",
+  "homeLoadMore": "Show more",
+  "homeLegendExisting": "Existing (not counted)",
   "@homeLegendExisting": {
     "description": "Home (with projects): progress legend for stages that already existed and are not counted."
   },
-  "homeLegendNeeded": "Kerak (delta)",
+  "homeLegendNeeded": "Needed (delta)",
   "@homeLegendNeeded": {
     "description": "Home (with projects): progress legend for stages still needed (the delta)."
   },
-  "homeResume": "Davom etish",
+  "homeResume": "Continue",
   "@homeResume": {
     "description": "Home (with projects): resume CTA that continues the active project in the 3D Studio."
   },
-  "homeNoRoomYet": "Bu loyihada hali xona yo'q",
+  "homeNoRoomYet": "This project has no room yet",
   "@homeNoRoomYet": {
     "description": "Home (with projects): snackbar shown when resuming a project that has no room yet."
   },
-  "homeStageProgress": "Bosqich {current}/8",
+  "homeStageProgress": "Stage {current}/8",
   "@homeStageProgress": {
     "description": "Home (with projects): renovation stage progress label ('Stage N/8').",
     "placeholders": {
-      "current": { "type": "int" }
+      "current": {
+        "type": "int"
+      }
     }
   },
-  "homeStageProgressExcluded": "Bosqich {current}/8 · ✓ {names} mavjud edi",
+  "homeStageProgressExcluded": "Stage {current}/8 · ✓ {names} already existed",
   "@homeStageProgressExcluded": {
     "description": "Home (with projects): stage label noting which named stages already existed.",
     "placeholders": {
-      "current": { "type": "int" },
-      "names": { "type": "String" }
+      "current": {
+        "type": "int"
+      },
+      "names": {
+        "type": "String"
+      }
     }
   },
-  "homeStageProgressExcludedCount": "Bosqich {current}/8 · ✓ {count} bosqich mavjud edi",
+  "homeStageProgressExcludedCount": "Stage {current}/8 · ✓ {count} stages already existed",
   "@homeStageProgressExcludedCount": {
     "description": "Home (with projects): compact stage label noting how many stages already existed.",
     "placeholders": {
-      "current": { "type": "int" },
-      "count": { "type": "int" }
+      "current": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "homeStagePickerTitle": "Bosqichni tanlang",
+  "homeStagePickerTitle": "Choose a stage",
   "@homeStagePickerTitle": {
     "description": "Home (with projects): title of the stage-picker bottom sheet ('Choose a stage')."
   },
-  "homeStageOption": "Bosqich {index}/8 · {label}",
+  "homeStageOption": "Stage {index}/8 · {label}",
   "@homeStageOption": {
     "description": "Home (with projects): a single stage option row in the stage picker.",
     "placeholders": {
-      "index": { "type": "int" },
-      "label": { "type": "String" }
+      "index": {
+        "type": "int"
+      },
+      "label": {
+        "type": "String"
+      }
     }
   },
-  "homeStageSaveError": "Bosqichni saqlab bo'lmadi",
+  "homeStageSaveError": "Couldn't save the stage",
+  "homeRoomCount": "{count, plural, one{{count} room} other{{count} rooms}}",
   "@homeStageSaveError": {
     "description": "Home (with projects): snackbar shown when saving the selected stage fails."
   },
-  "homeRoomCount": "{count} xona",
-  "@homeRoomCount": {
-    "description": "Home (with projects): room count shown under a project's name (hero card and list rows).",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
-  "homeStatAreaLabel": "Maydon",
-  "@homeStatAreaLabel": {
-    "description": "Home (with projects): stat-chip label for the room's floor area."
-  },
-  "homeStatModelsLabel": "3D model",
-  "@homeStatModelsLabel": {
-    "description": "Home (with projects): stat-chip label for the count of placed 3D furniture models."
-  },
-  "homeStatEstimateLabel": "Smeta",
-  "@homeStatEstimateLabel": {
-    "description": "Home (with projects): stat-chip label for the room's cost estimate."
-  },
+  "homeStatAreaLabel": "Area",
+  "homeStatModelsLabel": "3D models",
+  "homeStatEstimateLabel": "Estimate",
   "homeAreaValue": "{area} m²",
-  "@homeAreaValue": {
-    "description": "Home (with projects): floor-area stat-chip value, e.g. \"24.5 m²\".",
-    "placeholders": {
-      "area": { "type": "String" }
-    }
-  },
-  "homeEstimateMln": "{amount} mln",
-  "@homeEstimateMln": {
-    "description": "Home (with projects): estimate stat-chip value in millions of UZS, e.g. \"12.4 mln\".",
-    "placeholders": {
-      "amount": { "type": "String" }
-    }
-  },
+  "homeEstimateMln": "{amount}M",
   "homeStatDash": "—",
-  "@homeStatDash": {
-    "description": "Home (with projects): stat-chip value shown when the room has no data for that stat yet."
-  },
-  "stageSuvoq": "suvoq",
+  "stageSuvoq": "plastering",
   "@stageSuvoq": {
     "description": "Renovation stage name: plastering (suvoq)."
   },
-  "stageShpaklovka": "shpaklovka",
+  "stageShpaklovka": "putty",
   "@stageShpaklovka": {
     "description": "Renovation stage name: putty/finishing (shpaklovka)."
   },
-  "stageBoyoqOboi": "bo'yoq/oboi",
+  "stageBoyoqOboi": "paint/wallpaper",
   "@stageBoyoqOboi": {
     "description": "Renovation stage name: paint/wallpaper (bo'yoq/oboi)."
   },
-  "stagePol": "pol",
+  "stagePol": "flooring",
   "@stagePol": {
     "description": "Renovation stage name: flooring (pol)."
   },
-  "stageMebel": "mebel",
+  "stageMebel": "furniture",
   "@stageMebel": {
     "description": "Renovation stage name: furniture (mebel)."
   },
-  "stageElektr": "elektr",
+  "stageElektr": "electrical",
   "@stageElektr": {
     "description": "Renovation stage name: electrical (elektr)."
   },
-  "stageYoruglik": "yorug'lik",
+  "stageYoruglik": "lighting",
   "@stageYoruglik": {
     "description": "Renovation stage name: lighting (yorug'lik)."
   },
-  "stageSantexnika": "santexnika",
+  "stageSantexnika": "plumbing",
   "@stageSantexnika": {
     "description": "Renovation stage name: plumbing (santexnika)."
   },
-
-  "commonYes": "Ha",
+  "commonYes": "Yes",
   "@commonYes": {
     "description": "Generic affirmative ('Yes'). Used for boolean spec values."
   },
-  "commonNo": "Yo'q",
+  "commonNo": "No",
   "@commonNo": {
     "description": "Generic negative ('No'). Used for boolean spec values."
   },
-
-  "shopCartTooltip": "Savatcha",
+  "shopCartTooltip": "Cart",
   "@shopCartTooltip": {
     "description": "S1 shop home: tooltip on the cart icon button in the app bar."
   },
-  "shopSearchHint": "Material qidirish...",
+  "shopSearchHint": "Search materials...",
   "@shopSearchHint": {
     "description": "Shop: placeholder text in the material search field (S1 and E10)."
   },
-  "shopFilterAll": "Barchasi",
+  "shopFilterAll": "All",
   "@shopFilterAll": {
     "description": "Shop: filter/category chip for 'All' (S1 categories, S4 and E10 filters)."
   },
-  "shopInProjectTag": "Loyihada",
+  "shopInProjectTag": "In project",
   "@shopInProjectTag": {
     "description": "Shop: small tag on product cards/rows marking an item the active project needs (S1 and E10)."
   },
-  "shopMaterialsTitle": "Loyiha materiallari",
+  "shopMaterialsTitle": "Project materials",
   "@shopMaterialsTitle": {
     "description": "S2 project materials: app bar title ('Project materials')."
   },
-  "shopMaterialsAutoCalc": "App loyihangiz asosida avtomatik hisobladi — {area} m², {count} bosqich",
+  "shopMaterialsAutoCalc": "The app auto-calculated based on your project — {area} m², {count} stages",
   "@shopMaterialsAutoCalc": {
     "description": "S2 project materials: green banner stating the app auto-computed area and stage count from the project.",
     "placeholders": {
-      "area": { "type": "String" },
-      "count": { "type": "int" }
+      "area": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "shopAddAllToCart": "Tanlanganlarni savatga",
+  "shopAddAllToCart": "Add selected to cart",
   "@shopAddAllToCart": {
     "description": "S2 project materials: sticky button that adds every checked material to the cart."
   },
-  "shopSelectRoomLabel": "Qaysi xona uchun?",
-  "@shopSelectRoomLabel": {
-    "description": "S2 project materials: label above the room picker chips."
-  },
-  "shopSelectedCount": "{count} ta tanlandi",
-  "@shopSelectedCount": {
-    "description": "S2 project materials: count of checked materials shown in the totals bar.",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
-  "shopOfficialDealer": "✓ Rasmiy diler",
+  "shopSelectRoomLabel": "For which room?",
+  "shopSelectedCount": "{count} selected",
+  "shopOfficialDealer": "✓ Official dealer",
   "@shopOfficialDealer": {
     "description": "S3 product detail: badge shown when the product is sold by an official dealer."
   },
-  "shopProjectNeed": "Loyihangiz uchun ~{quantity} {unit} kerak",
+  "shopProjectNeed": "Your project needs ~{quantity} {unit}",
   "@shopProjectNeed": {
     "description": "S3 product detail: recommendation line stating the computed quantity the project needs; a coverage note may be appended.",
     "placeholders": {
-      "quantity": { "type": "String" },
-      "unit": { "type": "String" }
+      "quantity": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
     }
   },
-  "shopQuantityLabel": "Miqdor:",
+  "shopQuantityLabel": "Quantity:",
   "@shopQuantityLabel": {
     "description": "S3 product detail: label preceding the quantity stepper ('Quantity:')."
   },
-  "shopSpecCoverage": "Qoplama",
+  "shopSpecCoverage": "Coverage",
   "@shopSpecCoverage": {
     "description": "S3 product detail: spec row label for coverage."
   },
-  "shopSpecDryingTime": "Quriish vaqti",
+  "shopSpecDryingTime": "Drying time",
   "@shopSpecDryingTime": {
     "description": "S3 product detail: spec row label for drying time."
   },
-  "shopSpecWashable": "Yuvilishi",
+  "shopSpecWashable": "Washable",
   "@shopSpecWashable": {
     "description": "S3 product detail: spec row label for whether the product is washable."
   },
-  "shopWhereToBuy": "Qayerdan olish — {name}",
+  "shopWhereToBuy": "Where to buy — {name}",
   "@shopWhereToBuy": {
     "description": "S3 product detail: row opening the dealer comparison, naming the default dealer.",
     "placeholders": {
-      "name": { "type": "String" }
+      "name": {
+        "type": "String"
+      }
     }
   },
-  "shopPriceFromDealer": "{dealer} narxi",
+  "shopPriceFromDealer": "Price from {dealer}",
   "@shopPriceFromDealer": {
     "description": "S3 product detail: small caption under the headline price, naming which dealer that price is from (the auto-selected cheapest dealer, not necessarily the product's catalog brand).",
     "placeholders": {
-      "dealer": { "type": "String" }
+      "dealer": {
+        "type": "String"
+      }
     }
   },
-  "shopAddedToCart": "Savatga qo'shildi",
+  "shopAddedToCart": "Added to cart",
   "@shopAddedToCart": {
     "description": "Shop: snackbar confirming an item was added to the cart (S3, S4, E10)."
   },
-  "shopAddToCartPrice": "Savatga qo'shish · {price}",
+  "shopAddToCartPrice": "Add to cart · {price}",
   "@shopAddToCartPrice": {
     "description": "S3 product detail: add-to-cart button label with the computed line price.",
     "placeholders": {
-      "price": { "type": "String" }
+      "price": {
+        "type": "String"
+      }
     }
   },
-  "shopDealerCompareTitle": "Diler taqqoslash",
+  "shopDealerCompareTitle": "Compare dealers",
   "@shopDealerCompareTitle": {
     "description": "S4 dealer comparison: app bar title ('Compare dealers')."
   },
-  "shopFilterCheapest": "Eng arzon",
+  "shopFilterCheapest": "Cheapest",
   "@shopFilterCheapest": {
     "description": "Shop: filter chip for cheapest offers (S4 and E10)."
   },
-  "shopFilterOfficial": "Rasmiy diler",
+  "shopFilterOfficial": "Official dealer",
   "@shopFilterOfficial": {
     "description": "S4 dealer comparison: filter chip for official dealers only."
   },
-  "shopFilterFastest": "Eng tez",
+  "shopFilterFastest": "Fastest",
   "@shopFilterFastest": {
     "description": "S4 dealer comparison: filter chip for fastest delivery."
   },
-  "shopBestRibbon": "ENG YAXSHI",
+  "shopBestRibbon": "BEST",
   "@shopBestRibbon": {
     "description": "S4 dealer comparison: green ribbon marking the best (cheapest) dealer offer ('BEST')."
   },
-  "shopDeliveryDays": "{district} · {days} kunda yetkazish",
+  "shopDeliveryDays": "{district} · delivery in {days} days",
   "@shopDeliveryDays": {
     "description": "S4 dealer comparison: dealer subtitle showing district and delivery time in days.",
     "placeholders": {
-      "district": { "type": "String" },
-      "days": { "type": "int" }
+      "district": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
     }
   },
-  "shopSelect": "Tanlash",
+  "shopSelect": "Select",
   "@shopSelect": {
     "description": "S4 dealer comparison: button that selects a dealer offer and adds it to the cart."
   },
-  "shopCartTitle": "Savat",
+  "shopCartTitle": "Cart",
   "@shopCartTitle": {
     "description": "S5 cart: app bar title ('Cart')."
   },
-  "shopCartEmpty": "Savat bo'sh",
+  "shopCartEmpty": "Cart is empty",
   "@shopCartEmpty": {
     "description": "S5 cart: empty-state message when the cart has no items."
   },
-  "shopMaterials": "Materiallar",
+  "shopMaterials": "Materials",
   "@shopMaterials": {
     "description": "Shop: summary row label for the materials subtotal (S5 and S6)."
   },
-  "shopDelivery": "Yetkazish",
+  "shopDelivery": "Delivery",
   "@shopDelivery": {
     "description": "Shop: summary/row label for the delivery fee (S5 dealer block, S5 and S6 summaries)."
   },
-  "shopGrandTotal": "Umumiy summa",
+  "shopGrandTotal": "Grand total",
   "@shopGrandTotal": {
     "description": "S5 cart: grand-total label in the footer ('Total')."
   },
-  "shopCheckout": "Buyurtmani rasmiylashtirish",
+  "shopCheckout": "Place order",
   "@shopCheckout": {
     "description": "S5 cart: primary button proceeding to checkout ('Place order')."
   },
-  "shopCheckoutTitle": "To'lov",
+  "shopCheckoutTitle": "Payment",
   "@shopCheckoutTitle": {
     "description": "S6 checkout: app bar title ('Payment')."
   },
-  "shopDeliveryAddress": "Yetkazish manzili",
+  "shopDeliveryAddress": "Delivery address",
   "@shopDeliveryAddress": {
     "description": "S6 checkout: section title above the delivery-address fields."
   },
-  "shopAddressHint": "Manzil",
+  "shopAddressHint": "Address",
   "@shopAddressHint": {
     "description": "S6 checkout: hint text in the address field."
   },
-  "shopPhoneHint": "Telefon raqami",
+  "shopPhoneHint": "Phone number",
   "@shopPhoneHint": {
     "description": "S6 checkout: hint text in the phone-number field."
   },
-  "shopPaymentMethod": "To'lov usuli",
+  "shopPaymentMethod": "Payment method",
   "@shopPaymentMethod": {
     "description": "S6 checkout: section title above the payment-method tiles."
   },
-  "shopOrderSummary": "Buyurtma xulosasi",
+  "shopOrderSummary": "Order summary",
   "@shopOrderSummary": {
     "description": "S6 checkout: section title above the order summary."
   },
-  "shopAmountDue": "To'lanadi",
+  "shopAmountDue": "Amount due",
   "@shopAmountDue": {
     "description": "S6 checkout: label for the total amount due in the sticky footer."
   },
-  "shopPay": "To'lash",
+  "shopPay": "Pay",
   "@shopPay": {
     "description": "S6 checkout: primary button that places the order ('Pay')."
   },
-  "shopOrderSaveError": "Buyurtmani serverga saqlashda xatolik: {error}",
+  "shopOrderSaveError": "Error saving order to server: {error}",
   "@shopOrderSaveError": {
     "description": "S6 checkout: snackbar shown when persisting the placed order to the server fails.",
     "placeholders": {
-      "error": { "type": "String" }
+      "error": {
+        "type": "String"
+      }
     }
   },
-  "shopOrderStatusTitle": "Buyurtma holati",
+  "shopOrderStatusTitle": "Order status",
   "@shopOrderStatusTitle": {
     "description": "S7 order confirmation: app bar title ('Order status')."
   },
-  "shopOrderContents": "Buyurtma tarkibi",
+  "shopOrderContents": "Order contents",
   "@shopOrderContents": {
     "description": "S7 order confirmation: section title above the ordered items list."
   },
-  "shopTotal": "Jami",
+  "shopTotal": "Total",
   "@shopTotal": {
     "description": "S7 order confirmation: total label ('Total')."
   },
-  "shopMasterNotified": "Usta xabardor qilindi",
+  "shopMasterNotified": "Master notified",
   "@shopMasterNotified": {
     "description": "S7 order confirmation: snackbar confirming the craftsman was notified."
   },
-  "shopHandToMaster": "Ustaga topshirish",
+  "shopHandToMaster": "Hand to master",
   "@shopHandToMaster": {
     "description": "S7 order confirmation: secondary button that notifies the craftsman the materials arrived."
   },
-  "shopBackToShop": "Do'konga qaytish",
+  "shopBackToShop": "Back to shop",
   "@shopBackToShop": {
     "description": "S7 order confirmation: text button returning to the shop home ('Back to shop')."
   },
-  "shopSearchResultsTitle": "Qidiruv natijalari",
+  "shopSearchResultsTitle": "Search results",
   "@shopSearchResultsTitle": {
     "description": "E10 search results: app bar title ('Search results')."
   },
-  "shopFilterForProject": "Loyihamga mos",
+  "shopFilterForProject": "Matches my project",
   "@shopFilterForProject": {
     "description": "E10 search results: filter chip limiting results to items matching the active project."
   },
-  "shopFilterRating": "Reyting",
+  "shopFilterRating": "Rating",
   "@shopFilterRating": {
     "description": "E10 search results: filter chip sorting by rating."
   },
-  "shopResultCount": "{count} ta natija",
+  "shopResultCount": "{count} results",
   "@shopResultCount": {
     "description": "E10 search results: count of matching results.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "commonVerifiedBadge": "✓ Tasdiqlangan",
+  "commonVerifiedBadge": "✓ Verified",
   "@commonVerifiedBadge": {
     "description": "Verified badge label shown on a master profile (U4) and the user profile (E4)."
   },
-  "mastersSearchHint": "Qanday usta kerak?",
+  "mastersSearchHint": "What kind of master do you need?",
   "@mastersSearchHint": {
     "description": "U1 masters map: search field hint ('What kind of master do you need?')."
   },
-  "mastersRatingReviews": "{rating} ({count} sharh)",
+  "mastersRatingReviews": "{rating} ({count} reviews)",
   "@mastersRatingReviews": {
     "description": "U1/U2 master pin sheet: rating followed by review count.",
     "placeholders": {
-      "rating": { "type": "String" },
-      "count": { "type": "int" }
+      "rating": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
     }
   },
   "mastersAreaDistance": "{area} · ~{distance} km",
   "@mastersAreaDistance": {
     "description": "Masters: approximate area name plus distance in km.",
     "placeholders": {
-      "area": { "type": "String" },
-      "distance": { "type": "String" }
+      "area": {
+        "type": "String"
+      },
+      "distance": {
+        "type": "String"
+      }
     }
   },
-  "mastersViewProfile": "Profilni ko'rish",
+  "mastersViewProfile": "View profile",
   "@mastersViewProfile": {
     "description": "U1/U2 master pin sheet: button to open the full master profile."
   },
-  "mastersStatRating": "reyting",
+  "mastersStatRating": "rating",
   "@mastersStatRating": {
     "description": "U4 master profile: stat card label for rating."
   },
-  "mastersStatReviews": "sharh",
+  "mastersStatReviews": "reviews",
   "@mastersStatReviews": {
     "description": "U4 master profile: stat card label for reviews."
   },
-  "mastersStatJobs": "ishlar",
+  "mastersStatJobs": "jobs",
   "@mastersStatJobs": {
     "description": "U4 master profile: stat card label for completed jobs."
   },
@@ -732,45 +726,49 @@
   "@mastersPortfolio": {
     "description": "U4 master profile: portfolio section title."
   },
-  "mastersPortfolioEmpty": "Hali portfolio surat qo'shilmagan",
+  "mastersPortfolioEmpty": "No portfolio photos yet",
   "@mastersPortfolioEmpty": {
     "description": "U4 master profile: empty state shown when the master has no portfolio photos."
   },
-  "mastersServices": "Xizmatlar",
+  "mastersServices": "Services",
   "@mastersServices": {
     "description": "U4 master profile: services section title."
   },
-  "mastersServiceTrade": "{trade} ishlari",
+  "mastersServiceTrade": "{trade} work",
   "@mastersServiceTrade": {
     "description": "U4 master profile: service row naming the master's trade works.",
     "placeholders": {
-      "trade": { "type": "String" }
+      "trade": {
+        "type": "String"
+      }
     }
   },
-  "mastersServiceConsultation": "Konsultatsiya",
+  "mastersServiceConsultation": "Consultation",
   "@mastersServiceConsultation": {
     "description": "U4 master profile: consultation service row."
   },
-  "mastersLocation": "Joylashuv",
+  "mastersLocation": "Location",
   "@mastersLocation": {
     "description": "U4 master profile: location section title."
   },
-  "mastersSendEstimate": "Smetani yuborish",
+  "mastersSendEstimate": "Send estimate",
   "@mastersSendEstimate": {
     "description": "U4 master profile: primary button to send the estimate to the master."
   },
-  "mastersSendMessage": "Xabar yozish",
+  "mastersSendMessage": "Send message",
   "@mastersSendMessage": {
     "description": "U4 master profile: secondary button to write a message."
   },
-  "mastersSendConfirmTitle": "Loyihangizni {name} akaga yuborasizmi?",
+  "mastersSendConfirmTitle": "Send your project to {name}?",
   "@mastersSendConfirmTitle": {
     "description": "U5 send-smeta sheet: personalized confirmation title.",
     "placeholders": {
-      "name": { "type": "String" }
+      "name": {
+        "type": "String"
+      }
     }
   },
-  "mastersProjectSummaryTitle": "Mehmonxona ta'miri",
+  "mastersProjectSummaryTitle": "Living room renovation",
   "@mastersProjectSummaryTitle": {
     "description": "U5 send-smeta sheet: project summary card title."
   },
@@ -778,409 +776,421 @@
   "@mastersProjectSummaryValue": {
     "description": "U5 send-smeta sheet: project summary area and price.",
     "placeholders": {
-      "area": { "type": "String" },
-      "price": { "type": "String" }
+      "area": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      }
     }
   },
-  "mastersCommentHint": "Izoh (ixtiyoriy)",
+  "mastersCommentHint": "Comment (optional)",
   "@mastersCommentHint": {
     "description": "U5 send-smeta sheet: optional comment field hint."
   },
-  "mastersEstimateNote": "Usta smetani ko'rib, o'z narxini taklif qiladi",
+  "mastersEstimateNote": "The master will review the estimate and propose their price",
   "@mastersEstimateNote": {
     "description": "U5 send-smeta sheet: note explaining the master will review and propose a price."
   },
-  "mastersEstimateSent": "Smeta yuborildi",
+  "mastersEstimateSent": "Estimate sent",
   "@mastersEstimateSent": {
     "description": "U5 send-smeta sheet: snackbar shown after the estimate is sent."
   },
-  "mastersSend": "Yuborish",
+  "mastersSend": "Send",
   "@mastersSend": {
     "description": "U5 send-smeta sheet: primary send button."
   },
-  "profileDefaultName": "Foydalanuvchi",
+  "profileDefaultName": "User",
   "@profileDefaultName": {
     "description": "E4 profile: fallback display name when the user has no name ('User')."
   },
-  "profileComingSoon": "Tez kunda",
+  "profileComingSoon": "Coming soon",
   "@profileComingSoon": {
     "description": "E4 profile: snackbar for not-yet-available features ('Coming soon')."
   },
-  "profileStatProjects": "loyiha",
+  "profileStatProjects": "projects",
   "@profileStatProjects": {
     "description": "E4 profile: stat card label for project count."
   },
-  "profileStatOrders": "buyurtma",
+  "profileStatOrders": "orders",
   "@profileStatOrders": {
     "description": "E4 profile: stat card label for order count."
   },
-  "profileStatSaved": "tejaldi",
+  "profileStatSaved": "saved",
   "@profileStatSaved": {
     "description": "E4 profile: stat card label for total money saved."
   },
-  "profileSavedMln": "{amount} mln",
+  "profileSavedMln": "{amount}M",
   "@profileSavedMln": {
     "description": "E4 profile: saved amount in millions of som.",
     "placeholders": {
-      "amount": { "type": "String" }
+      "amount": {
+        "type": "String"
+      }
     }
   },
-  "profileMenuProjects": "Loyihalarim",
+  "profileMenuProjects": "My projects",
   "@profileMenuProjects": {
     "description": "E4 profile menu / E5 title: 'My projects'."
   },
-  "profileMenuOrders": "Buyurtmalarim",
+  "profileMenuOrders": "My orders",
   "@profileMenuOrders": {
     "description": "E4 profile menu / E6 title: 'My orders'."
   },
-  "profileMenuSavedDesigns": "Saqlangan dizaynlar",
+  "profileMenuSavedDesigns": "Saved designs",
   "@profileMenuSavedDesigns": {
     "description": "E4 profile menu / E11 title: 'Saved designs'."
   },
-  "profileMenuAddresses": "Manzillarim",
+  "profileMenuAddresses": "My addresses",
   "@profileMenuAddresses": {
     "description": "E4 profile menu: 'My addresses'."
   },
-  "profileMenuPaymentMethods": "To'lov usullari",
+  "profileMenuPaymentMethods": "Payment methods",
   "@profileMenuPaymentMethods": {
     "description": "E4 profile menu: 'Payment methods'."
   },
-  "profileMenuLanguage": "Til",
+  "profileMenuLanguage": "Language",
   "@profileMenuLanguage": {
     "description": "E4 profile menu: 'Language'."
   },
-  "profileMenuSettings": "Sozlamalar",
+  "profileMenuSettings": "Settings",
   "@profileMenuSettings": {
     "description": "E4 profile menu: 'Settings'."
   },
-  "profileMenuHelp": "Yordam",
+  "profileMenuHelp": "Help",
   "@profileMenuHelp": {
     "description": "E4 profile menu: 'Help'."
   },
-  "profileMenuLogout": "Chiqish",
+  "profileMenuLogout": "Log out",
   "@profileMenuLogout": {
     "description": "E4 profile menu: 'Log out'."
   },
-  "profileLanguageUzbek": "O'zbekcha",
+  "profileLanguageUzbek": "Uzbek",
   "@profileLanguageUzbek": {
     "description": "E4 profile: snackbar showing the current language ('Uzbek')."
   },
-  "profileFilterOngoing": "Davom etayotgan",
+  "profileFilterOngoing": "Ongoing",
   "@profileFilterOngoing": {
     "description": "E5 projects: filter chip / status badge for ongoing projects."
   },
-  "profileFilterFinished": "Tugagan",
+  "profileFilterFinished": "Finished",
   "@profileFilterFinished": {
     "description": "E5 projects: filter chip / status badge for finished projects."
   },
-  "profileProjectsEmptyTitle": "Hali loyiha yo'q",
+  "profileProjectsEmptyTitle": "No projects yet",
   "@profileProjectsEmptyTitle": {
     "description": "E5 projects: empty state title ('No projects yet')."
   },
-  "profileProjectsEmptyMessage": "Birinchi loyihangizni boshlang",
+  "profileProjectsEmptyMessage": "Start your first project",
   "@profileProjectsEmptyMessage": {
     "description": "E5 projects: empty state message ('Start your first project')."
   },
-  "profileProjectsEmptyAction": "+ Yangi loyiha",
+  "profileProjectsEmptyAction": "+ New project",
   "@profileProjectsEmptyAction": {
     "description": "E5 projects: empty state action button ('+ New project')."
   },
-  "profileProjectMeta": "{count} xona · {location} · {date}",
+  "profileProjectMeta": "{count, plural, one{{count} room} other{{count} rooms}} · {location} · {date}",
   "@profileProjectMeta": {
     "description": "E5 projects: project card metadata line (rooms, location, date).",
     "placeholders": {
-      "count": { "type": "int" },
-      "location": { "type": "String" },
-      "date": { "type": "String" }
+      "count": {
+        "type": "int"
+      },
+      "location": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
     }
   },
-  "profileOrdersEmptyTitle": "Buyurtma yo'q",
+  "profileOrdersEmptyTitle": "No orders",
   "@profileOrdersEmptyTitle": {
     "description": "E6 orders: empty state title ('No orders')."
   },
-  "profileOrdersEmptyMessage": "Do'kondan xarid qilganingizda shu yerda ko'rinadi",
+  "profileOrdersEmptyMessage": "Your shop purchases will appear here",
   "@profileOrdersEmptyMessage": {
     "description": "E6 orders: empty state message ('Your shop purchases appear here')."
   },
-  "orderStepAccepted": "Qabul qilindi",
+  "orderStepAccepted": "Accepted",
   "@orderStepAccepted": {
     "description": "Order status: order accepted."
   },
-  "orderStepGathering": "Yig'ilmoqda",
+  "orderStepGathering": "Gathering",
   "@orderStepGathering": {
     "description": "Order status: items being gathered."
   },
-  "orderStepOnTheWay": "Yo'lda",
+  "orderStepOnTheWay": "On the way",
   "@orderStepOnTheWay": {
     "description": "Order status: order out for delivery."
   },
-  "orderStepDelivered": "Yetkazildi",
+  "orderStepDelivered": "Delivered",
   "@orderStepDelivered": {
     "description": "Order status: order delivered."
   },
-  "profileSavedDesignsEmptyTitle": "Saqlangan dizayn yo'q",
+  "profileSavedDesignsEmptyTitle": "No saved designs",
   "@profileSavedDesignsEmptyTitle": {
     "description": "E11 saved designs: empty state title ('No saved designs')."
   },
-  "profileSavedDesignsEmptyMessage": "Yoqqan dizaynlaringizni shu yerda saqlab qo'ying",
+  "profileSavedDesignsEmptyMessage": "Save designs you like here",
   "@profileSavedDesignsEmptyMessage": {
     "description": "E11 saved designs: empty state message ('Save designs you like here')."
   },
-  "onboardingSkip": "O'tkazib yuborish",
+  "onboardingSkip": "Skip",
   "@onboardingSkip": {
     "description": "E7 onboarding: skip button ('Skip')."
   },
-  "onboardingStart": "Boshlash",
+  "onboardingStart": "Get started",
   "@onboardingStart": {
     "description": "E7 onboarding: final-slide start button ('Get started')."
   },
-  "onboardingMeasureTitle": "Xonangizni o'lchang",
+  "onboardingMeasureTitle": "Measure your room",
   "@onboardingMeasureTitle": {
     "description": "E7 onboarding slide 1 title ('Measure your room')."
   },
-  "onboardingMeasureBody": "Telefon kamerasi yoki LiDAR yordamida xonangiz o'lchamlarini aniq oling.",
+  "onboardingMeasureBody": "Get accurate room measurements using your phone's camera or LiDAR.",
   "@onboardingMeasureBody": {
     "description": "E7 onboarding slide 1 body."
   },
-  "onboardingDeltaTitle": "Hozirgi holatdan boshlaymiz",
+  "onboardingDeltaTitle": "We start from the current state",
   "@onboardingDeltaTitle": {
     "description": "E7 onboarding slide 2 title ('We start from the current state')."
   },
-  "onboardingDeltaBody": "Xonangizda allaqachon bor narsalar uchun to'lamaysiz — faqat kerakli qismini hisoblaymiz.",
+  "onboardingDeltaBody": "You don't pay for what's already in your room — we only calculate what's needed.",
   "@onboardingDeltaBody": {
     "description": "E7 onboarding slide 2 body."
   },
-  "onboardingDeltaCurrent": "Hozirgi",
+  "onboardingDeltaCurrent": "Current",
   "@onboardingDeltaCurrent": {
     "description": "E7 onboarding slide 2: 'Current' state swatch label."
   },
-  "onboardingDeltaPill": "faqat FARQ hisoblanadi",
+  "onboardingDeltaPill": "only the DIFFERENCE is counted",
   "@onboardingDeltaPill": {
     "description": "E7 onboarding slide 2: pill emphasizing only the difference is charged."
   },
-  "onboardingDecorateTitle": "3D'da bezang",
+  "onboardingDecorateTitle": "Decorate in 3D",
   "@onboardingDecorateTitle": {
     "description": "E7 onboarding slide 3 title ('Decorate in 3D')."
   },
-  "onboardingDecorateBody": "Materiallarni to'g'ridan-to'g'ri xonaning 3D ko'rinishiga sudrab, natijani darhol ko'ring.",
+  "onboardingDecorateBody": "Drag materials directly onto the room's 3D view and see the result instantly.",
   "@onboardingDecorateBody": {
     "description": "E7 onboarding slide 3 body."
   },
-  "onboardingPriceTitle": "Narxni ko'ring, materialni oling",
+  "onboardingPriceTitle": "See the price, get the materials",
   "@onboardingPriceTitle": {
     "description": "E7 onboarding slide 4 title ('See the price, get the materials')."
   },
-  "onboardingPriceBody": "Aniq smeta oling va kerakli materiallarni to'g'ridan-to'g'ri ilovadan xarid qiling.",
+  "onboardingPriceBody": "Get an accurate estimate and buy the materials you need right from the app.",
   "@onboardingPriceBody": {
     "description": "E7 onboarding slide 4 body."
   },
-  "onboardingPriceSaved": "Tejaldingiz 4.2 mln",
+  "onboardingPriceSaved": "You saved 4.2M",
   "@onboardingPriceSaved": {
     "description": "E7 onboarding slide 4: example savings figure."
   },
-  "onboardingDemoTitle": "Demo qo'llanma",
+  "onboardingDemoTitle": "Demo guide",
   "@onboardingDemoTitle": {
     "description": "E8 tutorial: app bar title ('Demo guide')."
   },
-  "onboardingDemoStep1": "Xona qo'shish — LiDAR, 360° yoki qo'lda o'lchash",
+  "onboardingDemoStep1": "Add a room — LiDAR, 360° or manual measurement",
   "@onboardingDemoStep1": {
     "description": "E8 tutorial: step 1."
   },
-  "onboardingDemoStep2": "Xonaning hozirgi holatini tanlash",
+  "onboardingDemoStep2": "Choose the room's current condition",
   "@onboardingDemoStep2": {
     "description": "E8 tutorial: step 2."
   },
-  "onboardingDemoStep3": "Rail bilan devor, pol va mebelni bezash",
+  "onboardingDemoStep3": "Decorate walls, floor and furniture with the rail",
   "@onboardingDemoStep3": {
     "description": "E8 tutorial: step 3."
   },
-  "onboardingDemoStep4": "Elektr va santexnikani oxirida rejalashtirish",
+  "onboardingDemoStep4": "Plan electrical and plumbing at the end",
   "@onboardingDemoStep4": {
     "description": "E8 tutorial: step 4."
   },
-  "onboardingDemoStep5": "Smetani ko'rish va materiallarni sotib olish",
+  "onboardingDemoStep5": "View the estimate and buy materials",
   "@onboardingDemoStep5": {
     "description": "E8 tutorial: step 5."
   },
-  "onboardingDemoWatchVideo": "Videoni ko'rish",
+  "onboardingDemoWatchVideo": "Watch the video",
   "@onboardingDemoWatchVideo": {
     "description": "E8 tutorial: video placeholder caption ('Watch the video')."
   },
-  "onboardingDemoTryMyself": "O'zim sinab ko'raman",
+  "onboardingDemoTryMyself": "I'll try it myself",
   "@onboardingDemoTryMyself": {
     "description": "E8 tutorial: button to try the app directly ('I'll try it myself')."
   },
-
-  "commonBackTo3d": "3D'ga qaytish",
+  "commonBackTo3d": "Back to 3D",
   "@commonBackTo3d": {
     "description": "Secondary button returning to the 3D view (C9 decoration-complete and D10 final-confirmation)."
   },
-
-  "designSurfaceFloorHeading": "Pol",
+  "designSurfaceFloorHeading": "Floor",
   "@designSurfaceFloorHeading": {
     "description": "B1-alt surface sheet: heading above the floor condition options."
   },
-  "designSurfaceCeilingHeading": "Shift",
+  "designSurfaceCeilingHeading": "Ceiling",
   "@designSurfaceCeilingHeading": {
     "description": "B1-alt surface sheet: heading above the ceiling condition options."
   },
-  "designFloorRaw": "Xom beton",
+  "designFloorRaw": "Raw concrete",
   "@designFloorRaw": {
     "description": "B1-alt surface sheet: floor option for raw concrete."
   },
-  "designFloorPlastered": "Styajka",
+  "designFloorPlastered": "Screed",
   "@designFloorPlastered": {
     "description": "B1-alt surface sheet: floor option for screed (styajka)."
   },
-  "designFloorPuttied": "Qoplama bor",
+  "designFloorPuttied": "Covering exists",
   "@designFloorPuttied": {
     "description": "B1-alt surface sheet: floor option meaning a covering already exists."
   },
-  "designCeilingRaw": "Xom",
+  "designCeilingRaw": "Raw",
   "@designCeilingRaw": {
     "description": "B1-alt surface sheet: ceiling option for raw/bare."
   },
-  "designCeilingPlastered": "Suvoq",
+  "designCeilingPlastered": "Plastered",
   "@designCeilingPlastered": {
     "description": "B1-alt surface sheet: ceiling option for plastered (suvoq)."
   },
-  "designCeilingPuttied": "Tayyor",
+  "designCeilingPuttied": "Finished",
   "@designCeilingPuttied": {
     "description": "B1-alt surface sheet: ceiling option for finished/ready."
   },
-  "designRoomEntryIntro": "Xonangiz shu holatda — {condition}. Endi bosqichma-bosqich bezaymiz.",
+  "designRoomEntryIntro": "Your room is in this condition — {condition}. Now let's decorate it step by step.",
   "@designRoomEntryIntro": {
     "description": "B2 room entry: intro card stating the room's current baseline condition and that decoration proceeds step by step.",
     "placeholders": {
-      "condition": { "type": "String" }
+      "condition": {
+        "type": "String"
+      }
     }
   },
-  "designConditionRaw": "korobka holatida",
+  "designConditionRaw": "in shell condition",
   "@designConditionRaw": {
     "description": "B2 room entry: wall condition label for the raw/bare-shell state, used inside designRoomEntryIntro."
   },
-  "designConditionPlastered": "suvoq qilingan",
+  "designConditionPlastered": "plastered",
   "@designConditionPlastered": {
     "description": "B2 room entry: wall condition label for the plastered state, used inside designRoomEntryIntro."
   },
-  "designConditionPuttied": "shpaklovka qilingan",
+  "designConditionPuttied": "puttied",
   "@designConditionPuttied": {
     "description": "B2 room entry: wall condition label for the puttied state, used inside designRoomEntryIntro."
   },
-  "designToastShpaklovkaAdded": "✓ Shpaklovka qo'shildi",
+  "designToastShpaklovkaAdded": "✓ Putty added",
   "@designToastShpaklovkaAdded": {
     "description": "B3 decoration rail: success toast after applying a paint/putty swatch to the wall."
   },
-  "designStageBoyoqOboi": "Bo'yoq/Oboi bosqichi",
+  "designStageBoyoqOboi": "Paint/wallpaper stage",
   "@designStageBoyoqOboi": {
     "description": "B3 decoration rail: stage-progress label for the paint/wallpaper stage."
   },
-  "designRailTabBoyoq": "Bo'yoq",
+  "designRailTabBoyoq": "Paint",
   "@designRailTabBoyoq": {
     "description": "B3 decoration rail: rail tab label for paint swatches."
   },
-  "designDragHint": "Materialni barmog'ingiz bilan devorga sudrang",
+  "designDragHint": "Drag the material onto the wall with your finger",
   "@designDragHint": {
     "description": "B3 decoration rail: one-time onboarding hint to drag a material onto the wall with your finger."
   },
-  "designNextStage": "Keyingi bosqich →",
+  "designNextStage": "Next stage →",
   "@designNextStage": {
     "description": "Decoration flow: primary button advancing to the next renovation stage (B3, C4, C5)."
   },
-
-  "interiorToastFloorApplied": "✓ Polga qo'llanildi",
+  "interiorToastFloorApplied": "✓ Applied to floor",
   "@interiorToastFloorApplied": {
     "description": "C4 floor selection: success toast after applying a floor material."
   },
-  "interiorStagePol": "Pol bosqichi",
+  "interiorStagePol": "Flooring stage",
   "@interiorStagePol": {
     "description": "C4 floor selection: stage-progress label for the flooring stage."
   },
-  "interiorRailTabKafel": "Kafel",
+  "interiorRailTabKafel": "Tile",
   "@interiorRailTabKafel": {
     "description": "C4 floor selection: rail tab label for tile (kafel) floors."
   },
-  "interiorRailTabLaminat": "Laminat",
+  "interiorRailTabLaminat": "Laminate",
   "@interiorRailTabLaminat": {
     "description": "C4 floor selection: rail tab label for laminate floors."
   },
-  "interiorRailTabParket": "Parket",
+  "interiorRailTabParket": "Parquet",
   "@interiorRailTabParket": {
     "description": "C4 floor selection: rail tab label for parquet floors."
   },
-  "interiorRailTabBeton": "Beton",
+  "interiorRailTabBeton": "Concrete",
   "@interiorRailTabBeton": {
     "description": "C4 floor selection: rail tab label for concrete (beton) floors."
   },
-  "interiorStageMebel": "Mebel bosqichi",
+  "interiorStageMebel": "Furniture stage",
   "@interiorStageMebel": {
     "description": "C5 furniture placement: stage label for the furniture stage."
   },
-  "interiorRailTabMehmonxona": "Mehmonxona",
+  "interiorRailTabMehmonxona": "Living room",
   "@interiorRailTabMehmonxona": {
     "description": "C5 furniture placement: room rail tab for the living room."
   },
-  "interiorRailTabOshxona": "Oshxona",
+  "interiorRailTabOshxona": "Kitchen",
   "@interiorRailTabOshxona": {
     "description": "C5 furniture placement: room rail tab for the kitchen."
   },
-  "interiorRailTabYotoqxona": "Yotoqxona",
+  "interiorRailTabYotoqxona": "Bedroom",
   "@interiorRailTabYotoqxona": {
     "description": "C5 furniture placement: room rail tab for the bedroom."
   },
-  "interiorRailTabVanna": "Vanna",
+  "interiorRailTabVanna": "Bathroom",
   "@interiorRailTabVanna": {
     "description": "C5 furniture placement: room rail tab for the bathroom."
   },
-  "interiorWalkthroughHint": "Polda yurish mumkin — barmoq bilan suring",
+  "interiorWalkthroughHint": "You can walk on the floor — drag with your finger",
   "@interiorWalkthroughHint": {
     "description": "C7 walkthrough: hint pill explaining you can walk on the floor by dragging with a finger."
   },
-  "interiorGoToPlan": "Rejaga o'tish →",
+  "interiorGoToPlan": "Go to plan →",
   "@interiorGoToPlan": {
     "description": "C7 walkthrough: button switching to the top-down plan view."
   },
-  "interiorDecorationComplete": "Bezash yakunlandi",
+  "interiorDecorationComplete": "Decoration finished",
   "@interiorDecorationComplete": {
     "description": "C9 decoration complete: success title ('Decoration finished')."
   },
-  "interiorGoToElectrical": "Elektrga o'tish →",
+  "interiorGoToElectrical": "Go to electrical →",
   "@interiorGoToElectrical": {
     "description": "C9 decoration complete: primary button moving on to the electrical stage."
   },
-  "interiorWallpaperAdded": "✓ Oboy kutubxonaga qo'shildi",
+  "interiorWallpaperAdded": "✓ Wallpaper added to library",
   "@interiorWallpaperAdded": {
     "description": "Wallpaper library sheet: snackbar confirming an uploaded wallpaper was added to the library."
   },
-  "interiorUploadFailed": "Yuklab bo'lmadi: {error}",
+  "interiorUploadFailed": "Upload failed: {error}",
   "@interiorUploadFailed": {
     "description": "Wallpaper library sheet: snackbar shown when the wallpaper upload fails.",
     "placeholders": {
-      "error": { "type": "String" }
+      "error": {
+        "type": "String"
+      }
     }
   },
-  "interiorWallpaperLibrary": "Oboy kutubxonasi",
+  "interiorWallpaperLibrary": "Wallpaper library",
   "@interiorWallpaperLibrary": {
     "description": "Wallpaper library sheet: title ('Wallpaper library')."
   },
-  "interiorUploading": "Yuklanmoqda…",
+  "interiorUploading": "Uploading…",
   "@interiorUploading": {
     "description": "Wallpaper library sheet: upload button label while an image is uploading."
   },
-  "interiorUploadImage": "Rasm yuklash",
+  "interiorUploadImage": "Upload image",
   "@interiorUploadImage": {
     "description": "Wallpaper library sheet: upload button label ('Upload image')."
   },
-  "interiorNoWallpapers": "Hali oboy yo'q — birinchi bo'lib rasm yuklang",
+  "interiorNoWallpapers": "No wallpaper yet — upload the first image",
   "@interiorNoWallpapers": {
     "description": "Wallpaper library sheet: empty-state message inviting the user to upload the first wallpaper."
   },
-
-  "electricalWireRouting": "Sim yo'nalishi",
+  "electricalWireRouting": "Wire routing",
   "@electricalWireRouting": {
     "description": "D8 electrical summary: app bar title ('Wire routing')."
   },
-  "electricalView2d": "2D reja",
+  "electricalView2d": "2D plan",
   "@electricalView2d": {
     "description": "D8 electrical summary: view-toggle chip for the 2D plan."
   },
@@ -1188,246 +1198,271 @@
   "@electricalView3d": {
     "description": "D8 electrical summary: view-toggle chip for the 3D view."
   },
-  "electricalViewBoth": "Ikkalasi",
+  "electricalViewBoth": "Both",
   "@electricalViewBoth": {
     "description": "D8 electrical summary: view-toggle chip showing both 2D and 3D ('Both')."
   },
-  "electricalRecomputeRoute": "Trassani qayta hisoblash",
+  "electricalRecomputeRoute": "Recompute route",
   "@electricalRecomputeRoute": {
     "description": "D8 electrical summary: button to recompute the wire routing."
   },
-  "electricalNext": "Keyingi →",
+  "electricalNext": "Next →",
   "@electricalNext": {
     "description": "D8 electrical summary: primary button advancing to the electrical result (D9)."
   },
-  "electricalResult": "Elektr natijasi",
+  "electricalResult": "Electrical result",
   "@electricalResult": {
     "description": "D9 electrical result: app bar title ('Electrical result')."
   },
-  "electricalFinish": "Yakunlash →",
+  "electricalFinish": "Finish →",
   "@electricalFinish": {
     "description": "D9 electrical result: primary button finishing the electrical flow (to D10)."
   },
-  "electricalProjectReady": "Loyihangiz tayyor",
+  "electricalProjectReady": "Your project is ready",
   "@electricalProjectReady": {
     "description": "D10 final confirmation: success title ('Your project is ready')."
   },
-  "electricalViewEstimate": "Smetani ko'rish →",
+  "electricalViewEstimate": "View estimate →",
   "@electricalViewEstimate": {
     "description": "D10 final confirmation: primary button opening the cost estimate (E1)."
   },
-
-  "estimateTitlePrefix": "Remont smetasi",
+  "estimateTitlePrefix": "Renovation estimate",
   "@estimateTitlePrefix": {
     "description": "E1 estimation: app bar title prefix, followed by the room name and dimensions ('Renovation estimate')."
   },
-  "estimateDefaultRoomName": "Mehmonxona",
+  "estimateDefaultRoomName": "Living room",
   "@estimateDefaultRoomName": {
     "description": "E1 estimation: fallback room name shown in the title when the room has none ('Living room')."
   },
-  "estimatePdfFailed": "PDF yuklab bo'lmadi: {error}",
+  "estimatePdfFailed": "Couldn't download PDF: {error}",
   "@estimatePdfFailed": {
     "description": "E1 estimation: snackbar shown when downloading the smeta PDF fails.",
     "placeholders": {
-      "error": { "type": "String" }
+      "error": {
+        "type": "String"
+      }
     }
   },
-  "estimateSomeWork": "Ba'zi ishlar",
+  "estimateSomeWork": "Some work",
   "@estimateSomeWork": {
     "description": "E1 estimation: fallback label in the savings banner for already-done work ('Some work')."
   },
-  "estimateStageFallback": "Bosqich",
+  "estimateStageFallback": "Stage",
   "@estimateStageFallback": {
     "description": "E1 estimation: generic fallback stage label in the savings banner ('Stage')."
   },
-  "estimateAdjust": "Smeta sozlash",
+  "estimateAdjust": "Adjust estimate",
   "@estimateAdjust": {
     "description": "Estimate adjust: E1 tooltip and E3 app bar title ('Adjust estimate')."
   },
-  "estimateApproxTotal": "Taxminiy umumiy narx",
+  "estimateApproxTotal": "Approximate total price",
   "@estimateApproxTotal": {
     "description": "E1 estimation: label above the big total price card ('Approximate total price')."
   },
-  "estimateLabor": "Ishchi kuchi",
+  "estimateLabor": "Labour",
   "@estimateLabor": {
     "description": "Estimate: labour cost column/summary label ('Labour') (E1, E2, E3)."
   },
-  "estimateSavingsBanner": "{label} allaqachon bor edi — {amount} tejaldingiz",
+  "estimateSavingsBanner": "{label} already existed — you saved {amount}",
   "@estimateSavingsBanner": {
     "description": "E1 estimation: green savings banner stating a stage already existed and how much was saved.",
     "placeholders": {
-      "label": { "type": "String" },
-      "amount": { "type": "String" }
+      "label": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
     }
   },
-  "estimateExcludedNote": "sizda mavjud — hisoblanmadi",
+  "estimateExcludedNote": "you already have it — not counted",
   "@estimateExcludedNote": {
     "description": "E1 estimation: note on an excluded stage row ('you already have it — not counted')."
   },
-  "estimateZeroSom": "0 so'm",
+  "estimateZeroSom": "0 som",
   "@estimateZeroSom": {
     "description": "E1 estimation: struck-through price shown for excluded stages ('0 som')."
   },
-  "estimatePreparingPdf": "Tayyorlanmoqda…",
+  "estimatePreparingPdf": "Preparing…",
   "@estimatePreparingPdf": {
     "description": "E1 estimation: PDF button label while the PDF is being prepared."
   },
-  "estimateBuyFromShops": "Do'konlardan xarid qilish",
+  "estimateBuyFromShops": "Buy from shops",
   "@estimateBuyFromShops": {
     "description": "E1 estimation: primary button to buy materials from shops."
   },
-  "estimateSendToMaster": "Ustaga yuborish",
+  "estimateSendToMaster": "Send to master",
   "@estimateSendToMaster": {
     "description": "E1 estimation: secondary button to send the estimate to a craftsman."
   },
-  "estimateMaterialsTotal": "Materiallar jami",
+  "estimateMaterialsTotal": "Materials total",
   "@estimateMaterialsTotal": {
     "description": "E2 material costs: materials subtotal row label ('Materials total')."
   },
-  "estimateStageTotal": "Bosqich jami",
+  "estimateStageTotal": "Stage total",
   "@estimateStageTotal": {
     "description": "E2 material costs: sticky stage total label ('Stage total')."
   },
-  "estimateAddMaterialsToCart": "Materiallarni savatga",
+  "estimateAddMaterialsToCart": "Add materials to cart",
   "@estimateAddMaterialsToCart": {
     "description": "E2 material costs: button adding this stage's materials to the cart."
   },
-  "estimateQualityLevel": "Sifat darajasi",
+  "estimateQualityLevel": "Quality level",
   "@estimateQualityLevel": {
     "description": "E3 labor costs: section title above the quality-tier options ('Quality level')."
   },
-  "estimateExcludeLabor": "Ishchi kuchini qo'shmaslik",
+  "estimateExcludeLabor": "Don't include labour",
   "@estimateExcludeLabor": {
     "description": "E3 labor costs: DIY switch title ('Don't include labour')."
   },
-  "estimateDiySubtitle": "O'zim bajaraman — faqat materiallar hisoblanadi",
+  "estimateDiySubtitle": "I'll do it myself — only materials are counted",
   "@estimateDiySubtitle": {
     "description": "E3 labor costs: DIY switch subtitle ('I'll do it myself — only materials are counted')."
   },
-  "estimateDeltaSavings": "Delta tejash ({stage})",
+  "estimateDeltaSavings": "Delta savings ({stage})",
   "@estimateDeltaSavings": {
     "description": "E3 labor costs: summary row for the delta savings from an excluded stage.",
     "placeholders": {
-      "stage": { "type": "String" }
+      "stage": {
+        "type": "String"
+      }
     }
   },
-  "estimateNewTotal": "Yangi jami",
+  "estimateNewTotal": "New total",
   "@estimateNewTotal": {
     "description": "E3 labor costs: sticky new total label ('New total')."
   },
-  "estimateSaveEstimate": "Smetani saqlash",
+  "estimateSaveEstimate": "Save estimate",
   "@estimateSaveEstimate": {
     "description": "E3 labor costs: primary button saving the estimate and returning to E1."
   },
-
-  "studioAiDesigner": "AI dizayner",
+  "studioAiDesigner": "AI designer",
   "@studioAiDesigner": {
     "description": "AI designer: E1 button and AI builder sheet header ('AI designer')."
   },
-  "studioAiApplied": "✓ AI o'zgarishlari qo'llanildi",
+  "studioAiApplied": "✓ AI changes applied",
   "@studioAiApplied": {
     "description": "AI builder sheet: snackbar confirming the AI's changes were applied."
   },
-  "studioApplyFailed": "Qo'llab bo'lmadi: {error}",
+  "studioApplyFailed": "Couldn't apply: {error}",
   "@studioApplyFailed": {
     "description": "AI builder sheet: snackbar shown when applying the AI patch fails.",
     "placeholders": {
-      "error": { "type": "String" }
+      "error": {
+        "type": "String"
+      }
     }
   },
-  "studioAiHint": "Masalan: \"Devorlarni iliq bej rangga bo'ya va divan qo'sh\"",
+  "studioAiHint": "For example: \"Paint the walls warm beige and add a sofa\"",
   "@studioAiHint": {
     "description": "AI builder sheet: example prompt hint in the request text field."
   },
-  "studioGenerating": "Ishlanmoqda…",
+  "studioGenerating": "Generating…",
   "@studioGenerating": {
     "description": "AI builder sheet: generate button label while the AI is working."
   },
-  "studioGenerate": "Yaratish",
+  "studioGenerate": "Generate",
   "@studioGenerate": {
     "description": "AI builder sheet: generate button label ('Generate')."
   },
-  "studioActionLabel": "Amal: {name}",
+  "studioActionLabel": "Action: {name}",
   "@studioActionLabel": {
     "description": "AI builder sheet: streamed event row for a tool call the agent made.",
     "placeholders": {
-      "name": { "type": "String" }
+      "name": {
+        "type": "String"
+      }
     }
   },
-  "studioDoneLabel": "Bajarildi: {name}",
+  "studioDoneLabel": "Done: {name}",
   "@studioDoneLabel": {
     "description": "AI builder sheet: streamed event row for a completed tool result.",
     "placeholders": {
-      "name": { "type": "String" }
+      "name": {
+        "type": "String"
+      }
     }
   },
-  "studioAiNoResponse": "AI hozircha javob berolmadi.\n{message}",
+  "studioAiNoResponse": "The AI couldn't respond yet.\n{message}",
   "@studioAiNoResponse": {
     "description": "AI builder sheet: error tile shown when the AI could not respond, followed by the error detail.",
     "placeholders": {
-      "message": { "type": "String" }
+      "message": {
+        "type": "String"
+      }
     }
   },
-  "studioChangeCeiling": "Shift balandligi: {height} m",
+  "studioChangeCeiling": "Ceiling height: {height} m",
   "@studioChangeCeiling": {
     "description": "AI builder sheet: proposed change line for the new ceiling height in meters.",
     "placeholders": {
-      "height": { "type": "String" }
+      "height": {
+        "type": "String"
+      }
     }
   },
-  "studioChangeSurfaces": "{count} ta yuza materiali",
+  "studioChangeSurfaces": "{count} surface materials",
   "@studioChangeSurfaces": {
     "description": "AI builder sheet: proposed change line for how many surface materials changed.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "studioChangeWalls": "{count} ta devor o'lchami",
+  "studioChangeWalls": "{count} wall dimensions",
   "@studioChangeWalls": {
     "description": "AI builder sheet: proposed change line for how many wall dimensions changed.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "studioChangeFurniture": "{count} ta mebel",
+  "studioChangeFurniture": "{count} furniture items",
   "@studioChangeFurniture": {
     "description": "AI builder sheet: proposed change line for how many furniture items changed.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "studioChangeLights": "{count} ta chiroq",
+  "studioChangeLights": "{count} lights",
   "@studioChangeLights": {
     "description": "AI builder sheet: proposed change line for how many lights changed.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "studioApply": "Qo'llash",
+  "studioApply": "Apply",
   "@studioApply": {
     "description": "AI builder sheet: button applying the AI's proposed changes ('Apply')."
   },
-  "studioLoginRequired": "Studio ochish uchun tizimga kiring.",
+  "studioLoginRequired": "Log in to open the studio.",
   "@studioLoginRequired": {
     "description": "Studio WebView: error shown when opening the studio while unauthenticated ('Log in to open the studio')."
   },
-  "studioLoadFailed": "Studio yuklanmadi: {error}",
+  "studioLoadFailed": "Studio failed to load: {error}",
   "@studioLoadFailed": {
     "description": "Studio WebView: error shown when the studio page fails to load.",
     "placeholders": {
-      "error": { "type": "String" }
+      "error": {
+        "type": "String"
+      }
     }
   },
   "studioWebViewTitle": "3D Studio",
   "@studioWebViewTitle": {
     "description": "Studio WebView: default app-bar title when no room-specific title is given."
   },
-
-  "actionAdd": "Qo'shish",
+  "actionAdd": "Add",
   "@actionAdd": {
     "description": "Generic 'Add' button label used in the add-room dialog."
   },
-  "actionPrev": "Ortga",
+  "actionPrev": "Previous",
   "@actionPrev": {
     "description": "Previous-step button label ('Back') in the wall-measurement and 3D wizard step navigation."
   },
@@ -1435,504 +1470,518 @@
   "@actionOk": {
     "description": "Generic OK confirmation button in the draw-room wall-length dialog."
   },
-  "actionCancelShort": "Bekor",
+  "actionCancelShort": "Cancel",
   "@actionCancelShort": {
     "description": "Short cancel button ('Cancel') in the draw-room wall-length dialog."
   },
-  "roomDefaultName": "Xona",
+  "roomDefaultName": "Room",
   "@roomDefaultName": {
     "description": "Fallback room name used when the user leaves the room-name field empty."
   },
-  "ceilingHeightLabel": "Shift balandligi",
+  "ceilingHeightLabel": "Ceiling height",
   "@ceilingHeightLabel": {
     "description": "Label above the ceiling-height control on the scan-review and draw-room screens."
   },
-  "measureLength": "Uzunlik",
+  "measureLength": "Length",
   "@measureLength": {
     "description": "Label for the wall-length value/slider on the wall-measurement and 3D wizard steps."
   },
-
-  "furnitureDelete": "O'chirish",
+  "furnitureDelete": "Delete",
   "@furnitureDelete": {
     "description": "Furniture edit card: button that removes the furniture item."
   },
-  "furnitureRotate": "Aylantirish",
+  "furnitureRotate": "Rotate",
   "@furnitureRotate": {
     "description": "Furniture edit card: button that rotates the furniture item 90 degrees."
   },
-
-  "electricalTotalsTitle": "Elektr hisoblandi",
+  "electricalTotalsTitle": "Electrical calculated",
   "@electricalTotalsTitle": {
     "description": "Electrical totals card heading ('Electrical computed')."
   },
-  "electricalTotalsWireLabel": "jami sim",
+  "electricalTotalsWireLabel": "total wire",
   "@electricalTotalsWireLabel": {
     "description": "Electrical totals card stat label: total wire length."
   },
-  "electricalTotalsDeviceLabel": "ta qurilma",
+  "electricalTotalsDeviceLabel": "devices",
   "@electricalTotalsDeviceLabel": {
     "description": "Electrical totals card stat label: device count."
   },
-  "electricalTotalsSocketWires": "Rozetka simlari {meters} m",
+  "electricalTotalsSocketWires": "Socket wires {meters} m",
   "@electricalTotalsSocketWires": {
     "description": "Electrical totals chip: socket wire length in metres.",
     "placeholders": {
-      "meters": { "type": "String" }
+      "meters": {
+        "type": "String"
+      }
     }
   },
-  "electricalTotalsSwitchWires": "Kalit simlari {meters} m",
+  "electricalTotalsSwitchWires": "Switch wires {meters} m",
   "@electricalTotalsSwitchWires": {
     "description": "Electrical totals chip: switch wire length in metres.",
     "placeholders": {
-      "meters": { "type": "String" }
+      "meters": {
+        "type": "String"
+      }
     }
   },
-  "electricalTotalsSwitchLightSummary": "{switches} kalit · {lights} yoritish",
+  "electricalTotalsSwitchLightSummary": "{switches} switches · {lights} lights",
   "@electricalTotalsSwitchLightSummary": {
     "description": "Electrical totals chip summarising switch and light counts.",
     "placeholders": {
-      "switches": { "type": "int" },
-      "lights": { "type": "int" }
+      "switches": {
+        "type": "int"
+      },
+      "lights": {
+        "type": "int"
+      }
     }
   },
-  "electricalTotalsColDevice": "Qurilma",
+  "electricalTotalsColDevice": "Device",
   "@electricalTotalsColDevice": {
     "description": "Electrical totals table column header: device."
   },
-  "electricalTotalsColWall": "Devor",
+  "electricalTotalsColWall": "Wall",
   "@electricalTotalsColWall": {
     "description": "Electrical totals table column header: wall."
   },
-  "electricalTotalsColHeight": "Balandlik",
+  "electricalTotalsColHeight": "Height",
   "@electricalTotalsColHeight": {
     "description": "Electrical totals table column header: height."
   },
-
-  "dimensionsTitle": "Xona o'lchamlari",
+  "dimensionsTitle": "Room dimensions",
   "@dimensionsTitle": {
     "description": "Dimensions-entry screen app bar title ('Room dimensions')."
   },
-  "dimensionsTabManual": "Qo'lda kiritish",
+  "dimensionsTabManual": "Manual entry",
   "@dimensionsTabManual": {
     "description": "Dimensions-entry segmented tab: manual entry."
   },
-  "dimensionsTabUpload": "Plan yuklash",
+  "dimensionsTabUpload": "Upload plan",
   "@dimensionsTabUpload": {
     "description": "Dimensions-entry segmented tab: floorplan upload."
   },
-  "dimensionsTotalSummary": "Jami: {count} xona · {area} m²",
+  "dimensionsTotalSummary": "Total: {count} rooms · {area} m²",
   "@dimensionsTotalSummary": {
     "description": "Dimensions-entry footer summarising total rooms and area.",
     "placeholders": {
-      "count": { "type": "int" },
-      "area": { "type": "String" }
+      "count": {
+        "type": "int"
+      },
+      "area": {
+        "type": "String"
+      }
     }
   },
-  "dimensionsNextMeasure": "Keyingi: devorlarni o'lchash",
+  "dimensionsNextMeasure": "Next: measure walls",
   "@dimensionsNextMeasure": {
     "description": "Dimensions-entry primary CTA in manual mode ('Next: measure walls')."
   },
-  "dimensionsConvert3d": "3D ga aylantirish",
+  "dimensionsConvert3d": "Convert to 3D",
   "@dimensionsConvert3d": {
     "description": "Dimensions-entry primary CTA in upload mode ('Convert to 3D')."
   },
-  "dimensionsAddRoom": "+ Xona qo'shish",
+  "dimensionsAddRoom": "+ Add room",
   "@dimensionsAddRoom": {
     "description": "Dimensions-entry add-room tile label."
   },
-  "dimensionsRoomDefaultName": "Xona {number}",
+  "dimensionsRoomDefaultName": "Room {number}",
   "@dimensionsRoomDefaultName": {
     "description": "Default pre-filled name for a newly added room in the dimensions dialog.",
     "placeholders": {
-      "number": { "type": "int" }
+      "number": {
+        "type": "int"
+      }
     }
   },
-  "dimensionsRoomNameLabel": "Xona nomi",
+  "dimensionsRoomNameLabel": "Room name",
   "@dimensionsRoomNameLabel": {
     "description": "Add-room dialog: room name field label."
   },
-  "dimensionsLengthLabel": "Uzunlik (m)",
+  "dimensionsLengthLabel": "Length (m)",
   "@dimensionsLengthLabel": {
     "description": "Add-room dialog: length field label."
   },
-  "dimensionsWidthLabel": "Kenglik (m)",
+  "dimensionsWidthLabel": "Width (m)",
   "@dimensionsWidthLabel": {
     "description": "Add-room dialog: width field label."
   },
-  "dimensionsHeightLabel": "Balandlik (m)",
+  "dimensionsHeightLabel": "Height (m)",
   "@dimensionsHeightLabel": {
     "description": "Add-room dialog: height field label."
   },
-  "dimensionsUploadTitle": "Floorplan rasmini yuklang",
+  "dimensionsUploadTitle": "Upload a floorplan image",
   "@dimensionsUploadTitle": {
     "description": "Floorplan upload tab: upload area heading."
   },
-  "dimensionsUploadHint": "PNG yoki JPG · maksimal 10 MB\nYoki bu yerga sudrab tashlang",
+  "dimensionsUploadHint": "PNG or JPG · max 10 MB\nOr drag and drop here",
   "@dimensionsUploadHint": {
     "description": "Floorplan upload tab: file-format and drag hint."
   },
-  "dimensionsChooseFile": "Fayl tanlash",
+  "dimensionsChooseFile": "Choose file",
   "@dimensionsChooseFile": {
     "description": "Floorplan upload tab: choose-file button."
   },
-  "dimensionsUploadNote": "Aniq natija uchun o'lchamlar ko'rsatilgan plan yuklang",
+  "dimensionsUploadNote": "For accurate results, upload a plan with dimensions shown",
   "@dimensionsUploadNote": {
     "description": "Floorplan upload tab: note advising a dimensioned plan for accuracy."
   },
-
-  "openingAddTitle": "Eshik/Deraza qo'shish",
+  "openingAddTitle": "Add door/window",
   "@openingAddTitle": {
     "description": "Door/window sheet title and the wall-measurement add-opening button ('Add door/window')."
   },
-  "openingAddSpaced": "Eshik / Deraza qo'shish",
+  "openingAddSpaced": "Add Door / Window",
   "@openingAddSpaced": {
     "description": "Add door/window button label on the 3D wizard wall step (spaced variant)."
   },
-  "openingTypeDoor": "Eshik",
+  "openingTypeDoor": "Door",
   "@openingTypeDoor": {
     "description": "Door/window sheet type chip: door."
   },
-  "openingTypeWindow": "Deraza",
+  "openingTypeWindow": "Window",
   "@openingTypeWindow": {
     "description": "Door/window sheet type chip: window."
   },
-  "openingTypeBalcony": "Balkon eshigi",
+  "openingTypeBalcony": "Balcony door",
   "@openingTypeBalcony": {
     "description": "Door/window sheet type chip: balcony door."
   },
-  "openingSizeLabel": "O'lcham (sm)",
+  "openingSizeLabel": "Size (cm)",
   "@openingSizeLabel": {
     "description": "Door/window sheet: size (cm) section label."
   },
-  "openingSizeOther": "Boshqa o'lcham…",
+  "openingSizeOther": "Other size…",
   "@openingSizeOther": {
     "description": "Door/window sheet: custom-size chip ('Other size…')."
   },
-  "openingPositionLabel": "Devor bo'ylab joylashuvi",
+  "openingPositionLabel": "Position along the wall",
   "@openingPositionLabel": {
     "description": "Door/window sheet: position-along-wall slider label."
   },
-  "openingAddToWall": "Devorga qo'shish",
+  "openingAddToWall": "Add to wall",
   "@openingAddToWall": {
     "description": "Door/window sheet: confirm button that adds the opening to the wall."
   },
-
-  "newProjectTitle": "Yangi loyiha",
+  "newProjectTitle": "New project",
   "@newProjectTitle": {
     "description": "New-project bottom sheet title."
   },
-  "newProjectSubtitle": "Xonani qanday qo'shmoqchisiz?",
+  "newProjectSubtitle": "How would you like to add a room?",
   "@newProjectSubtitle": {
     "description": "New-project bottom sheet subtitle ('How do you want to add the room?')."
   },
-  "newProjectWizardTitle": "3D Master",
+  "newProjectWizardTitle": "3D Wizard",
   "@newProjectWizardTitle": {
     "description": "New-project entry: 3D wizard title."
   },
-  "newProjectWizardDesc": "Interaktiv 3D ko'rinishda xona o'lchamlarini kiriting",
+  "newProjectWizardDesc": "Enter room dimensions in an interactive 3D view",
   "@newProjectWizardDesc": {
     "description": "New-project entry: 3D wizard description."
   },
-  "newProjectLidarTitle": "LiDAR skaner",
+  "newProjectLidarTitle": "LiDAR scanner",
   "@newProjectLidarTitle": {
     "description": "New-project entry and scan screen app bar: LiDAR scanner title."
   },
-  "newProjectLidarDesc": "Xonani LiDAR yordamida skanerlang va avtomatik 3D model oling",
+  "newProjectLidarDesc": "Scan the room with LiDAR and get an automatic 3D model",
   "@newProjectLidarDesc": {
     "description": "New-project entry: LiDAR scanner description."
   },
-  "newProjectPhotoTitle": "360° Foto skan",
+  "newProjectPhotoTitle": "360° Photo scan",
   "@newProjectPhotoTitle": {
     "description": "New-project entry and unsupported-LiDAR fallback: 360° photo scan title."
   },
-  "newProjectPhotoDesc": "Xonani 360° rasmga oling — ilova nuqtalarni o'zi belgilaydi",
+  "newProjectPhotoDesc": "Take a 360° photo of the room — the app detects the points automatically",
   "@newProjectPhotoDesc": {
     "description": "New-project entry: 360° photo scan description."
   },
-  "newProjectDrawTitle": "O'zingiz chizing",
+  "newProjectDrawTitle": "Draw it yourself",
   "@newProjectDrawTitle": {
     "description": "New-project entry and unsupported-LiDAR fallback: draw-it-yourself title."
   },
-  "newProjectDrawDesc": "Xonani barmog'ingiz bilan chizing — o'lchamlar chizganingizga qarab o'zi hisoblanadi",
+  "newProjectDrawDesc": "Draw the room with your finger — dimensions are calculated automatically from your drawing",
   "@newProjectDrawDesc": {
     "description": "New-project entry: draw-it-yourself description."
   },
-
-  "summarySavedTitle": "O'lchamlar saqlandi!",
+  "summarySavedTitle": "Dimensions saved!",
   "@summarySavedTitle": {
     "description": "Room summary / wizard summary celebratory heading ('Dimensions saved!')."
   },
-  "summaryStatFloor": "pol",
+  "summaryStatFloor": "floor",
   "@summaryStatFloor": {
     "description": "Room summary stat card label: floor area."
   },
-  "summaryStatWallNet": "devor (netto)",
+  "summaryStatWallNet": "wall (net)",
   "@summaryStatWallNet": {
     "description": "Room summary stat card label: net wall area."
   },
-  "summaryStatPerimeter": "perimetr",
+  "summaryStatPerimeter": "perimeter",
   "@summaryStatPerimeter": {
     "description": "Room summary stat card label: perimeter."
   },
-  "summaryStatOpenings": "eshik/deraza",
+  "summaryStatOpenings": "door/window",
   "@summaryStatOpenings": {
     "description": "Room summary stat card label: openings (doors/windows)."
   },
-  "summaryOpeningsCount": "{count} ta",
+  "summaryOpeningsCount": "{count}",
   "@summaryOpeningsCount": {
     "description": "Room summary / wizard openings count value (e.g. '3 ta').",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "summaryOpeningsNote": "Eshik/derazalar avtomatik ayirilgan (netto)",
+  "summaryOpeningsNote": "Doors/windows automatically subtracted (net)",
   "@summaryOpeningsNote": {
     "description": "Room summary note explaining openings are auto-subtracted (net)."
   },
-  "summaryAddRoom": "+ Yangi xona qo'shish",
+  "summaryAddRoom": "+ Add new room",
   "@summaryAddRoom": {
     "description": "Room summary: secondary action to add another room."
   },
-  "roomSetupDefaultProjectName": "Mehmonxona ta'miri",
+  "roomSetupDefaultProjectName": "Living room renovation",
   "@roomSetupDefaultProjectName": {
     "description": "Default name given to a newly measured room/project, used until the user renames it."
   },
-  "roomSetupWallLabelA": "Devor A",
+  "roomSetupWallLabelA": "Wall A",
   "@roomSetupWallLabelA": {
     "description": "Wall measurements screen: app-bar title for wall A."
   },
-  "roomSetupWallLabelB": "Devor B",
+  "roomSetupWallLabelB": "Wall B",
   "@roomSetupWallLabelB": {
     "description": "Wall measurements screen: app-bar title for wall B."
   },
-  "roomSetupWallLabelC": "Devor C",
+  "roomSetupWallLabelC": "Wall C",
   "@roomSetupWallLabelC": {
     "description": "Wall measurements screen: app-bar title for wall C."
   },
-  "roomSetupWallLabelD": "Devor D",
+  "roomSetupWallLabelD": "Wall D",
   "@roomSetupWallLabelD": {
     "description": "Wall measurements screen: app-bar title for wall D."
   },
-  "roomSetupWallLabelFallback": "Devor",
+  "roomSetupWallLabelFallback": "Wall",
   "@roomSetupWallLabelFallback": {
     "description": "Wall measurements screen: generic app-bar title fallback for an unknown wall type."
   },
-
-  "wizardTitle": "Yangi xona",
+  "wizardTitle": "New room",
   "@wizardTitle": {
     "description": "3D room wizard app bar title ('New room')."
   },
-  "wizardCeilingQuestion": "Shiftning balandligi?",
+  "wizardCeilingQuestion": "Ceiling height?",
   "@wizardCeilingQuestion": {
     "description": "3D wizard ceiling step question ('Ceiling height?')."
   },
-  "wizardCeilingHint": "Odatda 2.5–3.2 metr oralig'ida",
+  "wizardCeilingHint": "Usually between 2.5–3.2 meters",
   "@wizardCeilingHint": {
     "description": "3D wizard ceiling step hint ('Usually between 2.5–3.2 metres')."
   },
-  "wizardExactValue": "Aniq qiymat (m)",
+  "wizardExactValue": "Exact value (m)",
   "@wizardExactValue": {
     "description": "3D wizard ceiling step: exact-value field label."
   },
-  "wizardWallTitle": "{letter} devor",
+  "wizardWallTitle": "Wall {letter}",
   "@wizardWallTitle": {
     "description": "3D wizard wall step heading, e.g. 'A devor'.",
     "placeholders": {
-      "letter": { "type": "String" }
+      "letter": {
+        "type": "String"
+      }
     }
   },
-  "wizardWallSubtitle": "Uzunligini kiriting",
+  "wizardWallSubtitle": "Enter the length",
   "@wizardWallSubtitle": {
     "description": "3D wizard wall step subtitle ('Enter its length')."
   },
-  "wizardSummarySubtitle": "Xona parametrlari muvaffaqiyatli qayd etildi",
+  "wizardSummarySubtitle": "Room parameters saved successfully",
   "@wizardSummarySubtitle": {
     "description": "3D wizard summary subtitle confirming the room parameters were recorded."
   },
-  "wizardStatFloor": "POL MAYDONI",
+  "wizardStatFloor": "FLOOR AREA",
   "@wizardStatFloor": {
     "description": "3D wizard summary stat: floor area (uppercase)."
   },
-  "wizardStatWallNet": "DEVOR MAYDONI (NETTO)",
+  "wizardStatWallNet": "WALL AREA (NET)",
   "@wizardStatWallNet": {
     "description": "3D wizard summary stat: net wall area (uppercase)."
   },
-  "wizardStatPerimeter": "PERIMETR",
+  "wizardStatPerimeter": "PERIMETER",
   "@wizardStatPerimeter": {
     "description": "3D wizard summary stat: perimeter (uppercase)."
   },
-  "wizardStatOpenings": "ESHIK/DERAZALAR",
+  "wizardStatOpenings": "DOORS/WINDOWS",
   "@wizardStatOpenings": {
     "description": "3D wizard summary stat: openings (uppercase)."
   },
-  "wizardViewSmeta": "Smeta ko'rish",
+  "wizardViewSmeta": "View estimate",
   "@wizardViewSmeta": {
     "description": "3D wizard summary primary CTA ('View estimate')."
   },
-  "wizardOpening": "Ochilmoqda…",
+  "wizardOpening": "Opening…",
   "@wizardOpening": {
     "description": "3D wizard summary: loading label while the studio is opening."
   },
-  "wizardStartDesign": "Bezashni boshlash",
+  "wizardStartDesign": "Start decorating",
   "@wizardStartDesign": {
     "description": "3D wizard summary secondary CTA ('Start decorating')."
   },
-
-  "measureOpenings": "Eshik / derazalar",
+  "measureOpenings": "Doors / windows",
   "@measureOpenings": {
     "description": "Wall-measurement screen: openings list section label."
   },
-  "measureFromLeft": "Chapdan {offset} m",
+  "measureFromLeft": "{offset} m from left",
   "@measureFromLeft": {
     "description": "Wall-measurement opening row: offset from the wall's left edge.",
     "placeholders": {
-      "offset": { "type": "String" }
+      "offset": {
+        "type": "String"
+      }
     }
   },
-
-  "lidarScanning": "Skanerlanyapti...",
+  "lidarScanning": "Scanning...",
   "@lidarScanning": {
     "description": "LiDAR scanning screen: 'Scanning...' status."
   },
-  "lidarMoveHint": "Telefonni sekin harakatlantiring",
+  "lidarMoveHint": "Move your phone slowly",
   "@lidarMoveHint": {
     "description": "LiDAR scanning screen hint: 'Move the phone slowly'."
   },
-  "lidarLabelWall": "devor",
+  "lidarLabelWall": "wall",
   "@lidarLabelWall": {
     "description": "LiDAR scanning found-stat label: wall (used as '{count} devor')."
   },
-  "lidarLabelDoor": "eshik",
+  "lidarLabelDoor": "door",
   "@lidarLabelDoor": {
     "description": "LiDAR scanning found-stat label: door."
   },
-  "lidarLabelWindow": "deraza",
+  "lidarLabelWindow": "window",
   "@lidarLabelWindow": {
     "description": "LiDAR scanning found-stat label: window."
   },
-
-  "photoPointsCount": "{captured}/{total} nuqta",
+  "photoPointsCount": "{captured}/{total} points",
   "@photoPointsCount": {
     "description": "360° photo scan: captured / total points counter.",
     "placeholders": {
-      "captured": { "type": "int" },
-      "total": { "type": "int" }
+      "captured": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
-  "photoTurnHint": "Telefonni keyingi nuqtaga burang",
+  "photoTurnHint": "Turn your phone to the next point",
   "@photoTurnHint": {
     "description": "360° photo scan hint: 'Turn the phone to the next point'."
   },
-  "photoCapture": "Suratga olish",
+  "photoCapture": "Capture",
   "@photoCapture": {
     "description": "360° photo scan: capture button ('Take photo')."
   },
-
-  "scanReviewTitle": "Skan natijasi",
+  "scanReviewTitle": "Scan result",
   "@scanReviewTitle": {
     "description": "Room-scan review page app bar title ('Scan result')."
   },
-  "scanReviewDetected": "Aniqlangan: {value}",
+  "scanReviewDetected": "Detected: {value}",
   "@scanReviewDetected": {
     "description": "Room-scan review: detected ceiling height.",
     "placeholders": {
-      "value": { "type": "String" }
+      "value": {
+        "type": "String"
+      }
     }
   },
-  "scanReviewWalls": "Devorlar ({count})",
+  "scanReviewWalls": "Walls ({count})",
   "@scanReviewWalls": {
     "description": "Room-scan review: walls section header with count.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "scanReviewWall": "Devor {number}",
+  "scanReviewWall": "Wall {number}",
   "@scanReviewWall": {
     "description": "Room-scan review: per-wall row label, e.g. 'Devor 1'.",
     "placeholders": {
-      "number": { "type": "int" }
+      "number": {
+        "type": "int"
+      }
     }
   },
-  "scanReviewObjects": "Topilgan buyumlar ({count})",
+  "scanReviewObjects": "Found objects ({count})",
   "@scanReviewObjects": {
     "description": "Room-scan review: detected-objects section header with count.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "scanReviewNoObjects": "Buyum topilmadi",
+  "scanReviewNoObjects": "No objects found",
   "@scanReviewNoObjects": {
     "description": "Room-scan review: shown when no objects were detected."
   },
-  "scanReviewObjectsDetectedNotice": "{count} ta buyum aniqlandi — Studio'da \"Skan ko'rinishi\"da ko'rasiz",
-  "@scanReviewObjectsDetectedNotice": {
-    "description": "Room-scan review: snackbar shown right after continuing to the studio, when the scan detected at least one object, pointing the user at the studio's scan-overlay toggle so the detection isn't missed.",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
-  "scanReviewRescan": "Qayta skanerlash",
+  "scanReviewObjectsDetectedNotice": "{count} objects detected — you'll see them in Studio under \"Scan view\"",
+  "scanReviewRescan": "Rescan",
   "@scanReviewRescan": {
     "description": "Room-scan review: re-scan button."
   },
-  "scanReviewSummaryTitle": "Nimalar aniqlandi",
+  "scanReviewSummaryTitle": "What was detected",
   "@scanReviewSummaryTitle": {
     "description": "Room-scan review: header of the compact 'what we detected' summary shown under the 2-D preview."
   },
-  "scanReviewSummaryWalls": "Devor",
+  "scanReviewSummaryWalls": "Walls",
   "@scanReviewSummaryWalls": {
     "description": "Room-scan review summary chip label: walls."
   },
-  "scanReviewSummaryDoors": "Eshik",
+  "scanReviewSummaryDoors": "Doors",
   "@scanReviewSummaryDoors": {
     "description": "Room-scan review summary chip label: doors."
   },
-  "scanReviewSummaryWindows": "Deraza",
+  "scanReviewSummaryWindows": "Windows",
   "@scanReviewSummaryWindows": {
     "description": "Room-scan review summary chip label: windows."
   },
-  "scanReviewSummaryObjects": "Buyum",
+  "scanReviewSummaryObjects": "Objects",
   "@scanReviewSummaryObjects": {
     "description": "Room-scan review summary chip label: detected objects."
   },
-  "scanReviewSummaryLowConfidence": "{count} ta element past aniqlikda o'lchandi — o'lchamlarni tekshiring.",
+  "scanReviewSummaryLowConfidence": "{count} items were measured with low confidence — please check the dimensions.",
   "@scanReviewSummaryLowConfidence": {
     "description": "Room-scan review summary: warning that some detected items carry a low RoomPlan confidence.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "scanReviewSummaryNoOpenings": "Eshik yoki deraza topilmadi. Shisha va ochiq eshiklar ko'pincha aniqlanmaydi.",
+  "scanReviewSummaryNoOpenings": "No doors or windows found. Glass and open doors are often not detected.",
   "@scanReviewSummaryNoOpenings": {
     "description": "Room-scan review summary hint shown when zero doors or zero windows were detected."
   },
-  "scanReviewSummaryRescanHint": "Yaqinroqdan, sekinroq qayta skanerlang.",
+  "scanReviewSummaryRescanHint": "Rescan closer and slower.",
   "@scanReviewSummaryRescanHint": {
     "description": "Room-scan review summary hint: second line telling the user how to improve the scan."
   },
-  "scanReviewSaveFailed": "Xonani saqlab bo'lmadi. Internetni tekshiring.",
+  "scanReviewSaveFailed": "Couldn't save the room. Check your internet connection.",
   "@scanReviewSaveFailed": {
     "description": "Room-scan review: snackbar when the room could not be saved."
   },
-  "scanReviewUploadFailed": "Skan fayllari yuklanmadi: {error} Xona saqlandi, keyinroq qayta skanerlashingiz mumkin.",
+  "scanReviewUploadFailed": "Scan files failed to upload: {error} The room was saved; you can rescan later.",
   "@scanReviewUploadFailed": {
     "description": "Room-scan review: snackbar shown in the studio when the scan artifact (mesh/USDZ) upload failed; the room itself was still created.",
     "placeholders": {
-      "error": { "type": "String" }
+      "error": {
+        "type": "String"
+      }
     }
   },
-  "scanReviewThumbnailFailed": "Xona ko'rinishi yuklanmadi: {error} Loyiha kartasi rasmsiz ko'rinadi.",
+  "scanReviewThumbnailFailed": "Room preview failed to upload: {error} The project card will show without an image.",
   "@scanReviewThumbnailFailed": {
     "description": "Room-scan review: snackbar shown in the studio when uploading the generated floor-plan thumbnail failed; the room itself was still created and only its project-card preview stays empty.",
     "placeholders": {
-      "error": { "type": "String" }
-    }
-  },
-  "scanReviewError": "Xatolik: {error}",
-  "@scanReviewError": {
-    "description": "Room-scan review: generic error snackbar with detail.",
-    "placeholders": {
-      "error": { "type": "String" }
+      "error": {
+        "type": "String"
+      }
     }
   },
   "scanReviewCeilingHeightValue": "{h} m",
@@ -1942,283 +1991,310 @@
       "h": { "type": "String" }
     }
   },
-  "pendingScanTitle": "Tugallanmagan skan topildi",
+  "pendingScanTitle": "Unfinished scan found",
   "@pendingScanTitle": {
     "description": "Dialog title offered at app start when a LiDAR scan was interrupted before being saved."
   },
-  "pendingScanBody": "Siz oldin xonani skanerlagansiz, lekin \"Davom etish\"ni bosmasdan chiqib ketgansiz. Davom ettiramizmi?",
+  "pendingScanBody": "You scanned a room earlier but left before tapping \"Continue\". Resume it now?",
   "@pendingScanBody": {
     "description": "Dialog body for the resume-interrupted-scan prompt."
   },
-  "pendingScanResume": "Davom etish",
+  "pendingScanResume": "Resume",
   "@pendingScanResume": {
     "description": "Resume-interrupted-scan dialog: button to go back to the review screen."
   },
-  "pendingScanDiscard": "Bekor qilish",
+  "pendingScanDiscard": "Discard",
   "@pendingScanDiscard": {
     "description": "Resume-interrupted-scan dialog: button to discard the saved scan."
   },
-  "scanCategoryTable": "Stol",
+  "scanCategoryTable": "Table",
   "@scanCategoryTable": {
     "description": "Detected-object category label: table."
   },
-  "scanCategoryChair": "Stul",
+  "scanCategoryChair": "Chair",
   "@scanCategoryChair": {
     "description": "Detected-object category label: chair."
   },
-  "scanCategorySofa": "Divan",
+  "scanCategorySofa": "Sofa",
   "@scanCategorySofa": {
     "description": "Detected-object category label: sofa."
   },
-  "scanCategoryBed": "Karavot",
+  "scanCategoryBed": "Bed",
   "@scanCategoryBed": {
     "description": "Detected-object category label: bed."
   },
-  "scanCategoryStorage": "Shkaf",
+  "scanCategoryStorage": "Storage",
   "@scanCategoryStorage": {
     "description": "Detected-object category label: storage (cabinet/wardrobe)."
   },
-  "scanCategoryRefrigerator": "Muzlatgich",
+  "scanCategoryRefrigerator": "Refrigerator",
   "@scanCategoryRefrigerator": {
     "description": "Detected-object category label: refrigerator."
   },
-  "scanCategoryStove": "Plita",
+  "scanCategoryStove": "Stove",
   "@scanCategoryStove": {
     "description": "Detected-object category label: stove."
   },
-  "scanCategorySink": "Rakovina",
+  "scanCategorySink": "Sink",
   "@scanCategorySink": {
     "description": "Detected-object category label: sink."
   },
-  "scanCategoryToilet": "Unitaz",
+  "scanCategoryToilet": "Toilet",
   "@scanCategoryToilet": {
     "description": "Detected-object category label: toilet."
   },
-  "scanCategoryBathtub": "Vanna",
+  "scanCategoryBathtub": "Bathtub",
   "@scanCategoryBathtub": {
     "description": "Detected-object category label: bathtub."
   },
-  "scanCategoryWasher": "Kir yuvish mashinasi",
+  "scanCategoryWasher": "Washing machine",
   "@scanCategoryWasher": {
     "description": "Detected-object category label: washing machine."
   },
-  "scanCategoryTelevision": "Televizor",
+  "scanCategoryTelevision": "Television",
   "@scanCategoryTelevision": {
     "description": "Detected-object category label: television."
   },
-  "scanCategoryFireplace": "Kamin",
+  "scanCategoryFireplace": "Fireplace",
   "@scanCategoryFireplace": {
     "description": "Detected-object category label: fireplace."
   },
-  "scanCategoryStairs": "Zina",
+  "scanCategoryStairs": "Stairs",
   "@scanCategoryStairs": {
     "description": "Detected-object category label: stairs."
   },
-  "scanCategoryOther": "Boshqa",
+  "scanCategoryOther": "Other",
   "@scanCategoryOther": {
     "description": "Detected-object category label: fallback for an unrecognized category."
   },
-
-  "scanBusy": "Skaner allaqachon ishlayapti.",
+  "scanReviewError": "Error: {error}",
+  "@scanReviewError": {
+    "description": "Room-scan review: generic error snackbar with detail.",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "scanBusy": "The scanner is already running.",
   "@scanBusy": {
     "description": "Room-scan screen error: a scan is already running."
   },
-  "scanFailedRetry": "Skanerlashda xatolik. Qayta urinib ko'ring.",
+  "scanFailedRetry": "Scanning failed. Please try again.",
   "@scanFailedRetry": {
     "description": "Room-scan screen error: scanning failed, try again."
   },
-  "scanErrorPrefixed": "Xatolik: {message}",
+  "scanErrorPrefixed": "Error: {message}",
   "@scanErrorPrefixed": {
     "description": "Room-scan screen error with underlying message.",
     "placeholders": {
-      "message": { "type": "String" }
+      "message": {
+        "type": "String"
+      }
     }
   },
-  "scanNotDetected": "Xona aniqlanmadi. Qayta urinib ko'ring.",
+  "scanNotDetected": "Room not detected. Please try again.",
   "@scanNotDetected": {
     "description": "Room-scan screen error: no valid room detected."
   },
-  "scanLidarUnavailableTitle": "LiDAR mavjud emas",
+  "scanLidarUnavailableTitle": "LiDAR unavailable",
   "@scanLidarUnavailableTitle": {
     "description": "Unsupported-device sheet title ('LiDAR not available')."
   },
-  "scanLidarUnavailableBody": "LiDAR skaner faqat iPhone 12 Pro, 13 Pro, 14 Pro, 15 Pro, 16 Pro yoki iPad Pro'da ishlaydi. Xonani boshqa usulda qo'shing:",
+  "scanLidarUnavailableBody": "LiDAR scanning only works on iPhone 12 Pro, 13 Pro, 14 Pro, 15 Pro, 16 Pro or iPad Pro. Add the room another way:",
   "@scanLidarUnavailableBody": {
     "description": "Unsupported-device sheet body explaining LiDAR requirements and offering alternatives."
   },
-  "scanInProgress": "Xona skanerlanmoqda…",
+  "scanInProgress": "Scanning room…",
   "@scanInProgress": {
     "description": "Room-scan screen: 'Scanning the room…' progress label."
   },
-
-  "drawTitle": "Xonani chizing",
+  "drawTitle": "Draw the room",
   "@drawTitle": {
     "description": "Draw-room screen app bar title and the finish button's disabled fallback ('Draw the room')."
   },
-  "drawModeManual": "Qo'lda",
+  "drawModeManual": "Manual",
   "@drawModeManual": {
     "description": "Draw-room mode chip: freehand ('By hand')."
   },
-  "drawModeVisual": "Vizual",
+  "drawModeVisual": "Visual",
   "@drawModeVisual": {
     "description": "Draw-room mode chip: polygon ('Visual')."
   },
-  "drawHintRaw": "Xom chizma. \"Toza\"ga qaytish uchun tugmani bosing.",
+  "drawHintRaw": "Raw sketch. Tap the button to return to \"Clean\".",
   "@drawHintRaw": {
     "description": "Draw-room hint shown while viewing the raw (unsmoothed) sketch."
   },
-  "drawHintShapeReady": "Shakl tayyor! Burchaklarni surib o'lchamni o'zgartiring.",
+  "drawHintShapeReady": "Shape ready! Drag the corners to resize.",
   "@drawHintShapeReady": {
     "description": "Draw-room hint once the shape is closed."
   },
-  "drawHintFreehand": "Xona shaklini barmog'ingiz bilan chizing.",
+  "drawHintFreehand": "Draw the room's shape with your finger.",
   "@drawHintFreehand": {
     "description": "Draw-room hint in freehand mode."
   },
-  "drawHintMarkCorners": "Xona burchaklarini belgilang (kamida 3 ta).",
+  "drawHintMarkCorners": "Mark the room's corners (at least 3).",
   "@drawHintMarkCorners": {
     "description": "Draw-room hint in polygon mode before any corners are placed."
   },
-  "drawHintMorePoints": "Yana {count} ta nuqta qo'ying.",
+  "drawHintMorePoints": "Add {count} more points.",
   "@drawHintMorePoints": {
     "description": "Draw-room hint prompting for more corner points.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "drawHintClose": "Yopish uchun birinchi nuqtaga bosing yoki \"Yopish\".",
+  "drawHintClose": "Tap the first point or \"Close\" to finish.",
   "@drawHintClose": {
     "description": "Draw-room hint on how to close the polygon."
   },
-  "drawToggleClean": "Toza",
+  "drawToggleClean": "Clean",
   "@drawToggleClean": {
     "description": "Draw-room hint bar toggle: show cleaned/smoothed shape ('Clean')."
   },
-  "drawToggleRaw": "Xom",
+  "drawToggleRaw": "Raw",
   "@drawToggleRaw": {
     "description": "Draw-room hint bar toggle: show raw shape ('Raw')."
   },
-  "drawRedo": "Oldinga",
+  "drawRedo": "Redo",
   "@drawRedo": {
     "description": "Draw-room hint bar redo button tooltip ('Redo')."
   },
-  "drawClear": "Tozalash",
+  "drawClear": "Clear",
   "@drawClear": {
     "description": "Draw-room hint bar clear button tooltip ('Clear')."
   },
-  "drawWallLength": "Devor uzunligi",
+  "drawWallLength": "Wall length",
   "@drawWallLength": {
     "description": "Draw-room wall-length dialog title."
   },
-  "drawAreaWarning": "Diqqat: yuza odatiy oraliqdan tashqarida",
+  "drawAreaWarning": "Warning: area is outside the typical range",
   "@drawAreaWarning": {
     "description": "Draw-room bottom panel warning when the area is outside the usual range."
   },
-  "drawTitleRect": "Xona: {width} × {length} × {height} m",
+  "drawTitleRect": "Room: {width} × {length} × {height} m",
   "@drawTitleRect": {
     "description": "Draw-room bottom panel title for a rectangle-like room.",
     "placeholders": {
-      "width": { "type": "String" },
-      "length": { "type": "String" },
-      "height": { "type": "String" }
+      "width": {
+        "type": "String"
+      },
+      "length": {
+        "type": "String"
+      },
+      "height": {
+        "type": "String"
+      }
     }
   },
-  "drawTitlePolygon": "Ko'pburchak · {corners} devor · {width}×{length} m",
+  "drawTitlePolygon": "Polygon · {corners} walls · {width}×{length} m",
   "@drawTitlePolygon": {
     "description": "Draw-room bottom panel title for a polygonal room.",
     "placeholders": {
-      "corners": { "type": "int" },
-      "width": { "type": "String" },
-      "length": { "type": "String" }
+      "corners": {
+        "type": "int"
+      },
+      "width": {
+        "type": "String"
+      },
+      "length": {
+        "type": "String"
+      }
     }
   },
-  "a11yQuantityDecrease": "Miqdorni kamaytirish",
+  "a11yQuantityDecrease": "Decrease quantity",
   "@a11yQuantityDecrease": {
     "description": "Accessibility label for the icon-only button that decreases an item quantity."
   },
-  "a11yQuantityIncrease": "Miqdorni oshirish",
+  "a11yQuantityIncrease": "Increase quantity",
   "@a11yQuantityIncrease": {
     "description": "Accessibility label for the icon-only button that increases an item quantity."
   },
-  "a11yRemoveFromCart": "Savatdan olib tashlash",
+  "a11yRemoveFromCart": "Remove from cart",
   "@a11yRemoveFromCart": {
     "description": "Accessibility label for the icon-only button that removes a line item from the cart."
   },
-  "a11yAddToCart": "Savatga qo'shish",
+  "a11yAddToCart": "Add to cart",
   "@a11yAddToCart": {
     "description": "Accessibility label for the icon-only button that adds a product to the cart."
   },
-  "a11yCallDealer": "Qo'ng'iroq qilish",
+  "a11yCallDealer": "Call",
   "@a11yCallDealer": {
     "description": "Accessibility label for the icon-only call button in the order status screen."
   },
-  "a11yMessageDealer": "Xabar yuborish",
+  "a11yMessageDealer": "Send message",
   "@a11yMessageDealer": {
     "description": "Accessibility label for the icon-only message button in the order status screen."
   },
-  "shopDealerPhoneUnavailable": "{dealer}: telefon raqami hali mavjud emas",
+  "shopDealerPhoneUnavailable": "{dealer}: phone number not available yet",
   "@shopDealerPhoneUnavailable": {
     "description": "S7 order confirmation: snackbar shown when tapping the dealer's call button before it's wired up.",
     "placeholders": {
-      "dealer": { "type": "String" }
+      "dealer": {
+        "type": "String"
+      }
     }
   },
-  "shopDealerMessageUnavailable": "{dealer} bilan xabar almashish hali mavjud emas",
+  "shopDealerMessageUnavailable": "Messaging with {dealer} isn't available yet",
   "@shopDealerMessageUnavailable": {
     "description": "S7 order confirmation: snackbar shown when tapping the dealer's message button before it's wired up.",
     "placeholders": {
-      "dealer": { "type": "String" }
+      "dealer": {
+        "type": "String"
+      }
     }
   },
-  "a11yEditProfile": "Profilni tahrirlash",
+  "a11yEditProfile": "Edit profile",
   "@a11yEditProfile": {
     "description": "Accessibility label for the icon-only edit button next to the profile name."
   },
-  "a11yMastersListView": "Ro'yxat ko'rinishi",
+  "a11yMastersListView": "List view",
   "@a11yMastersListView": {
     "description": "Accessibility label for the button that switches the masters map to the list view."
   },
-  "settingsScreenTitle": "Sozlamalar",
+  "settingsScreenTitle": "Preferences",
   "@settingsScreenTitle": {
       "description": "E9 preferences screen: AppBar title."
   },
-  "settingsNotificationsSectionTitle": "Bildirishnomalar",
+  "settingsNotificationsSectionTitle": "Notifications",
   "@settingsNotificationsSectionTitle": {
       "description": "E9 preferences screen: 'Notifications' section header."
   },
-  "settingsPushNotificationsTitle": "Push-bildirishnomalar",
+  "settingsPushNotificationsTitle": "Push Notifications",
   "@settingsPushNotificationsTitle": {
       "description": "E9 preferences screen: push notifications toggle title."
   },
-  "settingsPushNotificationsSubtitle": "Loyihalar va pudratchilar haqida yangiliklarni oling",
+  "settingsPushNotificationsSubtitle": "Get updates about projects and contractors",
   "@settingsPushNotificationsSubtitle": {
       "description": "E9 preferences screen: push notifications toggle subtitle."
   },
-  "settingsEmailDigestTitle": "Elektron pochta xulosasi",
+  "settingsEmailDigestTitle": "Email Digest",
   "@settingsEmailDigestTitle": {
       "description": "E9 preferences screen: email digest toggle title."
   },
-  "settingsEmailDigestSubtitle": "Loyihalaringiz bo'yicha haftalik xulosa",
+  "settingsEmailDigestSubtitle": "Weekly summary of your projects",
   "@settingsEmailDigestSubtitle": {
       "description": "E9 preferences screen: email digest toggle subtitle."
   },
-  "settingsMarketingEmailsTitle": "Reklama xabarlari",
+  "settingsMarketingEmailsTitle": "Marketing Emails",
   "@settingsMarketingEmailsTitle": {
       "description": "E9 preferences screen: marketing emails toggle title."
   },
-  "settingsMarketingEmailsSubtitle": "Yangi imkoniyatlar va takliflar haqida xabarlar",
+  "settingsMarketingEmailsSubtitle": "News about new features and offers",
   "@settingsMarketingEmailsSubtitle": {
       "description": "E9 preferences screen: marketing emails toggle subtitle."
   },
-  "settingsUnitsDisplaySectionTitle": "O'lchov birliklari va ekran",
+  "settingsUnitsDisplaySectionTitle": "Units & Display",
   "@settingsUnitsDisplaySectionTitle": {
       "description": "E9 preferences screen: 'Units & Display' section header."
   },
-  "settingsMeasurementUnitsTitle": "O'lchov birliklari",
+  "settingsMeasurementUnitsTitle": "Measurement Units",
   "@settingsMeasurementUnitsTitle": {
       "description": "E9 preferences screen: measurement units dropdown label."
   },
-  "settingsUnitMetric": "Metrik (m²)",
+  "settingsUnitMetric": "Metric (m²)",
   "@settingsUnitMetric": {
       "description": "E9 preferences screen: metric unit system dropdown option."
   },
@@ -2226,75 +2302,75 @@
   "@settingsUnitImperial": {
       "description": "E9 preferences screen: imperial unit system dropdown option."
   },
-  "settingsThemeTitle": "Mavzu",
+  "settingsThemeTitle": "Theme",
   "@settingsThemeTitle": {
       "description": "E9 preferences screen: theme dropdown label."
   },
-  "settingsThemeLight": "Yorug'",
+  "settingsThemeLight": "Light",
   "@settingsThemeLight": {
       "description": "E9 preferences screen: light theme dropdown option."
   },
-  "settingsThemeDark": "Qorong'i",
+  "settingsThemeDark": "Dark",
   "@settingsThemeDark": {
       "description": "E9 preferences screen: dark theme dropdown option."
   },
-  "settingsThemeSystem": "Tizim",
+  "settingsThemeSystem": "System",
   "@settingsThemeSystem": {
       "description": "E9 preferences screen: system theme dropdown option."
   },
-  "settingsLargeTextTitle": "Katta matn",
+  "settingsLargeTextTitle": "Large Text",
   "@settingsLargeTextTitle": {
       "description": "E9 preferences screen: large text toggle title."
   },
-  "settingsLargeTextSubtitle": "O'qishni qulaylashtirish uchun matn hajmini kattalashtiring",
+  "settingsLargeTextSubtitle": "Increase text size for better readability",
   "@settingsLargeTextSubtitle": {
       "description": "E9 preferences screen: large text toggle subtitle."
   },
-  "settingsProjectSettingsSectionTitle": "Loyiha sozlamalari",
+  "settingsProjectSettingsSectionTitle": "Project Settings",
   "@settingsProjectSettingsSectionTitle": {
       "description": "E9 preferences screen: 'Project Settings' section header."
   },
-  "settingsAutoSaveTitle": "Loyihalarni avtomatik saqlash",
+  "settingsAutoSaveTitle": "Auto-Save Projects",
   "@settingsAutoSaveTitle": {
       "description": "E9 preferences screen: auto-save toggle title."
   },
-  "settingsAutoSaveSubtitle": "Ishingiz jarayonida avtomatik ravishda saqlanadi",
+  "settingsAutoSaveSubtitle": "Automatically save your work as you progress",
   "@settingsAutoSaveSubtitle": {
       "description": "E9 preferences screen: auto-save toggle subtitle."
   },
-  "settingsCloudSyncTitle": "Bulutli sinxronizatsiya",
+  "settingsCloudSyncTitle": "Cloud Sync",
   "@settingsCloudSyncTitle": {
       "description": "E9 preferences screen: cloud sync toggle title."
   },
-  "settingsCloudSyncSubtitle": "Loyihalarni barcha qurilmalaringizda sinxronlang",
+  "settingsCloudSyncSubtitle": "Sync projects across all your devices",
   "@settingsCloudSyncSubtitle": {
       "description": "E9 preferences screen: cloud sync toggle subtitle."
   },
-  "settingsCloudSyncEnabledMessage": "Cloud sync yoqildi",
+  "settingsCloudSyncEnabledMessage": "Cloud sync turned on",
   "@settingsCloudSyncEnabledMessage": {
       "description": "E9 preferences screen: snackbar shown after turning cloud sync on."
   },
-  "settingsCloudSyncDisabledMessage": "Cloud sync o'chirildi",
+  "settingsCloudSyncDisabledMessage": "Cloud sync turned off",
   "@settingsCloudSyncDisabledMessage": {
       "description": "E9 preferences screen: snackbar shown after turning cloud sync off."
   },
-  "settingsClearCacheTitle": "Keshni tozalash",
+  "settingsClearCacheTitle": "Clear Cache",
   "@settingsClearCacheTitle": {
       "description": "E9 preferences screen: clear cache action tile title."
   },
-  "settingsClearCacheSubtitle": "Xotiradagi bo'sh joyni ko'paytiring",
+  "settingsClearCacheSubtitle": "Free up storage space",
   "@settingsClearCacheSubtitle": {
       "description": "E9 preferences screen: clear cache action tile subtitle."
   },
-  "settingsClearingCacheInProgress": "Tozalanmoqda...",
+  "settingsClearingCacheInProgress": "Clearing...",
   "@settingsClearingCacheInProgress": {
       "description": "E9 preferences screen: clear cache action tile subtitle while the cache clear is in progress."
   },
-  "settingsCacheClearedMessage": "Kesh tozalandi",
+  "settingsCacheClearedMessage": "Cache cleared",
   "@settingsCacheClearedMessage": {
       "description": "E9 preferences screen: snackbar shown after cache is cleared successfully."
   },
-  "settingsCacheClearFailedMessage": "Keshni tozalab bo'lmadi: {error}",
+  "settingsCacheClearFailedMessage": "Couldn't clear cache: {error}",
   "@settingsCacheClearFailedMessage": {
       "description": "E9 preferences screen: snackbar shown when clearing the cache fails.",
       "placeholders": {
@@ -2303,27 +2379,27 @@
           }
       }
   },
-  "settingsPrivacySecuritySectionTitle": "Maxfiylik va xavfsizlik",
+  "settingsPrivacySecuritySectionTitle": "Privacy & Security",
   "@settingsPrivacySecuritySectionTitle": {
       "description": "E9 preferences screen: 'Privacy & Security' section header."
   },
-  "settingsPrivacyPolicyTitle": "Maxfiylik siyosati",
+  "settingsPrivacyPolicyTitle": "Privacy Policy",
   "@settingsPrivacyPolicyTitle": {
       "description": "E9 preferences screen: privacy policy action tile title."
   },
-  "settingsPrivacyPolicySubtitle": "Maxfiylik siyosatimiz bilan tanishing",
+  "settingsPrivacyPolicySubtitle": "Read our privacy policy",
   "@settingsPrivacyPolicySubtitle": {
       "description": "E9 preferences screen: privacy policy action tile subtitle."
   },
-  "settingsTermsOfServiceTitle": "Foydalanish shartlari",
+  "settingsTermsOfServiceTitle": "Terms of Service",
   "@settingsTermsOfServiceTitle": {
       "description": "E9 preferences screen: terms of service action tile title."
   },
-  "settingsTermsOfServiceSubtitle": "Shartlar va qoidalarni ko'rib chiqing",
+  "settingsTermsOfServiceSubtitle": "Review terms and conditions",
   "@settingsTermsOfServiceSubtitle": {
       "description": "E9 preferences screen: terms of service action tile subtitle."
   },
-  "settingsLinkOpenFailedMessage": "Havolani ochib bo'lmadi: {url}",
+  "settingsLinkOpenFailedMessage": "Couldn't open the link: {url}",
   "@settingsLinkOpenFailedMessage": {
       "description": "E9 preferences screen: snackbar shown when a privacy/terms link fails to open.",
       "placeholders": {
@@ -2332,27 +2408,27 @@
           }
       }
   },
-  "settingsAboutSectionTitle": "Ilova haqida",
+  "settingsAboutSectionTitle": "About",
   "@settingsAboutSectionTitle": {
       "description": "E9 preferences screen: 'About' section header."
   },
-  "settingsAppVersionLabel": "Ilova versiyasi",
+  "settingsAppVersionLabel": "App Version",
   "@settingsAppVersionLabel": {
       "description": "E9 preferences screen: app version row label."
   },
-  "settingsBuildNumberLabel": "Build raqami",
+  "settingsBuildNumberLabel": "Build Number",
   "@settingsBuildNumberLabel": {
       "description": "E9 preferences screen: build number row label."
   },
-  "settingsCheckForUpdatesButton": "Yangilanishlarni tekshirish",
+  "settingsCheckForUpdatesButton": "Check for Updates",
   "@settingsCheckForUpdatesButton": {
       "description": "E9 preferences screen: 'Check for Updates' button."
   },
-  "settingsUpdatesDialogTitle": "Yangilanishlar",
+  "settingsUpdatesDialogTitle": "Updates",
   "@settingsUpdatesDialogTitle": {
       "description": "E9 preferences screen: check-for-updates dialog title."
   },
-  "settingsUpdatesDialogBody": "Siz ilovaning eng so'nggi versiyasidasiz.",
+  "settingsUpdatesDialogBody": "You're on the latest version of the app.",
   "@settingsUpdatesDialogBody": {
       "description": "E9 preferences screen: check-for-updates dialog body."
   },

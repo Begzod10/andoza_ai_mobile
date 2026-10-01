@@ -1,122 +1,114 @@
 {
-  "@@locale": "uz",
-
+  "@@locale": "ru",
   "appTitle": "Andoza AI",
   "@appTitle": {
     "description": "Product name. Shown as the login screen heading and used as the app's brand label."
   },
-
-  "actionRetry": "Qayta urinish",
+  "actionRetry": "Повторить попытку",
   "@actionRetry": {
     "description": "Retry. Button on error views that re-attempts the failed action."
   },
-  "actionBack": "Orqaga",
+  "actionBack": "Назад",
   "@actionBack": {
     "description": "Back. Navigates to the previous screen/step."
   },
-  "actionNext": "Keyingi",
+  "actionNext": "Далее",
   "@actionNext": {
     "description": "Next. Advances to the next screen/step."
   },
-  "actionContinue": "Davom etish",
+  "actionContinue": "Продолжить",
   "@actionContinue": {
     "description": "Continue. Proceeds with the current flow."
   },
-  "actionCancel": "Bekor qilish",
+  "actionCancel": "Отмена",
   "@actionCancel": {
     "description": "Cancel. Dismisses a dialog/sheet without applying changes."
   },
-  "actionSave": "Saqlash",
+  "actionSave": "Сохранить",
   "@actionSave": {
     "description": "Save. Persists the current changes/selection."
   },
-  "actionClose": "Yopish",
+  "actionClose": "Закрыть",
   "@actionClose": {
     "description": "Close. Dismisses a sheet, dialog or overlay."
   },
-  "actionDone": "Tayyor",
+  "actionDone": "Готово",
   "@actionDone": {
     "description": "Done. Confirms completion of a step/action."
   },
-  "actionFinish": "Yakunlash",
+  "actionFinish": "Завершить",
   "@actionFinish": {
     "description": "Finish. Completes a multi-step flow."
   },
-
-  "navHome": "Uy",
+  "navHome": "Главная",
   "@navHome": {
     "description": "Bottom navigation tab: Home."
   },
-  "navShop": "Do'kon",
+  "navShop": "Магазин",
   "@navShop": {
     "description": "Bottom navigation tab: Shop (materials marketplace)."
   },
-  "navMasters": "Ustalar",
+  "navMasters": "Мастера",
   "@navMasters": {
     "description": "Bottom navigation tab: Masters (craftsman marketplace)."
   },
-  "navProfile": "Profil",
+  "navProfile": "Профиль",
   "@navProfile": {
     "description": "Bottom navigation tab: Profile."
   },
-
   "loginEmailHint": "Email",
   "@loginEmailHint": {
     "description": "Login screen: hint text for the email/username field."
   },
-  "loginPasswordHint": "Password",
+  "loginPasswordHint": "Пароль",
   "@loginPasswordHint": {
     "description": "Login screen: hint text for the password field."
   },
-  "loginShowPassword": "Show password",
+  "loginShowPassword": "Показать пароль",
   "@loginShowPassword": {
     "description": "Login screen: tooltip on the eye icon that reveals the password."
   },
-  "loginHidePassword": "Hide password",
+  "loginHidePassword": "Скрыть пароль",
   "@loginHidePassword": {
     "description": "Login screen: tooltip on the eye icon that masks the password."
   },
-  "loginButton": "Login",
+  "loginButton": "Войти",
   "@loginButton": {
     "description": "Login screen: submit button label."
   },
-  "loginEmptyFields": "Please fill in all fields",
+  "loginEmptyFields": "Пожалуйста, заполните все поля",
   "@loginEmptyFields": {
     "description": "Login screen: snackbar shown when the user submits with an empty email or password."
   },
-
-  "b1Question": "Xonangiz hozir qaysi holatda?",
+  "b1Question": "В каком состоянии сейчас ваша комната?",
   "@b1Question": {
     "description": "B1 room-condition step: the single question asking the room's current baseline surface condition."
   },
-  "b1DontKnowDifference": "Farqini bilmayapsizmi? →",
+  "b1DontKnowDifference": "Не знаете разницу? →",
   "@b1DontKnowDifference": {
     "description": "B1 room-condition step: link opening the floor/ceiling help sheet for users unsure of the difference."
   },
-  "b1FloorCeilingDifferent": "Pol yoki shift boshqacha bo'lsa →",
+  "b1FloorCeilingDifferent": "Если пол или потолок отличаются →",
   "@b1FloorCeilingDifferent": {
     "description": "B1 room-condition step: link to override floor/ceiling condition when they differ from the walls."
   },
-  "b1EnterRoom": "Xonaga kirish",
+  "b1EnterRoom": "Войти в комнату",
   "@b1EnterRoom": {
     "description": "B1 room-condition step: primary button that saves the condition and enters the room designer."
   },
-
   "brandName": "AndozaAI",
   "@brandName": {
     "description": "Brand wordmark (no space). Shown on the splash screen and the Home status pill."
   },
-
-  "navAddProject": "Yangi loyiha qo'shish",
+  "navAddProject": "Добавить новый проект",
   "@navAddProject": {
     "description": "Accessibility label for the center orange FAB in the bottom nav that opens the new-project sheet."
   },
-
-  "loginPhoneLabel": "Telefon raqam",
+  "loginPhoneLabel": "Номер телефона",
   "@loginPhoneLabel": {
     "description": "Login (phone-OTP step): heading and the phone-number field label."
   },
-  "loginPhoneSubtitle": "Loginiga uchun telefon raqam talab qilinadi",
+  "loginPhoneSubtitle": "Для входа требуется номер телефона",
   "@loginPhoneSubtitle": {
     "description": "Login (phone-OTP step): subtitle under the heading explaining a phone number is required to log in."
   },
@@ -124,90 +116,92 @@
   "@loginPhoneHint": {
     "description": "Login (phone-OTP step): placeholder text inside the phone-number input."
   },
-  "loginPhoneSmsHint": "Sms kod shu raqamga yuboriladi",
+  "loginPhoneSmsHint": "SMS-код будет отправлен на этот номер",
   "@loginPhoneSmsHint": {
     "description": "Login (phone-OTP step): helper note that the SMS code goes to the entered number."
   },
-  "loginSendOtp": "OTP Yuborish",
+  "loginSendOtp": "Отправить код",
   "@loginSendOtp": {
     "description": "Login (phone-OTP step): primary button that requests the OTP code."
   },
-  "loginOtpInfoBox": "📱 Siz kiritgan raqamga 6 xonali kod yuboriladi. Agar SMS kelmaydigan bo'lsa, 2-3 minutdan keyin qayta urinib ko'ring.",
+  "loginOtpInfoBox": "📱 На указанный номер будет отправлен 6-значный код. Если SMS не приходит, повторите попытку через 2-3 минуты.",
   "@loginOtpInfoBox": {
     "description": "Login (phone-OTP step): informational tip box about the 6-digit code and retrying if SMS is delayed."
   },
-  "loginWithUsername": "🔐 Username bilan kirish",
+  "loginWithUsername": "🔐 Войти по имени пользователя",
   "@loginWithUsername": {
     "description": "Login (phone-OTP step): outlined button switching to the username/password login form."
   },
-  "loginCodeSentTitle": "✓ Kod yuborildi",
+  "loginCodeSentTitle": "✓ Код отправлен",
   "@loginCodeSentTitle": {
     "description": "Login (OTP code step): heading confirming the code was sent."
   },
-  "loginCodeSentSuffix": " raqamiga 6 xonali kod yuboramiz",
+  "loginCodeSentSuffix": " — отправим 6-значный код на этот номер",
   "@loginCodeSentSuffix": {
     "description": "Login (OTP code step): sentence fragment following the phone number ('... we will send a 6-digit code to <number>')."
   },
-  "loginVerify": "Tasdiqlash",
+  "loginVerify": "Подтвердить",
   "@loginVerify": {
     "description": "Login (OTP code step): primary button that verifies the entered code."
   },
-  "loginResend": "Qayta yuborish",
+  "loginResend": "Отправить повторно",
   "@loginResend": {
     "description": "Login (OTP code step): button to resend the code once the cooldown elapses."
   },
-  "loginResendCountdown": "Qayta yuborish ({seconds} s)",
+  "loginResendCountdown": "Отправить повторно ({seconds} с)",
   "@loginResendCountdown": {
     "description": "Login (OTP code step): resend button label during the cooldown, showing remaining seconds.",
     "placeholders": {
-      "seconds": { "type": "int" }
+      "seconds": {
+        "type": "int"
+      }
     }
   },
-  "loginBackArrow": "← Orqaga",
+  "loginBackArrow": "← Назад",
   "@loginBackArrow": {
     "description": "Login (OTP code step): text button with a left arrow returning to the phone-entry step."
   },
-  "loginSignIn": "Kirish",
+  "loginSignIn": "Вход",
   "@loginSignIn": {
     "description": "Login (username step): heading and submit button label ('Sign in')."
   },
-  "loginUsernameHint": "Username",
+  "loginUsernameHint": "Имя пользователя",
   "@loginUsernameHint": {
     "description": "Login/register: placeholder text for the username field."
   },
-  "loginPasswordLabel": "Parol",
+  "loginPasswordLabel": "Пароль",
   "@loginPasswordLabel": {
     "description": "Login/register: placeholder text for the password field."
   },
-  "loginNoAccount": "Akkauntingiz yo'qmi? ",
+  "loginNoAccount": "Нет аккаунта? ",
   "@loginNoAccount": {
     "description": "Login (username step): prompt preceding the register link ('No account? ')."
   },
-  "loginRegister": "Ro'yxatdan o'tish",
+  "loginRegister": "Регистрация",
   "@loginRegister": {
     "description": "Register: link, heading and submit button label ('Sign up')."
   },
-  "loginNameHint": "Ism (ixtiyoriy)",
+  "loginNameHint": "Имя (необязательно)",
   "@loginNameHint": {
     "description": "Register: placeholder for the optional name field."
   },
-  "loginConfirmPasswordHint": "Parolni tasdiqlang",
+  "loginConfirmPasswordHint": "Подтвердите пароль",
   "@loginConfirmPasswordHint": {
     "description": "Register: placeholder for the confirm-password field."
   },
-  "loginHaveAccount": "Allaqachon akkauntingiz bormi? ",
+  "loginHaveAccount": "Уже есть аккаунт? ",
   "@loginHaveAccount": {
     "description": "Register: prompt preceding the sign-in link ('Already have an account? ')."
   },
-  "loginOr": "yoki",
+  "loginOr": "или",
   "@loginOr": {
     "description": "Login: 'or' divider between the OTP and username entry points."
   },
-  "loginGreeting": "👋 Salom",
+  "loginGreeting": "👋 Привет",
   "@loginGreeting": {
     "description": "Login: large greeting above the auth card ('Hello')."
   },
-  "loginWelcomeSubtitle": "Andoza AI-ga xush kelibsiz",
+  "loginWelcomeSubtitle": "Добро пожаловать в Andoza AI",
   "@loginWelcomeSubtitle": {
     "description": "Login: welcome subtitle under the greeting."
   },
@@ -215,972 +209,988 @@
   "@loginVersion": {
     "description": "Login: app-version footnote below the auth card."
   },
-  "loginErrorInvalidPhone": "Telefon raqam noto'g'ri. Masalan: 90 123 45 67",
+  "loginErrorInvalidPhone": "Неверный номер телефона. Например: 90 123 45 67",
   "@loginErrorInvalidPhone": {
     "description": "Login error: the entered phone number is invalid, with an example format."
   },
-  "loginErrorServer": "Serverda xatolik. Qayta urinib ko'ring.",
+  "loginErrorServer": "Ошибка сервера. Попробуйте снова.",
   "@loginErrorServer": {
     "description": "Login error: a generic server failure, asking the user to retry."
   },
-  "loginErrorInvalidCode": "Kod noto'g'ri yoki eskirgan.",
+  "loginErrorInvalidCode": "Код неверный или устарел.",
   "@loginErrorInvalidCode": {
     "description": "Login error: the entered OTP code is wrong or expired."
   },
-  "loginErrorCredentialsRequired": "Username va parol majburiy.",
+  "loginErrorCredentialsRequired": "Имя пользователя и пароль обязательны.",
   "@loginErrorCredentialsRequired": {
     "description": "Login error: username and password are both required."
   },
-  "loginErrorWrongCredentials": "Username yoki parol noto'g'ri.",
+  "loginErrorWrongCredentials": "Неверное имя пользователя или пароль.",
   "@loginErrorWrongCredentials": {
     "description": "Login error: the username or password is incorrect."
   },
-  "loginErrorUsernameShort": "Username kamida 3 ta belgidan iborat bo'lishi kerak.",
+  "loginErrorUsernameShort": "Имя пользователя должно содержать не менее 3 символов.",
   "@loginErrorUsernameShort": {
     "description": "Register error: username must be at least 3 characters."
   },
-  "loginErrorPasswordShort": "Parol kamida 6 ta belgidan iborat bo'lishi kerak.",
+  "loginErrorPasswordShort": "Пароль должен содержать не менее 6 символов.",
   "@loginErrorPasswordShort": {
     "description": "Register error: password must be at least 6 characters."
   },
-  "loginErrorPasswordMismatch": "Parollar mos kelmadi.",
+  "loginErrorPasswordMismatch": "Пароли не совпадают.",
   "@loginErrorPasswordMismatch": {
     "description": "Register error: the two passwords do not match."
   },
-  "loginErrorUsernameTaken": "Bu username allaqachon band.",
+  "loginErrorUsernameTaken": "Это имя пользователя уже занято.",
   "@loginErrorUsernameTaken": {
     "description": "Register error: the chosen username is already taken."
   },
-  "loginErrorRegisterFailed": "Ro'yxatdan o'tishda xato yuz berdi.",
+  "loginErrorRegisterFailed": "Ошибка при регистрации.",
   "@loginErrorRegisterFailed": {
     "description": "Register error: a generic registration failure."
   },
-
-  "homeWelcome": "Xush kelibsiz",
+  "homeWelcome": "Добро пожаловать",
   "@homeWelcome": {
     "description": "Home header: small 'Welcome' label above the user's name."
   },
-  "homeGreetingNamed": "Salom, {name}! 👋",
+  "homeGreetingNamed": "Привет, {name}! 👋",
   "@homeGreetingNamed": {
     "description": "Home header: personalized greeting when the user's name is known.",
     "placeholders": {
-      "name": { "type": "String" }
+      "name": {
+        "type": "String"
+      }
     }
   },
-  "homeGreeting": "Salom! 👋",
+  "homeGreeting": "Привет! 👋",
   "@homeGreeting": {
     "description": "Home header: greeting fallback when the user's name is unknown."
   },
-  "homeStoryHowItWorks": "Qanday ishlaydi?",
+  "homeStoryHowItWorks": "Как это работает?",
   "@homeStoryHowItWorks": {
     "description": "Home: onboarding story-circle label opening the 'how it works' guide."
   },
-  "homeStoryDemoGuide": "Demo qo'llanma",
+  "homeStoryDemoGuide": "Демо-гид",
   "@homeStoryDemoGuide": {
     "description": "Home: onboarding story-circle label opening the demo guide."
   },
-  "homeStoryDemo": "Demo",
+  "homeStoryDemo": "Демо",
   "@homeStoryDemo": {
     "description": "Home: onboarding story-circle label opening the demo."
   },
-  "homeEmptyTitle": "Birinchi xonangizni qo'shing",
+  "homeEmptyTitle": "Добавьте свою первую комнату",
   "@homeEmptyTitle": {
     "description": "Home empty state: title prompting the user to add their first room."
   },
-  "homeEmptyMessage": "Hali loyiha yo'q — yangi loyiha boshlang",
+  "homeEmptyMessage": "Проектов пока нет — начните новый проект",
   "@homeEmptyMessage": {
     "description": "Home empty state: message noting there are no projects yet."
   },
-  "homeEmptyAction": "+ Loyiha qo'shish",
+  "homeEmptyAction": "+ Добавить проект",
   "@homeEmptyAction": {
     "description": "Home empty state: button that starts a new project."
   },
-  "homeQuickActions": "Tezkor amallar",
+  "homeQuickActions": "Быстрые действия",
   "@homeQuickActions": {
     "description": "Home: section title above the quick-action grid."
   },
-  "homeQuickScan": "Xonani skanlash",
+  "homeQuickScan": "Сканировать комнату",
   "@homeQuickScan": {
     "description": "Home quick action: scan a room."
   },
-  "homeQuickEstimate": "Smeta",
+  "homeQuickEstimate": "Смета",
   "@homeQuickEstimate": {
     "description": "Home quick action: cost estimate."
   },
-  "homeQuickDealers": "Dilerlar",
+  "homeQuickDealers": "Дилеры",
   "@homeQuickDealers": {
     "description": "Home quick action: dealers/shops."
   },
-
-  "homeProjectsLoadError": "Loyihalarni yuklab bo'lmadi",
+  "homeProjectsLoadError": "Не удалось загрузить проекты",
   "@homeProjectsLoadError": {
     "description": "Home (with projects): error-view title when the project list fails to load."
   },
-  "homeLoadMore": "Yana ko'rsatish",
-  "@homeLoadMore": {
-    "description": "Home (with projects): button revealing the next page of project cards."
-  },
-  "homeLegendExisting": "Mavjud (hisoblanmaydi)",
+  "homeLoadMore": "Показать ещё",
+  "homeLegendExisting": "Имеется (не учитывается)",
   "@homeLegendExisting": {
     "description": "Home (with projects): progress legend for stages that already existed and are not counted."
   },
-  "homeLegendNeeded": "Kerak (delta)",
+  "homeLegendNeeded": "Нужно (дельта)",
   "@homeLegendNeeded": {
     "description": "Home (with projects): progress legend for stages still needed (the delta)."
   },
-  "homeResume": "Davom etish",
+  "homeResume": "Продолжить",
   "@homeResume": {
     "description": "Home (with projects): resume CTA that continues the active project in the 3D Studio."
   },
-  "homeNoRoomYet": "Bu loyihada hali xona yo'q",
+  "homeNoRoomYet": "В этом проекте пока нет комнаты",
   "@homeNoRoomYet": {
     "description": "Home (with projects): snackbar shown when resuming a project that has no room yet."
   },
-  "homeStageProgress": "Bosqich {current}/8",
+  "homeStageProgress": "Этап {current}/8",
   "@homeStageProgress": {
     "description": "Home (with projects): renovation stage progress label ('Stage N/8').",
     "placeholders": {
-      "current": { "type": "int" }
+      "current": {
+        "type": "int"
+      }
     }
   },
-  "homeStageProgressExcluded": "Bosqich {current}/8 · ✓ {names} mavjud edi",
+  "homeStageProgressExcluded": "Этап {current}/8 · ✓ {names} уже было",
   "@homeStageProgressExcluded": {
     "description": "Home (with projects): stage label noting which named stages already existed.",
     "placeholders": {
-      "current": { "type": "int" },
-      "names": { "type": "String" }
+      "current": {
+        "type": "int"
+      },
+      "names": {
+        "type": "String"
+      }
     }
   },
-  "homeStageProgressExcludedCount": "Bosqich {current}/8 · ✓ {count} bosqich mavjud edi",
+  "homeStageProgressExcludedCount": "Этап {current}/8 · ✓ {count} этапов уже было",
   "@homeStageProgressExcludedCount": {
     "description": "Home (with projects): compact stage label noting how many stages already existed.",
     "placeholders": {
-      "current": { "type": "int" },
-      "count": { "type": "int" }
+      "current": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "homeStagePickerTitle": "Bosqichni tanlang",
+  "homeStagePickerTitle": "Выберите этап",
   "@homeStagePickerTitle": {
     "description": "Home (with projects): title of the stage-picker bottom sheet ('Choose a stage')."
   },
-  "homeStageOption": "Bosqich {index}/8 · {label}",
+  "homeStageOption": "Этап {index}/8 · {label}",
   "@homeStageOption": {
     "description": "Home (with projects): a single stage option row in the stage picker.",
     "placeholders": {
-      "index": { "type": "int" },
-      "label": { "type": "String" }
+      "index": {
+        "type": "int"
+      },
+      "label": {
+        "type": "String"
+      }
     }
   },
-  "homeStageSaveError": "Bosqichni saqlab bo'lmadi",
+  "homeStageSaveError": "Не удалось сохранить этап",
+  "homeRoomCount": "{count} комн.",
   "@homeStageSaveError": {
     "description": "Home (with projects): snackbar shown when saving the selected stage fails."
   },
-  "homeRoomCount": "{count} xona",
-  "@homeRoomCount": {
-    "description": "Home (with projects): room count shown under a project's name (hero card and list rows).",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
-  "homeStatAreaLabel": "Maydon",
-  "@homeStatAreaLabel": {
-    "description": "Home (with projects): stat-chip label for the room's floor area."
-  },
-  "homeStatModelsLabel": "3D model",
-  "@homeStatModelsLabel": {
-    "description": "Home (with projects): stat-chip label for the count of placed 3D furniture models."
-  },
-  "homeStatEstimateLabel": "Smeta",
-  "@homeStatEstimateLabel": {
-    "description": "Home (with projects): stat-chip label for the room's cost estimate."
-  },
-  "homeAreaValue": "{area} m²",
-  "@homeAreaValue": {
-    "description": "Home (with projects): floor-area stat-chip value, e.g. \"24.5 m²\".",
-    "placeholders": {
-      "area": { "type": "String" }
-    }
-  },
-  "homeEstimateMln": "{amount} mln",
-  "@homeEstimateMln": {
-    "description": "Home (with projects): estimate stat-chip value in millions of UZS, e.g. \"12.4 mln\".",
-    "placeholders": {
-      "amount": { "type": "String" }
-    }
-  },
+  "homeStatAreaLabel": "Площадь",
+  "homeStatModelsLabel": "3D модель",
+  "homeStatEstimateLabel": "Смета",
+  "homeAreaValue": "{area} м²",
+  "homeEstimateMln": "{amount} млн",
   "homeStatDash": "—",
-  "@homeStatDash": {
-    "description": "Home (with projects): stat-chip value shown when the room has no data for that stat yet."
-  },
-  "stageSuvoq": "suvoq",
+  "stageSuvoq": "штукатурка",
   "@stageSuvoq": {
     "description": "Renovation stage name: plastering (suvoq)."
   },
-  "stageShpaklovka": "shpaklovka",
+  "stageShpaklovka": "шпаклёвка",
   "@stageShpaklovka": {
     "description": "Renovation stage name: putty/finishing (shpaklovka)."
   },
-  "stageBoyoqOboi": "bo'yoq/oboi",
+  "stageBoyoqOboi": "краска/обои",
   "@stageBoyoqOboi": {
     "description": "Renovation stage name: paint/wallpaper (bo'yoq/oboi)."
   },
-  "stagePol": "pol",
+  "stagePol": "пол",
   "@stagePol": {
     "description": "Renovation stage name: flooring (pol)."
   },
-  "stageMebel": "mebel",
+  "stageMebel": "мебель",
   "@stageMebel": {
     "description": "Renovation stage name: furniture (mebel)."
   },
-  "stageElektr": "elektr",
+  "stageElektr": "электрика",
   "@stageElektr": {
     "description": "Renovation stage name: electrical (elektr)."
   },
-  "stageYoruglik": "yorug'lik",
+  "stageYoruglik": "освещение",
   "@stageYoruglik": {
     "description": "Renovation stage name: lighting (yorug'lik)."
   },
-  "stageSantexnika": "santexnika",
+  "stageSantexnika": "сантехника",
   "@stageSantexnika": {
     "description": "Renovation stage name: plumbing (santexnika)."
   },
-
-  "commonYes": "Ha",
+  "commonYes": "Да",
   "@commonYes": {
     "description": "Generic affirmative ('Yes'). Used for boolean spec values."
   },
-  "commonNo": "Yo'q",
+  "commonNo": "Нет",
   "@commonNo": {
     "description": "Generic negative ('No'). Used for boolean spec values."
   },
-
-  "shopCartTooltip": "Savatcha",
+  "shopCartTooltip": "Корзина",
   "@shopCartTooltip": {
     "description": "S1 shop home: tooltip on the cart icon button in the app bar."
   },
-  "shopSearchHint": "Material qidirish...",
+  "shopSearchHint": "Поиск материалов...",
   "@shopSearchHint": {
     "description": "Shop: placeholder text in the material search field (S1 and E10)."
   },
-  "shopFilterAll": "Barchasi",
+  "shopFilterAll": "Все",
   "@shopFilterAll": {
     "description": "Shop: filter/category chip for 'All' (S1 categories, S4 and E10 filters)."
   },
-  "shopInProjectTag": "Loyihada",
+  "shopInProjectTag": "В проекте",
   "@shopInProjectTag": {
     "description": "Shop: small tag on product cards/rows marking an item the active project needs (S1 and E10)."
   },
-  "shopMaterialsTitle": "Loyiha materiallari",
+  "shopMaterialsTitle": "Материалы проекта",
   "@shopMaterialsTitle": {
     "description": "S2 project materials: app bar title ('Project materials')."
   },
-  "shopMaterialsAutoCalc": "App loyihangiz asosida avtomatik hisobladi — {area} m², {count} bosqich",
+  "shopMaterialsAutoCalc": "Приложение автоматически рассчитало на основе вашего проекта — {area} м², {count} этапов",
   "@shopMaterialsAutoCalc": {
     "description": "S2 project materials: green banner stating the app auto-computed area and stage count from the project.",
     "placeholders": {
-      "area": { "type": "String" },
-      "count": { "type": "int" }
+      "area": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "shopAddAllToCart": "Tanlanganlarni savatga",
+  "shopAddAllToCart": "Выбранное в корзину",
   "@shopAddAllToCart": {
     "description": "S2 project materials: sticky button that adds every checked material to the cart."
   },
-  "shopSelectRoomLabel": "Qaysi xona uchun?",
-  "@shopSelectRoomLabel": {
-    "description": "S2 project materials: label above the room picker chips."
-  },
-  "shopSelectedCount": "{count} ta tanlandi",
-  "@shopSelectedCount": {
-    "description": "S2 project materials: count of checked materials shown in the totals bar.",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
-  "shopOfficialDealer": "✓ Rasmiy diler",
+  "shopSelectRoomLabel": "Для какой комнаты?",
+  "shopSelectedCount": "Выбрано: {count}",
+  "shopOfficialDealer": "✓ Официальный дилер",
   "@shopOfficialDealer": {
     "description": "S3 product detail: badge shown when the product is sold by an official dealer."
   },
-  "shopProjectNeed": "Loyihangiz uchun ~{quantity} {unit} kerak",
+  "shopProjectNeed": "Для вашего проекта нужно ~{quantity} {unit}",
   "@shopProjectNeed": {
     "description": "S3 product detail: recommendation line stating the computed quantity the project needs; a coverage note may be appended.",
     "placeholders": {
-      "quantity": { "type": "String" },
-      "unit": { "type": "String" }
+      "quantity": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
     }
   },
-  "shopQuantityLabel": "Miqdor:",
+  "shopQuantityLabel": "Количество:",
   "@shopQuantityLabel": {
     "description": "S3 product detail: label preceding the quantity stepper ('Quantity:')."
   },
-  "shopSpecCoverage": "Qoplama",
+  "shopSpecCoverage": "Покрытие",
   "@shopSpecCoverage": {
     "description": "S3 product detail: spec row label for coverage."
   },
-  "shopSpecDryingTime": "Quriish vaqti",
+  "shopSpecDryingTime": "Время высыхания",
   "@shopSpecDryingTime": {
     "description": "S3 product detail: spec row label for drying time."
   },
-  "shopSpecWashable": "Yuvilishi",
+  "shopSpecWashable": "Моющийся",
   "@shopSpecWashable": {
     "description": "S3 product detail: spec row label for whether the product is washable."
   },
-  "shopWhereToBuy": "Qayerdan olish — {name}",
+  "shopWhereToBuy": "Где купить — {name}",
   "@shopWhereToBuy": {
     "description": "S3 product detail: row opening the dealer comparison, naming the default dealer.",
     "placeholders": {
-      "name": { "type": "String" }
+      "name": {
+        "type": "String"
+      }
     }
   },
-  "shopPriceFromDealer": "{dealer} narxi",
+  "shopPriceFromDealer": "Цена от {dealer}",
   "@shopPriceFromDealer": {
     "description": "S3 product detail: small caption under the headline price, naming which dealer that price is from (the auto-selected cheapest dealer, not necessarily the product's catalog brand).",
     "placeholders": {
-      "dealer": { "type": "String" }
+      "dealer": {
+        "type": "String"
+      }
     }
   },
-  "shopAddedToCart": "Savatga qo'shildi",
+  "shopAddedToCart": "Добавлено в корзину",
   "@shopAddedToCart": {
     "description": "Shop: snackbar confirming an item was added to the cart (S3, S4, E10)."
   },
-  "shopAddToCartPrice": "Savatga qo'shish · {price}",
+  "shopAddToCartPrice": "Добавить в корзину · {price}",
   "@shopAddToCartPrice": {
     "description": "S3 product detail: add-to-cart button label with the computed line price.",
     "placeholders": {
-      "price": { "type": "String" }
+      "price": {
+        "type": "String"
+      }
     }
   },
-  "shopDealerCompareTitle": "Diler taqqoslash",
+  "shopDealerCompareTitle": "Сравнение дилеров",
   "@shopDealerCompareTitle": {
     "description": "S4 dealer comparison: app bar title ('Compare dealers')."
   },
-  "shopFilterCheapest": "Eng arzon",
+  "shopFilterCheapest": "Самый дешёвый",
   "@shopFilterCheapest": {
     "description": "Shop: filter chip for cheapest offers (S4 and E10)."
   },
-  "shopFilterOfficial": "Rasmiy diler",
+  "shopFilterOfficial": "Официальный дилер",
   "@shopFilterOfficial": {
     "description": "S4 dealer comparison: filter chip for official dealers only."
   },
-  "shopFilterFastest": "Eng tez",
+  "shopFilterFastest": "Самый быстрый",
   "@shopFilterFastest": {
     "description": "S4 dealer comparison: filter chip for fastest delivery."
   },
-  "shopBestRibbon": "ENG YAXSHI",
+  "shopBestRibbon": "ЛУЧШЕЕ",
   "@shopBestRibbon": {
     "description": "S4 dealer comparison: green ribbon marking the best (cheapest) dealer offer ('BEST')."
   },
-  "shopDeliveryDays": "{district} · {days} kunda yetkazish",
+  "shopDeliveryDays": "{district} · доставка за {days} дн.",
   "@shopDeliveryDays": {
     "description": "S4 dealer comparison: dealer subtitle showing district and delivery time in days.",
     "placeholders": {
-      "district": { "type": "String" },
-      "days": { "type": "int" }
+      "district": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
     }
   },
-  "shopSelect": "Tanlash",
+  "shopSelect": "Выбрать",
   "@shopSelect": {
     "description": "S4 dealer comparison: button that selects a dealer offer and adds it to the cart."
   },
-  "shopCartTitle": "Savat",
+  "shopCartTitle": "Корзина",
   "@shopCartTitle": {
     "description": "S5 cart: app bar title ('Cart')."
   },
-  "shopCartEmpty": "Savat bo'sh",
+  "shopCartEmpty": "Корзина пуста",
   "@shopCartEmpty": {
     "description": "S5 cart: empty-state message when the cart has no items."
   },
-  "shopMaterials": "Materiallar",
+  "shopMaterials": "Материалы",
   "@shopMaterials": {
     "description": "Shop: summary row label for the materials subtotal (S5 and S6)."
   },
-  "shopDelivery": "Yetkazish",
+  "shopDelivery": "Доставка",
   "@shopDelivery": {
     "description": "Shop: summary/row label for the delivery fee (S5 dealer block, S5 and S6 summaries)."
   },
-  "shopGrandTotal": "Umumiy summa",
+  "shopGrandTotal": "Итоговая сумма",
   "@shopGrandTotal": {
     "description": "S5 cart: grand-total label in the footer ('Total')."
   },
-  "shopCheckout": "Buyurtmani rasmiylashtirish",
+  "shopCheckout": "Оформить заказ",
   "@shopCheckout": {
     "description": "S5 cart: primary button proceeding to checkout ('Place order')."
   },
-  "shopCheckoutTitle": "To'lov",
+  "shopCheckoutTitle": "Оплата",
   "@shopCheckoutTitle": {
     "description": "S6 checkout: app bar title ('Payment')."
   },
-  "shopDeliveryAddress": "Yetkazish manzili",
+  "shopDeliveryAddress": "Адрес доставки",
   "@shopDeliveryAddress": {
     "description": "S6 checkout: section title above the delivery-address fields."
   },
-  "shopAddressHint": "Manzil",
+  "shopAddressHint": "Адрес",
   "@shopAddressHint": {
     "description": "S6 checkout: hint text in the address field."
   },
-  "shopPhoneHint": "Telefon raqami",
+  "shopPhoneHint": "Номер телефона",
   "@shopPhoneHint": {
     "description": "S6 checkout: hint text in the phone-number field."
   },
-  "shopPaymentMethod": "To'lov usuli",
+  "shopPaymentMethod": "Способ оплаты",
   "@shopPaymentMethod": {
     "description": "S6 checkout: section title above the payment-method tiles."
   },
-  "shopOrderSummary": "Buyurtma xulosasi",
+  "shopOrderSummary": "Сводка заказа",
   "@shopOrderSummary": {
     "description": "S6 checkout: section title above the order summary."
   },
-  "shopAmountDue": "To'lanadi",
+  "shopAmountDue": "К оплате",
   "@shopAmountDue": {
     "description": "S6 checkout: label for the total amount due in the sticky footer."
   },
-  "shopPay": "To'lash",
+  "shopPay": "Оплатить",
   "@shopPay": {
     "description": "S6 checkout: primary button that places the order ('Pay')."
   },
-  "shopOrderSaveError": "Buyurtmani serverga saqlashda xatolik: {error}",
+  "shopOrderSaveError": "Ошибка сохранения заказа на сервере: {error}",
   "@shopOrderSaveError": {
     "description": "S6 checkout: snackbar shown when persisting the placed order to the server fails.",
     "placeholders": {
-      "error": { "type": "String" }
+      "error": {
+        "type": "String"
+      }
     }
   },
-  "shopOrderStatusTitle": "Buyurtma holati",
+  "shopOrderStatusTitle": "Статус заказа",
   "@shopOrderStatusTitle": {
     "description": "S7 order confirmation: app bar title ('Order status')."
   },
-  "shopOrderContents": "Buyurtma tarkibi",
+  "shopOrderContents": "Состав заказа",
   "@shopOrderContents": {
     "description": "S7 order confirmation: section title above the ordered items list."
   },
-  "shopTotal": "Jami",
+  "shopTotal": "Итого",
   "@shopTotal": {
     "description": "S7 order confirmation: total label ('Total')."
   },
-  "shopMasterNotified": "Usta xabardor qilindi",
+  "shopMasterNotified": "Мастер уведомлён",
   "@shopMasterNotified": {
     "description": "S7 order confirmation: snackbar confirming the craftsman was notified."
   },
-  "shopHandToMaster": "Ustaga topshirish",
+  "shopHandToMaster": "Передать мастеру",
   "@shopHandToMaster": {
     "description": "S7 order confirmation: secondary button that notifies the craftsman the materials arrived."
   },
-  "shopBackToShop": "Do'konga qaytish",
+  "shopBackToShop": "Вернуться в магазин",
   "@shopBackToShop": {
     "description": "S7 order confirmation: text button returning to the shop home ('Back to shop')."
   },
-  "shopSearchResultsTitle": "Qidiruv natijalari",
+  "shopSearchResultsTitle": "Результаты поиска",
   "@shopSearchResultsTitle": {
     "description": "E10 search results: app bar title ('Search results')."
   },
-  "shopFilterForProject": "Loyihamga mos",
+  "shopFilterForProject": "Подходит проекту",
   "@shopFilterForProject": {
     "description": "E10 search results: filter chip limiting results to items matching the active project."
   },
-  "shopFilterRating": "Reyting",
+  "shopFilterRating": "Рейтинг",
   "@shopFilterRating": {
     "description": "E10 search results: filter chip sorting by rating."
   },
-  "shopResultCount": "{count} ta natija",
+  "shopResultCount": "{count} результатов",
   "@shopResultCount": {
     "description": "E10 search results: count of matching results.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "commonVerifiedBadge": "✓ Tasdiqlangan",
+  "commonVerifiedBadge": "✓ Подтверждён",
   "@commonVerifiedBadge": {
     "description": "Verified badge label shown on a master profile (U4) and the user profile (E4)."
   },
-  "mastersSearchHint": "Qanday usta kerak?",
+  "mastersSearchHint": "Какой мастер нужен?",
   "@mastersSearchHint": {
     "description": "U1 masters map: search field hint ('What kind of master do you need?')."
   },
-  "mastersRatingReviews": "{rating} ({count} sharh)",
+  "mastersRatingReviews": "{rating} ({count} отзывов)",
   "@mastersRatingReviews": {
     "description": "U1/U2 master pin sheet: rating followed by review count.",
     "placeholders": {
-      "rating": { "type": "String" },
-      "count": { "type": "int" }
+      "rating": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "mastersAreaDistance": "{area} · ~{distance} km",
+  "mastersAreaDistance": "{area} · ~{distance} км",
   "@mastersAreaDistance": {
     "description": "Masters: approximate area name plus distance in km.",
     "placeholders": {
-      "area": { "type": "String" },
-      "distance": { "type": "String" }
+      "area": {
+        "type": "String"
+      },
+      "distance": {
+        "type": "String"
+      }
     }
   },
-  "mastersViewProfile": "Profilni ko'rish",
+  "mastersViewProfile": "Смотреть профиль",
   "@mastersViewProfile": {
     "description": "U1/U2 master pin sheet: button to open the full master profile."
   },
-  "mastersStatRating": "reyting",
+  "mastersStatRating": "рейтинг",
   "@mastersStatRating": {
     "description": "U4 master profile: stat card label for rating."
   },
-  "mastersStatReviews": "sharh",
+  "mastersStatReviews": "отзывов",
   "@mastersStatReviews": {
     "description": "U4 master profile: stat card label for reviews."
   },
-  "mastersStatJobs": "ishlar",
+  "mastersStatJobs": "работ",
   "@mastersStatJobs": {
     "description": "U4 master profile: stat card label for completed jobs."
   },
-  "mastersPortfolio": "Portfolio",
+  "mastersPortfolio": "Портфолио",
   "@mastersPortfolio": {
     "description": "U4 master profile: portfolio section title."
   },
-  "mastersPortfolioEmpty": "Hali portfolio surat qo'shilmagan",
+  "mastersPortfolioEmpty": "Пока нет фотографий портфолио",
   "@mastersPortfolioEmpty": {
     "description": "U4 master profile: empty state shown when the master has no portfolio photos."
   },
-  "mastersServices": "Xizmatlar",
+  "mastersServices": "Услуги",
   "@mastersServices": {
     "description": "U4 master profile: services section title."
   },
-  "mastersServiceTrade": "{trade} ishlari",
+  "mastersServiceTrade": "Работы: {trade}",
   "@mastersServiceTrade": {
     "description": "U4 master profile: service row naming the master's trade works.",
     "placeholders": {
-      "trade": { "type": "String" }
+      "trade": {
+        "type": "String"
+      }
     }
   },
-  "mastersServiceConsultation": "Konsultatsiya",
+  "mastersServiceConsultation": "Консультация",
   "@mastersServiceConsultation": {
     "description": "U4 master profile: consultation service row."
   },
-  "mastersLocation": "Joylashuv",
+  "mastersLocation": "Расположение",
   "@mastersLocation": {
     "description": "U4 master profile: location section title."
   },
-  "mastersSendEstimate": "Smetani yuborish",
+  "mastersSendEstimate": "Отправить смету",
   "@mastersSendEstimate": {
     "description": "U4 master profile: primary button to send the estimate to the master."
   },
-  "mastersSendMessage": "Xabar yozish",
+  "mastersSendMessage": "Написать сообщение",
   "@mastersSendMessage": {
     "description": "U4 master profile: secondary button to write a message."
   },
-  "mastersSendConfirmTitle": "Loyihangizni {name} akaga yuborasizmi?",
+  "mastersSendConfirmTitle": "Отправить ваш проект мастеру {name}?",
   "@mastersSendConfirmTitle": {
     "description": "U5 send-smeta sheet: personalized confirmation title.",
     "placeholders": {
-      "name": { "type": "String" }
+      "name": {
+        "type": "String"
+      }
     }
   },
-  "mastersProjectSummaryTitle": "Mehmonxona ta'miri",
+  "mastersProjectSummaryTitle": "Ремонт гостиной",
   "@mastersProjectSummaryTitle": {
     "description": "U5 send-smeta sheet: project summary card title."
   },
-  "mastersProjectSummaryValue": "{area} m² · {price}",
+  "mastersProjectSummaryValue": "{area} м² · {price}",
   "@mastersProjectSummaryValue": {
     "description": "U5 send-smeta sheet: project summary area and price.",
     "placeholders": {
-      "area": { "type": "String" },
-      "price": { "type": "String" }
+      "area": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      }
     }
   },
-  "mastersCommentHint": "Izoh (ixtiyoriy)",
+  "mastersCommentHint": "Комментарий (необязательно)",
   "@mastersCommentHint": {
     "description": "U5 send-smeta sheet: optional comment field hint."
   },
-  "mastersEstimateNote": "Usta smetani ko'rib, o'z narxini taklif qiladi",
+  "mastersEstimateNote": "Мастер рассмотрит смету и предложит свою цену",
   "@mastersEstimateNote": {
     "description": "U5 send-smeta sheet: note explaining the master will review and propose a price."
   },
-  "mastersEstimateSent": "Smeta yuborildi",
+  "mastersEstimateSent": "Смета отправлена",
   "@mastersEstimateSent": {
     "description": "U5 send-smeta sheet: snackbar shown after the estimate is sent."
   },
-  "mastersSend": "Yuborish",
+  "mastersSend": "Отправить",
   "@mastersSend": {
     "description": "U5 send-smeta sheet: primary send button."
   },
-  "profileDefaultName": "Foydalanuvchi",
+  "profileDefaultName": "Пользователь",
   "@profileDefaultName": {
     "description": "E4 profile: fallback display name when the user has no name ('User')."
   },
-  "profileComingSoon": "Tez kunda",
+  "profileComingSoon": "Скоро",
   "@profileComingSoon": {
     "description": "E4 profile: snackbar for not-yet-available features ('Coming soon')."
   },
-  "profileStatProjects": "loyiha",
+  "profileStatProjects": "проектов",
   "@profileStatProjects": {
     "description": "E4 profile: stat card label for project count."
   },
-  "profileStatOrders": "buyurtma",
+  "profileStatOrders": "заказов",
   "@profileStatOrders": {
     "description": "E4 profile: stat card label for order count."
   },
-  "profileStatSaved": "tejaldi",
+  "profileStatSaved": "сэкономлено",
   "@profileStatSaved": {
     "description": "E4 profile: stat card label for total money saved."
   },
-  "profileSavedMln": "{amount} mln",
+  "profileSavedMln": "{amount} млн",
   "@profileSavedMln": {
     "description": "E4 profile: saved amount in millions of som.",
     "placeholders": {
-      "amount": { "type": "String" }
+      "amount": {
+        "type": "String"
+      }
     }
   },
-  "profileMenuProjects": "Loyihalarim",
+  "profileMenuProjects": "Мои проекты",
   "@profileMenuProjects": {
     "description": "E4 profile menu / E5 title: 'My projects'."
   },
-  "profileMenuOrders": "Buyurtmalarim",
+  "profileMenuOrders": "Мои заказы",
   "@profileMenuOrders": {
     "description": "E4 profile menu / E6 title: 'My orders'."
   },
-  "profileMenuSavedDesigns": "Saqlangan dizaynlar",
+  "profileMenuSavedDesigns": "Сохранённые дизайны",
   "@profileMenuSavedDesigns": {
     "description": "E4 profile menu / E11 title: 'Saved designs'."
   },
-  "profileMenuAddresses": "Manzillarim",
+  "profileMenuAddresses": "Мои адреса",
   "@profileMenuAddresses": {
     "description": "E4 profile menu: 'My addresses'."
   },
-  "profileMenuPaymentMethods": "To'lov usullari",
+  "profileMenuPaymentMethods": "Способы оплаты",
   "@profileMenuPaymentMethods": {
     "description": "E4 profile menu: 'Payment methods'."
   },
-  "profileMenuLanguage": "Til",
+  "profileMenuLanguage": "Язык",
   "@profileMenuLanguage": {
     "description": "E4 profile menu: 'Language'."
   },
-  "profileMenuSettings": "Sozlamalar",
+  "profileMenuSettings": "Настройки",
   "@profileMenuSettings": {
     "description": "E4 profile menu: 'Settings'."
   },
-  "profileMenuHelp": "Yordam",
+  "profileMenuHelp": "Помощь",
   "@profileMenuHelp": {
     "description": "E4 profile menu: 'Help'."
   },
-  "profileMenuLogout": "Chiqish",
+  "profileMenuLogout": "Выйти",
   "@profileMenuLogout": {
     "description": "E4 profile menu: 'Log out'."
   },
-  "profileLanguageUzbek": "O'zbekcha",
+  "profileLanguageUzbek": "Узбекский",
   "@profileLanguageUzbek": {
     "description": "E4 profile: snackbar showing the current language ('Uzbek')."
   },
-  "profileFilterOngoing": "Davom etayotgan",
+  "profileFilterOngoing": "В процессе",
   "@profileFilterOngoing": {
     "description": "E5 projects: filter chip / status badge for ongoing projects."
   },
-  "profileFilterFinished": "Tugagan",
+  "profileFilterFinished": "Завершён",
   "@profileFilterFinished": {
     "description": "E5 projects: filter chip / status badge for finished projects."
   },
-  "profileProjectsEmptyTitle": "Hali loyiha yo'q",
+  "profileProjectsEmptyTitle": "Проектов пока нет",
   "@profileProjectsEmptyTitle": {
     "description": "E5 projects: empty state title ('No projects yet')."
   },
-  "profileProjectsEmptyMessage": "Birinchi loyihangizni boshlang",
+  "profileProjectsEmptyMessage": "Начните свой первый проект",
   "@profileProjectsEmptyMessage": {
     "description": "E5 projects: empty state message ('Start your first project')."
   },
-  "profileProjectsEmptyAction": "+ Yangi loyiha",
+  "profileProjectsEmptyAction": "+ Новый проект",
   "@profileProjectsEmptyAction": {
     "description": "E5 projects: empty state action button ('+ New project')."
   },
-  "profileProjectMeta": "{count} xona · {location} · {date}",
+  "profileProjectMeta": "{count, plural, one{{count} комната} few{{count} комнаты} many{{count} комнат} other{{count} комнат}} · {location} · {date}",
   "@profileProjectMeta": {
     "description": "E5 projects: project card metadata line (rooms, location, date).",
     "placeholders": {
-      "count": { "type": "int" },
-      "location": { "type": "String" },
-      "date": { "type": "String" }
+      "count": {
+        "type": "int"
+      },
+      "location": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
     }
   },
-  "profileOrdersEmptyTitle": "Buyurtma yo'q",
+  "profileOrdersEmptyTitle": "Заказов нет",
   "@profileOrdersEmptyTitle": {
     "description": "E6 orders: empty state title ('No orders')."
   },
-  "profileOrdersEmptyMessage": "Do'kondan xarid qilganingizda shu yerda ko'rinadi",
+  "profileOrdersEmptyMessage": "Здесь появятся ваши покупки из магазина",
   "@profileOrdersEmptyMessage": {
     "description": "E6 orders: empty state message ('Your shop purchases appear here')."
   },
-  "orderStepAccepted": "Qabul qilindi",
+  "orderStepAccepted": "Принят",
   "@orderStepAccepted": {
     "description": "Order status: order accepted."
   },
-  "orderStepGathering": "Yig'ilmoqda",
+  "orderStepGathering": "Собирается",
   "@orderStepGathering": {
     "description": "Order status: items being gathered."
   },
-  "orderStepOnTheWay": "Yo'lda",
+  "orderStepOnTheWay": "В пути",
   "@orderStepOnTheWay": {
     "description": "Order status: order out for delivery."
   },
-  "orderStepDelivered": "Yetkazildi",
+  "orderStepDelivered": "Доставлен",
   "@orderStepDelivered": {
     "description": "Order status: order delivered."
   },
-  "profileSavedDesignsEmptyTitle": "Saqlangan dizayn yo'q",
+  "profileSavedDesignsEmptyTitle": "Сохранённых дизайнов нет",
   "@profileSavedDesignsEmptyTitle": {
     "description": "E11 saved designs: empty state title ('No saved designs')."
   },
-  "profileSavedDesignsEmptyMessage": "Yoqqan dizaynlaringizni shu yerda saqlab qo'ying",
+  "profileSavedDesignsEmptyMessage": "Сохраняйте понравившиеся дизайны здесь",
   "@profileSavedDesignsEmptyMessage": {
     "description": "E11 saved designs: empty state message ('Save designs you like here')."
   },
-  "onboardingSkip": "O'tkazib yuborish",
+  "onboardingSkip": "Пропустить",
   "@onboardingSkip": {
     "description": "E7 onboarding: skip button ('Skip')."
   },
-  "onboardingStart": "Boshlash",
+  "onboardingStart": "Начать",
   "@onboardingStart": {
     "description": "E7 onboarding: final-slide start button ('Get started')."
   },
-  "onboardingMeasureTitle": "Xonangizni o'lchang",
+  "onboardingMeasureTitle": "Измерьте вашу комнату",
   "@onboardingMeasureTitle": {
     "description": "E7 onboarding slide 1 title ('Measure your room')."
   },
-  "onboardingMeasureBody": "Telefon kamerasi yoki LiDAR yordamida xonangiz o'lchamlarini aniq oling.",
+  "onboardingMeasureBody": "Получите точные размеры комнаты с помощью камеры телефона или LiDAR.",
   "@onboardingMeasureBody": {
     "description": "E7 onboarding slide 1 body."
   },
-  "onboardingDeltaTitle": "Hozirgi holatdan boshlaymiz",
+  "onboardingDeltaTitle": "Начинаем с текущего состояния",
   "@onboardingDeltaTitle": {
     "description": "E7 onboarding slide 2 title ('We start from the current state')."
   },
-  "onboardingDeltaBody": "Xonangizda allaqachon bor narsalar uchun to'lamaysiz — faqat kerakli qismini hisoblaymiz.",
+  "onboardingDeltaBody": "Вы не платите за то, что уже есть в комнате — учитываем только необходимое.",
   "@onboardingDeltaBody": {
     "description": "E7 onboarding slide 2 body."
   },
-  "onboardingDeltaCurrent": "Hozirgi",
+  "onboardingDeltaCurrent": "Текущее",
   "@onboardingDeltaCurrent": {
     "description": "E7 onboarding slide 2: 'Current' state swatch label."
   },
-  "onboardingDeltaPill": "faqat FARQ hisoblanadi",
+  "onboardingDeltaPill": "учитывается только РАЗНИЦА",
   "@onboardingDeltaPill": {
     "description": "E7 onboarding slide 2: pill emphasizing only the difference is charged."
   },
-  "onboardingDecorateTitle": "3D'da bezang",
+  "onboardingDecorateTitle": "Оформите в 3D",
   "@onboardingDecorateTitle": {
     "description": "E7 onboarding slide 3 title ('Decorate in 3D')."
   },
-  "onboardingDecorateBody": "Materiallarni to'g'ridan-to'g'ri xonaning 3D ko'rinishiga sudrab, natijani darhol ko'ring.",
+  "onboardingDecorateBody": "Перетаскивайте материалы прямо в 3D-вид комнаты и сразу видьте результат.",
   "@onboardingDecorateBody": {
     "description": "E7 onboarding slide 3 body."
   },
-  "onboardingPriceTitle": "Narxni ko'ring, materialni oling",
+  "onboardingPriceTitle": "Узнайте цену, получите материалы",
   "@onboardingPriceTitle": {
     "description": "E7 onboarding slide 4 title ('See the price, get the materials')."
   },
-  "onboardingPriceBody": "Aniq smeta oling va kerakli materiallarni to'g'ridan-to'g'ri ilovadan xarid qiling.",
+  "onboardingPriceBody": "Получите точную смету и купите нужные материалы прямо в приложении.",
   "@onboardingPriceBody": {
     "description": "E7 onboarding slide 4 body."
   },
-  "onboardingPriceSaved": "Tejaldingiz 4.2 mln",
+  "onboardingPriceSaved": "Вы сэкономили 4.2 млн",
   "@onboardingPriceSaved": {
     "description": "E7 onboarding slide 4: example savings figure."
   },
-  "onboardingDemoTitle": "Demo qo'llanma",
+  "onboardingDemoTitle": "Демо-гид",
   "@onboardingDemoTitle": {
     "description": "E8 tutorial: app bar title ('Demo guide')."
   },
-  "onboardingDemoStep1": "Xona qo'shish — LiDAR, 360° yoki qo'lda o'lchash",
+  "onboardingDemoStep1": "Добавление комнаты — LiDAR, 360° или ручной замер",
   "@onboardingDemoStep1": {
     "description": "E8 tutorial: step 1."
   },
-  "onboardingDemoStep2": "Xonaning hozirgi holatini tanlash",
+  "onboardingDemoStep2": "Выбор текущего состояния комнаты",
   "@onboardingDemoStep2": {
     "description": "E8 tutorial: step 2."
   },
-  "onboardingDemoStep3": "Rail bilan devor, pol va mebelni bezash",
+  "onboardingDemoStep3": "Оформление стен, пола и мебели через панель",
   "@onboardingDemoStep3": {
     "description": "E8 tutorial: step 3."
   },
-  "onboardingDemoStep4": "Elektr va santexnikani oxirida rejalashtirish",
+  "onboardingDemoStep4": "Планирование электрики и сантехники в конце",
   "@onboardingDemoStep4": {
     "description": "E8 tutorial: step 4."
   },
-  "onboardingDemoStep5": "Smetani ko'rish va materiallarni sotib olish",
+  "onboardingDemoStep5": "Просмотр сметы и покупка материалов",
   "@onboardingDemoStep5": {
     "description": "E8 tutorial: step 5."
   },
-  "onboardingDemoWatchVideo": "Videoni ko'rish",
+  "onboardingDemoWatchVideo": "Смотреть видео",
   "@onboardingDemoWatchVideo": {
     "description": "E8 tutorial: video placeholder caption ('Watch the video')."
   },
-  "onboardingDemoTryMyself": "O'zim sinab ko'raman",
+  "onboardingDemoTryMyself": "Попробую сам",
   "@onboardingDemoTryMyself": {
     "description": "E8 tutorial: button to try the app directly ('I'll try it myself')."
   },
-
-  "commonBackTo3d": "3D'ga qaytish",
+  "commonBackTo3d": "Вернуться в 3D",
   "@commonBackTo3d": {
     "description": "Secondary button returning to the 3D view (C9 decoration-complete and D10 final-confirmation)."
   },
-
-  "designSurfaceFloorHeading": "Pol",
+  "designSurfaceFloorHeading": "Пол",
   "@designSurfaceFloorHeading": {
     "description": "B1-alt surface sheet: heading above the floor condition options."
   },
-  "designSurfaceCeilingHeading": "Shift",
+  "designSurfaceCeilingHeading": "Потолок",
   "@designSurfaceCeilingHeading": {
     "description": "B1-alt surface sheet: heading above the ceiling condition options."
   },
-  "designFloorRaw": "Xom beton",
+  "designFloorRaw": "Черновой бетон",
   "@designFloorRaw": {
     "description": "B1-alt surface sheet: floor option for raw concrete."
   },
-  "designFloorPlastered": "Styajka",
+  "designFloorPlastered": "Стяжка",
   "@designFloorPlastered": {
     "description": "B1-alt surface sheet: floor option for screed (styajka)."
   },
-  "designFloorPuttied": "Qoplama bor",
+  "designFloorPuttied": "Есть покрытие",
   "@designFloorPuttied": {
     "description": "B1-alt surface sheet: floor option meaning a covering already exists."
   },
-  "designCeilingRaw": "Xom",
+  "designCeilingRaw": "Черновой",
   "@designCeilingRaw": {
     "description": "B1-alt surface sheet: ceiling option for raw/bare."
   },
-  "designCeilingPlastered": "Suvoq",
+  "designCeilingPlastered": "Штукатурка",
   "@designCeilingPlastered": {
     "description": "B1-alt surface sheet: ceiling option for plastered (suvoq)."
   },
-  "designCeilingPuttied": "Tayyor",
+  "designCeilingPuttied": "Готово",
   "@designCeilingPuttied": {
     "description": "B1-alt surface sheet: ceiling option for finished/ready."
   },
-  "designRoomEntryIntro": "Xonangiz shu holatda — {condition}. Endi bosqichma-bosqich bezaymiz.",
+  "designRoomEntryIntro": "Ваша комната в таком состоянии — {condition}. Теперь оформим её поэтапно.",
   "@designRoomEntryIntro": {
     "description": "B2 room entry: intro card stating the room's current baseline condition and that decoration proceeds step by step.",
     "placeholders": {
-      "condition": { "type": "String" }
+      "condition": {
+        "type": "String"
+      }
     }
   },
-  "designConditionRaw": "korobka holatida",
+  "designConditionRaw": "в состоянии коробки",
   "@designConditionRaw": {
     "description": "B2 room entry: wall condition label for the raw/bare-shell state, used inside designRoomEntryIntro."
   },
-  "designConditionPlastered": "suvoq qilingan",
+  "designConditionPlastered": "оштукатурена",
   "@designConditionPlastered": {
     "description": "B2 room entry: wall condition label for the plastered state, used inside designRoomEntryIntro."
   },
-  "designConditionPuttied": "shpaklovka qilingan",
+  "designConditionPuttied": "прошпаклёвана",
   "@designConditionPuttied": {
     "description": "B2 room entry: wall condition label for the puttied state, used inside designRoomEntryIntro."
   },
-  "designToastShpaklovkaAdded": "✓ Shpaklovka qo'shildi",
+  "designToastShpaklovkaAdded": "✓ Шпаклёвка добавлена",
   "@designToastShpaklovkaAdded": {
     "description": "B3 decoration rail: success toast after applying a paint/putty swatch to the wall."
   },
-  "designStageBoyoqOboi": "Bo'yoq/Oboi bosqichi",
+  "designStageBoyoqOboi": "Этап краски/обоев",
   "@designStageBoyoqOboi": {
     "description": "B3 decoration rail: stage-progress label for the paint/wallpaper stage."
   },
-  "designRailTabBoyoq": "Bo'yoq",
+  "designRailTabBoyoq": "Краска",
   "@designRailTabBoyoq": {
     "description": "B3 decoration rail: rail tab label for paint swatches."
   },
-  "designDragHint": "Materialni barmog'ingiz bilan devorga sudrang",
+  "designDragHint": "Перетащите материал пальцем на стену",
   "@designDragHint": {
     "description": "B3 decoration rail: one-time onboarding hint to drag a material onto the wall with your finger."
   },
-  "designNextStage": "Keyingi bosqich →",
+  "designNextStage": "Следующий этап →",
   "@designNextStage": {
     "description": "Decoration flow: primary button advancing to the next renovation stage (B3, C4, C5)."
   },
-
-  "interiorToastFloorApplied": "✓ Polga qo'llanildi",
+  "interiorToastFloorApplied": "✓ Применено к полу",
   "@interiorToastFloorApplied": {
     "description": "C4 floor selection: success toast after applying a floor material."
   },
-  "interiorStagePol": "Pol bosqichi",
+  "interiorStagePol": "Этап пола",
   "@interiorStagePol": {
     "description": "C4 floor selection: stage-progress label for the flooring stage."
   },
-  "interiorRailTabKafel": "Kafel",
+  "interiorRailTabKafel": "Плитка",
   "@interiorRailTabKafel": {
     "description": "C4 floor selection: rail tab label for tile (kafel) floors."
   },
-  "interiorRailTabLaminat": "Laminat",
+  "interiorRailTabLaminat": "Ламинат",
   "@interiorRailTabLaminat": {
     "description": "C4 floor selection: rail tab label for laminate floors."
   },
-  "interiorRailTabParket": "Parket",
+  "interiorRailTabParket": "Паркет",
   "@interiorRailTabParket": {
     "description": "C4 floor selection: rail tab label for parquet floors."
   },
-  "interiorRailTabBeton": "Beton",
+  "interiorRailTabBeton": "Бетон",
   "@interiorRailTabBeton": {
     "description": "C4 floor selection: rail tab label for concrete (beton) floors."
   },
-  "interiorStageMebel": "Mebel bosqichi",
+  "interiorStageMebel": "Этап мебели",
   "@interiorStageMebel": {
     "description": "C5 furniture placement: stage label for the furniture stage."
   },
-  "interiorRailTabMehmonxona": "Mehmonxona",
+  "interiorRailTabMehmonxona": "Гостиная",
   "@interiorRailTabMehmonxona": {
     "description": "C5 furniture placement: room rail tab for the living room."
   },
-  "interiorRailTabOshxona": "Oshxona",
+  "interiorRailTabOshxona": "Кухня",
   "@interiorRailTabOshxona": {
     "description": "C5 furniture placement: room rail tab for the kitchen."
   },
-  "interiorRailTabYotoqxona": "Yotoqxona",
+  "interiorRailTabYotoqxona": "Спальня",
   "@interiorRailTabYotoqxona": {
     "description": "C5 furniture placement: room rail tab for the bedroom."
   },
-  "interiorRailTabVanna": "Vanna",
+  "interiorRailTabVanna": "Ванная",
   "@interiorRailTabVanna": {
     "description": "C5 furniture placement: room rail tab for the bathroom."
   },
-  "interiorWalkthroughHint": "Polda yurish mumkin — barmoq bilan suring",
+  "interiorWalkthroughHint": "Можно ходить по полу — проведите пальцем",
   "@interiorWalkthroughHint": {
     "description": "C7 walkthrough: hint pill explaining you can walk on the floor by dragging with a finger."
   },
-  "interiorGoToPlan": "Rejaga o'tish →",
+  "interiorGoToPlan": "Перейти к плану →",
   "@interiorGoToPlan": {
     "description": "C7 walkthrough: button switching to the top-down plan view."
   },
-  "interiorDecorationComplete": "Bezash yakunlandi",
+  "interiorDecorationComplete": "Оформление завершено",
   "@interiorDecorationComplete": {
     "description": "C9 decoration complete: success title ('Decoration finished')."
   },
-  "interiorGoToElectrical": "Elektrga o'tish →",
+  "interiorGoToElectrical": "Перейти к электрике →",
   "@interiorGoToElectrical": {
     "description": "C9 decoration complete: primary button moving on to the electrical stage."
   },
-  "interiorWallpaperAdded": "✓ Oboy kutubxonaga qo'shildi",
+  "interiorWallpaperAdded": "✓ Обои добавлены в библиотеку",
   "@interiorWallpaperAdded": {
     "description": "Wallpaper library sheet: snackbar confirming an uploaded wallpaper was added to the library."
   },
-  "interiorUploadFailed": "Yuklab bo'lmadi: {error}",
+  "interiorUploadFailed": "Не удалось загрузить: {error}",
   "@interiorUploadFailed": {
     "description": "Wallpaper library sheet: snackbar shown when the wallpaper upload fails.",
     "placeholders": {
-      "error": { "type": "String" }
+      "error": {
+        "type": "String"
+      }
     }
   },
-  "interiorWallpaperLibrary": "Oboy kutubxonasi",
+  "interiorWallpaperLibrary": "Библиотека обоев",
   "@interiorWallpaperLibrary": {
     "description": "Wallpaper library sheet: title ('Wallpaper library')."
   },
-  "interiorUploading": "Yuklanmoqda…",
+  "interiorUploading": "Загружается…",
   "@interiorUploading": {
     "description": "Wallpaper library sheet: upload button label while an image is uploading."
   },
-  "interiorUploadImage": "Rasm yuklash",
+  "interiorUploadImage": "Загрузить изображение",
   "@interiorUploadImage": {
     "description": "Wallpaper library sheet: upload button label ('Upload image')."
   },
-  "interiorNoWallpapers": "Hali oboy yo'q — birinchi bo'lib rasm yuklang",
+  "interiorNoWallpapers": "Обоев пока нет — загрузите первое изображение",
   "@interiorNoWallpapers": {
     "description": "Wallpaper library sheet: empty-state message inviting the user to upload the first wallpaper."
   },
-
-  "electricalWireRouting": "Sim yo'nalishi",
+  "electricalWireRouting": "Прокладка проводки",
   "@electricalWireRouting": {
     "description": "D8 electrical summary: app bar title ('Wire routing')."
   },
-  "electricalView2d": "2D reja",
+  "electricalView2d": "2D план",
   "@electricalView2d": {
     "description": "D8 electrical summary: view-toggle chip for the 2D plan."
   },
@@ -1188,246 +1198,271 @@
   "@electricalView3d": {
     "description": "D8 electrical summary: view-toggle chip for the 3D view."
   },
-  "electricalViewBoth": "Ikkalasi",
+  "electricalViewBoth": "Оба",
   "@electricalViewBoth": {
     "description": "D8 electrical summary: view-toggle chip showing both 2D and 3D ('Both')."
   },
-  "electricalRecomputeRoute": "Trassani qayta hisoblash",
+  "electricalRecomputeRoute": "Пересчитать трассу",
   "@electricalRecomputeRoute": {
     "description": "D8 electrical summary: button to recompute the wire routing."
   },
-  "electricalNext": "Keyingi →",
+  "electricalNext": "Далее →",
   "@electricalNext": {
     "description": "D8 electrical summary: primary button advancing to the electrical result (D9)."
   },
-  "electricalResult": "Elektr natijasi",
+  "electricalResult": "Результат электрики",
   "@electricalResult": {
     "description": "D9 electrical result: app bar title ('Electrical result')."
   },
-  "electricalFinish": "Yakunlash →",
+  "electricalFinish": "Завершить →",
   "@electricalFinish": {
     "description": "D9 electrical result: primary button finishing the electrical flow (to D10)."
   },
-  "electricalProjectReady": "Loyihangiz tayyor",
+  "electricalProjectReady": "Ваш проект готов",
   "@electricalProjectReady": {
     "description": "D10 final confirmation: success title ('Your project is ready')."
   },
-  "electricalViewEstimate": "Smetani ko'rish →",
+  "electricalViewEstimate": "Смотреть смету →",
   "@electricalViewEstimate": {
     "description": "D10 final confirmation: primary button opening the cost estimate (E1)."
   },
-
-  "estimateTitlePrefix": "Remont smetasi",
+  "estimateTitlePrefix": "Смета ремонта",
   "@estimateTitlePrefix": {
     "description": "E1 estimation: app bar title prefix, followed by the room name and dimensions ('Renovation estimate')."
   },
-  "estimateDefaultRoomName": "Mehmonxona",
+  "estimateDefaultRoomName": "Гостиная",
   "@estimateDefaultRoomName": {
     "description": "E1 estimation: fallback room name shown in the title when the room has none ('Living room')."
   },
-  "estimatePdfFailed": "PDF yuklab bo'lmadi: {error}",
+  "estimatePdfFailed": "Не удалось загрузить PDF: {error}",
   "@estimatePdfFailed": {
     "description": "E1 estimation: snackbar shown when downloading the smeta PDF fails.",
     "placeholders": {
-      "error": { "type": "String" }
+      "error": {
+        "type": "String"
+      }
     }
   },
-  "estimateSomeWork": "Ba'zi ishlar",
+  "estimateSomeWork": "Часть работ",
   "@estimateSomeWork": {
     "description": "E1 estimation: fallback label in the savings banner for already-done work ('Some work')."
   },
-  "estimateStageFallback": "Bosqich",
+  "estimateStageFallback": "Этап",
   "@estimateStageFallback": {
     "description": "E1 estimation: generic fallback stage label in the savings banner ('Stage')."
   },
-  "estimateAdjust": "Smeta sozlash",
+  "estimateAdjust": "Настройка сметы",
   "@estimateAdjust": {
     "description": "Estimate adjust: E1 tooltip and E3 app bar title ('Adjust estimate')."
   },
-  "estimateApproxTotal": "Taxminiy umumiy narx",
+  "estimateApproxTotal": "Приблизительная общая стоимость",
   "@estimateApproxTotal": {
     "description": "E1 estimation: label above the big total price card ('Approximate total price')."
   },
-  "estimateLabor": "Ishchi kuchi",
+  "estimateLabor": "Рабочая сила",
   "@estimateLabor": {
     "description": "Estimate: labour cost column/summary label ('Labour') (E1, E2, E3)."
   },
-  "estimateSavingsBanner": "{label} allaqachon bor edi — {amount} tejaldingiz",
+  "estimateSavingsBanner": "{label} уже было — вы сэкономили {amount}",
   "@estimateSavingsBanner": {
     "description": "E1 estimation: green savings banner stating a stage already existed and how much was saved.",
     "placeholders": {
-      "label": { "type": "String" },
-      "amount": { "type": "String" }
+      "label": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
     }
   },
-  "estimateExcludedNote": "sizda mavjud — hisoblanmadi",
+  "estimateExcludedNote": "у вас уже есть — не учтено",
   "@estimateExcludedNote": {
     "description": "E1 estimation: note on an excluded stage row ('you already have it — not counted')."
   },
-  "estimateZeroSom": "0 so'm",
+  "estimateZeroSom": "0 сум",
   "@estimateZeroSom": {
     "description": "E1 estimation: struck-through price shown for excluded stages ('0 som')."
   },
-  "estimatePreparingPdf": "Tayyorlanmoqda…",
+  "estimatePreparingPdf": "Подготавливается…",
   "@estimatePreparingPdf": {
     "description": "E1 estimation: PDF button label while the PDF is being prepared."
   },
-  "estimateBuyFromShops": "Do'konlardan xarid qilish",
+  "estimateBuyFromShops": "Купить в магазинах",
   "@estimateBuyFromShops": {
     "description": "E1 estimation: primary button to buy materials from shops."
   },
-  "estimateSendToMaster": "Ustaga yuborish",
+  "estimateSendToMaster": "Отправить мастеру",
   "@estimateSendToMaster": {
     "description": "E1 estimation: secondary button to send the estimate to a craftsman."
   },
-  "estimateMaterialsTotal": "Materiallar jami",
+  "estimateMaterialsTotal": "Итого материалы",
   "@estimateMaterialsTotal": {
     "description": "E2 material costs: materials subtotal row label ('Materials total')."
   },
-  "estimateStageTotal": "Bosqich jami",
+  "estimateStageTotal": "Итого по этапу",
   "@estimateStageTotal": {
     "description": "E2 material costs: sticky stage total label ('Stage total')."
   },
-  "estimateAddMaterialsToCart": "Materiallarni savatga",
+  "estimateAddMaterialsToCart": "Материалы в корзину",
   "@estimateAddMaterialsToCart": {
     "description": "E2 material costs: button adding this stage's materials to the cart."
   },
-  "estimateQualityLevel": "Sifat darajasi",
+  "estimateQualityLevel": "Уровень качества",
   "@estimateQualityLevel": {
     "description": "E3 labor costs: section title above the quality-tier options ('Quality level')."
   },
-  "estimateExcludeLabor": "Ishchi kuchini qo'shmaslik",
+  "estimateExcludeLabor": "Не включать рабочую силу",
   "@estimateExcludeLabor": {
     "description": "E3 labor costs: DIY switch title ('Don't include labour')."
   },
-  "estimateDiySubtitle": "O'zim bajaraman — faqat materiallar hisoblanadi",
+  "estimateDiySubtitle": "Сделаю сам — учитываются только материалы",
   "@estimateDiySubtitle": {
     "description": "E3 labor costs: DIY switch subtitle ('I'll do it myself — only materials are counted')."
   },
-  "estimateDeltaSavings": "Delta tejash ({stage})",
+  "estimateDeltaSavings": "Экономия дельты ({stage})",
   "@estimateDeltaSavings": {
     "description": "E3 labor costs: summary row for the delta savings from an excluded stage.",
     "placeholders": {
-      "stage": { "type": "String" }
+      "stage": {
+        "type": "String"
+      }
     }
   },
-  "estimateNewTotal": "Yangi jami",
+  "estimateNewTotal": "Новый итог",
   "@estimateNewTotal": {
     "description": "E3 labor costs: sticky new total label ('New total')."
   },
-  "estimateSaveEstimate": "Smetani saqlash",
+  "estimateSaveEstimate": "Сохранить смету",
   "@estimateSaveEstimate": {
     "description": "E3 labor costs: primary button saving the estimate and returning to E1."
   },
-
-  "studioAiDesigner": "AI dizayner",
+  "studioAiDesigner": "AI-дизайнер",
   "@studioAiDesigner": {
     "description": "AI designer: E1 button and AI builder sheet header ('AI designer')."
   },
-  "studioAiApplied": "✓ AI o'zgarishlari qo'llanildi",
+  "studioAiApplied": "✓ Изменения AI применены",
   "@studioAiApplied": {
     "description": "AI builder sheet: snackbar confirming the AI's changes were applied."
   },
-  "studioApplyFailed": "Qo'llab bo'lmadi: {error}",
+  "studioApplyFailed": "Не удалось применить: {error}",
   "@studioApplyFailed": {
     "description": "AI builder sheet: snackbar shown when applying the AI patch fails.",
     "placeholders": {
-      "error": { "type": "String" }
+      "error": {
+        "type": "String"
+      }
     }
   },
-  "studioAiHint": "Masalan: \"Devorlarni iliq bej rangga bo'ya va divan qo'sh\"",
+  "studioAiHint": "Например: \"Покрась стены в тёплый бежевый и добавь диван\"",
   "@studioAiHint": {
     "description": "AI builder sheet: example prompt hint in the request text field."
   },
-  "studioGenerating": "Ishlanmoqda…",
+  "studioGenerating": "Обрабатывается…",
   "@studioGenerating": {
     "description": "AI builder sheet: generate button label while the AI is working."
   },
-  "studioGenerate": "Yaratish",
+  "studioGenerate": "Создать",
   "@studioGenerate": {
     "description": "AI builder sheet: generate button label ('Generate')."
   },
-  "studioActionLabel": "Amal: {name}",
+  "studioActionLabel": "Действие: {name}",
   "@studioActionLabel": {
     "description": "AI builder sheet: streamed event row for a tool call the agent made.",
     "placeholders": {
-      "name": { "type": "String" }
+      "name": {
+        "type": "String"
+      }
     }
   },
-  "studioDoneLabel": "Bajarildi: {name}",
+  "studioDoneLabel": "Выполнено: {name}",
   "@studioDoneLabel": {
     "description": "AI builder sheet: streamed event row for a completed tool result.",
     "placeholders": {
-      "name": { "type": "String" }
+      "name": {
+        "type": "String"
+      }
     }
   },
-  "studioAiNoResponse": "AI hozircha javob berolmadi.\n{message}",
+  "studioAiNoResponse": "AI пока не смог ответить.\n{message}",
   "@studioAiNoResponse": {
     "description": "AI builder sheet: error tile shown when the AI could not respond, followed by the error detail.",
     "placeholders": {
-      "message": { "type": "String" }
+      "message": {
+        "type": "String"
+      }
     }
   },
-  "studioChangeCeiling": "Shift balandligi: {height} m",
+  "studioChangeCeiling": "Высота потолка: {height} м",
   "@studioChangeCeiling": {
     "description": "AI builder sheet: proposed change line for the new ceiling height in meters.",
     "placeholders": {
-      "height": { "type": "String" }
+      "height": {
+        "type": "String"
+      }
     }
   },
-  "studioChangeSurfaces": "{count} ta yuza materiali",
+  "studioChangeSurfaces": "{count} материалов поверхности",
   "@studioChangeSurfaces": {
     "description": "AI builder sheet: proposed change line for how many surface materials changed.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "studioChangeWalls": "{count} ta devor o'lchami",
+  "studioChangeWalls": "{count} размеров стен",
   "@studioChangeWalls": {
     "description": "AI builder sheet: proposed change line for how many wall dimensions changed.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "studioChangeFurniture": "{count} ta mebel",
+  "studioChangeFurniture": "{count} предметов мебели",
   "@studioChangeFurniture": {
     "description": "AI builder sheet: proposed change line for how many furniture items changed.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "studioChangeLights": "{count} ta chiroq",
+  "studioChangeLights": "{count} светильников",
   "@studioChangeLights": {
     "description": "AI builder sheet: proposed change line for how many lights changed.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "studioApply": "Qo'llash",
+  "studioApply": "Применить",
   "@studioApply": {
     "description": "AI builder sheet: button applying the AI's proposed changes ('Apply')."
   },
-  "studioLoginRequired": "Studio ochish uchun tizimga kiring.",
+  "studioLoginRequired": "Войдите в систему, чтобы открыть студию.",
   "@studioLoginRequired": {
     "description": "Studio WebView: error shown when opening the studio while unauthenticated ('Log in to open the studio')."
   },
-  "studioLoadFailed": "Studio yuklanmadi: {error}",
+  "studioLoadFailed": "Студия не загрузилась: {error}",
   "@studioLoadFailed": {
     "description": "Studio WebView: error shown when the studio page fails to load.",
     "placeholders": {
-      "error": { "type": "String" }
+      "error": {
+        "type": "String"
+      }
     }
   },
-  "studioWebViewTitle": "3D Studio",
+  "studioWebViewTitle": "3D Студия",
   "@studioWebViewTitle": {
     "description": "Studio WebView: default app-bar title when no room-specific title is given."
   },
-
-  "actionAdd": "Qo'shish",
+  "actionAdd": "Добавить",
   "@actionAdd": {
     "description": "Generic 'Add' button label used in the add-room dialog."
   },
-  "actionPrev": "Ortga",
+  "actionPrev": "Назад",
   "@actionPrev": {
     "description": "Previous-step button label ('Back') in the wall-measurement and 3D wizard step navigation."
   },
@@ -1435,504 +1470,518 @@
   "@actionOk": {
     "description": "Generic OK confirmation button in the draw-room wall-length dialog."
   },
-  "actionCancelShort": "Bekor",
+  "actionCancelShort": "Отмена",
   "@actionCancelShort": {
     "description": "Short cancel button ('Cancel') in the draw-room wall-length dialog."
   },
-  "roomDefaultName": "Xona",
+  "roomDefaultName": "Комната",
   "@roomDefaultName": {
     "description": "Fallback room name used when the user leaves the room-name field empty."
   },
-  "ceilingHeightLabel": "Shift balandligi",
+  "ceilingHeightLabel": "Высота потолка",
   "@ceilingHeightLabel": {
     "description": "Label above the ceiling-height control on the scan-review and draw-room screens."
   },
-  "measureLength": "Uzunlik",
+  "measureLength": "Длина",
   "@measureLength": {
     "description": "Label for the wall-length value/slider on the wall-measurement and 3D wizard steps."
   },
-
-  "furnitureDelete": "O'chirish",
+  "furnitureDelete": "Удалить",
   "@furnitureDelete": {
     "description": "Furniture edit card: button that removes the furniture item."
   },
-  "furnitureRotate": "Aylantirish",
+  "furnitureRotate": "Повернуть",
   "@furnitureRotate": {
     "description": "Furniture edit card: button that rotates the furniture item 90 degrees."
   },
-
-  "electricalTotalsTitle": "Elektr hisoblandi",
+  "electricalTotalsTitle": "Электрика рассчитана",
   "@electricalTotalsTitle": {
     "description": "Electrical totals card heading ('Electrical computed')."
   },
-  "electricalTotalsWireLabel": "jami sim",
+  "electricalTotalsWireLabel": "всего провода",
   "@electricalTotalsWireLabel": {
     "description": "Electrical totals card stat label: total wire length."
   },
-  "electricalTotalsDeviceLabel": "ta qurilma",
+  "electricalTotalsDeviceLabel": "устройств",
   "@electricalTotalsDeviceLabel": {
     "description": "Electrical totals card stat label: device count."
   },
-  "electricalTotalsSocketWires": "Rozetka simlari {meters} m",
+  "electricalTotalsSocketWires": "Провода розеток {meters} м",
   "@electricalTotalsSocketWires": {
     "description": "Electrical totals chip: socket wire length in metres.",
     "placeholders": {
-      "meters": { "type": "String" }
+      "meters": {
+        "type": "String"
+      }
     }
   },
-  "electricalTotalsSwitchWires": "Kalit simlari {meters} m",
+  "electricalTotalsSwitchWires": "Провода выключателей {meters} м",
   "@electricalTotalsSwitchWires": {
     "description": "Electrical totals chip: switch wire length in metres.",
     "placeholders": {
-      "meters": { "type": "String" }
+      "meters": {
+        "type": "String"
+      }
     }
   },
-  "electricalTotalsSwitchLightSummary": "{switches} kalit · {lights} yoritish",
+  "electricalTotalsSwitchLightSummary": "{switches} выключателей · {lights} светильников",
   "@electricalTotalsSwitchLightSummary": {
     "description": "Electrical totals chip summarising switch and light counts.",
     "placeholders": {
-      "switches": { "type": "int" },
-      "lights": { "type": "int" }
+      "switches": {
+        "type": "int"
+      },
+      "lights": {
+        "type": "int"
+      }
     }
   },
-  "electricalTotalsColDevice": "Qurilma",
+  "electricalTotalsColDevice": "Устройство",
   "@electricalTotalsColDevice": {
     "description": "Electrical totals table column header: device."
   },
-  "electricalTotalsColWall": "Devor",
+  "electricalTotalsColWall": "Стена",
   "@electricalTotalsColWall": {
     "description": "Electrical totals table column header: wall."
   },
-  "electricalTotalsColHeight": "Balandlik",
+  "electricalTotalsColHeight": "Высота",
   "@electricalTotalsColHeight": {
     "description": "Electrical totals table column header: height."
   },
-
-  "dimensionsTitle": "Xona o'lchamlari",
+  "dimensionsTitle": "Размеры комнаты",
   "@dimensionsTitle": {
     "description": "Dimensions-entry screen app bar title ('Room dimensions')."
   },
-  "dimensionsTabManual": "Qo'lda kiritish",
+  "dimensionsTabManual": "Ввести вручную",
   "@dimensionsTabManual": {
     "description": "Dimensions-entry segmented tab: manual entry."
   },
-  "dimensionsTabUpload": "Plan yuklash",
+  "dimensionsTabUpload": "Загрузить план",
   "@dimensionsTabUpload": {
     "description": "Dimensions-entry segmented tab: floorplan upload."
   },
-  "dimensionsTotalSummary": "Jami: {count} xona · {area} m²",
+  "dimensionsTotalSummary": "Всего: {count} комн. · {area} м²",
   "@dimensionsTotalSummary": {
     "description": "Dimensions-entry footer summarising total rooms and area.",
     "placeholders": {
-      "count": { "type": "int" },
-      "area": { "type": "String" }
+      "count": {
+        "type": "int"
+      },
+      "area": {
+        "type": "String"
+      }
     }
   },
-  "dimensionsNextMeasure": "Keyingi: devorlarni o'lchash",
+  "dimensionsNextMeasure": "Далее: замер стен",
   "@dimensionsNextMeasure": {
     "description": "Dimensions-entry primary CTA in manual mode ('Next: measure walls')."
   },
-  "dimensionsConvert3d": "3D ga aylantirish",
+  "dimensionsConvert3d": "Преобразовать в 3D",
   "@dimensionsConvert3d": {
     "description": "Dimensions-entry primary CTA in upload mode ('Convert to 3D')."
   },
-  "dimensionsAddRoom": "+ Xona qo'shish",
+  "dimensionsAddRoom": "+ Добавить комнату",
   "@dimensionsAddRoom": {
     "description": "Dimensions-entry add-room tile label."
   },
-  "dimensionsRoomDefaultName": "Xona {number}",
+  "dimensionsRoomDefaultName": "Комната {number}",
   "@dimensionsRoomDefaultName": {
     "description": "Default pre-filled name for a newly added room in the dimensions dialog.",
     "placeholders": {
-      "number": { "type": "int" }
+      "number": {
+        "type": "int"
+      }
     }
   },
-  "dimensionsRoomNameLabel": "Xona nomi",
+  "dimensionsRoomNameLabel": "Название комнаты",
   "@dimensionsRoomNameLabel": {
     "description": "Add-room dialog: room name field label."
   },
-  "dimensionsLengthLabel": "Uzunlik (m)",
+  "dimensionsLengthLabel": "Длина (м)",
   "@dimensionsLengthLabel": {
     "description": "Add-room dialog: length field label."
   },
-  "dimensionsWidthLabel": "Kenglik (m)",
+  "dimensionsWidthLabel": "Ширина (м)",
   "@dimensionsWidthLabel": {
     "description": "Add-room dialog: width field label."
   },
-  "dimensionsHeightLabel": "Balandlik (m)",
+  "dimensionsHeightLabel": "Высота (м)",
   "@dimensionsHeightLabel": {
     "description": "Add-room dialog: height field label."
   },
-  "dimensionsUploadTitle": "Floorplan rasmini yuklang",
+  "dimensionsUploadTitle": "Загрузите изображение плана",
   "@dimensionsUploadTitle": {
     "description": "Floorplan upload tab: upload area heading."
   },
-  "dimensionsUploadHint": "PNG yoki JPG · maksimal 10 MB\nYoki bu yerga sudrab tashlang",
+  "dimensionsUploadHint": "PNG или JPG · максимум 10 МБ\nИли перетащите сюда",
   "@dimensionsUploadHint": {
     "description": "Floorplan upload tab: file-format and drag hint."
   },
-  "dimensionsChooseFile": "Fayl tanlash",
+  "dimensionsChooseFile": "Выбрать файл",
   "@dimensionsChooseFile": {
     "description": "Floorplan upload tab: choose-file button."
   },
-  "dimensionsUploadNote": "Aniq natija uchun o'lchamlar ko'rsatilgan plan yuklang",
+  "dimensionsUploadNote": "Для точного результата загрузите план с указанными размерами",
   "@dimensionsUploadNote": {
     "description": "Floorplan upload tab: note advising a dimensioned plan for accuracy."
   },
-
-  "openingAddTitle": "Eshik/Deraza qo'shish",
+  "openingAddTitle": "Добавить дверь/окно",
   "@openingAddTitle": {
     "description": "Door/window sheet title and the wall-measurement add-opening button ('Add door/window')."
   },
-  "openingAddSpaced": "Eshik / Deraza qo'shish",
+  "openingAddSpaced": "Дверь / Окно добавить",
   "@openingAddSpaced": {
     "description": "Add door/window button label on the 3D wizard wall step (spaced variant)."
   },
-  "openingTypeDoor": "Eshik",
+  "openingTypeDoor": "Дверь",
   "@openingTypeDoor": {
     "description": "Door/window sheet type chip: door."
   },
-  "openingTypeWindow": "Deraza",
+  "openingTypeWindow": "Окно",
   "@openingTypeWindow": {
     "description": "Door/window sheet type chip: window."
   },
-  "openingTypeBalcony": "Balkon eshigi",
+  "openingTypeBalcony": "Балконная дверь",
   "@openingTypeBalcony": {
     "description": "Door/window sheet type chip: balcony door."
   },
-  "openingSizeLabel": "O'lcham (sm)",
+  "openingSizeLabel": "Размер (см)",
   "@openingSizeLabel": {
     "description": "Door/window sheet: size (cm) section label."
   },
-  "openingSizeOther": "Boshqa o'lcham…",
+  "openingSizeOther": "Другой размер…",
   "@openingSizeOther": {
     "description": "Door/window sheet: custom-size chip ('Other size…')."
   },
-  "openingPositionLabel": "Devor bo'ylab joylashuvi",
+  "openingPositionLabel": "Положение вдоль стены",
   "@openingPositionLabel": {
     "description": "Door/window sheet: position-along-wall slider label."
   },
-  "openingAddToWall": "Devorga qo'shish",
+  "openingAddToWall": "Добавить к стене",
   "@openingAddToWall": {
     "description": "Door/window sheet: confirm button that adds the opening to the wall."
   },
-
-  "newProjectTitle": "Yangi loyiha",
+  "newProjectTitle": "Новый проект",
   "@newProjectTitle": {
     "description": "New-project bottom sheet title."
   },
-  "newProjectSubtitle": "Xonani qanday qo'shmoqchisiz?",
+  "newProjectSubtitle": "Как хотите добавить комнату?",
   "@newProjectSubtitle": {
     "description": "New-project bottom sheet subtitle ('How do you want to add the room?')."
   },
-  "newProjectWizardTitle": "3D Master",
+  "newProjectWizardTitle": "3D Мастер",
   "@newProjectWizardTitle": {
     "description": "New-project entry: 3D wizard title."
   },
-  "newProjectWizardDesc": "Interaktiv 3D ko'rinishda xona o'lchamlarini kiriting",
+  "newProjectWizardDesc": "Введите размеры комнаты в интерактивном 3D-виде",
   "@newProjectWizardDesc": {
     "description": "New-project entry: 3D wizard description."
   },
-  "newProjectLidarTitle": "LiDAR skaner",
+  "newProjectLidarTitle": "LiDAR сканер",
   "@newProjectLidarTitle": {
     "description": "New-project entry and scan screen app bar: LiDAR scanner title."
   },
-  "newProjectLidarDesc": "Xonani LiDAR yordamida skanerlang va avtomatik 3D model oling",
+  "newProjectLidarDesc": "Отсканируйте комнату с помощью LiDAR и получите готовую 3D-модель",
   "@newProjectLidarDesc": {
     "description": "New-project entry: LiDAR scanner description."
   },
-  "newProjectPhotoTitle": "360° Foto skan",
+  "newProjectPhotoTitle": "360° Фотоскан",
   "@newProjectPhotoTitle": {
     "description": "New-project entry and unsupported-LiDAR fallback: 360° photo scan title."
   },
-  "newProjectPhotoDesc": "Xonani 360° rasmga oling — ilova nuqtalarni o'zi belgilaydi",
+  "newProjectPhotoDesc": "Сфотографируйте комнату на 360° — приложение само определит точки",
   "@newProjectPhotoDesc": {
     "description": "New-project entry: 360° photo scan description."
   },
-  "newProjectDrawTitle": "O'zingiz chizing",
+  "newProjectDrawTitle": "Нарисуйте сами",
   "@newProjectDrawTitle": {
     "description": "New-project entry and unsupported-LiDAR fallback: draw-it-yourself title."
   },
-  "newProjectDrawDesc": "Xonani barmog'ingiz bilan chizing — o'lchamlar chizganingizga qarab o'zi hisoblanadi",
+  "newProjectDrawDesc": "Нарисуйте комнату пальцем — размеры рассчитаются автоматически по рисунку",
   "@newProjectDrawDesc": {
     "description": "New-project entry: draw-it-yourself description."
   },
-
-  "summarySavedTitle": "O'lchamlar saqlandi!",
+  "summarySavedTitle": "Размеры сохранены!",
   "@summarySavedTitle": {
     "description": "Room summary / wizard summary celebratory heading ('Dimensions saved!')."
   },
-  "summaryStatFloor": "pol",
+  "summaryStatFloor": "пол",
   "@summaryStatFloor": {
     "description": "Room summary stat card label: floor area."
   },
-  "summaryStatWallNet": "devor (netto)",
+  "summaryStatWallNet": "стена (нетто)",
   "@summaryStatWallNet": {
     "description": "Room summary stat card label: net wall area."
   },
-  "summaryStatPerimeter": "perimetr",
+  "summaryStatPerimeter": "периметр",
   "@summaryStatPerimeter": {
     "description": "Room summary stat card label: perimeter."
   },
-  "summaryStatOpenings": "eshik/deraza",
+  "summaryStatOpenings": "дверь/окно",
   "@summaryStatOpenings": {
     "description": "Room summary stat card label: openings (doors/windows)."
   },
-  "summaryOpeningsCount": "{count} ta",
+  "summaryOpeningsCount": "{count} шт.",
   "@summaryOpeningsCount": {
     "description": "Room summary / wizard openings count value (e.g. '3 ta').",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "summaryOpeningsNote": "Eshik/derazalar avtomatik ayirilgan (netto)",
+  "summaryOpeningsNote": "Двери/окна автоматически вычтены (нетто)",
   "@summaryOpeningsNote": {
     "description": "Room summary note explaining openings are auto-subtracted (net)."
   },
-  "summaryAddRoom": "+ Yangi xona qo'shish",
+  "summaryAddRoom": "+ Добавить новую комнату",
   "@summaryAddRoom": {
     "description": "Room summary: secondary action to add another room."
   },
-  "roomSetupDefaultProjectName": "Mehmonxona ta'miri",
+  "roomSetupDefaultProjectName": "Ремонт гостиной",
   "@roomSetupDefaultProjectName": {
     "description": "Default name given to a newly measured room/project, used until the user renames it."
   },
-  "roomSetupWallLabelA": "Devor A",
+  "roomSetupWallLabelA": "Стена A",
   "@roomSetupWallLabelA": {
     "description": "Wall measurements screen: app-bar title for wall A."
   },
-  "roomSetupWallLabelB": "Devor B",
+  "roomSetupWallLabelB": "Стена B",
   "@roomSetupWallLabelB": {
     "description": "Wall measurements screen: app-bar title for wall B."
   },
-  "roomSetupWallLabelC": "Devor C",
+  "roomSetupWallLabelC": "Стена C",
   "@roomSetupWallLabelC": {
     "description": "Wall measurements screen: app-bar title for wall C."
   },
-  "roomSetupWallLabelD": "Devor D",
+  "roomSetupWallLabelD": "Стена D",
   "@roomSetupWallLabelD": {
     "description": "Wall measurements screen: app-bar title for wall D."
   },
-  "roomSetupWallLabelFallback": "Devor",
+  "roomSetupWallLabelFallback": "Стена",
   "@roomSetupWallLabelFallback": {
     "description": "Wall measurements screen: generic app-bar title fallback for an unknown wall type."
   },
-
-  "wizardTitle": "Yangi xona",
+  "wizardTitle": "Новая комната",
   "@wizardTitle": {
     "description": "3D room wizard app bar title ('New room')."
   },
-  "wizardCeilingQuestion": "Shiftning balandligi?",
+  "wizardCeilingQuestion": "Высота потолка?",
   "@wizardCeilingQuestion": {
     "description": "3D wizard ceiling step question ('Ceiling height?')."
   },
-  "wizardCeilingHint": "Odatda 2.5–3.2 metr oralig'ida",
+  "wizardCeilingHint": "Обычно в диапазоне 2.5–3.2 метра",
   "@wizardCeilingHint": {
     "description": "3D wizard ceiling step hint ('Usually between 2.5–3.2 metres')."
   },
-  "wizardExactValue": "Aniq qiymat (m)",
+  "wizardExactValue": "Точное значение (м)",
   "@wizardExactValue": {
     "description": "3D wizard ceiling step: exact-value field label."
   },
-  "wizardWallTitle": "{letter} devor",
+  "wizardWallTitle": "Стена {letter}",
   "@wizardWallTitle": {
     "description": "3D wizard wall step heading, e.g. 'A devor'.",
     "placeholders": {
-      "letter": { "type": "String" }
+      "letter": {
+        "type": "String"
+      }
     }
   },
-  "wizardWallSubtitle": "Uzunligini kiriting",
+  "wizardWallSubtitle": "Введите длину",
   "@wizardWallSubtitle": {
     "description": "3D wizard wall step subtitle ('Enter its length')."
   },
-  "wizardSummarySubtitle": "Xona parametrlari muvaffaqiyatli qayd etildi",
+  "wizardSummarySubtitle": "Параметры комнаты успешно сохранены",
   "@wizardSummarySubtitle": {
     "description": "3D wizard summary subtitle confirming the room parameters were recorded."
   },
-  "wizardStatFloor": "POL MAYDONI",
+  "wizardStatFloor": "ПЛОЩАДЬ ПОЛА",
   "@wizardStatFloor": {
     "description": "3D wizard summary stat: floor area (uppercase)."
   },
-  "wizardStatWallNet": "DEVOR MAYDONI (NETTO)",
+  "wizardStatWallNet": "ПЛОЩАДЬ СТЕН (НЕТТО)",
   "@wizardStatWallNet": {
     "description": "3D wizard summary stat: net wall area (uppercase)."
   },
-  "wizardStatPerimeter": "PERIMETR",
+  "wizardStatPerimeter": "ПЕРИМЕТР",
   "@wizardStatPerimeter": {
     "description": "3D wizard summary stat: perimeter (uppercase)."
   },
-  "wizardStatOpenings": "ESHIK/DERAZALAR",
+  "wizardStatOpenings": "ДВЕРИ/ОКНА",
   "@wizardStatOpenings": {
     "description": "3D wizard summary stat: openings (uppercase)."
   },
-  "wizardViewSmeta": "Smeta ko'rish",
+  "wizardViewSmeta": "Смотреть смету",
   "@wizardViewSmeta": {
     "description": "3D wizard summary primary CTA ('View estimate')."
   },
-  "wizardOpening": "Ochilmoqda…",
+  "wizardOpening": "Открывается…",
   "@wizardOpening": {
     "description": "3D wizard summary: loading label while the studio is opening."
   },
-  "wizardStartDesign": "Bezashni boshlash",
+  "wizardStartDesign": "Начать оформление",
   "@wizardStartDesign": {
     "description": "3D wizard summary secondary CTA ('Start decorating')."
   },
-
-  "measureOpenings": "Eshik / derazalar",
+  "measureOpenings": "Двери / окна",
   "@measureOpenings": {
     "description": "Wall-measurement screen: openings list section label."
   },
-  "measureFromLeft": "Chapdan {offset} m",
+  "measureFromLeft": "Слева {offset} м",
   "@measureFromLeft": {
     "description": "Wall-measurement opening row: offset from the wall's left edge.",
     "placeholders": {
-      "offset": { "type": "String" }
+      "offset": {
+        "type": "String"
+      }
     }
   },
-
-  "lidarScanning": "Skanerlanyapti...",
+  "lidarScanning": "Сканирование...",
   "@lidarScanning": {
     "description": "LiDAR scanning screen: 'Scanning...' status."
   },
-  "lidarMoveHint": "Telefonni sekin harakatlantiring",
+  "lidarMoveHint": "Медленно перемещайте телефон",
   "@lidarMoveHint": {
     "description": "LiDAR scanning screen hint: 'Move the phone slowly'."
   },
-  "lidarLabelWall": "devor",
+  "lidarLabelWall": "стена",
   "@lidarLabelWall": {
     "description": "LiDAR scanning found-stat label: wall (used as '{count} devor')."
   },
-  "lidarLabelDoor": "eshik",
+  "lidarLabelDoor": "дверь",
   "@lidarLabelDoor": {
     "description": "LiDAR scanning found-stat label: door."
   },
-  "lidarLabelWindow": "deraza",
+  "lidarLabelWindow": "окно",
   "@lidarLabelWindow": {
     "description": "LiDAR scanning found-stat label: window."
   },
-
-  "photoPointsCount": "{captured}/{total} nuqta",
+  "photoPointsCount": "{captured}/{total} точка",
   "@photoPointsCount": {
     "description": "360° photo scan: captured / total points counter.",
     "placeholders": {
-      "captured": { "type": "int" },
-      "total": { "type": "int" }
+      "captured": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
-  "photoTurnHint": "Telefonni keyingi nuqtaga burang",
+  "photoTurnHint": "Поверните телефон к следующей точке",
   "@photoTurnHint": {
     "description": "360° photo scan hint: 'Turn the phone to the next point'."
   },
-  "photoCapture": "Suratga olish",
+  "photoCapture": "Сфотографировать",
   "@photoCapture": {
     "description": "360° photo scan: capture button ('Take photo')."
   },
-
-  "scanReviewTitle": "Skan natijasi",
+  "scanReviewTitle": "Результат сканирования",
   "@scanReviewTitle": {
     "description": "Room-scan review page app bar title ('Scan result')."
   },
-  "scanReviewDetected": "Aniqlangan: {value}",
+  "scanReviewDetected": "Обнаружено: {value}",
   "@scanReviewDetected": {
     "description": "Room-scan review: detected ceiling height.",
     "placeholders": {
-      "value": { "type": "String" }
+      "value": {
+        "type": "String"
+      }
     }
   },
-  "scanReviewWalls": "Devorlar ({count})",
+  "scanReviewWalls": "Стены ({count})",
   "@scanReviewWalls": {
     "description": "Room-scan review: walls section header with count.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "scanReviewWall": "Devor {number}",
+  "scanReviewWall": "Стена {number}",
   "@scanReviewWall": {
     "description": "Room-scan review: per-wall row label, e.g. 'Devor 1'.",
     "placeholders": {
-      "number": { "type": "int" }
+      "number": {
+        "type": "int"
+      }
     }
   },
-  "scanReviewObjects": "Topilgan buyumlar ({count})",
+  "scanReviewObjects": "Найденные предметы ({count})",
   "@scanReviewObjects": {
     "description": "Room-scan review: detected-objects section header with count.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "scanReviewNoObjects": "Buyum topilmadi",
+  "scanReviewNoObjects": "Предметы не найдены",
   "@scanReviewNoObjects": {
     "description": "Room-scan review: shown when no objects were detected."
   },
-  "scanReviewObjectsDetectedNotice": "{count} ta buyum aniqlandi — Studio'da \"Skan ko'rinishi\"da ko'rasiz",
-  "@scanReviewObjectsDetectedNotice": {
-    "description": "Room-scan review: snackbar shown right after continuing to the studio, when the scan detected at least one object, pointing the user at the studio's scan-overlay toggle so the detection isn't missed.",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
-  "scanReviewRescan": "Qayta skanerlash",
+  "scanReviewObjectsDetectedNotice": "Обнаружено предметов: {count} — увидите их в студии во «Вид скана»",
+  "scanReviewRescan": "Пересканировать",
   "@scanReviewRescan": {
     "description": "Room-scan review: re-scan button."
   },
-  "scanReviewSummaryTitle": "Nimalar aniqlandi",
+  "scanReviewSummaryTitle": "Что было обнаружено",
   "@scanReviewSummaryTitle": {
     "description": "Room-scan review: header of the compact 'what we detected' summary shown under the 2-D preview."
   },
-  "scanReviewSummaryWalls": "Devor",
+  "scanReviewSummaryWalls": "Стены",
   "@scanReviewSummaryWalls": {
     "description": "Room-scan review summary chip label: walls."
   },
-  "scanReviewSummaryDoors": "Eshik",
+  "scanReviewSummaryDoors": "Двери",
   "@scanReviewSummaryDoors": {
     "description": "Room-scan review summary chip label: doors."
   },
-  "scanReviewSummaryWindows": "Deraza",
+  "scanReviewSummaryWindows": "Окна",
   "@scanReviewSummaryWindows": {
     "description": "Room-scan review summary chip label: windows."
   },
-  "scanReviewSummaryObjects": "Buyum",
+  "scanReviewSummaryObjects": "Предметы",
   "@scanReviewSummaryObjects": {
     "description": "Room-scan review summary chip label: detected objects."
   },
-  "scanReviewSummaryLowConfidence": "{count} ta element past aniqlikda o'lchandi — o'lchamlarni tekshiring.",
+  "scanReviewSummaryLowConfidence": "{count} элементов измерено с низкой точностью — проверьте размеры.",
   "@scanReviewSummaryLowConfidence": {
     "description": "Room-scan review summary: warning that some detected items carry a low RoomPlan confidence.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "scanReviewSummaryNoOpenings": "Eshik yoki deraza topilmadi. Shisha va ochiq eshiklar ko'pincha aniqlanmaydi.",
+  "scanReviewSummaryNoOpenings": "Двери или окна не найдены. Стекло и открытые двери часто не распознаются.",
   "@scanReviewSummaryNoOpenings": {
     "description": "Room-scan review summary hint shown when zero doors or zero windows were detected."
   },
-  "scanReviewSummaryRescanHint": "Yaqinroqdan, sekinroq qayta skanerlang.",
+  "scanReviewSummaryRescanHint": "Пересканируйте ближе и медленнее.",
   "@scanReviewSummaryRescanHint": {
     "description": "Room-scan review summary hint: second line telling the user how to improve the scan."
   },
-  "scanReviewSaveFailed": "Xonani saqlab bo'lmadi. Internetni tekshiring.",
+  "scanReviewSaveFailed": "Не удалось сохранить комнату. Проверьте интернет.",
   "@scanReviewSaveFailed": {
     "description": "Room-scan review: snackbar when the room could not be saved."
   },
-  "scanReviewUploadFailed": "Skan fayllari yuklanmadi: {error} Xona saqlandi, keyinroq qayta skanerlashingiz mumkin.",
+  "scanReviewUploadFailed": "Файлы скана не загружены: {error} Комната сохранена, вы можете пересканировать позже.",
   "@scanReviewUploadFailed": {
     "description": "Room-scan review: snackbar shown in the studio when the scan artifact (mesh/USDZ) upload failed; the room itself was still created.",
     "placeholders": {
-      "error": { "type": "String" }
+      "error": {
+        "type": "String"
+      }
     }
   },
-  "scanReviewThumbnailFailed": "Xona ko'rinishi yuklanmadi: {error} Loyiha kartasi rasmsiz ko'rinadi.",
+  "scanReviewThumbnailFailed": "Превью комнаты не загружено: {error} Карточка проекта будет без изображения.",
   "@scanReviewThumbnailFailed": {
     "description": "Room-scan review: snackbar shown in the studio when uploading the generated floor-plan thumbnail failed; the room itself was still created and only its project-card preview stays empty.",
     "placeholders": {
-      "error": { "type": "String" }
-    }
-  },
-  "scanReviewError": "Xatolik: {error}",
-  "@scanReviewError": {
-    "description": "Room-scan review: generic error snackbar with detail.",
-    "placeholders": {
-      "error": { "type": "String" }
+      "error": {
+        "type": "String"
+      }
     }
   },
   "scanReviewCeilingHeightValue": "{h} m",
@@ -1942,359 +1991,386 @@
       "h": { "type": "String" }
     }
   },
-  "pendingScanTitle": "Tugallanmagan skan topildi",
+  "pendingScanTitle": "Найдено незавершённое сканирование",
   "@pendingScanTitle": {
     "description": "Dialog title offered at app start when a LiDAR scan was interrupted before being saved."
   },
-  "pendingScanBody": "Siz oldin xonani skanerlagansiz, lekin \"Davom etish\"ni bosmasdan chiqib ketgansiz. Davom ettiramizmi?",
+  "pendingScanBody": "Вы ранее сканировали комнату, но вышли, не нажав \"Продолжить\". Продолжить сейчас?",
   "@pendingScanBody": {
     "description": "Dialog body for the resume-interrupted-scan prompt."
   },
-  "pendingScanResume": "Davom etish",
+  "pendingScanResume": "Продолжить",
   "@pendingScanResume": {
     "description": "Resume-interrupted-scan dialog: button to go back to the review screen."
   },
-  "pendingScanDiscard": "Bekor qilish",
+  "pendingScanDiscard": "Отменить",
   "@pendingScanDiscard": {
     "description": "Resume-interrupted-scan dialog: button to discard the saved scan."
   },
-  "scanCategoryTable": "Stol",
+  "scanCategoryTable": "Стол",
   "@scanCategoryTable": {
     "description": "Detected-object category label: table."
   },
-  "scanCategoryChair": "Stul",
+  "scanCategoryChair": "Стул",
   "@scanCategoryChair": {
     "description": "Detected-object category label: chair."
   },
-  "scanCategorySofa": "Divan",
+  "scanCategorySofa": "Диван",
   "@scanCategorySofa": {
     "description": "Detected-object category label: sofa."
   },
-  "scanCategoryBed": "Karavot",
+  "scanCategoryBed": "Кровать",
   "@scanCategoryBed": {
     "description": "Detected-object category label: bed."
   },
-  "scanCategoryStorage": "Shkaf",
+  "scanCategoryStorage": "Шкаф",
   "@scanCategoryStorage": {
     "description": "Detected-object category label: storage (cabinet/wardrobe)."
   },
-  "scanCategoryRefrigerator": "Muzlatgich",
+  "scanCategoryRefrigerator": "Холодильник",
   "@scanCategoryRefrigerator": {
     "description": "Detected-object category label: refrigerator."
   },
-  "scanCategoryStove": "Plita",
+  "scanCategoryStove": "Плита",
   "@scanCategoryStove": {
     "description": "Detected-object category label: stove."
   },
-  "scanCategorySink": "Rakovina",
+  "scanCategorySink": "Раковина",
   "@scanCategorySink": {
     "description": "Detected-object category label: sink."
   },
-  "scanCategoryToilet": "Unitaz",
+  "scanCategoryToilet": "Унитаз",
   "@scanCategoryToilet": {
     "description": "Detected-object category label: toilet."
   },
-  "scanCategoryBathtub": "Vanna",
+  "scanCategoryBathtub": "Ванна",
   "@scanCategoryBathtub": {
     "description": "Detected-object category label: bathtub."
   },
-  "scanCategoryWasher": "Kir yuvish mashinasi",
+  "scanCategoryWasher": "Стиральная машина",
   "@scanCategoryWasher": {
     "description": "Detected-object category label: washing machine."
   },
-  "scanCategoryTelevision": "Televizor",
+  "scanCategoryTelevision": "Телевизор",
   "@scanCategoryTelevision": {
     "description": "Detected-object category label: television."
   },
-  "scanCategoryFireplace": "Kamin",
+  "scanCategoryFireplace": "Камин",
   "@scanCategoryFireplace": {
     "description": "Detected-object category label: fireplace."
   },
-  "scanCategoryStairs": "Zina",
+  "scanCategoryStairs": "Лестница",
   "@scanCategoryStairs": {
     "description": "Detected-object category label: stairs."
   },
-  "scanCategoryOther": "Boshqa",
+  "scanCategoryOther": "Другое",
   "@scanCategoryOther": {
     "description": "Detected-object category label: fallback for an unrecognized category."
   },
-
-  "scanBusy": "Skaner allaqachon ishlayapti.",
+  "scanReviewError": "Ошибка: {error}",
+  "@scanReviewError": {
+    "description": "Room-scan review: generic error snackbar with detail.",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "scanBusy": "Сканер уже работает.",
   "@scanBusy": {
     "description": "Room-scan screen error: a scan is already running."
   },
-  "scanFailedRetry": "Skanerlashda xatolik. Qayta urinib ko'ring.",
+  "scanFailedRetry": "Ошибка сканирования. Попробуйте снова.",
   "@scanFailedRetry": {
     "description": "Room-scan screen error: scanning failed, try again."
   },
-  "scanErrorPrefixed": "Xatolik: {message}",
+  "scanErrorPrefixed": "Ошибка: {message}",
   "@scanErrorPrefixed": {
     "description": "Room-scan screen error with underlying message.",
     "placeholders": {
-      "message": { "type": "String" }
+      "message": {
+        "type": "String"
+      }
     }
   },
-  "scanNotDetected": "Xona aniqlanmadi. Qayta urinib ko'ring.",
+  "scanNotDetected": "Комната не обнаружена. Попробуйте снова.",
   "@scanNotDetected": {
     "description": "Room-scan screen error: no valid room detected."
   },
-  "scanLidarUnavailableTitle": "LiDAR mavjud emas",
+  "scanLidarUnavailableTitle": "LiDAR недоступен",
   "@scanLidarUnavailableTitle": {
     "description": "Unsupported-device sheet title ('LiDAR not available')."
   },
-  "scanLidarUnavailableBody": "LiDAR skaner faqat iPhone 12 Pro, 13 Pro, 14 Pro, 15 Pro, 16 Pro yoki iPad Pro'da ishlaydi. Xonani boshqa usulda qo'shing:",
+  "scanLidarUnavailableBody": "LiDAR сканер работает только на iPhone 12 Pro, 13 Pro, 14 Pro, 15 Pro, 16 Pro или iPad Pro. Добавьте комнату другим способом:",
   "@scanLidarUnavailableBody": {
     "description": "Unsupported-device sheet body explaining LiDAR requirements and offering alternatives."
   },
-  "scanInProgress": "Xona skanerlanmoqda…",
+  "scanInProgress": "Комната сканируется…",
   "@scanInProgress": {
     "description": "Room-scan screen: 'Scanning the room…' progress label."
   },
-
-  "drawTitle": "Xonani chizing",
+  "drawTitle": "Нарисуйте комнату",
   "@drawTitle": {
     "description": "Draw-room screen app bar title and the finish button's disabled fallback ('Draw the room')."
   },
-  "drawModeManual": "Qo'lda",
+  "drawModeManual": "Вручную",
   "@drawModeManual": {
     "description": "Draw-room mode chip: freehand ('By hand')."
   },
-  "drawModeVisual": "Vizual",
+  "drawModeVisual": "Визуально",
   "@drawModeVisual": {
     "description": "Draw-room mode chip: polygon ('Visual')."
   },
-  "drawHintRaw": "Xom chizma. \"Toza\"ga qaytish uchun tugmani bosing.",
+  "drawHintRaw": "Черновой рисунок. Нажмите кнопку, чтобы вернуться к \"Чистому\".",
   "@drawHintRaw": {
     "description": "Draw-room hint shown while viewing the raw (unsmoothed) sketch."
   },
-  "drawHintShapeReady": "Shakl tayyor! Burchaklarni surib o'lchamni o'zgartiring.",
+  "drawHintShapeReady": "Форма готова! Двигайте углы, чтобы изменить размер.",
   "@drawHintShapeReady": {
     "description": "Draw-room hint once the shape is closed."
   },
-  "drawHintFreehand": "Xona shaklini barmog'ingiz bilan chizing.",
+  "drawHintFreehand": "Нарисуйте форму комнаты пальцем.",
   "@drawHintFreehand": {
     "description": "Draw-room hint in freehand mode."
   },
-  "drawHintMarkCorners": "Xona burchaklarini belgilang (kamida 3 ta).",
+  "drawHintMarkCorners": "Отметьте углы комнаты (минимум 3).",
   "@drawHintMarkCorners": {
     "description": "Draw-room hint in polygon mode before any corners are placed."
   },
-  "drawHintMorePoints": "Yana {count} ta nuqta qo'ying.",
+  "drawHintMorePoints": "Добавьте ещё {count} точки.",
   "@drawHintMorePoints": {
     "description": "Draw-room hint prompting for more corner points.",
     "placeholders": {
-      "count": { "type": "int" }
+      "count": {
+        "type": "int"
+      }
     }
   },
-  "drawHintClose": "Yopish uchun birinchi nuqtaga bosing yoki \"Yopish\".",
+  "drawHintClose": "Нажмите на первую точку или \"Закрыть\", чтобы завершить.",
   "@drawHintClose": {
     "description": "Draw-room hint on how to close the polygon."
   },
-  "drawToggleClean": "Toza",
+  "drawToggleClean": "Чисто",
   "@drawToggleClean": {
     "description": "Draw-room hint bar toggle: show cleaned/smoothed shape ('Clean')."
   },
-  "drawToggleRaw": "Xom",
+  "drawToggleRaw": "Черновик",
   "@drawToggleRaw": {
     "description": "Draw-room hint bar toggle: show raw shape ('Raw')."
   },
-  "drawRedo": "Oldinga",
+  "drawRedo": "Вперёд",
   "@drawRedo": {
     "description": "Draw-room hint bar redo button tooltip ('Redo')."
   },
-  "drawClear": "Tozalash",
+  "drawClear": "Очистить",
   "@drawClear": {
     "description": "Draw-room hint bar clear button tooltip ('Clear')."
   },
-  "drawWallLength": "Devor uzunligi",
+  "drawWallLength": "Длина стены",
   "@drawWallLength": {
     "description": "Draw-room wall-length dialog title."
   },
-  "drawAreaWarning": "Diqqat: yuza odatiy oraliqdan tashqarida",
+  "drawAreaWarning": "Внимание: площадь выходит за обычные пределы",
   "@drawAreaWarning": {
     "description": "Draw-room bottom panel warning when the area is outside the usual range."
   },
-  "drawTitleRect": "Xona: {width} × {length} × {height} m",
+  "drawTitleRect": "Комната: {width} × {length} × {height} м",
   "@drawTitleRect": {
     "description": "Draw-room bottom panel title for a rectangle-like room.",
     "placeholders": {
-      "width": { "type": "String" },
-      "length": { "type": "String" },
-      "height": { "type": "String" }
+      "width": {
+        "type": "String"
+      },
+      "length": {
+        "type": "String"
+      },
+      "height": {
+        "type": "String"
+      }
     }
   },
-  "drawTitlePolygon": "Ko'pburchak · {corners} devor · {width}×{length} m",
+  "drawTitlePolygon": "Многоугольник · {corners} стен · {width}×{length} м",
   "@drawTitlePolygon": {
     "description": "Draw-room bottom panel title for a polygonal room.",
     "placeholders": {
-      "corners": { "type": "int" },
-      "width": { "type": "String" },
-      "length": { "type": "String" }
+      "corners": {
+        "type": "int"
+      },
+      "width": {
+        "type": "String"
+      },
+      "length": {
+        "type": "String"
+      }
     }
   },
-  "a11yQuantityDecrease": "Miqdorni kamaytirish",
+  "a11yQuantityDecrease": "Уменьшить количество",
   "@a11yQuantityDecrease": {
     "description": "Accessibility label for the icon-only button that decreases an item quantity."
   },
-  "a11yQuantityIncrease": "Miqdorni oshirish",
+  "a11yQuantityIncrease": "Увеличить количество",
   "@a11yQuantityIncrease": {
     "description": "Accessibility label for the icon-only button that increases an item quantity."
   },
-  "a11yRemoveFromCart": "Savatdan olib tashlash",
+  "a11yRemoveFromCart": "Убрать из корзины",
   "@a11yRemoveFromCart": {
     "description": "Accessibility label for the icon-only button that removes a line item from the cart."
   },
-  "a11yAddToCart": "Savatga qo'shish",
+  "a11yAddToCart": "Добавить в корзину",
   "@a11yAddToCart": {
     "description": "Accessibility label for the icon-only button that adds a product to the cart."
   },
-  "a11yCallDealer": "Qo'ng'iroq qilish",
+  "a11yCallDealer": "Позвонить",
   "@a11yCallDealer": {
     "description": "Accessibility label for the icon-only call button in the order status screen."
   },
-  "a11yMessageDealer": "Xabar yuborish",
+  "a11yMessageDealer": "Отправить сообщение",
   "@a11yMessageDealer": {
     "description": "Accessibility label for the icon-only message button in the order status screen."
   },
-  "shopDealerPhoneUnavailable": "{dealer}: telefon raqami hali mavjud emas",
+  "shopDealerPhoneUnavailable": "{dealer}: номер телефона пока недоступен",
   "@shopDealerPhoneUnavailable": {
     "description": "S7 order confirmation: snackbar shown when tapping the dealer's call button before it's wired up.",
     "placeholders": {
-      "dealer": { "type": "String" }
+      "dealer": {
+        "type": "String"
+      }
     }
   },
-  "shopDealerMessageUnavailable": "{dealer} bilan xabar almashish hali mavjud emas",
+  "shopDealerMessageUnavailable": "Обмен сообщениями с {dealer} пока недоступен",
   "@shopDealerMessageUnavailable": {
     "description": "S7 order confirmation: snackbar shown when tapping the dealer's message button before it's wired up.",
     "placeholders": {
-      "dealer": { "type": "String" }
+      "dealer": {
+        "type": "String"
+      }
     }
   },
-  "a11yEditProfile": "Profilni tahrirlash",
+  "a11yEditProfile": "Редактировать профиль",
   "@a11yEditProfile": {
     "description": "Accessibility label for the icon-only edit button next to the profile name."
   },
-  "a11yMastersListView": "Ro'yxat ko'rinishi",
+  "a11yMastersListView": "Вид списком",
   "@a11yMastersListView": {
     "description": "Accessibility label for the button that switches the masters map to the list view."
   },
-  "settingsScreenTitle": "Sozlamalar",
+  "settingsScreenTitle": "Настройки",
   "@settingsScreenTitle": {
       "description": "E9 preferences screen: AppBar title."
   },
-  "settingsNotificationsSectionTitle": "Bildirishnomalar",
+  "settingsNotificationsSectionTitle": "Уведомления",
   "@settingsNotificationsSectionTitle": {
       "description": "E9 preferences screen: 'Notifications' section header."
   },
-  "settingsPushNotificationsTitle": "Push-bildirishnomalar",
+  "settingsPushNotificationsTitle": "Push-уведомления",
   "@settingsPushNotificationsTitle": {
       "description": "E9 preferences screen: push notifications toggle title."
   },
-  "settingsPushNotificationsSubtitle": "Loyihalar va pudratchilar haqida yangiliklarni oling",
+  "settingsPushNotificationsSubtitle": "Получайте обновления о проектах и подрядчиках",
   "@settingsPushNotificationsSubtitle": {
       "description": "E9 preferences screen: push notifications toggle subtitle."
   },
-  "settingsEmailDigestTitle": "Elektron pochta xulosasi",
+  "settingsEmailDigestTitle": "Email-рассылка",
   "@settingsEmailDigestTitle": {
       "description": "E9 preferences screen: email digest toggle title."
   },
-  "settingsEmailDigestSubtitle": "Loyihalaringiz bo'yicha haftalik xulosa",
+  "settingsEmailDigestSubtitle": "Еженедельная сводка по вашим проектам",
   "@settingsEmailDigestSubtitle": {
       "description": "E9 preferences screen: email digest toggle subtitle."
   },
-  "settingsMarketingEmailsTitle": "Reklama xabarlari",
+  "settingsMarketingEmailsTitle": "Рекламные письма",
   "@settingsMarketingEmailsTitle": {
       "description": "E9 preferences screen: marketing emails toggle title."
   },
-  "settingsMarketingEmailsSubtitle": "Yangi imkoniyatlar va takliflar haqida xabarlar",
+  "settingsMarketingEmailsSubtitle": "Новости о новых функциях и предложениях",
   "@settingsMarketingEmailsSubtitle": {
       "description": "E9 preferences screen: marketing emails toggle subtitle."
   },
-  "settingsUnitsDisplaySectionTitle": "O'lchov birliklari va ekran",
+  "settingsUnitsDisplaySectionTitle": "Единицы измерения и экран",
   "@settingsUnitsDisplaySectionTitle": {
       "description": "E9 preferences screen: 'Units & Display' section header."
   },
-  "settingsMeasurementUnitsTitle": "O'lchov birliklari",
+  "settingsMeasurementUnitsTitle": "Единицы измерения",
   "@settingsMeasurementUnitsTitle": {
       "description": "E9 preferences screen: measurement units dropdown label."
   },
-  "settingsUnitMetric": "Metrik (m²)",
+  "settingsUnitMetric": "Метрическая (м²)",
   "@settingsUnitMetric": {
       "description": "E9 preferences screen: metric unit system dropdown option."
   },
-  "settingsUnitImperial": "Imperial (ft²)",
+  "settingsUnitImperial": "Имперская (фут²)",
   "@settingsUnitImperial": {
       "description": "E9 preferences screen: imperial unit system dropdown option."
   },
-  "settingsThemeTitle": "Mavzu",
+  "settingsThemeTitle": "Тема",
   "@settingsThemeTitle": {
       "description": "E9 preferences screen: theme dropdown label."
   },
-  "settingsThemeLight": "Yorug'",
+  "settingsThemeLight": "Светлая",
   "@settingsThemeLight": {
       "description": "E9 preferences screen: light theme dropdown option."
   },
-  "settingsThemeDark": "Qorong'i",
+  "settingsThemeDark": "Тёмная",
   "@settingsThemeDark": {
       "description": "E9 preferences screen: dark theme dropdown option."
   },
-  "settingsThemeSystem": "Tizim",
+  "settingsThemeSystem": "Системная",
   "@settingsThemeSystem": {
       "description": "E9 preferences screen: system theme dropdown option."
   },
-  "settingsLargeTextTitle": "Katta matn",
+  "settingsLargeTextTitle": "Крупный текст",
   "@settingsLargeTextTitle": {
       "description": "E9 preferences screen: large text toggle title."
   },
-  "settingsLargeTextSubtitle": "O'qishni qulaylashtirish uchun matn hajmini kattalashtiring",
+  "settingsLargeTextSubtitle": "Увеличить размер текста для удобства чтения",
   "@settingsLargeTextSubtitle": {
       "description": "E9 preferences screen: large text toggle subtitle."
   },
-  "settingsProjectSettingsSectionTitle": "Loyiha sozlamalari",
+  "settingsProjectSettingsSectionTitle": "Настройки проекта",
   "@settingsProjectSettingsSectionTitle": {
       "description": "E9 preferences screen: 'Project Settings' section header."
   },
-  "settingsAutoSaveTitle": "Loyihalarni avtomatik saqlash",
+  "settingsAutoSaveTitle": "Автосохранение проектов",
   "@settingsAutoSaveTitle": {
       "description": "E9 preferences screen: auto-save toggle title."
   },
-  "settingsAutoSaveSubtitle": "Ishingiz jarayonida avtomatik ravishda saqlanadi",
+  "settingsAutoSaveSubtitle": "Автоматически сохранять вашу работу по мере продвижения",
   "@settingsAutoSaveSubtitle": {
       "description": "E9 preferences screen: auto-save toggle subtitle."
   },
-  "settingsCloudSyncTitle": "Bulutli sinxronizatsiya",
+  "settingsCloudSyncTitle": "Облачная синхронизация",
   "@settingsCloudSyncTitle": {
       "description": "E9 preferences screen: cloud sync toggle title."
   },
-  "settingsCloudSyncSubtitle": "Loyihalarni barcha qurilmalaringizda sinxronlang",
+  "settingsCloudSyncSubtitle": "Синхронизируйте проекты на всех ваших устройствах",
   "@settingsCloudSyncSubtitle": {
       "description": "E9 preferences screen: cloud sync toggle subtitle."
   },
-  "settingsCloudSyncEnabledMessage": "Cloud sync yoqildi",
+  "settingsCloudSyncEnabledMessage": "Облачная синхронизация включена",
   "@settingsCloudSyncEnabledMessage": {
       "description": "E9 preferences screen: snackbar shown after turning cloud sync on."
   },
-  "settingsCloudSyncDisabledMessage": "Cloud sync o'chirildi",
+  "settingsCloudSyncDisabledMessage": "Облачная синхронизация отключена",
   "@settingsCloudSyncDisabledMessage": {
       "description": "E9 preferences screen: snackbar shown after turning cloud sync off."
   },
-  "settingsClearCacheTitle": "Keshni tozalash",
+  "settingsClearCacheTitle": "Очистить кэш",
   "@settingsClearCacheTitle": {
       "description": "E9 preferences screen: clear cache action tile title."
   },
-  "settingsClearCacheSubtitle": "Xotiradagi bo'sh joyni ko'paytiring",
+  "settingsClearCacheSubtitle": "Освободить место в хранилище",
   "@settingsClearCacheSubtitle": {
       "description": "E9 preferences screen: clear cache action tile subtitle."
   },
-  "settingsClearingCacheInProgress": "Tozalanmoqda...",
+  "settingsClearingCacheInProgress": "Очистка...",
   "@settingsClearingCacheInProgress": {
       "description": "E9 preferences screen: clear cache action tile subtitle while the cache clear is in progress."
   },
-  "settingsCacheClearedMessage": "Kesh tozalandi",
+  "settingsCacheClearedMessage": "Кэш очищен",
   "@settingsCacheClearedMessage": {
       "description": "E9 preferences screen: snackbar shown after cache is cleared successfully."
   },
-  "settingsCacheClearFailedMessage": "Keshni tozalab bo'lmadi: {error}",
+  "settingsCacheClearFailedMessage": "Не удалось очистить кэш: {error}",
   "@settingsCacheClearFailedMessage": {
       "description": "E9 preferences screen: snackbar shown when clearing the cache fails.",
       "placeholders": {
@@ -2303,27 +2379,27 @@
           }
       }
   },
-  "settingsPrivacySecuritySectionTitle": "Maxfiylik va xavfsizlik",
+  "settingsPrivacySecuritySectionTitle": "Конфиденциальность и безопасность",
   "@settingsPrivacySecuritySectionTitle": {
       "description": "E9 preferences screen: 'Privacy & Security' section header."
   },
-  "settingsPrivacyPolicyTitle": "Maxfiylik siyosati",
+  "settingsPrivacyPolicyTitle": "Политика конфиденциальности",
   "@settingsPrivacyPolicyTitle": {
       "description": "E9 preferences screen: privacy policy action tile title."
   },
-  "settingsPrivacyPolicySubtitle": "Maxfiylik siyosatimiz bilan tanishing",
+  "settingsPrivacyPolicySubtitle": "Ознакомьтесь с нашей политикой конфиденциальности",
   "@settingsPrivacyPolicySubtitle": {
       "description": "E9 preferences screen: privacy policy action tile subtitle."
   },
-  "settingsTermsOfServiceTitle": "Foydalanish shartlari",
+  "settingsTermsOfServiceTitle": "Условия использования",
   "@settingsTermsOfServiceTitle": {
       "description": "E9 preferences screen: terms of service action tile title."
   },
-  "settingsTermsOfServiceSubtitle": "Shartlar va qoidalarni ko'rib chiqing",
+  "settingsTermsOfServiceSubtitle": "Ознакомьтесь с условиями и положениями",
   "@settingsTermsOfServiceSubtitle": {
       "description": "E9 preferences screen: terms of service action tile subtitle."
   },
-  "settingsLinkOpenFailedMessage": "Havolani ochib bo'lmadi: {url}",
+  "settingsLinkOpenFailedMessage": "Не удалось открыть ссылку: {url}",
   "@settingsLinkOpenFailedMessage": {
       "description": "E9 preferences screen: snackbar shown when a privacy/terms link fails to open.",
       "placeholders": {
@@ -2332,31 +2408,31 @@
           }
       }
   },
-  "settingsAboutSectionTitle": "Ilova haqida",
+  "settingsAboutSectionTitle": "О приложении",
   "@settingsAboutSectionTitle": {
       "description": "E9 preferences screen: 'About' section header."
   },
-  "settingsAppVersionLabel": "Ilova versiyasi",
+  "settingsAppVersionLabel": "Версия приложения",
   "@settingsAppVersionLabel": {
       "description": "E9 preferences screen: app version row label."
   },
-  "settingsBuildNumberLabel": "Build raqami",
+  "settingsBuildNumberLabel": "Номер сборки",
   "@settingsBuildNumberLabel": {
       "description": "E9 preferences screen: build number row label."
   },
-  "settingsCheckForUpdatesButton": "Yangilanishlarni tekshirish",
+  "settingsCheckForUpdatesButton": "Проверить обновления",
   "@settingsCheckForUpdatesButton": {
       "description": "E9 preferences screen: 'Check for Updates' button."
   },
-  "settingsUpdatesDialogTitle": "Yangilanishlar",
+  "settingsUpdatesDialogTitle": "Обновления",
   "@settingsUpdatesDialogTitle": {
       "description": "E9 preferences screen: check-for-updates dialog title."
   },
-  "settingsUpdatesDialogBody": "Siz ilovaning eng so'nggi versiyasidasiz.",
+  "settingsUpdatesDialogBody": "У вас установлена последняя версия приложения.",
   "@settingsUpdatesDialogBody": {
       "description": "E9 preferences screen: check-for-updates dialog body."
   },
-  "settingsUpdatesDialogOk": "OK",
+  "settingsUpdatesDialogOk": "ОК",
   "@settingsUpdatesDialogOk": {
       "description": "E9 preferences screen: check-for-updates dialog dismiss button."
   }

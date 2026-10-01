@@ -10,6 +10,7 @@ import 'package:logger/logger.dart';
 import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../features/room_scan/models/captured_room.dart';
+import '../../features/room_scan/pending_scan_store.dart';
 import '../../features/room_scan/room_scan_converter.dart';
 import '../../features/room_scan/room_scan_service.dart';
 import '../../geometry/room_geometry.dart';
@@ -26,39 +27,39 @@ class RoomScanReviewArgs {
 
 const List<double> _ceilingChips = [2.5, 2.7, 2.8, 3.0, 3.2];
 
-/// Uzbek label for a scanned object category.
-String scanCategoryLabelUz(ScanObjectCategory c) {
+/// Localized label for a scanned object category.
+String scanCategoryLabel(AppLocalizations l10n, ScanObjectCategory c) {
   switch (c) {
     case ScanObjectCategory.table:
-      return 'Stol';
+      return l10n.scanCategoryTable;
     case ScanObjectCategory.chair:
-      return 'Stul';
+      return l10n.scanCategoryChair;
     case ScanObjectCategory.sofa:
-      return 'Divan';
+      return l10n.scanCategorySofa;
     case ScanObjectCategory.bed:
-      return 'Karavot';
+      return l10n.scanCategoryBed;
     case ScanObjectCategory.storage:
-      return 'Shkaf';
+      return l10n.scanCategoryStorage;
     case ScanObjectCategory.refrigerator:
-      return 'Muzlatgich';
+      return l10n.scanCategoryRefrigerator;
     case ScanObjectCategory.stove:
-      return 'Plita';
+      return l10n.scanCategoryStove;
     case ScanObjectCategory.sink:
-      return 'Rakovina';
+      return l10n.scanCategorySink;
     case ScanObjectCategory.toilet:
-      return 'Unitaz';
+      return l10n.scanCategoryToilet;
     case ScanObjectCategory.bathtub:
-      return 'Vanna';
+      return l10n.scanCategoryBathtub;
     case ScanObjectCategory.washer:
-      return 'Kir yuvish mashinasi';
+      return l10n.scanCategoryWasher;
     case ScanObjectCategory.television:
-      return 'Televizor';
+      return l10n.scanCategoryTelevision;
     case ScanObjectCategory.fireplace:
-      return 'Kamin';
+      return l10n.scanCategoryFireplace;
     case ScanObjectCategory.stairs:
-      return 'Zina';
+      return l10n.scanCategoryStairs;
     case ScanObjectCategory.other:
-      return 'Boshqa';
+      return l10n.scanCategoryOther;
   }
 }
 
@@ -111,6 +112,15 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
         if (mounted) setState(() => _busy = false);
         return;
       }
+      // The room is durably in the backend now — the local safety copy (see
+      // PendingScanStore) has done its job and would otherwise keep
+      // resurfacing a "resume your scan?" prompt for a scan that's already
+      // saved. Best-effort: never let cleanup block getting to the studio.
+      try {
+        await PendingScanStore.clear();
+      } catch (e) {
+        _logger.w('pending-scan clear failed (non-fatal): $e');
+      }
       // Best-effort: attach the scan artifacts. Becomes functional once the
       // Phase 4 endpoint exists; a failure here must not block the studio since
       // the room itself is already created from the parametric data.
@@ -139,7 +149,10 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
       router.pushReplacement('/studio/$roomId');
       // Non-blocking: the user is already in the studio; the root
       // ScaffoldMessenger keeps this snackbar visible across the transition so
-      // a silently lost mesh is at least noticed.
+      // a silently lost mesh is at least noticed. Snackbars queue one at a
+      // time, so an upload/thumbnail failure always takes priority over the
+      // detected-objects notice below — a real problem must never be pushed
+      // back in the queue by a nice-to-have.
       if (uploadError != null) {
         messenger.showSnackBar(
           SnackBar(content: Text(l10n.scanReviewUploadFailed(uploadError))),
@@ -148,6 +161,20 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
       if (thumbnailError != null) {
         messenger.showSnackBar(
           SnackBar(content: Text(l10n.scanReviewThumbnailFailed(thumbnailError))),
+        );
+      }
+      // Points the user at the studio's scan-overlay toggle (now on by
+      // default — see ThreeDPage.tsx's showScan initializer — so this is
+      // reinforcement, not the only way to notice the detection) rather than
+      // leaving detected furniture as a silent, easy-to-miss fact. Only shown
+      // when nothing above already needs the user's attention.
+      if (_objects.isNotEmpty && uploadError == null && thumbnailError == null) {
+        messenger.showSnackBar(
+          SnackBar(
+            content: Text(
+              l10n.scanReviewObjectsDetectedNotice(_objects.length),
+            ),
+          ),
         );
       }
     } catch (e) {
@@ -208,7 +235,7 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
               children: [
                 for (final h in _ceilingChips)
                   ChoiceChip(
-                    label: Text('$h m'),
+                    label: Text(l10n.scanReviewCeilingHeightValue(h.toString())),
                     selected: (_ceiling - h).abs() < 0.001,
                     onSelected: (_) => setState(() => _ceiling = h),
                   ),
@@ -248,7 +275,7 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(scanCategoryLabelUz(o.category), style: DesignTokens.body2),
+                      Text(scanCategoryLabel(l10n, o.category), style: DesignTokens.body2),
                       Text(
                         '${o.width.toStringAsFixed(2)}×${o.depth.toStringAsFixed(2)} m',
                         style: DesignTokens.body2.copyWith(color: DesignTokens.textGray),

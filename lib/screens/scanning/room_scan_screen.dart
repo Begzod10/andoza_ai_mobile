@@ -5,6 +5,7 @@ import 'package:logger/logger.dart';
 
 import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
+import '../../features/room_scan/pending_scan_store.dart';
 import '../../features/room_scan/room_scan_converter.dart';
 import '../../features/room_scan/room_scan_service.dart';
 import 'room_scan_review_page.dart';
@@ -75,6 +76,17 @@ class _RoomScanScreenState extends ConsumerState<RoomScanScreen> {
       }
       _logger.i('roomscan → review (corners=${draft.plan.corners.length}, '
           'objects=${draft.objects.length})');
+      // Persist the completed scan to disk before handing off to the review
+      // screen — from here until "Davom etish" actually saves the room, the
+      // only copy of a (possibly several-minutes-long) scan is in-memory
+      // navigator state, which a backgrounded app or a low-memory kill can
+      // drop. Best-effort: never block entering the review screen over this.
+      try {
+        await PendingScanStore.save(result);
+      } catch (e) {
+        _logger.w('roomscan pending-save failed (non-fatal): $e');
+      }
+      if (!mounted) return;
       context.pushReplacement(
         '/scanning/roomplan/review',
         extra: RoomScanReviewArgs(draft: draft, scan: result),
