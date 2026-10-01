@@ -244,10 +244,7 @@ class AppLocalizationsUz extends AppLocalizations {
   String get homeProjectsLoadError => 'Loyihalarni yuklab bo\'lmadi';
 
   @override
-  String get homeYourProjects => 'Loyihalaringiz';
-
-  @override
-  String get homeSeeAll => 'Barchasi';
+  String get homeLoadMore => 'Yana ko\'rsatish';
 
   @override
   String get homeLegendExisting => 'Mavjud (hisoblanmaydi)';
@@ -286,6 +283,33 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get homeStageSaveError => 'Bosqichni saqlab bo\'lmadi';
+
+  @override
+  String homeRoomCount(int count) {
+    return '$count xona';
+  }
+
+  @override
+  String get homeStatAreaLabel => 'Maydon';
+
+  @override
+  String get homeStatModelsLabel => '3D model';
+
+  @override
+  String get homeStatEstimateLabel => 'Smeta';
+
+  @override
+  String homeAreaValue(String area) {
+    return '$area m²';
+  }
+
+  @override
+  String homeEstimateMln(String amount) {
+    return '$amount mln';
+  }
+
+  @override
+  String get homeStatDash => '—';
 
   @override
   String get stageSuvoq => 'suvoq';
@@ -327,24 +351,6 @@ class AppLocalizationsUz extends AppLocalizations {
   String get shopFilterAll => 'Barchasi';
 
   @override
-  String get shopProjectBannerLabel => 'SIZNING LOYIHANGIZ';
-
-  @override
-  String get shopProjectBannerTitle => 'Mehmonxona loyihangiz uchun';
-
-  @override
-  String shopProjectBannerCount(int count) {
-    return '$count turdagi material kerak';
-  }
-
-  @override
-  String get shopProjectBannerCalculating =>
-      'Loyiha materiallari hisoblanmoqda';
-
-  @override
-  String get shopSeeAllArrow => 'Hammasini ko\'rish →';
-
-  @override
   String get shopInProjectTag => 'Loyihada';
 
   @override
@@ -356,7 +362,15 @@ class AppLocalizationsUz extends AppLocalizations {
   }
 
   @override
-  String get shopAddAllToCart => 'Hammasini savatga';
+  String get shopAddAllToCart => 'Tanlanganlarni savatga';
+
+  @override
+  String get shopSelectRoomLabel => 'Qaysi xona uchun?';
+
+  @override
+  String shopSelectedCount(int count) {
+    return '$count ta tanlandi';
+  }
 
   @override
   String get shopOfficialDealer => '✓ Rasmiy diler';
@@ -381,6 +395,11 @@ class AppLocalizationsUz extends AppLocalizations {
   @override
   String shopWhereToBuy(String name) {
     return 'Qayerdan olish — $name';
+  }
+
+  @override
+  String shopPriceFromDealer(String dealer) {
+    return '$dealer narxi';
   }
 
   @override
@@ -525,6 +544,9 @@ class AppLocalizationsUz extends AppLocalizations {
   String get mastersPortfolio => 'Portfolio';
 
   @override
+  String get mastersPortfolioEmpty => 'Hali portfolio surat qo\'shilmagan';
+
+  @override
   String get mastersServices => 'Xizmatlar';
 
   @override
@@ -621,9 +643,6 @@ class AppLocalizationsUz extends AppLocalizations {
   String get profileLanguageUzbek => 'O\'zbekcha';
 
   @override
-  String get profileNewProject => 'Yangi loyiha';
-
-  @override
   String get profileFilterOngoing => 'Davom etayotgan';
 
   @override
@@ -649,6 +668,18 @@ class AppLocalizationsUz extends AppLocalizations {
   @override
   String get profileOrdersEmptyMessage =>
       'Do\'kondan xarid qilganingizda shu yerda ko\'rinadi';
+
+  @override
+  String get orderStepAccepted => 'Qabul qilindi';
+
+  @override
+  String get orderStepGathering => 'Yig\'ilmoqda';
+
+  @override
+  String get orderStepOnTheWay => 'Yo\'lda';
+
+  @override
+  String get orderStepDelivered => 'Yetkazildi';
 
   @override
   String get profileSavedDesignsEmptyTitle => 'Saqlangan dizayn yo\'q';
@@ -758,6 +789,15 @@ class AppLocalizationsUz extends AppLocalizations {
   String designRoomEntryIntro(String condition) {
     return 'Xonangiz shu holatda — $condition. Endi bosqichma-bosqich bezaymiz.';
   }
+
+  @override
+  String get designConditionRaw => 'korobka holatida';
+
+  @override
+  String get designConditionPlastered => 'suvoq qilingan';
+
+  @override
+  String get designConditionPuttied => 'shpaklovka qilingan';
 
   @override
   String get designToastShpaklovkaAdded => '✓ Shpaklovka qo\'shildi';
@@ -1020,6 +1060,9 @@ class AppLocalizationsUz extends AppLocalizations {
   }
 
   @override
+  String get studioWebViewTitle => '3D Studio';
+
+  @override
   String get actionAdd => 'Qo\'shish';
 
   @override
@@ -1167,7 +1210,7 @@ class AppLocalizationsUz extends AppLocalizations {
   String get newProjectSubtitle => 'Xonani qanday qo\'shmoqchisiz?';
 
   @override
-  String get newProjectWizardTitle => '3D Sehrgar';
+  String get newProjectWizardTitle => '3D Master';
 
   @override
   String get newProjectWizardDesc =>
@@ -1220,6 +1263,24 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get summaryAddRoom => '+ Yangi xona qo\'shish';
+
+  @override
+  String get roomSetupDefaultProjectName => 'Mehmonxona ta\'miri';
+
+  @override
+  String get roomSetupWallLabelA => 'Devor A';
+
+  @override
+  String get roomSetupWallLabelB => 'Devor B';
+
+  @override
+  String get roomSetupWallLabelC => 'Devor C';
+
+  @override
+  String get roomSetupWallLabelD => 'Devor D';
+
+  @override
+  String get roomSetupWallLabelFallback => 'Devor';
 
   @override
   String get wizardTitle => 'Yangi xona';
@@ -1327,6 +1388,11 @@ class AppLocalizationsUz extends AppLocalizations {
   String get scanReviewNoObjects => 'Buyum topilmadi';
 
   @override
+  String scanReviewObjectsDetectedNotice(int count) {
+    return '$count ta buyum aniqlandi — Studio\'da \"Skan ko\'rinishi\"da ko\'rasiz';
+  }
+
+  @override
   String get scanReviewRescan => 'Qayta skanerlash';
 
   @override
@@ -1375,6 +1441,56 @@ class AppLocalizationsUz extends AppLocalizations {
   String scanReviewError(String error) {
     return 'Xatolik: $error';
   }
+
+  @override
+  String scanReviewCeilingHeightValue(String h) {
+    return '$h m';
+  }
+
+  @override
+  String get scanCategoryTable => 'Stol';
+
+  @override
+  String get scanCategoryChair => 'Stul';
+
+  @override
+  String get scanCategorySofa => 'Divan';
+
+  @override
+  String get scanCategoryBed => 'Karavot';
+
+  @override
+  String get scanCategoryStorage => 'Shkaf';
+
+  @override
+  String get scanCategoryRefrigerator => 'Muzlatgich';
+
+  @override
+  String get scanCategoryStove => 'Plita';
+
+  @override
+  String get scanCategorySink => 'Rakovina';
+
+  @override
+  String get scanCategoryToilet => 'Unitaz';
+
+  @override
+  String get scanCategoryBathtub => 'Vanna';
+
+  @override
+  String get scanCategoryWasher => 'Kir yuvish mashinasi';
+
+  @override
+  String get scanCategoryTelevision => 'Televizor';
+
+  @override
+  String get scanCategoryFireplace => 'Kamin';
+
+  @override
+  String get scanCategoryStairs => 'Zina';
+
+  @override
+  String get scanCategoryOther => 'Boshqa';
 
   @override
   String get scanBusy => 'Skaner allaqachon ishlayapti.';
@@ -1480,8 +1596,161 @@ class AppLocalizationsUz extends AppLocalizations {
   String get a11yMessageDealer => 'Xabar yuborish';
 
   @override
+  String shopDealerPhoneUnavailable(String dealer) {
+    return '$dealer: telefon raqami hali mavjud emas';
+  }
+
+  @override
+  String shopDealerMessageUnavailable(String dealer) {
+    return '$dealer bilan xabar almashish hali mavjud emas';
+  }
+
+  @override
   String get a11yEditProfile => 'Profilni tahrirlash';
 
   @override
   String get a11yMastersListView => 'Ro\'yxat ko\'rinishi';
+
+  @override
+  String get settingsScreenTitle => 'Sozlamalar';
+
+  @override
+  String get settingsNotificationsSectionTitle => 'Bildirishnomalar';
+
+  @override
+  String get settingsPushNotificationsTitle => 'Push-bildirishnomalar';
+
+  @override
+  String get settingsPushNotificationsSubtitle =>
+      'Loyihalar va pudratchilar haqida yangiliklarni oling';
+
+  @override
+  String get settingsEmailDigestTitle => 'Elektron pochta xulosasi';
+
+  @override
+  String get settingsEmailDigestSubtitle =>
+      'Loyihalaringiz bo\'yicha haftalik xulosa';
+
+  @override
+  String get settingsMarketingEmailsTitle => 'Reklama xabarlari';
+
+  @override
+  String get settingsMarketingEmailsSubtitle =>
+      'Yangi imkoniyatlar va takliflar haqida xabarlar';
+
+  @override
+  String get settingsUnitsDisplaySectionTitle => 'O\'lchov birliklari va ekran';
+
+  @override
+  String get settingsMeasurementUnitsTitle => 'O\'lchov birliklari';
+
+  @override
+  String get settingsUnitMetric => 'Metrik (m²)';
+
+  @override
+  String get settingsUnitImperial => 'Imperial (ft²)';
+
+  @override
+  String get settingsThemeTitle => 'Mavzu';
+
+  @override
+  String get settingsThemeLight => 'Yorug\'';
+
+  @override
+  String get settingsThemeDark => 'Qorong\'i';
+
+  @override
+  String get settingsThemeSystem => 'Tizim';
+
+  @override
+  String get settingsLargeTextTitle => 'Katta matn';
+
+  @override
+  String get settingsLargeTextSubtitle =>
+      'O\'qishni qulaylashtirish uchun matn hajmini kattalashtiring';
+
+  @override
+  String get settingsProjectSettingsSectionTitle => 'Loyiha sozlamalari';
+
+  @override
+  String get settingsAutoSaveTitle => 'Loyihalarni avtomatik saqlash';
+
+  @override
+  String get settingsAutoSaveSubtitle =>
+      'Ishingiz jarayonida avtomatik ravishda saqlanadi';
+
+  @override
+  String get settingsCloudSyncTitle => 'Bulutli sinxronizatsiya';
+
+  @override
+  String get settingsCloudSyncSubtitle =>
+      'Loyihalarni barcha qurilmalaringizda sinxronlang';
+
+  @override
+  String get settingsCloudSyncEnabledMessage => 'Cloud sync yoqildi';
+
+  @override
+  String get settingsCloudSyncDisabledMessage => 'Cloud sync o\'chirildi';
+
+  @override
+  String get settingsClearCacheTitle => 'Keshni tozalash';
+
+  @override
+  String get settingsClearCacheSubtitle =>
+      'Xotiradagi bo\'sh joyni ko\'paytiring';
+
+  @override
+  String get settingsClearingCacheInProgress => 'Tozalanmoqda...';
+
+  @override
+  String get settingsCacheClearedMessage => 'Kesh tozalandi';
+
+  @override
+  String settingsCacheClearFailedMessage(String error) {
+    return 'Keshni tozalab bo\'lmadi: $error';
+  }
+
+  @override
+  String get settingsPrivacySecuritySectionTitle => 'Maxfiylik va xavfsizlik';
+
+  @override
+  String get settingsPrivacyPolicyTitle => 'Maxfiylik siyosati';
+
+  @override
+  String get settingsPrivacyPolicySubtitle =>
+      'Maxfiylik siyosatimiz bilan tanishing';
+
+  @override
+  String get settingsTermsOfServiceTitle => 'Foydalanish shartlari';
+
+  @override
+  String get settingsTermsOfServiceSubtitle =>
+      'Shartlar va qoidalarni ko\'rib chiqing';
+
+  @override
+  String settingsLinkOpenFailedMessage(String url) {
+    return 'Havolani ochib bo\'lmadi: $url';
+  }
+
+  @override
+  String get settingsAboutSectionTitle => 'Ilova haqida';
+
+  @override
+  String get settingsAppVersionLabel => 'Ilova versiyasi';
+
+  @override
+  String get settingsBuildNumberLabel => 'Build raqami';
+
+  @override
+  String get settingsCheckForUpdatesButton => 'Yangilanishlarni tekshirish';
+
+  @override
+  String get settingsUpdatesDialogTitle => 'Yangilanishlar';
+
+  @override
+  String get settingsUpdatesDialogBody =>
+      'Siz ilovaning eng so\'nggi versiyasidasiz.';
+
+  @override
+  String get settingsUpdatesDialogOk => 'OK';
 }

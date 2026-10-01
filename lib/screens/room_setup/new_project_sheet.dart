@@ -84,18 +84,6 @@ class NewProjectSheet extends StatelessWidget {
           ),
           const SizedBox(height: DesignTokens.spacingMd),
           _EntryOption(
-            iconBackground: const Color(0xFFFFF1E7),
-            icon: Icons.camera_alt_outlined,
-            iconColor: DesignTokens.accentOrange,
-            title: l10n.newProjectPhotoTitle,
-            description: l10n.newProjectPhotoDesc,
-            onTap: () {
-              Navigator.of(context).pop();
-              context.push('/scanning/photo');
-            },
-          ),
-          const SizedBox(height: DesignTokens.spacingMd),
-          _EntryOption(
             iconBackground: const Color(0xFFEAF7F0),
             icon: Icons.draw_outlined,
             iconColor: DesignTokens.successGreen,

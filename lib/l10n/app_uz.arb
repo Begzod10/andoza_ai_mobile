@@ -316,13 +316,9 @@
   "@homeProjectsLoadError": {
     "description": "Home (with projects): error-view title when the project list fails to load."
   },
-  "homeYourProjects": "Loyihalaringiz",
-  "@homeYourProjects": {
-    "description": "Home (with projects): 'Your projects' section title."
-  },
-  "homeSeeAll": "Barchasi",
-  "@homeSeeAll": {
-    "description": "Home (with projects): 'See all' link opening the full project list."
+  "homeLoadMore": "Yana ko'rsatish",
+  "@homeLoadMore": {
+    "description": "Home (with projects): button revealing the next page of project cards."
   },
   "homeLegendExisting": "Mavjud (hisoblanmaydi)",
   "@homeLegendExisting": {
@@ -379,6 +375,43 @@
   "@homeStageSaveError": {
     "description": "Home (with projects): snackbar shown when saving the selected stage fails."
   },
+  "homeRoomCount": "{count} xona",
+  "@homeRoomCount": {
+    "description": "Home (with projects): room count shown under a project's name (hero card and list rows).",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "homeStatAreaLabel": "Maydon",
+  "@homeStatAreaLabel": {
+    "description": "Home (with projects): stat-chip label for the room's floor area."
+  },
+  "homeStatModelsLabel": "3D model",
+  "@homeStatModelsLabel": {
+    "description": "Home (with projects): stat-chip label for the count of placed 3D furniture models."
+  },
+  "homeStatEstimateLabel": "Smeta",
+  "@homeStatEstimateLabel": {
+    "description": "Home (with projects): stat-chip label for the room's cost estimate."
+  },
+  "homeAreaValue": "{area} m²",
+  "@homeAreaValue": {
+    "description": "Home (with projects): floor-area stat-chip value, e.g. \"24.5 m²\".",
+    "placeholders": {
+      "area": { "type": "String" }
+    }
+  },
+  "homeEstimateMln": "{amount} mln",
+  "@homeEstimateMln": {
+    "description": "Home (with projects): estimate stat-chip value in millions of UZS, e.g. \"12.4 mln\".",
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  },
+  "homeStatDash": "—",
+  "@homeStatDash": {
+    "description": "Home (with projects): stat-chip value shown when the room has no data for that stat yet."
+  },
   "stageSuvoq": "suvoq",
   "@stageSuvoq": {
     "description": "Renovation stage name: plastering (suvoq)."
@@ -433,29 +466,6 @@
   "@shopFilterAll": {
     "description": "Shop: filter/category chip for 'All' (S1 categories, S4 and E10 filters)."
   },
-  "shopProjectBannerLabel": "SIZNING LOYIHANGIZ",
-  "@shopProjectBannerLabel": {
-    "description": "S1 shop home: small uppercase eyebrow label on the project banner ('YOUR PROJECT')."
-  },
-  "shopProjectBannerTitle": "Mehmonxona loyihangiz uchun",
-  "@shopProjectBannerTitle": {
-    "description": "S1 shop home: project banner title line ('For your living-room project')."
-  },
-  "shopProjectBannerCount": "{count} turdagi material kerak",
-  "@shopProjectBannerCount": {
-    "description": "S1 shop home: project banner line stating how many material types are needed.",
-    "placeholders": {
-      "count": { "type": "int" }
-    }
-  },
-  "shopProjectBannerCalculating": "Loyiha materiallari hisoblanmoqda",
-  "@shopProjectBannerCalculating": {
-    "description": "S1 shop home: project banner line while the required materials are still being computed."
-  },
-  "shopSeeAllArrow": "Hammasini ko'rish →",
-  "@shopSeeAllArrow": {
-    "description": "S1 shop home: 'See all →' link on the project banner opening the materials list."
-  },
   "shopInProjectTag": "Loyihada",
   "@shopInProjectTag": {
     "description": "Shop: small tag on product cards/rows marking an item the active project needs (S1 and E10)."
@@ -472,9 +482,20 @@
       "count": { "type": "int" }
     }
   },
-  "shopAddAllToCart": "Hammasini savatga",
+  "shopAddAllToCart": "Tanlanganlarni savatga",
   "@shopAddAllToCart": {
-    "description": "S2 project materials: sticky button that adds every required material to the cart."
+    "description": "S2 project materials: sticky button that adds every checked material to the cart."
+  },
+  "shopSelectRoomLabel": "Qaysi xona uchun?",
+  "@shopSelectRoomLabel": {
+    "description": "S2 project materials: label above the room picker chips."
+  },
+  "shopSelectedCount": "{count} ta tanlandi",
+  "@shopSelectedCount": {
+    "description": "S2 project materials: count of checked materials shown in the totals bar.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
   },
   "shopOfficialDealer": "✓ Rasmiy diler",
   "@shopOfficialDealer": {
@@ -509,6 +530,13 @@
     "description": "S3 product detail: row opening the dealer comparison, naming the default dealer.",
     "placeholders": {
       "name": { "type": "String" }
+    }
+  },
+  "shopPriceFromDealer": "{dealer} narxi",
+  "@shopPriceFromDealer": {
+    "description": "S3 product detail: small caption under the headline price, naming which dealer that price is from (the auto-selected cheapest dealer, not necessarily the product's catalog brand).",
+    "placeholders": {
+      "dealer": { "type": "String" }
     }
   },
   "shopAddedToCart": "Savatga qo'shildi",
@@ -704,6 +732,10 @@
   "@mastersPortfolio": {
     "description": "U4 master profile: portfolio section title."
   },
+  "mastersPortfolioEmpty": "Hali portfolio surat qo'shilmagan",
+  "@mastersPortfolioEmpty": {
+    "description": "U4 master profile: empty state shown when the master has no portfolio photos."
+  },
   "mastersServices": "Xizmatlar",
   "@mastersServices": {
     "description": "U4 master profile: services section title."
@@ -833,10 +865,6 @@
   "@profileLanguageUzbek": {
     "description": "E4 profile: snackbar showing the current language ('Uzbek')."
   },
-  "profileNewProject": "Yangi loyiha",
-  "@profileNewProject": {
-    "description": "E5 projects: FAB label to start a new project ('New project')."
-  },
   "profileFilterOngoing": "Davom etayotgan",
   "@profileFilterOngoing": {
     "description": "E5 projects: filter chip / status badge for ongoing projects."
@@ -873,6 +901,22 @@
   "profileOrdersEmptyMessage": "Do'kondan xarid qilganingizda shu yerda ko'rinadi",
   "@profileOrdersEmptyMessage": {
     "description": "E6 orders: empty state message ('Your shop purchases appear here')."
+  },
+  "orderStepAccepted": "Qabul qilindi",
+  "@orderStepAccepted": {
+    "description": "Order status: order accepted."
+  },
+  "orderStepGathering": "Yig'ilmoqda",
+  "@orderStepGathering": {
+    "description": "Order status: items being gathered."
+  },
+  "orderStepOnTheWay": "Yo'lda",
+  "@orderStepOnTheWay": {
+    "description": "Order status: order out for delivery."
+  },
+  "orderStepDelivered": "Yetkazildi",
+  "@orderStepDelivered": {
+    "description": "Order status: order delivered."
   },
   "profileSavedDesignsEmptyTitle": "Saqlangan dizayn yo'q",
   "@profileSavedDesignsEmptyTitle": {
@@ -1010,6 +1054,18 @@
     "placeholders": {
       "condition": { "type": "String" }
     }
+  },
+  "designConditionRaw": "korobka holatida",
+  "@designConditionRaw": {
+    "description": "B2 room entry: wall condition label for the raw/bare-shell state, used inside designRoomEntryIntro."
+  },
+  "designConditionPlastered": "suvoq qilingan",
+  "@designConditionPlastered": {
+    "description": "B2 room entry: wall condition label for the plastered state, used inside designRoomEntryIntro."
+  },
+  "designConditionPuttied": "shpaklovka qilingan",
+  "@designConditionPuttied": {
+    "description": "B2 room entry: wall condition label for the puttied state, used inside designRoomEntryIntro."
   },
   "designToastShpaklovkaAdded": "✓ Shpaklovka qo'shildi",
   "@designToastShpaklovkaAdded": {
@@ -1362,6 +1418,10 @@
       "error": { "type": "String" }
     }
   },
+  "studioWebViewTitle": "3D Studio",
+  "@studioWebViewTitle": {
+    "description": "Studio WebView: default app-bar title when no room-specific title is given."
+  },
 
   "actionAdd": "Qo'shish",
   "@actionAdd": {
@@ -1565,7 +1625,7 @@
   "@newProjectSubtitle": {
     "description": "New-project bottom sheet subtitle ('How do you want to add the room?')."
   },
-  "newProjectWizardTitle": "3D Sehrgar",
+  "newProjectWizardTitle": "3D Master",
   "@newProjectWizardTitle": {
     "description": "New-project entry: 3D wizard title."
   },
@@ -1632,6 +1692,30 @@
   "summaryAddRoom": "+ Yangi xona qo'shish",
   "@summaryAddRoom": {
     "description": "Room summary: secondary action to add another room."
+  },
+  "roomSetupDefaultProjectName": "Mehmonxona ta'miri",
+  "@roomSetupDefaultProjectName": {
+    "description": "Default name given to a newly measured room/project, used until the user renames it."
+  },
+  "roomSetupWallLabelA": "Devor A",
+  "@roomSetupWallLabelA": {
+    "description": "Wall measurements screen: app-bar title for wall A."
+  },
+  "roomSetupWallLabelB": "Devor B",
+  "@roomSetupWallLabelB": {
+    "description": "Wall measurements screen: app-bar title for wall B."
+  },
+  "roomSetupWallLabelC": "Devor C",
+  "@roomSetupWallLabelC": {
+    "description": "Wall measurements screen: app-bar title for wall C."
+  },
+  "roomSetupWallLabelD": "Devor D",
+  "@roomSetupWallLabelD": {
+    "description": "Wall measurements screen: app-bar title for wall D."
+  },
+  "roomSetupWallLabelFallback": "Devor",
+  "@roomSetupWallLabelFallback": {
+    "description": "Wall measurements screen: generic app-bar title fallback for an unknown wall type."
   },
 
   "wizardTitle": "Yangi xona",
@@ -1780,6 +1864,13 @@
   "@scanReviewNoObjects": {
     "description": "Room-scan review: shown when no objects were detected."
   },
+  "scanReviewObjectsDetectedNotice": "{count} ta buyum aniqlandi — Studio'da \"Skan ko'rinishi\"da ko'rasiz",
+  "@scanReviewObjectsDetectedNotice": {
+    "description": "Room-scan review: snackbar shown right after continuing to the studio, when the scan detected at least one object, pointing the user at the studio's scan-overlay toggle so the detection isn't missed.",
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "scanReviewRescan": "Qayta skanerlash",
   "@scanReviewRescan": {
     "description": "Room-scan review: re-scan button."
@@ -1843,6 +1934,73 @@
     "placeholders": {
       "error": { "type": "String" }
     }
+  },
+  "scanReviewCeilingHeightValue": "{h} m",
+  "@scanReviewCeilingHeightValue": {
+    "description": "Room-scan review: ceiling-height choice chip label, e.g. '2.7 m'.",
+    "placeholders": {
+      "h": { "type": "String" }
+    }
+  },
+  "scanCategoryTable": "Stol",
+  "@scanCategoryTable": {
+    "description": "Detected-object category label: table."
+  },
+  "scanCategoryChair": "Stul",
+  "@scanCategoryChair": {
+    "description": "Detected-object category label: chair."
+  },
+  "scanCategorySofa": "Divan",
+  "@scanCategorySofa": {
+    "description": "Detected-object category label: sofa."
+  },
+  "scanCategoryBed": "Karavot",
+  "@scanCategoryBed": {
+    "description": "Detected-object category label: bed."
+  },
+  "scanCategoryStorage": "Shkaf",
+  "@scanCategoryStorage": {
+    "description": "Detected-object category label: storage (cabinet/wardrobe)."
+  },
+  "scanCategoryRefrigerator": "Muzlatgich",
+  "@scanCategoryRefrigerator": {
+    "description": "Detected-object category label: refrigerator."
+  },
+  "scanCategoryStove": "Plita",
+  "@scanCategoryStove": {
+    "description": "Detected-object category label: stove."
+  },
+  "scanCategorySink": "Rakovina",
+  "@scanCategorySink": {
+    "description": "Detected-object category label: sink."
+  },
+  "scanCategoryToilet": "Unitaz",
+  "@scanCategoryToilet": {
+    "description": "Detected-object category label: toilet."
+  },
+  "scanCategoryBathtub": "Vanna",
+  "@scanCategoryBathtub": {
+    "description": "Detected-object category label: bathtub."
+  },
+  "scanCategoryWasher": "Kir yuvish mashinasi",
+  "@scanCategoryWasher": {
+    "description": "Detected-object category label: washing machine."
+  },
+  "scanCategoryTelevision": "Televizor",
+  "@scanCategoryTelevision": {
+    "description": "Detected-object category label: television."
+  },
+  "scanCategoryFireplace": "Kamin",
+  "@scanCategoryFireplace": {
+    "description": "Detected-object category label: fireplace."
+  },
+  "scanCategoryStairs": "Zina",
+  "@scanCategoryStairs": {
+    "description": "Detected-object category label: stairs."
+  },
+  "scanCategoryOther": "Boshqa",
+  "@scanCategoryOther": {
+    "description": "Detected-object category label: fallback for an unrecognized category."
   },
 
   "scanBusy": "Skaner allaqachon ishlayapti.",
@@ -1982,6 +2140,20 @@
   "@a11yMessageDealer": {
     "description": "Accessibility label for the icon-only message button in the order status screen."
   },
+  "shopDealerPhoneUnavailable": "{dealer}: telefon raqami hali mavjud emas",
+  "@shopDealerPhoneUnavailable": {
+    "description": "S7 order confirmation: snackbar shown when tapping the dealer's call button before it's wired up.",
+    "placeholders": {
+      "dealer": { "type": "String" }
+    }
+  },
+  "shopDealerMessageUnavailable": "{dealer} bilan xabar almashish hali mavjud emas",
+  "@shopDealerMessageUnavailable": {
+    "description": "S7 order confirmation: snackbar shown when tapping the dealer's message button before it's wired up.",
+    "placeholders": {
+      "dealer": { "type": "String" }
+    }
+  },
   "a11yEditProfile": "Profilni tahrirlash",
   "@a11yEditProfile": {
     "description": "Accessibility label for the icon-only edit button next to the profile name."
@@ -1989,5 +2161,187 @@
   "a11yMastersListView": "Ro'yxat ko'rinishi",
   "@a11yMastersListView": {
     "description": "Accessibility label for the button that switches the masters map to the list view."
+  },
+  "settingsScreenTitle": "Sozlamalar",
+  "@settingsScreenTitle": {
+      "description": "E9 preferences screen: AppBar title."
+  },
+  "settingsNotificationsSectionTitle": "Bildirishnomalar",
+  "@settingsNotificationsSectionTitle": {
+      "description": "E9 preferences screen: 'Notifications' section header."
+  },
+  "settingsPushNotificationsTitle": "Push-bildirishnomalar",
+  "@settingsPushNotificationsTitle": {
+      "description": "E9 preferences screen: push notifications toggle title."
+  },
+  "settingsPushNotificationsSubtitle": "Loyihalar va pudratchilar haqida yangiliklarni oling",
+  "@settingsPushNotificationsSubtitle": {
+      "description": "E9 preferences screen: push notifications toggle subtitle."
+  },
+  "settingsEmailDigestTitle": "Elektron pochta xulosasi",
+  "@settingsEmailDigestTitle": {
+      "description": "E9 preferences screen: email digest toggle title."
+  },
+  "settingsEmailDigestSubtitle": "Loyihalaringiz bo'yicha haftalik xulosa",
+  "@settingsEmailDigestSubtitle": {
+      "description": "E9 preferences screen: email digest toggle subtitle."
+  },
+  "settingsMarketingEmailsTitle": "Reklama xabarlari",
+  "@settingsMarketingEmailsTitle": {
+      "description": "E9 preferences screen: marketing emails toggle title."
+  },
+  "settingsMarketingEmailsSubtitle": "Yangi imkoniyatlar va takliflar haqida xabarlar",
+  "@settingsMarketingEmailsSubtitle": {
+      "description": "E9 preferences screen: marketing emails toggle subtitle."
+  },
+  "settingsUnitsDisplaySectionTitle": "O'lchov birliklari va ekran",
+  "@settingsUnitsDisplaySectionTitle": {
+      "description": "E9 preferences screen: 'Units & Display' section header."
+  },
+  "settingsMeasurementUnitsTitle": "O'lchov birliklari",
+  "@settingsMeasurementUnitsTitle": {
+      "description": "E9 preferences screen: measurement units dropdown label."
+  },
+  "settingsUnitMetric": "Metrik (m²)",
+  "@settingsUnitMetric": {
+      "description": "E9 preferences screen: metric unit system dropdown option."
+  },
+  "settingsUnitImperial": "Imperial (ft²)",
+  "@settingsUnitImperial": {
+      "description": "E9 preferences screen: imperial unit system dropdown option."
+  },
+  "settingsThemeTitle": "Mavzu",
+  "@settingsThemeTitle": {
+      "description": "E9 preferences screen: theme dropdown label."
+  },
+  "settingsThemeLight": "Yorug'",
+  "@settingsThemeLight": {
+      "description": "E9 preferences screen: light theme dropdown option."
+  },
+  "settingsThemeDark": "Qorong'i",
+  "@settingsThemeDark": {
+      "description": "E9 preferences screen: dark theme dropdown option."
+  },
+  "settingsThemeSystem": "Tizim",
+  "@settingsThemeSystem": {
+      "description": "E9 preferences screen: system theme dropdown option."
+  },
+  "settingsLargeTextTitle": "Katta matn",
+  "@settingsLargeTextTitle": {
+      "description": "E9 preferences screen: large text toggle title."
+  },
+  "settingsLargeTextSubtitle": "O'qishni qulaylashtirish uchun matn hajmini kattalashtiring",
+  "@settingsLargeTextSubtitle": {
+      "description": "E9 preferences screen: large text toggle subtitle."
+  },
+  "settingsProjectSettingsSectionTitle": "Loyiha sozlamalari",
+  "@settingsProjectSettingsSectionTitle": {
+      "description": "E9 preferences screen: 'Project Settings' section header."
+  },
+  "settingsAutoSaveTitle": "Loyihalarni avtomatik saqlash",
+  "@settingsAutoSaveTitle": {
+      "description": "E9 preferences screen: auto-save toggle title."
+  },
+  "settingsAutoSaveSubtitle": "Ishingiz jarayonida avtomatik ravishda saqlanadi",
+  "@settingsAutoSaveSubtitle": {
+      "description": "E9 preferences screen: auto-save toggle subtitle."
+  },
+  "settingsCloudSyncTitle": "Bulutli sinxronizatsiya",
+  "@settingsCloudSyncTitle": {
+      "description": "E9 preferences screen: cloud sync toggle title."
+  },
+  "settingsCloudSyncSubtitle": "Loyihalarni barcha qurilmalaringizda sinxronlang",
+  "@settingsCloudSyncSubtitle": {
+      "description": "E9 preferences screen: cloud sync toggle subtitle."
+  },
+  "settingsCloudSyncEnabledMessage": "Cloud sync yoqildi",
+  "@settingsCloudSyncEnabledMessage": {
+      "description": "E9 preferences screen: snackbar shown after turning cloud sync on."
+  },
+  "settingsCloudSyncDisabledMessage": "Cloud sync o'chirildi",
+  "@settingsCloudSyncDisabledMessage": {
+      "description": "E9 preferences screen: snackbar shown after turning cloud sync off."
+  },
+  "settingsClearCacheTitle": "Keshni tozalash",
+  "@settingsClearCacheTitle": {
+      "description": "E9 preferences screen: clear cache action tile title."
+  },
+  "settingsClearCacheSubtitle": "Xotiradagi bo'sh joyni ko'paytiring",
+  "@settingsClearCacheSubtitle": {
+      "description": "E9 preferences screen: clear cache action tile subtitle."
+  },
+  "settingsClearingCacheInProgress": "Tozalanmoqda...",
+  "@settingsClearingCacheInProgress": {
+      "description": "E9 preferences screen: clear cache action tile subtitle while the cache clear is in progress."
+  },
+  "settingsCacheClearedMessage": "Kesh tozalandi",
+  "@settingsCacheClearedMessage": {
+      "description": "E9 preferences screen: snackbar shown after cache is cleared successfully."
+  },
+  "settingsCacheClearFailedMessage": "Keshni tozalab bo'lmadi: {error}",
+  "@settingsCacheClearFailedMessage": {
+      "description": "E9 preferences screen: snackbar shown when clearing the cache fails.",
+      "placeholders": {
+          "error": {
+              "type": "String"
+          }
+      }
+  },
+  "settingsPrivacySecuritySectionTitle": "Maxfiylik va xavfsizlik",
+  "@settingsPrivacySecuritySectionTitle": {
+      "description": "E9 preferences screen: 'Privacy & Security' section header."
+  },
+  "settingsPrivacyPolicyTitle": "Maxfiylik siyosati",
+  "@settingsPrivacyPolicyTitle": {
+      "description": "E9 preferences screen: privacy policy action tile title."
+  },
+  "settingsPrivacyPolicySubtitle": "Maxfiylik siyosatimiz bilan tanishing",
+  "@settingsPrivacyPolicySubtitle": {
+      "description": "E9 preferences screen: privacy policy action tile subtitle."
+  },
+  "settingsTermsOfServiceTitle": "Foydalanish shartlari",
+  "@settingsTermsOfServiceTitle": {
+      "description": "E9 preferences screen: terms of service action tile title."
+  },
+  "settingsTermsOfServiceSubtitle": "Shartlar va qoidalarni ko'rib chiqing",
+  "@settingsTermsOfServiceSubtitle": {
+      "description": "E9 preferences screen: terms of service action tile subtitle."
+  },
+  "settingsLinkOpenFailedMessage": "Havolani ochib bo'lmadi: {url}",
+  "@settingsLinkOpenFailedMessage": {
+      "description": "E9 preferences screen: snackbar shown when a privacy/terms link fails to open.",
+      "placeholders": {
+          "url": {
+              "type": "String"
+          }
+      }
+  },
+  "settingsAboutSectionTitle": "Ilova haqida",
+  "@settingsAboutSectionTitle": {
+      "description": "E9 preferences screen: 'About' section header."
+  },
+  "settingsAppVersionLabel": "Ilova versiyasi",
+  "@settingsAppVersionLabel": {
+      "description": "E9 preferences screen: app version row label."
+  },
+  "settingsBuildNumberLabel": "Build raqami",
+  "@settingsBuildNumberLabel": {
+      "description": "E9 preferences screen: build number row label."
+  },
+  "settingsCheckForUpdatesButton": "Yangilanishlarni tekshirish",
+  "@settingsCheckForUpdatesButton": {
+      "description": "E9 preferences screen: 'Check for Updates' button."
+  },
+  "settingsUpdatesDialogTitle": "Yangilanishlar",
+  "@settingsUpdatesDialogTitle": {
+      "description": "E9 preferences screen: check-for-updates dialog title."
+  },
+  "settingsUpdatesDialogBody": "Siz ilovaning eng so'nggi versiyasidasiz.",
+  "@settingsUpdatesDialogBody": {
+      "description": "E9 preferences screen: check-for-updates dialog body."
+  },
+  "settingsUpdatesDialogOk": "OK",
+  "@settingsUpdatesDialogOk": {
+      "description": "E9 preferences screen: check-for-updates dialog dismiss button."
   }
 }
