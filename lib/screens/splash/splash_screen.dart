@@ -4,9 +4,12 @@ import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
+import '../../widgets/brand/assembling_logo.dart';
 
 /// Splash Screen (S0)
-/// Initial loading screen with gradient and brand logo animation
+/// The first thing on every cold start: the logo assembles from its own
+/// pieces while renovation and design tools gather into it (see
+/// [AssemblingLogo]), then the wordmark settles under it.
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
@@ -15,58 +18,63 @@ class SplashScreen extends ConsumerStatefulWidget {
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<double> _fadeAnimation;
-  late Animation<double> _scaleAnimation;
+    with TickerProviderStateMixin {
+  /// How long the assembly runs, and the least time the splash stays up — a
+  /// returning user's token restores in a few ms, which would otherwise cut
+  /// the animation off before the logo is even whole.
+  static const _assemble = Duration(milliseconds: 2200);
+  static const _minimumShown = Duration(milliseconds: 2500);
+
+  late final AnimationController _build =
+      AnimationController(vsync: this, duration: _assemble);
+  late final AnimationController _idle =
+      AnimationController(vsync: this, duration: const Duration(milliseconds: 1800));
+
+  bool _started = false;
 
   @override
-  void initState() {
-    super.initState();
-
-    _animationController = AnimationController(
-      duration: DesignTokens.animationSlow,
-      vsync: this,
-    );
-
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: const Interval(0.0, 0.7, curve: Curves.easeInOutQuad),
-      ),
-    );
-
-    _scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: const Interval(0.0, 0.7, curve: Curves.easeOutBack),
-      ),
-    );
-
-    _animationController.forward();
-
-    _bootstrap();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_started) return;
+    _started = true;
+    // Reduced motion: show the finished logo straight away and leave sooner.
+    final still = MediaQuery.of(context).disableAnimations;
+    if (still) {
+      _build.value = 1;
+    } else {
+      _build.forward();
+      _idle.repeat();
+    }
+    _bootstrap(minimum: still ? const Duration(milliseconds: 600) : _minimumShown);
   }
 
   /// Restore any persisted session BEFORE navigating, so a returning user with
   /// a valid stored token lands on Home instead of being bounced to /login by
-  /// the router's auth guard. Once auth resolves, we leave the splash and the
-  /// redirect routes to '/' (authenticated) or '/login' (not).
-  Future<void> _bootstrap() async {
-    await ref.read(authStateProvider.notifier).restoreToken();
+  /// the router's auth guard. Once auth resolves (and the logo has had its
+  /// moment), we leave the splash and the redirect routes to '/'
+  /// (authenticated) or '/login' (not).
+  Future<void> _bootstrap({required Duration minimum}) async {
+    final restore = ref.read(authStateProvider.notifier).restoreToken();
+    await Future.wait([restore, Future<void>.delayed(minimum)]);
     if (!mounted) return;
     context.go('/');
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _build.dispose();
+    _idle.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    // The wordmark and tagline arrive as the ladder finishes.
+    final reveal = CurvedAnimation(
+      parent: _build,
+      curve: const Interval(0.78, 1.0, curve: Curves.easeOutCubic),
+    );
     return Scaffold(
       backgroundColor: DesignTokens.darkBg,
       body: Container(
@@ -81,41 +89,54 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Brand mark — large, centered, on the dark brand gradient.
-              ScaleTransition(
-                scale: _scaleAnimation,
-                child: FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: Image.asset(
-                    'assets/images/andozaai-mark.png',
-                    width: 140,
-                    height: 140,
-                  ),
-                ),
-              ),
+              AssemblingLogo(progress: _build, idle: _idle, size: 260),
               const SizedBox(height: DesignTokens.spacingLg),
-              // Brand wordmark — set in Inter, not the source mark's own font.
               FadeTransition(
-                opacity: _fadeAnimation,
-                child: Text(
-                  l10n.brandName,
-                  style: DesignTokens.heading2.copyWith(
-                    color: DesignTokens.white,
+                opacity: reveal,
+                child: SlideTransition(
+                  position: Tween<Offset>(begin: const Offset(0, 0.25), end: Offset.zero).animate(reveal),
+                  child: Column(
+                    children: [
+                      Text.rich(
+                        const TextSpan(
+                          style: TextStyle(
+                            fontSize: 36,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: -0.8,
+                            color: DesignTokens.white,
+                          ),
+                          children: [
+                            TextSpan(text: 'andoza'),
+                            TextSpan(text: '.', style: TextStyle(color: Color(0xFFF97316))),
+                            TextSpan(text: 'ai', style: TextStyle(color: Color(0xFF7FA2FF))),
+                          ],
+                        ),
+                        semanticsLabel: 'andoza.ai',
+                      ),
+                      const SizedBox(height: DesignTokens.spacingSm),
+                      Text(
+                        l10n.loginTagline,
+                        textAlign: TextAlign.center,
+                        style: DesignTokens.bodyMedium.copyWith(
+                          color: DesignTokens.white.withValues(alpha: 0.6),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
               const SizedBox(height: DesignTokens.spacingXxl),
-              // Loading Indicator
               FadeTransition(
-                opacity: _fadeAnimation,
+                opacity: reveal,
                 child: SizedBox(
-                  width: 40,
-                  height: 40,
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      DesignTokens.white.withValues(alpha: 0.9),
+                  width: 120,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(2),
+                    child: LinearProgressIndicator(
+                      minHeight: 3,
+                      backgroundColor: DesignTokens.white.withValues(alpha: 0.12),
+                      valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFFDBA74)),
                     ),
-                    strokeWidth: 3,
                   ),
                 ),
               ),
