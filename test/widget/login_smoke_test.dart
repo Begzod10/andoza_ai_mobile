@@ -11,9 +11,10 @@ void main() {
     await tester.pumpWidget(wrap());
     await tester.pumpAndSettle();
 
-    // Greeting + rebranded subtitle.
-    expect(find.text('👋 Salom'), findsOneWidget);
-    expect(find.text('Andoza AI-ga xush kelibsiz'), findsOneWidget);
+    // Brand lockup + tagline — no greeting and no emoji.
+    expect(find.bySemanticsLabel('andoza.ai'), findsOneWidget);
+    expect(find.text("Ta'mir va interyer loyihalaringiz bir joyda"), findsOneWidget);
+    expect(find.textContaining('Salom'), findsNothing);
     // Phone field (matched by its hint), the OTP submit, and the username fallback.
     expect(find.widgetWithText(TextField, '90 123 45 67'), findsOneWidget);
     expect(find.widgetWithText(ElevatedButton, 'OTP Yuborish'), findsOneWidget);

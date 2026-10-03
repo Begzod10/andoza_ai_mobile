@@ -103,10 +103,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get loginOtpInfoBox =>
-      '📱 На указанный номер будет отправлен 6-значный код. Если SMS не приходит, повторите попытку через 2-3 минуты.';
+      'На указанный номер будет отправлен 6-значный код. Если SMS не приходит, повторите попытку через 2-3 минуты.';
 
   @override
-  String get loginWithUsername => '🔐 Войти по имени пользователя';
+  String get loginWithUsername => 'Войти по имени пользователя';
 
   @override
   String get loginCodeSentTitle => '✓ Код отправлен';
@@ -156,10 +156,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get loginOr => 'или';
 
   @override
-  String get loginGreeting => '👋 Привет';
-
-  @override
-  String get loginWelcomeSubtitle => 'Добро пожаловать в Andoza AI';
+  String get loginTagline => 'Проекты ремонта и интерьера в одном месте';
 
   @override
   String get loginVersion => 'AndozaAI v1.0.0';

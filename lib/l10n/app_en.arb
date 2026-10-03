@@ -124,11 +124,11 @@
   "@loginSendOtp": {
     "description": "Login (phone-OTP step): primary button that requests the OTP code."
   },
-  "loginOtpInfoBox": "📱 A 6-digit code will be sent to the number you entered. If the SMS doesn't arrive, try again in 2-3 minutes.",
+  "loginOtpInfoBox": "A 6-digit code will be sent to the number you entered. If the SMS doesn't arrive, try again in 2-3 minutes.",
   "@loginOtpInfoBox": {
     "description": "Login (phone-OTP step): informational tip box about the 6-digit code and retrying if SMS is delayed."
   },
-  "loginWithUsername": "🔐 Sign in with username",
+  "loginWithUsername": "Sign in with username",
   "@loginWithUsername": {
     "description": "Login (phone-OTP step): outlined button switching to the username/password login form."
   },
@@ -197,13 +197,9 @@
   "@loginOr": {
     "description": "Login: 'or' divider between the OTP and username entry points."
   },
-  "loginGreeting": "👋 Hi",
-  "@loginGreeting": {
-    "description": "Login: large greeting above the auth card ('Hello')."
-  },
-  "loginWelcomeSubtitle": "Welcome to Andoza AI",
-  "@loginWelcomeSubtitle": {
-    "description": "Login: welcome subtitle under the greeting."
+  "loginTagline": "Your renovation and interior projects in one place",
+  "@loginTagline": {
+    "description": "Login: tagline under the brand name above the auth card."
   },
   "loginVersion": "AndozaAI v1.0.0",
   "@loginVersion": {

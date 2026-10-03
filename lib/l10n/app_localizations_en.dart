@@ -103,10 +103,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginOtpInfoBox =>
-      '📱 A 6-digit code will be sent to the number you entered. If the SMS doesn\'t arrive, try again in 2-3 minutes.';
+      'A 6-digit code will be sent to the number you entered. If the SMS doesn\'t arrive, try again in 2-3 minutes.';
 
   @override
-  String get loginWithUsername => '🔐 Sign in with username';
+  String get loginWithUsername => 'Sign in with username';
 
   @override
   String get loginCodeSentTitle => '✓ Code sent';
@@ -157,10 +157,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginOr => 'or';
 
   @override
-  String get loginGreeting => '👋 Hi';
-
-  @override
-  String get loginWelcomeSubtitle => 'Welcome to Andoza AI';
+  String get loginTagline =>
+      'Your renovation and interior projects in one place';
 
   @override
   String get loginVersion => 'AndozaAI v1.0.0';

@@ -104,10 +104,10 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get loginOtpInfoBox =>
-      '📱 Siz kiritgan raqamga 6 xonali kod yuboriladi. Agar SMS kelmaydigan bo\'lsa, 2-3 minutdan keyin qayta urinib ko\'ring.';
+      'Siz kiritgan raqamga 6 xonali kod yuboriladi. Agar SMS kelmaydigan bo\'lsa, 2-3 minutdan keyin qayta urinib ko\'ring.';
 
   @override
-  String get loginWithUsername => '🔐 Username bilan kirish';
+  String get loginWithUsername => 'Username bilan kirish';
 
   @override
   String get loginCodeSentTitle => '✓ Kod yuborildi';
@@ -157,10 +157,7 @@ class AppLocalizationsUz extends AppLocalizations {
   String get loginOr => 'yoki';
 
   @override
-  String get loginGreeting => '👋 Salom';
-
-  @override
-  String get loginWelcomeSubtitle => 'Andoza AI-ga xush kelibsiz';
+  String get loginTagline => 'Ta\'mir va interyer loyihalaringiz bir joyda';
 
   @override
   String get loginVersion => 'AndozaAI v1.0.0';

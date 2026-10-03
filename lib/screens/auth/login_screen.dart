@@ -40,6 +40,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final List<FocusNode> _otpFocus = List.generate(6, (_) => FocusNode());
 
   bool _loading = false;
+  bool _phoneFocused = false;
   String? _error;
   bool _obscurePassword = true;
   bool _obscureConfirm = true;
@@ -248,13 +249,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           ),
         ),
         child: SafeArea(
-          child: Center(
+          // Top-anchored, not centred: the card's height differs per step
+          // (phone / code / username / register), and a centred column moved the
+          // logo up and down every time the step changed.
+          child: Align(
+            alignment: Alignment.topCenter,
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: DesignTokens.spacing24, vertical: DesignTokens.spacing32),
+              padding: const EdgeInsets.fromLTRB(
+                DesignTokens.spacing24, 72, DesignTokens.spacing24, DesignTokens.spacing32),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const _GreetingHeader(),
+                  const _BrandHeader(),
                   const SizedBox(height: DesignTokens.spacing32),
                   _card(),
                   const SizedBox(height: DesignTokens.spacing24),
@@ -301,31 +307,43 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         const SizedBox(height: DesignTokens.spacing24),
         Text(l10n.loginPhoneLabel, style: DesignTokens.caption.copyWith(color: DesignTokens.textSecondary)),
         const SizedBox(height: DesignTokens.spacing8),
-        Container(
-          decoration: BoxDecoration(
-            color: DesignTokens.primaryTint,
-            borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
-            border: Border.all(color: DesignTokens.primary, width: 2),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: DesignTokens.spacing16),
-          child: Row(
-            children: [
-              const Text('+998', style: TextStyle(fontWeight: FontWeight.w600)),
-              const SizedBox(width: DesignTokens.spacing8),
-              Expanded(
-                child: TextField(
-                  controller: _phone,
-                  keyboardType: TextInputType.phone,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(9)],
-                  decoration: InputDecoration(
-                    hintText: l10n.loginPhoneHint,
-                    border: InputBorder.none,
-                    contentPadding: const EdgeInsets.symmetric(vertical: 14),
-                  ),
-                  onSubmitted: (_) => _requestOtp(),
-                ),
+        Focus(
+          onFocusChange: (focused) => setState(() => _phoneFocused = focused),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 150),
+            decoration: BoxDecoration(
+              color: DesignTokens.white,
+              borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
+              border: Border.all(
+                color: _phoneFocused ? DesignTokens.primary : DesignTokens.border,
+                width: _phoneFocused ? 1.6 : 1,
               ),
-            ],
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: DesignTokens.spacing16),
+            child: Row(
+              children: [
+                const Text('+998', style: TextStyle(fontWeight: FontWeight.w600)),
+                const SizedBox(width: DesignTokens.spacing12),
+                Container(width: 1, height: 22, color: DesignTokens.border),
+                const SizedBox(width: DesignTokens.spacing12),
+                Expanded(
+                  child: TextField(
+                    controller: _phone,
+                    keyboardType: TextInputType.phone,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(9)],
+                    decoration: InputDecoration(
+                      hintText: l10n.loginPhoneHint,
+                      filled: false,
+                      border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(vertical: 14),
+                    ),
+                    onSubmitted: (_) => _requestOtp(),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         const SizedBox(height: DesignTokens.spacing8),
@@ -335,16 +353,21 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         const SizedBox(height: DesignTokens.spacing16),
         _primaryButton(l10n.loginSendOtp, _loading ? null : _requestOtp),
         const SizedBox(height: DesignTokens.spacing24),
-        Container(
-          padding: const EdgeInsets.all(DesignTokens.spacing16),
-          decoration: BoxDecoration(
-            color: DesignTokens.primaryTint,
-            borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
-          ),
-          child: Text(
-            l10n.loginOtpInfoBox,
-            style: DesignTokens.bodySmall.copyWith(color: DesignTokens.textSecondary),
-          ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(top: 1),
+              child: Icon(Icons.info_outline, size: 16, color: DesignTokens.textMuted),
+            ),
+            const SizedBox(width: DesignTokens.spacing8),
+            Expanded(
+              child: Text(
+                l10n.loginOtpInfoBox,
+                style: DesignTokens.bodySmall.copyWith(color: DesignTokens.textSecondary),
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: DesignTokens.spacing24),
         const _OrDivider(),
@@ -489,14 +512,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           counterText: '',
           contentPadding: EdgeInsets.zero,
           filled: true,
-          fillColor: const Color(0xFFF7F8FA),
+          fillColor: DesignTokens.white,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
             borderSide: const BorderSide(color: DesignTokens.border),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
-            borderSide: const BorderSide(color: DesignTokens.primary, width: 2),
+            borderSide: const BorderSide(color: DesignTokens.primary, width: 1.6),
           ),
         ),
         onChanged: (v) {
@@ -523,17 +546,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       obscureText: obscure,
       decoration: _inputDecoration(hint).copyWith(
         suffixIcon: IconButton(
-          icon: Icon(obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+          icon: Icon(
+            obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+            size: 20,
+            color: DesignTokens.textMuted,
+          ),
           onPressed: toggle,
         ),
       ),
     );
   }
 
+  // One look for every field on this screen (and the phone field above):
+  // white, hairline border, a slightly heavier brand-coloured border on focus.
   InputDecoration _inputDecoration(String hint) => InputDecoration(
         hintText: hint,
         filled: true,
-        fillColor: const Color(0xFFFAFAFB),
+        fillColor: DesignTokens.white,
         contentPadding: const EdgeInsets.symmetric(horizontal: DesignTokens.spacing16, vertical: 14),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
@@ -541,7 +570,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
-          borderSide: const BorderSide(color: DesignTokens.primary, width: 2),
+          borderSide: const BorderSide(color: DesignTokens.primary, width: 1.6),
         ),
       );
 
@@ -586,11 +615,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         );
 }
 
-/// Static greeting above the auth card ("👋 Salom" + subtitle). Extracted as a
-/// `const` widget so the per-keystroke / per-cooldown rebuilds of the stateful
-/// screen never rebuild it.
-class _GreetingHeader extends StatelessWidget {
-  const _GreetingHeader();
+/// Static brand header above the auth card: a mark, the product name and a
+/// one-line tagline. Extracted as a `const` widget so the per-keystroke /
+/// per-cooldown rebuilds of the stateful screen never rebuild it.
+class _BrandHeader extends StatelessWidget {
+  const _BrandHeader();
 
   @override
   Widget build(BuildContext context) {
@@ -598,11 +627,16 @@ class _GreetingHeader extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(l10n.loginGreeting,
-            style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: Color(0xFF111827))),
-        const SizedBox(height: DesignTokens.spacing8),
-        Text(l10n.loginWelcomeSubtitle,
-            style: DesignTokens.bodyLarge.copyWith(color: DesignTokens.textMuted)),
+        Image.asset(
+          'assets/images/andozaai-lockup.png',
+          width: 200,
+          cacheWidth: 600,
+          semanticLabel: 'andoza.ai',
+        ),
+        const SizedBox(height: DesignTokens.spacing12),
+        Text(l10n.loginTagline,
+            textAlign: TextAlign.center,
+            style: DesignTokens.bodyMedium.copyWith(color: DesignTokens.textSecondary)),
       ],
     );
   }

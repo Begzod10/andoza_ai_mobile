@@ -289,13 +289,13 @@ abstract class AppLocalizations {
   /// Login (phone-OTP step): informational tip box about the 6-digit code and retrying if SMS is delayed.
   ///
   /// In uz, this message translates to:
-  /// **'📱 Siz kiritgan raqamga 6 xonali kod yuboriladi. Agar SMS kelmaydigan bo\'lsa, 2-3 minutdan keyin qayta urinib ko\'ring.'**
+  /// **'Siz kiritgan raqamga 6 xonali kod yuboriladi. Agar SMS kelmaydigan bo\'lsa, 2-3 minutdan keyin qayta urinib ko\'ring.'**
   String get loginOtpInfoBox;
 
   /// Login (phone-OTP step): outlined button switching to the username/password login form.
   ///
   /// In uz, this message translates to:
-  /// **'🔐 Username bilan kirish'**
+  /// **'Username bilan kirish'**
   String get loginWithUsername;
 
   /// Login (OTP code step): heading confirming the code was sent.
@@ -388,17 +388,11 @@ abstract class AppLocalizations {
   /// **'yoki'**
   String get loginOr;
 
-  /// Login: large greeting above the auth card ('Hello').
+  /// Login: tagline under the brand name above the auth card.
   ///
   /// In uz, this message translates to:
-  /// **'👋 Salom'**
-  String get loginGreeting;
-
-  /// Login: welcome subtitle under the greeting.
-  ///
-  /// In uz, this message translates to:
-  /// **'Andoza AI-ga xush kelibsiz'**
-  String get loginWelcomeSubtitle;
+  /// **'Ta\'mir va interyer loyihalaringiz bir joyda'**
+  String get loginTagline;
 
   /// Login: app-version footnote below the auth card.
   ///
