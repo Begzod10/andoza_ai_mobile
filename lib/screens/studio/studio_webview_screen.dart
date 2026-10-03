@@ -29,18 +29,21 @@ import '../../widgets/common/error_view.dart';
 class StudioWebViewScreen extends ConsumerStatefulWidget {
   const StudioWebViewScreen({
     required this.path,
-    this.title = '3D Studio',
+    this.title,
     super.key,
   });
 
   /// Convenience constructor for a specific room's 3D Studio.
   // ignore: prefer_const_constructors_in_immutables
   StudioWebViewScreen.studio({required String roomId, Key? key})
-      : this(path: '/studio/$roomId', title: '3D Studio', key: key);
+      : this(path: '/studio/$roomId', key: key);
 
   /// The frontend route to open (e.g. `/wizard`, `/studio/{roomId}`).
   final String path;
-  final String title;
+
+  /// The app-bar label. Defaults to [AppLocalizations.studioWebViewTitle]
+  /// when omitted.
+  final String? title;
 
   @override
   ConsumerState<StudioWebViewScreen> createState() =>
@@ -276,16 +279,31 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
     if (url == null) return false;
     final path = Uri.tryParse(url)?.path ?? '';
     if (path.isEmpty) return false;
-    return path != '/studio' && !path.startsWith('/studio/');
+    if (path == '/studio' || path.startsWith('/studio/')) return false;
+    // The "Smeta" tab of the studio's 3D | Smeta switch is a top-level web
+    // route (/smeta/{roomId}), not a /studio/... sub-page. Treating it as
+    // "left the studio" popped the user back to the native app the moment they
+    // tapped it.
+    if (path.startsWith('/smeta/')) return false;
+    return true;
   }
 
   /// Leave the WebView and return to the native app. Pops the studio route
   /// when it was pushed (e.g. from E1); otherwise (entered via `context.go`
   /// from the wizard) falls back to the native home. Runs at most once, and is
   /// deferred so it never mutates navigation from inside a WebView callback.
+  ///
+  /// Also fires the Studio's client-side room-thumbnail capture first: when
+  /// the exit is a client-side SPA navigation (`onUrlChange`), the studio's
+  /// own React unmount effect already captures the thumbnail on its own, so
+  /// this is a harmless no-op duplicate. But when the exit instead comes from
+  /// this WebView being torn down natively (app-bar back, system back
+  /// gesture — see [_onWillPop]), that unmount effect never runs, so this is
+  /// the only chance to grab the canvas before it's gone.
   void _returnToApp() {
     if (_exiting || !mounted) return;
     _exiting = true;
+    _captureThumbnail();
     Future.microtask(() {
       if (!mounted) return;
       if (context.canPop()) {
@@ -294,6 +312,16 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
         context.go('/');
       }
     });
+  }
+
+  /// Fire-and-forget: asks the Studio page to capture+upload the current
+  /// room's thumbnail, if it's exposed `window.__captureRoomThumbnail` (see
+  /// frontend/src/pages/studio/three-d/useCanvasCapture.ts). No-op on pages
+  /// that never define it (e.g. not a 3D-view route, or JS not yet loaded).
+  void _captureThumbnail() {
+    _controller
+        ?.runJavaScript('window.__captureRoomThumbnail?.();')
+        .catchError((_) {});
   }
 
   /// JS that writes the Zustand `uy-tamir-auth` persisted state so the web
@@ -316,26 +344,55 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
     return "localStorage.setItem('uy-tamir-auth', ${jsonEncode(payload)});";
   }
 
+  /// Intercepts the AppBar back button and the system back gesture — both go
+  /// through the Navigator's pop, which this blocks (`canPop: false`) so the
+  /// thumbnail capture can fire before the WebView is torn down. Without
+  /// this, only an in-studio (web) navigation away triggers a capture (via
+  /// the web app's own unmount effect); a native back exit would otherwise
+  /// skip it entirely.
+  void _onBackPressed() {
+    if (_exiting) return;
+    _exiting = true;
+    _captureThumbnail();
+    // Fire-and-forget capture needs a brief head start before the WebView
+    // (and its canvas) is destroyed; the delay is imperceptible to the user.
+    Future.delayed(const Duration(milliseconds: 150), () {
+      if (!mounted) return;
+      if (context.canPop()) {
+        context.pop();
+      } else {
+        context.go('/');
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        backgroundColor: DesignTokens.white,
-      ),
-      body: Stack(
-        children: [
-          if (_error == null && _controller != null)
-            WebViewWidget(controller: _controller!),
-          if (_loading && _error == null)
-            const Center(child: CircularProgressIndicator()),
-          if (_error != null)
-            ErrorView(
-              message: _error!,
-              onRetry: _retry,
-              icon: Icons.view_in_ar_outlined,
-            ),
-        ],
+    final l10n = AppLocalizations.of(context)!;
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) _onBackPressed();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title ?? l10n.studioWebViewTitle),
+          backgroundColor: DesignTokens.white,
+        ),
+        body: Stack(
+          children: [
+            if (_error == null && _controller != null)
+              WebViewWidget(controller: _controller!),
+            if (_loading && _error == null)
+              const Center(child: CircularProgressIndicator()),
+            if (_error != null)
+              ErrorView(
+                message: _error!,
+                onRetry: _retry,
+                icon: Icons.view_in_ar_outlined,
+              ),
+          ],
+        ),
       ),
     );
   }
