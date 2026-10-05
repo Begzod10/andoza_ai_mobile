@@ -10,8 +10,7 @@ import 'business_labels.dart';
 
 /// "Mahsulotlarim": the shop's own 3D models in every moderation status, with
 /// the few things an owner may change on a phone — name, price, hiding an
-/// approved model from the catalog, deleting. Uploading a .glb stays in the
-/// website's shop dashboard (a phone rarely has one).
+/// approved model from the catalog, deleting. New ones are made from a photo (AddProductScreen).
 class ShopProductsScreen extends ConsumerWidget {
   const ShopProductsScreen({super.key});
 
@@ -28,6 +27,14 @@ class ShopProductsScreen extends ConsumerWidget {
           onPressed: () => context.canPop() ? context.pop() : context.go('/business'),
         ),
         title: Text(l10n.shopProductsTitle, style: DesignTokens.heading3),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async {
+          await context.push('/business/products/new');
+          ref.invalidate(myProductsProvider);
+        },
+        icon: const Icon(Icons.add_a_photo_outlined),
+        label: Text(l10n.addProductTitle),
       ),
       body: RefreshIndicator(
         onRefresh: () async => ref.invalidate(myProductsProvider),

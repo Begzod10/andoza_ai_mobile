@@ -64,6 +64,53 @@ class BusinessRepository {
         fromJson: (j) => ShopProduct.fromJson(j as Map<String, dynamic>),
       );
 
+  /// Starts building a 3D model from a photo (Tripo, 1–2 minutes); returns the job id.
+  Future<String> startModelFromPhoto(List<int> bytes, String filename, String contentType) =>
+      _client.uploadFile<String>(
+        '/models/from-photo',
+        bytes: bytes,
+        filename: filename,
+        contentType: contentType,
+        fromJson: (j) => (j as Map<String, dynamic>)['job_id'] as String,
+      );
+
+  /// The job's state: a finished one carries the built model's storage `key`,
+  /// a failed one an `error`. `null` key and null error mean still working.
+  Future<ModelJob> fetchModelJob(String jobId) => _client.get<ModelJob>(
+        '/jobs/$jobId',
+        fromJson: (j) => ModelJob.fromJson(j as Map<String, dynamic>),
+      );
+
+  Future<List<int>> fetchBuiltModel(String key) =>
+      _client.getBytes('/models/from-photo/glb', queryParameters: {'key': key});
+
+  /// Adds the built model to the shop; it waits for an admin like any upload.
+  Future<ShopProduct> createProduct({
+    required List<int> glb,
+    required List<int> thumbnail,
+    required String thumbnailType,
+    required String name,
+    required String category,
+    required String placement,
+    String? roomType,
+    int? priceUzs,
+  }) =>
+      _client.uploadFiles<ShopProduct>(
+        '/seller/furniture',
+        files: [
+          ('file', glb, 'model.glb', 'model/gltf-binary'),
+          ('thumbnail', thumbnail, 'photo.${thumbnailType == 'image/png' ? 'png' : 'jpg'}', thumbnailType),
+        ],
+        fields: {
+          'name_uz': name,
+          'category': category,
+          'placement': placement,
+          'room_type': ?roomType,
+          'price_uzs': ?priceUzs?.toString(),
+        },
+        fromJson: (j) => ShopProduct.fromJson(j as Map<String, dynamic>),
+      );
+
   Future<void> deleteProduct(String id) => _client.delete('/seller/furniture/$id');
 
   // --- Usta ---------------------------------------------------------------

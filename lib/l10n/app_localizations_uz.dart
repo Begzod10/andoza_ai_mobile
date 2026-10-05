@@ -1916,7 +1916,7 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get shopProductsEmpty =>
-      'Hali mahsulot yo\'q. Modellarni veb-saytdagi do\'kon kabinetidan yuklang.';
+      'Hali mahsulot yo\'q. Rasm olib, birinchi mahsulotni qo\'shing.';
 
   @override
   String get shopProductsOpen => 'Mahsulotlarni boshqarish';
@@ -1952,4 +1952,109 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get shopProductNoPrice => 'Narx ko\'rsatilmagan';
+
+  @override
+  String get addProductTitle => 'Yangi mahsulot';
+
+  @override
+  String get addProductPhotoHint =>
+      'Mebelning aniq rasmini oling (toza fon yaxshi). 3D modelni o\'zimiz yaratamiz.';
+
+  @override
+  String get addProductGallery => 'Galereyadan';
+
+  @override
+  String get addProductCamera => 'Kameradan';
+
+  @override
+  String get addProductCategory => 'Turi';
+
+  @override
+  String get addProductRoom => 'Xona';
+
+  @override
+  String get addProductRoomAll => 'Barcha xonalar';
+
+  @override
+  String get addProductPlacement => 'Joylashuvi';
+
+  @override
+  String get addProductSubmit => '3D model yaratish va qo\'shish';
+
+  @override
+  String get addProductBuilding =>
+      '3D model yaratilmoqda… taxminan 1–2 daqiqa, ilovani yopmang';
+
+  @override
+  String get addProductUploading => 'Mahsulot do\'konga qo\'shilmoqda…';
+
+  @override
+  String get addProductDone =>
+      'Mahsulot qo\'shildi. Admin tasdiqlagach katalogda ko\'rinadi.';
+
+  @override
+  String get addProductNeedPhoto => 'Avval rasm tanlang';
+
+  @override
+  String get addProductNeedName => 'Nomini kiriting';
+
+  @override
+  String get addProductFailed =>
+      '3D modelni yaratib bo\'lmadi. Boshqa rasm bilan urinib ko\'ring.';
+
+  @override
+  String get addProductUnavailable => '3D model xizmati hozir mavjud emas';
+
+  @override
+  String get addProductLimit =>
+      'Bugungi limit tugadi. Ertaga qayta urinib ko\'ring.';
+
+  @override
+  String get addProductTooMany =>
+      'Tasdiqlanmagan mahsulotlar ko\'p. Ular ko\'rib chiqilishini kuting.';
+
+  @override
+  String get categoryDivan => 'Divan';
+
+  @override
+  String get categoryStol => 'Stol';
+
+  @override
+  String get categoryStul => 'Stul';
+
+  @override
+  String get categoryKaravot => 'Karavot';
+
+  @override
+  String get categoryShkaf => 'Shkaf';
+
+  @override
+  String get categoryLampa => 'Lampa';
+
+  @override
+  String get categoryBoshqa => 'Boshqa';
+
+  @override
+  String get roomMehmonxona => 'Mehmonxona';
+
+  @override
+  String get roomOshxona => 'Oshxona';
+
+  @override
+  String get roomYotoqxona => 'Yotoqxona';
+
+  @override
+  String get roomHammom => 'Hammom';
+
+  @override
+  String get roomBalkon => 'Balkon';
+
+  @override
+  String get placementPol => 'Polda';
+
+  @override
+  String get placementDevor => 'Devorda';
+
+  @override
+  String get placementShift => 'Shiftda';
 }

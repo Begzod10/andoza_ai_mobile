@@ -3541,7 +3541,7 @@ abstract class AppLocalizations {
   /// No description provided for @shopProductsEmpty.
   ///
   /// In uz, this message translates to:
-  /// **'Hali mahsulot yo\'q. Modellarni veb-saytdagi do\'kon kabinetidan yuklang.'**
+  /// **'Hali mahsulot yo\'q. Rasm olib, birinchi mahsulotni qo\'shing.'**
   String get shopProductsEmpty;
 
   /// No description provided for @shopProductsOpen.
@@ -3609,6 +3609,204 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Narx ko\'rsatilmagan'**
   String get shopProductNoPrice;
+
+  /// No description provided for @addProductTitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yangi mahsulot'**
+  String get addProductTitle;
+
+  /// No description provided for @addProductPhotoHint.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mebelning aniq rasmini oling (toza fon yaxshi). 3D modelni o\'zimiz yaratamiz.'**
+  String get addProductPhotoHint;
+
+  /// No description provided for @addProductGallery.
+  ///
+  /// In uz, this message translates to:
+  /// **'Galereyadan'**
+  String get addProductGallery;
+
+  /// No description provided for @addProductCamera.
+  ///
+  /// In uz, this message translates to:
+  /// **'Kameradan'**
+  String get addProductCamera;
+
+  /// No description provided for @addProductCategory.
+  ///
+  /// In uz, this message translates to:
+  /// **'Turi'**
+  String get addProductCategory;
+
+  /// No description provided for @addProductRoom.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xona'**
+  String get addProductRoom;
+
+  /// No description provided for @addProductRoomAll.
+  ///
+  /// In uz, this message translates to:
+  /// **'Barcha xonalar'**
+  String get addProductRoomAll;
+
+  /// No description provided for @addProductPlacement.
+  ///
+  /// In uz, this message translates to:
+  /// **'Joylashuvi'**
+  String get addProductPlacement;
+
+  /// No description provided for @addProductSubmit.
+  ///
+  /// In uz, this message translates to:
+  /// **'3D model yaratish va qo\'shish'**
+  String get addProductSubmit;
+
+  /// No description provided for @addProductBuilding.
+  ///
+  /// In uz, this message translates to:
+  /// **'3D model yaratilmoqda… taxminan 1–2 daqiqa, ilovani yopmang'**
+  String get addProductBuilding;
+
+  /// No description provided for @addProductUploading.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mahsulot do\'konga qo\'shilmoqda…'**
+  String get addProductUploading;
+
+  /// No description provided for @addProductDone.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mahsulot qo\'shildi. Admin tasdiqlagach katalogda ko\'rinadi.'**
+  String get addProductDone;
+
+  /// No description provided for @addProductNeedPhoto.
+  ///
+  /// In uz, this message translates to:
+  /// **'Avval rasm tanlang'**
+  String get addProductNeedPhoto;
+
+  /// No description provided for @addProductNeedName.
+  ///
+  /// In uz, this message translates to:
+  /// **'Nomini kiriting'**
+  String get addProductNeedName;
+
+  /// No description provided for @addProductFailed.
+  ///
+  /// In uz, this message translates to:
+  /// **'3D modelni yaratib bo\'lmadi. Boshqa rasm bilan urinib ko\'ring.'**
+  String get addProductFailed;
+
+  /// No description provided for @addProductUnavailable.
+  ///
+  /// In uz, this message translates to:
+  /// **'3D model xizmati hozir mavjud emas'**
+  String get addProductUnavailable;
+
+  /// No description provided for @addProductLimit.
+  ///
+  /// In uz, this message translates to:
+  /// **'Bugungi limit tugadi. Ertaga qayta urinib ko\'ring.'**
+  String get addProductLimit;
+
+  /// No description provided for @addProductTooMany.
+  ///
+  /// In uz, this message translates to:
+  /// **'Tasdiqlanmagan mahsulotlar ko\'p. Ular ko\'rib chiqilishini kuting.'**
+  String get addProductTooMany;
+
+  /// No description provided for @categoryDivan.
+  ///
+  /// In uz, this message translates to:
+  /// **'Divan'**
+  String get categoryDivan;
+
+  /// No description provided for @categoryStol.
+  ///
+  /// In uz, this message translates to:
+  /// **'Stol'**
+  String get categoryStol;
+
+  /// No description provided for @categoryStul.
+  ///
+  /// In uz, this message translates to:
+  /// **'Stul'**
+  String get categoryStul;
+
+  /// No description provided for @categoryKaravot.
+  ///
+  /// In uz, this message translates to:
+  /// **'Karavot'**
+  String get categoryKaravot;
+
+  /// No description provided for @categoryShkaf.
+  ///
+  /// In uz, this message translates to:
+  /// **'Shkaf'**
+  String get categoryShkaf;
+
+  /// No description provided for @categoryLampa.
+  ///
+  /// In uz, this message translates to:
+  /// **'Lampa'**
+  String get categoryLampa;
+
+  /// No description provided for @categoryBoshqa.
+  ///
+  /// In uz, this message translates to:
+  /// **'Boshqa'**
+  String get categoryBoshqa;
+
+  /// No description provided for @roomMehmonxona.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mehmonxona'**
+  String get roomMehmonxona;
+
+  /// No description provided for @roomOshxona.
+  ///
+  /// In uz, this message translates to:
+  /// **'Oshxona'**
+  String get roomOshxona;
+
+  /// No description provided for @roomYotoqxona.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yotoqxona'**
+  String get roomYotoqxona;
+
+  /// No description provided for @roomHammom.
+  ///
+  /// In uz, this message translates to:
+  /// **'Hammom'**
+  String get roomHammom;
+
+  /// No description provided for @roomBalkon.
+  ///
+  /// In uz, this message translates to:
+  /// **'Balkon'**
+  String get roomBalkon;
+
+  /// No description provided for @placementPol.
+  ///
+  /// In uz, this message translates to:
+  /// **'Polda'**
+  String get placementPol;
+
+  /// No description provided for @placementDevor.
+  ///
+  /// In uz, this message translates to:
+  /// **'Devorda'**
+  String get placementDevor;
+
+  /// No description provided for @placementShift.
+  ///
+  /// In uz, this message translates to:
+  /// **'Shiftda'**
+  String get placementShift;
 }
 
 class _AppLocalizationsDelegate

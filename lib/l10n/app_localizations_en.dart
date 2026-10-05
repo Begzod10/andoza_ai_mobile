@@ -1919,7 +1919,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shopProductsEmpty =>
-      'No products yet. Upload models from the shop dashboard on the website.';
+      'No products yet. Take a photo and add your first one.';
 
   @override
   String get shopProductsOpen => 'Manage products';
@@ -1954,4 +1954,110 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shopProductNoPrice => 'No price set';
+
+  @override
+  String get addProductTitle => 'New product';
+
+  @override
+  String get addProductPhotoHint =>
+      'Take a clear photo of the furniture (a plain background works best). We build the 3D model.';
+
+  @override
+  String get addProductGallery => 'From gallery';
+
+  @override
+  String get addProductCamera => 'From camera';
+
+  @override
+  String get addProductCategory => 'Type';
+
+  @override
+  String get addProductRoom => 'Room';
+
+  @override
+  String get addProductRoomAll => 'All rooms';
+
+  @override
+  String get addProductPlacement => 'Placement';
+
+  @override
+  String get addProductSubmit => 'Build 3D model and add';
+
+  @override
+  String get addProductBuilding =>
+      'Building the 3D model… about 1–2 minutes, keep the app open';
+
+  @override
+  String get addProductUploading => 'Adding the product to your shop…';
+
+  @override
+  String get addProductDone =>
+      'Product added. It appears in the catalog once an admin approves it.';
+
+  @override
+  String get addProductNeedPhoto => 'Pick a photo first';
+
+  @override
+  String get addProductNeedName => 'Enter a name';
+
+  @override
+  String get addProductFailed =>
+      'Could not build the 3D model. Try a different photo.';
+
+  @override
+  String get addProductUnavailable =>
+      'The 3D model service is unavailable right now';
+
+  @override
+  String get addProductLimit =>
+      'Today\'s limit is used up. Try again tomorrow.';
+
+  @override
+  String get addProductTooMany =>
+      'Many products await approval. Wait for them to be reviewed.';
+
+  @override
+  String get categoryDivan => 'Sofa';
+
+  @override
+  String get categoryStol => 'Table';
+
+  @override
+  String get categoryStul => 'Chair';
+
+  @override
+  String get categoryKaravot => 'Bed';
+
+  @override
+  String get categoryShkaf => 'Wardrobe';
+
+  @override
+  String get categoryLampa => 'Lamp';
+
+  @override
+  String get categoryBoshqa => 'Other';
+
+  @override
+  String get roomMehmonxona => 'Living room';
+
+  @override
+  String get roomOshxona => 'Kitchen';
+
+  @override
+  String get roomYotoqxona => 'Bedroom';
+
+  @override
+  String get roomHammom => 'Bathroom';
+
+  @override
+  String get roomBalkon => 'Balcony';
+
+  @override
+  String get placementPol => 'Floor';
+
+  @override
+  String get placementDevor => 'Wall';
+
+  @override
+  String get placementShift => 'Ceiling';
 }

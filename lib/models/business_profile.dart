@@ -187,3 +187,28 @@ class ShopProduct {
         moderationNote: json['moderation_note'] as String?,
       );
 }
+
+/// A "3D model from a photo" background job (`GET /jobs/{id}`).
+class ModelJob {
+  const ModelJob({this.key, this.error});
+
+  /// Storage key of the finished GLB.
+  final String? key;
+  final String? error;
+
+  bool get isDone => key != null;
+  bool get isFailed => error != null;
+
+  factory ModelJob.fromJson(Map<String, dynamic> json) {
+    final state = json['status'] as String?;
+    final result = json['result'];
+    if (state == 'SUCCESS' && result is Map<String, dynamic>) {
+      if (result['status'] == 'ok' && result['key'] is String) {
+        return ModelJob(key: result['key'] as String);
+      }
+      return ModelJob(error: (result['error'] as String?) ?? 'failed');
+    }
+    if (state == 'FAILURE' || state == 'REVOKED') return const ModelJob(error: 'failed');
+    return const ModelJob();
+  }
+}

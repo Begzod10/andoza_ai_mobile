@@ -1922,7 +1922,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get shopProductsEmpty =>
-      'Товаров пока нет. Загрузите модели в кабинете магазина на сайте.';
+      'Товаров пока нет. Сфотографируйте и добавьте первый товар.';
 
   @override
   String get shopProductsOpen => 'Управление товарами';
@@ -1957,4 +1957,108 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get shopProductNoPrice => 'Цена не указана';
+
+  @override
+  String get addProductTitle => 'Новый товар';
+
+  @override
+  String get addProductPhotoHint =>
+      'Сфотографируйте мебель чётко (лучше на чистом фоне). 3D-модель мы создадим сами.';
+
+  @override
+  String get addProductGallery => 'Из галереи';
+
+  @override
+  String get addProductCamera => 'С камеры';
+
+  @override
+  String get addProductCategory => 'Тип';
+
+  @override
+  String get addProductRoom => 'Комната';
+
+  @override
+  String get addProductRoomAll => 'Все комнаты';
+
+  @override
+  String get addProductPlacement => 'Размещение';
+
+  @override
+  String get addProductSubmit => 'Создать 3D-модель и добавить';
+
+  @override
+  String get addProductBuilding =>
+      'Создаём 3D-модель… около 1–2 минут, не закрывайте приложение';
+
+  @override
+  String get addProductUploading => 'Товар добавляется в магазин…';
+
+  @override
+  String get addProductDone =>
+      'Товар добавлен. Появится в каталоге после одобрения админом.';
+
+  @override
+  String get addProductNeedPhoto => 'Сначала выберите фото';
+
+  @override
+  String get addProductNeedName => 'Введите название';
+
+  @override
+  String get addProductFailed =>
+      'Не удалось создать 3D-модель. Попробуйте другое фото.';
+
+  @override
+  String get addProductUnavailable => 'Сервис 3D-моделей сейчас недоступен';
+
+  @override
+  String get addProductLimit => 'Лимит на сегодня исчерпан. Попробуйте завтра.';
+
+  @override
+  String get addProductTooMany =>
+      'Много неодобренных товаров. Дождитесь проверки.';
+
+  @override
+  String get categoryDivan => 'Диван';
+
+  @override
+  String get categoryStol => 'Стол';
+
+  @override
+  String get categoryStul => 'Стул';
+
+  @override
+  String get categoryKaravot => 'Кровать';
+
+  @override
+  String get categoryShkaf => 'Шкаф';
+
+  @override
+  String get categoryLampa => 'Лампа';
+
+  @override
+  String get categoryBoshqa => 'Другое';
+
+  @override
+  String get roomMehmonxona => 'Гостиная';
+
+  @override
+  String get roomOshxona => 'Кухня';
+
+  @override
+  String get roomYotoqxona => 'Спальня';
+
+  @override
+  String get roomHammom => 'Ванная';
+
+  @override
+  String get roomBalkon => 'Балкон';
+
+  @override
+  String get placementPol => 'На полу';
+
+  @override
+  String get placementDevor => 'На стене';
+
+  @override
+  String get placementShift => 'На потолке';
 }

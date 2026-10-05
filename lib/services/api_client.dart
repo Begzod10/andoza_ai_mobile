@@ -312,6 +312,31 @@ class ApiClient {
     }
   }
 
+  /// Like [uploadFile] but for several files in one `multipart/form-data`
+  /// request; each entry is `(fieldName, bytes, filename, contentType)`.
+  Future<T> uploadFiles<T>(
+    String path, {
+    required List<(String, List<int>, String, String)> files,
+    Map<String, String> fields = const {},
+    required T Function(dynamic) fromJson,
+  }) async {
+    try {
+      final formData = FormData.fromMap({
+        ...fields,
+        for (final f in files)
+          f.$1: MultipartFile.fromBytes(f.$2, filename: f.$3, contentType: DioMediaType.parse(f.$4)),
+      });
+      final response = await _dio.post<dynamic>(
+        path,
+        data: formData,
+        options: Options(contentType: 'multipart/form-data'),
+      );
+      return fromJson(response.data);
+    } on DioException catch (e) {
+      throw _handleDioError(e);
+    }
+  }
+
   /// Fetches a binary response (e.g. a generated PDF) as raw bytes. The auth
   /// token is attached via the interceptor like any other request.
   Future<List<int>> getBytes(
