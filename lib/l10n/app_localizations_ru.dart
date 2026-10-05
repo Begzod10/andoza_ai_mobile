@@ -2140,4 +2140,60 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get addProductAngleRemove => 'Убрать';
+
+  @override
+  String get shopInquiriesTitle => 'Обращения клиентов';
+
+  @override
+  String get shopInquiriesOpen => 'Обращения';
+
+  @override
+  String shopInquiriesOpenWithNew(int count) {
+    return 'Обращения ($count новых)';
+  }
+
+  @override
+  String get shopInquiriesEmpty =>
+      'Обращений пока нет. Когда клиенты спросят о вашем товаре, они появятся здесь.';
+
+  @override
+  String shopInquiryProduct(String name) {
+    return 'Товар: $name';
+  }
+
+  @override
+  String get shopStatsOpen => 'Статистика';
+
+  @override
+  String get shopStatsTitle => 'Статистика магазина';
+
+  @override
+  String get shopStatsProducts => 'Товары';
+
+  @override
+  String get shopStatsApproved => 'Одобрено';
+
+  @override
+  String get shopStatsPending => 'На проверке';
+
+  @override
+  String get shopStatsRejected => 'Отклонено';
+
+  @override
+  String get shopStatsVisible => 'Видно в каталоге';
+
+  @override
+  String get shopStatsInquiries => 'Обращения';
+
+  @override
+  String get shopStatsNewInquiries => 'Новые обращения';
+
+  @override
+  String get shopStatsPlacements => 'Размещено в комнатах';
+
+  @override
+  String get shopStatsTop => 'Самые выбираемые товары';
+
+  @override
+  String get shopStatsTopEmpty => 'Данных пока нет.';
 }

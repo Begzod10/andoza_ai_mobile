@@ -2136,4 +2136,60 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get addProductAngleRemove => 'O\'chirish';
+
+  @override
+  String get shopInquiriesTitle => 'Mijoz murojaatlari';
+
+  @override
+  String get shopInquiriesOpen => 'Murojaatlar';
+
+  @override
+  String shopInquiriesOpenWithNew(int count) {
+    return 'Murojaatlar ($count yangi)';
+  }
+
+  @override
+  String get shopInquiriesEmpty =>
+      'Hali murojaat yo\'q. Mijozlar mahsulotingiz haqida so\'rasa, shu yerda ko\'rinadi.';
+
+  @override
+  String shopInquiryProduct(String name) {
+    return 'Mahsulot: $name';
+  }
+
+  @override
+  String get shopStatsOpen => 'Statistika';
+
+  @override
+  String get shopStatsTitle => 'Do\'kon statistikasi';
+
+  @override
+  String get shopStatsProducts => 'Mahsulotlar';
+
+  @override
+  String get shopStatsApproved => 'Tasdiqlangan';
+
+  @override
+  String get shopStatsPending => 'Ko\'rib chiqilmoqda';
+
+  @override
+  String get shopStatsRejected => 'Rad etilgan';
+
+  @override
+  String get shopStatsVisible => 'Katalogda ko\'rinadi';
+
+  @override
+  String get shopStatsInquiries => 'Murojaatlar';
+
+  @override
+  String get shopStatsNewInquiries => 'Yangi murojaatlar';
+
+  @override
+  String get shopStatsPlacements => 'Xonalarga joylashtirilgan';
+
+  @override
+  String get shopStatsTop => 'Eng ko\'p tanlangan mahsulotlar';
+
+  @override
+  String get shopStatsTopEmpty => 'Hali ma\'lumot yo\'q.';
 }

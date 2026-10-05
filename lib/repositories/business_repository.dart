@@ -211,6 +211,22 @@ class BusinessRepository {
         fromJson: (j) => UstaLead.fromJson(j as Map<String, dynamic>),
       );
 
+  Future<List<ShopInquiry>> fetchInquiries() => _client.get<List<ShopInquiry>>(
+        '/seller/inquiries',
+        fromJson: (j) => [for (final i in j as List<dynamic>) ShopInquiry.fromJson(i as Map<String, dynamic>)],
+      );
+
+  Future<ShopInquiry> setInquiryStatus(String id, LeadStatus status) => _client.patch<ShopInquiry>(
+        '/seller/inquiries/$id',
+        data: {'status': status.wire},
+        fromJson: (j) => ShopInquiry.fromJson(j as Map<String, dynamic>),
+      );
+
+  Future<SellerStats> fetchStats() => _client.get<SellerStats>(
+        '/seller/stats',
+        fromJson: (j) => SellerStats.fromJson(j as Map<String, dynamic>),
+      );
+
   Future<UstaProfile> resubmitUsta() => _client.post<UstaProfile>(
         '/usta/profile/resubmit',
         data: const <String, dynamic>{},

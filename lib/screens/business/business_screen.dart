@@ -72,6 +72,7 @@ class _ShopCard extends ConsumerWidget {
           error: (_, _) => _CardShell.message(l10n.businessLoadFailed),
           data: (shop) {
             if (shop == null) return const SizedBox.shrink();
+            final newInquiries = ref.watch(myStatsProvider).valueOrNull?.inquiriesNew ?? 0;
             return _CardShell(
               icon: Icons.storefront_outlined,
               section: l10n.businessShopSection,
@@ -87,6 +88,20 @@ class _ShopCard extends ConsumerWidget {
               onApprovedTap: () => context.push('/business/products'),
               extraActionLabel: l10n.ustaEditOpen,
               onExtraAction: () => context.push('/business/shop/edit'),
+              extraButtons: [
+                TextButton.icon(
+                  onPressed: () => context.push('/business/inquiries'),
+                  icon: const Icon(Icons.chat_bubble_outline),
+                  label: Text(newInquiries > 0
+                      ? l10n.shopInquiriesOpenWithNew(newInquiries)
+                      : l10n.shopInquiriesOpen),
+                ),
+                TextButton.icon(
+                  onPressed: () => context.push('/business/stats'),
+                  icon: const Icon(Icons.insights_outlined),
+                  label: Text(l10n.shopStatsOpen),
+                ),
+              ],
             );
           },
         );
@@ -138,6 +153,7 @@ class _CardShell extends StatefulWidget {
     this.onApprovedTap,
     this.extraActionLabel,
     this.onExtraAction,
+    this.extraButtons = const [],
   })  : _loading = false,
         _message = null;
 
@@ -152,6 +168,7 @@ class _CardShell extends StatefulWidget {
         onApprovedTap = null,
         extraActionLabel = null,
         onExtraAction = null,
+        extraButtons = const [],
         _loading = true,
         _message = null;
 
@@ -166,6 +183,7 @@ class _CardShell extends StatefulWidget {
         onApprovedTap = null,
         extraActionLabel = null,
         onExtraAction = null,
+        extraButtons = const [],
         _loading = false;
 
   final IconData? icon;
@@ -178,6 +196,7 @@ class _CardShell extends StatefulWidget {
   final VoidCallback? onApprovedTap;
   final String? extraActionLabel;
   final VoidCallback? onExtraAction;
+  final List<Widget> extraButtons;
   final bool _loading;
   final String? _message;
 
@@ -287,6 +306,8 @@ class _CardShellState extends State<_CardShell> {
                   icon: const Icon(Icons.edit_outlined),
                   label: Text(widget.extraActionLabel!),
                 ),
+              if (widget.extraButtons.isNotEmpty)
+                Wrap(spacing: DesignTokens.spacingSm, children: widget.extraButtons),
             ]
             else
               Text(widget.approvedFooter!,

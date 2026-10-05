@@ -3957,6 +3957,108 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'O\'chirish'**
   String get addProductAngleRemove;
+
+  /// No description provided for @shopInquiriesTitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mijoz murojaatlari'**
+  String get shopInquiriesTitle;
+
+  /// No description provided for @shopInquiriesOpen.
+  ///
+  /// In uz, this message translates to:
+  /// **'Murojaatlar'**
+  String get shopInquiriesOpen;
+
+  /// No description provided for @shopInquiriesOpenWithNew.
+  ///
+  /// In uz, this message translates to:
+  /// **'Murojaatlar ({count} yangi)'**
+  String shopInquiriesOpenWithNew(int count);
+
+  /// No description provided for @shopInquiriesEmpty.
+  ///
+  /// In uz, this message translates to:
+  /// **'Hali murojaat yo\'q. Mijozlar mahsulotingiz haqida so\'rasa, shu yerda ko\'rinadi.'**
+  String get shopInquiriesEmpty;
+
+  /// No description provided for @shopInquiryProduct.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mahsulot: {name}'**
+  String shopInquiryProduct(String name);
+
+  /// No description provided for @shopStatsOpen.
+  ///
+  /// In uz, this message translates to:
+  /// **'Statistika'**
+  String get shopStatsOpen;
+
+  /// No description provided for @shopStatsTitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Do\'kon statistikasi'**
+  String get shopStatsTitle;
+
+  /// No description provided for @shopStatsProducts.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mahsulotlar'**
+  String get shopStatsProducts;
+
+  /// No description provided for @shopStatsApproved.
+  ///
+  /// In uz, this message translates to:
+  /// **'Tasdiqlangan'**
+  String get shopStatsApproved;
+
+  /// No description provided for @shopStatsPending.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ko\'rib chiqilmoqda'**
+  String get shopStatsPending;
+
+  /// No description provided for @shopStatsRejected.
+  ///
+  /// In uz, this message translates to:
+  /// **'Rad etilgan'**
+  String get shopStatsRejected;
+
+  /// No description provided for @shopStatsVisible.
+  ///
+  /// In uz, this message translates to:
+  /// **'Katalogda ko\'rinadi'**
+  String get shopStatsVisible;
+
+  /// No description provided for @shopStatsInquiries.
+  ///
+  /// In uz, this message translates to:
+  /// **'Murojaatlar'**
+  String get shopStatsInquiries;
+
+  /// No description provided for @shopStatsNewInquiries.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yangi murojaatlar'**
+  String get shopStatsNewInquiries;
+
+  /// No description provided for @shopStatsPlacements.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xonalarga joylashtirilgan'**
+  String get shopStatsPlacements;
+
+  /// No description provided for @shopStatsTop.
+  ///
+  /// In uz, this message translates to:
+  /// **'Eng ko\'p tanlangan mahsulotlar'**
+  String get shopStatsTop;
+
+  /// No description provided for @shopStatsTopEmpty.
+  ///
+  /// In uz, this message translates to:
+  /// **'Hali ma\'lumot yo\'q.'**
+  String get shopStatsTopEmpty;
 }
 
 class _AppLocalizationsDelegate

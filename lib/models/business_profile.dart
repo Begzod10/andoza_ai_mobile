@@ -258,3 +258,100 @@ class UstaLead {
         linesCount: (json['lines_count'] as num?)?.toInt() ?? 0,
       );
 }
+
+/// A customer inquiry about a shop's product (`GET /seller/inquiries`).
+class ShopInquiry {
+  const ShopInquiry({
+    required this.id,
+    required this.status,
+    required this.createdAt,
+    this.clientName,
+    this.clientPhone,
+    this.message,
+    this.productName,
+    this.roomName,
+  });
+
+  final String id;
+  final LeadStatus status;
+  final DateTime createdAt;
+  final String? clientName;
+  final String? clientPhone;
+  final String? message;
+  final String? productName;
+  final String? roomName;
+
+  factory ShopInquiry.fromJson(Map<String, dynamic> json) => ShopInquiry(
+    id: json['id'].toString(),
+    status: LeadStatus.parse(json['status']),
+    createdAt: DateTime.parse(json['created_at'] as String),
+    clientName: json['client_name'] as String?,
+    clientPhone: json['client_phone'] as String?,
+    message: json['message'] as String?,
+    productName: json['product_name'] as String?,
+    roomName: json['room_name'] as String?,
+  );
+}
+
+class TopProduct {
+  const TopProduct({
+    required this.id,
+    required this.name,
+    required this.placements,
+  });
+
+  final String id;
+  final String name;
+  final int placements;
+
+  factory TopProduct.fromJson(Map<String, dynamic> json) => TopProduct(
+    id: json['id'].toString(),
+    name: (json['name_uz'] as String?) ?? '',
+    placements: (json['placements'] as num?)?.toInt() ?? 0,
+  );
+}
+
+/// Shop dashboard numbers (`GET /seller/stats`).
+class SellerStats {
+  const SellerStats({
+    this.productsTotal = 0,
+    this.productsApproved = 0,
+    this.productsPending = 0,
+    this.productsRejected = 0,
+    this.visible = 0,
+    this.inquiriesTotal = 0,
+    this.inquiriesNew = 0,
+    this.placementsTotal = 0,
+    this.topProducts = const [],
+  });
+
+  final int productsTotal;
+  final int productsApproved;
+  final int productsPending;
+  final int productsRejected;
+  final int visible;
+  final int inquiriesTotal;
+  final int inquiriesNew;
+  final int placementsTotal;
+  final List<TopProduct> topProducts;
+
+  factory SellerStats.fromJson(Map<String, dynamic> json) {
+    int n(Object? v) => (v as num?)?.toInt() ?? 0;
+    final p = (json['products'] as Map<String, dynamic>?) ?? const {};
+    final q = (json['inquiries'] as Map<String, dynamic>?) ?? const {};
+    return SellerStats(
+      productsTotal: n(p['total']),
+      productsApproved: n(p['approved']),
+      productsPending: n(p['pending']),
+      productsRejected: n(p['rejected']),
+      visible: n(json['visible']),
+      inquiriesTotal: n(q['total']),
+      inquiriesNew: n(q['new']),
+      placementsTotal: n(json['placements_total']),
+      topProducts: [
+        for (final t in (json['top_products'] as List<dynamic>? ?? const []))
+          TopProduct.fromJson(t as Map<String, dynamic>),
+      ],
+    );
+  }
+}

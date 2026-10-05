@@ -2139,4 +2139,60 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addProductAngleRemove => 'Remove';
+
+  @override
+  String get shopInquiriesTitle => 'Customer inquiries';
+
+  @override
+  String get shopInquiriesOpen => 'Inquiries';
+
+  @override
+  String shopInquiriesOpenWithNew(int count) {
+    return 'Inquiries ($count new)';
+  }
+
+  @override
+  String get shopInquiriesEmpty =>
+      'No inquiries yet. When customers ask about your products they will show up here.';
+
+  @override
+  String shopInquiryProduct(String name) {
+    return 'Product: $name';
+  }
+
+  @override
+  String get shopStatsOpen => 'Statistics';
+
+  @override
+  String get shopStatsTitle => 'Shop statistics';
+
+  @override
+  String get shopStatsProducts => 'Products';
+
+  @override
+  String get shopStatsApproved => 'Approved';
+
+  @override
+  String get shopStatsPending => 'Pending review';
+
+  @override
+  String get shopStatsRejected => 'Rejected';
+
+  @override
+  String get shopStatsVisible => 'Visible in catalog';
+
+  @override
+  String get shopStatsInquiries => 'Inquiries';
+
+  @override
+  String get shopStatsNewInquiries => 'New inquiries';
+
+  @override
+  String get shopStatsPlacements => 'Times placed in rooms';
+
+  @override
+  String get shopStatsTop => 'Most used products';
+
+  @override
+  String get shopStatsTopEmpty => 'No data yet.';
 }
