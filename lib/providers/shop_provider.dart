@@ -4,15 +4,58 @@ import '../models/design_selection_model.dart';
 import '../models/electrical_model.dart';
 import '../models/shop_model.dart';
 import '../utils/project_areas.dart';
+import 'apartment_provider.dart';
 import 'catalog_provider.dart';
 import 'design_provider.dart';
 import 'electrical_provider.dart';
 import 'room_provider.dart';
 
-ProjectAreas _computeAreas(Ref ref) => computeProjectAreas(
-      ref.watch(activeRoomProvider),
-      plan: ref.watch(activeRoomPlanProvider),
-    );
+/// A room the user can pick in Do'kon's room selector (S2), paired with its
+/// apartment's name for display (`RoomOut` itself has no apartment
+/// reference).
+class SelectableRoom {
+  const SelectableRoom({required this.room, required this.apartmentName});
+
+  final RoomOut room;
+  final String apartmentName;
+}
+
+/// Every room across every one of the user's apartments, flattened for the
+/// S2 room picker — real backend data, not the single "whichever room was
+/// last active" slot [activeRoomProvider] holds.
+final selectableRoomsProvider = Provider<List<SelectableRoom>>((ref) {
+  final apartments = ref.watch(apartmentsProvider).maybeWhen(
+        data: (list) => list,
+        orElse: () => const <Apartment>[],
+      );
+  return [
+    for (final apartment in apartments)
+      for (final room in apartment.rooms)
+        SelectableRoom(room: room, apartmentName: apartment.name),
+  ];
+});
+
+/// The room id the user explicitly picked in S2's room picker. Null means
+/// "no explicit pick yet" — [_computeAreas] then falls back to whichever
+/// room is globally active, matching the screen's behavior before the
+/// picker existed.
+final selectedShopRoomIdProvider = StateProvider<String?>((ref) => null);
+
+ProjectAreas _computeAreas(Ref ref) {
+  final selectedId = ref.watch(selectedShopRoomIdProvider);
+  if (selectedId != null) {
+    final rooms = ref.watch(selectableRoomsProvider);
+    final selected =
+        rooms.where((r) => r.room.id == selectedId).firstOrNull;
+    if (selected != null) {
+      return computeProjectAreasFromRoomOut(selected.room);
+    }
+  }
+  return computeProjectAreas(
+    ref.watch(activeRoomProvider),
+    plan: ref.watch(activeRoomPlanProvider),
+  );
+}
 
 /// Whether the room's starting condition already excludes [stage] from
 /// the delta mechanic (shared with estimate_provider.dart so Do'kon
@@ -246,6 +289,7 @@ final projectMaterialsProvider = Provider<List<StageMaterialGroup>>((ref) {
       for (final p in catalog)
         if (cats.contains(p.category) && p.projectQuantity != null)
           StageMaterialItem(
+            productId: p.id,
             name: p.name,
             quantity: p.projectQuantity!,
             unit: p.unit,

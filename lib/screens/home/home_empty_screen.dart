@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
-import '../../providers/auth_provider.dart';
 import '../../widgets/empty_state_pattern.dart';
 import '../room_setup/new_project_sheet.dart';
 
@@ -145,82 +143,6 @@ class _ConicRingPainter extends CustomPainter {
       oldDelegate.progress != progress;
 }
 
-/// Shared greeting + brand-pill header row, used by both A1 and A2.
-class HomeGreetingHeader extends ConsumerWidget {
-  const HomeGreetingHeader({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context)!;
-    // Derive the greeting from the already-loaded auth session instead of
-    // re-fetching /auth/me on every Home mount: authStateProvider already
-    // holds the full User once authenticated. On a transient cold-start
-    // restore the cached user may be id-only (no name), in which case the
-    // greeting falls back to the unnamed variant.
-    final authState = ref.watch(authStateProvider);
-    final user = authState is AuthAuthenticated ? authState.user : null;
-    final name = user?.firstName ?? user?.name ?? user?.username;
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                l10n.homeWelcome,
-                style: DesignTokens.body2.copyWith(
-                  color: DesignTokens.textGray,
-                ),
-              ),
-              const SizedBox(height: DesignTokens.spacingXs),
-              Text(
-                name != null ? l10n.homeGreetingNamed(name) : l10n.homeGreeting,
-                style: DesignTokens.heading2,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(width: DesignTokens.spacingSm),
-        Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: DesignTokens.spacingMd,
-            vertical: DesignTokens.spacingXs,
-          ),
-          decoration: BoxDecoration(
-            color: DesignTokens.borderGrayAlt,
-            borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 8,
-                height: 8,
-                decoration: const BoxDecoration(
-                  color: DesignTokens.accentOrange,
-                  shape: BoxShape.circle,
-                ),
-              ),
-              const SizedBox(width: DesignTokens.spacingSm),
-              Text(
-                l10n.brandName,
-                style: DesignTokens.subtitle2.copyWith(
-                  color: DesignTokens.primaryBlue,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 /// Empty-state body content (A1), shared between the standalone
 /// [HomeEmptyScreen] route and [HomeWithProjectsScreen] (which supplies its
 /// own AppBar/nav and swaps this in when the project list is empty).
@@ -239,8 +161,6 @@ class HomeEmptyBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const HomeGreetingHeader(),
-            const SizedBox(height: DesignTokens.spacingLg),
             // Three story-circle onboarding shortcuts.
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

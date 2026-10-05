@@ -8,7 +8,7 @@ class _DeltaTokens {
   const _DeltaTokens();
 
   Color get completed => const Color(0xFF16A34A);
-  Color get inProgress => const Color(0xFF1E3A8A);
+  Color get inProgress => const Color(0xFF2F6690);
   Color get upcoming => const Color(0xFFEEF1F8);
   Color get skipped => const Color(0xFFC4CCE0);
 }
@@ -30,8 +30,8 @@ class _RoomStateTokens {
 /// tokens" section — do not hand-pick replacement values per screen.
 class DesignTokens {
   // Color Palette
-  static const Color primaryBlue = Color(0xFF1E3A8A);
-  static const Color accentOrange = Color(0xFFF97316);
+  static const Color primaryBlue = Color(0xFF2F6690);
+  static const Color accentOrange = Color(0xFFFAA916);
   static const Color backgroundLight = Color(0xFFF8FAFC);
   static const Color darkBg = Color(0xFF0B0E13);
   static const Color textGray = Color(0xFF5A6785);
@@ -42,8 +42,8 @@ class DesignTokens {
   static const Color successGreen = Color(0xFF16A34A);
   static const Color warningYellow = Color(0xFFFCD34D);
   static const Color borderGray = Color(0xFFE2E7F2);
-  static const Color borderGrayAlt = Color(0xFFEEF1F8);
-  static const Color primaryTint = Color(0xFFEEF1F8);
+  static const Color borderGrayAlt = Color(0xFFD7E5EE);
+  static const Color primaryTint = Color(0xFFD7E5EE);
   static const Color existingStateGray = Color(0xFFC4CCE0);
   static const Color dividerGray = Color(0xFFCBD5E1);
   static const Color disabledGray = Color(0xFF94A3B8);
@@ -159,9 +159,9 @@ class DesignTokens {
     offset: Offset(0, 8),
   );
 
-  /// Elevated/hero card shadow: `0 18px 40px -18px rgba(30,64,175,.28)`
+  /// Elevated/hero card shadow: `0 18px 40px -18px rgba(47,102,144,.28)`
   static const BoxShadow shadowElevated = BoxShadow(
-    color: Color.fromRGBO(30, 64, 175, 0.28),
+    color: Color.fromRGBO(47, 102, 144, 0.28),
     blurRadius: 40.0,
     spreadRadius: -18.0,
     offset: Offset(0, 18),
@@ -174,17 +174,9 @@ class DesignTokens {
     offset: Offset(0, -10),
   );
 
-  /// FAB shadow: `0 14px 26px -6px rgba(30,64,175,.6)`
-  static const BoxShadow shadowFab = BoxShadow(
-    color: Color.fromRGBO(30, 64, 175, 0.6),
-    blurRadius: 26.0,
-    spreadRadius: -6.0,
-    offset: Offset(0, 14),
-  );
-
-  /// Primary button shadow: `0 14px 28px -10px rgba(30,64,175,.55)`
+  /// Primary button shadow: `0 14px 28px -10px rgba(47,102,144,.55)`
   static const BoxShadow shadowPrimaryButton = BoxShadow(
-    color: Color.fromRGBO(30, 64, 175, 0.55),
+    color: Color.fromRGBO(47, 102, 144, 0.55),
     blurRadius: 28.0,
     spreadRadius: -10.0,
     offset: Offset(0, 14),

@@ -156,13 +156,7 @@ class _AiBuilderSheetState extends ConsumerState<AiBuilderSheet> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Row(
-                  children: [
-                    const Icon(Icons.auto_awesome, color: DesignTokens.primaryBlue),
-                    const SizedBox(width: DesignTokens.spacingSm),
-                    Text(l10n.studioAiDesigner, style: DesignTokens.subtitle1),
-                  ],
-                ),
+                const Icon(Icons.auto_awesome, color: DesignTokens.primaryBlue),
                 const SizedBox(height: DesignTokens.spacingMd),
                 TextField(
                   controller: _promptController,

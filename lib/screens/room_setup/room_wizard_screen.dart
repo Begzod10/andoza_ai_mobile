@@ -79,7 +79,8 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
         wallOpenings: _openings,
       );
 
-  static const _roomName = 'Mehmonxona ta\'miri';
+  String get _roomName =>
+      AppLocalizations.of(context)!.roomSetupDefaultProjectName;
 
   /// The length of the plan edge for wall [index] (A/C = length, B/D = width).
   double _wallLengthFor(int index) =>

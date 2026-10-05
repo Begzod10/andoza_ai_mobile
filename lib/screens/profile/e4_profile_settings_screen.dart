@@ -4,9 +4,12 @@ import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
+import '../../providers/business_provider.dart';
 import '../../providers/estimate_provider.dart';
+import '../../providers/locale_provider.dart';
 import '../../providers/orders_provider.dart';
 import '../home/home_empty_screen.dart';
+import '../settings/language_picker_sheet.dart';
 
 /// E4: Profil bosh — avatar, name, verified badge, three stat cards, and
 /// the profile menu list. The "tejaldi" savings figure is the real
@@ -122,15 +125,26 @@ class E4ProfileSettingsScreen extends ConsumerWidget {
               const SizedBox(width: DesignTokens.spacingSm),
               Expanded(
                 child: _StatCard(
-                  value: l10n.profileSavedMln(
-                    (savings / 1000000).toStringAsFixed(1),
-                  ),
+                  value: savings > 0
+                      ? l10n.profileSavedMln(
+                          (savings / 1000000).toStringAsFixed(1),
+                        )
+                      : l10n.homeStatDash,
                   label: l10n.profileStatSaved,
                 ),
               ),
             ],
           ),
           const SizedBox(height: DesignTokens.spacingLg),
+          // Shop owners and ustas see their business first; everyone else is
+          // offered the way in.
+          _MenuTile(
+            icon: Icons.storefront_outlined,
+            label: (ref.watch(accountRolesProvider).valueOrNull?.hasBusiness ?? false)
+                ? l10n.profileMenuBusiness
+                : l10n.profileMenuBecomePartner,
+            onTap: () => context.push('/business'),
+          ),
           _MenuTile(
             icon: Icons.architecture_outlined,
             label: l10n.profileMenuProjects,
@@ -156,14 +170,16 @@ class E4ProfileSettingsScreen extends ConsumerWidget {
           _MenuTile(
             icon: Icons.credit_card_outlined,
             label: l10n.profileMenuPaymentMethods,
-            onTap: () => context.push('/shop/s6'),
+            onTap: () => ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(l10n.profileComingSoon))),
           ),
           _MenuTile(
             icon: Icons.language_outlined,
             label: l10n.profileMenuLanguage,
-            onTap: () => ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(l10n.profileLanguageUzbek))),
+            trailing:
+                '${languageFlagEmoji(ref.watch(localeProvider))} ${languageDisplayName(ref.watch(localeProvider))}',
+            onTap: () => showLanguagePickerSheet(context, ref),
           ),
           _MenuTile(
             icon: Icons.settings_outlined,
@@ -227,12 +243,14 @@ class _MenuTile extends StatelessWidget {
     required this.label,
     required this.onTap,
     this.isDestructive = false,
+    this.trailing,
   });
 
   final IconData icon;
   final String label;
   final VoidCallback onTap;
   final bool isDestructive;
+  final String? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -259,6 +277,15 @@ class _MenuTile extends StatelessWidget {
                 style: DesignTokens.body2.copyWith(color: color),
               ),
             ),
+            if (trailing != null) ...[
+              Text(
+                trailing!,
+                style: DesignTokens.body2.copyWith(
+                  color: DesignTokens.textGray,
+                ),
+              ),
+              const SizedBox(width: DesignTokens.spacingXs),
+            ],
             if (!isDestructive)
               const Icon(Icons.chevron_right, color: DesignTokens.textMuted),
           ],

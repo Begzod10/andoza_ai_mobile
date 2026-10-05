@@ -18,6 +18,22 @@ class ProjectItem {
   /// project that has no server room yet.
   final String? studioRoomId;
 
+  /// Thumbnail of [studioRoomId]'s 3D Studio scene, captured client-side and
+  /// uploaded by the Studio (web or app). Null when the room has never been
+  /// opened in the Studio yet, or has no room at all — callers fall back to
+  /// the stylized placeholder illustration.
+  final String? thumbnailUrl;
+
+  /// [studioRoomId]'s floor area in m², server-computed. Null when there's no
+  /// room yet, or the room hasn't been captured/measured.
+  final double? floorArea;
+
+  /// Count of items in [studioRoomId]'s furniture layout — an approximation
+  /// of "how many 3D models are placed", not a verified 1:1 model count (the
+  /// backend's `furniture_layout` is an opaque JSON blob). Null when there's
+  /// no room yet.
+  final int? furnitureCount;
+
   ProjectItem({
     required this.id,
     required this.name,
@@ -27,6 +43,9 @@ class ProjectItem {
     this.roomCondition,
     this.renovationStage = RenovationStage.suvoq,
     this.studioRoomId,
+    this.thumbnailUrl,
+    this.floorArea,
+    this.furnitureCount,
   });
 
   /// Delta-mechanic display states for this project's progress bar. When

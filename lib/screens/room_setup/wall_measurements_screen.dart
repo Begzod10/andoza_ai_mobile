@@ -52,12 +52,12 @@ class WallMeasurement {
     );
   }
 
-  String get label => switch (type) {
-    WallType.wallA => 'Devor A',
-    WallType.wallB => 'Devor B',
-    WallType.wallC => 'Devor C',
-    WallType.wallD => 'Devor D',
-    WallType.unknown => 'Devor',
+  String label(AppLocalizations l10n) => switch (type) {
+    WallType.wallA => l10n.roomSetupWallLabelA,
+    WallType.wallB => l10n.roomSetupWallLabelB,
+    WallType.wallC => l10n.roomSetupWallLabelC,
+    WallType.wallD => l10n.roomSetupWallLabelD,
+    WallType.unknown => l10n.roomSetupWallLabelFallback,
   };
 }
 
@@ -153,7 +153,7 @@ class _WallMeasurementsScreenState
           tooltip: l10n.actionBack,
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text(wall.label, style: DesignTokens.heading3),
+        title: Text(wall.label(l10n), style: DesignTokens.heading3),
       ),
       body: SafeArea(
         child: Column(

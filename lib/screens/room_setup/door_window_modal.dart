@@ -72,8 +72,6 @@ class _DoorWindowModalState extends State<DoorWindowModal> {
               ),
             ),
           ),
-          Text(l10n.openingAddTitle, style: DesignTokens.heading3),
-          const SizedBox(height: DesignTokens.spacingLg),
           Wrap(
             spacing: DesignTokens.spacingSm,
             children: [

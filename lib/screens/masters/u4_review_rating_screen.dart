@@ -117,22 +117,10 @@ class U4ReviewRatingScreen extends ConsumerWidget {
               const SizedBox(height: DesignTokens.spacingLg),
               Text(l10n.mastersPortfolio, style: DesignTokens.subtitle1),
               const SizedBox(height: DesignTokens.spacingSm),
-              SizedBox(
-                height: 90,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 6,
-                  separatorBuilder: (_, _) =>
-                      const SizedBox(width: DesignTokens.spacingSm),
-                  itemBuilder: (_, _) => Container(
-                    width: 90,
-                    decoration: BoxDecoration(
-                      color: DesignTokens.borderGrayAlt,
-                      borderRadius: BorderRadius.circular(
-                        DesignTokens.radiusMd,
-                      ),
-                    ),
-                  ),
+              Text(
+                l10n.mastersPortfolioEmpty,
+                style: DesignTokens.caption.copyWith(
+                  color: DesignTokens.textGray,
                 ),
               ),
               const SizedBox(height: DesignTokens.spacingLg),
@@ -214,7 +202,13 @@ class U4ReviewRatingScreen extends ConsumerWidget {
               SizedBox(
                 width: double.infinity,
                 child: OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        '${m.master.name} bilan xabar almashish hali mavjud emas',
+                      ),
+                    ),
+                  ),
                   child: Text(l10n.mastersSendMessage),
                 ),
               ),

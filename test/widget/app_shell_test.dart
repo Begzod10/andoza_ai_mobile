@@ -55,10 +55,12 @@ void main() {
       (tester) async {
     await _pumpShell(tester);
 
-    expect(find.text('Uy'), findsOneWidget);
-    expect(find.text("Do'kon"), findsOneWidget);
-    expect(find.text('Ustalar'), findsOneWidget);
-    expect(find.text('Profil'), findsOneWidget);
+    // Icon-only nav — each tab's name is carried as a Semantics label, not
+    // visible text (see app_shell.dart's _labelFor doc comment).
+    expect(find.bySemanticsLabel('Uy'), findsOneWidget);
+    expect(find.bySemanticsLabel("Do'kon"), findsOneWidget);
+    expect(find.bySemanticsLabel('Ustalar'), findsOneWidget);
+    expect(find.bySemanticsLabel('Profil'), findsOneWidget);
     expect(find.text('HOME BODY'), findsOneWidget);
   });
 
@@ -78,20 +80,20 @@ void main() {
     await _pumpShell(tester);
     expect(find.text('HOME BODY'), findsOneWidget);
 
-    await tester.tap(find.text("Do'kon"));
+    await tester.tap(find.bySemanticsLabel("Do'kon"));
     await tester.pumpAndSettle();
     expect(find.text('SHOP BODY'), findsOneWidget);
     expect(find.text('HOME BODY'), findsNothing);
 
-    await tester.tap(find.text('Ustalar'));
+    await tester.tap(find.bySemanticsLabel('Ustalar'));
     await tester.pumpAndSettle();
     expect(find.text('MASTERS BODY'), findsOneWidget);
 
-    await tester.tap(find.text('Profil'));
+    await tester.tap(find.bySemanticsLabel('Profil'));
     await tester.pumpAndSettle();
     expect(find.text('PROFILE BODY'), findsOneWidget);
 
-    await tester.tap(find.text('Uy'));
+    await tester.tap(find.bySemanticsLabel('Uy'));
     await tester.pumpAndSettle();
     expect(find.text('HOME BODY'), findsOneWidget);
   });

@@ -37,12 +37,13 @@ class _B2RoomEntryScreenState extends ConsumerState<B2RoomEntryScreen>
     super.dispose();
   }
 
-  String _conditionLabel(SurfaceCondition condition) => switch (condition) {
-    SurfaceCondition.raw => 'korobka holatida',
-    SurfaceCondition.plastered => 'suvoq qilingan',
-    SurfaceCondition.puttied => 'shpaklovka qilingan',
-    SurfaceCondition.unknown => 'korobka holatida',
-  };
+  String _conditionLabel(AppLocalizations l10n, SurfaceCondition condition) =>
+      switch (condition) {
+        SurfaceCondition.raw => l10n.designConditionRaw,
+        SurfaceCondition.plastered => l10n.designConditionPlastered,
+        SurfaceCondition.puttied => l10n.designConditionPuttied,
+        SurfaceCondition.unknown => l10n.designConditionRaw,
+      };
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +68,9 @@ class _B2RoomEntryScreenState extends ConsumerState<B2RoomEntryScreen>
                   boxShadow: const [DesignTokens.shadowCard],
                 ),
                 child: Text(
-                  l10n.designRoomEntryIntro(_conditionLabel(wallCondition)),
+                  l10n.designRoomEntryIntro(
+                    _conditionLabel(l10n, wallCondition),
+                  ),
                   style: DesignTokens.body1,
                 ),
               ),

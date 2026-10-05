@@ -1766,4 +1766,151 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsUpdatesDialogOk => 'OK';
+
+  @override
+  String get registerRoleTitle => 'Who are you?';
+
+  @override
+  String get roleUser => 'User';
+
+  @override
+  String get roleUserDesc => 'For my own renovation and design projects';
+
+  @override
+  String get roleShop => 'Shop owner';
+
+  @override
+  String get roleShopDesc => 'I sell furniture and materials';
+
+  @override
+  String get roleUsta => 'Craftsman';
+
+  @override
+  String get roleUstaDesc => 'I offer renovation services';
+
+  @override
+  String get businessApplyShopTitle => 'Shop application';
+
+  @override
+  String get businessApplyUstaTitle => 'Craftsman application';
+
+  @override
+  String get businessApplyIntro =>
+      'Fill in your details. Once the admins review and approve, you will appear in the list.';
+
+  @override
+  String get businessFieldShopName => 'Shop name';
+
+  @override
+  String get businessFieldUstaName => 'Your name or team name';
+
+  @override
+  String get businessFieldTrade => 'Your trade';
+
+  @override
+  String get businessFieldDistrict => 'District';
+
+  @override
+  String get businessFieldPhone => 'Phone (+998...)';
+
+  @override
+  String get businessFieldTelegram => 'Telegram (optional)';
+
+  @override
+  String get businessFieldPriceMin => 'Price: from (UZS)';
+
+  @override
+  String get businessFieldPriceMax => 'Price: up to (UZS)';
+
+  @override
+  String get businessSubmit => 'Submit application';
+
+  @override
+  String get businessSkip => 'Later';
+
+  @override
+  String get businessErrorName => 'Enter a name';
+
+  @override
+  String get businessErrorPhone => 'Enter the full phone number with +998';
+
+  @override
+  String get businessErrorPrice =>
+      'The maximum price cannot be below the minimum';
+
+  @override
+  String get businessErrorExists => 'You already have this application';
+
+  @override
+  String get businessErrorFailed =>
+      'Could not send the application. Please try again.';
+
+  @override
+  String get businessTitle => 'My business';
+
+  @override
+  String get businessShopSection => 'Shop';
+
+  @override
+  String get businessUstaSection => 'Craftsman profile';
+
+  @override
+  String get businessStatusPending => 'Under review';
+
+  @override
+  String get businessStatusApproved => 'Approved';
+
+  @override
+  String get businessStatusRejected => 'Rejected';
+
+  @override
+  String get businessPendingHint =>
+      'Your application is with the admins. Once approved you will appear in the list.';
+
+  @override
+  String get businessApprovedHint => 'Your profile is visible in the list.';
+
+  @override
+  String get businessResubmit => 'Resubmit';
+
+  @override
+  String get businessComingProducts => 'Product management coming soon';
+
+  @override
+  String get businessComingRequests => 'Customer requests coming soon';
+
+  @override
+  String get businessLoadFailed => 'Could not load the data';
+
+  @override
+  String get profileMenuBusiness => 'My business';
+
+  @override
+  String get profileMenuBecomePartner => 'Join as a shop or craftsman';
+
+  @override
+  String get tradeElektrik => 'Electrician';
+
+  @override
+  String get tradeElektrikLoyihachi => 'Electrical designer';
+
+  @override
+  String get tradeSantexnik => 'Plumber';
+
+  @override
+  String get tradeMalyar => 'Painter';
+
+  @override
+  String get tradeOboy => 'Wallpaper installer';
+
+  @override
+  String get tradeLaminat => 'Laminate installer';
+
+  @override
+  String get tradeBrigada => 'Crew';
+
+  @override
+  String businessRejectedReason(String note) {
+    return 'Reason: $note';
+  }
 }

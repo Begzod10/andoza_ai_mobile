@@ -25,6 +25,7 @@ abstract class RoomOut with _$RoomOut {
     @JsonKey(name: 'net_wall_area') double? netWallArea,
     double? perimeter,
     @JsonKey(name: 'openings_count') @Default(0) int openingsCount,
+    @JsonKey(name: 'thumbnail_url') String? thumbnailUrl,
     @JsonKey(name: 'updated_at') required DateTime updatedAt,
   }) = _RoomOut;
 

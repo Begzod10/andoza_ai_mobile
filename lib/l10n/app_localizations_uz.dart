@@ -1763,4 +1763,151 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get settingsUpdatesDialogOk => 'OK';
+
+  @override
+  String get registerRoleTitle => 'Siz kimsiz?';
+
+  @override
+  String get roleUser => 'Foydalanuvchi';
+
+  @override
+  String get roleUserDesc => 'O\'z ta\'mir va dizayn loyihalarim uchun';
+
+  @override
+  String get roleShop => 'Do\'kon egasi';
+
+  @override
+  String get roleShopDesc => 'Mebel va materiallarimni sotaman';
+
+  @override
+  String get roleUsta => 'Usta';
+
+  @override
+  String get roleUstaDesc => 'Ta\'mir xizmatlarini taklif qilaman';
+
+  @override
+  String get businessApplyShopTitle => 'Do\'kon arizasi';
+
+  @override
+  String get businessApplyUstaTitle => 'Usta arizasi';
+
+  @override
+  String get businessApplyIntro =>
+      'Ma\'lumotlaringizni kiriting. Adminlar ko\'rib chiqib, tasdiqlagach ro\'yxatda ko\'rinasiz.';
+
+  @override
+  String get businessFieldShopName => 'Do\'kon nomi';
+
+  @override
+  String get businessFieldUstaName => 'Ismingiz yoki jamoa nomi';
+
+  @override
+  String get businessFieldTrade => 'Kasbingiz';
+
+  @override
+  String get businessFieldDistrict => 'Tuman';
+
+  @override
+  String get businessFieldPhone => 'Telefon (+998...)';
+
+  @override
+  String get businessFieldTelegram => 'Telegram (ixtiyoriy)';
+
+  @override
+  String get businessFieldPriceMin => 'Narx: dan (so\'m)';
+
+  @override
+  String get businessFieldPriceMax => 'Narx: gacha (so\'m)';
+
+  @override
+  String get businessSubmit => 'Arizani yuborish';
+
+  @override
+  String get businessSkip => 'Keyinroq';
+
+  @override
+  String get businessErrorName => 'Nomni kiriting';
+
+  @override
+  String get businessErrorPhone => 'Telefonni +998 bilan to\'liq kiriting';
+
+  @override
+  String get businessErrorPrice => 'Maksimal narx minimaldan kam bo\'lmasin';
+
+  @override
+  String get businessErrorExists => 'Sizda allaqachon bunday ariza bor';
+
+  @override
+  String get businessErrorFailed =>
+      'Arizani yuborib bo\'lmadi. Qayta urinib ko\'ring.';
+
+  @override
+  String get businessTitle => 'Biznesim';
+
+  @override
+  String get businessShopSection => 'Do\'kon';
+
+  @override
+  String get businessUstaSection => 'Usta profilim';
+
+  @override
+  String get businessStatusPending => 'Ko\'rib chiqilmoqda';
+
+  @override
+  String get businessStatusApproved => 'Tasdiqlangan';
+
+  @override
+  String get businessStatusRejected => 'Rad etilgan';
+
+  @override
+  String get businessPendingHint =>
+      'Ariza adminlar tomonidan ko\'rib chiqilmoqda. Tasdiqlangach ro\'yxatda ko\'rinasiz.';
+
+  @override
+  String get businessApprovedHint => 'Profilingiz ro\'yxatda ko\'rinadi.';
+
+  @override
+  String get businessResubmit => 'Qayta yuborish';
+
+  @override
+  String get businessComingProducts => 'Mahsulotlar boshqaruvi tez kunda';
+
+  @override
+  String get businessComingRequests => 'Mijoz so\'rovlari tez kunda';
+
+  @override
+  String get businessLoadFailed => 'Ma\'lumotni yuklab bo\'lmadi';
+
+  @override
+  String get profileMenuBusiness => 'Biznesim';
+
+  @override
+  String get profileMenuBecomePartner =>
+      'Do\'kon yoki usta sifatida qo\'shilish';
+
+  @override
+  String get tradeElektrik => 'Elektrik';
+
+  @override
+  String get tradeElektrikLoyihachi => 'Elektr loyihachi';
+
+  @override
+  String get tradeSantexnik => 'Santexnik';
+
+  @override
+  String get tradeMalyar => 'Malyar';
+
+  @override
+  String get tradeOboy => 'Oboy ustasi';
+
+  @override
+  String get tradeLaminat => 'Laminat ustasi';
+
+  @override
+  String get tradeBrigada => 'Brigada';
+
+  @override
+  String businessRejectedReason(String note) {
+    return 'Sabab: $note';
+  }
 }

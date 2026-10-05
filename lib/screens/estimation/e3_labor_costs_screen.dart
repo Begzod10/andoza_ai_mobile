@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
+import '../../models/design_selection_model.dart' show stageLabel;
 import '../../providers/estimate_provider.dart';
 import '../../utils/currency.dart';
 
@@ -93,7 +94,10 @@ class E3LaborCostsScreen extends ConsumerWidget {
                       if (savings > 0) ...[
                         const SizedBox(height: DesignTokens.spacingXs),
                         _SummaryRow(
-                          label: l10n.estimateDeltaSavings(savingsStage.name.name),
+                          label: l10n.estimateDeltaSavings(
+                            stageLabel(savingsStage.name) ??
+                                l10n.estimateStageFallback,
+                          ),
                           value: '− ${formatSom(savings.round())}',
                           valueColor: DesignTokens.successGreen,
                         ),

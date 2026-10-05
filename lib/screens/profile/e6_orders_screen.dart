@@ -68,7 +68,7 @@ class _E6OrdersScreenState extends ConsumerState<E6OrdersScreen> {
                         left: DesignTokens.spacingSm,
                       ),
                       child: _FilterChip(
-                        label: step.label,
+                        label: step.label(l10n),
                         selected: _filter == step,
                         onTap: () => setState(() => _filter = step),
                       ),
@@ -148,6 +148,7 @@ class _OrderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final extraCount = order.lines.length > 2 ? order.lines.length - 2 : 0;
 
     return Semantics(
@@ -183,7 +184,7 @@ class _OrderCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(DesignTokens.radiusSm),
                   ),
                   child: Text(
-                    order.currentStep.label,
+                    order.currentStep.label(l10n),
                     style: DesignTokens.caption.copyWith(
                       color: _statusColor,
                       fontWeight: FontWeight.bold,

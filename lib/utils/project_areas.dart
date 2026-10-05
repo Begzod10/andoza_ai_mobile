@@ -1,3 +1,4 @@
+import '../models/api/room_out.dart';
 import '../models/room_model.dart';
 import '../models/room_plan.dart';
 
@@ -33,6 +34,21 @@ ProjectAreas computeProjectAreas(Room? room, {RoomPlan? plan}) {
     0,
     (sum, w) => sum + w.measurements.height * w.measurements.length,
   );
+  return (
+    floorArea: floorArea > 0 ? floorArea : 18.0,
+    wallArea: wallArea > 0 ? wallArea : 48.0,
+  );
+}
+
+/// Same [ProjectAreas] shape, but for a specific persisted [RoomOut] rather
+/// than "whichever room the user last worked on" — lets Do'kon's material
+/// calculator run for any room the user explicitly picks (see
+/// shop_provider.dart's room picker), not just the single global active
+/// room. The backend already computes and stores `floor_area`/`net_wall_area`
+/// per room, so this is real per-room data, not an approximation.
+ProjectAreas computeProjectAreasFromRoomOut(RoomOut room) {
+  final floorArea = room.floorArea ?? 0;
+  final wallArea = room.netWallArea ?? 0;
   return (
     floorArea: floorArea > 0 ? floorArea : 18.0,
     wallArea: wallArea > 0 ? wallArea : 48.0,

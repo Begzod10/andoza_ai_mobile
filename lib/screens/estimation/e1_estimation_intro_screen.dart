@@ -16,17 +16,6 @@ import '../../services/pdf_share_service.dart';
 import '../../utils/currency.dart';
 import '../studio/ai_builder_sheet.dart';
 
-const _stageLabels = {
-  RenovationStage.suvoq: 'Suvoq',
-  RenovationStage.shpaklovka: 'Shpaklovka',
-  RenovationStage.boyoqOboi: 'Bo\'yoq/Oboi',
-  RenovationStage.pol: 'Pol',
-  RenovationStage.mebel: 'Mebel',
-  RenovationStage.elektr: 'Elektr montaj',
-  RenovationStage.yoruglik: 'Yorug\'lik',
-  RenovationStage.santexnika: 'Santexnika',
-};
-
 /// E1: Remont smetasi — money appears for the first time here. Big blue
 /// total card (Materiallar/Ishchi kuchi split), a green delta-savings
 /// banner computed from actually-excluded stages (never hardcoded), and
@@ -112,7 +101,7 @@ class _E1EstimationIntroScreenState
     final savings = useBackend ? backendSavings.toDouble() : localSavings;
     final savingsLabel = useBackend
         ? _backendSavingsLabel(backendDelta!, l10n)
-        : (_stageLabels[savingsStage.name] ?? l10n.estimateStageFallback);
+        : (stageLabel(savingsStage.name) ?? l10n.estimateStageFallback);
 
     // Real server smeta total once the room is persisted; the header keeps
     // showing the local total until then (and if the backend is unreachable).
@@ -360,7 +349,7 @@ class _StageRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final label = _stageLabels[stage.name] ?? stage.name.name;
+    final label = stageLabel(stage.name) ?? stage.name.name;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(DesignTokens.radiusMd),

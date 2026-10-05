@@ -19,6 +19,7 @@ _RoomOut _$RoomOutFromJson(Map<String, dynamic> json) => _RoomOut(
   netWallArea: (json['net_wall_area'] as num?)?.toDouble(),
   perimeter: (json['perimeter'] as num?)?.toDouble(),
   openingsCount: (json['openings_count'] as num?)?.toInt() ?? 0,
+  thumbnailUrl: json['thumbnail_url'] as String?,
   updatedAt: DateTime.parse(json['updated_at'] as String),
 );
 
@@ -35,5 +36,6 @@ Map<String, dynamic> _$RoomOutToJson(_RoomOut instance) => <String, dynamic>{
   'net_wall_area': instance.netWallArea,
   'perimeter': instance.perimeter,
   'openings_count': instance.openingsCount,
+  'thumbnail_url': instance.thumbnailUrl,
   'updated_at': instance.updatedAt.toIso8601String(),
 };

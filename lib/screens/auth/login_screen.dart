@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
+import '../../providers/business_provider.dart';
 import '../../repositories/auth_repository.dart';
 import '../../services/api_client.dart';
 import '../../utils/error_mapper.dart';
@@ -41,6 +42,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   bool _loading = false;
   bool _phoneFocused = false;
+  // What the person is signing up as; null is an ordinary user.
+  BusinessKind? _businessKind;
   String? _error;
   bool _obscurePassword = true;
   bool _obscureConfirm = true;
@@ -224,6 +227,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
     try {
       final res = await _repo.register(u, _password.text, _name.text.trim());
+      // Registering as a shop owner or an usta only creates the account; the
+      // application itself is the next screen (the app shell opens it), where
+      // it can be filled in — or left for later without losing the account.
+      ref.read(pendingBusinessSetupProvider.notifier).state = _businessKind;
       ref.read(authStateProvider.notifier).setSession(res);
     } catch (e) {
       // 409 Conflict = username already taken — classify by the real status
@@ -456,6 +463,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         _backButton(),
         Text(l10n.loginRegister, style: DesignTokens.headingMedium),
         const SizedBox(height: DesignTokens.spacing16),
+        Text(l10n.registerRoleTitle, style: DesignTokens.subtitle2),
+        const SizedBox(height: DesignTokens.spacing8),
+        _roleOption(null, Icons.person_outline, l10n.roleUser, l10n.roleUserDesc),
+        _roleOption(BusinessKind.shop, Icons.storefront_outlined, l10n.roleShop, l10n.roleShopDesc),
+        _roleOption(BusinessKind.usta, Icons.handyman_outlined, l10n.roleUsta, l10n.roleUstaDesc),
+        const SizedBox(height: DesignTokens.spacing8),
         _field(_name, l10n.loginNameHint),
         const SizedBox(height: DesignTokens.spacing12),
         _field(_username, l10n.loginUsernameHint),
@@ -484,6 +497,45 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   // ── small widgets ───────────────────────────────────────────────────────
+  Widget _roleOption(BusinessKind? kind, IconData icon, String title, String desc) {
+    final selected = _businessKind == kind;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: DesignTokens.spacing8),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
+        onTap: _loading ? null : () => setState(() => _businessKind = kind),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          padding: const EdgeInsets.symmetric(horizontal: DesignTokens.spacing12, vertical: 10),
+          decoration: BoxDecoration(
+            color: selected ? DesignTokens.primary.withValues(alpha: 0.06) : DesignTokens.white,
+            borderRadius: BorderRadius.circular(DesignTokens.radiusMedium),
+            border: Border.all(
+              color: selected ? DesignTokens.primary : DesignTokens.border,
+              width: selected ? 1.6 : 1,
+            ),
+          ),
+          child: Row(
+            children: [
+              Icon(icon, size: 22, color: selected ? DesignTokens.primary : DesignTokens.textMuted),
+              const SizedBox(width: DesignTokens.spacing12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title, style: DesignTokens.bodyMedium.copyWith(fontWeight: FontWeight.w600)),
+                    Text(desc, style: DesignTokens.caption.copyWith(color: DesignTokens.textMuted)),
+                  ],
+                ),
+              ),
+              if (selected) const Icon(Icons.check_circle, size: 20, color: DesignTokens.primary),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _backButton() => Padding(
         padding: const EdgeInsets.only(bottom: DesignTokens.spacing16),
         child: GestureDetector(

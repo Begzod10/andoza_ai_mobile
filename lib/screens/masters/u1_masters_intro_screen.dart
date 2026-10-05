@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_marker_cluster/flutter_map_marker_cluster.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
@@ -50,44 +51,70 @@ class _U1MastersIntroScreenState extends ConsumerState<U1MastersIntroScreen> {
                   urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                   userAgentPackageName: 'com.tamir_uy.tamir_uy_mobile_flutter',
                 ),
-                MarkerLayer(
-                  markers: [
-                    for (final m in masters)
-                      if (m.master.latitude != null &&
-                          m.master.longitude != null)
-                        Marker(
-                          point: LatLng(
-                            m.master.latitude!,
-                            m.master.longitude!,
-                          ),
-                          width: 44,
-                          height: 44,
-                          child: Semantics(
-                            button: true,
-                            label: m.master.name,
-                            excludeSemantics: true,
-                            child: GestureDetector(
-                            onTap: () => _showPinSheet(context, m),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Color(m.trade.colorValue),
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: DesignTokens.white,
-                                  width: 2,
-                                ),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  m.trade.emoji,
-                                  style: const TextStyle(fontSize: 18),
+                MarkerClusterLayerWidget(
+                  options: MarkerClusterLayerOptions(
+                    maxClusterRadius: 45,
+                    size: const Size(44, 44),
+                    markers: [
+                      for (final m in masters)
+                        if (m.master.latitude != null &&
+                            m.master.longitude != null)
+                          Marker(
+                            point: LatLng(
+                              m.master.latitude!,
+                              m.master.longitude!,
+                            ),
+                            width: 44,
+                            height: 44,
+                            child: Semantics(
+                              button: true,
+                              label: m.master.name,
+                              excludeSemantics: true,
+                              child: GestureDetector(
+                                onTap: () => _showPinSheet(context, m),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Color(m.trade.colorValue),
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: DesignTokens.white,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      m.trade.emoji,
+                                      style: const TextStyle(fontSize: 18),
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
+                    ],
+                    builder: (context, clusterMarkers) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: DesignTokens.primaryBlue,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: DesignTokens.white,
+                            width: 2,
                           ),
                         ),
-                  ],
+                        child: Center(
+                          child: Text(
+                            '${clusterMarkers.length}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
@@ -118,27 +145,41 @@ class _U1MastersIntroScreenState extends ConsumerState<U1MastersIntroScreen> {
                     ),
                   ),
                   const SizedBox(height: DesignTokens.spacingSm),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        _TradeChip(
-                          label: l10n.shopFilterAll,
-                          selected: _filter == null,
-                          onTap: () => setState(() => _filter = null),
-                        ),
-                        for (final trade in Trade.values)
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: DesignTokens.spacingSm,
-                            ),
-                            child: _TradeChip(
-                              label: '${trade.emoji} ${trade.label}',
-                              selected: _filter == trade,
-                              onTap: () => setState(() => _filter = trade),
-                            ),
+                  ShaderMask(
+                    shaderCallback: (bounds) {
+                      return const LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: [Colors.black, Colors.black, Colors.transparent],
+                        stops: [0.0, 0.88, 1.0],
+                      ).createShader(bounds);
+                    },
+                    blendMode: BlendMode.dstIn,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          _TradeChip(
+                            label: l10n.shopFilterAll,
+                            selected: _filter == null,
+                            onTap: () => setState(() => _filter = null),
                           ),
-                      ],
+                          for (final trade in Trade.values)
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: DesignTokens.spacingSm,
+                              ),
+                              child: _TradeChip(
+                                label: '${trade.emoji} ${trade.label}',
+                                selected: _filter == trade,
+                                onTap: () => setState(() => _filter = trade),
+                              ),
+                            ),
+                          // Trailing spacer so the gradient fades over blank
+                          // space rather than clipping the last chip's text.
+                          const SizedBox(width: DesignTokens.spacingMd),
+                        ],
+                      ),
                     ),
                   ),
                 ],

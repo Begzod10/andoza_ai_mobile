@@ -2,19 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
+import '../../models/design_selection_model.dart' show stageLabel;
 import '../../models/estimate_model.dart';
 import '../../utils/currency.dart';
-
-const _stageLabels = {
-  'suvoq': 'Suvoq',
-  'shpaklovka': 'Shpaklovka',
-  'boyoqOboi': 'Bo\'yoq/Oboi',
-  'pol': 'Pol',
-  'mebel': 'Mebel',
-  'elektr': 'Elektr montaj',
-  'yoruglik': 'Yorug\'lik',
-  'santexnika': 'Santexnika',
-};
 
 /// E2: Bosqich smetasi batafsil — per-stage breakdown: material lines
 /// (real qty × unit price), "Materiallar jami," labour lines, sticky
@@ -41,7 +31,7 @@ class E2MaterialCostsScreen extends StatelessWidget {
       0,
       (sum, i) => sum + i.lineTotal,
     );
-    final label = _stageLabels[stage.name.name] ?? stage.name.name;
+    final label = stageLabel(stage.name) ?? stage.name.name;
 
     return Scaffold(
       backgroundColor: DesignTokens.backgroundLight,

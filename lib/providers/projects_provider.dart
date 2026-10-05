@@ -48,6 +48,9 @@ ProjectItem _apartmentToProject(Apartment a) {
       kRenovationStages.length - 1,
     )],
     studioRoomId: rooms.isNotEmpty ? rooms.first.id : null,
+    thumbnailUrl: rooms.isNotEmpty ? rooms.first.thumbnailUrl : null,
+    floorArea: rooms.isNotEmpty ? rooms.first.floorArea : null,
+    furnitureCount: rooms.isNotEmpty ? rooms.first.furnitureLayout?.length : null,
   );
 }
 

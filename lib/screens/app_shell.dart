@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../config/design_tokens.dart';
 import '../features/room_scan/pending_scan_store.dart';
+import '../providers/business_provider.dart';
 import '../l10n/app_localizations.dart';
 import 'room_setup/new_project_sheet.dart';
 import 'scanning/room_scan_review_page.dart';
@@ -38,7 +39,17 @@ class _AppShellState extends ConsumerState<AppShell> {
     // app open, whether a LiDAR scan interrupted before "Davom etish" (app
     // backgrounded, call came in, low-memory kill) should be resumed — see
     // PendingScanStore for why that scan survives at all.
-    WidgetsBinding.instance.addPostFrameCallback((_) => _offerPendingScan());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Someone who registered as a shop owner or an usta goes straight to
+      // that application; the interrupted-scan prompt is for everyone else.
+      final kind = ref.read(pendingBusinessSetupProvider);
+      if (kind != null) {
+        ref.read(pendingBusinessSetupProvider.notifier).state = null;
+        context.push(kind == BusinessKind.usta ? '/business/apply/usta' : '/business/apply/shop');
+        return;
+      }
+      _offerPendingScan();
+    });
   }
 
   Future<void> _offerPendingScan() async {

@@ -1,6 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../config/design_tokens.dart';
+import '../../l10n/app_localizations.dart';
+
+const _prefsKeyNotificationsEnabled = 'settings_notifications_enabled';
+const _prefsKeyEmailDigest = 'settings_email_digest';
+const _prefsKeyMarketingEmails = 'settings_marketing_emails';
+const _prefsKeyUnitSystem = 'settings_unit_system';
+const _prefsKeyTheme = 'settings_theme';
+const _prefsKeyAutoSave = 'settings_auto_save';
+const _prefsKeyLargeText = 'settings_large_text';
+const _prefsKeyCloudSync = 'settings_cloud_sync';
 
 /// E9: App Preferences & Settings
 /// Customize app behavior, notifications, and display settings
@@ -20,12 +34,167 @@ class _E9PreferencesSettingsScreenState
   String _unitSystem = 'metric';
   String _theme = 'light';
   bool _autoSave = true;
+  bool _largeText = false;
+  bool _cloudSync = true;
+  bool _clearingCache = false;
+  String? _appVersion;
+  String? _buildNumber;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadPersistedPrefs();
+    _loadPackageInfo();
+  }
+
+  Future<void> _loadPersistedPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!mounted) return;
+    setState(() {
+      _notificationsEnabled =
+          prefs.getBool(_prefsKeyNotificationsEnabled) ?? true;
+      _emailDigest = prefs.getBool(_prefsKeyEmailDigest) ?? true;
+      _marketingEmails = prefs.getBool(_prefsKeyMarketingEmails) ?? false;
+      _unitSystem = prefs.getString(_prefsKeyUnitSystem) ?? 'metric';
+      _theme = prefs.getString(_prefsKeyTheme) ?? 'light';
+      _autoSave = prefs.getBool(_prefsKeyAutoSave) ?? true;
+      _largeText = prefs.getBool(_prefsKeyLargeText) ?? false;
+      _cloudSync = prefs.getBool(_prefsKeyCloudSync) ?? true;
+    });
+  }
+
+  Future<void> _loadPackageInfo() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    if (!mounted) return;
+    setState(() {
+      _appVersion = packageInfo.version;
+      _buildNumber = packageInfo.buildNumber;
+    });
+  }
+
+  Future<void> _setNotificationsEnabled(bool value) async {
+    setState(() => _notificationsEnabled = value);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_prefsKeyNotificationsEnabled, value);
+  }
+
+  Future<void> _setEmailDigest(bool value) async {
+    setState(() => _emailDigest = value);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_prefsKeyEmailDigest, value);
+  }
+
+  Future<void> _setMarketingEmails(bool value) async {
+    setState(() => _marketingEmails = value);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_prefsKeyMarketingEmails, value);
+  }
+
+  Future<void> _setUnitSystem(String? value) async {
+    final unitSystem = value ?? 'metric';
+    setState(() => _unitSystem = unitSystem);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_prefsKeyUnitSystem, unitSystem);
+  }
+
+  Future<void> _setTheme(String? value) async {
+    final theme = value ?? 'light';
+    setState(() => _theme = theme);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_prefsKeyTheme, theme);
+  }
+
+  Future<void> _setAutoSave(bool value) async {
+    setState(() => _autoSave = value);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_prefsKeyAutoSave, value);
+  }
+
+  Future<void> _setLargeText(bool value) async {
+    setState(() => _largeText = value);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_prefsKeyLargeText, value);
+  }
+
+  Future<void> _setCloudSync(bool value) async {
+    setState(() => _cloudSync = value);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_prefsKeyCloudSync, value);
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context)!;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          value
+              ? l10n.settingsCloudSyncEnabledMessage
+              : l10n.settingsCloudSyncDisabledMessage,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _clearCache() async {
+    setState(() => _clearingCache = true);
+    final l10n = AppLocalizations.of(context)!;
+    try {
+      final tempDir = await getTemporaryDirectory();
+      if (await tempDir.exists()) {
+        await for (final entity in tempDir.list()) {
+          try {
+            await entity.delete(recursive: true);
+          } catch (_) {
+            // Skip files still in use; not fatal for a cache clear.
+          }
+        }
+      }
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.settingsCacheClearedMessage)),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.settingsCacheClearFailedMessage(e.toString()))),
+      );
+    } finally {
+      if (mounted) setState(() => _clearingCache = false);
+    }
+  }
+
+  Future<void> _openUrl(String url) async {
+    final l10n = AppLocalizations.of(context)!;
+    final uri = Uri.parse(url);
+    final ok = await launchUrl(uri, mode: LaunchMode.externalApplication);
+    if (!ok && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.settingsLinkOpenFailedMessage(url))),
+      );
+    }
+  }
+
+  void _checkForUpdates() {
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.settingsUpdatesDialogTitle),
+        content: Text(l10n.settingsUpdatesDialogBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(l10n.settingsUpdatesDialogOk),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Preferences'),
+        title: Text(l10n.settingsScreenTitle),
         automaticallyImplyLeading: true,
       ),
       body: SingleChildScrollView(
@@ -39,31 +208,31 @@ class _E9PreferencesSettingsScreenState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Notifications',
+                    l10n.settingsNotificationsSectionTitle,
                     style: DesignTokens.subtitle1.copyWith(
                       color: DesignTokens.text,
                     ),
                   ),
                   const SizedBox(height: DesignTokens.spacing12),
                   _SwitchTile(
-                    title: 'Push Notifications',
-                    subtitle: 'Get updates about projects and contractors',
+                    title: l10n.settingsPushNotificationsTitle,
+                    subtitle: l10n.settingsPushNotificationsSubtitle,
                     value: _notificationsEnabled,
-                    onChanged: (v) => setState(() => _notificationsEnabled = v),
+                    onChanged: _setNotificationsEnabled,
                   ),
                   const SizedBox(height: DesignTokens.spacing12),
                   _SwitchTile(
-                    title: 'Email Digest',
-                    subtitle: 'Weekly summary of your projects',
+                    title: l10n.settingsEmailDigestTitle,
+                    subtitle: l10n.settingsEmailDigestSubtitle,
                     value: _emailDigest,
-                    onChanged: (v) => setState(() => _emailDigest = v),
+                    onChanged: _setEmailDigest,
                   ),
                   const SizedBox(height: DesignTokens.spacing12),
                   _SwitchTile(
-                    title: 'Marketing Emails',
-                    subtitle: 'News about new features and offers',
+                    title: l10n.settingsMarketingEmailsTitle,
+                    subtitle: l10n.settingsMarketingEmailsSubtitle,
                     value: _marketingEmails,
-                    onChanged: (v) => setState(() => _marketingEmails = v),
+                    onChanged: _setMarketingEmails,
                   ),
                 ],
               ),
@@ -77,34 +246,37 @@ class _E9PreferencesSettingsScreenState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Units & Display',
+                    l10n.settingsUnitsDisplaySectionTitle,
                     style: DesignTokens.subtitle1.copyWith(
                       color: DesignTokens.text,
                     ),
                   ),
                   const SizedBox(height: DesignTokens.spacing12),
                   _DropdownTile(
-                    title: 'Measurement Units',
+                    title: l10n.settingsMeasurementUnitsTitle,
                     value: _unitSystem,
-                    items: const ['Metric (m²)', 'Imperial (ft²)'],
+                    items: [l10n.settingsUnitMetric, l10n.settingsUnitImperial],
                     values: const ['metric', 'imperial'],
-                    onChanged: (v) =>
-                        setState(() => _unitSystem = v ?? 'metric'),
+                    onChanged: _setUnitSystem,
                   ),
                   const SizedBox(height: DesignTokens.spacing12),
                   _DropdownTile(
-                    title: 'Theme',
+                    title: l10n.settingsThemeTitle,
                     value: _theme,
-                    items: const ['Light', 'Dark', 'System'],
+                    items: [
+                      l10n.settingsThemeLight,
+                      l10n.settingsThemeDark,
+                      l10n.settingsThemeSystem,
+                    ],
                     values: const ['light', 'dark', 'system'],
-                    onChanged: (v) => setState(() => _theme = v ?? 'light'),
+                    onChanged: _setTheme,
                   ),
                   const SizedBox(height: DesignTokens.spacing12),
                   _SwitchTile(
-                    title: 'Large Text',
-                    subtitle: 'Increase text size for better readability',
-                    value: false,
-                    onChanged: (v) {},
+                    title: l10n.settingsLargeTextTitle,
+                    subtitle: l10n.settingsLargeTextSubtitle,
+                    value: _largeText,
+                    onChanged: _setLargeText,
                   ),
                 ],
               ),
@@ -118,31 +290,33 @@ class _E9PreferencesSettingsScreenState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Project Settings',
+                    l10n.settingsProjectSettingsSectionTitle,
                     style: DesignTokens.subtitle1.copyWith(
                       color: DesignTokens.text,
                     ),
                   ),
                   const SizedBox(height: DesignTokens.spacing12),
                   _SwitchTile(
-                    title: 'Auto-Save Projects',
-                    subtitle: 'Automatically save your work as you progress',
+                    title: l10n.settingsAutoSaveTitle,
+                    subtitle: l10n.settingsAutoSaveSubtitle,
                     value: _autoSave,
-                    onChanged: (v) => setState(() => _autoSave = v),
+                    onChanged: _setAutoSave,
                   ),
                   const SizedBox(height: DesignTokens.spacing12),
                   _SwitchTile(
-                    title: 'Cloud Sync',
-                    subtitle: 'Sync projects across all your devices',
-                    value: true,
-                    onChanged: (v) {},
+                    title: l10n.settingsCloudSyncTitle,
+                    subtitle: l10n.settingsCloudSyncSubtitle,
+                    value: _cloudSync,
+                    onChanged: _setCloudSync,
                   ),
                   const SizedBox(height: DesignTokens.spacing12),
                   _ActionTile(
-                    title: 'Clear Cache',
-                    subtitle: 'Free up storage space',
+                    title: l10n.settingsClearCacheTitle,
+                    subtitle: _clearingCache
+                        ? l10n.settingsClearingCacheInProgress
+                        : l10n.settingsClearCacheSubtitle,
                     icon: Icons.delete_outline,
-                    onTap: () {},
+                    onTap: _clearingCache ? () {} : _clearCache,
                   ),
                 ],
               ),
@@ -156,24 +330,24 @@ class _E9PreferencesSettingsScreenState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Privacy & Security',
+                    l10n.settingsPrivacySecuritySectionTitle,
                     style: DesignTokens.subtitle1.copyWith(
                       color: DesignTokens.text,
                     ),
                   ),
                   const SizedBox(height: DesignTokens.spacing12),
                   _ActionTile(
-                    title: 'Privacy Policy',
-                    subtitle: 'Read our privacy policy',
+                    title: l10n.settingsPrivacyPolicyTitle,
+                    subtitle: l10n.settingsPrivacyPolicySubtitle,
                     icon: Icons.privacy_tip_outlined,
-                    onTap: () {},
+                    onTap: () => _openUrl('https://andoza.ai/privacy'),
                   ),
                   const SizedBox(height: DesignTokens.spacing12),
                   _ActionTile(
-                    title: 'Terms of Service',
-                    subtitle: 'Review terms and conditions',
+                    title: l10n.settingsTermsOfServiceTitle,
+                    subtitle: l10n.settingsTermsOfServiceSubtitle,
                     icon: Icons.description_outlined,
-                    onTap: () {},
+                    onTap: () => _openUrl('https://andoza.ai/terms'),
                   ),
                 ],
               ),
@@ -187,7 +361,7 @@ class _E9PreferencesSettingsScreenState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'About',
+                    l10n.settingsAboutSectionTitle,
                     style: DesignTokens.subtitle1.copyWith(
                       color: DesignTokens.text,
                     ),
@@ -208,13 +382,13 @@ class _E9PreferencesSettingsScreenState
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'App Version',
+                              l10n.settingsAppVersionLabel,
                               style: DesignTokens.bodyMedium.copyWith(
                                 color: DesignTokens.text,
                               ),
                             ),
                             Text(
-                              '1.0.0',
+                              _appVersion ?? '…',
                               style: DesignTokens.bodyMedium.copyWith(
                                 color: DesignTokens.textSecondary,
                               ),
@@ -226,13 +400,13 @@ class _E9PreferencesSettingsScreenState
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Build Number',
+                              l10n.settingsBuildNumberLabel,
                               style: DesignTokens.bodyMedium.copyWith(
                                 color: DesignTokens.text,
                               ),
                             ),
                             Text(
-                              '2026.07.31',
+                              _buildNumber ?? '…',
                               style: DesignTokens.bodyMedium.copyWith(
                                 color: DesignTokens.textSecondary,
                               ),
@@ -242,8 +416,8 @@ class _E9PreferencesSettingsScreenState
                         const SizedBox(height: DesignTokens.spacing12),
                         Center(
                           child: TextButton(
-                            onPressed: () {},
-                            child: const Text('Check for Updates'),
+                            onPressed: _checkForUpdates,
+                            child: Text(l10n.settingsCheckForUpdatesButton),
                           ),
                         ),
                       ],

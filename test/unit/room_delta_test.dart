@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:tamir_uy_mobile_flutter/geometry/room_geometry.dart';
 import 'package:tamir_uy_mobile_flutter/models/api/api.dart';
 import 'package:tamir_uy_mobile_flutter/models/room_model.dart' as client;
+import 'package:tamir_uy_mobile_flutter/models/room_plan.dart';
 import 'package:tamir_uy_mobile_flutter/utils/room_geometry_mapper.dart';
 
 /// Fixtures below are REAL responses captured from the running backend on
@@ -221,6 +223,89 @@ void main() {
           .single;
       // height + sill must not exceed ceiling (2.5).
       expect(win.sillHeight, 0.9);
+      expect(win.height + win.sillHeight, lessThanOrEqualTo(2.5));
+    });
+  });
+
+  group('roomPlanToPolygonRoomCreate mapper', () {
+    test('carries each wall\'s door/window openings through (regression: '
+        'these used to be silently dropped for non-rectangular scans)', () {
+      // An L-shape (5 corners/walls) — a real RoomPlan-scan shape, not the
+      // 4-wall rectangle that goes through roomToRoomCreate instead.
+      final plan = RoomPlan(
+        corners: const [
+          Vec2(0, 0),
+          Vec2(4, 0),
+          Vec2(4, 2),
+          Vec2(2, 2),
+          Vec2(2, 4),
+        ],
+        walls: const [
+          RoomWall(0, 1, 4.0, openings: [
+            RoomOpening(type: 'door', width: 0.9, height: 2.1, position: 0.5),
+          ]),
+          RoomWall(1, 2, 2.0, openings: [
+            RoomOpening(
+              type: 'window',
+              width: 1.2,
+              height: 1.4,
+              position: 0.5,
+              sillHeight: 0.9,
+            ),
+          ]),
+          RoomWall(2, 3, 2.0),
+          RoomWall(3, 4, 2.0),
+          RoomWall(4, 0, 4.0),
+        ],
+        ceilingHeightM: 2.8,
+        source: RoomSource.lidar,
+        name: 'L-xona',
+      );
+
+      final body = roomPlanToPolygonRoomCreate(plan);
+      expect(body.geometry.walls, hasLength(5));
+
+      final wall0 = body.geometry.walls.firstWhere((w) => w.id == '0');
+      expect(wall0.elements.single.type, WallElementType.eshik);
+      expect(wall0.elements.single.position, 0.5);
+
+      final wall1 = body.geometry.walls.firstWhere((w) => w.id == '1');
+      expect(wall1.elements.single.type, WallElementType.deraza);
+      expect(wall1.elements.single.sillHeight, 0.9);
+
+      // Walls with no scanned openings still get an (empty) elements list,
+      // not the absence of one — this is what the bug looked like before
+      // the fix, just for every wall instead of none.
+      final wall2 = body.geometry.walls.firstWhere((w) => w.id == '2');
+      expect(wall2.elements, isEmpty);
+    });
+
+    test('clamps a polygon opening height under the ceiling too', () {
+      final plan = RoomPlan(
+        corners: const [
+          Vec2(0, 0),
+          Vec2(4, 0),
+          Vec2(4, 3),
+        ],
+        walls: const [
+          RoomWall(0, 1, 4.0, openings: [
+            RoomOpening(
+              type: 'window',
+              width: 1.4,
+              height: 2.4, // too tall for a 2.5m ceiling with a 0.9 sill
+              position: 0.5,
+              sillHeight: 0.9,
+            ),
+          ]),
+          RoomWall(1, 2, 3.0),
+          RoomWall(2, 0, 3.0),
+        ],
+        ceilingHeightM: 2.5,
+        source: RoomSource.lidar,
+      );
+
+      final body = roomPlanToPolygonRoomCreate(plan);
+      final win = body.geometry.walls.firstWhere((w) => w.id == '0').elements.single;
       expect(win.height + win.sillHeight, lessThanOrEqualTo(2.5));
     });
   });

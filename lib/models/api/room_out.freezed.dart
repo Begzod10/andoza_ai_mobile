@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RoomOut {
 
- String get id;@JsonKey(name: 'apartment_id') String get apartmentId; String get name;@JsonKey(name: 'ceiling_h') double? get ceilingH; Map<String, dynamic>? get geometry; Map<String, dynamic>? get surfaces;@JsonKey(name: 'furniture_layout') List<dynamic>? get furnitureLayout; Map<String, dynamic>? get state;@JsonKey(name: 'floor_area') double? get floorArea;@JsonKey(name: 'net_wall_area') double? get netWallArea; double? get perimeter;@JsonKey(name: 'openings_count') int get openingsCount;@JsonKey(name: 'updated_at') DateTime get updatedAt;
+ String get id;@JsonKey(name: 'apartment_id') String get apartmentId; String get name;@JsonKey(name: 'ceiling_h') double? get ceilingH; Map<String, dynamic>? get geometry; Map<String, dynamic>? get surfaces;@JsonKey(name: 'furniture_layout') List<dynamic>? get furnitureLayout; Map<String, dynamic>? get state;@JsonKey(name: 'floor_area') double? get floorArea;@JsonKey(name: 'net_wall_area') double? get netWallArea; double? get perimeter;@JsonKey(name: 'openings_count') int get openingsCount;@JsonKey(name: 'thumbnail_url') String? get thumbnailUrl;@JsonKey(name: 'updated_at') DateTime get updatedAt;
 /// Create a copy of RoomOut
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -30,20 +30,20 @@ $RoomOutCopyWith<RoomOut> get copyWith => _$RoomOutCopyWithImpl<RoomOut>(this as
 @override
 bool operator ==(Object other) {
   final _this = this as RoomOut;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is RoomOut&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.apartmentId, _this.apartmentId) || other.apartmentId == _this.apartmentId)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.ceilingH, _this.ceilingH) || other.ceilingH == _this.ceilingH)&&const DeepCollectionEquality().equals(other.geometry, _this.geometry)&&const DeepCollectionEquality().equals(other.surfaces, _this.surfaces)&&const DeepCollectionEquality().equals(other.furnitureLayout, _this.furnitureLayout)&&const DeepCollectionEquality().equals(other.state, _this.state)&&(identical(other.floorArea, _this.floorArea) || other.floorArea == _this.floorArea)&&(identical(other.netWallArea, _this.netWallArea) || other.netWallArea == _this.netWallArea)&&(identical(other.perimeter, _this.perimeter) || other.perimeter == _this.perimeter)&&(identical(other.openingsCount, _this.openingsCount) || other.openingsCount == _this.openingsCount)&&(identical(other.updatedAt, _this.updatedAt) || other.updatedAt == _this.updatedAt));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is RoomOut&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.apartmentId, _this.apartmentId) || other.apartmentId == _this.apartmentId)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.ceilingH, _this.ceilingH) || other.ceilingH == _this.ceilingH)&&const DeepCollectionEquality().equals(other.geometry, _this.geometry)&&const DeepCollectionEquality().equals(other.surfaces, _this.surfaces)&&const DeepCollectionEquality().equals(other.furnitureLayout, _this.furnitureLayout)&&const DeepCollectionEquality().equals(other.state, _this.state)&&(identical(other.floorArea, _this.floorArea) || other.floorArea == _this.floorArea)&&(identical(other.netWallArea, _this.netWallArea) || other.netWallArea == _this.netWallArea)&&(identical(other.perimeter, _this.perimeter) || other.perimeter == _this.perimeter)&&(identical(other.openingsCount, _this.openingsCount) || other.openingsCount == _this.openingsCount)&&(identical(other.thumbnailUrl, _this.thumbnailUrl) || other.thumbnailUrl == _this.thumbnailUrl)&&(identical(other.updatedAt, _this.updatedAt) || other.updatedAt == _this.updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as RoomOut;
-  return Object.hash(runtimeType,_this.id,_this.apartmentId,_this.name,_this.ceilingH,const DeepCollectionEquality().hash(_this.geometry),const DeepCollectionEquality().hash(_this.surfaces),const DeepCollectionEquality().hash(_this.furnitureLayout),const DeepCollectionEquality().hash(_this.state),_this.floorArea,_this.netWallArea,_this.perimeter,_this.openingsCount,_this.updatedAt);
+  return Object.hash(runtimeType,_this.id,_this.apartmentId,_this.name,_this.ceilingH,const DeepCollectionEquality().hash(_this.geometry),const DeepCollectionEquality().hash(_this.surfaces),const DeepCollectionEquality().hash(_this.furnitureLayout),const DeepCollectionEquality().hash(_this.state),_this.floorArea,_this.netWallArea,_this.perimeter,_this.openingsCount,_this.thumbnailUrl,_this.updatedAt);
 }
 
 @override
 String toString() {
   final _this = this as RoomOut;
-  return 'RoomOut(id: ${_this.id}, apartmentId: ${_this.apartmentId}, name: ${_this.name}, ceilingH: ${_this.ceilingH}, geometry: ${_this.geometry}, surfaces: ${_this.surfaces}, furnitureLayout: ${_this.furnitureLayout}, state: ${_this.state}, floorArea: ${_this.floorArea}, netWallArea: ${_this.netWallArea}, perimeter: ${_this.perimeter}, openingsCount: ${_this.openingsCount}, updatedAt: ${_this.updatedAt})';
+  return 'RoomOut(id: ${_this.id}, apartmentId: ${_this.apartmentId}, name: ${_this.name}, ceilingH: ${_this.ceilingH}, geometry: ${_this.geometry}, surfaces: ${_this.surfaces}, furnitureLayout: ${_this.furnitureLayout}, state: ${_this.state}, floorArea: ${_this.floorArea}, netWallArea: ${_this.netWallArea}, perimeter: ${_this.perimeter}, openingsCount: ${_this.openingsCount}, thumbnailUrl: ${_this.thumbnailUrl}, updatedAt: ${_this.updatedAt})';
 }
 
 
@@ -54,7 +54,7 @@ abstract mixin class $RoomOutCopyWith<$Res>  {
   factory $RoomOutCopyWith(RoomOut value, $Res Function(RoomOut) _then) = _$RoomOutCopyWithImpl;
 @useResult
 $Res call({
- String id,@JsonKey(name: 'apartment_id') String apartmentId, String name,@JsonKey(name: 'ceiling_h') double? ceilingH, Map<String, dynamic>? geometry, Map<String, dynamic>? surfaces,@JsonKey(name: 'furniture_layout') List<dynamic>? furnitureLayout, Map<String, dynamic>? state,@JsonKey(name: 'floor_area') double? floorArea,@JsonKey(name: 'net_wall_area') double? netWallArea, double? perimeter,@JsonKey(name: 'openings_count') int openingsCount,@JsonKey(name: 'updated_at') DateTime updatedAt
+ String id,@JsonKey(name: 'apartment_id') String apartmentId, String name,@JsonKey(name: 'ceiling_h') double? ceilingH, Map<String, dynamic>? geometry, Map<String, dynamic>? surfaces,@JsonKey(name: 'furniture_layout') List<dynamic>? furnitureLayout, Map<String, dynamic>? state,@JsonKey(name: 'floor_area') double? floorArea,@JsonKey(name: 'net_wall_area') double? netWallArea, double? perimeter,@JsonKey(name: 'openings_count') int openingsCount,@JsonKey(name: 'thumbnail_url') String? thumbnailUrl,@JsonKey(name: 'updated_at') DateTime updatedAt
 });
 
 
@@ -71,7 +71,7 @@ class _$RoomOutCopyWithImpl<$Res>
 
 /// Create a copy of RoomOut
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? apartmentId = null,Object? name = null,Object? ceilingH = freezed,Object? geometry = freezed,Object? surfaces = freezed,Object? furnitureLayout = freezed,Object? state = freezed,Object? floorArea = freezed,Object? netWallArea = freezed,Object? perimeter = freezed,Object? openingsCount = null,Object? updatedAt = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? apartmentId = null,Object? name = null,Object? ceilingH = freezed,Object? geometry = freezed,Object? surfaces = freezed,Object? furnitureLayout = freezed,Object? state = freezed,Object? floorArea = freezed,Object? netWallArea = freezed,Object? perimeter = freezed,Object? openingsCount = null,Object? thumbnailUrl = freezed,Object? updatedAt = null,}) {
   return _then(RoomOut(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,apartmentId: null == apartmentId ? _self.apartmentId : apartmentId // ignore: cast_nullable_to_non_nullable
@@ -85,7 +85,8 @@ as Map<String, dynamic>?,floorArea: freezed == floorArea ? _self.floorArea : flo
 as double?,netWallArea: freezed == netWallArea ? _self.netWallArea : netWallArea // ignore: cast_nullable_to_non_nullable
 as double?,perimeter: freezed == perimeter ? _self.perimeter : perimeter // ignore: cast_nullable_to_non_nullable
 as double?,openingsCount: null == openingsCount ? _self.openingsCount : openingsCount // ignore: cast_nullable_to_non_nullable
-as int,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as int,thumbnailUrl: freezed == thumbnailUrl ? _self.thumbnailUrl : thumbnailUrl // ignore: cast_nullable_to_non_nullable
+as String?,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));
 }
@@ -171,10 +172,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'apartment_id')  String apartmentId,  String name, @JsonKey(name: 'ceiling_h')  double? ceilingH,  Map<String, dynamic>? geometry,  Map<String, dynamic>? surfaces, @JsonKey(name: 'furniture_layout')  List<dynamic>? furnitureLayout,  Map<String, dynamic>? state, @JsonKey(name: 'floor_area')  double? floorArea, @JsonKey(name: 'net_wall_area')  double? netWallArea,  double? perimeter, @JsonKey(name: 'openings_count')  int openingsCount, @JsonKey(name: 'updated_at')  DateTime updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'apartment_id')  String apartmentId,  String name, @JsonKey(name: 'ceiling_h')  double? ceilingH,  Map<String, dynamic>? geometry,  Map<String, dynamic>? surfaces, @JsonKey(name: 'furniture_layout')  List<dynamic>? furnitureLayout,  Map<String, dynamic>? state, @JsonKey(name: 'floor_area')  double? floorArea, @JsonKey(name: 'net_wall_area')  double? netWallArea,  double? perimeter, @JsonKey(name: 'openings_count')  int openingsCount, @JsonKey(name: 'thumbnail_url')  String? thumbnailUrl, @JsonKey(name: 'updated_at')  DateTime updatedAt)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RoomOut() when $default != null:
-return $default(_that.id,_that.apartmentId,_that.name,_that.ceilingH,_that.geometry,_that.surfaces,_that.furnitureLayout,_that.state,_that.floorArea,_that.netWallArea,_that.perimeter,_that.openingsCount,_that.updatedAt);case _:
+return $default(_that.id,_that.apartmentId,_that.name,_that.ceilingH,_that.geometry,_that.surfaces,_that.furnitureLayout,_that.state,_that.floorArea,_that.netWallArea,_that.perimeter,_that.openingsCount,_that.thumbnailUrl,_that.updatedAt);case _:
   return orElse();
 
 }
@@ -192,10 +193,10 @@ return $default(_that.id,_that.apartmentId,_that.name,_that.ceilingH,_that.geome
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'apartment_id')  String apartmentId,  String name, @JsonKey(name: 'ceiling_h')  double? ceilingH,  Map<String, dynamic>? geometry,  Map<String, dynamic>? surfaces, @JsonKey(name: 'furniture_layout')  List<dynamic>? furnitureLayout,  Map<String, dynamic>? state, @JsonKey(name: 'floor_area')  double? floorArea, @JsonKey(name: 'net_wall_area')  double? netWallArea,  double? perimeter, @JsonKey(name: 'openings_count')  int openingsCount, @JsonKey(name: 'updated_at')  DateTime updatedAt)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'apartment_id')  String apartmentId,  String name, @JsonKey(name: 'ceiling_h')  double? ceilingH,  Map<String, dynamic>? geometry,  Map<String, dynamic>? surfaces, @JsonKey(name: 'furniture_layout')  List<dynamic>? furnitureLayout,  Map<String, dynamic>? state, @JsonKey(name: 'floor_area')  double? floorArea, @JsonKey(name: 'net_wall_area')  double? netWallArea,  double? perimeter, @JsonKey(name: 'openings_count')  int openingsCount, @JsonKey(name: 'thumbnail_url')  String? thumbnailUrl, @JsonKey(name: 'updated_at')  DateTime updatedAt)  $default,) {final _that = this;
 switch (_that) {
 case _RoomOut():
-return $default(_that.id,_that.apartmentId,_that.name,_that.ceilingH,_that.geometry,_that.surfaces,_that.furnitureLayout,_that.state,_that.floorArea,_that.netWallArea,_that.perimeter,_that.openingsCount,_that.updatedAt);case _:
+return $default(_that.id,_that.apartmentId,_that.name,_that.ceilingH,_that.geometry,_that.surfaces,_that.furnitureLayout,_that.state,_that.floorArea,_that.netWallArea,_that.perimeter,_that.openingsCount,_that.thumbnailUrl,_that.updatedAt);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -212,10 +213,10 @@ return $default(_that.id,_that.apartmentId,_that.name,_that.ceilingH,_that.geome
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'apartment_id')  String apartmentId,  String name, @JsonKey(name: 'ceiling_h')  double? ceilingH,  Map<String, dynamic>? geometry,  Map<String, dynamic>? surfaces, @JsonKey(name: 'furniture_layout')  List<dynamic>? furnitureLayout,  Map<String, dynamic>? state, @JsonKey(name: 'floor_area')  double? floorArea, @JsonKey(name: 'net_wall_area')  double? netWallArea,  double? perimeter, @JsonKey(name: 'openings_count')  int openingsCount, @JsonKey(name: 'updated_at')  DateTime updatedAt)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'apartment_id')  String apartmentId,  String name, @JsonKey(name: 'ceiling_h')  double? ceilingH,  Map<String, dynamic>? geometry,  Map<String, dynamic>? surfaces, @JsonKey(name: 'furniture_layout')  List<dynamic>? furnitureLayout,  Map<String, dynamic>? state, @JsonKey(name: 'floor_area')  double? floorArea, @JsonKey(name: 'net_wall_area')  double? netWallArea,  double? perimeter, @JsonKey(name: 'openings_count')  int openingsCount, @JsonKey(name: 'thumbnail_url')  String? thumbnailUrl, @JsonKey(name: 'updated_at')  DateTime updatedAt)?  $default,) {final _that = this;
 switch (_that) {
 case _RoomOut() when $default != null:
-return $default(_that.id,_that.apartmentId,_that.name,_that.ceilingH,_that.geometry,_that.surfaces,_that.furnitureLayout,_that.state,_that.floorArea,_that.netWallArea,_that.perimeter,_that.openingsCount,_that.updatedAt);case _:
+return $default(_that.id,_that.apartmentId,_that.name,_that.ceilingH,_that.geometry,_that.surfaces,_that.furnitureLayout,_that.state,_that.floorArea,_that.netWallArea,_that.perimeter,_that.openingsCount,_that.thumbnailUrl,_that.updatedAt);case _:
   return null;
 
 }
@@ -227,7 +228,7 @@ return $default(_that.id,_that.apartmentId,_that.name,_that.ceilingH,_that.geome
 @JsonSerializable()
 
 class _RoomOut implements RoomOut {
-  const _RoomOut({required this.id, @JsonKey(name: 'apartment_id') required this.apartmentId, required this.name, @JsonKey(name: 'ceiling_h') this.ceilingH,  Map<String, dynamic>? geometry,  Map<String, dynamic>? surfaces, @JsonKey(name: 'furniture_layout')  List<dynamic>? furnitureLayout,  Map<String, dynamic>? state, @JsonKey(name: 'floor_area') this.floorArea, @JsonKey(name: 'net_wall_area') this.netWallArea, this.perimeter, @JsonKey(name: 'openings_count') this.openingsCount = 0, @JsonKey(name: 'updated_at') required this.updatedAt}): _geometry = geometry,_surfaces = surfaces,_furnitureLayout = furnitureLayout,_state = state;
+  const _RoomOut({required this.id, @JsonKey(name: 'apartment_id') required this.apartmentId, required this.name, @JsonKey(name: 'ceiling_h') this.ceilingH,  Map<String, dynamic>? geometry,  Map<String, dynamic>? surfaces, @JsonKey(name: 'furniture_layout')  List<dynamic>? furnitureLayout,  Map<String, dynamic>? state, @JsonKey(name: 'floor_area') this.floorArea, @JsonKey(name: 'net_wall_area') this.netWallArea, this.perimeter, @JsonKey(name: 'openings_count') this.openingsCount = 0, @JsonKey(name: 'thumbnail_url') this.thumbnailUrl, @JsonKey(name: 'updated_at') required this.updatedAt}): _geometry = geometry,_surfaces = surfaces,_furnitureLayout = furnitureLayout,_state = state;
   factory _RoomOut.fromJson(Map<String, dynamic> json) => _$RoomOutFromJson(json);
 
 @override final  String id;
@@ -274,6 +275,7 @@ class _RoomOut implements RoomOut {
 @override@JsonKey(name: 'net_wall_area') final  double? netWallArea;
 @override final  double? perimeter;
 @override@JsonKey(name: 'openings_count') final  int openingsCount;
+@override@JsonKey(name: 'thumbnail_url') final  String? thumbnailUrl;
 @override@JsonKey(name: 'updated_at') final  DateTime updatedAt;
 
 /// Create a copy of RoomOut
@@ -289,18 +291,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _RoomOut&&(identical(other.id, id) || other.id == id)&&(identical(other.apartmentId, apartmentId) || other.apartmentId == apartmentId)&&(identical(other.name, name) || other.name == name)&&(identical(other.ceilingH, ceilingH) || other.ceilingH == ceilingH)&&const DeepCollectionEquality().equals(other.geometry, _geometry)&&const DeepCollectionEquality().equals(other.surfaces, _surfaces)&&const DeepCollectionEquality().equals(other.furnitureLayout, _furnitureLayout)&&const DeepCollectionEquality().equals(other.state, _state)&&(identical(other.floorArea, floorArea) || other.floorArea == floorArea)&&(identical(other.netWallArea, netWallArea) || other.netWallArea == netWallArea)&&(identical(other.perimeter, perimeter) || other.perimeter == perimeter)&&(identical(other.openingsCount, openingsCount) || other.openingsCount == openingsCount)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _RoomOut&&(identical(other.id, id) || other.id == id)&&(identical(other.apartmentId, apartmentId) || other.apartmentId == apartmentId)&&(identical(other.name, name) || other.name == name)&&(identical(other.ceilingH, ceilingH) || other.ceilingH == ceilingH)&&const DeepCollectionEquality().equals(other.geometry, _geometry)&&const DeepCollectionEquality().equals(other.surfaces, _surfaces)&&const DeepCollectionEquality().equals(other.furnitureLayout, _furnitureLayout)&&const DeepCollectionEquality().equals(other.state, _state)&&(identical(other.floorArea, floorArea) || other.floorArea == floorArea)&&(identical(other.netWallArea, netWallArea) || other.netWallArea == netWallArea)&&(identical(other.perimeter, perimeter) || other.perimeter == perimeter)&&(identical(other.openingsCount, openingsCount) || other.openingsCount == openingsCount)&&(identical(other.thumbnailUrl, thumbnailUrl) || other.thumbnailUrl == thumbnailUrl)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,apartmentId,name,ceilingH,const DeepCollectionEquality().hash(_geometry),const DeepCollectionEquality().hash(_surfaces),const DeepCollectionEquality().hash(_furnitureLayout),const DeepCollectionEquality().hash(_state),floorArea,netWallArea,perimeter,openingsCount,updatedAt);
+    return Object.hash(runtimeType,id,apartmentId,name,ceilingH,const DeepCollectionEquality().hash(_geometry),const DeepCollectionEquality().hash(_surfaces),const DeepCollectionEquality().hash(_furnitureLayout),const DeepCollectionEquality().hash(_state),floorArea,netWallArea,perimeter,openingsCount,thumbnailUrl,updatedAt);
 }
 
 @override
 String toString() {
-    return 'RoomOut(id: $id, apartmentId: $apartmentId, name: $name, ceilingH: $ceilingH, geometry: $geometry, surfaces: $surfaces, furnitureLayout: $furnitureLayout, state: $state, floorArea: $floorArea, netWallArea: $netWallArea, perimeter: $perimeter, openingsCount: $openingsCount, updatedAt: $updatedAt)';
+    return 'RoomOut(id: $id, apartmentId: $apartmentId, name: $name, ceilingH: $ceilingH, geometry: $geometry, surfaces: $surfaces, furnitureLayout: $furnitureLayout, state: $state, floorArea: $floorArea, netWallArea: $netWallArea, perimeter: $perimeter, openingsCount: $openingsCount, thumbnailUrl: $thumbnailUrl, updatedAt: $updatedAt)';
 }
 
 
@@ -311,7 +313,7 @@ abstract mixin class _$RoomOutCopyWith<$Res> implements $RoomOutCopyWith<$Res> {
   factory _$RoomOutCopyWith(_RoomOut value, $Res Function(_RoomOut) _then) = __$RoomOutCopyWithImpl;
 @override @useResult
 $Res call({
- String id,@JsonKey(name: 'apartment_id') String apartmentId, String name,@JsonKey(name: 'ceiling_h') double? ceilingH, Map<String, dynamic>? geometry, Map<String, dynamic>? surfaces,@JsonKey(name: 'furniture_layout') List<dynamic>? furnitureLayout, Map<String, dynamic>? state,@JsonKey(name: 'floor_area') double? floorArea,@JsonKey(name: 'net_wall_area') double? netWallArea, double? perimeter,@JsonKey(name: 'openings_count') int openingsCount,@JsonKey(name: 'updated_at') DateTime updatedAt
+ String id,@JsonKey(name: 'apartment_id') String apartmentId, String name,@JsonKey(name: 'ceiling_h') double? ceilingH, Map<String, dynamic>? geometry, Map<String, dynamic>? surfaces,@JsonKey(name: 'furniture_layout') List<dynamic>? furnitureLayout, Map<String, dynamic>? state,@JsonKey(name: 'floor_area') double? floorArea,@JsonKey(name: 'net_wall_area') double? netWallArea, double? perimeter,@JsonKey(name: 'openings_count') int openingsCount,@JsonKey(name: 'thumbnail_url') String? thumbnailUrl,@JsonKey(name: 'updated_at') DateTime updatedAt
 });
 
 
@@ -328,7 +330,7 @@ class __$RoomOutCopyWithImpl<$Res>
 
 /// Create a copy of RoomOut
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? apartmentId = null,Object? name = null,Object? ceilingH = freezed,Object? geometry = freezed,Object? surfaces = freezed,Object? furnitureLayout = freezed,Object? state = freezed,Object? floorArea = freezed,Object? netWallArea = freezed,Object? perimeter = freezed,Object? openingsCount = null,Object? updatedAt = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? apartmentId = null,Object? name = null,Object? ceilingH = freezed,Object? geometry = freezed,Object? surfaces = freezed,Object? furnitureLayout = freezed,Object? state = freezed,Object? floorArea = freezed,Object? netWallArea = freezed,Object? perimeter = freezed,Object? openingsCount = null,Object? thumbnailUrl = freezed,Object? updatedAt = null,}) {
   return _then(_RoomOut(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,apartmentId: null == apartmentId ? _self.apartmentId : apartmentId // ignore: cast_nullable_to_non_nullable
@@ -342,7 +344,8 @@ as Map<String, dynamic>?,floorArea: freezed == floorArea ? _self.floorArea : flo
 as double?,netWallArea: freezed == netWallArea ? _self.netWallArea : netWallArea // ignore: cast_nullable_to_non_nullable
 as double?,perimeter: freezed == perimeter ? _self.perimeter : perimeter // ignore: cast_nullable_to_non_nullable
 as double?,openingsCount: null == openingsCount ? _self.openingsCount : openingsCount // ignore: cast_nullable_to_non_nullable
-as int,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
+as int,thumbnailUrl: freezed == thumbnailUrl ? _self.thumbnailUrl : thumbnailUrl // ignore: cast_nullable_to_non_nullable
+as String?,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,
   ));
 }

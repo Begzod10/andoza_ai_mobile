@@ -3,29 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tamir_uy_mobile_flutter/l10n/app_localizations.dart';
-import 'package:tamir_uy_mobile_flutter/providers/lidar_provider.dart';
 import 'package:tamir_uy_mobile_flutter/providers/room_provider.dart';
 import 'package:tamir_uy_mobile_flutter/screens/room_setup/dimensions_entry_screen.dart';
 import 'package:tamir_uy_mobile_flutter/screens/room_setup/room_summary_screen.dart';
-import 'package:tamir_uy_mobile_flutter/screens/scanning/lidar_scanning_screen.dart';
 import 'package:tamir_uy_mobile_flutter/screens/scanning/photo_scanning_screen.dart';
-import 'package:tamir_uy_mobile_flutter/services/lidar_service.dart';
-
-/// A LiDAR service that reports availability and returns a fixed bounding box,
-/// so the screen takes its real-device path (no emulator timer).
-class _FakeLidar extends LidarService {
-  @override
-  Future<bool> isLidarAvailable() async => true;
-
-  @override
-  Future<Map<String, double>> scanRoom() async => {
-        'width': 3.0,
-        'length': 5.0,
-        'height': 2.7,
-        'pointCount': 0,
-        'durationMs': 0,
-      };
-}
 
 GoRouter _routerTo(Widget home, String nextPath) => GoRouter(
       routes: [
@@ -43,41 +24,6 @@ Future<void> _enlarge(WidgetTester tester) async {
 }
 
 void main() {
-  testWidgets('LiDAR real-scan path lands a rectangle plan from the bounding box',
-      (tester) async {
-    await _enlarge(tester);
-    final container = ProviderContainer(
-      overrides: [lidarServiceProvider.overrideWithValue(_FakeLidar())],
-    );
-    addTearDown(container.dispose);
-
-    await tester.pumpWidget(
-      UncontrolledProviderScope(
-        container: container,
-        child: MaterialApp.router(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          locale: const Locale('uz'),
-          routerConfig: _routerTo(
-            const LiDARScanningScreen(),
-            '/setup/wall-measurements',
-          ),
-        ),
-      ),
-    );
-    // Run the post-frame _start() + its async scan/seed/navigate.
-    await tester.pump();
-    await tester.pump(const Duration(milliseconds: 50));
-
-    final plan = container.read(activeRoomPlanProvider);
-    expect(plan, isNotNull);
-    expect(plan!.isAxisAlignedRect, isTrue);
-    expect(plan.boundingSize.width, closeTo(3.0, 1e-9));
-    expect(plan.boundingSize.length, closeTo(5.0, 1e-9));
-    expect(plan.ceilingHeightM, closeTo(2.7, 1e-9));
-    expect(container.read(activeRoomProvider), isNotNull);
-  });
-
   testWidgets('Photo 360° capture seeds a default rectangle plan',
       (tester) async {
     await _enlarge(tester);

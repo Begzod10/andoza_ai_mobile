@@ -1,6 +1,8 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/room_model.dart';
@@ -353,8 +355,31 @@ class _ManualEntryTab extends ConsumerWidget {
   }
 }
 
-class _FloorplanUploadTab extends StatelessWidget {
+class _FloorplanUploadTab extends StatefulWidget {
   const _FloorplanUploadTab();
+
+  @override
+  State<_FloorplanUploadTab> createState() => _FloorplanUploadTabState();
+}
+
+class _FloorplanUploadTabState extends State<_FloorplanUploadTab> {
+  File? _pickedImage;
+  bool _picking = false;
+
+  Future<void> _chooseFile() async {
+    setState(() => _picking = true);
+    try {
+      final picked = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 90,
+      );
+      if (picked != null && mounted) {
+        setState(() => _pickedImage = File(picked.path));
+      }
+    } finally {
+      if (mounted) setState(() => _picking = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -373,23 +398,36 @@ class _FloorplanUploadTab extends StatelessWidget {
             ),
             child: Column(
               children: [
-                Container(
-                  width: 76,
-                  height: 76,
-                  decoration: const BoxDecoration(
-                    color: DesignTokens.borderGrayAlt,
-                    shape: BoxShape.circle,
+                if (_pickedImage != null)
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                    child: Image.file(
+                      _pickedImage!,
+                      height: 120,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                else
+                  Container(
+                    width: 76,
+                    height: 76,
+                    decoration: const BoxDecoration(
+                      color: DesignTokens.borderGrayAlt,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.cloud_upload_outlined,
+                      color: DesignTokens.primaryBlue,
+                      size: DesignTokens.iconXl,
+                    ),
                   ),
-                  child: const Icon(
-                    Icons.cloud_upload_outlined,
-                    color: DesignTokens.primaryBlue,
-                    size: DesignTokens.iconXl,
-                  ),
-                ),
                 const SizedBox(height: DesignTokens.spacingMd),
                 Text(
-                  l10n.dimensionsUploadTitle,
+                  _pickedImage != null
+                      ? _pickedImage!.path.split('/').last
+                      : l10n.dimensionsUploadTitle,
                   style: DesignTokens.subtitle1,
+                  textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: DesignTokens.spacingXs),
                 Text(
@@ -401,8 +439,8 @@ class _FloorplanUploadTab extends StatelessWidget {
                 ),
                 const SizedBox(height: DesignTokens.spacingMd),
                 OutlinedButton(
-                  onPressed: () {},
-                  child: Text(l10n.dimensionsChooseFile),
+                  onPressed: _picking ? null : _chooseFile,
+                  child: Text(_picking ? '...' : l10n.dimensionsChooseFile),
                 ),
               ],
             ),

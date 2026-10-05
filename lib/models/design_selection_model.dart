@@ -85,6 +85,26 @@ final List<SurfaceCondition> kSurfaceConditions = SurfaceCondition.values
     .where((c) => c != SurfaceCondition.unknown)
     .toList(growable: false);
 
+/// Display labels for the canonical 8 [RenovationStage]s, shared by any
+/// stage-line, savings-banner, or breakdown UI so the mapping lives in one
+/// place instead of being duplicated per-screen. Deliberately excludes
+/// [RenovationStage.unknown] — callers decide their own fallback for it.
+const Map<RenovationStage, String> kStageLabels = {
+  RenovationStage.suvoq: 'Suvoq',
+  RenovationStage.shpaklovka: 'Shpaklovka',
+  RenovationStage.boyoqOboi: 'Bo\'yoq/Oboi',
+  RenovationStage.pol: 'Pol',
+  RenovationStage.mebel: 'Mebel',
+  RenovationStage.elektr: 'Elektr montaj',
+  RenovationStage.yoruglik: 'Yorug\'lik',
+  RenovationStage.santexnika: 'Santexnika',
+};
+
+/// Human-readable label for [stage], or `null` for [RenovationStage.unknown]
+/// (and any future stage this map predates) — callers supply their own
+/// fallback text (e.g. an AppLocalizations string) for that case.
+String? stageLabel(RenovationStage stage) => kStageLabels[stage];
+
 /// Derives the display state of every [RenovationStage] from the room's
 /// starting [condition] and how far the user has progressed
 /// ([currentStage]). Stages already satisfied by the room's pre-existing

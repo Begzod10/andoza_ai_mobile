@@ -1,6 +1,8 @@
 /// Do'kon (Batch S) domain types.
 library;
 
+import '../l10n/app_localizations.dart';
+
 // Mock/local-only — no backend `/shop` endpoint exists, same rationale as
 // masters_provider.dart's [MockMaster].
 
@@ -131,11 +133,16 @@ class StageMaterialGroup {
 
 class StageMaterialItem {
   const StageMaterialItem({
+    required this.productId,
     required this.name,
     required this.quantity,
     required this.unit,
   });
 
+  /// Looks this item back up in [Product] catalog (image, price, brand) for
+  /// S2's row UI and cart add — kept as an id rather than embedding the
+  /// whole [Product] so this stays a plain quantity/unit summary.
+  final String productId;
   final String name;
   final double quantity;
   final String unit;
@@ -144,11 +151,11 @@ class StageMaterialItem {
 enum OrderStep { accepted, gathering, onTheWay, delivered }
 
 extension OrderStepInfo on OrderStep {
-  String get label => switch (this) {
-    OrderStep.accepted => 'Qabul qilindi',
-    OrderStep.gathering => 'Yig\'ilmoqda',
-    OrderStep.onTheWay => 'Yo\'lda',
-    OrderStep.delivered => 'Yetkazildi',
+  String label(AppLocalizations l10n) => switch (this) {
+    OrderStep.accepted => l10n.orderStepAccepted,
+    OrderStep.gathering => l10n.orderStepGathering,
+    OrderStep.onTheWay => l10n.orderStepOnTheWay,
+    OrderStep.delivered => l10n.orderStepDelivered,
   };
 }
 

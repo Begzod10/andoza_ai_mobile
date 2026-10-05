@@ -91,12 +91,24 @@ class S7OrderConfirmationScreen extends ConsumerWidget {
                 IconButton(
                   icon: const Icon(Icons.call_outlined),
                   tooltip: l10n.a11yCallDealer,
-                  onPressed: () {},
+                  onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        l10n.shopDealerPhoneUnavailable(o.dealerName),
+                      ),
+                    ),
+                  ),
                 ),
                 IconButton(
                   icon: const Icon(Icons.message_outlined),
                   tooltip: l10n.a11yMessageDealer,
-                  onPressed: () {},
+                  onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        l10n.shopDealerMessageUnavailable(o.dealerName),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -128,7 +140,7 @@ class S7OrderConfirmationScreen extends ConsumerWidget {
             child: OutlinedButton(
               onPressed: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(l10n.shopMasterNotified)),
+                  SnackBar(content: Text(l10n.profileComingSoon)),
                 );
               },
               child: Text(l10n.shopHandToMaster),
@@ -163,6 +175,7 @@ class _StepRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final color = switch (state) {
       _StepState.done => DesignTokens.successGreen,
       _StepState.active => DesignTokens.primaryBlue,
@@ -193,7 +206,7 @@ class _StepRow extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: DesignTokens.spacingMd),
             child: Text(
-              step.label,
+              step.label(l10n),
               style: DesignTokens.body2.copyWith(
                 color: DesignTokens.textDark,
                 fontWeight: state == _StepState.active

@@ -7,6 +7,7 @@ import '../../models/design_selection_model.dart';
 import '../../providers/design_provider.dart';
 import '../../providers/electrical_provider.dart';
 import '../../providers/room_provider.dart';
+import '../../widgets/common/skeleton_loader.dart';
 import '../../widgets/electrical/wire_routing_view.dart';
 import '../../widgets/room/room_perspective_view.dart';
 
@@ -73,7 +74,7 @@ class _D8ElectricalSummaryScreenState
             ),
             Expanded(
               child: layout == null || room == null
-                  ? const Center(child: CircularProgressIndicator())
+                  ? const _D8Skeleton()
                   : Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: DesignTokens.screenPaddingHorizontal,
@@ -138,6 +139,43 @@ class _D8ElectricalSummaryScreenState
                     ),
                   ),
                 ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Mimics the default "both" split view (2D wire-routing plan stacked above
+/// the 3D room perspective) so the skeleton doesn't reflow when the real
+/// layout/room data arrives.
+class _D8Skeleton extends StatelessWidget {
+  const _D8Skeleton();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: DesignTokens.screenPaddingHorizontal,
+      ),
+      child: SkeletonShimmer(
+        child: Column(
+          children: [
+            Expanded(
+              child: SkeletonBox(
+                width: double.infinity,
+                height: double.infinity,
+                borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
+              ),
+            ),
+            const SizedBox(height: DesignTokens.spacingMd),
+            Expanded(
+              child: SkeletonBox(
+                width: double.infinity,
+                height: double.infinity,
+                borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
               ),
             ),
           ],

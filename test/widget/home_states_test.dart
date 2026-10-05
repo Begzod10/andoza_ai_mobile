@@ -8,6 +8,7 @@ import 'package:tamir_uy_mobile_flutter/screens/home/home_empty_screen.dart';
 import 'package:tamir_uy_mobile_flutter/screens/home/home_with_projects_screen.dart';
 import 'package:tamir_uy_mobile_flutter/utils/error_mapper.dart';
 import 'package:tamir_uy_mobile_flutter/widgets/common/error_view.dart';
+import 'package:tamir_uy_mobile_flutter/widgets/common/skeleton_loader.dart';
 
 import '../support/localized_pump.dart';
 
@@ -38,12 +39,13 @@ ProjectItem _project(String name) => ProjectItem(
     );
 
 void main() {
-  testWidgets('loading state shows a progress indicator', (tester) async {
+  testWidgets('loading state shows the skeleton shimmer', (tester) async {
     await _pumpWithProjects(tester, const AsyncLoading());
-    // Do NOT settle: a CircularProgressIndicator animates forever.
+    // Do NOT settle: the shimmer's AnimationController repeats forever.
     await tester.pump();
 
-    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    expect(find.byType(SkeletonShimmer), findsOneWidget);
+    expect(find.byType(SkeletonBox), findsWidgets);
   });
 
   testWidgets('error state shows ErrorView with title, message and retry',

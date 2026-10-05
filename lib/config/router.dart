@@ -12,7 +12,6 @@ import '../screens/home/home_with_projects_screen.dart';
 import '../screens/room_setup/dimensions_entry_screen.dart';
 import '../screens/room_setup/wall_measurements_screen.dart';
 import '../screens/room_setup/room_summary_screen.dart';
-import '../screens/scanning/lidar_scanning_screen.dart';
 import '../screens/scanning/photo_scanning_screen.dart';
 import '../screens/scanning/room_scan_screen.dart';
 import '../screens/scanning/room_scan_review_page.dart';
@@ -34,6 +33,9 @@ import '../screens/estimation/e1_estimation_intro_screen.dart';
 import '../screens/estimation/e2_material_costs_screen.dart';
 import '../screens/estimation/e3_labor_costs_screen.dart';
 import '../models/shop_model.dart';
+import '../providers/business_provider.dart' show BusinessKind;
+import '../screens/business/business_apply_screen.dart';
+import '../screens/business/business_screen.dart';
 import '../screens/shop/e10_search_results_screen.dart';
 import '../screens/shop/s1_shop_home_screen.dart';
 import '../screens/shop/s2_project_materials_screen.dart';
@@ -99,7 +101,12 @@ final routerProvider = Provider<GoRouter>((ref) {
         routes: [
           GoRoute(
             path: '/',
-            builder: (context, state) => const HomeWithProjectsScreen(),
+            // NoTransitionPage: bottom-nav tabs are a swap, not a push — no
+            // slide in either direction (the default MaterialPage transition
+            // always slides in from the right, even on the way "back" to a
+            // tab positioned left of the previous one).
+            pageBuilder: (context, state) =>
+                const NoTransitionPage(child: HomeWithProjectsScreen()),
           ),
           // No separate "history" concept in the spec — orders are the
           // only history this app tracks, so /history shows the same
@@ -110,7 +117,8 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/profile',
-            builder: (context, state) => const E4ProfileSettingsScreen(),
+            pageBuilder: (context, state) =>
+                const NoTransitionPage(child: E4ProfileSettingsScreen()),
           ),
           GoRoute(
             path: '/setup/dimensions',
@@ -128,17 +136,12 @@ final routerProvider = Provider<GoRouter>((ref) {
             builder: (context, state) => const RoomSummaryScreen(),
           ),
           GoRoute(
-            path: '/scanning/lidar',
-            builder: (context, state) => const LiDARScanningScreen(),
-          ),
-          GoRoute(
             path: '/scanning/photo',
             builder: (context, state) => const PhotoScanningScreen(),
           ),
           // RoomPlan (LiDAR) capture — the parametric flow behind the "LiDAR
-          // skaner" entry. Distinct from the legacy simulated /scanning/lidar
-          // (kept for its widget test); this one probes support, presents the
-          // native scanner, and reviews the converted room.
+          // skaner" entry. Probes support, presents the native scanner, and
+          // reviews the converted room.
           GoRoute(
             path: '/scanning/roomplan',
             builder: (context, state) => const RoomScanScreen(),
@@ -229,7 +232,8 @@ final routerProvider = Provider<GoRouter>((ref) {
           // Shop Routes (S1-S7)
           GoRoute(
             path: '/shop/s1',
-            builder: (context, state) => const S1ShopHomeScreen(),
+            pageBuilder: (context, state) =>
+                const NoTransitionPage(child: S1ShopHomeScreen()),
           ),
           // E10 (Qidiruv natijalari) is a Do'kon search-results screen,
           // not an estimate screen — the old /estimation/e10 path/file was
@@ -274,7 +278,8 @@ final routerProvider = Provider<GoRouter>((ref) {
           // _PinSheet).
           GoRoute(
             path: '/masters/u1',
-            builder: (context, state) => const U1MastersIntroScreen(),
+            pageBuilder: (context, state) =>
+                const NoTransitionPage(child: U1MastersIntroScreen()),
           ),
           GoRoute(
             path: '/masters/u3',
@@ -311,7 +316,20 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: '/profile/settings',
             builder: (context, state) => const E9PreferencesSettingsScreen(),
           ),
+          GoRoute(
+            path: '/business',
+            builder: (context, state) => const BusinessScreen(),
+          ),
         ],
+      ),
+      // The shop / usta application is a full-screen form, outside the shell
+      // like the other takeovers (see the E7/E8 note below).
+      GoRoute(
+        path: '/business/apply/:kind',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => BusinessApplyScreen(
+          kind: state.pathParameters['kind'] == 'usta' ? BusinessKind.usta : BusinessKind.shop,
+        ),
       ),
       // E7/E8 are full-screen dark onboarding takeovers per spec — kept
       // outside the ShellRoute so AppShell's bottom nav/FAB don't bleed

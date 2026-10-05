@@ -47,6 +47,49 @@ class _S1ShopHomeScreenState extends ConsumerState<S1ShopHomeScreen> {
         automaticallyImplyLeading: false,
         title: Text(l10n.navShop, style: DesignTokens.heading3),
         actions: [
+          // Replaces the old full-width "Loyihangiz uchun" banner — same
+          // destination (S2's stage-grouped materials checklist), but as a
+          // compact header icon+badge so the product grid gets the space
+          // back instead of a banner repeating what the badge already says.
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.grid_view_rounded),
+                tooltip: l10n.shopMaterialsTitle,
+                onPressed: () => context.push('/shop/s2'),
+              ),
+              if (projectItems.isNotEmpty)
+                Positioned(
+                  right: 2,
+                  top: 2,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 5,
+                      vertical: 1,
+                    ),
+                    decoration: BoxDecoration(
+                      color: DesignTokens.primaryBlue,
+                      borderRadius: BorderRadius.circular(
+                        DesignTokens.radiusFull,
+                      ),
+                      border: Border.all(
+                        color: DesignTokens.backgroundLight,
+                        width: 1.5,
+                      ),
+                    ),
+                    child: Text(
+                      '${projectItems.length}',
+                      style: const TextStyle(
+                        color: DesignTokens.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          ),
           Stack(
             children: [
               IconButton(
@@ -105,31 +148,43 @@ class _S1ShopHomeScreenState extends ConsumerState<S1ShopHomeScreen> {
                   context.push('/shop/search', extra: value),
             ),
           ),
-          const SizedBox(height: DesignTokens.spacingMd),
-          _ProjectBanner(projectItemCount: projectItems.length),
           const SizedBox(height: DesignTokens.spacingLg),
           SizedBox(
             height: 40,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                _CategoryChip(
-                  label: l10n.shopFilterAll,
-                  selected: _filter == null,
-                  onTap: () => setState(() => _filter = null),
-                ),
-                for (final category in ShopCategory.values)
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: DesignTokens.spacingSm,
-                    ),
-                    child: _CategoryChip(
-                      label: category.label,
-                      selected: _filter == category,
-                      onTap: () => setState(() => _filter = category),
-                    ),
+            child: ShaderMask(
+              shaderCallback: (bounds) {
+                return const LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [Colors.black, Colors.black, Colors.transparent],
+                  stops: [0.0, 0.88, 1.0],
+                ).createShader(bounds);
+              },
+              blendMode: BlendMode.dstIn,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  _CategoryChip(
+                    label: l10n.shopFilterAll,
+                    selected: _filter == null,
+                    onTap: () => setState(() => _filter = null),
                   ),
-              ],
+                  for (final category in ShopCategory.values)
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: DesignTokens.spacingSm,
+                      ),
+                      child: _CategoryChip(
+                        label: category.label,
+                        selected: _filter == category,
+                        onTap: () => setState(() => _filter = category),
+                      ),
+                    ),
+                  // Trailing spacer so the gradient fades over blank space
+                  // rather than clipping the last chip's text.
+                  const SizedBox(width: DesignTokens.spacingMd),
+                ],
+              ),
             ),
           ),
           const SizedBox(height: DesignTokens.spacingLg),
@@ -157,67 +212,6 @@ class _S1ShopHomeScreenState extends ConsumerState<S1ShopHomeScreen> {
   }
 }
 
-class _ProjectBanner extends StatelessWidget {
-  const _ProjectBanner({required this.projectItemCount});
-
-  final int projectItemCount;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
-    return Semantics(
-      button: true,
-      child: InkWell(
-      borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
-      onTap: () => context.push('/shop/s2'),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(DesignTokens.spacingLg),
-        decoration: BoxDecoration(
-          color: DesignTokens.primaryBlue,
-          borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
-          boxShadow: const [DesignTokens.shadowElevated],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              l10n.shopProjectBannerLabel,
-              style: DesignTokens.caption.copyWith(
-                color: DesignTokens.white.withValues(alpha: 0.7),
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.0,
-              ),
-            ),
-            const SizedBox(height: DesignTokens.spacingXs),
-            Text(
-              l10n.shopProjectBannerTitle,
-              style: DesignTokens.subtitle1.copyWith(color: DesignTokens.white),
-            ),
-            const SizedBox(height: DesignTokens.spacingXs),
-            Text(
-              projectItemCount > 0
-                  ? l10n.shopProjectBannerCount(projectItemCount)
-                  : l10n.shopProjectBannerCalculating,
-              style: DesignTokens.body2.copyWith(
-                color: DesignTokens.white.withValues(alpha: 0.85),
-              ),
-            ),
-            const SizedBox(height: DesignTokens.spacingSm),
-            Text(
-              l10n.shopSeeAllArrow,
-              style: DesignTokens.body2.copyWith(
-                color: DesignTokens.white,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
-        ),
-      ),
-      ),
-    );
-  }
-}
 
 class _CategoryChip extends StatelessWidget {
   const _CategoryChip({

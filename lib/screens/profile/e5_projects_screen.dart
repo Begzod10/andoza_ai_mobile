@@ -49,11 +49,6 @@ class _E5ProjectsScreenState extends ConsumerState<E5ProjectsScreen> {
         elevation: 0,
         title: Text(l10n.profileMenuProjects, style: DesignTokens.heading3),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => showNewProjectSheet(context),
-        icon: const Icon(Icons.add),
-        label: Text(l10n.profileNewProject),
-      ),
       body: Column(
         children: [
           Padding(

@@ -105,9 +105,15 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
                 Text(product.name, style: DesignTokens.heading3),
                 const SizedBox(height: DesignTokens.spacingXs),
                 Text(
-                  '${formatSom(product.pricePerUnit)} / ${product.unit}',
+                  '${formatSom(defaultDealer.pricePerUnit)} / ${product.unit}',
                   style: DesignTokens.subtitle1.copyWith(
                     color: DesignTokens.primaryBlue,
+                  ),
+                ),
+                Text(
+                  l10n.shopPriceFromDealer(defaultDealer.name),
+                  style: DesignTokens.caption.copyWith(
+                    color: DesignTokens.textGray,
                   ),
                 ),
                 if (product.isInProject) ...[

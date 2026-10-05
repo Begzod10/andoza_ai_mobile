@@ -13,13 +13,11 @@ import '../room_setup/new_project_sheet.dart';
 import 'wall_measurements_screen.dart';
 import '../../utils/opening_position.dart';
 
-const _summaryRoomName = 'Mehmonxona ta\'miri';
-
 /// Builds the authoritative rectangle [RoomPlan] from the captured walls: a box
 /// whose width is wall B's run and length is wall A's run, carrying each wall's
 /// openings. This is the single source both the on-screen stats and the
 /// `/design/b1` handoff read, replacing the old duplicated inline area math.
-RoomPlan _planFromWalls(List<WallMeasurement> walls) {
+RoomPlan _planFromWalls(List<WallMeasurement> walls, String roomName) {
   final wallA = walls.firstWhere(
     (w) => w.type == WallType.wallA,
     orElse: () => walls[0],
@@ -53,7 +51,7 @@ RoomPlan _planFromWalls(List<WallMeasurement> walls) {
     length: length,
     ceilingHeightM: wallA.height,
     source: RoomSource.wizard,
-    name: _summaryRoomName,
+    name: roomName,
     wallOpenings: [
       openingsFor(WallType.wallA, length),
       openingsFor(WallType.wallB, width),
@@ -103,7 +101,7 @@ class _RoomSummaryScreenState extends ConsumerState<RoomSummaryScreen>
 
     // The rectangle plan is the single source of truth for the stats below —
     // its getters replace the old duplicated inline area math.
-    final plan = _planFromWalls(walls);
+    final plan = _planFromWalls(walls, l10n.roomSetupDefaultProjectName);
     final floorArea = plan.areaM2;
     final perimeter = plan.perimeterM;
     final nettoWallArea = plan.netWallAreaM2;
@@ -223,15 +221,16 @@ class _RoomSummaryScreenState extends ConsumerState<RoomSummaryScreen>
   }
 
   void _continueToNextBatch(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     final walls = ref.read(wallMeasurementsProvider);
     final roomId = DateTime.now().microsecondsSinceEpoch.toString();
 
     // The rectangle plan is the in-app source of truth; setPlan mirrors a
     // bounding legacy Room into activeRoomProvider so /design/b1 works unchanged.
     ref.read(activeRoomPlanProvider.notifier).setPlan(
-          _planFromWalls(walls),
+          _planFromWalls(walls, l10n.roomSetupDefaultProjectName),
           legacyRoomId: roomId,
-          legacyName: _summaryRoomName,
+          legacyName: l10n.roomSetupDefaultProjectName,
         );
 
     ref
@@ -250,7 +249,7 @@ class _RoomSummaryScreenState extends ConsumerState<RoomSummaryScreen>
         .addProject(
           ProjectItem(
             id: roomId,
-            name: _summaryRoomName,
+            name: l10n.roomSetupDefaultProjectName,
             location: '',
             roomCount: 1,
             createdAt: DateTime.now(),

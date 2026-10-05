@@ -3249,6 +3249,288 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'OK'**
   String get settingsUpdatesDialogOk;
+
+  /// No description provided for @registerRoleTitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Siz kimsiz?'**
+  String get registerRoleTitle;
+
+  /// No description provided for @roleUser.
+  ///
+  /// In uz, this message translates to:
+  /// **'Foydalanuvchi'**
+  String get roleUser;
+
+  /// No description provided for @roleUserDesc.
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'z ta\'mir va dizayn loyihalarim uchun'**
+  String get roleUserDesc;
+
+  /// No description provided for @roleShop.
+  ///
+  /// In uz, this message translates to:
+  /// **'Do\'kon egasi'**
+  String get roleShop;
+
+  /// No description provided for @roleShopDesc.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mebel va materiallarimni sotaman'**
+  String get roleShopDesc;
+
+  /// No description provided for @roleUsta.
+  ///
+  /// In uz, this message translates to:
+  /// **'Usta'**
+  String get roleUsta;
+
+  /// No description provided for @roleUstaDesc.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ta\'mir xizmatlarini taklif qilaman'**
+  String get roleUstaDesc;
+
+  /// No description provided for @businessApplyShopTitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Do\'kon arizasi'**
+  String get businessApplyShopTitle;
+
+  /// No description provided for @businessApplyUstaTitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Usta arizasi'**
+  String get businessApplyUstaTitle;
+
+  /// No description provided for @businessApplyIntro.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ma\'lumotlaringizni kiriting. Adminlar ko\'rib chiqib, tasdiqlagach ro\'yxatda ko\'rinasiz.'**
+  String get businessApplyIntro;
+
+  /// No description provided for @businessFieldShopName.
+  ///
+  /// In uz, this message translates to:
+  /// **'Do\'kon nomi'**
+  String get businessFieldShopName;
+
+  /// No description provided for @businessFieldUstaName.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ismingiz yoki jamoa nomi'**
+  String get businessFieldUstaName;
+
+  /// No description provided for @businessFieldTrade.
+  ///
+  /// In uz, this message translates to:
+  /// **'Kasbingiz'**
+  String get businessFieldTrade;
+
+  /// No description provided for @businessFieldDistrict.
+  ///
+  /// In uz, this message translates to:
+  /// **'Tuman'**
+  String get businessFieldDistrict;
+
+  /// No description provided for @businessFieldPhone.
+  ///
+  /// In uz, this message translates to:
+  /// **'Telefon (+998...)'**
+  String get businessFieldPhone;
+
+  /// No description provided for @businessFieldTelegram.
+  ///
+  /// In uz, this message translates to:
+  /// **'Telegram (ixtiyoriy)'**
+  String get businessFieldTelegram;
+
+  /// No description provided for @businessFieldPriceMin.
+  ///
+  /// In uz, this message translates to:
+  /// **'Narx: dan (so\'m)'**
+  String get businessFieldPriceMin;
+
+  /// No description provided for @businessFieldPriceMax.
+  ///
+  /// In uz, this message translates to:
+  /// **'Narx: gacha (so\'m)'**
+  String get businessFieldPriceMax;
+
+  /// No description provided for @businessSubmit.
+  ///
+  /// In uz, this message translates to:
+  /// **'Arizani yuborish'**
+  String get businessSubmit;
+
+  /// No description provided for @businessSkip.
+  ///
+  /// In uz, this message translates to:
+  /// **'Keyinroq'**
+  String get businessSkip;
+
+  /// No description provided for @businessErrorName.
+  ///
+  /// In uz, this message translates to:
+  /// **'Nomni kiriting'**
+  String get businessErrorName;
+
+  /// No description provided for @businessErrorPhone.
+  ///
+  /// In uz, this message translates to:
+  /// **'Telefonni +998 bilan to\'liq kiriting'**
+  String get businessErrorPhone;
+
+  /// No description provided for @businessErrorPrice.
+  ///
+  /// In uz, this message translates to:
+  /// **'Maksimal narx minimaldan kam bo\'lmasin'**
+  String get businessErrorPrice;
+
+  /// No description provided for @businessErrorExists.
+  ///
+  /// In uz, this message translates to:
+  /// **'Sizda allaqachon bunday ariza bor'**
+  String get businessErrorExists;
+
+  /// No description provided for @businessErrorFailed.
+  ///
+  /// In uz, this message translates to:
+  /// **'Arizani yuborib bo\'lmadi. Qayta urinib ko\'ring.'**
+  String get businessErrorFailed;
+
+  /// No description provided for @businessTitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Biznesim'**
+  String get businessTitle;
+
+  /// No description provided for @businessShopSection.
+  ///
+  /// In uz, this message translates to:
+  /// **'Do\'kon'**
+  String get businessShopSection;
+
+  /// No description provided for @businessUstaSection.
+  ///
+  /// In uz, this message translates to:
+  /// **'Usta profilim'**
+  String get businessUstaSection;
+
+  /// No description provided for @businessStatusPending.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ko\'rib chiqilmoqda'**
+  String get businessStatusPending;
+
+  /// No description provided for @businessStatusApproved.
+  ///
+  /// In uz, this message translates to:
+  /// **'Tasdiqlangan'**
+  String get businessStatusApproved;
+
+  /// No description provided for @businessStatusRejected.
+  ///
+  /// In uz, this message translates to:
+  /// **'Rad etilgan'**
+  String get businessStatusRejected;
+
+  /// No description provided for @businessPendingHint.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ariza adminlar tomonidan ko\'rib chiqilmoqda. Tasdiqlangach ro\'yxatda ko\'rinasiz.'**
+  String get businessPendingHint;
+
+  /// No description provided for @businessApprovedHint.
+  ///
+  /// In uz, this message translates to:
+  /// **'Profilingiz ro\'yxatda ko\'rinadi.'**
+  String get businessApprovedHint;
+
+  /// No description provided for @businessResubmit.
+  ///
+  /// In uz, this message translates to:
+  /// **'Qayta yuborish'**
+  String get businessResubmit;
+
+  /// No description provided for @businessComingProducts.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mahsulotlar boshqaruvi tez kunda'**
+  String get businessComingProducts;
+
+  /// No description provided for @businessComingRequests.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mijoz so\'rovlari tez kunda'**
+  String get businessComingRequests;
+
+  /// No description provided for @businessLoadFailed.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ma\'lumotni yuklab bo\'lmadi'**
+  String get businessLoadFailed;
+
+  /// No description provided for @profileMenuBusiness.
+  ///
+  /// In uz, this message translates to:
+  /// **'Biznesim'**
+  String get profileMenuBusiness;
+
+  /// No description provided for @profileMenuBecomePartner.
+  ///
+  /// In uz, this message translates to:
+  /// **'Do\'kon yoki usta sifatida qo\'shilish'**
+  String get profileMenuBecomePartner;
+
+  /// No description provided for @tradeElektrik.
+  ///
+  /// In uz, this message translates to:
+  /// **'Elektrik'**
+  String get tradeElektrik;
+
+  /// No description provided for @tradeElektrikLoyihachi.
+  ///
+  /// In uz, this message translates to:
+  /// **'Elektr loyihachi'**
+  String get tradeElektrikLoyihachi;
+
+  /// No description provided for @tradeSantexnik.
+  ///
+  /// In uz, this message translates to:
+  /// **'Santexnik'**
+  String get tradeSantexnik;
+
+  /// No description provided for @tradeMalyar.
+  ///
+  /// In uz, this message translates to:
+  /// **'Malyar'**
+  String get tradeMalyar;
+
+  /// No description provided for @tradeOboy.
+  ///
+  /// In uz, this message translates to:
+  /// **'Oboy ustasi'**
+  String get tradeOboy;
+
+  /// No description provided for @tradeLaminat.
+  ///
+  /// In uz, this message translates to:
+  /// **'Laminat ustasi'**
+  String get tradeLaminat;
+
+  /// No description provided for @tradeBrigada.
+  ///
+  /// In uz, this message translates to:
+  /// **'Brigada'**
+  String get tradeBrigada;
+
+  /// No description provided for @businessRejectedReason.
+  ///
+  /// In uz, this message translates to:
+  /// **'Sabab: {note}'**
+  String businessRejectedReason(String note);
 }
 
 class _AppLocalizationsDelegate

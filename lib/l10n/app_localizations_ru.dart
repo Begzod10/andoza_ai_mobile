@@ -1768,4 +1768,152 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get settingsUpdatesDialogOk => 'ОК';
+
+  @override
+  String get registerRoleTitle => 'Кто вы?';
+
+  @override
+  String get roleUser => 'Пользователь';
+
+  @override
+  String get roleUserDesc => 'Для моих проектов ремонта и дизайна';
+
+  @override
+  String get roleShop => 'Владелец магазина';
+
+  @override
+  String get roleShopDesc => 'Продаю мебель и материалы';
+
+  @override
+  String get roleUsta => 'Мастер';
+
+  @override
+  String get roleUstaDesc => 'Предлагаю услуги по ремонту';
+
+  @override
+  String get businessApplyShopTitle => 'Заявка магазина';
+
+  @override
+  String get businessApplyUstaTitle => 'Заявка мастера';
+
+  @override
+  String get businessApplyIntro =>
+      'Укажите данные. После проверки администраторами вы появитесь в списке.';
+
+  @override
+  String get businessFieldShopName => 'Название магазина';
+
+  @override
+  String get businessFieldUstaName => 'Ваше имя или название бригады';
+
+  @override
+  String get businessFieldTrade => 'Ваша специальность';
+
+  @override
+  String get businessFieldDistrict => 'Район';
+
+  @override
+  String get businessFieldPhone => 'Телефон (+998...)';
+
+  @override
+  String get businessFieldTelegram => 'Telegram (необязательно)';
+
+  @override
+  String get businessFieldPriceMin => 'Цена: от (сум)';
+
+  @override
+  String get businessFieldPriceMax => 'Цена: до (сум)';
+
+  @override
+  String get businessSubmit => 'Отправить заявку';
+
+  @override
+  String get businessSkip => 'Позже';
+
+  @override
+  String get businessErrorName => 'Укажите название';
+
+  @override
+  String get businessErrorPhone => 'Введите телефон полностью, с +998';
+
+  @override
+  String get businessErrorPrice =>
+      'Максимальная цена не может быть меньше минимальной';
+
+  @override
+  String get businessErrorExists => 'У вас уже есть такая заявка';
+
+  @override
+  String get businessErrorFailed =>
+      'Не удалось отправить заявку. Попробуйте ещё раз.';
+
+  @override
+  String get businessTitle => 'Мой бизнес';
+
+  @override
+  String get businessShopSection => 'Магазин';
+
+  @override
+  String get businessUstaSection => 'Профиль мастера';
+
+  @override
+  String get businessStatusPending => 'На проверке';
+
+  @override
+  String get businessStatusApproved => 'Подтверждено';
+
+  @override
+  String get businessStatusRejected => 'Отклонено';
+
+  @override
+  String get businessPendingHint =>
+      'Заявка на проверке у администраторов. После подтверждения вы появитесь в списке.';
+
+  @override
+  String get businessApprovedHint => 'Ваш профиль виден в списке.';
+
+  @override
+  String get businessResubmit => 'Отправить повторно';
+
+  @override
+  String get businessComingProducts => 'Управление товарами скоро';
+
+  @override
+  String get businessComingRequests => 'Заявки клиентов скоро';
+
+  @override
+  String get businessLoadFailed => 'Не удалось загрузить данные';
+
+  @override
+  String get profileMenuBusiness => 'Мой бизнес';
+
+  @override
+  String get profileMenuBecomePartner =>
+      'Присоединиться как магазин или мастер';
+
+  @override
+  String get tradeElektrik => 'Электрик';
+
+  @override
+  String get tradeElektrikLoyihachi => 'Проектировщик электрики';
+
+  @override
+  String get tradeSantexnik => 'Сантехник';
+
+  @override
+  String get tradeMalyar => 'Маляр';
+
+  @override
+  String get tradeOboy => 'Мастер по обоям';
+
+  @override
+  String get tradeLaminat => 'Мастер по ламинату';
+
+  @override
+  String get tradeBrigada => 'Бригада';
+
+  @override
+  String businessRejectedReason(String note) {
+    return 'Причина: $note';
+  }
 }
