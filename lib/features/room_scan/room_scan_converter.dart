@@ -74,6 +74,9 @@ class RoomScanDraft {
 ///   derive the sill from the opening's lower edge above that floor plane
 ///   (fallback 0.9 m, as the manual mapper defaults).
 class RoomScanConverter {
+  /// Shortest a detected door / pass-through may be and still be believed.
+  static const double _minDoorHeightM = 1.5;
+
   const RoomScanConverter._();
 
   /// Endpoints are considered the same corner when closer than this (metres).
@@ -129,6 +132,11 @@ class RoomScanConverter {
         // genuine opening in good scan conditions is normally medium/high)
         // for far fewer fabricated ones.
         if (s.confidence == ScanConfidence.low) return;
+        // A "door" (or door-less pass-through) well under a person's height is
+        // not one: RoomPlan sometimes tags a radiator, a vent, a low cabinet
+        // or a wall niche as a door, and it then shows up in the 3D room as a
+        // stray door-coloured square on the wall. Real doors are ~2 m.
+        if (type == 'door' && s.dimensions.y < _minDoorHeightM) return;
         final centre = _worldToPlane(s.transform) - origin;
         final hit = _nearestWall(corners, centre);
         if (hit == null) return;

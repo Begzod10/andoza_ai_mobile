@@ -196,6 +196,16 @@ void main() {
       expect(window.sillHeight, closeTo(0.8, 0.01));
     });
 
+    test('a "door" under 1.5 m tall (a vent, radiator, niche) is not planted', () {
+      final room = _roomWithFloor(floorY: 0, doors: [
+        _opening(cx: 0, cz: -1.5, width: 0.7, yMin: 0, yMax: 0.83), // the stray square
+        _opening(cx: 1, cz: -1.5, width: 0.9, yMin: 0, yMax: 2.1), // a real door
+      ]);
+      final doors = _openingsOf(RoomScanConverter.toRoomDraft(room)).where((o) => o.type == 'door');
+      expect(doors, hasLength(1));
+      expect(doors.single.height, closeTo(2.1, 0.01));
+    });
+
     test('furniture detection is dropped — objects is always empty', () {
       // A LiDAR scan covers the room's own shape; furniture guesses from
       // RoomPlan are deliberately not carried into the draft. The fixture
