@@ -200,6 +200,15 @@ class BusinessRepository {
         fromJson: (j) => UstaProfile.fromJson(j as Map<String, dynamic>),
       );
 
+  /// A customer's request to an usta (`POST /leads`). The server attaches the
+  /// room's latest estimate as the request's snapshot, so [roomId] is only sent
+  /// when it is a saved room's id.
+  Future<void> sendLead(String ustaId, {String? roomId}) => _client.post<void>(
+        '/leads',
+        data: {'usta_id': ustaId, 'room_id': ?roomId},
+        fromJson: (_) {},
+      );
+
   Future<List<UstaLead>> fetchLeads() => _client.get<List<UstaLead>>(
         '/usta/leads',
         fromJson: (j) => [for (final i in j as List<dynamic>) UstaLead.fromJson(i as Map<String, dynamic>)],

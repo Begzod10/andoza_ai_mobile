@@ -2196,4 +2196,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get shopStatsTopEmpty => 'Данных пока нет.';
+
+  @override
+  String get mastersSendFailed => 'Не удалось отправить. Попробуйте ещё раз.';
 }

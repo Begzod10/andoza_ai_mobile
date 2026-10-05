@@ -4059,6 +4059,12 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Hali ma\'lumot yo\'q.'**
   String get shopStatsTopEmpty;
+
+  /// No description provided for @mastersSendFailed.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yuborib bo\'lmadi. Qayta urinib ko\'ring.'**
+  String get mastersSendFailed;
 }
 
 class _AppLocalizationsDelegate

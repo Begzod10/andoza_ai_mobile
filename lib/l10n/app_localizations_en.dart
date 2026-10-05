@@ -2195,4 +2195,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shopStatsTopEmpty => 'No data yet.';
+
+  @override
+  String get mastersSendFailed => 'Could not send. Try again.';
 }

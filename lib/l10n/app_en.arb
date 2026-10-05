@@ -2574,5 +2574,6 @@
   "shopStatsNewInquiries": "New inquiries",
   "shopStatsPlacements": "Times placed in rooms",
   "shopStatsTop": "Most used products",
-  "shopStatsTopEmpty": "No data yet."
+  "shopStatsTopEmpty": "No data yet.",
+  "mastersSendFailed": "Could not send. Try again."
 }

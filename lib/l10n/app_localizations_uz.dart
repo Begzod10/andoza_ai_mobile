@@ -2192,4 +2192,7 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get shopStatsTopEmpty => 'Hali ma\'lumot yo\'q.';
+
+  @override
+  String get mastersSendFailed => 'Yuborib bo\'lmadi. Qayta urinib ko\'ring.';
 }

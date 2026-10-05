@@ -2574,5 +2574,6 @@
   "shopStatsNewInquiries": "Новые обращения",
   "shopStatsPlacements": "Размещено в комнатах",
   "shopStatsTop": "Самые выбираемые товары",
-  "shopStatsTopEmpty": "Данных пока нет."
+  "shopStatsTopEmpty": "Данных пока нет.",
+  "mastersSendFailed": "Не удалось отправить. Попробуйте ещё раз."
 }

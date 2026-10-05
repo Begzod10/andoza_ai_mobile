@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
+import '../../providers/business_provider.dart';
 import '../../providers/estimate_provider.dart';
+import '../../providers/room_provider.dart';
 import '../../providers/masters_provider.dart';
 import '../../utils/currency.dart';
 
@@ -22,6 +24,34 @@ class U5BookingConfirmationScreen extends ConsumerStatefulWidget {
 class _U5BookingConfirmationScreenState
     extends ConsumerState<U5BookingConfirmationScreen> {
   final _commentController = TextEditingController();
+  bool _sending = false;
+
+  static final _uuid = RegExp(
+    r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
+    caseSensitive: false,
+  );
+
+  /// Sends the request to the usta for real (`POST /leads`); the server adds
+  /// the room's latest estimate. An unsaved room has a local id the server
+  /// would refuse, so it is left out and the usta gets the request without it.
+  Future<void> _send(MockMaster m) async {
+    final l10n = AppLocalizations.of(context)!;
+    final messenger = ScaffoldMessenger.of(context);
+    final navigator = Navigator.of(context);
+    final roomId = ref.read(activeRoomProvider)?.id;
+    setState(() => _sending = true);
+    try {
+      await ref.read(businessRepositoryProvider).sendLead(
+            m.master.id,
+            roomId: roomId != null && _uuid.hasMatch(roomId) ? roomId : null,
+          );
+      navigator.pop();
+      messenger.showSnackBar(SnackBar(content: Text(l10n.mastersEstimateSent)));
+    } catch (_) {
+      if (mounted) setState(() => _sending = false);
+      messenger.showSnackBar(SnackBar(content: Text(l10n.mastersSendFailed)));
+    }
+  }
 
   @override
   void dispose() {
@@ -100,12 +130,7 @@ class _U5BookingConfirmationScreenState
                   style: ElevatedButton.styleFrom(
                     backgroundColor: DesignTokens.accentOrange,
                   ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(l10n.mastersEstimateSent)),
-                    );
-                  },
+                  onPressed: _sending ? null : () => _send(m),
                   child: Text(l10n.mastersSend),
                 ),
               ),

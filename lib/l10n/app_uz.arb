@@ -2498,5 +2498,6 @@
   "shopStatsNewInquiries": "Yangi murojaatlar",
   "shopStatsPlacements": "Xonalarga joylashtirilgan",
   "shopStatsTop": "Eng ko'p tanlangan mahsulotlar",
-  "shopStatsTopEmpty": "Hali ma'lumot yo'q."
+  "shopStatsTopEmpty": "Hali ma'lumot yo'q.",
+  "mastersSendFailed": "Yuborib bo'lmadi. Qayta urinib ko'ring."
 }
