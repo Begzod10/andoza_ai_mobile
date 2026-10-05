@@ -31,6 +31,10 @@ final myProductsProvider = FutureProvider.autoDispose<List<ShopProduct>>((ref) {
   return ref.watch(businessRepositoryProvider).fetchProducts();
 });
 
+final myLeadsProvider = FutureProvider.autoDispose<List<UstaLead>>((ref) {
+  return ref.watch(businessRepositoryProvider).fetchLeads();
+});
+
 final myUstaProvider = FutureProvider.autoDispose<UstaProfile?>((ref) {
   return ref.watch(businessRepositoryProvider).fetchUsta();
 });

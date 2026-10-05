@@ -2061,4 +2061,61 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get placementShift => 'На потолке';
+
+  @override
+  String get ustaLeadsTitle => 'Заявки клиентов';
+
+  @override
+  String get ustaLeadsOpen => 'Заявки клиентов';
+
+  @override
+  String get ustaLeadsEmpty =>
+      'Заявок пока нет. Когда клиенты обратятся к вам со сметой, они появятся здесь.';
+
+  @override
+  String get ustaLeadCall => 'Позвонить';
+
+  @override
+  String get ustaLeadNoPhone => 'Телефон не указан';
+
+  @override
+  String get ustaLeadClient => 'Клиент';
+
+  @override
+  String ustaLeadEstimate(String total, int lines) {
+    return 'Смета: $total (строк: $lines)';
+  }
+
+  @override
+  String get leadStatusNew => 'Новая';
+
+  @override
+  String get leadStatusViewed => 'Просмотрена';
+
+  @override
+  String get leadStatusContacted => 'Связались';
+
+  @override
+  String get leadStatusClosed => 'Закрыта';
+
+  @override
+  String get ustaLeadMarkViewed => 'Просмотрено';
+
+  @override
+  String get ustaLeadMarkContacted => 'Связались';
+
+  @override
+  String get ustaLeadMarkClosed => 'Закрыть';
+
+  @override
+  String get ustaEditOpen => 'Изменить профиль';
+
+  @override
+  String get ustaEditTitle => 'Мой профиль мастера';
+
+  @override
+  String get ustaEditSave => 'Сохранить';
+
+  @override
+  String get ustaEditFailed => 'Не удалось сохранить. Попробуйте ещё раз.';
 }

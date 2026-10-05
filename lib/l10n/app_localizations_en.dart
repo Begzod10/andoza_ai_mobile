@@ -2060,4 +2060,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get placementShift => 'Ceiling';
+
+  @override
+  String get ustaLeadsTitle => 'Customer requests';
+
+  @override
+  String get ustaLeadsOpen => 'Customer requests';
+
+  @override
+  String get ustaLeadsEmpty =>
+      'No requests yet. They show up here when customers contact you with an estimate.';
+
+  @override
+  String get ustaLeadCall => 'Call';
+
+  @override
+  String get ustaLeadNoPhone => 'No phone given';
+
+  @override
+  String get ustaLeadClient => 'Customer';
+
+  @override
+  String ustaLeadEstimate(String total, int lines) {
+    return 'Estimate: $total ($lines lines)';
+  }
+
+  @override
+  String get leadStatusNew => 'New';
+
+  @override
+  String get leadStatusViewed => 'Viewed';
+
+  @override
+  String get leadStatusContacted => 'Contacted';
+
+  @override
+  String get leadStatusClosed => 'Closed';
+
+  @override
+  String get ustaLeadMarkViewed => 'Viewed';
+
+  @override
+  String get ustaLeadMarkContacted => 'Contacted';
+
+  @override
+  String get ustaLeadMarkClosed => 'Close';
+
+  @override
+  String get ustaEditOpen => 'Edit profile';
+
+  @override
+  String get ustaEditTitle => 'My craftsman profile';
+
+  @override
+  String get ustaEditSave => 'Save';
+
+  @override
+  String get ustaEditFailed => 'Could not save. Try again.';
 }

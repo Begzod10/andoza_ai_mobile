@@ -2057,4 +2057,61 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get placementShift => 'Shiftda';
+
+  @override
+  String get ustaLeadsTitle => 'Mijoz so\'rovlari';
+
+  @override
+  String get ustaLeadsOpen => 'Mijoz so\'rovlari';
+
+  @override
+  String get ustaLeadsEmpty =>
+      'Hali so\'rov yo\'q. Mijozlar sizga smeta bilan murojaat qilganda shu yerda ko\'rinadi.';
+
+  @override
+  String get ustaLeadCall => 'Qo\'ng\'iroq qilish';
+
+  @override
+  String get ustaLeadNoPhone => 'Telefon ko\'rsatilmagan';
+
+  @override
+  String get ustaLeadClient => 'Mijoz';
+
+  @override
+  String ustaLeadEstimate(String total, int lines) {
+    return 'Smeta: $total ($lines ta qator)';
+  }
+
+  @override
+  String get leadStatusNew => 'Yangi';
+
+  @override
+  String get leadStatusViewed => 'Ko\'rildi';
+
+  @override
+  String get leadStatusContacted => 'Bog\'lanildi';
+
+  @override
+  String get leadStatusClosed => 'Yopildi';
+
+  @override
+  String get ustaLeadMarkViewed => 'Ko\'rildi';
+
+  @override
+  String get ustaLeadMarkContacted => 'Bog\'lanildi';
+
+  @override
+  String get ustaLeadMarkClosed => 'Yopish';
+
+  @override
+  String get ustaEditOpen => 'Profilni tahrirlash';
+
+  @override
+  String get ustaEditTitle => 'Usta profilim';
+
+  @override
+  String get ustaEditSave => 'Saqlash';
+
+  @override
+  String get ustaEditFailed => 'Saqlab bo\'lmadi. Qayta urinib ko\'ring.';
 }

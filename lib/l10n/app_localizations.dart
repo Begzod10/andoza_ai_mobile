@@ -3807,6 +3807,114 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Shiftda'**
   String get placementShift;
+
+  /// No description provided for @ustaLeadsTitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mijoz so\'rovlari'**
+  String get ustaLeadsTitle;
+
+  /// No description provided for @ustaLeadsOpen.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mijoz so\'rovlari'**
+  String get ustaLeadsOpen;
+
+  /// No description provided for @ustaLeadsEmpty.
+  ///
+  /// In uz, this message translates to:
+  /// **'Hali so\'rov yo\'q. Mijozlar sizga smeta bilan murojaat qilganda shu yerda ko\'rinadi.'**
+  String get ustaLeadsEmpty;
+
+  /// No description provided for @ustaLeadCall.
+  ///
+  /// In uz, this message translates to:
+  /// **'Qo\'ng\'iroq qilish'**
+  String get ustaLeadCall;
+
+  /// No description provided for @ustaLeadNoPhone.
+  ///
+  /// In uz, this message translates to:
+  /// **'Telefon ko\'rsatilmagan'**
+  String get ustaLeadNoPhone;
+
+  /// No description provided for @ustaLeadClient.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mijoz'**
+  String get ustaLeadClient;
+
+  /// No description provided for @ustaLeadEstimate.
+  ///
+  /// In uz, this message translates to:
+  /// **'Smeta: {total} ({lines} ta qator)'**
+  String ustaLeadEstimate(String total, int lines);
+
+  /// No description provided for @leadStatusNew.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yangi'**
+  String get leadStatusNew;
+
+  /// No description provided for @leadStatusViewed.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ko\'rildi'**
+  String get leadStatusViewed;
+
+  /// No description provided for @leadStatusContacted.
+  ///
+  /// In uz, this message translates to:
+  /// **'Bog\'lanildi'**
+  String get leadStatusContacted;
+
+  /// No description provided for @leadStatusClosed.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yopildi'**
+  String get leadStatusClosed;
+
+  /// No description provided for @ustaLeadMarkViewed.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ko\'rildi'**
+  String get ustaLeadMarkViewed;
+
+  /// No description provided for @ustaLeadMarkContacted.
+  ///
+  /// In uz, this message translates to:
+  /// **'Bog\'lanildi'**
+  String get ustaLeadMarkContacted;
+
+  /// No description provided for @ustaLeadMarkClosed.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yopish'**
+  String get ustaLeadMarkClosed;
+
+  /// No description provided for @ustaEditOpen.
+  ///
+  /// In uz, this message translates to:
+  /// **'Profilni tahrirlash'**
+  String get ustaEditOpen;
+
+  /// No description provided for @ustaEditTitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Usta profilim'**
+  String get ustaEditTitle;
+
+  /// No description provided for @ustaEditSave.
+  ///
+  /// In uz, this message translates to:
+  /// **'Saqlash'**
+  String get ustaEditSave;
+
+  /// No description provided for @ustaEditFailed.
+  ///
+  /// In uz, this message translates to:
+  /// **'Saqlab bo\'lmadi. Qayta urinib ko\'ring.'**
+  String get ustaEditFailed;
 }
 
 class _AppLocalizationsDelegate

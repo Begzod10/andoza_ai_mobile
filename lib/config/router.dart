@@ -37,6 +37,8 @@ import '../providers/business_provider.dart' show BusinessKind;
 import '../screens/business/business_apply_screen.dart';
 import '../screens/business/business_screen.dart';
 import '../screens/business/add_product_screen.dart';
+import '../screens/business/edit_usta_screen.dart';
+import '../screens/business/usta_leads_screen.dart';
 import '../screens/business/shop_products_screen.dart';
 import '../screens/shop/e10_search_results_screen.dart';
 import '../screens/shop/s1_shop_home_screen.dart';
@@ -323,6 +325,10 @@ final routerProvider = Provider<GoRouter>((ref) {
             builder: (context, state) => const BusinessScreen(),
           ),
           GoRoute(
+            path: '/business/leads',
+            builder: (context, state) => const UstaLeadsScreen(),
+          ),
+          GoRoute(
             path: '/business/products',
             builder: (context, state) => const ShopProductsScreen(),
           ),
@@ -330,6 +336,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       // The shop / usta application is a full-screen form, outside the shell
       // like the other takeovers (see the E7/E8 note below).
+      GoRoute(
+        path: '/business/usta/edit',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const EditUstaScreen(),
+      ),
       GoRoute(
         path: '/business/products/new',
         parentNavigatorKey: _rootNavigatorKey,

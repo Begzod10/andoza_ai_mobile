@@ -114,7 +114,10 @@ class _UstaCard extends ConsumerWidget {
                 ref.invalidate(myUstaProvider);
                 ref.invalidate(accountRolesProvider);
               },
-              approvedFooter: l10n.businessComingRequests,
+              approvedFooter: l10n.ustaLeadsOpen,
+              onApprovedTap: () => context.push('/business/leads'),
+              extraActionLabel: l10n.ustaEditOpen,
+              onExtraAction: () => context.push('/business/usta/edit'),
             );
           },
         );
@@ -131,6 +134,8 @@ class _CardShell extends StatefulWidget {
     required Future<void> Function() this.onResubmit,
     required String this.approvedFooter,
     this.onApprovedTap,
+    this.extraActionLabel,
+    this.onExtraAction,
   })  : _loading = false,
         _message = null;
 
@@ -143,6 +148,8 @@ class _CardShell extends StatefulWidget {
         onResubmit = null,
         approvedFooter = null,
         onApprovedTap = null,
+        extraActionLabel = null,
+        onExtraAction = null,
         _loading = true,
         _message = null;
 
@@ -155,6 +162,8 @@ class _CardShell extends StatefulWidget {
         onResubmit = null,
         approvedFooter = null,
         onApprovedTap = null,
+        extraActionLabel = null,
+        onExtraAction = null,
         _loading = false;
 
   final IconData? icon;
@@ -165,6 +174,8 @@ class _CardShell extends StatefulWidget {
   final Future<void> Function()? onResubmit;
   final String? approvedFooter;
   final VoidCallback? onApprovedTap;
+  final String? extraActionLabel;
+  final VoidCallback? onExtraAction;
   final bool _loading;
   final String? _message;
 
@@ -262,12 +273,19 @@ class _CardShellState extends State<_CardShell> {
             Text(hint, style: DesignTokens.body2.copyWith(color: DesignTokens.textGray)),
           if (status == ModerationStatus.approved) ...[
             const SizedBox(height: DesignTokens.spacingSm),
-            if (widget.onApprovedTap != null)
+            if (widget.onApprovedTap != null) ...[
               FilledButton.tonalIcon(
                 onPressed: widget.onApprovedTap,
-                icon: const Icon(Icons.inventory_2_outlined),
+                icon: Icon(widget.onExtraAction == null ? Icons.inventory_2_outlined : Icons.inbox_outlined),
                 label: Text(widget.approvedFooter!),
-              )
+              ),
+              if (widget.onExtraAction != null)
+                TextButton.icon(
+                  onPressed: widget.onExtraAction,
+                  icon: const Icon(Icons.edit_outlined),
+                  label: Text(widget.extraActionLabel!),
+                ),
+            ]
             else
               Text(widget.approvedFooter!,
                   style: DesignTokens.caption.copyWith(color: DesignTokens.textMuted)),

@@ -212,3 +212,49 @@ class ModelJob {
     return const ModelJob();
   }
 }
+
+enum LeadStatus {
+  fresh('new'),
+  viewed('viewed'),
+  contacted('contacted'),
+  closed('closed');
+
+  const LeadStatus(this.wire);
+  final String wire;
+
+  static LeadStatus parse(Object? raw) => values.firstWhere((s) => s.wire == raw, orElse: () => LeadStatus.fresh);
+}
+
+/// A customer request in the usta's inbox (`GET /usta/leads`).
+class UstaLead {
+  const UstaLead({
+    required this.id,
+    required this.status,
+    required this.createdAt,
+    this.clientName,
+    this.clientPhone,
+    this.roomName,
+    this.totalUzs,
+    this.linesCount = 0,
+  });
+
+  final String id;
+  final LeadStatus status;
+  final DateTime createdAt;
+  final String? clientName;
+  final String? clientPhone;
+  final String? roomName;
+  final int? totalUzs;
+  final int linesCount;
+
+  factory UstaLead.fromJson(Map<String, dynamic> json) => UstaLead(
+        id: json['id'] as String,
+        status: LeadStatus.parse(json['status']),
+        createdAt: DateTime.parse(json['created_at'] as String),
+        clientName: json['client_name'] as String?,
+        clientPhone: json['client_phone'] as String?,
+        roomName: json['room_name'] as String?,
+        totalUzs: (json['total_uzs'] as num?)?.toInt(),
+        linesCount: (json['lines_count'] as num?)?.toInt() ?? 0,
+      );
+}

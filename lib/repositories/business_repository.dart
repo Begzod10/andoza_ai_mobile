@@ -143,6 +143,41 @@ class BusinessRepository {
         fromJson: (j) => UstaProfile.fromJson(j as Map<String, dynamic>),
       );
 
+  /// Changes only what is passed.
+  Future<UstaProfile> updateUsta({
+    String? name,
+    UstaTrade? trade,
+    String? district,
+    String? phone,
+    String? telegram,
+    int? priceMin,
+    int? priceMax,
+  }) =>
+      _client.patch<UstaProfile>(
+        '/usta/profile',
+        data: {
+          'name': ?_blankToNull(name),
+          'category': ?trade?.wire,
+          'district': ?district,
+          'phone': ?_blankToNull(phone),
+          'telegram': ?telegram,
+          'price_min': ?priceMin,
+          'price_max': ?priceMax,
+        },
+        fromJson: (j) => UstaProfile.fromJson(j as Map<String, dynamic>),
+      );
+
+  Future<List<UstaLead>> fetchLeads() => _client.get<List<UstaLead>>(
+        '/usta/leads',
+        fromJson: (j) => [for (final i in j as List<dynamic>) UstaLead.fromJson(i as Map<String, dynamic>)],
+      );
+
+  Future<UstaLead> setLeadStatus(String id, LeadStatus status) => _client.patch<UstaLead>(
+        '/usta/leads/$id',
+        data: {'status': status.wire},
+        fromJson: (j) => UstaLead.fromJson(j as Map<String, dynamic>),
+      );
+
   Future<UstaProfile> resubmitUsta() => _client.post<UstaProfile>(
         '/usta/profile/resubmit',
         data: const <String, dynamic>{},
