@@ -10,7 +10,7 @@
 
   Cleartext is re-permitted ONLY for the local development hosts this project
   uses (emulator loopback, localhost, and the LAN dev machines noted in
-  CLAUDE.md), so `flutter run --dart-define=API_URL=http://192.168.1.29:...`
+  CLAUDE.md), so `flutter run` with an API_URL dart-define pointing at http://192.168.1.29
   and the default http://10.0.2.2 emulator setup keep working.
 -->
 <network-security-config>
