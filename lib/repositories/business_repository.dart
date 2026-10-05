@@ -39,6 +39,20 @@ class BusinessRepository {
         fromJson: (j) => ShopProfile.fromJson(j as Map<String, dynamic>),
       );
 
+  /// Changes only what is passed; blank name/phone are left alone, a blank
+  /// district/telegram clears the field.
+  Future<ShopProfile> updateShop({String? name, String? district, String? phone, String? telegram}) =>
+      _client.patch<ShopProfile>(
+        '/seller/store',
+        data: {
+          'name': ?_blankToNull(name),
+          'district': ?district,
+          'phone': ?_blankToNull(phone),
+          'telegram': ?telegram,
+        },
+        fromJson: (j) => ShopProfile.fromJson(j as Map<String, dynamic>),
+      );
+
   Future<ShopProfile> resubmitShop() => _client.post<ShopProfile>(
         '/seller/store/resubmit',
         data: const <String, dynamic>{},
@@ -65,14 +79,33 @@ class BusinessRepository {
       );
 
   /// Starts building a 3D model from a photo (Tripo, 1–2 minutes); returns the job id.
-  Future<String> startModelFromPhoto(List<int> bytes, String filename, String contentType) =>
-      _client.uploadFile<String>(
+  /// [extraViews] maps `left` / `back` / `right` to an extra photo
+  /// `(bytes, filename, contentType)`; with extras Tripo builds from all views.
+  Future<String> startModelFromPhoto(
+    List<int> bytes,
+    String filename,
+    String contentType, {
+    Map<String, (List<int>, String, String)> extraViews = const {},
+  }) {
+    String parse(dynamic j) => (j as Map<String, dynamic>)['job_id'] as String;
+    if (extraViews.isEmpty) {
+      return _client.uploadFile<String>(
         '/models/from-photo',
         bytes: bytes,
         filename: filename,
         contentType: contentType,
-        fromJson: (j) => (j as Map<String, dynamic>)['job_id'] as String,
+        fromJson: parse,
       );
+    }
+    return _client.uploadFiles<String>(
+      '/models/from-photo',
+      files: [
+        ('file', bytes, filename, contentType),
+        for (final e in extraViews.entries) (e.key, e.value.$1, e.value.$2, e.value.$3),
+      ],
+      fromJson: parse,
+    );
+  }
 
   /// The job's state: a finished one carries the built model's storage `key`,
   /// a failed one an `error`. `null` key and null error mean still working.

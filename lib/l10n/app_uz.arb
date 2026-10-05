@@ -2472,5 +2472,12 @@
   "ustaEditOpen": "Profilni tahrirlash",
   "ustaEditTitle": "Usta profilim",
   "ustaEditSave": "Saqlash",
-  "ustaEditFailed": "Saqlab bo'lmadi. Qayta urinib ko'ring."
+  "ustaEditFailed": "Saqlab bo'lmadi. Qayta urinib ko'ring.",
+  "shopEditTitle": "Do'kon profili",
+  "addProductMoreAngles": "Boshqa burchaklar (ixtiyoriy)",
+  "addProductMoreAnglesHint": "Chap, orqa va o'ng tomondan suratlar 3D modelni aniqroq qiladi.",
+  "addProductAngleLeft": "Chap",
+  "addProductAngleBack": "Orqa",
+  "addProductAngleRight": "O'ng",
+  "addProductAngleRemove": "O'chirish"
 }

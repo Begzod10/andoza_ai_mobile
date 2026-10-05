@@ -85,6 +85,8 @@ class _ShopCard extends ConsumerWidget {
               },
               approvedFooter: l10n.shopProductsOpen,
               onApprovedTap: () => context.push('/business/products'),
+              extraActionLabel: l10n.ustaEditOpen,
+              onExtraAction: () => context.push('/business/shop/edit'),
             );
           },
         );

@@ -3915,6 +3915,48 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Saqlab bo\'lmadi. Qayta urinib ko\'ring.'**
   String get ustaEditFailed;
+
+  /// No description provided for @shopEditTitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Do\'kon profili'**
+  String get shopEditTitle;
+
+  /// No description provided for @addProductMoreAngles.
+  ///
+  /// In uz, this message translates to:
+  /// **'Boshqa burchaklar (ixtiyoriy)'**
+  String get addProductMoreAngles;
+
+  /// No description provided for @addProductMoreAnglesHint.
+  ///
+  /// In uz, this message translates to:
+  /// **'Chap, orqa va o\'ng tomondan suratlar 3D modelni aniqroq qiladi.'**
+  String get addProductMoreAnglesHint;
+
+  /// No description provided for @addProductAngleLeft.
+  ///
+  /// In uz, this message translates to:
+  /// **'Chap'**
+  String get addProductAngleLeft;
+
+  /// No description provided for @addProductAngleBack.
+  ///
+  /// In uz, this message translates to:
+  /// **'Orqa'**
+  String get addProductAngleBack;
+
+  /// No description provided for @addProductAngleRight.
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'ng'**
+  String get addProductAngleRight;
+
+  /// No description provided for @addProductAngleRemove.
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'chirish'**
+  String get addProductAngleRemove;
 }
 
 class _AppLocalizationsDelegate

@@ -30,6 +30,7 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
   final _name = TextEditingController();
   final _price = TextEditingController();
   XFile? _photo;
+  final Map<String, XFile> _extras = {}; // 'left' | 'back' | 'right'
   String _category = 'divan';
   String? _room;
   String _placement = 'pol';
@@ -48,6 +49,78 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
   Future<void> _pick(ImageSource source) async {
     final f = await ImagePicker().pickImage(source: source, maxWidth: 1600, imageQuality: 88);
     if (f != null && mounted) setState(() => _photo = f);
+  }
+
+  Future<void> _pickExtra(String view) async {
+    final l10n = AppLocalizations.of(context)!;
+    final source = await showModalBottomSheet<ImageSource>(
+      context: context,
+      builder: (ctx) => SafeArea(
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          ListTile(
+            leading: const Icon(Icons.photo_camera_outlined),
+            title: Text(l10n.addProductCamera),
+            onTap: () => Navigator.pop(ctx, ImageSource.camera),
+          ),
+          ListTile(
+            leading: const Icon(Icons.photo_library_outlined),
+            title: Text(l10n.addProductGallery),
+            onTap: () => Navigator.pop(ctx, ImageSource.gallery),
+          ),
+        ]),
+      ),
+    );
+    if (source == null) return;
+    final f = await ImagePicker().pickImage(source: source, maxWidth: 1600, imageQuality: 88);
+    if (f != null && mounted) setState(() => _extras[view] = f);
+  }
+
+  Widget _angleTile(AppLocalizations l, String view, String label, bool busy) {
+    final f = _extras[view];
+    return Expanded(
+      child: Column(children: [
+        AspectRatio(
+          aspectRatio: 1,
+          child: GestureDetector(
+            onTap: busy ? null : () => _pickExtra(view),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+              child: Stack(fit: StackFit.expand, children: [
+                ColoredBox(
+                  color: DesignTokens.white,
+                  child: f == null
+                      ? const Icon(Icons.add_a_photo_outlined, color: DesignTokens.textMuted)
+                      : Image.file(File(f.path), fit: BoxFit.cover),
+                ),
+                if (f != null && !busy)
+                  Positioned(
+                    top: 2,
+                    right: 2,
+                    child: GestureDetector(
+                      onTap: () => setState(() => _extras.remove(view)),
+                      child: Tooltip(
+                        message: l.addProductAngleRemove,
+                        child: const CircleAvatar(
+                          radius: 11,
+                          backgroundColor: Colors.black54,
+                          child: Icon(Icons.close, size: 14, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ),
+              ]),
+            ),
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(label, style: DesignTokens.body2.copyWith(color: DesignTokens.textGray)),
+      ]),
+    );
+  }
+
+  static ({List<int> bytes, String name, String type}) _meta(List<int> bytes, String path, String stem) {
+    final png = path.toLowerCase().endsWith('.png');
+    return (bytes: bytes, name: '$stem.${png ? 'png' : 'jpg'}', type: png ? 'image/png' : 'image/jpeg');
   }
 
   String _categoryLabel(AppLocalizations l, String v) => switch (v) {
@@ -102,7 +175,17 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
       final bytes = await _photo!.readAsBytes();
       final isPng = _photo!.path.toLowerCase().endsWith('.png');
       final type = isPng ? 'image/png' : 'image/jpeg';
-      final jobId = await repo.startModelFromPhoto(bytes, isPng ? 'photo.png' : 'photo.jpg', type);
+      final extraViews = <String, (List<int>, String, String)>{};
+      for (final e in _extras.entries) {
+        final m = _meta(await e.value.readAsBytes(), e.value.path, e.key);
+        extraViews[e.key] = (m.bytes, m.name, m.type);
+      }
+      final jobId = await repo.startModelFromPhoto(
+        bytes,
+        isPng ? 'photo.png' : 'photo.jpg',
+        type,
+        extraViews: extraViews,
+      );
 
       String? key;
       final deadline = DateTime.now().add(const Duration(minutes: 6));
@@ -185,6 +268,18 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                 label: Text(l10n.addProductGallery),
               ),
             ),
+          ]),
+          const SizedBox(height: DesignTokens.spacingMd),
+          Text(l10n.addProductMoreAngles, style: DesignTokens.heading3),
+          const SizedBox(height: 2),
+          Text(l10n.addProductMoreAnglesHint, style: DesignTokens.body2.copyWith(color: DesignTokens.textGray)),
+          const SizedBox(height: DesignTokens.spacingSm),
+          Row(children: [
+            _angleTile(l10n, 'left', l10n.addProductAngleLeft, busy),
+            const SizedBox(width: DesignTokens.spacingSm),
+            _angleTile(l10n, 'back', l10n.addProductAngleBack, busy),
+            const SizedBox(width: DesignTokens.spacingSm),
+            _angleTile(l10n, 'right', l10n.addProductAngleRight, busy),
           ]),
           const SizedBox(height: DesignTokens.spacingMd),
           TextField(

@@ -2114,4 +2114,26 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get ustaEditFailed => 'Saqlab bo\'lmadi. Qayta urinib ko\'ring.';
+
+  @override
+  String get shopEditTitle => 'Do\'kon profili';
+
+  @override
+  String get addProductMoreAngles => 'Boshqa burchaklar (ixtiyoriy)';
+
+  @override
+  String get addProductMoreAnglesHint =>
+      'Chap, orqa va o\'ng tomondan suratlar 3D modelni aniqroq qiladi.';
+
+  @override
+  String get addProductAngleLeft => 'Chap';
+
+  @override
+  String get addProductAngleBack => 'Orqa';
+
+  @override
+  String get addProductAngleRight => 'O\'ng';
+
+  @override
+  String get addProductAngleRemove => 'O\'chirish';
 }

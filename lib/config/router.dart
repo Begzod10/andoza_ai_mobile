@@ -37,6 +37,7 @@ import '../providers/business_provider.dart' show BusinessKind;
 import '../screens/business/business_apply_screen.dart';
 import '../screens/business/business_screen.dart';
 import '../screens/business/add_product_screen.dart';
+import '../screens/business/edit_shop_screen.dart';
 import '../screens/business/edit_usta_screen.dart';
 import '../screens/business/usta_leads_screen.dart';
 import '../screens/business/shop_products_screen.dart';
@@ -340,6 +341,11 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/business/usta/edit',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => const EditUstaScreen(),
+      ),
+      GoRoute(
+        path: '/business/shop/edit',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const EditShopScreen(),
       ),
       GoRoute(
         path: '/business/products/new',

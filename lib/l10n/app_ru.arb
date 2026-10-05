@@ -2548,5 +2548,12 @@
   "ustaEditOpen": "Изменить профиль",
   "ustaEditTitle": "Мой профиль мастера",
   "ustaEditSave": "Сохранить",
-  "ustaEditFailed": "Не удалось сохранить. Попробуйте ещё раз."
+  "ustaEditFailed": "Не удалось сохранить. Попробуйте ещё раз.",
+  "shopEditTitle": "Профиль магазина",
+  "addProductMoreAngles": "Другие ракурсы (необязательно)",
+  "addProductMoreAnglesHint": "Фото слева, сзади и справа делают 3D-модель точнее.",
+  "addProductAngleLeft": "Слева",
+  "addProductAngleBack": "Сзади",
+  "addProductAngleRight": "Справа",
+  "addProductAngleRemove": "Убрать"
 }

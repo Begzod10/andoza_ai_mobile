@@ -2118,4 +2118,26 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get ustaEditFailed => 'Не удалось сохранить. Попробуйте ещё раз.';
+
+  @override
+  String get shopEditTitle => 'Профиль магазина';
+
+  @override
+  String get addProductMoreAngles => 'Другие ракурсы (необязательно)';
+
+  @override
+  String get addProductMoreAnglesHint =>
+      'Фото слева, сзади и справа делают 3D-модель точнее.';
+
+  @override
+  String get addProductAngleLeft => 'Слева';
+
+  @override
+  String get addProductAngleBack => 'Сзади';
+
+  @override
+  String get addProductAngleRight => 'Справа';
+
+  @override
+  String get addProductAngleRemove => 'Убрать';
 }

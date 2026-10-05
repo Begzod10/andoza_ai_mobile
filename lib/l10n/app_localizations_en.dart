@@ -2117,4 +2117,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ustaEditFailed => 'Could not save. Try again.';
+
+  @override
+  String get shopEditTitle => 'Shop profile';
+
+  @override
+  String get addProductMoreAngles => 'More angles (optional)';
+
+  @override
+  String get addProductMoreAnglesHint =>
+      'Photos from the left, back and right make the 3D model more accurate.';
+
+  @override
+  String get addProductAngleLeft => 'Left';
+
+  @override
+  String get addProductAngleBack => 'Back';
+
+  @override
+  String get addProductAngleRight => 'Right';
+
+  @override
+  String get addProductAngleRemove => 'Remove';
 }

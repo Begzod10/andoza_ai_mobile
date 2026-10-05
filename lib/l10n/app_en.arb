@@ -2548,5 +2548,12 @@
   "ustaEditOpen": "Edit profile",
   "ustaEditTitle": "My craftsman profile",
   "ustaEditSave": "Save",
-  "ustaEditFailed": "Could not save. Try again."
+  "ustaEditFailed": "Could not save. Try again.",
+  "shopEditTitle": "Shop profile",
+  "addProductMoreAngles": "More angles (optional)",
+  "addProductMoreAnglesHint": "Photos from the left, back and right make the 3D model more accurate.",
+  "addProductAngleLeft": "Left",
+  "addProductAngleBack": "Back",
+  "addProductAngleRight": "Right",
+  "addProductAngleRemove": "Remove"
 }
