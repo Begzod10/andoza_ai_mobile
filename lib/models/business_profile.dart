@@ -153,3 +153,37 @@ class UstaProfile {
         moderationNote: json['moderation_note'] as String?,
       );
 }
+
+/// One of the shop's own 3D models (`/seller/furniture`), in any moderation status.
+class ShopProduct {
+  const ShopProduct({
+    required this.id,
+    required this.name,
+    required this.category,
+    required this.status,
+    required this.isActive,
+    this.priceUzs,
+    this.thumbnailUrl,
+    this.moderationNote,
+  });
+
+  final String id;
+  final String name;
+  final String category;
+  final int? priceUzs;
+  final String? thumbnailUrl;
+  final ModerationStatus status;
+  final bool isActive;
+  final String? moderationNote;
+
+  factory ShopProduct.fromJson(Map<String, dynamic> json) => ShopProduct(
+        id: json['id'] as String,
+        name: json['name_uz'] as String,
+        category: json['category'] as String,
+        priceUzs: (json['price_uzs'] as num?)?.toInt(),
+        thumbnailUrl: json['thumbnail_url'] as String?,
+        status: ModerationStatus.parse(json['status']),
+        isActive: json['is_active'] as bool? ?? false,
+        moderationNote: json['moderation_note'] as String?,
+      );
+}

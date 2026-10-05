@@ -83,7 +83,8 @@ class _ShopCard extends ConsumerWidget {
                 ref.invalidate(myShopProvider);
                 ref.invalidate(accountRolesProvider);
               },
-              approvedFooter: l10n.businessComingProducts,
+              approvedFooter: l10n.shopProductsOpen,
+              onApprovedTap: () => context.push('/business/products'),
             );
           },
         );
@@ -129,6 +130,7 @@ class _CardShell extends StatefulWidget {
     required this.note,
     required Future<void> Function() this.onResubmit,
     required String this.approvedFooter,
+    this.onApprovedTap,
   })  : _loading = false,
         _message = null;
 
@@ -140,6 +142,7 @@ class _CardShell extends StatefulWidget {
         note = null,
         onResubmit = null,
         approvedFooter = null,
+        onApprovedTap = null,
         _loading = true,
         _message = null;
 
@@ -151,6 +154,7 @@ class _CardShell extends StatefulWidget {
         note = null,
         onResubmit = null,
         approvedFooter = null,
+        onApprovedTap = null,
         _loading = false;
 
   final IconData? icon;
@@ -160,6 +164,7 @@ class _CardShell extends StatefulWidget {
   final String? note;
   final Future<void> Function()? onResubmit;
   final String? approvedFooter;
+  final VoidCallback? onApprovedTap;
   final bool _loading;
   final String? _message;
 
@@ -257,8 +262,15 @@ class _CardShellState extends State<_CardShell> {
             Text(hint, style: DesignTokens.body2.copyWith(color: DesignTokens.textGray)),
           if (status == ModerationStatus.approved) ...[
             const SizedBox(height: DesignTokens.spacingSm),
-            Text(widget.approvedFooter!,
-                style: DesignTokens.caption.copyWith(color: DesignTokens.textMuted)),
+            if (widget.onApprovedTap != null)
+              FilledButton.tonalIcon(
+                onPressed: widget.onApprovedTap,
+                icon: const Icon(Icons.inventory_2_outlined),
+                label: Text(widget.approvedFooter!),
+              )
+            else
+              Text(widget.approvedFooter!,
+                  style: DesignTokens.caption.copyWith(color: DesignTokens.textMuted)),
           ],
         ],
       ),

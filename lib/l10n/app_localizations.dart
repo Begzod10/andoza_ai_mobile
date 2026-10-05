@@ -3531,6 +3531,84 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Sabab: {note}'**
   String businessRejectedReason(String note);
+
+  /// No description provided for @shopProductsTitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mahsulotlarim'**
+  String get shopProductsTitle;
+
+  /// No description provided for @shopProductsEmpty.
+  ///
+  /// In uz, this message translates to:
+  /// **'Hali mahsulot yo\'q. Modellarni veb-saytdagi do\'kon kabinetidan yuklang.'**
+  String get shopProductsEmpty;
+
+  /// No description provided for @shopProductsOpen.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mahsulotlarni boshqarish'**
+  String get shopProductsOpen;
+
+  /// No description provided for @shopProductVisible.
+  ///
+  /// In uz, this message translates to:
+  /// **'Katalogda ko\'rinadi'**
+  String get shopProductVisible;
+
+  /// No description provided for @shopProductEdit.
+  ///
+  /// In uz, this message translates to:
+  /// **'Tahrirlash'**
+  String get shopProductEdit;
+
+  /// No description provided for @shopProductName.
+  ///
+  /// In uz, this message translates to:
+  /// **'Nomi'**
+  String get shopProductName;
+
+  /// No description provided for @shopProductPrice.
+  ///
+  /// In uz, this message translates to:
+  /// **'Narxi (so\'m)'**
+  String get shopProductPrice;
+
+  /// No description provided for @shopProductSave.
+  ///
+  /// In uz, this message translates to:
+  /// **'Saqlash'**
+  String get shopProductSave;
+
+  /// No description provided for @shopProductDelete.
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'chirish'**
+  String get shopProductDelete;
+
+  /// No description provided for @shopProductDeleteConfirm.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mahsulot o\'chirilsin? Buni qaytarib bo\'lmaydi.'**
+  String get shopProductDeleteConfirm;
+
+  /// No description provided for @shopProductCancel.
+  ///
+  /// In uz, this message translates to:
+  /// **'Bekor qilish'**
+  String get shopProductCancel;
+
+  /// No description provided for @shopProductFailed.
+  ///
+  /// In uz, this message translates to:
+  /// **'Amalni bajarib bo\'lmadi. Qayta urinib ko\'ring.'**
+  String get shopProductFailed;
+
+  /// No description provided for @shopProductNoPrice.
+  ///
+  /// In uz, this message translates to:
+  /// **'Narx ko\'rsatilmagan'**
+  String get shopProductNoPrice;
 }
 
 class _AppLocalizationsDelegate

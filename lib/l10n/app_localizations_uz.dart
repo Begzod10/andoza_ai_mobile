@@ -1910,4 +1910,46 @@ class AppLocalizationsUz extends AppLocalizations {
   String businessRejectedReason(String note) {
     return 'Sabab: $note';
   }
+
+  @override
+  String get shopProductsTitle => 'Mahsulotlarim';
+
+  @override
+  String get shopProductsEmpty =>
+      'Hali mahsulot yo\'q. Modellarni veb-saytdagi do\'kon kabinetidan yuklang.';
+
+  @override
+  String get shopProductsOpen => 'Mahsulotlarni boshqarish';
+
+  @override
+  String get shopProductVisible => 'Katalogda ko\'rinadi';
+
+  @override
+  String get shopProductEdit => 'Tahrirlash';
+
+  @override
+  String get shopProductName => 'Nomi';
+
+  @override
+  String get shopProductPrice => 'Narxi (so\'m)';
+
+  @override
+  String get shopProductSave => 'Saqlash';
+
+  @override
+  String get shopProductDelete => 'O\'chirish';
+
+  @override
+  String get shopProductDeleteConfirm =>
+      'Mahsulot o\'chirilsin? Buni qaytarib bo\'lmaydi.';
+
+  @override
+  String get shopProductCancel => 'Bekor qilish';
+
+  @override
+  String get shopProductFailed =>
+      'Amalni bajarib bo\'lmadi. Qayta urinib ko\'ring.';
+
+  @override
+  String get shopProductNoPrice => 'Narx ko\'rsatilmagan';
 }

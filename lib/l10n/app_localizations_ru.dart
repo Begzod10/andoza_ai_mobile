@@ -1916,4 +1916,45 @@ class AppLocalizationsRu extends AppLocalizations {
   String businessRejectedReason(String note) {
     return 'Причина: $note';
   }
+
+  @override
+  String get shopProductsTitle => 'Мои товары';
+
+  @override
+  String get shopProductsEmpty =>
+      'Товаров пока нет. Загрузите модели в кабинете магазина на сайте.';
+
+  @override
+  String get shopProductsOpen => 'Управление товарами';
+
+  @override
+  String get shopProductVisible => 'Виден в каталоге';
+
+  @override
+  String get shopProductEdit => 'Изменить';
+
+  @override
+  String get shopProductName => 'Название';
+
+  @override
+  String get shopProductPrice => 'Цена (сум)';
+
+  @override
+  String get shopProductSave => 'Сохранить';
+
+  @override
+  String get shopProductDelete => 'Удалить';
+
+  @override
+  String get shopProductDeleteConfirm => 'Удалить товар? Это нельзя отменить.';
+
+  @override
+  String get shopProductCancel => 'Отмена';
+
+  @override
+  String get shopProductFailed =>
+      'Не удалось выполнить действие. Попробуйте ещё раз.';
+
+  @override
+  String get shopProductNoPrice => 'Цена не указана';
 }

@@ -45,6 +45,27 @@ class BusinessRepository {
         fromJson: (j) => ShopProfile.fromJson(j as Map<String, dynamic>),
       );
 
+  // --- Shop products -------------------------------------------------------
+
+  Future<List<ShopProduct>> fetchProducts() => _client.get<List<ShopProduct>>(
+        '/seller/furniture',
+        queryParameters: {'per_page': 100},
+        fromJson: (j) => [
+          for (final i in (j as Map<String, dynamic>)['items'] as List<dynamic>)
+            ShopProduct.fromJson(i as Map<String, dynamic>),
+        ],
+      );
+
+  /// Changes only what is passed; [priceUzs] of null leaves the price alone.
+  Future<ShopProduct> updateProduct(String id, {String? name, int? priceUzs, bool? isActive}) =>
+      _client.patch<ShopProduct>(
+        '/seller/furniture/$id',
+        data: {'name_uz': ?name, 'price_uzs': ?priceUzs, 'is_active': ?isActive},
+        fromJson: (j) => ShopProduct.fromJson(j as Map<String, dynamic>),
+      );
+
+  Future<void> deleteProduct(String id) => _client.delete('/seller/furniture/$id');
+
   // --- Usta ---------------------------------------------------------------
 
   Future<UstaProfile?> fetchUsta() => _client.get<UstaProfile?>(

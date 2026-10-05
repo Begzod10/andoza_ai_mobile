@@ -2483,5 +2483,18 @@
     "placeholders": {
       "note": { "type": "String" }
     }
-  }
+  },
+  "shopProductsTitle": "My products",
+  "shopProductsEmpty": "No products yet. Upload models from the shop dashboard on the website.",
+  "shopProductsOpen": "Manage products",
+  "shopProductVisible": "Visible in the catalog",
+  "shopProductEdit": "Edit",
+  "shopProductName": "Name",
+  "shopProductPrice": "Price (UZS)",
+  "shopProductSave": "Save",
+  "shopProductDelete": "Delete",
+  "shopProductDeleteConfirm": "Delete this product? This cannot be undone.",
+  "shopProductCancel": "Cancel",
+  "shopProductFailed": "Could not complete the action. Try again.",
+  "shopProductNoPrice": "No price set"
 }

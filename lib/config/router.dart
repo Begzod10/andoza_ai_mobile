@@ -36,6 +36,7 @@ import '../models/shop_model.dart';
 import '../providers/business_provider.dart' show BusinessKind;
 import '../screens/business/business_apply_screen.dart';
 import '../screens/business/business_screen.dart';
+import '../screens/business/shop_products_screen.dart';
 import '../screens/shop/e10_search_results_screen.dart';
 import '../screens/shop/s1_shop_home_screen.dart';
 import '../screens/shop/s2_project_materials_screen.dart';
@@ -319,6 +320,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/business',
             builder: (context, state) => const BusinessScreen(),
+          ),
+          GoRoute(
+            path: '/business/products',
+            builder: (context, state) => const ShopProductsScreen(),
           ),
         ],
       ),

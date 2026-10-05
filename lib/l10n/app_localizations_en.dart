@@ -1913,4 +1913,45 @@ class AppLocalizationsEn extends AppLocalizations {
   String businessRejectedReason(String note) {
     return 'Reason: $note';
   }
+
+  @override
+  String get shopProductsTitle => 'My products';
+
+  @override
+  String get shopProductsEmpty =>
+      'No products yet. Upload models from the shop dashboard on the website.';
+
+  @override
+  String get shopProductsOpen => 'Manage products';
+
+  @override
+  String get shopProductVisible => 'Visible in the catalog';
+
+  @override
+  String get shopProductEdit => 'Edit';
+
+  @override
+  String get shopProductName => 'Name';
+
+  @override
+  String get shopProductPrice => 'Price (UZS)';
+
+  @override
+  String get shopProductSave => 'Save';
+
+  @override
+  String get shopProductDelete => 'Delete';
+
+  @override
+  String get shopProductDeleteConfirm =>
+      'Delete this product? This cannot be undone.';
+
+  @override
+  String get shopProductCancel => 'Cancel';
+
+  @override
+  String get shopProductFailed => 'Could not complete the action. Try again.';
+
+  @override
+  String get shopProductNoPrice => 'No price set';
 }

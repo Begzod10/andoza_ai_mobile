@@ -27,6 +27,10 @@ final myShopProvider = FutureProvider.autoDispose<ShopProfile?>((ref) {
   return ref.watch(businessRepositoryProvider).fetchShop();
 });
 
+final myProductsProvider = FutureProvider.autoDispose<List<ShopProduct>>((ref) {
+  return ref.watch(businessRepositoryProvider).fetchProducts();
+});
+
 final myUstaProvider = FutureProvider.autoDispose<UstaProfile?>((ref) {
   return ref.watch(businessRepositoryProvider).fetchUsta();
 });

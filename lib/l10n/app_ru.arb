@@ -2483,5 +2483,18 @@
     "placeholders": {
       "note": { "type": "String" }
     }
-  }
+  },
+  "shopProductsTitle": "Мои товары",
+  "shopProductsEmpty": "Товаров пока нет. Загрузите модели в кабинете магазина на сайте.",
+  "shopProductsOpen": "Управление товарами",
+  "shopProductVisible": "Виден в каталоге",
+  "shopProductEdit": "Изменить",
+  "shopProductName": "Название",
+  "shopProductPrice": "Цена (сум)",
+  "shopProductSave": "Сохранить",
+  "shopProductDelete": "Удалить",
+  "shopProductDeleteConfirm": "Удалить товар? Это нельзя отменить.",
+  "shopProductCancel": "Отмена",
+  "shopProductFailed": "Не удалось выполнить действие. Попробуйте ещё раз.",
+  "shopProductNoPrice": "Цена не указана"
 }
