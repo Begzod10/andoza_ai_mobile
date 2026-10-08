@@ -203,11 +203,41 @@ class BusinessRepository {
   /// A customer's request to an usta (`POST /leads`). The server attaches the
   /// room's latest estimate as the request's snapshot, so [roomId] is only sent
   /// when it is a saved room's id.
-  Future<void> sendLead(String ustaId, {String? roomId}) => _client.post<void>(
+  Future<void> sendLead(String ustaId, {String? roomId, String? message}) => _client.post<void>(
         '/leads',
-        data: {'usta_id': ustaId, 'room_id': ?roomId},
+        data: {'usta_id': ustaId, 'room_id': ?roomId, 'message': ?_blankToNull(message)},
         fromJson: (_) {},
       );
+
+  // --- Usta portfolio ------------------------------------------------------
+
+  Future<List<PortfolioItem>> fetchPortfolio() => _client.get<List<PortfolioItem>>(
+        '/usta/portfolio',
+        fromJson: (j) => [for (final i in j as List<dynamic>) PortfolioItem.fromJson(i as Map<String, dynamic>)],
+      );
+
+  /// Public portfolio of any usta, for the customer-facing profile.
+  Future<List<PortfolioItem>> fetchUstaPortfolio(String ustaId) => _client.get<List<PortfolioItem>>(
+        '/ustalar/$ustaId/portfolio',
+        fromJson: (j) => [for (final i in j as List<dynamic>) PortfolioItem.fromJson(i as Map<String, dynamic>)],
+      );
+
+  Future<PortfolioItem> addPortfolioItem(
+    List<int> bytes,
+    String filename,
+    String contentType, {
+    String? caption,
+  }) =>
+      _client.uploadFile<PortfolioItem>(
+        '/usta/portfolio',
+        bytes: bytes,
+        filename: filename,
+        contentType: contentType,
+        fields: {'caption': ?_blankToNull(caption)},
+        fromJson: (j) => PortfolioItem.fromJson(j as Map<String, dynamic>),
+      );
+
+  Future<void> deletePortfolioItem(String id) => _client.delete('/usta/portfolio/$id');
 
   Future<List<UstaLead>> fetchLeads() => _client.get<List<UstaLead>>(
         '/usta/leads',

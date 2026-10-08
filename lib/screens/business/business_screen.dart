@@ -140,6 +140,13 @@ class _UstaCard extends ConsumerWidget {
               onApprovedTap: () => context.push('/business/leads'),
               extraActionLabel: l10n.ustaEditOpen,
               onExtraAction: () => context.push('/business/usta/edit'),
+              extraButtons: [
+                TextButton.icon(
+                  onPressed: () => context.push('/business/portfolio'),
+                  icon: const Icon(Icons.photo_library_outlined),
+                  label: Text(l10n.ustaPortfolioOpen),
+                ),
+              ],
             );
           },
         );

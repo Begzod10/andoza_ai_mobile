@@ -9,6 +9,12 @@ String tradeLabel(AppLocalizations l10n, UstaTrade t) => switch (t) {
       UstaTrade.oboy => l10n.tradeOboy,
       UstaTrade.laminat => l10n.tradeLaminat,
       UstaTrade.brigada => l10n.tradeBrigada,
+      UstaTrade.plitkachi => l10n.tradePlitkachi,
+      UstaTrade.shtukatur => l10n.tradeShtukatur,
+      UstaTrade.gipsokartonchi => l10n.tradeGipsokartonchi,
+      UstaTrade.eshikOyna => l10n.tradeEshikOyna,
+      UstaTrade.isitishKonditsioner => l10n.tradeIsitishKonditsioner,
+      UstaTrade.demontaj => l10n.tradeDemontaj,
     };
 
 String statusLabel(AppLocalizations l10n, ModerationStatus s) => switch (s) {

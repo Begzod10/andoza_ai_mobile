@@ -2243,4 +2243,53 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get shopOrderPayCard => 'Karta';
+
+  @override
+  String get tradePlitkachi => 'Plitkachi';
+
+  @override
+  String get tradeShtukatur => 'Shtukatur';
+
+  @override
+  String get tradeGipsokartonchi => 'Gipsokartonchi';
+
+  @override
+  String get tradeEshikOyna => 'Eshik-oyna ustasi';
+
+  @override
+  String get tradeIsitishKonditsioner => 'Isitish va konditsioner ustasi';
+
+  @override
+  String get tradeDemontaj => 'Demontajchi';
+
+  @override
+  String get ustaPortfolioOpen => 'Portfolio';
+
+  @override
+  String get ustaPortfolioTitle => 'Mening portfolioim';
+
+  @override
+  String get ustaPortfolioEmpty =>
+      'Hali ish rasmlari yo\'q. Bajargan ishlaringizni qo\'shing.';
+
+  @override
+  String get ustaPortfolioAdd => 'Rasm qo\'shish';
+
+  @override
+  String get ustaPortfolioCaption => 'Izoh (ixtiyoriy)';
+
+  @override
+  String get ustaPortfolioUpload => 'Yuklash';
+
+  @override
+  String get ustaPortfolioDeleteConfirm =>
+      'Rasm o\'chirilsin? Buni qaytarib bo\'lmaydi.';
+
+  @override
+  String get ustaPortfolioLoadFailed => 'Portfolioni yuklab bo\'lmadi.';
+
+  @override
+  String ustaLeadMessage(String message) {
+    return 'Mijoz xabari: $message';
+  }
 }

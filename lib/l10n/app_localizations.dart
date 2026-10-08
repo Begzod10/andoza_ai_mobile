@@ -4143,6 +4143,96 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Karta'**
   String get shopOrderPayCard;
+
+  /// No description provided for @tradePlitkachi.
+  ///
+  /// In uz, this message translates to:
+  /// **'Plitkachi'**
+  String get tradePlitkachi;
+
+  /// No description provided for @tradeShtukatur.
+  ///
+  /// In uz, this message translates to:
+  /// **'Shtukatur'**
+  String get tradeShtukatur;
+
+  /// No description provided for @tradeGipsokartonchi.
+  ///
+  /// In uz, this message translates to:
+  /// **'Gipsokartonchi'**
+  String get tradeGipsokartonchi;
+
+  /// No description provided for @tradeEshikOyna.
+  ///
+  /// In uz, this message translates to:
+  /// **'Eshik-oyna ustasi'**
+  String get tradeEshikOyna;
+
+  /// No description provided for @tradeIsitishKonditsioner.
+  ///
+  /// In uz, this message translates to:
+  /// **'Isitish va konditsioner ustasi'**
+  String get tradeIsitishKonditsioner;
+
+  /// No description provided for @tradeDemontaj.
+  ///
+  /// In uz, this message translates to:
+  /// **'Demontajchi'**
+  String get tradeDemontaj;
+
+  /// No description provided for @ustaPortfolioOpen.
+  ///
+  /// In uz, this message translates to:
+  /// **'Portfolio'**
+  String get ustaPortfolioOpen;
+
+  /// No description provided for @ustaPortfolioTitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mening portfolioim'**
+  String get ustaPortfolioTitle;
+
+  /// No description provided for @ustaPortfolioEmpty.
+  ///
+  /// In uz, this message translates to:
+  /// **'Hali ish rasmlari yo\'q. Bajargan ishlaringizni qo\'shing.'**
+  String get ustaPortfolioEmpty;
+
+  /// No description provided for @ustaPortfolioAdd.
+  ///
+  /// In uz, this message translates to:
+  /// **'Rasm qo\'shish'**
+  String get ustaPortfolioAdd;
+
+  /// No description provided for @ustaPortfolioCaption.
+  ///
+  /// In uz, this message translates to:
+  /// **'Izoh (ixtiyoriy)'**
+  String get ustaPortfolioCaption;
+
+  /// No description provided for @ustaPortfolioUpload.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yuklash'**
+  String get ustaPortfolioUpload;
+
+  /// No description provided for @ustaPortfolioDeleteConfirm.
+  ///
+  /// In uz, this message translates to:
+  /// **'Rasm o\'chirilsin? Buni qaytarib bo\'lmaydi.'**
+  String get ustaPortfolioDeleteConfirm;
+
+  /// No description provided for @ustaPortfolioLoadFailed.
+  ///
+  /// In uz, this message translates to:
+  /// **'Portfolioni yuklab bo\'lmadi.'**
+  String get ustaPortfolioLoadFailed;
+
+  /// No description provided for @ustaLeadMessage.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mijoz xabari: {message}'**
+  String ustaLeadMessage(String message);
 }
 
 class _AppLocalizationsDelegate

@@ -29,6 +29,12 @@ const List<String> _backendCategories = [
   'oboy',
   'laminat',
   'brigada',
+  'plitkachi',
+  'shtukatur',
+  'gipsokartonchi',
+  'eshik_oyna',
+  'isitish_konditsioner',
+  'demontaj',
 ];
 
 Usta _usta({

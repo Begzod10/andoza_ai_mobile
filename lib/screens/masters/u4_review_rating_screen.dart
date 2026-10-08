@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
+import '../../providers/business_provider.dart';
 import '../../providers/masters_provider.dart';
 import '../../widgets/common/app_image.dart';
 
@@ -117,12 +118,42 @@ class U4ReviewRatingScreen extends ConsumerWidget {
               const SizedBox(height: DesignTokens.spacingLg),
               Text(l10n.mastersPortfolio, style: DesignTokens.subtitle1),
               const SizedBox(height: DesignTokens.spacingSm),
-              Text(
-                l10n.mastersPortfolioEmpty,
-                style: DesignTokens.caption.copyWith(
-                  color: DesignTokens.textGray,
-                ),
-              ),
+              Builder(builder: (context) {
+                final emptyText = Text(
+                  l10n.mastersPortfolioEmpty,
+                  style: DesignTokens.caption.copyWith(
+                    color: DesignTokens.textGray,
+                  ),
+                );
+                return ref.watch(ustaPortfolioProvider(m.master.id)).maybeWhen(
+                      data: (items) => items.isEmpty
+                          ? emptyText
+                          : SizedBox(
+                              height: 110,
+                              child: ListView.separated(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: items.length,
+                                separatorBuilder: (_, _) => const SizedBox(width: DesignTokens.spacingSm),
+                                itemBuilder: (_, i) => ClipRRect(
+                                  borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+                                  child: AspectRatio(
+                                    aspectRatio: 1,
+                                    child: Image.network(
+                                      items[i].imageUrl,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (_, _, _) => const ColoredBox(
+                                        color: DesignTokens.white,
+                                        child: Icon(Icons.image_not_supported_outlined,
+                                            color: DesignTokens.textMuted),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                      orElse: () => emptyText,
+                    );
+              }),
               const SizedBox(height: DesignTokens.spacingLg),
               Text(l10n.mastersServices, style: DesignTokens.subtitle1),
               const SizedBox(height: DesignTokens.spacingSm),

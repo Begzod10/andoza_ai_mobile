@@ -2247,4 +2247,52 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get shopOrderPayCard => 'Картой';
+
+  @override
+  String get tradePlitkachi => 'Плиточник';
+
+  @override
+  String get tradeShtukatur => 'Штукатур';
+
+  @override
+  String get tradeGipsokartonchi => 'Гипсокартонщик';
+
+  @override
+  String get tradeEshikOyna => 'Мастер по дверям и окнам';
+
+  @override
+  String get tradeIsitishKonditsioner => 'Мастер по отоплению и кондиционерам';
+
+  @override
+  String get tradeDemontaj => 'Мастер по демонтажу';
+
+  @override
+  String get ustaPortfolioOpen => 'Портфолио';
+
+  @override
+  String get ustaPortfolioTitle => 'Моё портфолио';
+
+  @override
+  String get ustaPortfolioEmpty =>
+      'Фотографий работ пока нет. Добавьте выполненные работы.';
+
+  @override
+  String get ustaPortfolioAdd => 'Добавить фото';
+
+  @override
+  String get ustaPortfolioCaption => 'Подпись (необязательно)';
+
+  @override
+  String get ustaPortfolioUpload => 'Загрузить';
+
+  @override
+  String get ustaPortfolioDeleteConfirm => 'Удалить фото? Это нельзя отменить.';
+
+  @override
+  String get ustaPortfolioLoadFailed => 'Не удалось загрузить портфолио.';
+
+  @override
+  String ustaLeadMessage(String message) {
+    return 'Сообщение клиента: $message';
+  }
 }

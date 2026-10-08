@@ -17,6 +17,12 @@ enum Trade {
   oboy,
   laminat,
   brigada,
+  plitkachi,
+  shtukatur,
+  gipsokartonchi,
+  eshikOyna,
+  isitishKonditsioner,
+  demontaj,
   /// A category the backend has and this build doesn't. Rendered neutrally on
   /// purpose — see [_tradeFromCategory].
   boshqa,
@@ -31,6 +37,12 @@ extension TradeInfo on Trade {
     Trade.oboy => 'Oboychi',
     Trade.laminat => 'Laminatchi',
     Trade.brigada => 'Brigada',
+    Trade.plitkachi => 'Plitkachi',
+    Trade.shtukatur => 'Shtukatur',
+    Trade.gipsokartonchi => 'Gipsokartonchi',
+    Trade.eshikOyna => 'Eshik-oyna ustasi',
+    Trade.isitishKonditsioner => 'Isitish va konditsioner ustasi',
+    Trade.demontaj => 'Demontajchi',
     Trade.boshqa => 'Boshqa usta',
   };
 
@@ -42,6 +54,12 @@ extension TradeInfo on Trade {
     Trade.oboy => '🧻',
     Trade.laminat => '🪵',
     Trade.brigada => '👷',
+    Trade.plitkachi => '🧱',
+    Trade.shtukatur => '🪣',
+    Trade.gipsokartonchi => '🏗️',
+    Trade.eshikOyna => '🚪',
+    Trade.isitishKonditsioner => '❄️',
+    Trade.demontaj => '🔨',
     Trade.boshqa => '🛠️',
   };
 
@@ -53,6 +71,12 @@ extension TradeInfo on Trade {
     Trade.oboy => 0xFFEC4899,
     Trade.laminat => 0xFFB45309,
     Trade.brigada => 0xFF0EA5E9,
+    Trade.plitkachi => 0xFF14B8A6,
+    Trade.shtukatur => 0xFF78716C,
+    Trade.gipsokartonchi => 0xFF64748B,
+    Trade.eshikOyna => 0xFF0369A1,
+    Trade.isitishKonditsioner => 0xFFEF4444,
+    Trade.demontaj => 0xFFEA580C,
     // Deliberately the only grey pin: an unmapped category must look inert,
     // not like a real trade.
     Trade.boshqa => 0xFF6B7280,
@@ -168,6 +192,18 @@ Trade _tradeFromCategory(String category) {
       return Trade.laminat;
     case 'brigada':
       return Trade.brigada;
+    case 'plitkachi':
+      return Trade.plitkachi;
+    case 'shtukatur':
+      return Trade.shtukatur;
+    case 'gipsokartonchi':
+      return Trade.gipsokartonchi;
+    case 'eshik_oyna':
+      return Trade.eshikOyna;
+    case 'isitish_konditsioner':
+      return Trade.isitishKonditsioner;
+    case 'demontaj':
+      return Trade.demontaj;
     default:
       return Trade.boshqa;
   }

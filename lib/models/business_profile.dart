@@ -92,7 +92,13 @@ enum UstaTrade {
   malyar('malyar'),
   oboy('oboy'),
   laminat('laminat'),
-  brigada('brigada');
+  brigada('brigada'),
+  plitkachi('plitkachi'),
+  shtukatur('shtukatur'),
+  gipsokartonchi('gipsokartonchi'),
+  eshikOyna('eshik_oyna'),
+  isitishKonditsioner('isitish_konditsioner'),
+  demontaj('demontaj');
 
   const UstaTrade(this.wire);
   final String wire;
@@ -236,6 +242,7 @@ class UstaLead {
     this.roomName,
     this.totalUzs,
     this.linesCount = 0,
+    this.message,
   });
 
   final String id;
@@ -246,6 +253,7 @@ class UstaLead {
   final String? roomName;
   final int? totalUzs;
   final int linesCount;
+  final String? message;
 
   factory UstaLead.fromJson(Map<String, dynamic> json) => UstaLead(
         id: json['id'] as String,
@@ -256,6 +264,22 @@ class UstaLead {
         roomName: json['room_name'] as String?,
         totalUzs: (json['total_uzs'] as num?)?.toInt(),
         linesCount: (json['lines_count'] as num?)?.toInt() ?? 0,
+        message: json['message'] as String?,
+      );
+}
+
+/// One photo of an usta's finished work (`/usta/portfolio`).
+class PortfolioItem {
+  const PortfolioItem({required this.id, required this.imageUrl, this.caption});
+
+  final String id;
+  final String imageUrl;
+  final String? caption;
+
+  factory PortfolioItem.fromJson(Map<String, dynamic> json) => PortfolioItem(
+        id: json['id'].toString(),
+        imageUrl: json['image_url'] as String,
+        caption: json['caption'] as String?,
       );
 }
 

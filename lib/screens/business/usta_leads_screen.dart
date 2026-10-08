@@ -120,6 +120,11 @@ class _LeadTile extends ConsumerWidget {
             const SizedBox(height: DesignTokens.spacingXs),
             Text(l10n.ustaLeadEstimate(_uzs(lead.totalUzs!), lead.linesCount), style: DesignTokens.body2),
           ],
+          if ((lead.message ?? '').trim().isNotEmpty) ...[
+            const SizedBox(height: DesignTokens.spacingXs),
+            Text(l10n.ustaLeadMessage(lead.message!.trim()),
+                maxLines: 3, overflow: TextOverflow.ellipsis, style: DesignTokens.body2),
+          ],
           const SizedBox(height: DesignTokens.spacingSm),
           Wrap(spacing: DesignTokens.spacingSm, children: [
             FilledButton.tonalIcon(

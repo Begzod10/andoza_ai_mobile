@@ -159,7 +159,11 @@ String _mapStatus(int? statusCode) {
 /// the generic status text — "which line was refused" beats "invalid data".
 String mapErrorWithServerDetail(Object? error) {
   if (error is ApiException &&
-      (error.statusCode == 400 || error.statusCode == 409)) {
+      (error.statusCode == 400 ||
+          error.statusCode == 409 ||
+          error.statusCode == 413 ||
+          error.statusCode == 415 ||
+          error.statusCode == 429)) {
     final body = error.response;
     final detail = body is Map ? body['detail'] : null;
     if (detail is String && detail.trim().isNotEmpty) return detail.trim();

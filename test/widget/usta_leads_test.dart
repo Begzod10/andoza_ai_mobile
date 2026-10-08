@@ -21,6 +21,7 @@ class _FakeRepo implements BusinessRepository {
           roomName: 'Mehmonxona',
           totalUzs: 5000000,
           linesCount: 4,
+          message: 'Ertaga soat 10 da kelsangiz bo\'ladi',
         ),
       ];
 
@@ -51,6 +52,8 @@ void main() {
     expect(find.text('Vali'), findsOneWidget);
     expect(find.text('Yangi'), findsOneWidget);
     expect(find.text("Smeta: 5 000 000 so'm (4 ta qator)"), findsOneWidget);
+
+    expect(find.text("Mijoz xabari: Ertaga soat 10 da kelsangiz bo'ladi"), findsOneWidget);
 
     await tester.tap(find.text('Yopish'));
     await tester.pumpAndSettle();

@@ -35,6 +35,15 @@ final myLeadsProvider = FutureProvider.autoDispose<List<UstaLead>>((ref) {
   return ref.watch(businessRepositoryProvider).fetchLeads();
 });
 
+final myPortfolioProvider = FutureProvider.autoDispose<List<PortfolioItem>>((ref) {
+  return ref.watch(businessRepositoryProvider).fetchPortfolio();
+});
+
+/// A usta's public portfolio, for the customer-facing profile.
+final ustaPortfolioProvider = FutureProvider.autoDispose.family<List<PortfolioItem>, String>((ref, ustaId) {
+  return ref.watch(businessRepositoryProvider).fetchUstaPortfolio(ustaId);
+});
+
 final myInquiriesProvider = FutureProvider.autoDispose<List<ShopInquiry>>((ref) {
   return ref.watch(businessRepositoryProvider).fetchInquiries();
 });

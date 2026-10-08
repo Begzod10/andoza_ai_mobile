@@ -2595,5 +2595,21 @@
   "shopOrderPaymentLine": "Оплата: {value}",
   "@shopOrderPaymentLine": {"placeholders": {"value": {"type": "String"}}},
   "shopOrderPayCash": "Наличными",
-  "shopOrderPayCard": "Картой"
+  "shopOrderPayCard": "Картой",
+  "tradePlitkachi": "Плиточник",
+  "tradeShtukatur": "Штукатур",
+  "tradeGipsokartonchi": "Гипсокартонщик",
+  "tradeEshikOyna": "Мастер по дверям и окнам",
+  "tradeIsitishKonditsioner": "Мастер по отоплению и кондиционерам",
+  "tradeDemontaj": "Мастер по демонтажу",
+  "ustaPortfolioOpen": "Портфолио",
+  "ustaPortfolioTitle": "Моё портфолио",
+  "ustaPortfolioEmpty": "Фотографий работ пока нет. Добавьте выполненные работы.",
+  "ustaPortfolioAdd": "Добавить фото",
+  "ustaPortfolioCaption": "Подпись (необязательно)",
+  "ustaPortfolioUpload": "Загрузить",
+  "ustaPortfolioDeleteConfirm": "Удалить фото? Это нельзя отменить.",
+  "ustaPortfolioLoadFailed": "Не удалось загрузить портфолио.",
+  "ustaLeadMessage": "Сообщение клиента: {message}",
+  "@ustaLeadMessage": {"placeholders": {"message": {"type": "String"}}}
 }

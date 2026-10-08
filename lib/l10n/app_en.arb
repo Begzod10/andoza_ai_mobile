@@ -2595,5 +2595,21 @@
   "shopOrderPaymentLine": "Payment: {value}",
   "@shopOrderPaymentLine": {"placeholders": {"value": {"type": "String"}}},
   "shopOrderPayCash": "Cash",
-  "shopOrderPayCard": "Card"
+  "shopOrderPayCard": "Card",
+  "tradePlitkachi": "Tiler",
+  "tradeShtukatur": "Plasterer",
+  "tradeGipsokartonchi": "Drywall installer",
+  "tradeEshikOyna": "Door & window installer",
+  "tradeIsitishKonditsioner": "Heating & AC technician",
+  "tradeDemontaj": "Demolition worker",
+  "ustaPortfolioOpen": "Portfolio",
+  "ustaPortfolioTitle": "My portfolio",
+  "ustaPortfolioEmpty": "No work photos yet. Add the jobs you have done.",
+  "ustaPortfolioAdd": "Add photo",
+  "ustaPortfolioCaption": "Caption (optional)",
+  "ustaPortfolioUpload": "Upload",
+  "ustaPortfolioDeleteConfirm": "Delete this photo? This cannot be undone.",
+  "ustaPortfolioLoadFailed": "Could not load the portfolio.",
+  "ustaLeadMessage": "Client's message: {message}",
+  "@ustaLeadMessage": {"placeholders": {"message": {"type": "String"}}}
 }

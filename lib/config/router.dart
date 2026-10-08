@@ -43,6 +43,7 @@ import '../screens/business/shop_inquiries_screen.dart';
 import '../screens/business/shop_stats_screen.dart';
 import '../screens/business/usta_leads_screen.dart';
 import '../screens/business/shop_products_screen.dart';
+import '../screens/business/usta_portfolio_screen.dart';
 import '../screens/shop/e10_search_results_screen.dart';
 import '../screens/shop/s1_shop_home_screen.dart';
 import '../screens/shop/s2_project_materials_screen.dart';
@@ -343,6 +344,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/business/stats',
             builder: (context, state) => const ShopStatsScreen(),
+          ),
+          GoRoute(
+            path: '/business/portfolio',
+            builder: (context, state) => const UstaPortfolioScreen(),
           ),
           GoRoute(
             path: '/business/products',

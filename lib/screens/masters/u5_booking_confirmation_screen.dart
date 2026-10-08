@@ -44,6 +44,7 @@ class _U5BookingConfirmationScreenState
       await ref.read(businessRepositoryProvider).sendLead(
             m.master.id,
             roomId: roomId != null && _uuid.hasMatch(roomId) ? roomId : null,
+            message: _commentController.text,
           );
       navigator.pop();
       messenger.showSnackBar(SnackBar(content: Text(l10n.mastersEstimateSent)));

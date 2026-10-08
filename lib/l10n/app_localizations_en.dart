@@ -2246,4 +2246,53 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shopOrderPayCard => 'Card';
+
+  @override
+  String get tradePlitkachi => 'Tiler';
+
+  @override
+  String get tradeShtukatur => 'Plasterer';
+
+  @override
+  String get tradeGipsokartonchi => 'Drywall installer';
+
+  @override
+  String get tradeEshikOyna => 'Door & window installer';
+
+  @override
+  String get tradeIsitishKonditsioner => 'Heating & AC technician';
+
+  @override
+  String get tradeDemontaj => 'Demolition worker';
+
+  @override
+  String get ustaPortfolioOpen => 'Portfolio';
+
+  @override
+  String get ustaPortfolioTitle => 'My portfolio';
+
+  @override
+  String get ustaPortfolioEmpty =>
+      'No work photos yet. Add the jobs you have done.';
+
+  @override
+  String get ustaPortfolioAdd => 'Add photo';
+
+  @override
+  String get ustaPortfolioCaption => 'Caption (optional)';
+
+  @override
+  String get ustaPortfolioUpload => 'Upload';
+
+  @override
+  String get ustaPortfolioDeleteConfirm =>
+      'Delete this photo? This cannot be undone.';
+
+  @override
+  String get ustaPortfolioLoadFailed => 'Could not load the portfolio.';
+
+  @override
+  String ustaLeadMessage(String message) {
+    return 'Client\'s message: $message';
+  }
 }

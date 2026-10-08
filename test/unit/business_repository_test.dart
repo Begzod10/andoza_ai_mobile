@@ -59,4 +59,42 @@ void main() {
     expect(adapter.last!.path, endsWith('/seller/store'));
     expect(adapter.last!.data, {'district': 'Chilonzor'});
   });
+
+  test('sendLead sends message only when not blank', () async {
+    try {
+      await repo.sendLead('u1', message: '  ');
+    } catch (_) {}
+    expect(adapter.last!.data, {'usta_id': 'u1'});
+    try {
+      await repo.sendLead('u1', message: ' salom ');
+    } catch (_) {}
+    expect(adapter.last!.data, {'usta_id': 'u1', 'message': 'salom'});
+  });
+
+  test('addPortfolioItem uploads file with caption field', () async {
+    try {
+      await repo.addPortfolioItem([1], 'a.png', 'image/png', caption: 'Hammom');
+    } catch (_) {} // the fake returns a job body, not an item
+    expect(adapter.last!.path, endsWith('/usta/portfolio'));
+    expect(adapter.last!.method, 'POST');
+    final form = adapter.last!.data as FormData;
+    expect(form.files.map((f) => f.key), ['file']);
+    expect(form.fields.map((f) => '${f.key}=${f.value}'), ['caption=Hammom']);
+  });
+
+  test('addPortfolioItem omits a blank caption', () async {
+    try {
+      await repo.addPortfolioItem([1], 'a.jpg', 'image/jpeg', caption: ' ');
+    } catch (_) {}
+    final form = adapter.last!.data as FormData;
+    expect(form.fields, isEmpty);
+  });
+
+  test('deletePortfolioItem calls DELETE', () async {
+    try {
+      await repo.deletePortfolioItem('p1');
+    } catch (_) {}
+    expect(adapter.last!.method, 'DELETE');
+    expect(adapter.last!.path, endsWith('/usta/portfolio/p1'));
+  });
 }
