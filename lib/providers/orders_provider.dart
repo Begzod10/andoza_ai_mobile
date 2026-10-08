@@ -40,7 +40,7 @@ final ordersRepositoryProvider = Provider<OrdersRepository>((ref) {
 final serverOrdersProvider = FutureProvider.autoDispose<List<ShopOrder>>((ref) async {
   final localOrders = ref.watch(ordersProvider);
   final server = await ref.watch(ordersRepositoryProvider).listOrders();
-  final serverOrders = server.map(_serverOrderToShopOrder).toList();
+  final serverOrders = server.map(serverOrderToShopOrder).toList();
   final serverIds = serverOrders.map((o) => o.id).toSet();
   final localOnly =
       localOrders.where((o) => !serverIds.contains(o.id)).toList();
@@ -52,7 +52,7 @@ final serverOrdersProvider = FutureProvider.autoDispose<List<ShopOrder>>((ref) a
 /// stored name/unit/price (category defaults to [ShopCategory.boyoq], which
 /// the E6/S7 cards don't key off), and a minimal [Dealer] named after the
 /// order's dealer.
-ShopOrder _serverOrderToShopOrder(ServerOrder o) => ShopOrder(
+ShopOrder serverOrderToShopOrder(ServerOrder o) => ShopOrder(
   id: o.id,
   lines: o.lines.map((l) => _serverLineToCartLine(l, o.dealerName)).toList(),
   total: o.totalUzs,

@@ -4065,6 +4065,78 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Yuborib bo\'lmadi. Qayta urinib ko\'ring.'**
   String get mastersSendFailed;
+
+  /// No description provided for @shopCheckoutUnlinkedLines.
+  ///
+  /// In uz, this message translates to:
+  /// **'Savatdagi ba\'zi mahsulotlar do\'kon katalogiga bog\'lanmagan, shuning uchun buyurtma berib bo\'lmaydi: {names}. Ularni savatdan olib tashlang.'**
+  String shopCheckoutUnlinkedLines(String names);
+
+  /// No description provided for @shopOrderPartial.
+  ///
+  /// In uz, this message translates to:
+  /// **'{dealer} buyurtmasi qabul qilinmadi: {error} Qolgan buyurtmalar yuborildi.'**
+  String shopOrderPartial(String dealer, String error);
+
+  /// No description provided for @shopOrdersTitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Buyurtmalar'**
+  String get shopOrdersTitle;
+
+  /// No description provided for @shopOrdersOpen.
+  ///
+  /// In uz, this message translates to:
+  /// **'Buyurtmalar'**
+  String get shopOrdersOpen;
+
+  /// No description provided for @shopOrdersEmpty.
+  ///
+  /// In uz, this message translates to:
+  /// **'Hali buyurtma yo\'q. Mijozlar buyurtma bersa, shu yerda ko\'rinadi.'**
+  String get shopOrdersEmpty;
+
+  /// No description provided for @shopOrderMarkGathering.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yig\'ilmoqda deb belgilash'**
+  String get shopOrderMarkGathering;
+
+  /// No description provided for @shopOrderMarkOnTheWay.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yo\'lda deb belgilash'**
+  String get shopOrderMarkOnTheWay;
+
+  /// No description provided for @shopOrderMarkDelivered.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yetkazildi deb belgilash'**
+  String get shopOrderMarkDelivered;
+
+  /// No description provided for @shopOrderAddressLine.
+  ///
+  /// In uz, this message translates to:
+  /// **'Manzil: {value}'**
+  String shopOrderAddressLine(String value);
+
+  /// No description provided for @shopOrderPaymentLine.
+  ///
+  /// In uz, this message translates to:
+  /// **'To\'lov: {value}'**
+  String shopOrderPaymentLine(String value);
+
+  /// No description provided for @shopOrderPayCash.
+  ///
+  /// In uz, this message translates to:
+  /// **'Naqd'**
+  String get shopOrderPayCash;
+
+  /// No description provided for @shopOrderPayCard.
+  ///
+  /// In uz, this message translates to:
+  /// **'Karta'**
+  String get shopOrderPayCard;
 }
 
 class _AppLocalizationsDelegate

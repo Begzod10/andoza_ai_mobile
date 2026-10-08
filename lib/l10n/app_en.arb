@@ -2575,5 +2575,21 @@
   "shopStatsPlacements": "Times placed in rooms",
   "shopStatsTop": "Most used products",
   "shopStatsTopEmpty": "No data yet.",
-  "mastersSendFailed": "Could not send. Try again."
+  "mastersSendFailed": "Could not send. Try again.",
+  "shopCheckoutUnlinkedLines": "Some cart items are not linked to a shop catalog item, so the order cannot be placed: {names}. Remove them from the cart.",
+  "@shopCheckoutUnlinkedLines": {"placeholders": {"names": {"type": "String"}}},
+  "shopOrderPartial": "The order from {dealer} was not accepted: {error} The other orders were sent.",
+  "@shopOrderPartial": {"placeholders": {"dealer": {"type": "String"}, "error": {"type": "String"}}},
+  "shopOrdersTitle": "Orders",
+  "shopOrdersOpen": "Orders",
+  "shopOrdersEmpty": "No orders yet. When customers order, they will show up here.",
+  "shopOrderMarkGathering": "Mark as gathering",
+  "shopOrderMarkOnTheWay": "Mark as on the way",
+  "shopOrderMarkDelivered": "Mark as delivered",
+  "shopOrderAddressLine": "Address: {value}",
+  "@shopOrderAddressLine": {"placeholders": {"value": {"type": "String"}}},
+  "shopOrderPaymentLine": "Payment: {value}",
+  "@shopOrderPaymentLine": {"placeholders": {"value": {"type": "String"}}},
+  "shopOrderPayCash": "Cash",
+  "shopOrderPayCard": "Card"
 }

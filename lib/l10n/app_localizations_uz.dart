@@ -2195,4 +2195,49 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get mastersSendFailed => 'Yuborib bo\'lmadi. Qayta urinib ko\'ring.';
+
+  @override
+  String shopCheckoutUnlinkedLines(String names) {
+    return 'Savatdagi ba\'zi mahsulotlar do\'kon katalogiga bog\'lanmagan, shuning uchun buyurtma berib bo\'lmaydi: $names. Ularni savatdan olib tashlang.';
+  }
+
+  @override
+  String shopOrderPartial(String dealer, String error) {
+    return '$dealer buyurtmasi qabul qilinmadi: $error Qolgan buyurtmalar yuborildi.';
+  }
+
+  @override
+  String get shopOrdersTitle => 'Buyurtmalar';
+
+  @override
+  String get shopOrdersOpen => 'Buyurtmalar';
+
+  @override
+  String get shopOrdersEmpty =>
+      'Hali buyurtma yo\'q. Mijozlar buyurtma bersa, shu yerda ko\'rinadi.';
+
+  @override
+  String get shopOrderMarkGathering => 'Yig\'ilmoqda deb belgilash';
+
+  @override
+  String get shopOrderMarkOnTheWay => 'Yo\'lda deb belgilash';
+
+  @override
+  String get shopOrderMarkDelivered => 'Yetkazildi deb belgilash';
+
+  @override
+  String shopOrderAddressLine(String value) {
+    return 'Manzil: $value';
+  }
+
+  @override
+  String shopOrderPaymentLine(String value) {
+    return 'To\'lov: $value';
+  }
+
+  @override
+  String get shopOrderPayCash => 'Naqd';
+
+  @override
+  String get shopOrderPayCard => 'Karta';
 }

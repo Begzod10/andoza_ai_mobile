@@ -2575,5 +2575,21 @@
   "shopStatsPlacements": "Размещено в комнатах",
   "shopStatsTop": "Самые выбираемые товары",
   "shopStatsTopEmpty": "Данных пока нет.",
-  "mastersSendFailed": "Не удалось отправить. Попробуйте ещё раз."
+  "mastersSendFailed": "Не удалось отправить. Попробуйте ещё раз.",
+  "shopCheckoutUnlinkedLines": "Некоторые товары в корзине не связаны с каталогом магазина, поэтому заказ оформить нельзя: {names}. Удалите их из корзины.",
+  "@shopCheckoutUnlinkedLines": {"placeholders": {"names": {"type": "String"}}},
+  "shopOrderPartial": "Заказ {dealer} не принят: {error} Остальные заказы отправлены.",
+  "@shopOrderPartial": {"placeholders": {"dealer": {"type": "String"}, "error": {"type": "String"}}},
+  "shopOrdersTitle": "Заказы",
+  "shopOrdersOpen": "Заказы",
+  "shopOrdersEmpty": "Заказов пока нет. Когда клиенты закажут, они появятся здесь.",
+  "shopOrderMarkGathering": "Отметить: собирается",
+  "shopOrderMarkOnTheWay": "Отметить: в пути",
+  "shopOrderMarkDelivered": "Отметить: доставлен",
+  "shopOrderAddressLine": "Адрес: {value}",
+  "@shopOrderAddressLine": {"placeholders": {"value": {"type": "String"}}},
+  "shopOrderPaymentLine": "Оплата: {value}",
+  "@shopOrderPaymentLine": {"placeholders": {"value": {"type": "String"}}},
+  "shopOrderPayCash": "Наличными",
+  "shopOrderPayCard": "Картой"
 }

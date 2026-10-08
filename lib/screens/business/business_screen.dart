@@ -97,6 +97,11 @@ class _ShopCard extends ConsumerWidget {
                       : l10n.shopInquiriesOpen),
                 ),
                 TextButton.icon(
+                  onPressed: () => context.push('/business/orders'),
+                  icon: const Icon(Icons.local_shipping_outlined),
+                  label: Text(l10n.shopOrdersOpen),
+                ),
+                TextButton.icon(
                   onPressed: () => context.push('/business/stats'),
                   icon: const Icon(Icons.insights_outlined),
                   label: Text(l10n.shopStatsOpen),

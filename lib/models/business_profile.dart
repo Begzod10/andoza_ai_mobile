@@ -355,3 +355,89 @@ class SellerStats {
     );
   }
 }
+
+/// An order's stage as the shop moves it. The server only allows the next
+/// stage, one at a time; [next] is null once delivered (or unknown).
+enum SellerOrderStage {
+  accepted('accepted'),
+  gathering('gathering'),
+  onTheWay('on_the_way'),
+  delivered('delivered'),
+  unknown('');
+
+  const SellerOrderStage(this.wire);
+  final String wire;
+
+  static SellerOrderStage parse(Object? raw) => SellerOrderStage.values
+      .firstWhere((s) => s.wire == raw && s != unknown, orElse: () => unknown);
+
+  SellerOrderStage? get next => switch (this) {
+    accepted => gathering,
+    gathering => onTheWay,
+    onTheWay => delivered,
+    _ => null,
+  };
+}
+
+/// One line of an order as the shop sees it.
+class SellerOrderLine {
+  const SellerOrderLine({
+    required this.productName,
+    required this.unit,
+    required this.quantity,
+    required this.unitPriceUzs,
+  });
+
+  final String productName;
+  final String unit;
+  final num quantity;
+  final int unitPriceUzs;
+
+  factory SellerOrderLine.fromJson(Map<String, dynamic> json) =>
+      SellerOrderLine(
+        productName: json['product_name'] as String? ?? '',
+        unit: json['unit'] as String? ?? '',
+        quantity: json['quantity'] as num? ?? 0,
+        unitPriceUzs: (json['unit_price_uzs'] as num? ?? 0).toInt(),
+      );
+}
+
+/// An order placed with the caller's shop (`GET /seller/orders`).
+class SellerOrder {
+  const SellerOrder({
+    required this.id,
+    required this.dealerName,
+    required this.totalUzs,
+    required this.status,
+    required this.createdAt,
+    this.deliveryAddress,
+    this.phone,
+    this.paymentMethod,
+    this.lines = const [],
+  });
+
+  final String id;
+  final String dealerName;
+  final int totalUzs;
+  final SellerOrderStage status;
+  final DateTime createdAt;
+  final String? deliveryAddress;
+  final String? phone;
+  final String? paymentMethod;
+  final List<SellerOrderLine> lines;
+
+  factory SellerOrder.fromJson(Map<String, dynamic> json) => SellerOrder(
+    id: json['id'].toString(),
+    dealerName: json['dealer_name'] as String? ?? '',
+    totalUzs: (json['total_uzs'] as num? ?? 0).toInt(),
+    status: SellerOrderStage.parse(json['status']),
+    createdAt: DateTime.parse(json['created_at'] as String),
+    deliveryAddress: json['delivery_address'] as String?,
+    phone: json['phone'] as String?,
+    paymentMethod: json['payment_method'] as String?,
+    lines: [
+      for (final l in (json['lines'] as List<dynamic>? ?? const []))
+        SellerOrderLine.fromJson(l as Map<String, dynamic>),
+    ],
+  );
+}

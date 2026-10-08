@@ -50,6 +50,7 @@ import '../screens/shop/s3_product_detail_screen.dart';
 import '../screens/shop/s4_dealer_comparison_screen.dart';
 import '../screens/shop/s5_shopping_cart_screen.dart';
 import '../screens/shop/s6_checkout_screen.dart';
+import '../screens/business/shop_orders_screen.dart';
 import '../screens/shop/s7_order_confirmation_screen.dart';
 import '../providers/masters_provider.dart';
 import '../screens/masters/u1_masters_intro_screen.dart';
@@ -334,6 +335,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/business/inquiries',
             builder: (context, state) => const ShopInquiriesScreen(),
+          ),
+          GoRoute(
+            path: '/business/orders',
+            builder: (context, state) => const ShopOrdersScreen(),
           ),
           GoRoute(
             path: '/business/stats',

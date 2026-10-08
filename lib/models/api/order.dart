@@ -67,6 +67,9 @@ abstract class ServerOrder with _$ServerOrder {
     @JsonKey(unknownEnumValue: OrderStatus.unknown) required OrderStatus status,
     @JsonKey(name: 'created_at') required DateTime createdAt,
     @Default(<ServerOrderLine>[]) List<ServerOrderLine> lines,
+    @JsonKey(name: 'delivery_address') String? deliveryAddress,
+    String? phone,
+    @JsonKey(name: 'payment_method') String? paymentMethod,
   }) = _ServerOrder;
 
   factory ServerOrder.fromJson(Map<String, dynamic> json) =>

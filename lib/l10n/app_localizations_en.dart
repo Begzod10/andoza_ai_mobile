@@ -2198,4 +2198,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mastersSendFailed => 'Could not send. Try again.';
+
+  @override
+  String shopCheckoutUnlinkedLines(String names) {
+    return 'Some cart items are not linked to a shop catalog item, so the order cannot be placed: $names. Remove them from the cart.';
+  }
+
+  @override
+  String shopOrderPartial(String dealer, String error) {
+    return 'The order from $dealer was not accepted: $error The other orders were sent.';
+  }
+
+  @override
+  String get shopOrdersTitle => 'Orders';
+
+  @override
+  String get shopOrdersOpen => 'Orders';
+
+  @override
+  String get shopOrdersEmpty =>
+      'No orders yet. When customers order, they will show up here.';
+
+  @override
+  String get shopOrderMarkGathering => 'Mark as gathering';
+
+  @override
+  String get shopOrderMarkOnTheWay => 'Mark as on the way';
+
+  @override
+  String get shopOrderMarkDelivered => 'Mark as delivered';
+
+  @override
+  String shopOrderAddressLine(String value) {
+    return 'Address: $value';
+  }
+
+  @override
+  String shopOrderPaymentLine(String value) {
+    return 'Payment: $value';
+  }
+
+  @override
+  String get shopOrderPayCash => 'Cash';
+
+  @override
+  String get shopOrderPayCard => 'Card';
 }

@@ -2199,4 +2199,49 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get mastersSendFailed => 'Не удалось отправить. Попробуйте ещё раз.';
+
+  @override
+  String shopCheckoutUnlinkedLines(String names) {
+    return 'Некоторые товары в корзине не связаны с каталогом магазина, поэтому заказ оформить нельзя: $names. Удалите их из корзины.';
+  }
+
+  @override
+  String shopOrderPartial(String dealer, String error) {
+    return 'Заказ $dealer не принят: $error Остальные заказы отправлены.';
+  }
+
+  @override
+  String get shopOrdersTitle => 'Заказы';
+
+  @override
+  String get shopOrdersOpen => 'Заказы';
+
+  @override
+  String get shopOrdersEmpty =>
+      'Заказов пока нет. Когда клиенты закажут, они появятся здесь.';
+
+  @override
+  String get shopOrderMarkGathering => 'Отметить: собирается';
+
+  @override
+  String get shopOrderMarkOnTheWay => 'Отметить: в пути';
+
+  @override
+  String get shopOrderMarkDelivered => 'Отметить: доставлен';
+
+  @override
+  String shopOrderAddressLine(String value) {
+    return 'Адрес: $value';
+  }
+
+  @override
+  String shopOrderPaymentLine(String value) {
+    return 'Оплата: $value';
+  }
+
+  @override
+  String get shopOrderPayCash => 'Наличными';
+
+  @override
+  String get shopOrderPayCard => 'Картой';
 }

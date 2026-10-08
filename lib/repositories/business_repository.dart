@@ -231,6 +231,18 @@ class BusinessRepository {
         fromJson: (j) => ShopInquiry.fromJson(j as Map<String, dynamic>),
       );
 
+  Future<List<SellerOrder>> fetchSellerOrders() => _client.get<List<SellerOrder>>(
+        '/seller/orders',
+        fromJson: (j) => [for (final o in j as List<dynamic>) SellerOrder.fromJson(o as Map<String, dynamic>)],
+      );
+
+  /// Moves an order to [status]; the server accepts only the next stage.
+  Future<SellerOrder> advanceSellerOrder(String id, SellerOrderStage status) => _client.patch<SellerOrder>(
+        '/seller/orders/$id/status',
+        data: {'status': status.wire},
+        fromJson: (j) => SellerOrder.fromJson(j as Map<String, dynamic>),
+      );
+
   Future<SellerStats> fetchStats() => _client.get<SellerStats>(
         '/seller/stats',
         fromJson: (j) => SellerStats.fromJson(j as Map<String, dynamic>),

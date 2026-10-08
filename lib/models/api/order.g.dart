@@ -60,6 +60,9 @@ _ServerOrder _$ServerOrderFromJson(Map<String, dynamic> json) => _ServerOrder(
           ?.map((e) => ServerOrderLine.fromJson(e as Map<String, dynamic>))
           .toList() ??
       const <ServerOrderLine>[],
+  deliveryAddress: json['delivery_address'] as String?,
+  phone: json['phone'] as String?,
+  paymentMethod: json['payment_method'] as String?,
 );
 
 Map<String, dynamic> _$ServerOrderToJson(_ServerOrder instance) =>
@@ -71,6 +74,9 @@ Map<String, dynamic> _$ServerOrderToJson(_ServerOrder instance) =>
       'status': _$OrderStatusEnumMap[instance.status]!,
       'created_at': instance.createdAt.toIso8601String(),
       'lines': instance.lines,
+      'delivery_address': instance.deliveryAddress,
+      'phone': instance.phone,
+      'payment_method': instance.paymentMethod,
     };
 
 const _$OrderStatusEnumMap = {

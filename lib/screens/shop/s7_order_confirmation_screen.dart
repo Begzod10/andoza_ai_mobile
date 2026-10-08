@@ -4,7 +4,9 @@ import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/shop_model.dart';
+import '../../providers/orders_provider.dart';
 import '../../utils/currency.dart';
+import '../../widgets/periodic_refresh.dart';
 
 /// S7: Buyurtma holati — vertical stepper (Qabul qilindi → Yig'ilmoqda →
 /// Yo'lda → Yetkazildi), dealer/courier contact row, order contents and
@@ -18,7 +20,10 @@ class S7OrderConfirmationScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
-    final o =
+    // Tracking: prefer the freshest server copy of this order (the list is
+    // re-fetched every 30 s while this screen is open).
+    final fresh = ref.watch(serverOrdersProvider).valueOrNull;
+    final seed =
         order ??
         ShopOrder(
           id: 'ORD-0000',
@@ -28,8 +33,11 @@ class S7OrderConfirmationScreen extends ConsumerWidget {
           dealerName: '—',
           createdAt: DateTime.now(),
         );
+    final o = fresh?.where((x) => x.id == seed.id).firstOrNull ?? seed;
 
-    return Scaffold(
+    return PeriodicRefresh(
+      onTick: () => ref.invalidate(serverOrdersProvider),
+      child: Scaffold(
       backgroundColor: DesignTokens.backgroundLight,
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
@@ -156,7 +164,7 @@ class S7OrderConfirmationScreen extends ConsumerWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 }
 

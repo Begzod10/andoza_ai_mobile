@@ -13,12 +13,18 @@ class OrdersRepository {
   Future<ServerOrder> createOrder({
     required String dealerName,
     required List<OrderLineCreate> lines,
+    String? deliveryAddress,
+    String? phone,
+    String? paymentMethod,
   }) {
     return _client.post<ServerOrder>(
       '/orders',
       data: {
         'dealer_name': dealerName,
         'lines': lines.map((l) => l.toJson()).toList(),
+        'delivery_address': ?deliveryAddress,
+        'phone': ?phone,
+        'payment_method': ?paymentMethod,
       },
       fromJson: (json) => ServerOrder.fromJson(json as Map<String, dynamic>),
     );

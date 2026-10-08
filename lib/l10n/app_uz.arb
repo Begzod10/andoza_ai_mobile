@@ -2499,5 +2499,21 @@
   "shopStatsPlacements": "Xonalarga joylashtirilgan",
   "shopStatsTop": "Eng ko'p tanlangan mahsulotlar",
   "shopStatsTopEmpty": "Hali ma'lumot yo'q.",
-  "mastersSendFailed": "Yuborib bo'lmadi. Qayta urinib ko'ring."
+  "mastersSendFailed": "Yuborib bo'lmadi. Qayta urinib ko'ring.",
+  "shopCheckoutUnlinkedLines": "Savatdagi ba'zi mahsulotlar do'kon katalogiga bog'lanmagan, shuning uchun buyurtma berib bo'lmaydi: {names}. Ularni savatdan olib tashlang.",
+  "@shopCheckoutUnlinkedLines": {"placeholders": {"names": {"type": "String"}}},
+  "shopOrderPartial": "{dealer} buyurtmasi qabul qilinmadi: {error} Qolgan buyurtmalar yuborildi.",
+  "@shopOrderPartial": {"placeholders": {"dealer": {"type": "String"}, "error": {"type": "String"}}},
+  "shopOrdersTitle": "Buyurtmalar",
+  "shopOrdersOpen": "Buyurtmalar",
+  "shopOrdersEmpty": "Hali buyurtma yo'q. Mijozlar buyurtma bersa, shu yerda ko'rinadi.",
+  "shopOrderMarkGathering": "Yig'ilmoqda deb belgilash",
+  "shopOrderMarkOnTheWay": "Yo'lda deb belgilash",
+  "shopOrderMarkDelivered": "Yetkazildi deb belgilash",
+  "shopOrderAddressLine": "Manzil: {value}",
+  "@shopOrderAddressLine": {"placeholders": {"value": {"type": "String"}}},
+  "shopOrderPaymentLine": "To'lov: {value}",
+  "@shopOrderPaymentLine": {"placeholders": {"value": {"type": "String"}}},
+  "shopOrderPayCash": "Naqd",
+  "shopOrderPayCard": "Karta"
 }

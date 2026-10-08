@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -22,6 +20,9 @@ final _uuidRe = RegExp(
 enum _PaymentMethod { payme, click, uzum, cash }
 
 extension on _PaymentMethod {
+  /// What the server stores: it knows only cash on delivery or a card payment.
+  String get wire => this == _PaymentMethod.cash ? 'cash' : 'card';
+
   String get label => switch (this) {
     _PaymentMethod.payme => 'Payme',
     _PaymentMethod.click => 'Click',
@@ -64,64 +65,94 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
     super.dispose();
   }
 
-  Future<void> _placeOrder(int total, List<CartLine> lines) async {
-    setState(() => _isPlacing = true);
-    await Future.delayed(const Duration(milliseconds: 500));
-    if (!mounted) return;
-    final dealerName = lines.isEmpty ? '—' : lines.first.dealer.name;
-    final order = ShopOrder(
-      id: 'ORD-${lines.length}${total % 10000}',
-      lines: lines,
-      total: total,
-      currentStep: OrderStep.accepted,
-      dealerName: dealerName,
-      createdAt: DateTime.now(),
-    );
-    ref.read(cartProvider.notifier).clear();
-    ref.read(ordersProvider.notifier).add(order);
-    // Best-effort server persistence — never blocks the user; S7 shows the
-    // local optimistic order regardless of whether the POST succeeds.
-    unawaited(_persistOrder(order.id, dealerName, lines));
-    context.push('/shop/s7', extra: order);
-  }
+  /// Places one server order per dealer (the server refuses an order that
+  /// mixes shops). Nothing is shown as placed unless the server accepted it:
+  /// accepted dealers' lines leave the cart, a refused dealer's lines stay and
+  /// the error is shown here. When every dealer's order is accepted the
+  /// confirmation opens.
+  Future<void> _placeOrder(List<CartLine> lines) async {
+    final l10n = AppLocalizations.of(context)!;
+    final messenger = ScaffoldMessenger.of(context);
 
-  /// POSTs the placed order to `/orders`, then invalidates the server list so
-  /// E6/Profile refetch the authoritative history. Failures are surfaced via
-  /// a snackbar only — the user's flow is not interrupted.
-  Future<void> _persistOrder(
-    String localId,
-    String dealerName,
-    List<CartLine> lines,
-  ) async {
-    try {
-      await ref.read(ordersRepositoryProvider).createOrder(
-        dealerName: dealerName,
-        lines: [
-          for (final line in lines)
-            OrderLineCreate(
-              materialId: _uuidRe.hasMatch(line.product.id)
-                  ? line.product.id
-                  : null,
-              productName: line.product.name,
-              unit: line.product.unit,
-              unitPriceUzs: line.product.pricePerUnit,
-              quantity: line.quantity,
-            ),
-        ],
+    // A line with no catalog id can never be priced or routed by the server.
+    final unlinked = [
+      for (final line in lines)
+        if (!_uuidRe.hasMatch(line.product.id)) line.product.name,
+    ];
+    if (unlinked.isNotEmpty) {
+      messenger.showSnackBar(
+        SnackBar(
+          content: Text(l10n.shopCheckoutUnlinkedLines(unlinked.join(', '))),
+        ),
       );
-      // Server now owns this order — drop the local optimistic copy so the
-      // merged history doesn't list it twice (local id vs server UUID).
-      ref.read(ordersProvider.notifier).remove(localId);
-      ref.invalidate(serverOrdersProvider);
-    } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
+      return;
+    }
+
+    setState(() => _isPlacing = true);
+    final repo = ref.read(ordersRepositoryProvider);
+    final address = _addressController.text.trim();
+    final phone = _phoneController.text.trim();
+    final method = _method.wire;
+
+    final byDealer = <String, List<CartLine>>{};
+    for (final line in lines) {
+      byDealer.putIfAbsent(line.dealer.id, () => []).add(line);
+    }
+
+    final created = <ServerOrder>[];
+    String? failedDealer;
+    Object? failure;
+    for (final dealerLines in byDealer.values) {
+      final dealer = dealerLines.first.dealer;
+      try {
+        final order = await repo.createOrder(
+          dealerName: dealer.name,
+          deliveryAddress: address.isEmpty ? null : address,
+          phone: phone.isEmpty ? null : phone,
+          paymentMethod: method,
+          lines: [
+            for (final line in dealerLines)
+              OrderLineCreate(
+                materialId: line.product.id,
+                productName: line.product.name,
+                unit: line.product.unit,
+                unitPriceUzs: line.product.pricePerUnit,
+                quantity: line.quantity,
+              ),
+          ],
+        );
+        created.add(order);
+        final cart = ref.read(cartProvider.notifier);
+        for (final line in dealerLines) {
+          cart.remove(line.product.id, line.dealer.id);
+        }
+      } catch (e) {
+        failedDealer ??= dealer.name;
+        failure ??= e;
+      }
+    }
+
+    if (created.isNotEmpty) ref.invalidate(serverOrdersProvider);
+    if (!mounted) return;
+    setState(() => _isPlacing = false);
+
+    if (failure != null) {
+      final message = mapErrorWithServerDetail(failure);
+      messenger.showSnackBar(
         SnackBar(
           content: Text(
-            AppLocalizations.of(context)!.shopOrderSaveError(mapErrorToMessage(e)),
+            created.isEmpty
+                ? l10n.shopOrderSaveError(message)
+                : l10n.shopOrderPartial(failedDealer!, message),
           ),
         ),
       );
+      return;
+    }
+    if (created.length == 1) {
+      context.push('/shop/s7', extra: serverOrderToShopOrder(created.first));
+    } else {
+      context.go('/history');
     }
   }
 
@@ -257,7 +288,7 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
                       ),
                       onPressed: _isPlacing || lines.isEmpty
                           ? null
-                          : () => _placeOrder(grandTotal, lines),
+                          : () => _placeOrder(lines),
                       child: _isPlacing
                           ? const SizedBox(
                               height: 20,

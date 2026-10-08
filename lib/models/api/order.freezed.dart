@@ -583,7 +583,7 @@ as num,
 /// @nodoc
 mixin _$ServerOrder {
 
- String get id;@JsonKey(name: 'user_id') String get userId;@JsonKey(name: 'dealer_name') String get dealerName;@JsonKey(name: 'total_uzs') int get totalUzs;@JsonKey(unknownEnumValue: OrderStatus.unknown) OrderStatus get status;@JsonKey(name: 'created_at') DateTime get createdAt; List<ServerOrderLine> get lines;
+ String get id;@JsonKey(name: 'user_id') String get userId;@JsonKey(name: 'dealer_name') String get dealerName;@JsonKey(name: 'total_uzs') int get totalUzs;@JsonKey(unknownEnumValue: OrderStatus.unknown) OrderStatus get status;@JsonKey(name: 'created_at') DateTime get createdAt; List<ServerOrderLine> get lines;@JsonKey(name: 'delivery_address') String? get deliveryAddress; String? get phone;@JsonKey(name: 'payment_method') String? get paymentMethod;
 /// Create a copy of ServerOrder
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -597,20 +597,20 @@ $ServerOrderCopyWith<ServerOrder> get copyWith => _$ServerOrderCopyWithImpl<Serv
 @override
 bool operator ==(Object other) {
   final _this = this as ServerOrder;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ServerOrder&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.userId, _this.userId) || other.userId == _this.userId)&&(identical(other.dealerName, _this.dealerName) || other.dealerName == _this.dealerName)&&(identical(other.totalUzs, _this.totalUzs) || other.totalUzs == _this.totalUzs)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&const DeepCollectionEquality().equals(other.lines, _this.lines));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ServerOrder&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.userId, _this.userId) || other.userId == _this.userId)&&(identical(other.dealerName, _this.dealerName) || other.dealerName == _this.dealerName)&&(identical(other.totalUzs, _this.totalUzs) || other.totalUzs == _this.totalUzs)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.createdAt, _this.createdAt) || other.createdAt == _this.createdAt)&&const DeepCollectionEquality().equals(other.lines, _this.lines)&&(identical(other.deliveryAddress, _this.deliveryAddress) || other.deliveryAddress == _this.deliveryAddress)&&(identical(other.phone, _this.phone) || other.phone == _this.phone)&&(identical(other.paymentMethod, _this.paymentMethod) || other.paymentMethod == _this.paymentMethod));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as ServerOrder;
-  return Object.hash(runtimeType,_this.id,_this.userId,_this.dealerName,_this.totalUzs,_this.status,_this.createdAt,const DeepCollectionEquality().hash(_this.lines));
+  return Object.hash(runtimeType,_this.id,_this.userId,_this.dealerName,_this.totalUzs,_this.status,_this.createdAt,const DeepCollectionEquality().hash(_this.lines),_this.deliveryAddress,_this.phone,_this.paymentMethod);
 }
 
 @override
 String toString() {
   final _this = this as ServerOrder;
-  return 'ServerOrder(id: ${_this.id}, userId: ${_this.userId}, dealerName: ${_this.dealerName}, totalUzs: ${_this.totalUzs}, status: ${_this.status}, createdAt: ${_this.createdAt}, lines: ${_this.lines})';
+  return 'ServerOrder(id: ${_this.id}, userId: ${_this.userId}, dealerName: ${_this.dealerName}, totalUzs: ${_this.totalUzs}, status: ${_this.status}, createdAt: ${_this.createdAt}, lines: ${_this.lines}, deliveryAddress: ${_this.deliveryAddress}, phone: ${_this.phone}, paymentMethod: ${_this.paymentMethod})';
 }
 
 
@@ -621,7 +621,7 @@ abstract mixin class $ServerOrderCopyWith<$Res>  {
   factory $ServerOrderCopyWith(ServerOrder value, $Res Function(ServerOrder) _then) = _$ServerOrderCopyWithImpl;
 @useResult
 $Res call({
- String id,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'dealer_name') String dealerName,@JsonKey(name: 'total_uzs') int totalUzs,@JsonKey(unknownEnumValue: OrderStatus.unknown) OrderStatus status,@JsonKey(name: 'created_at') DateTime createdAt, List<ServerOrderLine> lines
+ String id,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'dealer_name') String dealerName,@JsonKey(name: 'total_uzs') int totalUzs,@JsonKey(unknownEnumValue: OrderStatus.unknown) OrderStatus status,@JsonKey(name: 'created_at') DateTime createdAt, List<ServerOrderLine> lines,@JsonKey(name: 'delivery_address') String? deliveryAddress, String? phone,@JsonKey(name: 'payment_method') String? paymentMethod
 });
 
 
@@ -638,7 +638,7 @@ class _$ServerOrderCopyWithImpl<$Res>
 
 /// Create a copy of ServerOrder
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? userId = null,Object? dealerName = null,Object? totalUzs = null,Object? status = null,Object? createdAt = null,Object? lines = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? userId = null,Object? dealerName = null,Object? totalUzs = null,Object? status = null,Object? createdAt = null,Object? lines = null,Object? deliveryAddress = freezed,Object? phone = freezed,Object? paymentMethod = freezed,}) {
   return _then(ServerOrder(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
@@ -647,7 +647,10 @@ as String,totalUzs: null == totalUzs ? _self.totalUzs : totalUzs // ignore: cast
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as OrderStatus,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,lines: null == lines ? _self.lines : lines // ignore: cast_nullable_to_non_nullable
-as List<ServerOrderLine>,
+as List<ServerOrderLine>,deliveryAddress: freezed == deliveryAddress ? _self.deliveryAddress : deliveryAddress // ignore: cast_nullable_to_non_nullable
+as String?,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
+as String?,paymentMethod: freezed == paymentMethod ? _self.paymentMethod : paymentMethod // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -732,10 +735,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'dealer_name')  String dealerName, @JsonKey(name: 'total_uzs')  int totalUzs, @JsonKey(unknownEnumValue: OrderStatus.unknown)  OrderStatus status, @JsonKey(name: 'created_at')  DateTime createdAt,  List<ServerOrderLine> lines)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'dealer_name')  String dealerName, @JsonKey(name: 'total_uzs')  int totalUzs, @JsonKey(unknownEnumValue: OrderStatus.unknown)  OrderStatus status, @JsonKey(name: 'created_at')  DateTime createdAt,  List<ServerOrderLine> lines, @JsonKey(name: 'delivery_address')  String? deliveryAddress,  String? phone, @JsonKey(name: 'payment_method')  String? paymentMethod)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ServerOrder() when $default != null:
-return $default(_that.id,_that.userId,_that.dealerName,_that.totalUzs,_that.status,_that.createdAt,_that.lines);case _:
+return $default(_that.id,_that.userId,_that.dealerName,_that.totalUzs,_that.status,_that.createdAt,_that.lines,_that.deliveryAddress,_that.phone,_that.paymentMethod);case _:
   return orElse();
 
 }
@@ -753,10 +756,10 @@ return $default(_that.id,_that.userId,_that.dealerName,_that.totalUzs,_that.stat
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'dealer_name')  String dealerName, @JsonKey(name: 'total_uzs')  int totalUzs, @JsonKey(unknownEnumValue: OrderStatus.unknown)  OrderStatus status, @JsonKey(name: 'created_at')  DateTime createdAt,  List<ServerOrderLine> lines)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'dealer_name')  String dealerName, @JsonKey(name: 'total_uzs')  int totalUzs, @JsonKey(unknownEnumValue: OrderStatus.unknown)  OrderStatus status, @JsonKey(name: 'created_at')  DateTime createdAt,  List<ServerOrderLine> lines, @JsonKey(name: 'delivery_address')  String? deliveryAddress,  String? phone, @JsonKey(name: 'payment_method')  String? paymentMethod)  $default,) {final _that = this;
 switch (_that) {
 case _ServerOrder():
-return $default(_that.id,_that.userId,_that.dealerName,_that.totalUzs,_that.status,_that.createdAt,_that.lines);case _:
+return $default(_that.id,_that.userId,_that.dealerName,_that.totalUzs,_that.status,_that.createdAt,_that.lines,_that.deliveryAddress,_that.phone,_that.paymentMethod);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -773,10 +776,10 @@ return $default(_that.id,_that.userId,_that.dealerName,_that.totalUzs,_that.stat
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'dealer_name')  String dealerName, @JsonKey(name: 'total_uzs')  int totalUzs, @JsonKey(unknownEnumValue: OrderStatus.unknown)  OrderStatus status, @JsonKey(name: 'created_at')  DateTime createdAt,  List<ServerOrderLine> lines)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id, @JsonKey(name: 'user_id')  String userId, @JsonKey(name: 'dealer_name')  String dealerName, @JsonKey(name: 'total_uzs')  int totalUzs, @JsonKey(unknownEnumValue: OrderStatus.unknown)  OrderStatus status, @JsonKey(name: 'created_at')  DateTime createdAt,  List<ServerOrderLine> lines, @JsonKey(name: 'delivery_address')  String? deliveryAddress,  String? phone, @JsonKey(name: 'payment_method')  String? paymentMethod)?  $default,) {final _that = this;
 switch (_that) {
 case _ServerOrder() when $default != null:
-return $default(_that.id,_that.userId,_that.dealerName,_that.totalUzs,_that.status,_that.createdAt,_that.lines);case _:
+return $default(_that.id,_that.userId,_that.dealerName,_that.totalUzs,_that.status,_that.createdAt,_that.lines,_that.deliveryAddress,_that.phone,_that.paymentMethod);case _:
   return null;
 
 }
@@ -788,7 +791,7 @@ return $default(_that.id,_that.userId,_that.dealerName,_that.totalUzs,_that.stat
 @JsonSerializable()
 
 class _ServerOrder implements ServerOrder {
-  const _ServerOrder({required this.id, @JsonKey(name: 'user_id') required this.userId, @JsonKey(name: 'dealer_name') required this.dealerName, @JsonKey(name: 'total_uzs') required this.totalUzs, @JsonKey(unknownEnumValue: OrderStatus.unknown) required this.status, @JsonKey(name: 'created_at') required this.createdAt,  List<ServerOrderLine> lines = const <ServerOrderLine>[]}): _lines = lines;
+  const _ServerOrder({required this.id, @JsonKey(name: 'user_id') required this.userId, @JsonKey(name: 'dealer_name') required this.dealerName, @JsonKey(name: 'total_uzs') required this.totalUzs, @JsonKey(unknownEnumValue: OrderStatus.unknown) required this.status, @JsonKey(name: 'created_at') required this.createdAt,  List<ServerOrderLine> lines = const <ServerOrderLine>[], @JsonKey(name: 'delivery_address') this.deliveryAddress, this.phone, @JsonKey(name: 'payment_method') this.paymentMethod}): _lines = lines;
   factory _ServerOrder.fromJson(Map<String, dynamic> json) => _$ServerOrderFromJson(json);
 
 @override final  String id;
@@ -804,6 +807,9 @@ class _ServerOrder implements ServerOrder {
   return EqualUnmodifiableListView(_lines);
 }
 
+@override@JsonKey(name: 'delivery_address') final  String? deliveryAddress;
+@override final  String? phone;
+@override@JsonKey(name: 'payment_method') final  String? paymentMethod;
 
 /// Create a copy of ServerOrder
 /// with the given fields replaced by the non-null parameter values.
@@ -818,18 +824,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ServerOrder&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.dealerName, dealerName) || other.dealerName == dealerName)&&(identical(other.totalUzs, totalUzs) || other.totalUzs == totalUzs)&&(identical(other.status, status) || other.status == status)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&const DeepCollectionEquality().equals(other.lines, _lines));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ServerOrder&&(identical(other.id, id) || other.id == id)&&(identical(other.userId, userId) || other.userId == userId)&&(identical(other.dealerName, dealerName) || other.dealerName == dealerName)&&(identical(other.totalUzs, totalUzs) || other.totalUzs == totalUzs)&&(identical(other.status, status) || other.status == status)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&const DeepCollectionEquality().equals(other.lines, _lines)&&(identical(other.deliveryAddress, deliveryAddress) || other.deliveryAddress == deliveryAddress)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.paymentMethod, paymentMethod) || other.paymentMethod == paymentMethod));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,userId,dealerName,totalUzs,status,createdAt,const DeepCollectionEquality().hash(_lines));
+    return Object.hash(runtimeType,id,userId,dealerName,totalUzs,status,createdAt,const DeepCollectionEquality().hash(_lines),deliveryAddress,phone,paymentMethod);
 }
 
 @override
 String toString() {
-    return 'ServerOrder(id: $id, userId: $userId, dealerName: $dealerName, totalUzs: $totalUzs, status: $status, createdAt: $createdAt, lines: $lines)';
+    return 'ServerOrder(id: $id, userId: $userId, dealerName: $dealerName, totalUzs: $totalUzs, status: $status, createdAt: $createdAt, lines: $lines, deliveryAddress: $deliveryAddress, phone: $phone, paymentMethod: $paymentMethod)';
 }
 
 
@@ -840,7 +846,7 @@ abstract mixin class _$ServerOrderCopyWith<$Res> implements $ServerOrderCopyWith
   factory _$ServerOrderCopyWith(_ServerOrder value, $Res Function(_ServerOrder) _then) = __$ServerOrderCopyWithImpl;
 @override @useResult
 $Res call({
- String id,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'dealer_name') String dealerName,@JsonKey(name: 'total_uzs') int totalUzs,@JsonKey(unknownEnumValue: OrderStatus.unknown) OrderStatus status,@JsonKey(name: 'created_at') DateTime createdAt, List<ServerOrderLine> lines
+ String id,@JsonKey(name: 'user_id') String userId,@JsonKey(name: 'dealer_name') String dealerName,@JsonKey(name: 'total_uzs') int totalUzs,@JsonKey(unknownEnumValue: OrderStatus.unknown) OrderStatus status,@JsonKey(name: 'created_at') DateTime createdAt, List<ServerOrderLine> lines,@JsonKey(name: 'delivery_address') String? deliveryAddress, String? phone,@JsonKey(name: 'payment_method') String? paymentMethod
 });
 
 
@@ -857,7 +863,7 @@ class __$ServerOrderCopyWithImpl<$Res>
 
 /// Create a copy of ServerOrder
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? userId = null,Object? dealerName = null,Object? totalUzs = null,Object? status = null,Object? createdAt = null,Object? lines = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? userId = null,Object? dealerName = null,Object? totalUzs = null,Object? status = null,Object? createdAt = null,Object? lines = null,Object? deliveryAddress = freezed,Object? phone = freezed,Object? paymentMethod = freezed,}) {
   return _then(_ServerOrder(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,userId: null == userId ? _self.userId : userId // ignore: cast_nullable_to_non_nullable
@@ -866,7 +872,10 @@ as String,totalUzs: null == totalUzs ? _self.totalUzs : totalUzs // ignore: cast
 as int,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
 as OrderStatus,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,lines: null == lines ? _self._lines : lines // ignore: cast_nullable_to_non_nullable
-as List<ServerOrderLine>,
+as List<ServerOrderLine>,deliveryAddress: freezed == deliveryAddress ? _self.deliveryAddress : deliveryAddress // ignore: cast_nullable_to_non_nullable
+as String?,phone: freezed == phone ? _self.phone : phone // ignore: cast_nullable_to_non_nullable
+as String?,paymentMethod: freezed == paymentMethod ? _self.paymentMethod : paymentMethod // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

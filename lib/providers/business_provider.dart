@@ -52,3 +52,7 @@ final myUstaProvider = FutureProvider.autoDispose<UstaProfile?>((ref) {
 final pendingBusinessSetupProvider = StateProvider<BusinessKind?>((ref) => null);
 
 enum BusinessKind { shop, usta }
+
+final mySellerOrdersProvider = FutureProvider.autoDispose<List<SellerOrder>>((ref) {
+  return ref.watch(businessRepositoryProvider).fetchSellerOrders();
+});

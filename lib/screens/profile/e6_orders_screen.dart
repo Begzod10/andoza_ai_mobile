@@ -7,6 +7,7 @@ import '../../models/shop_model.dart';
 import '../../providers/orders_provider.dart';
 import '../../utils/currency.dart';
 import '../../widgets/empty_state_pattern.dart';
+import '../../widgets/periodic_refresh.dart';
 
 /// E6: Buyurtmalarim — real (session-local) order history, appended by
 /// s6_checkout_screen.dart on each completed checkout. Also bound to the
@@ -25,10 +26,10 @@ class _E6OrdersScreenState extends ConsumerState<E6OrdersScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final orders = ref.watch(serverOrdersProvider).maybeWhen(
-      data: (data) => data,
-      orElse: () => ref.watch(ordersProvider),
-    );
+    // valueOrNull keeps the previous list while a periodic refresh reloads.
+    final List<ShopOrder> orders =
+        ref.watch(serverOrdersProvider).valueOrNull ??
+        ref.watch(ordersProvider);
     final visible = _filter == null
         ? orders
         : orders.where((o) => o.currentStep == _filter).toList();
@@ -41,7 +42,9 @@ class _E6OrdersScreenState extends ConsumerState<E6OrdersScreen> {
         automaticallyImplyLeading: false,
         title: Text(l10n.profileMenuOrders, style: DesignTokens.heading3),
       ),
-      body: Column(
+      body: PeriodicRefresh(
+        onTick: () => ref.invalidate(serverOrdersProvider),
+        child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -103,6 +106,7 @@ class _E6OrdersScreenState extends ConsumerState<E6OrdersScreen> {
                   ),
           ),
         ],
+      ),
       ),
     );
   }
