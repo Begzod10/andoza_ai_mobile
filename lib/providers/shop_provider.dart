@@ -3,6 +3,7 @@ import '../models/api/api.dart';
 import '../models/design_selection_model.dart';
 import '../models/electrical_model.dart';
 import '../models/shop_model.dart';
+import '../utils/catalog_image.dart';
 import '../utils/project_areas.dart';
 import 'apartment_provider.dart';
 import 'catalog_provider.dart';
@@ -212,7 +213,7 @@ List<Product> _mapToProducts(
       pricePerUnit: m.priceUzs,
       unit: m.unit,
       isOfficialDealer: isOfficial,
-      imageUrl: m.imageUrl,
+      imageUrl: catalogImageUrl(m.imageUrl),
       projectQuantity: _projectQuantityFor(
         category,
         m.unit,
