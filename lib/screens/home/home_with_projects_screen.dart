@@ -117,7 +117,7 @@ class _ProjectCardSkeleton extends StatelessWidget {
       decoration: BoxDecoration(
         color: DesignTokens.backgroundLight,
         borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: const Color(0xFFDCE7EE)),
+        border: Border.all(color: DesignTokens.borderGrayAlt),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -341,7 +341,7 @@ class _ProjectCard extends ConsumerWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFFEAF1F6), Color(0xFFF1F6F9), Color(0xFFEDF2F5)],
+          colors: [Color(0xFFEEF2FF), Color(0xFFF5F7FF), Color(0xFFEFF3FF)],
         ),
         borderRadius: BorderRadius.circular(22),
         border: Border.all(color: const Color(0xFFDCE7EE)),
@@ -349,7 +349,49 @@ class _ProjectCard extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          RoomThumbnail(height: 160, imageUrl: project.thumbnailUrl),
+          // The stage sits on the picture, as on the web's project hero card.
+          Stack(
+            children: [
+              RoomThumbnail(height: 160, imageUrl: project.thumbnailUrl),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: IgnorePointer(
+                  child: Container(
+                    height: 56,
+                    alignment: Alignment.bottomLeft,
+                    padding: const EdgeInsets.fromLTRB(
+                      DesignTokens.spacingMd,
+                      0,
+                      DesignTokens.spacingMd,
+                      DesignTokens.spacingSm,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.vertical(
+                        bottom: Radius.circular(DesignTokens.radiusLg),
+                      ),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withValues(alpha: 0.55),
+                        ],
+                      ),
+                    ),
+                    child: Text(
+                      l10n.homeStageProgress(currentIndex + 1),
+                      style: DesignTokens.caption.copyWith(
+                        color: DesignTokens.white,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
           const SizedBox(height: DesignTokens.spacingMd),
           Text(project.name, style: DesignTokens.subtitle1),
           Text(
