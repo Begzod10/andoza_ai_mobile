@@ -8,7 +8,7 @@ class _DeltaTokens {
   const _DeltaTokens();
 
   Color get completed => const Color(0xFF16A34A);
-  Color get inProgress => const Color(0xFF2F6690);
+  Color get inProgress => const Color(0xFF2850D0);
   Color get upcoming => const Color(0xFFEEF1F8);
   Color get skipped => const Color(0xFFC4CCE0);
 }
@@ -30,8 +30,10 @@ class _RoomStateTokens {
 /// tokens" section — do not hand-pick replacement values per screen.
 class DesignTokens {
   // Color Palette
-  static const Color primaryBlue = Color(0xFF2F6690);
-  static const Color accentOrange = Color(0xFFFAA916);
+  // The cobalt of the andoza.ai logo (same family as the web's brand blue).
+  static const Color primaryBlue = Color(0xFF2850D0);
+  // The logo's orange (the web's warning/accent orange).
+  static const Color accentOrange = Color(0xFFF97316);
   static const Color backgroundLight = Color(0xFFF8FAFC);
   static const Color darkBg = Color(0xFF0B0E13);
   static const Color textGray = Color(0xFF5A6785);
@@ -42,8 +44,8 @@ class DesignTokens {
   static const Color successGreen = Color(0xFF16A34A);
   static const Color warningYellow = Color(0xFFFCD34D);
   static const Color borderGray = Color(0xFFE2E7F2);
-  static const Color borderGrayAlt = Color(0xFFD7E5EE);
-  static const Color primaryTint = Color(0xFFD7E5EE);
+  static const Color borderGrayAlt = Color(0xFFDCE4F7);
+  static const Color primaryTint = Color(0xFFE3EAFB);
   static const Color existingStateGray = Color(0xFFC4CCE0);
   static const Color dividerGray = Color(0xFFCBD5E1);
   static const Color disabledGray = Color(0xFF94A3B8);
@@ -278,13 +280,22 @@ class AndozaTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: DesignTokens.primaryBlue,
           foregroundColor: DesignTokens.white,
+          // A soft brand-coloured glow under the pill, as on the web's primary button.
+          elevation: 3,
+          shadowColor: DesignTokens.primaryBlue.withValues(alpha: 0.45),
           padding: const EdgeInsets.symmetric(
             horizontal: DesignTokens.spacingLg,
             vertical: DesignTokens.spacingMd,
           ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-          ),
+          shape: const StadiumBorder(),
+          textStyle: DesignTokens.button,
+        ),
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          backgroundColor: DesignTokens.primaryBlue,
+          foregroundColor: DesignTokens.white,
+          shape: const StadiumBorder(),
           textStyle: DesignTokens.button,
         ),
       ),
@@ -298,9 +309,7 @@ class AndozaTheme {
         style: OutlinedButton.styleFrom(
           foregroundColor: DesignTokens.primaryBlue,
           side: const BorderSide(color: DesignTokens.primaryBlue),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
-          ),
+          shape: const StadiumBorder(),
           textStyle: DesignTokens.button,
         ),
       ),
