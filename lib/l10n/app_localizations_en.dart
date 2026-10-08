@@ -997,6 +997,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get estimateSaveEstimate => 'Save estimate';
 
   @override
+  String get studioAiDesignerInStudio => 'AI designer (3D Studio)';
+
+  @override
   String get studioAiDesigner => 'AI designer';
 
   @override

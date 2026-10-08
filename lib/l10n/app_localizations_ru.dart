@@ -992,6 +992,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get estimateSaveEstimate => 'Сохранить смету';
 
   @override
+  String get studioAiDesignerInStudio => 'AI-дизайнер (3D Студия)';
+
+  @override
   String get studioAiDesigner => 'AI-дизайнер';
 
   @override

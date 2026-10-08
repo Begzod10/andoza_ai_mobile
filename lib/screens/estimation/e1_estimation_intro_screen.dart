@@ -284,6 +284,17 @@ class _E1EstimationIntroScreenState
                       ),
                     ),
                     const SizedBox(height: DesignTokens.spacingSm),
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        // The new whole-room AI designer lives in the web
+                        // Studio's tools drawer (no deep link to open it).
+                        onPressed: () => context.push('/studio/$roomId'),
+                        icon: const Icon(Icons.auto_awesome_outlined),
+                        label: Text(l10n.studioAiDesignerInStudio),
+                      ),
+                    ),
+                    const SizedBox(height: DesignTokens.spacingSm),
                   ],
                   SizedBox(
                     width: double.infinity,

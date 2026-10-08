@@ -1316,6 +1316,10 @@
     "description": "E3 labor costs: primary button saving the estimate and returning to E1."
   },
 
+  "studioAiDesignerInStudio": "AI dizayner (3D Studio)",
+  "@studioAiDesignerInStudio": {
+    "description": "E1 button that opens the 3D Studio, where the new web AI designer lives."
+  },
   "studioAiDesigner": "AI dizayner",
   "@studioAiDesigner": {
     "description": "AI designer: E1 button and AI builder sheet header ('AI designer')."

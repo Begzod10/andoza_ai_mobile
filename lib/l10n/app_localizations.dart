@@ -1894,6 +1894,12 @@ abstract class AppLocalizations {
   /// **'Smetani saqlash'**
   String get estimateSaveEstimate;
 
+  /// E1 button that opens the 3D Studio, where the new web AI designer lives.
+  ///
+  /// In uz, this message translates to:
+  /// **'AI dizayner (3D Studio)'**
+  String get studioAiDesignerInStudio;
+
   /// AI designer: E1 button and AI builder sheet header ('AI designer').
   ///
   /// In uz, this message translates to:

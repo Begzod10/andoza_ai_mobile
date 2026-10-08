@@ -985,6 +985,9 @@ class AppLocalizationsUz extends AppLocalizations {
   String get estimateSaveEstimate => 'Smetani saqlash';
 
   @override
+  String get studioAiDesignerInStudio => 'AI dizayner (3D Studio)';
+
+  @override
   String get studioAiDesigner => 'AI dizayner';
 
   @override
