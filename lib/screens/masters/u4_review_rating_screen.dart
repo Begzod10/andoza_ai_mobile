@@ -194,7 +194,7 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                         urlTemplate:
                             'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                         userAgentPackageName:
-                            'uz.andoza.ai',
+                            'andozaai.com',
                       ),
                       CircleLayer(
                         circles: [
