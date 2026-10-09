@@ -407,6 +407,8 @@ final routerProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => StudioWebViewScreen.studio(
           roomId: state.pathParameters['roomId']!,
+          // `?focus=1`: open this room alone (used right after a scan).
+          focus: state.uri.queryParameters['focus'] == '1',
         ),
       ),
       // Native room-capture wizard (full-screen, outside the ShellRoute so the

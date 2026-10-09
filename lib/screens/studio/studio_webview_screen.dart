@@ -35,8 +35,12 @@ class StudioWebViewScreen extends ConsumerStatefulWidget {
 
   /// Convenience constructor for a specific room's 3D Studio.
   // ignore: prefer_const_constructors_in_immutables
-  StudioWebViewScreen.studio({required String roomId, Key? key})
-      : this(path: '/studio/$roomId', key: key);
+  ///
+  /// [focus] opens the room on its own, without the flat's other rooms around
+  /// it (the web studio's `?focus=1`).
+  // ignore: prefer_const_constructors_in_immutables
+  StudioWebViewScreen.studio({required String roomId, bool focus = false, Key? key})
+      : this(path: focus ? '/studio/$roomId?focus=1' : '/studio/$roomId', key: key);
 
   /// The frontend route to open (e.g. `/wizard`, `/studio/{roomId}`).
   final String path;

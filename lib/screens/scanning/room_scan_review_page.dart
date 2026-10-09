@@ -108,7 +108,9 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
         _logger.w('roomscan thumbnail upload failed: $e');
         thumbnailError = mapErrorToMessage(e);
       }
-      router.pushReplacement('/studio/$roomId');
+      // Straight after a scan the user wants THAT room, not the flat's earlier
+      // scans stacked around it.
+      router.pushReplacement('/studio/$roomId?focus=1');
       // Non-blocking: the user is already in the studio; the root
       // ScaffoldMessenger keeps this snackbar visible across the transition so
       // a silently lost mesh is at least noticed.
