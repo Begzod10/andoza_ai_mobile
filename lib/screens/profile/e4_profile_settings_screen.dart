@@ -9,6 +9,7 @@ import '../../providers/estimate_provider.dart';
 import '../../providers/locale_provider.dart';
 import '../../providers/orders_provider.dart';
 import '../home/home_empty_screen.dart';
+import 'delete_account_dialog.dart';
 import '../settings/language_picker_sheet.dart';
 
 /// E4: Profil bosh — avatar, name, verified badge, three stat cards, and
@@ -197,6 +198,14 @@ class E4ProfileSettingsScreen extends ConsumerWidget {
             label: l10n.profileMenuLogout,
             isDestructive: true,
             onTap: () => ref.read(authStateProvider.notifier).logout(),
+          ),
+          const SizedBox(height: DesignTokens.spacingLg),
+          const Divider(),
+          _MenuTile(
+            icon: Icons.delete_forever_outlined,
+            label: l10n.profileMenuDeleteAccount,
+            isDestructive: true,
+            onTap: () => confirmAndDeleteAccount(context, ref),
           ),
         ],
       ),

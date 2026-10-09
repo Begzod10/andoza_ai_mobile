@@ -46,6 +46,9 @@ class _FakeAuthRepository implements AuthRepository {
   @override
   Future<void> logout() async {}
 
+  @override
+  Future<void> deleteAccount({String? password}) async {}
+
   /// Records the local-teardown call so tests can assert handleUnauthorized /
   /// logout drop the session, and nulls the in-memory bits like the real impl.
   int clearSessionCalls = 0;

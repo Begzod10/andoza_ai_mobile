@@ -4233,6 +4233,42 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Mijoz xabari: {message}'**
   String ustaLeadMessage(String message);
+
+  /// No description provided for @profileMenuDeleteAccount.
+  ///
+  /// In uz, this message translates to:
+  /// **'Hisobni o\'chirish'**
+  String get profileMenuDeleteAccount;
+
+  /// No description provided for @deleteAccountTitle.
+  ///
+  /// In uz, this message translates to:
+  /// **'Hisobni o\'chirasizmi?'**
+  String get deleteAccountTitle;
+
+  /// No description provided for @deleteAccountBody.
+  ///
+  /// In uz, this message translates to:
+  /// **'Hisobingiz bilan birga barcha loyihalaringiz, rasmlaringiz, buyurtmalaringiz hamda do\'koningiz yoki usta profilingiz o\'chiriladi. Bu doimiy va uni qaytarib bo\'lmaydi.'**
+  String get deleteAccountBody;
+
+  /// No description provided for @deleteAccountPasswordLabel.
+  ///
+  /// In uz, this message translates to:
+  /// **'Parol'**
+  String get deleteAccountPasswordLabel;
+
+  /// No description provided for @deleteAccountPasswordHint.
+  ///
+  /// In uz, this message translates to:
+  /// **'Telefon kodi bilan kirgan bo\'lsangiz, bo\'sh qoldiring'**
+  String get deleteAccountPasswordHint;
+
+  /// No description provided for @deleteAccountDone.
+  ///
+  /// In uz, this message translates to:
+  /// **'Hisobingiz o\'chirildi'**
+  String get deleteAccountDone;
 }
 
 class _AppLocalizationsDelegate

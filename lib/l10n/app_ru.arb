@@ -2611,5 +2611,11 @@
   "ustaPortfolioDeleteConfirm": "Удалить фото? Это нельзя отменить.",
   "ustaPortfolioLoadFailed": "Не удалось загрузить портфолио.",
   "ustaLeadMessage": "Сообщение клиента: {message}",
-  "@ustaLeadMessage": {"placeholders": {"message": {"type": "String"}}}
+  "@ustaLeadMessage": {"placeholders": {"message": {"type": "String"}}},
+  "profileMenuDeleteAccount": "Удалить аккаунт",
+  "deleteAccountTitle": "Удалить аккаунт?",
+  "deleteAccountBody": "Вместе с аккаунтом будут удалены все ваши проекты, фотографии, заказы, а также профиль магазина или мастера. Это необратимо, отменить удаление нельзя.",
+  "deleteAccountPasswordLabel": "Пароль",
+  "deleteAccountPasswordHint": "Если входили по коду из SMS, оставьте пустым",
+  "deleteAccountDone": "Ваш аккаунт удалён"
 }

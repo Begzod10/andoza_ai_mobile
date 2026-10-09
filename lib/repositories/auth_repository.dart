@@ -9,6 +9,12 @@ abstract interface class AuthRepository {
   Future<AuthResponse> register(String username, String password, String? name);
   Future<void> logout();
 
+  /// Permanently deletes the signed-in account (`POST /auth/delete-account`).
+  /// [password] is omitted from the body when null/empty (phone-code accounts
+  /// have none). Throws [ApiException] on failure; does NOT clear the local
+  /// session — the caller does that via [clearSession] after success.
+  Future<void> deleteAccount({String? password});
+
   /// Local-only session teardown: drops the cached + persisted tokens and the
   /// in-memory ApiClient token, WITHOUT calling the server (used when the
   /// session is already dead, e.g. a 401 with no usable refresh token). Shares
@@ -122,6 +128,17 @@ class AuthRepositoryImpl implements AuthRepository {
     } finally {
       await clearSession();
     }
+  }
+
+  @override
+  Future<void> deleteAccount({String? password}) async {
+    // ApiException propagates unwrapped so mapErrorWithServerDetail can show
+    // the server's own (Uzbek) 403 detail.
+    await _apiClient.post<void>(
+      '/auth/delete-account',
+      data: {'password': (password == null || password.isEmpty) ? null : password},
+      fromJson: (_) {},
+    );
   }
 
   @override

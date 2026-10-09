@@ -2611,5 +2611,11 @@
   "ustaPortfolioDeleteConfirm": "Delete this photo? This cannot be undone.",
   "ustaPortfolioLoadFailed": "Could not load the portfolio.",
   "ustaLeadMessage": "Client's message: {message}",
-  "@ustaLeadMessage": {"placeholders": {"message": {"type": "String"}}}
+  "@ustaLeadMessage": {"placeholders": {"message": {"type": "String"}}},
+  "profileMenuDeleteAccount": "Delete account",
+  "deleteAccountTitle": "Delete your account?",
+  "deleteAccountBody": "Your projects, photos, orders and any shop or usta profile will be deleted along with your account. This is permanent and cannot be undone.",
+  "deleteAccountPasswordLabel": "Password",
+  "deleteAccountPasswordHint": "If you sign in with a phone code, leave this empty",
+  "deleteAccountDone": "Your account was deleted"
 }

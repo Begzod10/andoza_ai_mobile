@@ -114,6 +114,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
     state = const AuthInitial();
   }
 
+  /// After the server confirmed account deletion: local teardown (tokens,
+  /// secure storage) via the shared clear path, then unauthenticated so the
+  /// router drops to /login. No server call — the account no longer exists.
+  Future<void> completeAccountDeletion() async {
+    await _repository.clearSession();
+    state = const AuthInitial();
+  }
+
   Future<void> checkAuth() async {
     try {
       final user = await _repository.getCurrentUser();

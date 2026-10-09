@@ -2295,4 +2295,24 @@ class AppLocalizationsRu extends AppLocalizations {
   String ustaLeadMessage(String message) {
     return 'Сообщение клиента: $message';
   }
+
+  @override
+  String get profileMenuDeleteAccount => 'Удалить аккаунт';
+
+  @override
+  String get deleteAccountTitle => 'Удалить аккаунт?';
+
+  @override
+  String get deleteAccountBody =>
+      'Вместе с аккаунтом будут удалены все ваши проекты, фотографии, заказы, а также профиль магазина или мастера. Это необратимо, отменить удаление нельзя.';
+
+  @override
+  String get deleteAccountPasswordLabel => 'Пароль';
+
+  @override
+  String get deleteAccountPasswordHint =>
+      'Если входили по коду из SMS, оставьте пустым';
+
+  @override
+  String get deleteAccountDone => 'Ваш аккаунт удалён';
 }

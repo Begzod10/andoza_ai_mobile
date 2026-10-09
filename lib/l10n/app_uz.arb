@@ -2535,5 +2535,11 @@
   "ustaPortfolioDeleteConfirm": "Rasm o'chirilsin? Buni qaytarib bo'lmaydi.",
   "ustaPortfolioLoadFailed": "Portfolioni yuklab bo'lmadi.",
   "ustaLeadMessage": "Mijoz xabari: {message}",
-  "@ustaLeadMessage": {"placeholders": {"message": {"type": "String"}}}
+  "@ustaLeadMessage": {"placeholders": {"message": {"type": "String"}}},
+  "profileMenuDeleteAccount": "Hisobni o'chirish",
+  "deleteAccountTitle": "Hisobni o'chirasizmi?",
+  "deleteAccountBody": "Hisobingiz bilan birga barcha loyihalaringiz, rasmlaringiz, buyurtmalaringiz hamda do'koningiz yoki usta profilingiz o'chiriladi. Bu doimiy va uni qaytarib bo'lmaydi.",
+  "deleteAccountPasswordLabel": "Parol",
+  "deleteAccountPasswordHint": "Telefon kodi bilan kirgan bo'lsangiz, bo'sh qoldiring",
+  "deleteAccountDone": "Hisobingiz o'chirildi"
 }

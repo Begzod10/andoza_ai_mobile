@@ -2295,4 +2295,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String ustaLeadMessage(String message) {
     return 'Client\'s message: $message';
   }
+
+  @override
+  String get profileMenuDeleteAccount => 'Delete account';
+
+  @override
+  String get deleteAccountTitle => 'Delete your account?';
+
+  @override
+  String get deleteAccountBody =>
+      'Your projects, photos, orders and any shop or usta profile will be deleted along with your account. This is permanent and cannot be undone.';
+
+  @override
+  String get deleteAccountPasswordLabel => 'Password';
+
+  @override
+  String get deleteAccountPasswordHint =>
+      'If you sign in with a phone code, leave this empty';
+
+  @override
+  String get deleteAccountDone => 'Your account was deleted';
 }

@@ -154,12 +154,13 @@ String _mapStatus(int? statusCode) {
   return errorGeneric;
 }
 
-/// Like [mapErrorToMessage], but when the server explained a 400/409 itself
+/// Like [mapErrorToMessage], but when the server explained a 400/403/409 itself
 /// (FastAPI `{"detail": "..."}`, in Uzbek) that sentence is shown instead of
 /// the generic status text — "which line was refused" beats "invalid data".
 String mapErrorWithServerDetail(Object? error) {
   if (error is ApiException &&
       (error.statusCode == 400 ||
+          error.statusCode == 403 ||
           error.statusCode == 409 ||
           error.statusCode == 413 ||
           error.statusCode == 415 ||

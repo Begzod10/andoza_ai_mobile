@@ -2292,4 +2292,24 @@ class AppLocalizationsUz extends AppLocalizations {
   String ustaLeadMessage(String message) {
     return 'Mijoz xabari: $message';
   }
+
+  @override
+  String get profileMenuDeleteAccount => 'Hisobni o\'chirish';
+
+  @override
+  String get deleteAccountTitle => 'Hisobni o\'chirasizmi?';
+
+  @override
+  String get deleteAccountBody =>
+      'Hisobingiz bilan birga barcha loyihalaringiz, rasmlaringiz, buyurtmalaringiz hamda do\'koningiz yoki usta profilingiz o\'chiriladi. Bu doimiy va uni qaytarib bo\'lmaydi.';
+
+  @override
+  String get deleteAccountPasswordLabel => 'Parol';
+
+  @override
+  String get deleteAccountPasswordHint =>
+      'Telefon kodi bilan kirgan bo\'lsangiz, bo\'sh qoldiring';
+
+  @override
+  String get deleteAccountDone => 'Hisobingiz o\'chirildi';
 }
