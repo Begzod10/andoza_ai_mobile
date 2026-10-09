@@ -31,8 +31,10 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.tamir_uy.tamir_uy_mobile_flutter"
+        // The Play Store identity: fixed for good once the first build is uploaded.
+        // `namespace` above (the Kotlin package) is deliberately left as is; only
+        // the application ID is the public identifier.
+        applicationId = "uz.andoza.ai"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         // ARCore requires API level 24 (Android 7.0) or higher.

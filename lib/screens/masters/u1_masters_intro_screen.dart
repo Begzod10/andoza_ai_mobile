@@ -49,7 +49,7 @@ class _U1MastersIntroScreenState extends ConsumerState<U1MastersIntroScreen> {
               children: [
                 TileLayer(
                   urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'com.tamir_uy.tamir_uy_mobile_flutter',
+                  userAgentPackageName: 'uz.andoza.ai',
                 ),
                 MarkerClusterLayerWidget(
                   options: MarkerClusterLayerOptions(
