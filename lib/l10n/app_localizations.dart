@@ -4269,6 +4269,12 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Hisobingiz o\'chirildi'**
   String get deleteAccountDone;
+
+  /// No description provided for @scanFailedReason.
+  ///
+  /// In uz, this message translates to:
+  /// **'Sabab: {reason}'**
+  String scanFailedReason(String reason);
 }
 
 class _AppLocalizationsDelegate

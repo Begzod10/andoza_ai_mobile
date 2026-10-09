@@ -105,7 +105,10 @@ class _RoomScanScreenState extends ConsumerState<RoomScanScreen> {
       case 'busy':
         return l10n.scanBusy;
       case 'scan_failed':
-        return l10n.scanFailedRetry;
+        // The native reason (RoomPlan's own error text) is what tells a failed
+        // capture from an unsupported device or a bad export, so keep it visible.
+        final reason = e.message.trim();
+        return reason.isEmpty ? l10n.scanFailedRetry : '${l10n.scanFailedRetry}\n\n${l10n.scanFailedReason(reason)}';
       default:
         return l10n.scanErrorPrefixed(e.message);
     }

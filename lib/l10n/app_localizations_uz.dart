@@ -2312,4 +2312,9 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get deleteAccountDone => 'Hisobingiz o\'chirildi';
+
+  @override
+  String scanFailedReason(String reason) {
+    return 'Sabab: $reason';
+  }
 }

@@ -2315,4 +2315,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteAccountDone => 'Your account was deleted';
+
+  @override
+  String scanFailedReason(String reason) {
+    return 'Reason: $reason';
+  }
 }

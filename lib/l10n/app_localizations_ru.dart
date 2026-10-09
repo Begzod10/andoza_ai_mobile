@@ -2315,4 +2315,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get deleteAccountDone => 'Ваш аккаунт удалён';
+
+  @override
+  String scanFailedReason(String reason) {
+    return 'Причина: $reason';
+  }
 }
