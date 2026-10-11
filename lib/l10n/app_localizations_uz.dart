@@ -510,6 +510,10 @@ class AppLocalizationsUz extends AppLocalizations {
   String get unsavedChangesStay => 'Qolish';
 
   @override
+  String get roomSaveFailed =>
+      'Xona serverga saqlanmadi. Internetni tekshirib, qayta urinib ko\'ring.';
+
+  @override
   String get shopNoResults => 'Hech narsa topilmadi';
 
   @override

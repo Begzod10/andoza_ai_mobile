@@ -1024,6 +1024,12 @@ abstract class AppLocalizations {
   /// **'Qolish'**
   String get unsavedChangesStay;
 
+  /// Wizard: creating the room on the server failed; offered with a retry
+  ///
+  /// In uz, this message translates to:
+  /// **'Xona serverga saqlanmadi. Internetni tekshirib, qayta urinib ko\'ring.'**
+  String get roomSaveFailed;
+
   /// Shop list: loaded fine, but nothing matches
   ///
   /// In uz, this message translates to:

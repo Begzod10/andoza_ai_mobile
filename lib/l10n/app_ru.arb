@@ -654,6 +654,7 @@
   "unsavedChangesBody": "Если выйти, введённые данные пропадут.",
   "unsavedChangesLeave": "Выйти",
   "unsavedChangesStay": "Остаться",
+  "roomSaveFailed": "Комната не сохранилась на сервере. Проверьте интернет и попробуйте ещё раз.",
   "shopNoResults": "Ничего не найдено",
   "shopSearchResultsTitle": "Результаты поиска",
   "@shopSearchResultsTitle": {

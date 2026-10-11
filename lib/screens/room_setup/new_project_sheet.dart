@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../providers/room_persistence_provider.dart';
 
 /// Shows the A3 "+" bottom sheet, dimming the screen behind it per spec.
 Future<void> showNewProjectSheet(BuildContext context) {
@@ -66,6 +68,9 @@ class NewProjectSheet extends StatelessWidget {
             title: l10n.newProjectWizardTitle,
             description: l10n.newProjectWizardDesc,
             onTap: () {
+              ProviderScope.containerOf(context)
+                  .read(roomPersistenceProvider.notifier)
+                  .startNewProject();
               Navigator.of(context).pop();
               context.push('/wizard');
             },
@@ -78,6 +83,9 @@ class NewProjectSheet extends StatelessWidget {
             title: l10n.newProjectLidarTitle,
             description: l10n.newProjectLidarDesc,
             onTap: () {
+              ProviderScope.containerOf(context)
+                  .read(roomPersistenceProvider.notifier)
+                  .continueCurrentProject();
               Navigator.of(context).pop();
               context.push('/scanning/roomplan');
             },
@@ -90,6 +98,9 @@ class NewProjectSheet extends StatelessWidget {
             title: l10n.newProjectDrawTitle,
             description: l10n.newProjectDrawDesc,
             onTap: () {
+              ProviderScope.containerOf(context)
+                  .read(roomPersistenceProvider.notifier)
+                  .startNewProject();
               Navigator.of(context).pop();
               context.push('/setup/draw');
             },

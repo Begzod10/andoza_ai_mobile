@@ -685,6 +685,10 @@
   "@unsavedChangesStay": {
     "description": "Back from a screen with unsaved edits: confirm dialog"
   },
+  "roomSaveFailed": "Xona serverga saqlanmadi. Internetni tekshirib, qayta urinib ko'ring.",
+  "@roomSaveFailed": {
+    "description": "Wizard: creating the room on the server failed; offered with a retry"
+  },
   "shopNoResults": "Hech narsa topilmadi",
   "@shopNoResults": {
     "description": "Shop list: loaded fine, but nothing matches"

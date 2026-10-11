@@ -34,6 +34,27 @@ class RoomPersistenceNotifier
 
   final Ref _ref;
 
+  /// Set when the user starts from "Yangi loyiha": the next room saved gets a
+  /// project of its own instead of being filed into their newest one.
+  bool _newProjectPending = false;
+  // The project made for it, kept until the room is saved so a retry after a
+  // failed save reuses it instead of leaving an empty project behind.
+  String? _newProjectId;
+
+  /// Called from the "Yangi loyiha" sheet before the wizard / drawing opens.
+  void startNewProject() {
+    _newProjectPending = true;
+    _newProjectId = null;
+  }
+
+  /// For flows that add to the current project (a LiDAR scan — rescans of the
+  /// same room belong together): drop a "new project" left over from a wizard
+  /// that was opened and abandoned.
+  void continueCurrentProject() {
+    _newProjectPending = false;
+    _newProjectId = null;
+  }
+
   /// Persists the active room. When [override] is provided it is sent to the
   /// backend verbatim instead of mapping the (bounding-rectangle) active room —
   /// used by the sketch handoff to persist a real polygon's true vertices + N
@@ -55,11 +76,18 @@ class RoomPersistenceNotifier
       final aptRepo = _ref.read(apartmentRepositoryProvider);
       final stateRepo = _ref.read(roomStateRepositoryProvider);
 
-      // Reuse the user's first apartment, or create a default one.
-      final apartments = await aptRepo.listApartments();
-      final apartmentId = apartments.isNotEmpty
-          ? apartments.first.id
-          : (await aptRepo.createApartment(name: 'Mening uyim')).id;
+      // A room started from "Yangi loyiha" gets a new project; otherwise it
+      // joins the newest one (or a default one when the user has none).
+      final String apartmentId;
+      if (_newProjectPending) {
+        apartmentId = _newProjectId ??=
+            (await aptRepo.createApartment(name: 'Mening uyim')).id;
+      } else {
+        final apartments = await aptRepo.listApartments();
+        apartmentId = apartments.isNotEmpty
+            ? apartments.first.id
+            : (await aptRepo.createApartment(name: 'Mening uyim')).id;
+      }
 
       final room = await aptRepo.createRoom(
         apartmentId,
@@ -74,6 +102,8 @@ class RoomPersistenceNotifier
         await stateRepo.setState(room.id, currentState: stateValue);
       }
 
+      _newProjectPending = false;
+      _newProjectId = null;
       state = AsyncValue.data(
         PersistedRoom(clientRoomId: clientRoom.id, room: room),
       );

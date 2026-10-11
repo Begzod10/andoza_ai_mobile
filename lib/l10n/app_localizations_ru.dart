@@ -511,6 +511,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get unsavedChangesStay => 'Остаться';
 
   @override
+  String get roomSaveFailed =>
+      'Комната не сохранилась на сервере. Проверьте интернет и попробуйте ещё раз.';
+
+  @override
   String get shopNoResults => 'Ничего не найдено';
 
   @override

@@ -268,6 +268,17 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
     ));
   }
 
+  void _showSaveFailed() {
+    final l10n = AppLocalizations.of(context)!;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(l10n.roomSaveFailed),
+        duration: const Duration(seconds: 8),
+        action: SnackBarAction(label: l10n.actionRetry, onPressed: _goStudio),
+      ),
+    );
+  }
+
   void _back() {
     if (_step > 0) {
       setState(() => _step--);
@@ -298,8 +309,8 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
 
   /// "Bezashni boshlash" — like the web wizard, open the 3D Studio. That needs a
   /// real backend room id, so persist the room first, then navigate to
-  /// /studio/{id}. Falls back to the native design flow if the backend is
-  /// unreachable (offline).
+  /// /studio/{id}. If the save fails the user is told and can retry; it used to
+  /// slip into the old design flow as if the room had been saved.
   Future<void> _goStudio() async {
     _setupRoom();
     setState(() => _openingStudio = true);
@@ -311,10 +322,10 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
       if (persisted != null) {
         context.go('/studio/${persisted.roomId}');
       } else {
-        context.go('/design/b1'); // offline fallback
+        _showSaveFailed();
       }
     } catch (_) {
-      if (mounted) context.go('/design/b1');
+      if (mounted) _showSaveFailed();
     } finally {
       if (mounted) setState(() => _openingStudio = false);
     }

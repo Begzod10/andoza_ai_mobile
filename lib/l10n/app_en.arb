@@ -654,6 +654,7 @@
   "unsavedChangesBody": "If you leave now, what you entered will be lost.",
   "unsavedChangesLeave": "Leave",
   "unsavedChangesStay": "Stay",
+  "roomSaveFailed": "The room wasn't saved to the server. Check your connection and try again.",
   "shopNoResults": "Nothing found",
   "shopSearchResultsTitle": "Search results",
   "@shopSearchResultsTitle": {

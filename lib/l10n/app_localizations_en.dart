@@ -519,6 +519,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unsavedChangesStay => 'Stay';
 
   @override
+  String get roomSaveFailed =>
+      'The room wasn\'t saved to the server. Check your connection and try again.';
+
+  @override
   String get shopNoResults => 'Nothing found';
 
   @override
