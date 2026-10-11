@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../config/design_tokens.dart';
+import '../common/app_image.dart';
 
 /// Project card thumbnail: shows a real screenshot of the room's 3D Studio
 /// scene ([imageUrl]) when one has been captured, otherwise falls back to a
@@ -41,13 +42,10 @@ class RoomThumbnail extends StatelessWidget {
             ? Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.network(
-                    url,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) =>
-                        _placeholder(),
-                    loadingBuilder: (context, child, progress) =>
-                        progress == null ? child : _placeholder(),
+                  AppImage(
+                    url: url,
+                    placeholder: _placeholder(),
+                    errorWidget: _placeholder(),
                   ),
                   if (detailed) _scanBadge(),
                 ],

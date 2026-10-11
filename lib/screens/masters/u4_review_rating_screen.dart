@@ -144,10 +144,10 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                                   borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
                                   child: AspectRatio(
                                     aspectRatio: 1,
-                                    child: Image.network(
-                                      items[i].imageUrl,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (_, _, _) => const ColoredBox(
+                                    child: AppImage(
+                                      url: items[i].imageUrl,
+                                      placeholder: const ColoredBox(color: DesignTokens.white),
+                                      errorWidget: const ColoredBox(
                                         color: DesignTokens.white,
                                         child: Icon(Icons.image_not_supported_outlined,
                                             color: DesignTokens.textMuted),

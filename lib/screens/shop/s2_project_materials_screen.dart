@@ -8,6 +8,7 @@ import '../../providers/cart_provider.dart';
 import '../../providers/shop_provider.dart';
 import '../../utils/currency.dart';
 import '../../widgets/design/room_thumbnail.dart';
+import '../../widgets/common/app_image.dart';
 
 /// S2: Loyiha materiallari — the screen where the app's intelligence
 /// shows: a room picker (any room across the user's apartments, not just
@@ -354,10 +355,12 @@ class _MaterialRow extends StatelessWidget {
                 width: 36,
                 height: 36,
                 child: product?.imageUrl != null
-                    ? Image.network(
-                        product!.imageUrl!,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, _, _) => const _MaterialImageFallback(),
+                    ? AppImage(
+                        url: product!.imageUrl!,
+                        width: 36,
+                        height: 36,
+                        placeholder: const _MaterialImageFallback(),
+                        errorWidget: const _MaterialImageFallback(),
                       )
                     : const _MaterialImageFallback(),
               ),
