@@ -33,7 +33,7 @@ Install on a phone plugged in via USB (USB debugging on):
 adb install -r build/app/outputs/flutter-apk/app-release.apk
 ```
 
-Log in with a seeded test account: **`rimefara` / `12345678`**.
+Log in with a seeded test account: **`rimefara` / `[parol olib tashlandi]`**.
 
 ---
 
@@ -183,4 +183,4 @@ flutter clean && flutter pub get
 - **Web/Studio:** `http://189.74.96.11:5173`
 - Deployed via `docker-compose.prod.yml`; auto-deploys on push to `master`
   (GitHub Actions → SSH → `deploy/remote-deploy.sh`).
-- Test login: **`rimefara` / `12345678`**.
+- Test login: **`rimefara` / `[parol olib tashlandi]`**.

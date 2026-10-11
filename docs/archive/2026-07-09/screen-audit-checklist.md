@@ -109,7 +109,7 @@ pass against `UyTamir Final.dc.html` is the outstanding follow-up work for
 - `_GoRouterRefreshNotifier` in `router.dart` still bridges
   `authStateProvider` via `ref.listen` (not `ref.watch`) — the original
   splash-loop fix is intact.
-- Login credentials (`rimefara` / `12345678`) are backend account data set
+- Login credentials (`rimefara` / `[parol olib tashlandi]`) are backend account data set
   up earlier in this session, not app code — nothing to regress in the
   Flutter source. **Not re-verified live in this pass**: the emulator was not
   running at Step 13 time (see the layout-column honesty note above); the

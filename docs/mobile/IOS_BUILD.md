@@ -9,7 +9,7 @@ real iPhone via TestFlight. You never need Xcode or a Mac. Two workflows:
 | `.github/workflows/ios.yml` | push to `main` (same paths) + manual `workflow_dispatch` | signed `flutter build ipa`; on `main`, uploads to TestFlight | all below |
 
 - **iOS bundle id:** `com.tamiruy.tamirUyMobileFlutter` (this differs from the Android
-  `com.tamir_uy.tamir_uy_mobile_flutter` on purpose — use the iOS one everywhere).
+  `applicationId` `andozaai.com` on purpose — use the iOS one everywhere).
 - **Never commit** `.p12`, `.p8`, `.mobileprovision`, `.cer`, or `.key` files. Only their
   **base64** goes into GitHub **secrets**. `.gitignore` already ignores them, but double-check.
 
@@ -195,9 +195,10 @@ What to look for in `xcodebuild.log`:
 
 ## 7. Notes
 
-- App-wide minimum iOS is **13.0**; LiDAR/RoomPlan (iOS 16+) and Object Capture (iOS
-  17+) are gated at runtime, so older devices still install and run the app without the
-  scan features. Do not raise `platform :ios` in the `Podfile`.
+- App-wide minimum iOS is **15.0** (`IPHONEOS_DEPLOYMENT_TARGET` and `platform :ios` in
+  the `Podfile`); LiDAR/RoomPlan (iOS 16+) and Object Capture (iOS 17+) are gated at
+  runtime, so iOS 15 devices still install and run the app without the scan features.
+  Keep the Podfile and the Xcode target on the same value.
 - Impeller stays at its iOS default (on). The Android-only `EnableImpeller=false` flag
   must not be copied to iOS.
 
@@ -222,10 +223,9 @@ flutter run -d <ios-device> \
   override the embedded 3D-Studio WebView (`StudioWebViewScreen`) fails to load. Point
   it at a host the device can actually reach (the prod studio origin, or your dev
   machine's LAN IP while iterating).
-- **Plain HTTP + App Transport Security**: the prod API is served over cleartext
-  `https://andoza.jumaniyozov.uz`. iOS ATS blocks cleartext HTTP by default, so
-  `ios/Runner/Info.plist` carries a **domain-scoped** `NSAppTransportSecurity →
-  NSExceptionDomains` entry for `189.74.96.11` with `NSExceptionAllowsInsecureHTTPLoads`
-  (ATS stays enabled everywhere else — no blanket `NSAllowsArbitraryLoads`). If you move
-  to a different HTTP host, add it to that dict; once the backend is on HTTPS, drop the
-  exception entirely.
+- **App Transport Security**: the prod API and studio are served over **HTTPS**
+  (`https://andoza.jumaniyozov.uz`), and `ios/Runner/Info.plist` has **no** ATS exception
+  (the old `189.74.96.11` cleartext exception was removed). A plain-HTTP host — a dev
+  machine's LAN IP, for example — is therefore blocked on a real iPhone; serve it over
+  HTTPS or add a narrowly scoped `NSExceptionDomains` entry for local testing only and
+  never ship it.

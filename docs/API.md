@@ -1,0 +1,56 @@
+# Backend bilan aloqa
+
+Ilova `andoza_ai` backend'iga (FastAPI) ulanadi. Productionda:
+`https://andoza.jumaniyozov.uz/api/v1`. Manzillar build vaqtida
+`--dart-define` orqali beriladi, qarang: [BUILD_AND_RELEASE.md](BUILD_AND_RELEASE.md).
+Backend tomonidagi hujjatlar: `andoza_ai/docs/` (ARCHITECTURE, DATA_MODEL, INTEGRATIONS).
+
+## Klient (`lib/services/api_client.dart`)
+
+- **Asos:** Dio. Ulanish timeout'i 10 s, javob kutish 30 s.
+- **Sarlavhalar:**
+  - har so'rovda `X-Client-Type: mobile` — backend tokenlarni cookie'da emas, javob tanasida qaytaradi;
+  - login qilingan bo'lsa, `Authorization: Bearer <access token>`.
+- **Token yangilash:**
+  - 401 kelsa (auth yo'llaridan boshqa joyda), klient `POST /auth/refresh` ni `Cookie: refresh_token=…` bilan chaqiradi.
+  - Ikkala tokenni yangilab, so'rovni bir marta qaytaradi.
+  - Bir vaqtda kelgan bir nechta 401 bitta yangilashga birlashadi.
+  - Yangilash muvaffaqiyatsiz bo'lsa, tokenlar o'chiriladi va foydalanuvchi login sahifasiga qaytariladi.
+- **Xatolar:** `ApiException` ga o'raladi. Foydalanuvchiga ko'rinadigan matnni `utils/error_mapper.dart` beradi.
+- **Log:** faqat debug rejimida, faqat metod, yo'l va status. So'rov va javob tanasi log qilinmaydi.
+- **Tokenlar:** `flutter_secure_storage` da (`services/secure_storage.dart`), kalitlar `auth_token`, `refresh_token`, `user_id`.
+  - Android'da EncryptedSharedPreferences.
+  - iOS'da Keychain, `first_unlock_this_device` rejimida.
+
+## Endpoint'lar
+
+Hammasi `/api/v1` ga nisbatan. Har bir mavzu uchun bitta repository fayli (`lib/repositories/`).
+
+| Mavzu | So'rovlar | Fayl |
+|---|---|---|
+| Kirish | `POST /auth/login`, `/auth/register`, `/auth/otp/request`, `/auth/otp/verify`, `/auth/refresh`, `/auth/logout`, `/auth/delete-account`; `GET /auth/me` | `auth_repository.dart`, `services/api_client.dart` |
+| Kvartira va xonalar | `GET/POST /apartments`; `GET/PATCH/DELETE /apartments/{id}`; `GET/POST /apartments/{id}/rooms`; `GET/PATCH/DELETE /rooms/{id}` | `apartment_repository.dart` |
+| Xona holati | `GET/POST/PATCH /rooms/{id}/state`; `GET /rooms/{id}/delta` | `room_state_repository.dart` |
+| Bezak va elektr | `GET/PUT /rooms/{id}/decoration`; `GET/PUT /rooms/{id}/electrical` | `decoration_repository.dart`, `electrical_repository.dart` |
+| Smeta | `POST /rooms/{id}/estimate/preview`, `POST /rooms/{id}/estimate`; `GET /rooms/{id}/estimates`, `GET /estimates/{id}`; `GET /rooms/{id}/estimate/pdf` | `estimate_repository.dart` |
+| AI | `POST /rooms/{id}/ai-build` (SSE oqim); `POST /rooms/{id}/smeta/ask` | `ai_repository.dart` |
+| Skaner | `POST /rooms/{id}/room-scan` (multipart: `usdz`, `room_json`); `POST /rooms/{id}/room-scan/objects`; `POST /rooms/{id}/thumbnail` | `features/room_scan/room_scan_service.dart` |
+| Katalog | `GET /materials`, `/materials/{id}/offers`, `/furniture`, `/stores`, `/ustalar` | `catalog_repository.dart` |
+| Buyurtmalar | `GET/POST /orders` | `orders_repository.dart` |
+| Oboylar | `GET /wallpapers`; `POST /wallpapers` (multipart) | `wallpaper_repository.dart` |
+| Biznes: rollar | `GET /account/roles` | `business_repository.dart` |
+| Biznes: do'kon | `GET/POST/PATCH /seller/store`, `POST /seller/store/resubmit`; `GET/POST /seller/furniture`, `PATCH/DELETE /seller/furniture/{id}`; `GET /seller/inquiries`, `PATCH /seller/inquiries/{id}`; `GET /seller/orders`, `PATCH /seller/orders/{id}/status`; `GET /seller/stats` | `business_repository.dart` |
+| Biznes: rasmdan model | `POST /models/from-photo`; `GET /jobs/{id}`; `GET /models/from-photo/glb` | `business_repository.dart` |
+| Biznes: usta | `GET/POST/PATCH /usta/profile`, `POST /usta/profile/resubmit`; `GET/POST /usta/portfolio`, `DELETE /usta/portfolio/{id}`; `GET /ustalar/{id}/portfolio`; `GET /usta/leads`, `PATCH /usta/leads/{id}`; `POST /leads` | `business_repository.dart` |
+
+3D studiya WebView ichida veb-frontend orqali ishlaydi va o'z so'rovlarini
+o'zi yuboradi. Ilova unga faqat tokenlarni beradi, qarang:
+[ARCHITECTURE.md](ARCHITECTURE.md#3d-studiya-webview).
+
+## Yangi endpoint qo'shish
+
+1. Mos `lib/repositories/<mavzu>_repository.dart` ga metod qo'shing. `ApiClient` orqali chaqiring, to'g'ridan-to'g'ri Dio yaratmang.
+2. Javob modeli `lib/models/` da (freezed bo'lsa, `dart run build_runner build --delete-conflicting-outputs`).
+3. Ekranga provider orqali bering (`lib/providers/`).
+4. Test: `test/` da repository yoki provider testi (`mocktail` bilan).
+5. Shu jadvalga qator qo'shing.

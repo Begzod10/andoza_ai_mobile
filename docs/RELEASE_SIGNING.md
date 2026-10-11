@@ -45,7 +45,7 @@ every update to be signed with the same key. Back up now:
 `android/key.properties` format:
 
 ```properties
-storeFile=/home/rimefara/andoza-upload.jks
+storeFile=/absolute/path/to/andoza-upload.jks
 storePassword=<store password>
 keyAlias=andoza
 keyPassword=<same as store password>
@@ -54,13 +54,11 @@ keyPassword=<same as store password>
 ## Build a signed AAB locally
 
 ```bash
-export ANDROID_HOME=/home/rimefara/Android
-export PATH="$HOME/flutter/bin:$ANDROID_HOME/platform-tools:$PATH"
-cd /home/rimefara/projects/tamir_uy_mobile_flutter
+# ANDROID_HOME and flutter on PATH as on your machine
 flutter build appbundle --release \
-  --dart-define=API_URL=http://189.74.96.11:8000/api/v1 \
-  --dart-define=API_BASE_URL=http://189.74.96.11:8000 \
-  --dart-define=STUDIO_BASE_URL=http://189.74.96.11:5173
+  --dart-define=API_URL=https://andoza.jumaniyozov.uz/api/v1 \
+  --dart-define=API_BASE_URL=https://andoza.jumaniyozov.uz \
+  --dart-define=STUDIO_BASE_URL=https://andoza.jumaniyozov.uz
 ```
 
 Output: `build/app/outputs/bundle/release/app-release.aab`.
@@ -100,7 +98,8 @@ The `release.yml` workflow contains a **commented-out** publish step using
 `r0adkll/upload-google-play`. Before enabling it:
 
 1. **Register the app** in the Google Play Console (create the app entry;
-   `applicationId` is `com.tamir_uy.tamir_uy_mobile_flutter`).
+   `applicationId` is `andozaai.com`; the Kotlin namespace
+   `com.tamir_uy.tamir_uy_mobile_flutter` is not the store id).
 2. **Enroll in Play App Signing** (recommended default when you create the app).
 3. Create a **Google Cloud service account**, enable the *Google Play Android
    Developer API*, grant the account release permission in the Play Console,
