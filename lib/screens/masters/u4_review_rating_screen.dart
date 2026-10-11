@@ -9,6 +9,7 @@ import '../../providers/business_provider.dart';
 import '../../providers/masters_provider.dart';
 import 'master_not_found.dart';
 import '../../widgets/common/app_image.dart';
+import '../../widgets/common/osm_attribution.dart';
 
 /// U4: full craftsman profile — stat cards, portfolio, services, a
 /// location mini-map showing only the approximate zone (never an exact
@@ -196,12 +197,7 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                       ),
                     ),
                     children: [
-                      TileLayer(
-                        urlTemplate:
-                            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                        userAgentPackageName:
-                            'andozaai.com',
-                      ),
+                      osmTileLayer(),
                       CircleLayer(
                         circles: [
                           CircleMarker(
@@ -219,6 +215,7 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                           ),
                         ],
                       ),
+                      const OsmAttribution(),
                     ],
                   ),
                 ),
