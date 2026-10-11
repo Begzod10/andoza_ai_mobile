@@ -64,23 +64,23 @@
   "@loginEmailHint": {
     "description": "Login screen: hint text for the email/username field."
   },
-  "loginPasswordHint": "Password",
+  "loginPasswordHint": "Parol",
   "@loginPasswordHint": {
     "description": "Login screen: hint text for the password field."
   },
-  "loginShowPassword": "Show password",
+  "loginShowPassword": "Parolni ko'rsatish",
   "@loginShowPassword": {
     "description": "Login screen: tooltip on the eye icon that reveals the password."
   },
-  "loginHidePassword": "Hide password",
+  "loginHidePassword": "Parolni yashirish",
   "@loginHidePassword": {
     "description": "Login screen: tooltip on the eye icon that masks the password."
   },
-  "loginButton": "Login",
+  "loginButton": "Kirish",
   "@loginButton": {
     "description": "Login screen: submit button label."
   },
-  "loginEmptyFields": "Please fill in all fields",
+  "loginEmptyFields": "Barcha maydonlarni to'ldiring",
   "@loginEmptyFields": {
     "description": "Login screen: snackbar shown when the user submits with an empty email or password."
   },
@@ -116,7 +116,7 @@
   "@loginPhoneLabel": {
     "description": "Login (phone-OTP step): heading and the phone-number field label."
   },
-  "loginPhoneSubtitle": "Loginiga uchun telefon raqam talab qilinadi",
+  "loginPhoneSubtitle": "Kirish uchun telefon raqamingizni kiriting",
   "@loginPhoneSubtitle": {
     "description": "Login (phone-OTP step): subtitle under the heading explaining a phone number is required to log in."
   },
@@ -136,7 +136,7 @@
   "@loginOtpInfoBox": {
     "description": "Login (phone-OTP step): informational tip box about the 6-digit code and retrying if SMS is delayed."
   },
-  "loginWithUsername": "Username bilan kirish",
+  "loginWithUsername": "Login va parol bilan kirish",
   "@loginWithUsername": {
     "description": "Login (phone-OTP step): outlined button switching to the username/password login form."
   },
@@ -171,7 +171,7 @@
   "@loginSignIn": {
     "description": "Login (username step): heading and submit button label ('Sign in')."
   },
-  "loginUsernameHint": "Username",
+  "loginUsernameHint": "Login",
   "@loginUsernameHint": {
     "description": "Login/register: placeholder text for the username field."
   },
@@ -223,15 +223,15 @@
   "@loginErrorInvalidCode": {
     "description": "Login error: the entered OTP code is wrong or expired."
   },
-  "loginErrorCredentialsRequired": "Username va parol majburiy.",
+  "loginErrorCredentialsRequired": "Login va parol majburiy.",
   "@loginErrorCredentialsRequired": {
     "description": "Login error: username and password are both required."
   },
-  "loginErrorWrongCredentials": "Username yoki parol noto'g'ri.",
+  "loginErrorWrongCredentials": "Login yoki parol noto'g'ri.",
   "@loginErrorWrongCredentials": {
     "description": "Login error: the username or password is incorrect."
   },
-  "loginErrorUsernameShort": "Username kamida 3 ta belgidan iborat bo'lishi kerak.",
+  "loginErrorUsernameShort": "Login kamida 3 ta belgidan iborat bo'lishi kerak.",
   "@loginErrorUsernameShort": {
     "description": "Register error: username must be at least 3 characters."
   },
@@ -243,7 +243,7 @@
   "@loginErrorPasswordMismatch": {
     "description": "Register error: the two passwords do not match."
   },
-  "loginErrorUsernameTaken": "Bu username allaqachon band.",
+  "loginErrorUsernameTaken": "Bu login allaqachon band.",
   "@loginErrorUsernameTaken": {
     "description": "Register error: the chosen username is already taken."
   },

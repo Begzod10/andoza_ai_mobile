@@ -4,46 +4,51 @@ import 'package:tamir_uy_mobile_flutter/screens/auth/login_screen.dart';
 
 import '../support/localized_pump.dart';
 
+/// No SMS provider is connected yet (SMS_LOGIN_ENABLED is off by default), so
+/// the app opens on login/password with registration one tap away — the phone
+/// / OTP form must not be offered.
 void main() {
   Widget wrap() => wrapLocalized(const LoginScreen());
 
-  testWidgets('LoginScreen builds and shows its core (phone-OTP) fields', (tester) async {
+  testWidgets('opens on login + password, with the brand and no SMS form', (tester) async {
     await tester.pumpWidget(wrap());
     await tester.pumpAndSettle();
 
-    // Brand lockup + tagline — no greeting and no emoji.
     expect(find.bySemanticsLabel('andoza.ai'), findsOneWidget);
     expect(find.text("Ta'mir va interyer loyihalaringiz bir joyda"), findsOneWidget);
-    expect(find.textContaining('Salom'), findsNothing);
-    // Phone field (matched by its hint), the OTP submit, and the username fallback.
-    expect(find.widgetWithText(TextField, '90 123 45 67'), findsOneWidget);
-    expect(find.widgetWithText(ElevatedButton, 'OTP Yuborish'), findsOneWidget);
-    expect(find.textContaining('Username bilan kirish'), findsOneWidget);
-  });
-
-  testWidgets('OTP submit with an empty phone surfaces a validation error', (tester) async {
-    await tester.pumpWidget(wrap());
-    await tester.pumpAndSettle();
-
-    // Empty phone fails validation before any network call → inline error.
-    await tester.tap(find.widgetWithText(ElevatedButton, 'OTP Yuborish'));
-    await tester.pump();
-
-    expect(find.textContaining("Telefon raqam noto'g'ri"), findsOneWidget);
-  });
-
-  testWidgets('"Username bilan kirish" switches to the username/password form', (tester) async {
-    await tester.pumpWidget(wrap());
-    await tester.pumpAndSettle();
-
-    final usernameBtn = find.textContaining('Username bilan kirish');
-    await tester.ensureVisible(usernameBtn); // it's below the fold in the test viewport
-    await tester.pumpAndSettle();
-    await tester.tap(usernameBtn);
-    await tester.pumpAndSettle();
-
-    expect(find.text('Kirish'), findsWidgets); // heading + button
-    expect(find.widgetWithText(TextField, 'Username'), findsOneWidget);
+    expect(find.widgetWithText(TextField, 'Login'), findsOneWidget);
     expect(find.widgetWithText(TextField, 'Parol'), findsOneWidget);
+    expect(find.widgetWithText(ElevatedButton, 'Kirish'), findsOneWidget);
+
+    expect(find.widgetWithText(TextField, '90 123 45 67'), findsNothing);
+    expect(find.textContaining('OTP'), findsNothing);
+    // First screen: there is nowhere to go "back" to.
+    expect(find.text('Orqaga'), findsNothing);
+  });
+
+  testWidgets('empty login + password is caught before any network call', (tester) async {
+    await tester.pumpWidget(wrap());
+    await tester.pumpAndSettle();
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Kirish'));
+    await tester.pump();
+    expect(find.textContaining('Login va parol majburiy'), findsOneWidget);
+  });
+
+  testWidgets('"Ro\'yxatdan o\'tish" opens registration, and back returns to login', (tester) async {
+    await tester.pumpWidget(wrap());
+    await tester.pumpAndSettle();
+
+    final register = find.text("Ro'yxatdan o'tish");
+    await tester.ensureVisible(register);
+    await tester.pumpAndSettle();
+    await tester.tap(register);
+    await tester.pumpAndSettle();
+
+    expect(find.widgetWithText(TextField, 'Parolni tasdiqlang'), findsOneWidget);
+
+    await tester.tap(find.text('Orqaga'));
+    await tester.pumpAndSettle();
+    expect(find.widgetWithText(TextField, 'Parolni tasdiqlang'), findsNothing);
+    expect(find.widgetWithText(ElevatedButton, 'Kirish'), findsOneWidget);
   });
 }

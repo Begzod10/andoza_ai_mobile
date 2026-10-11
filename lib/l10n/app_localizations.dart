@@ -193,31 +193,31 @@ abstract class AppLocalizations {
   /// Login screen: hint text for the password field.
   ///
   /// In uz, this message translates to:
-  /// **'Password'**
+  /// **'Parol'**
   String get loginPasswordHint;
 
   /// Login screen: tooltip on the eye icon that reveals the password.
   ///
   /// In uz, this message translates to:
-  /// **'Show password'**
+  /// **'Parolni ko\'rsatish'**
   String get loginShowPassword;
 
   /// Login screen: tooltip on the eye icon that masks the password.
   ///
   /// In uz, this message translates to:
-  /// **'Hide password'**
+  /// **'Parolni yashirish'**
   String get loginHidePassword;
 
   /// Login screen: submit button label.
   ///
   /// In uz, this message translates to:
-  /// **'Login'**
+  /// **'Kirish'**
   String get loginButton;
 
   /// Login screen: snackbar shown when the user submits with an empty email or password.
   ///
   /// In uz, this message translates to:
-  /// **'Please fill in all fields'**
+  /// **'Barcha maydonlarni to\'ldiring'**
   String get loginEmptyFields;
 
   /// B1 room-condition step: the single question asking the room's current baseline surface condition.
@@ -265,7 +265,7 @@ abstract class AppLocalizations {
   /// Login (phone-OTP step): subtitle under the heading explaining a phone number is required to log in.
   ///
   /// In uz, this message translates to:
-  /// **'Loginiga uchun telefon raqam talab qilinadi'**
+  /// **'Kirish uchun telefon raqamingizni kiriting'**
   String get loginPhoneSubtitle;
 
   /// Login (phone-OTP step): placeholder text inside the phone-number input.
@@ -295,7 +295,7 @@ abstract class AppLocalizations {
   /// Login (phone-OTP step): outlined button switching to the username/password login form.
   ///
   /// In uz, this message translates to:
-  /// **'Username bilan kirish'**
+  /// **'Login va parol bilan kirish'**
   String get loginWithUsername;
 
   /// Login (OTP code step): heading confirming the code was sent.
@@ -343,7 +343,7 @@ abstract class AppLocalizations {
   /// Login/register: placeholder text for the username field.
   ///
   /// In uz, this message translates to:
-  /// **'Username'**
+  /// **'Login'**
   String get loginUsernameHint;
 
   /// Login/register: placeholder text for the password field.
@@ -421,19 +421,19 @@ abstract class AppLocalizations {
   /// Login error: username and password are both required.
   ///
   /// In uz, this message translates to:
-  /// **'Username va parol majburiy.'**
+  /// **'Login va parol majburiy.'**
   String get loginErrorCredentialsRequired;
 
   /// Login error: the username or password is incorrect.
   ///
   /// In uz, this message translates to:
-  /// **'Username yoki parol noto\'g\'ri.'**
+  /// **'Login yoki parol noto\'g\'ri.'**
   String get loginErrorWrongCredentials;
 
   /// Register error: username must be at least 3 characters.
   ///
   /// In uz, this message translates to:
-  /// **'Username kamida 3 ta belgidan iborat bo\'lishi kerak.'**
+  /// **'Login kamida 3 ta belgidan iborat bo\'lishi kerak.'**
   String get loginErrorUsernameShort;
 
   /// Register error: password must be at least 6 characters.
@@ -451,7 +451,7 @@ abstract class AppLocalizations {
   /// Register error: the chosen username is already taken.
   ///
   /// In uz, this message translates to:
-  /// **'Bu username allaqachon band.'**
+  /// **'Bu login allaqachon band.'**
   String get loginErrorUsernameTaken;
 
   /// Register error: a generic registration failure.

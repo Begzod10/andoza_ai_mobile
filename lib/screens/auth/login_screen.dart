@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../config/app_config.dart';
 import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
@@ -28,7 +29,11 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
-  _Mode _mode = _Mode.otpPhone;
+  _Mode _mode = _startMode;
+
+  /// Where the screen opens and where "back" leads.
+  static const _Mode _startMode =
+      AppConfig.smsLoginEnabled ? _Mode.otpPhone : _Mode.login;
 
   final _phone = TextEditingController();
   final _username = TextEditingController();
@@ -429,7 +434,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _backButton(),
+        // With SMS sign-in off this is the first screen: nothing to go back to.
+        if (_startMode != _Mode.login) _backButton(),
         Text(l10n.loginSignIn, style: DesignTokens.headingMedium),
         const SizedBox(height: DesignTokens.spacing16),
         _field(_username, l10n.loginUsernameHint, autofillHints: const [AutofillHints.username]),
@@ -539,7 +545,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Widget _backButton() => Padding(
         padding: const EdgeInsets.only(bottom: DesignTokens.spacing16),
         child: GestureDetector(
-          onTap: () => _switch(_Mode.otpPhone),
+          onTap: () => _switch(_startMode),
           child: Row(mainAxisSize: MainAxisSize.min, children: [
             const Icon(Icons.arrow_back, size: 18, color: DesignTokens.textMuted),
             const SizedBox(width: 6),

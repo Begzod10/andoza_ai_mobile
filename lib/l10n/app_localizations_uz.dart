@@ -54,19 +54,19 @@ class AppLocalizationsUz extends AppLocalizations {
   String get loginEmailHint => 'Email';
 
   @override
-  String get loginPasswordHint => 'Password';
+  String get loginPasswordHint => 'Parol';
 
   @override
-  String get loginShowPassword => 'Show password';
+  String get loginShowPassword => 'Parolni ko\'rsatish';
 
   @override
-  String get loginHidePassword => 'Hide password';
+  String get loginHidePassword => 'Parolni yashirish';
 
   @override
-  String get loginButton => 'Login';
+  String get loginButton => 'Kirish';
 
   @override
-  String get loginEmptyFields => 'Please fill in all fields';
+  String get loginEmptyFields => 'Barcha maydonlarni to\'ldiring';
 
   @override
   String get b1Question => 'Xonangiz hozir qaysi holatda?';
@@ -90,8 +90,7 @@ class AppLocalizationsUz extends AppLocalizations {
   String get loginPhoneLabel => 'Telefon raqam';
 
   @override
-  String get loginPhoneSubtitle =>
-      'Loginiga uchun telefon raqam talab qilinadi';
+  String get loginPhoneSubtitle => 'Kirish uchun telefon raqamingizni kiriting';
 
   @override
   String get loginPhoneHint => '90 123 45 67';
@@ -107,7 +106,7 @@ class AppLocalizationsUz extends AppLocalizations {
       'Siz kiritgan raqamga 6 xonali kod yuboriladi. Agar SMS kelmaydigan bo\'lsa, 2-3 minutdan keyin qayta urinib ko\'ring.';
 
   @override
-  String get loginWithUsername => 'Username bilan kirish';
+  String get loginWithUsername => 'Login va parol bilan kirish';
 
   @override
   String get loginCodeSentTitle => '✓ Kod yuborildi';
@@ -133,7 +132,7 @@ class AppLocalizationsUz extends AppLocalizations {
   String get loginSignIn => 'Kirish';
 
   @override
-  String get loginUsernameHint => 'Username';
+  String get loginUsernameHint => 'Login';
 
   @override
   String get loginPasswordLabel => 'Parol';
@@ -173,14 +172,14 @@ class AppLocalizationsUz extends AppLocalizations {
   String get loginErrorInvalidCode => 'Kod noto\'g\'ri yoki eskirgan.';
 
   @override
-  String get loginErrorCredentialsRequired => 'Username va parol majburiy.';
+  String get loginErrorCredentialsRequired => 'Login va parol majburiy.';
 
   @override
-  String get loginErrorWrongCredentials => 'Username yoki parol noto\'g\'ri.';
+  String get loginErrorWrongCredentials => 'Login yoki parol noto\'g\'ri.';
 
   @override
   String get loginErrorUsernameShort =>
-      'Username kamida 3 ta belgidan iborat bo\'lishi kerak.';
+      'Login kamida 3 ta belgidan iborat bo\'lishi kerak.';
 
   @override
   String get loginErrorPasswordShort =>
@@ -190,7 +189,7 @@ class AppLocalizationsUz extends AppLocalizations {
   String get loginErrorPasswordMismatch => 'Parollar mos kelmadi.';
 
   @override
-  String get loginErrorUsernameTaken => 'Bu username allaqachon band.';
+  String get loginErrorUsernameTaken => 'Bu login allaqachon band.';
 
   @override
   String get loginErrorRegisterFailed =>

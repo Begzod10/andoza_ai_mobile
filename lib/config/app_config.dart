@@ -21,6 +21,12 @@ class AppConfig {
     defaultValue: 'http://10.0.2.2:5173',
   );
 
+  /// Phone + SMS-code sign-in. Off until an SMS provider is connected: the app
+  /// then opens on login/password sign-in with registration below it.
+  /// Turn on with `--dart-define=SMS_LOGIN_ENABLED=true`.
+  static const bool smsLoginEnabled =
+      bool.fromEnvironment('SMS_LOGIN_ENABLED', defaultValue: false);
+
   // LiDAR Configuration
   static const bool lidarEnabled =
       String.fromEnvironment('LIDAR_ENABLED', defaultValue: 'true') == 'true';
