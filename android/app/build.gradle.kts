@@ -96,4 +96,5 @@ configurations.all {
 dependencies {
     // Google ARCore — real depth/plane detection used by DepthScanActivity.
     implementation("com.google.ar:core:1.42.0")
+    testImplementation("junit:junit:4.13.2")
 }
