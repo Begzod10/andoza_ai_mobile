@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -35,6 +36,11 @@ class _RoomScanScreenState extends ConsumerState<RoomScanScreen> {
   }
 
   Future<void> _start() async {
+    // Android has no RoomPlan/LiDAR: measure with ARCore instead.
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      context.pushReplacement('/scanning/arcore');
+      return;
+    }
     final svc = ref.read(roomScanServiceProvider);
     final support = await svc.checkSupport();
     if (!mounted) return;

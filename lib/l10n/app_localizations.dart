@@ -1030,6 +1030,168 @@ abstract class AppLocalizations {
   /// **'Xona serverga saqlanmadi. Internetni tekshirib, qayta urinib ko\'ring.'**
   String get roomSaveFailed;
 
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Kamera bilan o\'lchash'**
+  String get newProjectArScanTitle;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Telefon kamerasi bilan pol burchaklarini belgilab, xona rejasini oling'**
+  String get newProjectArScanDesc;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Telefonni polga qaratib sekin aylantiring'**
+  String get arScanFindFloor;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Nishonni pol burchagiga keltirib, burchak qo\'shing'**
+  String get arScanCornersHint;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Burchak qo\'shish'**
+  String get arScanAddCorner;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Bekor qilish'**
+  String get arScanUndo;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Tayyor'**
+  String get arScanFinish;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Birinchi burchakka yaqinlashing — kontur yopiladi'**
+  String get arScanSnapToFirst;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Birinchi burchak ustidagi shift chizig\'iga qarating'**
+  String get arScanAimCeiling;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Tasdiqlash'**
+  String get arScanConfirm;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Qo\'lda kiritish'**
+  String get arScanEnterManually;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Chiqish'**
+  String get arScanExit;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'lchovni to\'xtatasizmi? Belgilangan burchaklar yo\'qoladi.'**
+  String get arScanExitConfirm;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Yorug\'lik kam yoki telefon tez harakatlandi'**
+  String get arScanTrackingLost;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Yorug\'roq joyda, gilam yoki naqshli polga qarating'**
+  String get arScanFloorHint;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Ba\'zi burchaklar yo\'qoldi — ularni qayta belgilang'**
+  String get arScanCornersLost;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Qayta o\'lchash'**
+  String get arScanRescan;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Kamera bilan o\'lchash uchun \"Google Play Services for AR\" kerak'**
+  String get arScanNotInstalled;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'rnatish'**
+  String get arScanInstall;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Xonani o\'lchash uchun kameraga ruxsat bering'**
+  String get arScanCameraDenied;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Sozlamalarni ochish'**
+  String get arScanOpenSettings;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Bu telefonda kamera bilan o\'lchab bo\'lmaydi. Xonani chizib yoki o\'lchamlarini kiritib qo\'shing.'**
+  String get arScanUnsupported;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'lchab bo\'lmadi. Qayta urinib ko\'ring.'**
+  String get arScanFailed;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Kamida 3 ta burchak kerak'**
+  String get arScanRejected_too_few_corners;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Devorlar bir-birini kesib o\'tdi — burchaklarni tartib bilan belgilang'**
+  String get arScanRejected_self_intersecting;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Bitta devor 30 m dan uzun chiqdi — burchak noto\'g\'ri joyga tushgan'**
+  String get arScanRejected_wall_too_long;
+
+  /// Android ARCore floor-plan scanner
+  ///
+  /// In uz, this message translates to:
+  /// **'Kamera o\'lchovi: ±3–5% xato bo\'lishi mumkin, muhim devorlarni ruletka bilan tekshiring'**
+  String get scanReviewArcoreAccuracy;
+
   /// Shop list: loaded fine, but nothing matches
   ///
   /// In uz, this message translates to:

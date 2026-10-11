@@ -523,6 +523,99 @@ class AppLocalizationsEn extends AppLocalizations {
       'The room wasn\'t saved to the server. Check your connection and try again.';
 
   @override
+  String get newProjectArScanTitle => 'Measure with camera';
+
+  @override
+  String get newProjectArScanDesc =>
+      'Mark the floor corners with your phone camera to get the room plan';
+
+  @override
+  String get arScanFindFloor =>
+      'Point the phone at the floor and move it slowly';
+
+  @override
+  String get arScanCornersHint => 'Put the target on a floor corner and add it';
+
+  @override
+  String get arScanAddCorner => 'Add corner';
+
+  @override
+  String get arScanUndo => 'Undo';
+
+  @override
+  String get arScanFinish => 'Done';
+
+  @override
+  String get arScanSnapToFirst =>
+      'Go back to the first corner to close the outline';
+
+  @override
+  String get arScanAimCeiling =>
+      'Aim at the ceiling line above the first corner';
+
+  @override
+  String get arScanConfirm => 'Confirm';
+
+  @override
+  String get arScanEnterManually => 'Enter manually';
+
+  @override
+  String get arScanExit => 'Exit';
+
+  @override
+  String get arScanExitConfirm =>
+      'Stop measuring? The corners you marked will be lost.';
+
+  @override
+  String get arScanTrackingLost =>
+      'Too little light, or the phone moved too fast';
+
+  @override
+  String get arScanFloorHint =>
+      'Try brighter light, and aim at a rug or a patterned floor';
+
+  @override
+  String get arScanCornersLost => 'Some corners were lost — mark them again';
+
+  @override
+  String get arScanRescan => 'Measure again';
+
+  @override
+  String get arScanNotInstalled =>
+      'Measuring with the camera needs \"Google Play Services for AR\"';
+
+  @override
+  String get arScanInstall => 'Install';
+
+  @override
+  String get arScanCameraDenied => 'Allow camera access to measure the room';
+
+  @override
+  String get arScanOpenSettings => 'Open settings';
+
+  @override
+  String get arScanUnsupported =>
+      'This phone can\'t measure with the camera. Draw the room or enter its size instead.';
+
+  @override
+  String get arScanFailed => 'Couldn\'t measure. Please try again.';
+
+  @override
+  String get arScanRejected_too_few_corners => 'At least 3 corners are needed';
+
+  @override
+  String get arScanRejected_self_intersecting =>
+      'The walls cross each other — mark the corners in order';
+
+  @override
+  String get arScanRejected_wall_too_long =>
+      'One wall came out longer than 30 m — a corner landed in the wrong place';
+
+  @override
+  String get scanReviewArcoreAccuracy =>
+      'Camera measurement: expect ±3–5% error, check important walls with a tape';
+
+  @override
   String get shopNoResults => 'Nothing found';
 
   @override

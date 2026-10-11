@@ -34,6 +34,13 @@ class ArScanChannel(private val activity: Activity) {
                     val strings = (call.argument<Map<String, String>>("strings") ?: emptyMap())
                     scan(strings, result)
                 }
+                "openAppSettings" -> {
+                    activity.startActivity(
+                        Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                            .setData(android.net.Uri.fromParts("package", activity.packageName, null))
+                    )
+                    result.success(null)
+                }
                 else -> result.notImplemented()
             }
         }

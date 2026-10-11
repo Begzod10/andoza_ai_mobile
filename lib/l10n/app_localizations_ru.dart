@@ -515,6 +515,100 @@ class AppLocalizationsRu extends AppLocalizations {
       'Комната не сохранилась на сервере. Проверьте интернет и попробуйте ещё раз.';
 
   @override
+  String get newProjectArScanTitle => 'Измерить камерой';
+
+  @override
+  String get newProjectArScanDesc =>
+      'Отметьте углы пола камерой телефона и получите план комнаты';
+
+  @override
+  String get arScanFindFloor =>
+      'Наведите телефон на пол и медленно поводите им';
+
+  @override
+  String get arScanCornersHint =>
+      'Наведите прицел на угол пола и добавьте угол';
+
+  @override
+  String get arScanAddCorner => 'Добавить угол';
+
+  @override
+  String get arScanUndo => 'Отменить';
+
+  @override
+  String get arScanFinish => 'Готово';
+
+  @override
+  String get arScanSnapToFirst => 'Подойдите к первому углу — контур замкнётся';
+
+  @override
+  String get arScanAimCeiling => 'Наведите на линию потолка над первым углом';
+
+  @override
+  String get arScanConfirm => 'Подтвердить';
+
+  @override
+  String get arScanEnterManually => 'Ввести вручную';
+
+  @override
+  String get arScanExit => 'Выйти';
+
+  @override
+  String get arScanExitConfirm =>
+      'Прервать измерение? Отмеченные углы пропадут.';
+
+  @override
+  String get arScanTrackingLost =>
+      'Мало света или телефон двигался слишком быстро';
+
+  @override
+  String get arScanFloorHint =>
+      'Попробуйте при лучшем свете, наведите на ковёр или пол с узором';
+
+  @override
+  String get arScanCornersLost =>
+      'Некоторые углы потерялись — отметьте их снова';
+
+  @override
+  String get arScanRescan => 'Измерить заново';
+
+  @override
+  String get arScanNotInstalled =>
+      'Для измерения камерой нужны «Сервисы Google Play для AR»';
+
+  @override
+  String get arScanInstall => 'Установить';
+
+  @override
+  String get arScanCameraDenied =>
+      'Разрешите доступ к камере, чтобы измерить комнату';
+
+  @override
+  String get arScanOpenSettings => 'Открыть настройки';
+
+  @override
+  String get arScanUnsupported =>
+      'На этом телефоне измерение камерой недоступно. Нарисуйте комнату или введите размеры.';
+
+  @override
+  String get arScanFailed => 'Не удалось измерить. Попробуйте ещё раз.';
+
+  @override
+  String get arScanRejected_too_few_corners => 'Нужно минимум 3 угла';
+
+  @override
+  String get arScanRejected_self_intersecting =>
+      'Стены пересекаются — отмечайте углы по порядку';
+
+  @override
+  String get arScanRejected_wall_too_long =>
+      'Одна стена длиннее 30 м — угол отмечен не там';
+
+  @override
+  String get scanReviewArcoreAccuracy =>
+      'Измерение камерой: возможна погрешность ±3–5%, важные стены проверьте рулеткой';
+
+  @override
   String get shopNoResults => 'Ничего не найдено';
 
   @override

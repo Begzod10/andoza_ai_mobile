@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../config/design_tokens.dart';
@@ -19,6 +20,8 @@ Future<void> showNewProjectSheet(BuildContext context) {
 /// A3: "+" bottom sheet — the three entry paths into a new project's
 /// measurement flow. Presented as a modal bottom sheet over the dimmed
 /// home screen (per spec: "Home dimmed behind (blur + scrim)").
+bool get _isAndroid => defaultTargetPlatform == TargetPlatform.android;
+
 class NewProjectSheet extends StatelessWidget {
   const NewProjectSheet({super.key});
 
@@ -80,8 +83,9 @@ class NewProjectSheet extends StatelessWidget {
             iconBackground: DesignTokens.borderGrayAlt,
             icon: Icons.radar,
             iconColor: DesignTokens.primaryBlue,
-            title: l10n.newProjectLidarTitle,
-            description: l10n.newProjectLidarDesc,
+            // Android measures with the camera (ARCore); iPhones scan with LiDAR.
+            title: _isAndroid ? l10n.newProjectArScanTitle : l10n.newProjectLidarTitle,
+            description: _isAndroid ? l10n.newProjectArScanDesc : l10n.newProjectLidarDesc,
             onTap: () {
               ProviderScope.containerOf(context)
                   .read(roomPersistenceProvider.notifier)

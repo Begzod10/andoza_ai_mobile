@@ -51,6 +51,15 @@ class ArScanService {
       throw ArScanException(e.code, e.message ?? e.code);
     }
   }
+
+  /// The app's system settings page (to grant the camera after a refusal).
+  Future<void> openAppSettings() async {
+    try {
+      await channel.invokeMethod<void>('openAppSettings');
+    } on MissingPluginException {
+      // Not on Android — nothing to open.
+    }
+  }
 }
 
 final arScanServiceProvider = Provider<ArScanService>((ref) => ArScanService());

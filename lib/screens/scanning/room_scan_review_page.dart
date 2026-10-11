@@ -21,7 +21,10 @@ import '../../utils/error_mapper.dart';
 /// Nav payload for [RoomScanReviewPage] (passed via go_router `extra`).
 class RoomScanReviewArgs {
   final RoomScanDraft draft;
-  final ScanResult scan;
+
+  /// The LiDAR scan payload (mesh + raw RoomPlan JSON) uploaded with the room;
+  /// `null` for an Android camera (ARCore) measurement, which has none.
+  final ScanResult? scan;
   const RoomScanReviewArgs({required this.draft, required this.scan});
 }
 
@@ -63,7 +66,7 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
       corners: _plan.corners,
       walls: _plan.walls,
       ceilingHeightM: _ceiling,
-      source: RoomSource.lidar,
+      source: _plan.source,
       name: _plan.name,
     );
     try {
@@ -88,11 +91,14 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
       // Phase 4 endpoint exists; a failure here must not block the studio since
       // the room itself is already created from the parametric data.
       String? uploadError;
-      try {
-        await ref.read(roomScanServiceProvider).upload(roomId, widget.args.scan);
-      } catch (e) {
-        _logger.w('roomscan artifact upload failed (Phase 4 endpoint?): $e');
-        uploadError = mapErrorToMessage(e);
+      final scan = widget.args.scan;
+      if (scan != null) {
+        try {
+          await ref.read(roomScanServiceProvider).upload(roomId, scan);
+        } catch (e) {
+          _logger.w('roomscan artifact upload failed (Phase 4 endpoint?): $e');
+          uploadError = mapErrorToMessage(e);
+        }
       }
       // Best-effort: give the room a preview of its own shape, so it does not
       // show as a blank card in the project list. Same non-blocking contract as
@@ -144,10 +150,14 @@ class _RoomScanReviewPageState extends ConsumerState<RoomScanReviewPage> {
             // "What we detected" summary — lets the user judge the scan (and
             // rescan) before committing, instead of discovering a missed door
             // later in the studio.
-            ScanDetectionSummary(
-              plan: _plan,
-              room: widget.args.scan.room,
-            ),
+            if (widget.args.scan case final scan?)
+              ScanDetectionSummary(plan: _plan, room: scan.room),
+            // A camera measurement is only as good as ARCore's tracking — say so.
+            if (_plan.source == RoomSource.arcore)
+              Text(
+                l10n.scanReviewArcoreAccuracy,
+                style: DesignTokens.body2.copyWith(color: DesignTokens.textGray),
+              ),
             const SizedBox(height: DesignTokens.spacingLg),
 
             // 2-D top-down preview.

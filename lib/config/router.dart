@@ -12,6 +12,7 @@ import '../screens/home/home_with_projects_screen.dart';
 import '../screens/room_setup/dimensions_entry_screen.dart';
 import '../screens/room_setup/wall_measurements_screen.dart';
 import '../screens/room_setup/room_summary_screen.dart';
+import '../screens/scanning/ar_scan_screen.dart';
 import '../screens/scanning/photo_scanning_screen.dart';
 import '../screens/scanning/room_scan_screen.dart';
 import '../screens/scanning/room_scan_review_page.dart';
@@ -154,6 +155,11 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/scanning/roomplan',
             builder: (context, state) => const RoomScanScreen(),
+          ),
+          GoRoute(
+            // Android camera measurement (ARCore) — see ArScanScreen.
+            path: '/scanning/arcore',
+            builder: (context, state) => const ArScanScreen(),
           ),
           GoRoute(
             path: '/scanning/roomplan/review',

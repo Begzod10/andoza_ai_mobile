@@ -689,6 +689,114 @@
   "@roomSaveFailed": {
     "description": "Wizard: creating the room on the server failed; offered with a retry"
   },
+  "newProjectArScanTitle": "Kamera bilan o'lchash",
+  "@newProjectArScanTitle": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "newProjectArScanDesc": "Telefon kamerasi bilan pol burchaklarini belgilab, xona rejasini oling",
+  "@newProjectArScanDesc": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanFindFloor": "Telefonni polga qaratib sekin aylantiring",
+  "@arScanFindFloor": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanCornersHint": "Nishonni pol burchagiga keltirib, burchak qo'shing",
+  "@arScanCornersHint": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanAddCorner": "Burchak qo'shish",
+  "@arScanAddCorner": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanUndo": "Bekor qilish",
+  "@arScanUndo": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanFinish": "Tayyor",
+  "@arScanFinish": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanSnapToFirst": "Birinchi burchakka yaqinlashing — kontur yopiladi",
+  "@arScanSnapToFirst": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanAimCeiling": "Birinchi burchak ustidagi shift chizig'iga qarating",
+  "@arScanAimCeiling": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanConfirm": "Tasdiqlash",
+  "@arScanConfirm": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanEnterManually": "Qo'lda kiritish",
+  "@arScanEnterManually": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanExit": "Chiqish",
+  "@arScanExit": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanExitConfirm": "O'lchovni to'xtatasizmi? Belgilangan burchaklar yo'qoladi.",
+  "@arScanExitConfirm": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanTrackingLost": "Yorug'lik kam yoki telefon tez harakatlandi",
+  "@arScanTrackingLost": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanFloorHint": "Yorug'roq joyda, gilam yoki naqshli polga qarating",
+  "@arScanFloorHint": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanCornersLost": "Ba'zi burchaklar yo'qoldi — ularni qayta belgilang",
+  "@arScanCornersLost": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanRescan": "Qayta o'lchash",
+  "@arScanRescan": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanNotInstalled": "Kamera bilan o'lchash uchun \"Google Play Services for AR\" kerak",
+  "@arScanNotInstalled": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanInstall": "O'rnatish",
+  "@arScanInstall": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanCameraDenied": "Xonani o'lchash uchun kameraga ruxsat bering",
+  "@arScanCameraDenied": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanOpenSettings": "Sozlamalarni ochish",
+  "@arScanOpenSettings": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanUnsupported": "Bu telefonda kamera bilan o'lchab bo'lmaydi. Xonani chizib yoki o'lchamlarini kiritib qo'shing.",
+  "@arScanUnsupported": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanFailed": "O'lchab bo'lmadi. Qayta urinib ko'ring.",
+  "@arScanFailed": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanRejected_too_few_corners": "Kamida 3 ta burchak kerak",
+  "@arScanRejected_too_few_corners": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanRejected_self_intersecting": "Devorlar bir-birini kesib o'tdi — burchaklarni tartib bilan belgilang",
+  "@arScanRejected_self_intersecting": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "arScanRejected_wall_too_long": "Bitta devor 30 m dan uzun chiqdi — burchak noto'g'ri joyga tushgan",
+  "@arScanRejected_wall_too_long": {
+    "description": "Android ARCore floor-plan scanner"
+  },
+  "scanReviewArcoreAccuracy": "Kamera o'lchovi: ±3–5% xato bo'lishi mumkin, muhim devorlarni ruletka bilan tekshiring",
+  "@scanReviewArcoreAccuracy": {
+    "description": "Android ARCore floor-plan scanner"
+  },
   "shopNoResults": "Hech narsa topilmadi",
   "@shopNoResults": {
     "description": "Shop list: loaded fine, but nothing matches"

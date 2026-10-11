@@ -514,6 +514,101 @@ class AppLocalizationsUz extends AppLocalizations {
       'Xona serverga saqlanmadi. Internetni tekshirib, qayta urinib ko\'ring.';
 
   @override
+  String get newProjectArScanTitle => 'Kamera bilan o\'lchash';
+
+  @override
+  String get newProjectArScanDesc =>
+      'Telefon kamerasi bilan pol burchaklarini belgilab, xona rejasini oling';
+
+  @override
+  String get arScanFindFloor => 'Telefonni polga qaratib sekin aylantiring';
+
+  @override
+  String get arScanCornersHint =>
+      'Nishonni pol burchagiga keltirib, burchak qo\'shing';
+
+  @override
+  String get arScanAddCorner => 'Burchak qo\'shish';
+
+  @override
+  String get arScanUndo => 'Bekor qilish';
+
+  @override
+  String get arScanFinish => 'Tayyor';
+
+  @override
+  String get arScanSnapToFirst =>
+      'Birinchi burchakka yaqinlashing — kontur yopiladi';
+
+  @override
+  String get arScanAimCeiling =>
+      'Birinchi burchak ustidagi shift chizig\'iga qarating';
+
+  @override
+  String get arScanConfirm => 'Tasdiqlash';
+
+  @override
+  String get arScanEnterManually => 'Qo\'lda kiritish';
+
+  @override
+  String get arScanExit => 'Chiqish';
+
+  @override
+  String get arScanExitConfirm =>
+      'O\'lchovni to\'xtatasizmi? Belgilangan burchaklar yo\'qoladi.';
+
+  @override
+  String get arScanTrackingLost =>
+      'Yorug\'lik kam yoki telefon tez harakatlandi';
+
+  @override
+  String get arScanFloorHint =>
+      'Yorug\'roq joyda, gilam yoki naqshli polga qarating';
+
+  @override
+  String get arScanCornersLost =>
+      'Ba\'zi burchaklar yo\'qoldi — ularni qayta belgilang';
+
+  @override
+  String get arScanRescan => 'Qayta o\'lchash';
+
+  @override
+  String get arScanNotInstalled =>
+      'Kamera bilan o\'lchash uchun \"Google Play Services for AR\" kerak';
+
+  @override
+  String get arScanInstall => 'O\'rnatish';
+
+  @override
+  String get arScanCameraDenied =>
+      'Xonani o\'lchash uchun kameraga ruxsat bering';
+
+  @override
+  String get arScanOpenSettings => 'Sozlamalarni ochish';
+
+  @override
+  String get arScanUnsupported =>
+      'Bu telefonda kamera bilan o\'lchab bo\'lmaydi. Xonani chizib yoki o\'lchamlarini kiritib qo\'shing.';
+
+  @override
+  String get arScanFailed => 'O\'lchab bo\'lmadi. Qayta urinib ko\'ring.';
+
+  @override
+  String get arScanRejected_too_few_corners => 'Kamida 3 ta burchak kerak';
+
+  @override
+  String get arScanRejected_self_intersecting =>
+      'Devorlar bir-birini kesib o\'tdi — burchaklarni tartib bilan belgilang';
+
+  @override
+  String get arScanRejected_wall_too_long =>
+      'Bitta devor 30 m dan uzun chiqdi — burchak noto\'g\'ri joyga tushgan';
+
+  @override
+  String get scanReviewArcoreAccuracy =>
+      'Kamera o\'lchovi: ±3–5% xato bo\'lishi mumkin, muhim devorlarni ruletka bilan tekshiring';
+
+  @override
   String get shopNoResults => 'Hech narsa topilmadi';
 
   @override
