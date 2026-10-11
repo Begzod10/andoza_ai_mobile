@@ -180,7 +180,7 @@ class _U1MastersIntroScreenState extends ConsumerState<U1MastersIntroScreen> {
                                 left: DesignTokens.spacingSm,
                               ),
                               child: _TradeChip(
-                                label: '${trade.emoji} ${trade.label}',
+                                label: '${trade.emoji} ${trade.label(l10n)}',
                                 selected: _filter == trade,
                                 onTap: () => setState(() => _filter = trade),
                               ),
@@ -334,7 +334,7 @@ class _PinSheet extends StatelessWidget {
                   children: [
                     Text(master.master.name, style: DesignTokens.subtitle1),
                     Text(
-                      '${master.trade.emoji} ${master.trade.label}',
+                      '${master.trade.emoji} ${master.trade.label(l10n)}',
                       style: DesignTokens.body2,
                     ),
                   ],

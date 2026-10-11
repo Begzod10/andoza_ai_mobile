@@ -72,7 +72,7 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          '${m.trade.emoji} ${m.trade.label}',
+                          '${m.trade.emoji} ${m.trade.label(l10n)}',
                           style: DesignTokens.subtitle1,
                         ),
                         if (m.isVerified) ...[
@@ -163,7 +163,7 @@ class U4ReviewRatingScreen extends ConsumerWidget {
               const SizedBox(height: DesignTokens.spacingLg),
               Text(l10n.mastersServices, style: DesignTokens.subtitle1),
               const SizedBox(height: DesignTokens.spacingSm),
-              _ServiceRow(label: l10n.mastersServiceTrade(m.trade.label)),
+              _ServiceRow(label: l10n.mastersServiceTrade(m.trade.label(l10n))),
               _ServiceRow(label: l10n.mastersServiceConsultation),
               const SizedBox(height: DesignTokens.spacingLg),
               Text(l10n.mastersLocation, style: DesignTokens.subtitle1),

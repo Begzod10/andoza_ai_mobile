@@ -2346,4 +2346,52 @@ class AppLocalizationsRu extends AppLocalizations {
   String scanFailedReason(String reason) {
     return 'Причина: $reason';
   }
+
+  @override
+  String get shopCategoryBoyoq => 'Краска';
+
+  @override
+  String get shopCategoryOboy => 'Обои';
+
+  @override
+  String get shopCategoryLaminat => 'Ламинат';
+
+  @override
+  String get shopCategoryKafel => 'Плитка';
+
+  @override
+  String get shopCategoryParket => 'Паркет';
+
+  @override
+  String get shopCategoryGips => 'Гипс';
+
+  @override
+  String get shopCategorySement => 'Цемент';
+
+  @override
+  String get shopCategorySantexnika => 'Сантехника';
+
+  @override
+  String get shopCategoryElektr => 'Электрика';
+
+  @override
+  String get tradeBoshqa => 'Другой мастер';
+
+  @override
+  String get qualityTierEkonom => 'Эконом';
+
+  @override
+  String get qualityTierStandart => 'Стандарт';
+
+  @override
+  String get qualityTierPremium => 'Премиум';
+
+  @override
+  String get estimateOpen3dStudio => '3D-студия';
+
+  @override
+  String get actionDelete => 'Удалить';
+
+  @override
+  String get mapAttribution => '© участники OpenStreetMap';
 }

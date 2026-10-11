@@ -1,4 +1,5 @@
 import 'package:riverpod/riverpod.dart';
+import '../l10n/app_localizations.dart';
 import '../models/design_selection_model.dart';
 import '../models/estimate_model.dart';
 import '../utils/project_areas.dart';
@@ -12,10 +13,10 @@ import 'shop_provider.dart';
 enum QualityTier { ekonom, standart, premium }
 
 extension QualityTierInfo on QualityTier {
-  String get label => switch (this) {
-    QualityTier.ekonom => 'Ekonom',
-    QualityTier.standart => 'Standart',
-    QualityTier.premium => 'Premium',
+  String label(AppLocalizations l10n) => switch (this) {
+    QualityTier.ekonom => l10n.qualityTierEkonom,
+    QualityTier.standart => l10n.qualityTierStandart,
+    QualityTier.premium => l10n.qualityTierPremium,
   };
 
   double get multiplier => switch (this) {

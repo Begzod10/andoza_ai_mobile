@@ -1,4 +1,5 @@
 import 'package:riverpod/riverpod.dart';
+import '../l10n/app_localizations.dart';
 import '../models/api/usta.dart';
 import '../repositories/masters_repository.dart';
 import 'catalog_provider.dart';
@@ -29,21 +30,21 @@ enum Trade {
 }
 
 extension TradeInfo on Trade {
-  String get label => switch (this) {
-    Trade.elektrik => 'Elektrik',
-    Trade.elektrikLoyihachi => 'Elektrik loyihachi',
-    Trade.santexnik => 'Santexnik',
-    Trade.malyar => 'Malyar',
-    Trade.oboy => 'Oboychi',
-    Trade.laminat => 'Laminatchi',
-    Trade.brigada => 'Brigada',
-    Trade.plitkachi => 'Plitkachi',
-    Trade.shtukatur => 'Shtukatur',
-    Trade.gipsokartonchi => 'Gipsokartonchi',
-    Trade.eshikOyna => 'Eshik-oyna ustasi',
-    Trade.isitishKonditsioner => 'Isitish va konditsioner ustasi',
-    Trade.demontaj => 'Demontajchi',
-    Trade.boshqa => 'Boshqa usta',
+  String label(AppLocalizations l10n) => switch (this) {
+    Trade.elektrik => l10n.tradeElektrik,
+    Trade.elektrikLoyihachi => l10n.tradeElektrikLoyihachi,
+    Trade.santexnik => l10n.tradeSantexnik,
+    Trade.malyar => l10n.tradeMalyar,
+    Trade.oboy => l10n.tradeOboy,
+    Trade.laminat => l10n.tradeLaminat,
+    Trade.brigada => l10n.tradeBrigada,
+    Trade.plitkachi => l10n.tradePlitkachi,
+    Trade.shtukatur => l10n.tradeShtukatur,
+    Trade.gipsokartonchi => l10n.tradeGipsokartonchi,
+    Trade.eshikOyna => l10n.tradeEshikOyna,
+    Trade.isitishKonditsioner => l10n.tradeIsitishKonditsioner,
+    Trade.demontaj => l10n.tradeDemontaj,
+    Trade.boshqa => l10n.tradeBoshqa,
   };
 
   String get emoji => switch (this) {

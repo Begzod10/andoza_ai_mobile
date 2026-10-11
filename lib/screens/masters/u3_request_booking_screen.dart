@@ -108,7 +108,7 @@ class U3RequestBookingScreen extends ConsumerWidget {
                           ],
                         ),
                         Text(
-                          '${m.trade.emoji} ${m.trade.label}',
+                          '${m.trade.emoji} ${m.trade.label(l10n)}',
                           style: DesignTokens.caption.copyWith(
                             color: DesignTokens.textGray,
                           ),

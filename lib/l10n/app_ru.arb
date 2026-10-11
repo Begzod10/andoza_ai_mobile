@@ -2624,5 +2624,21 @@
   "deleteAccountPasswordHint": "Если входили по коду из SMS, оставьте пустым",
   "deleteAccountDone": "Ваш аккаунт удалён",
   "scanFailedReason": "Причина: {reason}",
-  "@scanFailedReason": {"placeholders": {"reason": {"type": "String"}}}
+  "@scanFailedReason": {"placeholders": {"reason": {"type": "String"}}},
+  "shopCategoryBoyoq": "Краска",
+  "shopCategoryOboy": "Обои",
+  "shopCategoryLaminat": "Ламинат",
+  "shopCategoryKafel": "Плитка",
+  "shopCategoryParket": "Паркет",
+  "shopCategoryGips": "Гипс",
+  "shopCategorySement": "Цемент",
+  "shopCategorySantexnika": "Сантехника",
+  "shopCategoryElektr": "Электрика",
+  "tradeBoshqa": "Другой мастер",
+  "qualityTierEkonom": "Эконом",
+  "qualityTierStandart": "Стандарт",
+  "qualityTierPremium": "Премиум",
+  "estimateOpen3dStudio": "3D-студия",
+  "actionDelete": "Удалить",
+  "mapAttribution": "© участники OpenStreetMap"
 }
