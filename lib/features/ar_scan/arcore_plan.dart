@@ -70,6 +70,8 @@ ArPlanResult buildArcorePlan(ArScanRaw raw, {String name = 'Xona'}) {
 
   pts = removeCollinearVertices(_square(pts));
   if (pts.length < 3) return const ArPlanRejected('too_few_corners');
+  // Squaring re-closes the loop by stretching walls, so check the final plan too.
+  if (_longestEdge(pts) > _maxWallM) return const ArPlanRejected('wall_too_long');
   if (isSelfIntersecting(pts)) return const ArPlanRejected('self_intersecting');
 
   // ARCore's origin is wherever the session started; start the plan at (0, 0)

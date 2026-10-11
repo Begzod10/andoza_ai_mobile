@@ -124,6 +124,15 @@ void main() {
     expect(_rejected(buildArcorePlan(_raw([[0, 0], [35, 0], [35, 3], [0, 3]]))), 'wall_too_long');
   });
 
+  test('rejects a wall that squaring stretches past 30 m', () {
+    // Every raw wall is under 30 m (longest 29.91 m), but closing the squared
+    // outline stretches the bottom wall to ~30.2 m.
+    expect(
+      _rejected(buildArcorePlan(_raw([[0, 0], [29.91, 0], [30.52, 5.48], [1.4, 5.45]]))),
+      'wall_too_long',
+    );
+  });
+
   test('tags the plan as arcore and rounds to 1 cm', () {
     final plan = _ok(buildArcorePlan(_raw([[0, 0], [4.123, 0], [4.123, 3.0567], [0, 3.0567]])));
     expect(plan.source, RoomSource.arcore);
