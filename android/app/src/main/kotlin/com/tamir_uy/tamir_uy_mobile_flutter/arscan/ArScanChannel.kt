@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import com.google.ar.core.ArCoreApk
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
@@ -20,8 +21,20 @@ class ArScanChannel(private val activity: Activity) {
     companion object {
         private const val CHANNEL = "andoza/arscan"
         const val REQUEST_CODE = 0x5CA1
+        private const val TAG = "ArScan"
     }
 
+    /**
+     * The Dart call waiting for the scanner. Known limitation: if Android
+     * destroys MainActivity while the scanner is open (low memory, "Don't keep
+     * activities"; rotation doesn't — MainActivity handles config changes),
+     * the recreated activity gets a new FlutterEngine, so this Result *and*
+     * the Dart future awaiting it are gone with the old engine. Keeping it in
+     * a process-level object would not help — nobody is listening on the old
+     * engine any more — so the scan result is dropped (logged below) and the
+     * user lands back in a freshly started app. Fixing that for real needs a
+     * cached FlutterEngine or persisting the result for Dart to pick up.
+     */
     private var pending: MethodChannel.Result? = null
     private val main = Handler(Looper.getMainLooper())
 
@@ -87,12 +100,27 @@ class ArScanChannel(private val activity: Activity) {
 
     fun handleActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
         if (requestCode != REQUEST_CODE) return false
-        val result = pending ?: return true
+        val result = pending
+        if (result == null) {
+            // See [pending]: MainActivity was recreated while the scanner was open.
+            Log.w(TAG, "scanner result (code $resultCode) arrived with no pending call — dropped")
+            return true
+        }
         pending = null
         val json = data?.getStringExtra(ArScanActivity.EXTRA_RESULT)
         val error = data?.getStringExtra(ArScanActivity.EXTRA_ERROR)
+        val parsed = json?.let {
+            try {
+                toMap(JSONObject(it))
+            } catch (e: Exception) {
+                Log.w(TAG, "unreadable scanner result", e)
+                null
+            }
+        }
         when {
-            resultCode == Activity.RESULT_OK && json != null -> result.success(toMap(JSONObject(json)))
+            resultCode == Activity.RESULT_OK && parsed != null -> result.success(parsed)
+            resultCode == Activity.RESULT_OK && json != null ->
+                result.error("session_failed", "Could not read the scan result", null)
             error != null -> result.error(error, data.getStringExtra(ArScanActivity.EXTRA_ERROR_MESSAGE) ?: error, null)
             else -> result.success(null) // the user backed out
         }
