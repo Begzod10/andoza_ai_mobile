@@ -154,6 +154,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginHaveAccount => 'Already have an account? ';
 
   @override
+  String get loginWithGoogle => 'Continue with Google';
+
+  @override
+  String get loginGoogleFailed =>
+      'Couldn\'t sign in with Google. Please try again.';
+
+  @override
   String get loginOr => 'or';
 
   @override

@@ -74,5 +74,24 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<!-- Google Sign-In. GIDClientID = the iOS OAuth client; GIDServerClientID =
+	     the web client (the ID token's audience, verified by POST /auth/google).
+	     The URL scheme is the reversed iOS client id, needed for the OAuth
+	     redirect back into the app. Keep in step with AppConfig. -->
+	<key>GIDClientID</key>
+	<string>632412937266-nb16ekesaj9ubuahnmio29187nu5uhre.apps.googleusercontent.com</string>
+	<key>GIDServerClientID</key>
+	<string>632412937266-ruq48osgghaa4jn0fk8vjd7mr270ccb0.apps.googleusercontent.com</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.632412937266-nb16ekesaj9ubuahnmio29187nu5uhre</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

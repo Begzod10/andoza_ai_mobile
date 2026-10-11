@@ -382,6 +382,18 @@ abstract class AppLocalizations {
   /// **'Allaqachon akkauntingiz bormi? '**
   String get loginHaveAccount;
 
+  /// Login: outlined button that signs in with a Google account.
+  ///
+  /// In uz, this message translates to:
+  /// **'Google bilan kirish'**
+  String get loginWithGoogle;
+
+  /// Login error: Google sign-in failed (invalid token or Google error).
+  ///
+  /// In uz, this message translates to:
+  /// **'Google orqali kirib bo\'lmadi. Qayta urinib ko\'ring.'**
+  String get loginGoogleFailed;
+
   /// Login: 'or' divider between the OTP and username entry points.
   ///
   /// In uz, this message translates to:
