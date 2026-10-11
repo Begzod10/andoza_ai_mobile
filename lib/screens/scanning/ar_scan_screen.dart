@@ -69,6 +69,11 @@ class _ArScanScreenState extends ConsumerState<ArScanScreen> with WidgetsBinding
         'arScanTrackingLost': l10n.arScanTrackingLost,
         'arScanFloorHint': l10n.arScanFloorHint,
         'arScanCornersLost': l10n.arScanCornersLost,
+        'arScanNoFloorHere': l10n.arScanNoFloorHere,
+        'arScanKeepMeasuring': l10n.arScanKeepMeasuring,
+        'arScanStepFloor': l10n.arScanStepFloor,
+        'arScanStepCorners': l10n.arScanStepCorners,
+        'arScanStepHeight': l10n.arScanStepHeight,
       };
 
   Future<void> _start() async {

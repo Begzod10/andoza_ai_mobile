@@ -73,6 +73,17 @@ Future<void> _pump(WidgetTester tester, _FakeArScan fake) async {
 void main() {
   final l10n = lookupAppLocalizations(const Locale('uz'));
 
+  testWidgets('passes the scanner its step, no-floor and keep-measuring copy', (tester) async {
+    final fake = _FakeArScan(raw: _scan([[0, 0], [4, 0], [4, 3], [0, 3]]));
+    await _pump(tester, fake);
+    final s = fake.lastStrings!;
+    expect(s['arScanNoFloorHere'], l10n.arScanNoFloorHere);
+    expect(s['arScanKeepMeasuring'], l10n.arScanKeepMeasuring);
+    expect(s['arScanStepFloor'], l10n.arScanStepFloor);
+    expect(s['arScanStepCorners'], l10n.arScanStepCorners);
+    expect(s['arScanStepHeight'], l10n.arScanStepHeight);
+  });
+
   testWidgets('ok scan opens the review with an arcore plan', (tester) async {
     final fake = _FakeArScan(raw: _scan([[0, 0], [4, 0], [4, 3], [0, 3]]));
     await _pump(tester, fake);

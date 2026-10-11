@@ -51,6 +51,32 @@ class FloorPlanCaptureTest {
         assertEquals(4, c.corners.size)
     }
 
+    @Test fun `reopening a closed outline drops the snapping tap in one step`() {
+        val c = FloorPlanCapture()
+        square(c)
+        c.addCorner(Vec3(0.1f, 0f, 0.1f))
+        assertTrue(c.reopen())
+        assertFalse(c.isClosed)
+        assertEquals(4, c.corners.size)
+        assertTrue(c.canAddCorner(tracking = true))
+        assertEquals(AddResult.ADDED, c.addCorner(Vec3(-1f, 0f, 1.5f)))
+    }
+
+    @Test fun `reopening an open outline changes nothing`() {
+        val c = FloorPlanCapture()
+        square(c)
+        assertFalse(c.reopen())
+        assertEquals(4, c.corners.size)
+    }
+
+    @Test fun `adding to a closed outline is rejected as closed, not as lost tracking`() {
+        val c = FloorPlanCapture()
+        square(c)
+        c.addCorner(Vec3(0.1f, 0f, 0.1f))
+        assertEquals(AddResult.REJECTED_CLOSED, c.addCorner(Vec3(2f, 0f, 2f)))
+        assertEquals(5, c.corners.size)
+    }
+
     @Test fun `blocks adding while not tracking`() {
         val c = FloorPlanCapture()
         assertFalse(c.canAddCorner(tracking = false))

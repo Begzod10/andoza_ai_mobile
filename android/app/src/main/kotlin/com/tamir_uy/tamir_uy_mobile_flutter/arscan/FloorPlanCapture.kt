@@ -6,7 +6,8 @@ import kotlin.math.hypot
 /** A world-space point in metres (ARCore pose translation). */
 data class Vec3(val x: Float, val y: Float, val z: Float)
 
-enum class AddResult { ADDED, CLOSED, REJECTED_NOT_TRACKING }
+/** [REJECTED_CLOSED]: the outline is already closed — reopen it first. */
+enum class AddResult { ADDED, CLOSED, REJECTED_CLOSED }
 
 /**
  * The floor outline being captured, kept free of ARCore types so it can be
@@ -42,7 +43,7 @@ class FloorPlanCapture(val snapDistanceM: Float = 0.20f) {
             hypot(p.x - points[0].x, p.z - points[0].z) <= snapDistanceM
 
     fun addCorner(p: Vec3): AddResult {
-        if (isClosed) return AddResult.REJECTED_NOT_TRACKING
+        if (isClosed) return AddResult.REJECTED_CLOSED
         val y = floorY ?: p.y.also { floorY = it }
         val snap = wouldSnap(p)
         points = points + Vec3(p.x, y, p.z)
@@ -58,6 +59,18 @@ class FloorPlanCapture(val snapDistanceM: Float = 0.20f) {
         points = points.dropLast(1)
         isClosed = false
         if (points.isEmpty()) floorY = null
+        return true
+    }
+
+    /**
+     * Back from the height step to corners: drop the snapping tap so the
+     * outline is open again and the next "add corner" works at once.
+     * Returns false (and changes nothing) if the outline wasn't closed.
+     */
+    fun reopen(): Boolean {
+        if (!isClosed) return false
+        points = points.dropLast(1)
+        isClosed = false
         return true
     }
 

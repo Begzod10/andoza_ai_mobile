@@ -570,6 +570,21 @@ class AppLocalizationsRu extends AppLocalizations {
       'Некоторые углы потерялись — отметьте их снова';
 
   @override
+  String get arScanNoFloorHere => 'Сначала отсканируйте пол';
+
+  @override
+  String get arScanKeepMeasuring => 'Продолжить измерение';
+
+  @override
+  String get arScanStepFloor => '1/3 — пол';
+
+  @override
+  String get arScanStepCorners => '2/3 — углы';
+
+  @override
+  String get arScanStepHeight => '3/3 — высота';
+
+  @override
   String get arScanRescan => 'Измерить заново';
 
   @override

@@ -578,6 +578,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get arScanCornersLost => 'Some corners were lost — mark them again';
 
   @override
+  String get arScanNoFloorHere => 'Scan the floor first';
+
+  @override
+  String get arScanKeepMeasuring => 'Keep measuring';
+
+  @override
+  String get arScanStepFloor => '1/3 — floor';
+
+  @override
+  String get arScanStepCorners => '2/3 — corners';
+
+  @override
+  String get arScanStepHeight => '3/3 — height';
+
+  @override
   String get arScanRescan => 'Measure again';
 
   @override

@@ -1126,6 +1126,36 @@ abstract class AppLocalizations {
   /// **'Ba\'zi burchaklar yo\'qoldi — ularni qayta belgilang'**
   String get arScanCornersLost;
 
+  /// Android ARCore floor-plan scanner: 'Add corner' tapped with no floor under the reticle
+  ///
+  /// In uz, this message translates to:
+  /// **'Avval polni skaner qiling'**
+  String get arScanNoFloorHere;
+
+  /// Android ARCore floor-plan scanner: cancel button of the exit confirmation
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'lchashni davom ettirish'**
+  String get arScanKeepMeasuring;
+
+  /// Android ARCore floor-plan scanner: step indicator, finding the floor
+  ///
+  /// In uz, this message translates to:
+  /// **'1/3 — pol'**
+  String get arScanStepFloor;
+
+  /// Android ARCore floor-plan scanner: step indicator, marking corners
+  ///
+  /// In uz, this message translates to:
+  /// **'2/3 — burchaklar'**
+  String get arScanStepCorners;
+
+  /// Android ARCore floor-plan scanner: step indicator, measuring the height
+  ///
+  /// In uz, this message translates to:
+  /// **'3/3 — balandlik'**
+  String get arScanStepHeight;
+
   /// Android ARCore floor-plan scanner
   ///
   /// In uz, this message translates to:

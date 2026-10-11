@@ -55,6 +55,7 @@ class ArScanActivity : Activity(), GLSurfaceView.Renderer {
         const val EXTRA_ERROR_MESSAGE = "errorMessage"
         private const val CAMERA_REQUEST = 4202
         private const val FLOOR_HINT_AFTER_MS = 20_000L
+        private const val NOTICE_MS = 2_500L
         private val PRESET_HEIGHTS = floatArrayOf(2.5f, 2.7f, 2.8f, 3.0f, 3.2f)
         private const val TAG = "ArScan"
     }
@@ -77,6 +78,11 @@ class ArScanActivity : Activity(), GLSurfaceView.Renderer {
         "arScanSnapToFirst" to "Birinchi burchakka yaqinlashing — kontur yopiladi",
         "arScanCornersHint" to "Nishonni pol burchagiga keltirib, burchak qo'shing",
         "arScanCornersLost" to "Ba'zi burchaklar yo'qoldi — ularni qayta belgilang",
+        "arScanNoFloorHere" to "Avval polni skaner qiling",
+        "arScanKeepMeasuring" to "O'lchashni davom ettirish",
+        "arScanStepFloor" to "1/3 — pol",
+        "arScanStepCorners" to "2/3 — burchaklar",
+        "arScanStepHeight" to "3/3 — balandlik",
     )
     private lateinit var strings: Map<String, String>
     private fun s(key: String) = strings[key] ?: fallback[key] ?: key
@@ -104,6 +110,9 @@ class ArScanActivity : Activity(), GLSurfaceView.Renderer {
     // Set when anchors stopped tracking and corners were dropped; stays up
     // until the user adds or undoes a corner (a one-frame hint is never seen).
     @Volatile private var cornersLost = false
+    // "Add corner" tapped with no floor under the reticle: a short notice
+    // ("Avval polni skaner qiling") until this time (elapsedRealtime).
+    @Volatile private var noFloorUntil = 0L
     private var viewportW = 0
     private var viewportH = 0
     private var viewportChanged = false
@@ -200,9 +209,9 @@ class ArScanActivity : Activity(), GLSurfaceView.Renderer {
         notice: String? = null, // informational: shown, but doesn't block adding corners
     ) {
         stepLabel.text = when (step) {
-            Step.FIND_FLOOR -> "1/3"
-            Step.CORNERS -> "2/3"
-            Step.HEIGHT -> "3/3"
+            Step.FIND_FLOOR -> s("arScanStepFloor")
+            Step.CORNERS -> s("arScanStepCorners")
+            Step.HEIGHT -> s("arScanStepHeight")
         }
         hint.text = trackingHint ?: notice ?: when (step) {
             Step.FIND_FLOOR ->
@@ -245,6 +254,9 @@ class ArScanActivity : Activity(), GLSurfaceView.Renderer {
     private fun onLeft() = onGl {
         cornersLost = false
         if (step == Step.HEIGHT) {
+            // Reopen in one tap: a snap-closed outline drops its closing tap
+            // (and that anchor), so "add corner" works straight away.
+            if (capture.reopen()) anchors.removeLastOrNull()?.detach()
             step = Step.CORNERS
         } else if (capture.undo()) {
             anchors.removeLastOrNull()?.detach()
@@ -265,13 +277,18 @@ class ArScanActivity : Activity(), GLSurfaceView.Renderer {
 
     /** GL thread. */
     private fun addCorner() {
-        val hit = lastFloorHit ?: return
         if (!capture.canAddCorner(tracking = tracking)) return
+        val hit = lastFloorHit
+        if (hit == null) {
+            noFloorUntil = SystemClock.elapsedRealtime() + NOTICE_MS
+            return
+        }
         val anchor = hit.createAnchor()
         val t = anchor.pose
         cornersLost = false
+        noFloorUntil = 0L
         when (capture.addCorner(Vec3(t.tx(), t.ty(), t.tz()))) {
-            AddResult.REJECTED_NOT_TRACKING -> anchor.detach()
+            AddResult.REJECTED_CLOSED -> anchor.detach()
             AddResult.CLOSED -> { anchors.add(anchor); step = Step.HEIGHT }
             AddResult.ADDED -> { anchors.add(anchor); step = Step.CORNERS }
         }
@@ -281,7 +298,7 @@ class ArScanActivity : Activity(), GLSurfaceView.Renderer {
         AlertDialog.Builder(this)
             .setMessage(s("arScanExitConfirm"))
             .setPositiveButton(s("arScanExit")) { _, _ -> cancel() }
-            .setNegativeButton(s("arScanUndo"), null)
+            .setNegativeButton(s("arScanKeepMeasuring"), null)
             .show()
     }
 
@@ -479,7 +496,11 @@ class ArScanActivity : Activity(), GLSurfaceView.Renderer {
             )
             val n = corners.size
             val height = liveHeight
-            val notice = if (cornersLost) s("arScanCornersLost") else null
+            val notice = when {
+                cornersLost -> s("arScanCornersLost")
+                SystemClock.elapsedRealtime() < noFloorUntil -> s("arScanNoFloorHere")
+                else -> null
+            }
             runOnUiThread {
                 overlay.state = state
                 render(trackingHint, snapping, n, height, notice)

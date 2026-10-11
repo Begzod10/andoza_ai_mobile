@@ -570,6 +570,21 @@ class AppLocalizationsUz extends AppLocalizations {
       'Ba\'zi burchaklar yo\'qoldi — ularni qayta belgilang';
 
   @override
+  String get arScanNoFloorHere => 'Avval polni skaner qiling';
+
+  @override
+  String get arScanKeepMeasuring => 'O\'lchashni davom ettirish';
+
+  @override
+  String get arScanStepFloor => '1/3 — pol';
+
+  @override
+  String get arScanStepCorners => '2/3 — burchaklar';
+
+  @override
+  String get arScanStepHeight => '3/3 — balandlik';
+
+  @override
   String get arScanRescan => 'Qayta o\'lchash';
 
   @override
