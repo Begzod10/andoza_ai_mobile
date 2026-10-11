@@ -54,4 +54,18 @@ void main() {
     await tester.pumpAndSettle();
     expect(repo.calls, ['update a active=false']);
   });
+
+  testWidgets('back button has a tooltip', (tester) async {
+    await tester.pumpWidget(ProviderScope(
+      overrides: [businessRepositoryProvider.overrideWithValue(_FakeRepo())],
+      child: const MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: Locale('uz'),
+        home: ShopProductsScreen(),
+      ),
+    ));
+    await tester.pumpAndSettle();
+    expect(find.byTooltip('Orqaga'), findsOneWidget);
+  });
 }

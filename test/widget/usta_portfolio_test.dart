@@ -62,4 +62,13 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text("Hali ish rasmlari yo'q. Bajargan ishlaringizni qo'shing."), findsOneWidget);
   });
+
+  testWidgets('icon-only back and delete buttons carry tooltips', (tester) async {
+    await tester.pumpWidget(_app(_FakeRepo([
+      const PortfolioItem(id: 'p1', imageUrl: 'http://x.local/1.jpg'),
+    ])));
+    await tester.pumpAndSettle();
+    expect(find.byTooltip('Orqaga'), findsOneWidget);
+    expect(find.byTooltip("O'chirish"), findsOneWidget);
+  });
 }

@@ -130,6 +130,7 @@ class _UstaPortfolioScreenState extends ConsumerState<UstaPortfolioScreen> {
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
         leading: IconButton(
+          tooltip: AppLocalizations.of(context)!.actionBack,
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.canPop() ? context.pop() : context.go('/business'),
         ),
@@ -225,7 +226,7 @@ class _PortfolioTile extends StatelessWidget {
             top: 2,
             right: 2,
             child: IconButton(
-              tooltip: l10n.shopProductDelete,
+              tooltip: l10n.actionDelete,
               visualDensity: VisualDensity.compact,
               style: IconButton.styleFrom(backgroundColor: Colors.black45),
               icon: const Icon(Icons.delete_outline, color: Colors.white, size: 20),

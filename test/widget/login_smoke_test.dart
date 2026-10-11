@@ -51,4 +51,13 @@ void main() {
     expect(find.widgetWithText(TextField, 'Parolni tasdiqlang'), findsNothing);
     expect(find.widgetWithText(ElevatedButton, 'Kirish'), findsOneWidget);
   });
+
+  testWidgets('password visibility toggle is labelled for screen readers', (tester) async {
+    await tester.pumpWidget(wrap());
+    await tester.pumpAndSettle();
+    expect(find.byTooltip("Parolni ko'rsatish"), findsOneWidget);
+    await tester.tap(find.byTooltip("Parolni ko'rsatish"));
+    await tester.pumpAndSettle();
+    expect(find.byTooltip('Parolni yashirish'), findsOneWidget);
+  });
 }
