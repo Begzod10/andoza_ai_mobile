@@ -3,7 +3,7 @@
          debug/profile manifests, so release builds have no network access without
          this line (login fails with "Connection failed"). -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- ARCore camera scanning (DepthScanActivity). -->
+    <!-- ARCore floor-plan scanning (arscan.ArScanActivity). -->
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- AR is optional so the app still installs on non-AR devices/emulators. -->
     <uses-feature android:name="android.hardware.camera.ar" android:required="false" />
@@ -65,12 +65,12 @@
         <meta-data
             android:name="com.google.ar.core"
             android:value="optional" />
-        <!-- Real ARCore room-scanning screen launched from LidarMethodChannel. -->
+        <!-- ARCore floor-plan scanner opened by ArScanChannel (andoza/arscan). -->
         <activity
-            android:name=".DepthScanActivity"
+            android:name=".arscan.ArScanActivity"
             android:exported="false"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-            android:screenOrientation="locked"
+            android:screenOrientation="portrait"
             android:theme="@style/LaunchTheme" />
     </application>
     <!-- Required to query activities that can process text, see:

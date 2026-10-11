@@ -94,7 +94,7 @@ configurations.all {
 }
 
 dependencies {
-    // Google ARCore — real depth/plane detection used by DepthScanActivity.
-    implementation("com.google.ar:core:1.42.0")
+    // Google ARCore — plane detection / hit tests for the floor-plan scanner (arscan/).
+    implementation("com.google.ar:core:1.56.0")
     testImplementation("junit:junit:4.13.2")
 }
