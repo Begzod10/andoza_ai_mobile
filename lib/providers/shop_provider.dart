@@ -214,6 +214,7 @@ List<Product> _mapToProducts(
       unit: m.unit,
       isOfficialDealer: isOfficial,
       imageUrl: catalogImageUrl(m.imageUrl),
+      storeId: m.storeId,
       projectQuantity: _projectQuantityFor(
         category,
         m.unit,
@@ -314,38 +315,22 @@ final projectMaterialsSummaryProvider = Provider<(double area, int stages)>((
   return (areas.floorArea, groups.length);
 });
 
-/// Deterministic mock dealer offers per product — varied price/delivery so
-/// S4's "ENG YAXSHI" (cheapest + fastest wins ties) has a real winner.
-List<Dealer> dealersForProduct(Product product) {
-  final base = product.pricePerUnit;
-  final seed = product.id.hashCode;
-  return [
-    Dealer(
-      id: '${product.id}_official',
-      name: '${product.brand} Rasmiy do\'kon',
-      isOfficial: true,
-      district: 'Chilonzor',
-      deliveryDays: 2,
-      pricePerUnit: base,
-    ),
-    Dealer(
-      id: '${product.id}_market',
-      name: 'Qurilish Bozori',
-      isOfficial: false,
-      district: 'Sergeli',
-      deliveryDays: 1,
-      pricePerUnit: base - (base * 0.08).round() + (seed % 7) * 100,
-    ),
-    Dealer(
-      id: '${product.id}_online',
-      name: 'UzMall',
-      isOfficial: false,
-      district: 'Yunusobod',
-      deliveryDays: 4,
-      pricePerUnit: base + (base * 0.05).round(),
-    ),
-  ];
-}
+/// The one offer we know is real without asking the server: the store that
+/// listed this product, at its catalog price. Used until (or instead of)
+/// per-store offers from `/materials/{id}/offers`. Delivery time is unknown,
+/// so it is 0 and the UI leaves it out.
+Dealer ownStoreDealer(Product product) => Dealer(
+      id: product.storeId ?? product.id,
+      name: product.brand,
+      isOfficial: product.isOfficialDealer,
+      district: '',
+      deliveryDays: 0,
+      pricePerUnit: product.pricePerUnit,
+    );
+
+/// Offers to show for [product] when the server has none: just its own store.
+/// (This used to invent three dealers with made-up prices.)
+List<Dealer> dealersForProduct(Product product) => [ownStoreDealer(product)];
 
 /// Maps a real backend [MaterialOffer] onto the UI's [Dealer] shape so the
 /// cart/checkout flow (which groups by `dealer.id` and prices off

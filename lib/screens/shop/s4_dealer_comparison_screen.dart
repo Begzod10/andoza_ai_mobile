@@ -31,10 +31,9 @@ class _S4DealerComparisonScreenState
     final l10n = AppLocalizations.of(context)!;
     final product = widget.product;
 
-    // Real per-store offers from the backend (cheapest first). If the list is
-    // empty or the request errors — e.g. product.id isn't a server material
-    // UUID — fall back to the synthetic dealers so the screen never breaks.
-    // Loading stays synthetic too, so the cards render immediately.
+    // Real per-store offers from the backend (cheapest first). When there are
+    // none, or the request fails, show only the product's own store at its
+    // catalog price — never invented dealers.
     final offersAsync = ref.watch(materialOffersProvider(product.id));
     final dealers = offersAsync.maybeWhen(
       data: (offers) => offers.isEmpty
@@ -265,12 +264,13 @@ class _DealerCard extends StatelessWidget {
                         ],
                       ],
                     ),
-                    Text(
-                      l10n.shopDeliveryDays(dealer.district, dealer.deliveryDays),
-                      style: DesignTokens.caption.copyWith(
-                        color: DesignTokens.textGray,
+                    if (dealer.deliveryDays > 0 || dealer.district.isNotEmpty)
+                      Text(
+                        l10n.shopDeliveryDays(dealer.district, dealer.deliveryDays),
+                        style: DesignTokens.caption.copyWith(
+                          color: DesignTokens.textGray,
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),

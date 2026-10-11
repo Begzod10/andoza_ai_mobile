@@ -116,7 +116,7 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
                 materialId: line.product.id,
                 productName: line.product.name,
                 unit: line.product.unit,
-                unitPriceUzs: line.product.pricePerUnit,
+                unitPriceUzs: line.dealer.pricePerUnit,
                 quantity: line.quantity,
               ),
           ],

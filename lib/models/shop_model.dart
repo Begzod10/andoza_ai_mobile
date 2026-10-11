@@ -50,6 +50,7 @@ class Product {
     this.washable,
     this.projectQuantity,
     this.imageUrl,
+    this.storeId,
   });
 
   final String id;
@@ -70,6 +71,10 @@ class Product {
   /// Real product photo from the backend catalog, or null when the material
   /// has no image — consumers fall back to the grey placeholder box.
   final String? imageUrl;
+
+  /// Backend id of the store that sells this material, or null for products
+  /// not loaded from the catalog.
+  final String? storeId;
 
   bool get isInProject => projectQuantity != null;
 }

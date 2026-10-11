@@ -72,6 +72,7 @@ class _FakeOrders implements OrdersRepository {
   _FakeOrders({this.fail = false});
   final bool fail;
   int calls = 0;
+  List<OrderLineCreate> lastLines = const [];
 
   @override
   Future<ServerOrder> createOrder({
@@ -82,6 +83,7 @@ class _FakeOrders implements OrdersRepository {
     String? paymentMethod,
   }) async {
     calls++;
+    lastLines = lines;
     if (fail) {
       throw ApiException(
         message: 'Bad request: x',
@@ -109,14 +111,14 @@ Widget _app(List<Override> overrides, Widget home) => ProviderScope(
 
 const _uuid = '11111111-1111-4111-8111-111111111111';
 
-CartNotifier _cart(String productId) {
-  const dealer = Dealer(
+CartNotifier _cart(String productId, {int dealerPrice = 100}) {
+  final dealer = Dealer(
     id: 'd1',
     name: 'Dealer',
     isOfficial: true,
     district: 'Chilonzor',
     deliveryDays: 1,
-    pricePerUnit: 100,
+    pricePerUnit: dealerPrice,
   );
   final product = Product(
     id: productId,
@@ -246,5 +248,24 @@ void main() {
     expect(orders.calls, 0);
     expect(find.textContaining('katalogiga bog'), findsOneWidget);
     expect(find.textContaining('Boyoq'), findsWidgets);
+  });
+
+  testWidgets('checkout: the order is priced at what the cart showed (the dealer price)', (
+    tester,
+  ) async {
+    // Product lists at 100, the chosen dealer sells at 90: the cart total is
+    // 2 × 90, so the order must say 90 — not the catalog's 100.
+    final orders = _FakeOrders(fail: true);
+    await tester.pumpWidget(
+      _app([
+        ordersRepositoryProvider.overrideWithValue(orders),
+        cartProvider.overrideWith((ref) => _cart(_uuid, dealerPrice: 90)),
+      ], const S6CheckoutScreen()),
+    );
+    await tester.tap(find.text("To'lash"));
+    await tester.pumpAndSettle();
+
+    expect(orders.lastLines, hasLength(1));
+    expect(orders.lastLines.single.unitPriceUzs, 90);
   });
 }
