@@ -506,6 +506,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mastersNotFound => 'Craftsman not found';
 
   @override
+  String get unsavedChangesTitle => 'Unsaved changes';
+
+  @override
+  String get unsavedChangesBody =>
+      'If you leave now, what you entered will be lost.';
+
+  @override
+  String get unsavedChangesLeave => 'Leave';
+
+  @override
+  String get unsavedChangesStay => 'Stay';
+
+  @override
   String get shopNoResults => 'Nothing found';
 
   @override
@@ -668,14 +681,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileProjectsEmptyAction => '+ New project';
 
   @override
-  String profileProjectMeta(int count, String location, String date) {
+  String profileProjectMeta(int count, String details) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
       other: '$count rooms',
       one: '$count room',
     );
-    return '$_temp0 · $location · $date';
+    return '$_temp0 · $details';
   }
 
   @override

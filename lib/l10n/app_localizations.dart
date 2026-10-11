@@ -1000,6 +1000,30 @@ abstract class AppLocalizations {
   /// **'Usta topilmadi'**
   String get mastersNotFound;
 
+  /// Back from a screen with unsaved edits: confirm dialog
+  ///
+  /// In uz, this message translates to:
+  /// **'Saqlanmagan o\'zgarishlar'**
+  String get unsavedChangesTitle;
+
+  /// Back from a screen with unsaved edits: confirm dialog
+  ///
+  /// In uz, this message translates to:
+  /// **'Chiqsangiz, kiritganlaringiz yo\'qoladi.'**
+  String get unsavedChangesBody;
+
+  /// Back from a screen with unsaved edits: confirm dialog
+  ///
+  /// In uz, this message translates to:
+  /// **'Chiqish'**
+  String get unsavedChangesLeave;
+
+  /// Back from a screen with unsaved edits: confirm dialog
+  ///
+  /// In uz, this message translates to:
+  /// **'Qolish'**
+  String get unsavedChangesStay;
+
   /// Shop list: loaded fine, but nothing matches
   ///
   /// In uz, this message translates to:
@@ -1294,11 +1318,11 @@ abstract class AppLocalizations {
   /// **'+ Yangi loyiha'**
   String get profileProjectsEmptyAction;
 
-  /// E5 projects: project card metadata line (rooms, location, date).
+  /// E5 projects: project card metadata line: rooms, then 'location · date' (or just the date when there is no address).
   ///
   /// In uz, this message translates to:
-  /// **'{count} xona · {location} · {date}'**
-  String profileProjectMeta(int count, String location, String date);
+  /// **'{count} xona · {details}'**
+  String profileProjectMeta(int count, String details);
 
   /// E6 orders: empty state title ('No orders').
   ///

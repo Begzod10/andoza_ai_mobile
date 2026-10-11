@@ -146,6 +146,14 @@ class _FilterChip extends StatelessWidget {
   }
 }
 
+/// "Chilonzor · 30.9.2026", or just the date when the project has no address
+/// (it used to print "6 xona ·  · 30.9.2026").
+String projectMetaDetails(String location, DateTime createdAt) {
+  final date = '${createdAt.day}.${createdAt.month}.${createdAt.year}';
+  final place = location.trim();
+  return place.isEmpty ? date : '$place · $date';
+}
+
 class _ProjectCard extends StatelessWidget {
   const _ProjectCard({required this.project});
 
@@ -239,8 +247,7 @@ class _ProjectCard extends StatelessWidget {
             Text(
               l10n.profileProjectMeta(
                 project.roomCount,
-                project.location,
-                '${project.createdAt.day}.${project.createdAt.month}.${project.createdAt.year}',
+                projectMetaDetails(project.location, project.createdAt),
               ),
               style: DesignTokens.caption.copyWith(
                 color: DesignTokens.textGray,

@@ -650,6 +650,10 @@
     "description": "S7 order confirmation: text button returning to the shop home ('Back to shop')."
   },
   "mastersNotFound": "Craftsman not found",
+  "unsavedChangesTitle": "Unsaved changes",
+  "unsavedChangesBody": "If you leave now, what you entered will be lost.",
+  "unsavedChangesLeave": "Leave",
+  "unsavedChangesStay": "Stay",
   "shopNoResults": "Nothing found",
   "shopSearchResultsTitle": "Search results",
   "@shopSearchResultsTitle": {
@@ -887,17 +891,14 @@
   "@profileProjectsEmptyAction": {
     "description": "E5 projects: empty state action button ('+ New project')."
   },
-  "profileProjectMeta": "{count, plural, one{{count} room} other{{count} rooms}} · {location} · {date}",
+  "profileProjectMeta": "{count, plural, one{{count} room} other{{count} rooms}} · {details}",
   "@profileProjectMeta": {
-    "description": "E5 projects: project card metadata line (rooms, location, date).",
+    "description": "E5 projects: project card metadata line: rooms, then 'location · date' (or just the date when there is no address).",
     "placeholders": {
       "count": {
         "type": "int"
       },
-      "location": {
-        "type": "String"
-      },
-      "date": {
+      "details": {
         "type": "String"
       }
     }

@@ -499,6 +499,18 @@ class AppLocalizationsUz extends AppLocalizations {
   String get mastersNotFound => 'Usta topilmadi';
 
   @override
+  String get unsavedChangesTitle => 'Saqlanmagan o\'zgarishlar';
+
+  @override
+  String get unsavedChangesBody => 'Chiqsangiz, kiritganlaringiz yo\'qoladi.';
+
+  @override
+  String get unsavedChangesLeave => 'Chiqish';
+
+  @override
+  String get unsavedChangesStay => 'Qolish';
+
+  @override
   String get shopNoResults => 'Hech narsa topilmadi';
 
   @override
@@ -661,8 +673,8 @@ class AppLocalizationsUz extends AppLocalizations {
   String get profileProjectsEmptyAction => '+ Yangi loyiha';
 
   @override
-  String profileProjectMeta(int count, String location, String date) {
-    return '$count xona · $location · $date';
+  String profileProjectMeta(int count, String details) {
+    return '$count xona · $details';
   }
 
   @override

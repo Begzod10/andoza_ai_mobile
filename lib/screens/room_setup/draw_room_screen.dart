@@ -13,6 +13,7 @@ import '../../models/room_plan.dart';
 import '../../services/room_plan_handoff.dart';
 import '../../widgets/room/iso_projector.dart';
 import '../../widgets/room/isometric_room_view.dart';
+import '../../widgets/common/unsaved_changes_guard.dart';
 
 /// How the room outline is created.
 enum _DrawMode { freehand, polygon }
@@ -712,7 +713,10 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final plan = _plan;
-    return Scaffold(
+    return UnsavedChangesGuard(
+      // Any edit leaves an undo step; finishing leaves via context.go.
+      hasChanges: _undoStack.isNotEmpty,
+      child: Scaffold(
       backgroundColor: DesignTokens.backgroundLight,
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
@@ -788,7 +792,7 @@ class _DrawRoomScreenState extends ConsumerState<DrawRoomScreen>
           ),
         ],
       ),
-    );
+    ));
   }
 
   List<double> _wallLengths(List<Vec2> pts, bool closed) {

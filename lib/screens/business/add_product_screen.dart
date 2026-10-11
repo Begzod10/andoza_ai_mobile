@@ -10,6 +10,7 @@ import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/business_provider.dart';
 import '../../services/api_client.dart';
+import '../../widgets/common/unsaved_changes_guard.dart';
 
 const _categories = ['divan', 'stol', 'stul', 'karavot', 'shkaf', 'lampa', 'boshqa'];
 const _rooms = ['mehmonxona', 'oshxona', 'yotoqxona', 'hammom', 'balkon'];
@@ -37,6 +38,8 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
   String? _step; // null: idle; else what is in progress
   String? _error;
   bool _cancelled = false;
+  // Set once the product is uploaded, so leaving no longer asks.
+  bool _saved = false;
 
   @override
   void dispose() {
@@ -213,6 +216,7 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
       );
       ref.invalidate(myProductsProvider);
       messenger.showSnackBar(SnackBar(content: Text(l10n.addProductDone)));
+      _saved = true;
       router.pop();
     } catch (e) {
       if (!mounted) return;
@@ -227,7 +231,15 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final busy = _step != null;
-    return Scaffold(
+    return ListenableBuilder(
+      listenable: Listenable.merge([_name, _price]),
+      builder: (context, _) => UnsavedChangesGuard(
+        hasChanges: !_saved &&
+            (_photo != null ||
+                _extras.isNotEmpty ||
+                _name.text.trim().isNotEmpty ||
+                _price.text.trim().isNotEmpty),
+        child: Scaffold(
       backgroundColor: DesignTokens.backgroundLight,
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
@@ -336,6 +348,6 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
             ),
         ],
       ),
-    );
+    )));
   }
 }

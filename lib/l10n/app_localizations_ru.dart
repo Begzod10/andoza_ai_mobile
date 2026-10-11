@@ -499,6 +499,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String get mastersNotFound => 'Мастер не найден';
 
   @override
+  String get unsavedChangesTitle => 'Несохранённые изменения';
+
+  @override
+  String get unsavedChangesBody => 'Если выйти, введённые данные пропадут.';
+
+  @override
+  String get unsavedChangesLeave => 'Выйти';
+
+  @override
+  String get unsavedChangesStay => 'Остаться';
+
+  @override
   String get shopNoResults => 'Ничего не найдено';
 
   @override
@@ -661,7 +673,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileProjectsEmptyAction => '+ Новый проект';
 
   @override
-  String profileProjectMeta(int count, String location, String date) {
+  String profileProjectMeta(int count, String details) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -670,7 +682,7 @@ class AppLocalizationsRu extends AppLocalizations {
       few: '$count комнаты',
       one: '$count комната',
     );
-    return '$_temp0 · $location · $date';
+    return '$_temp0 · $details';
   }
 
   @override

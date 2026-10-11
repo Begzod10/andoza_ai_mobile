@@ -669,6 +669,22 @@
   "@mastersNotFound": {
     "description": "U4/U5 opened without a craftsman (deep link / restored route)"
   },
+  "unsavedChangesTitle": "Saqlanmagan o'zgarishlar",
+  "@unsavedChangesTitle": {
+    "description": "Back from a screen with unsaved edits: confirm dialog"
+  },
+  "unsavedChangesBody": "Chiqsangiz, kiritganlaringiz yo'qoladi.",
+  "@unsavedChangesBody": {
+    "description": "Back from a screen with unsaved edits: confirm dialog"
+  },
+  "unsavedChangesLeave": "Chiqish",
+  "@unsavedChangesLeave": {
+    "description": "Back from a screen with unsaved edits: confirm dialog"
+  },
+  "unsavedChangesStay": "Qolish",
+  "@unsavedChangesStay": {
+    "description": "Back from a screen with unsaved edits: confirm dialog"
+  },
   "shopNoResults": "Hech narsa topilmadi",
   "@shopNoResults": {
     "description": "Shop list: loaded fine, but nothing matches"
@@ -889,13 +905,12 @@
   "@profileProjectsEmptyAction": {
     "description": "E5 projects: empty state action button ('+ New project')."
   },
-  "profileProjectMeta": "{count} xona · {location} · {date}",
+  "profileProjectMeta": "{count} xona · {details}",
   "@profileProjectMeta": {
-    "description": "E5 projects: project card metadata line (rooms, location, date).",
+    "description": "E5 projects: project card metadata line: rooms, then 'location · date' (or just the date when there is no address).",
     "placeholders": {
       "count": { "type": "int" },
-      "location": { "type": "String" },
-      "date": { "type": "String" }
+      "details": { "type": "String" }
     }
   },
   "profileOrdersEmptyTitle": "Buyurtma yo'q",

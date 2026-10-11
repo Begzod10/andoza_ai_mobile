@@ -650,6 +650,10 @@
     "description": "S7 order confirmation: text button returning to the shop home ('Back to shop')."
   },
   "mastersNotFound": "Мастер не найден",
+  "unsavedChangesTitle": "Несохранённые изменения",
+  "unsavedChangesBody": "Если выйти, введённые данные пропадут.",
+  "unsavedChangesLeave": "Выйти",
+  "unsavedChangesStay": "Остаться",
   "shopNoResults": "Ничего не найдено",
   "shopSearchResultsTitle": "Результаты поиска",
   "@shopSearchResultsTitle": {
@@ -887,17 +891,14 @@
   "@profileProjectsEmptyAction": {
     "description": "E5 projects: empty state action button ('+ New project')."
   },
-  "profileProjectMeta": "{count, plural, one{{count} комната} few{{count} комнаты} many{{count} комнат} other{{count} комнат}} · {location} · {date}",
+  "profileProjectMeta": "{count, plural, one{{count} комната} few{{count} комнаты} many{{count} комнат} other{{count} комнат}} · {details}",
   "@profileProjectMeta": {
-    "description": "E5 projects: project card metadata line (rooms, location, date).",
+    "description": "E5 projects: project card metadata line: rooms, then 'location · date' (or just the date when there is no address).",
     "placeholders": {
       "count": {
         "type": "int"
       },
-      "location": {
-        "type": "String"
-      },
-      "date": {
+      "details": {
         "type": "String"
       }
     }

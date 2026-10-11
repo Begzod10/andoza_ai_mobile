@@ -54,6 +54,13 @@ class StudioWebViewScreen extends ConsumerStatefulWidget {
       _StudioWebViewScreenState();
 }
 
+/// The web page to open for [path]. `app=1` tells the page it is inside the
+/// app, so it hides its own back button — this screen's AppBar already has one.
+String studioPageUrl(String base, String path) {
+  final sep = path.contains('?') ? '&' : '?';
+  return '$base$path${sep}app=1';
+}
+
 class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
   // Nullable + built synchronously in _init before any await, so build() never
   // reads it uninitialised (a late field would throw LateInitializationError on
@@ -70,7 +77,7 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
   bool _loading = true;
   String? _error;
 
-  String get _targetUrl => '${AppConfig.studioBaseUrl}${widget.path}';
+  String get _targetUrl => studioPageUrl(AppConfig.studioBaseUrl, widget.path);
 
   @override
   void initState() {

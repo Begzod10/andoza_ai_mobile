@@ -9,6 +9,7 @@ import '../../models/business_profile.dart';
 import '../../providers/business_provider.dart';
 import '../../services/api_client.dart';
 import 'business_labels.dart';
+import '../../widgets/common/unsaved_changes_guard.dart';
 
 /// The application a person fills in to be a shop owner or an usta. It is only
 /// a request: the shop or profile waits (pending, hidden) for an admin, and the
@@ -29,6 +30,14 @@ class _BusinessApplyScreenState extends ConsumerState<BusinessApplyScreen> {
   final _telegram = TextEditingController();
   final _priceMin = TextEditingController();
   final _priceMax = TextEditingController();
+  // What the user typed (the phone field starts pre-filled with +998).
+  late final List<TextEditingController> _fields = [
+    _name,
+    _district,
+    _telegram,
+    _priceMin,
+    _priceMax,
+  ];
   UstaTrade _trade = UstaTrade.elektrik;
   bool _busy = false;
   String? _error;
@@ -98,7 +107,11 @@ class _BusinessApplyScreenState extends ConsumerState<BusinessApplyScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return Scaffold(
+    return ListenableBuilder(
+      listenable: Listenable.merge(_fields),
+      builder: (context, _) => UnsavedChangesGuard(
+        hasChanges: !_busy && _fields.any((c) => c.text.trim().isNotEmpty),
+        child: Scaffold(
       backgroundColor: DesignTokens.backgroundLight,
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
@@ -172,7 +185,7 @@ class _BusinessApplyScreenState extends ConsumerState<BusinessApplyScreen> {
           ],
         ),
       ),
-    );
+    )));
   }
 
   InputDecoration _decoration(String label) => InputDecoration(

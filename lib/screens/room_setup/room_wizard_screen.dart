@@ -156,7 +156,14 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
     final activeWall =
         activeIndex != null ? _wallMeasurement(activeIndex) : null;
 
-    return Scaffold(
+    return PopScope(
+      // System back / iOS swipe goes one step back, like the AppBar arrow,
+      // instead of dropping every wall entered so far.
+      canPop: _step == 0,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) _back();
+      },
+      child: Scaffold(
       backgroundColor: DesignTokens.white,
       appBar: AppBar(
         elevation: 0,
@@ -258,7 +265,7 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
             ),
         ],
       ),
-    );
+    ));
   }
 
   void _back() {
