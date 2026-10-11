@@ -387,6 +387,10 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
+          // Always offer a way out: the web page hides its own back button
+          // inside the app, and a Studio opened with `go` (e.g. from the room
+          // wizard) has nothing to pop, so the default arrow wouldn't show.
+          leading: BackButton(onPressed: _onBackPressed),
           title: Text(widget.title ?? l10n.studioWebViewTitle),
           backgroundColor: DesignTokens.white,
         ),

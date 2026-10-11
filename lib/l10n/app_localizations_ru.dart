@@ -1331,7 +1331,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get wizardWallSubtitle => 'Введите длину';
 
   @override
-  String get wizardSummarySubtitle => 'Параметры комнаты успешно сохранены';
+  String get wizardSummaryTitle => 'Размеры готовы';
+
+  @override
+  String get wizardSummarySubtitle =>
+      'Выберите смету или оформление — тогда комната сохранится';
 
   @override
   String get wizardStatFloor => 'ПЛОЩАДЬ ПОЛА';

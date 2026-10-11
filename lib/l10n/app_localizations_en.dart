@@ -1338,7 +1338,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get wizardWallSubtitle => 'Enter the length';
 
   @override
-  String get wizardSummarySubtitle => 'Room parameters saved successfully';
+  String get wizardSummaryTitle => 'Dimensions ready';
+
+  @override
+  String get wizardSummarySubtitle =>
+      'Pick the estimate or start decorating — that\'s when the room is saved';
 
   @override
   String get wizardStatFloor => 'FLOOR AREA';

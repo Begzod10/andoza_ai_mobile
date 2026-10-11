@@ -2488,10 +2488,16 @@ abstract class AppLocalizations {
   /// **'Uzunligini kiriting'**
   String get wizardWallSubtitle;
 
+  /// Wizard last step: dimensions entered but not yet saved (saved by the buttons below)
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'lchamlar tayyor'**
+  String get wizardSummaryTitle;
+
   /// 3D wizard summary subtitle confirming the room parameters were recorded.
   ///
   /// In uz, this message translates to:
-  /// **'Xona parametrlari muvaffaqiyatli qayd etildi'**
+  /// **'Smeta yoki bezashni tanlang — xona shunda saqlanadi'**
   String get wizardSummarySubtitle;
 
   /// 3D wizard summary stat: floor area (uppercase).

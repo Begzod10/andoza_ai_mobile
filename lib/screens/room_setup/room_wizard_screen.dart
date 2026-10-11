@@ -566,7 +566,7 @@ class _SummaryStep extends StatelessWidget {
           child: const Icon(Icons.check, color: DesignTokens.white, size: 36),
         ),
         const SizedBox(height: DesignTokens.spacingMd),
-        Text(l10n.summarySavedTitle,
+        Text(l10n.wizardSummaryTitle,
             style: DesignTokens.heading2, textAlign: TextAlign.center),
         Text(
           l10n.wizardSummarySubtitle,

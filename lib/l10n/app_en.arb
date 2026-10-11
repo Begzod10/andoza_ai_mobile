@@ -1795,7 +1795,8 @@
   "@wizardWallSubtitle": {
     "description": "3D wizard wall step subtitle ('Enter its length')."
   },
-  "wizardSummarySubtitle": "Room parameters saved successfully",
+  "wizardSummaryTitle": "Dimensions ready",
+  "wizardSummarySubtitle": "Pick the estimate or start decorating — that's when the room is saved",
   "@wizardSummarySubtitle": {
     "description": "3D wizard summary subtitle confirming the room parameters were recorded."
   },

@@ -1324,8 +1324,11 @@ class AppLocalizationsUz extends AppLocalizations {
   String get wizardWallSubtitle => 'Uzunligini kiriting';
 
   @override
+  String get wizardSummaryTitle => 'O\'lchamlar tayyor';
+
+  @override
   String get wizardSummarySubtitle =>
-      'Xona parametrlari muvaffaqiyatli qayd etildi';
+      'Smeta yoki bezashni tanlang — xona shunda saqlanadi';
 
   @override
   String get wizardStatFloor => 'POL MAYDONI';

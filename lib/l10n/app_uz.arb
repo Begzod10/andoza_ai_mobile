@@ -1772,7 +1772,11 @@
   "@wizardWallSubtitle": {
     "description": "3D wizard wall step subtitle ('Enter its length')."
   },
-  "wizardSummarySubtitle": "Xona parametrlari muvaffaqiyatli qayd etildi",
+  "wizardSummaryTitle": "O'lchamlar tayyor",
+  "@wizardSummaryTitle": {
+    "description": "Wizard last step: dimensions entered but not yet saved (saved by the buttons below)"
+  },
+  "wizardSummarySubtitle": "Smeta yoki bezashni tanlang — xona shunda saqlanadi",
   "@wizardSummarySubtitle": {
     "description": "3D wizard summary subtitle confirming the room parameters were recorded."
   },
