@@ -32,6 +32,12 @@ class _FakeAuthRepository implements AuthRepository {
   }
 
   @override
+  Future<AuthResponse> loginWithGoogle(String idToken) async {
+    if (_loginError != null) throw _loginError;
+    return _loginResult!;
+  }
+
+  @override
   Future<void> requestOtp(String phone) async {}
 
   @override

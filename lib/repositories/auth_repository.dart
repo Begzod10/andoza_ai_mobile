@@ -4,6 +4,11 @@ import '../services/secure_storage.dart';
 
 abstract interface class AuthRepository {
   Future<AuthResponse> login(String email, String password);
+
+  /// Exchanges a Google ID token (from Google Sign-In, minted for our web
+  /// client id) for an andoza session via `POST /auth/google`. Same response
+  /// and persistence as [login].
+  Future<AuthResponse> loginWithGoogle(String idToken);
   Future<void> requestOtp(String phone);
   Future<AuthResponse> verifyOtp(String phone, String code);
   Future<AuthResponse> register(String username, String password, String? name);
@@ -57,8 +62,24 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
+  @override
+  Future<AuthResponse> loginWithGoogle(String idToken) async {
+    try {
+      final response = await _apiClient.post<Map<String, dynamic>>(
+        '/auth/google',
+        data: {'id_token': idToken},
+        fromJson: (json) => json as Map<String, dynamic>,
+      );
+      final authResponse = AuthResponse.fromJson(response);
+      await _persistSession(authResponse);
+      return authResponse;
+    } on ApiException catch (e) {
+      throw AuthException(e.message, statusCode: e.statusCode);
+    }
+  }
+
   /// Persist an authenticated session (access + refresh tokens) so silent
-  /// refresh-on-401 works. Shared by login / OTP verify / register.
+  /// refresh-on-401 works. Shared by login / Google / OTP verify / register.
   Future<void> _persistSession(AuthResponse authResponse) async {
     _cachedToken = authResponse.token;
     _cachedUser = authResponse.user;

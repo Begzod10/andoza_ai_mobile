@@ -27,6 +27,25 @@ class AppConfig {
   static const bool smsLoginEnabled =
       bool.fromEnvironment('SMS_LOGIN_ENABLED', defaultValue: false);
 
+  /// Google Sign-In: the OAuth *web* client id. The ID token is minted for this
+  /// audience so the backend (`POST /auth/google`) can verify it; on Android it
+  /// is also what Credential Manager needs to return an ID token at all.
+  static const String googleServerClientId = String.fromEnvironment(
+    'GOOGLE_SERVER_CLIENT_ID',
+    defaultValue:
+        '632412937266-ruq48osgghaa4jn0fk8vjd7mr270ccb0.apps.googleusercontent.com',
+  );
+
+  /// Google Sign-In iOS OAuth client id (bundle com.tamiruy.tamirUyMobileFlutter).
+  /// Must match GIDClientID and the reversed-client-id URL scheme in
+  /// ios/Runner/Info.plist. If overridden to empty, the Google button is hidden
+  /// on iOS (the native SDK cannot start without it).
+  static const String googleIosClientId = String.fromEnvironment(
+    'GOOGLE_IOS_CLIENT_ID',
+    defaultValue:
+        '632412937266-nb16ekesaj9ubuahnmio29187nu5uhre.apps.googleusercontent.com',
+  );
+
   // LiDAR Configuration
   static const bool lidarEnabled =
       String.fromEnvironment('LIDAR_ENABLED', defaultValue: 'true') == 'true';
