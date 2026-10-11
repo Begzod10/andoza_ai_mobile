@@ -503,6 +503,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get shopBackToShop => 'Back to shop';
 
   @override
+  String get mastersNotFound => 'Craftsman not found';
+
+  @override
+  String get shopNoResults => 'Nothing found';
+
+  @override
   String get shopSearchResultsTitle => 'Search results';
 
   @override

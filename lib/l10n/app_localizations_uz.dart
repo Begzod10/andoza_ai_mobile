@@ -496,6 +496,12 @@ class AppLocalizationsUz extends AppLocalizations {
   String get shopBackToShop => 'Do\'konga qaytish';
 
   @override
+  String get mastersNotFound => 'Usta topilmadi';
+
+  @override
+  String get shopNoResults => 'Hech narsa topilmadi';
+
+  @override
   String get shopSearchResultsTitle => 'Qidiruv natijalari';
 
   @override

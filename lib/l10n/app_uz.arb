@@ -665,6 +665,14 @@
   "@shopBackToShop": {
     "description": "S7 order confirmation: text button returning to the shop home ('Back to shop')."
   },
+  "mastersNotFound": "Usta topilmadi",
+  "@mastersNotFound": {
+    "description": "U4/U5 opened without a craftsman (deep link / restored route)"
+  },
+  "shopNoResults": "Hech narsa topilmadi",
+  "@shopNoResults": {
+    "description": "Shop list: loaded fine, but nothing matches"
+  },
   "shopSearchResultsTitle": "Qidiruv natijalari",
   "@shopSearchResultsTitle": {
     "description": "E10 search results: app bar title ('Search results')."

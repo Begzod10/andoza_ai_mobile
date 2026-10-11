@@ -8,6 +8,7 @@ import '../../providers/cart_provider.dart';
 import '../../providers/shop_provider.dart';
 import '../../utils/currency.dart';
 import '../../widgets/common/app_image.dart';
+import '../../widgets/common/load_status.dart';
 
 /// S1: Do'kon bosh — search, project-linked banner ("SIZNING
 /// LOYIHANGIZ"), category chips, 2-col product grid with "Loyihada" tags
@@ -27,6 +28,12 @@ class _S1ShopHomeScreenState extends ConsumerState<S1ShopHomeScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final catalog = ref.watch(shopCatalogProvider);
+    final status = loadStatus(
+      isEmpty: catalog.isEmpty,
+      loading: ref.watch(shopCatalogLoadingProvider),
+      error: ref.watch(shopCatalogErrorProvider),
+      onRetry: () => shopCatalogSources.forEach(ref.invalidate),
+    );
     final cartCount = ref.watch(cartLineCountProvider);
     final projectItems = catalog.where((p) => p.isInProject).toList();
 
@@ -188,6 +195,20 @@ class _S1ShopHomeScreenState extends ConsumerState<S1ShopHomeScreen> {
             ),
           ),
           const SizedBox(height: DesignTokens.spacingLg),
+          if (status != null)
+            status
+          else if (products.isEmpty)
+            Padding(
+              padding: const EdgeInsets.all(DesignTokens.spacingXl),
+              child: Text(
+                l10n.shopNoResults,
+                textAlign: TextAlign.center,
+                style: DesignTokens.bodyMedium.copyWith(
+                  color: DesignTokens.textGray,
+                ),
+              ),
+            )
+          else
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),

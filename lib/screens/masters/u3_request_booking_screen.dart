@@ -52,7 +52,7 @@ class U3RequestBookingScreen extends ConsumerWidget {
                             radius: 28,
                             backgroundColor: Color(m.trade.colorValue),
                             child: Text(
-                              m.master.name[0],
+                              m.initial,
                               style: const TextStyle(color: Colors.white),
                             ),
                           );

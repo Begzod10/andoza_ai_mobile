@@ -7,6 +7,7 @@ import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/business_provider.dart';
 import '../../providers/masters_provider.dart';
+import 'master_not_found.dart';
 import '../../widgets/common/app_image.dart';
 
 /// U4: full craftsman profile — stat cards, portfolio, services, a
@@ -21,10 +22,15 @@ class U4ReviewRatingScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
-    final m = master ?? ref.watch(mockMastersProvider).first;
+    final m = master;
+    if (m == null) return const MasterNotFoundScreen();
 
     return Scaffold(
       backgroundColor: DesignTokens.backgroundLight,
+      appBar: AppBar(
+        backgroundColor: DesignTokens.backgroundLight,
+        elevation: 0,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),
@@ -40,7 +46,7 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                           radius: 44,
                           backgroundColor: Color(m.trade.colorValue),
                           child: Text(
-                            m.master.name[0],
+                            m.initial,
                             style: const TextStyle(
                               color: DesignTokens.white,
                               fontSize: 32,
@@ -227,20 +233,6 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                   ),
                   onPressed: () => context.push('/masters/u5', extra: m),
                   child: Text(l10n.mastersSendEstimate),
-                ),
-              ),
-              const SizedBox(height: DesignTokens.spacingSm),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        '${m.master.name} bilan xabar almashish hali mavjud emas',
-                      ),
-                    ),
-                  ),
-                  child: Text(l10n.mastersSendMessage),
                 ),
               ),
             ],

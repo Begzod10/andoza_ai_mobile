@@ -6,6 +6,7 @@ import '../../providers/business_provider.dart';
 import '../../providers/estimate_provider.dart';
 import '../../providers/room_provider.dart';
 import '../../providers/masters_provider.dart';
+import 'master_not_found.dart';
 import '../../utils/currency.dart';
 
 /// U5: send-smeta sheet — "Loyihangizni [ism]ga yuborasizmi?" The
@@ -63,11 +64,16 @@ class _U5BookingConfirmationScreenState
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final m = widget.master ?? ref.watch(mockMastersProvider).first;
+    final m = widget.master;
+    if (m == null) return const MasterNotFoundScreen();
     final estimate = ref.watch(estimateProvider);
 
     return Scaffold(
       backgroundColor: DesignTokens.backgroundLight,
+      appBar: AppBar(
+        backgroundColor: DesignTokens.backgroundLight,
+        elevation: 0,
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(DesignTokens.screenPaddingHorizontal),

@@ -8,6 +8,7 @@ import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/masters_provider.dart';
 import '../../widgets/common/app_image.dart';
+import '../../widgets/common/load_status.dart';
 
 /// U1: Ustalar map view — craftsman pins color-coded by trade, search,
 /// profession filter chips, map/list toggle. Privacy rule: pins show
@@ -28,7 +29,16 @@ class _U1MastersIntroScreenState extends ConsumerState<U1MastersIntroScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final masters = ref.watch(mockMastersProvider).where((m) {
+    final allMasters = ref.watch(mockMastersProvider);
+    // The map can't show "nobody here" while the list is still on its way,
+    // or when it never arrived — say which, with a retry.
+    final status = loadStatus(
+      isEmpty: allMasters.isEmpty,
+      loading: ref.watch(mastersLoadingProvider),
+      error: ref.watch(mastersLoadErrorProvider),
+      onRetry: () => ref.invalidate(mastersSource),
+    );
+    final masters = allMasters.where((m) {
       if (_filter != null && m.trade != _filter) return false;
       if (_query.isNotEmpty &&
           !m.master.name.toLowerCase().contains(_query.toLowerCase())) {
@@ -201,6 +211,18 @@ class _U1MastersIntroScreenState extends ConsumerState<U1MastersIntroScreen> {
               ),
             ),
           ),
+          if (status != null)
+            Center(
+              child: Container(
+                margin: const EdgeInsets.all(DesignTokens.spacingLg),
+                decoration: BoxDecoration(
+                  color: DesignTokens.white,
+                  borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
+                  boxShadow: const [DesignTokens.shadowCard],
+                ),
+                child: status,
+              ),
+            ),
         ],
       ),
     );
@@ -265,7 +287,7 @@ class _PinSheet extends StatelessWidget {
                         radius: 28,
                         backgroundColor: Color(master.trade.colorValue),
                         child: Text(
-                          master.master.name[0],
+                          master.initial,
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 20,

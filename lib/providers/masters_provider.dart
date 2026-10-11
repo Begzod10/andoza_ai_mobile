@@ -96,6 +96,12 @@ class MockMaster {
   final Master master;
   final Trade trade;
 
+  /// Avatar letter; a blank name gets "?" instead of crashing on `name[0]`.
+  String get initial {
+    final name = master.name.trim();
+    return name.isEmpty ? '?' : name[0].toUpperCase();
+  }
+
   /// Approximate area only — per spec's privacy rule, never an exact
   /// address.
   final String areaName;
@@ -125,10 +131,6 @@ const UstaFilter _allUstalarFilter = (category: null, district: null);
 /// can't tell "backend down" from "no craftsmen". Watch this alongside it to show
 /// an error + retry instead of a misleading empty map/list; it's `null` while
 /// loading and on success.
-///
-/// Follow-up (not done here — the U1 map / U3 list screens are outside this
-/// change's ownership): have those screens watch this + [mastersLoadingProvider]
-/// and render an error/retry view.
 final mastersLoadErrorProvider = Provider<Object?>((ref) {
   return ref.watch(ustalarProvider(_allUstalarFilter)).error;
 });
@@ -138,6 +140,9 @@ final mastersLoadErrorProvider = Provider<Object?>((ref) {
 final mastersLoadingProvider = Provider<bool>((ref) {
   return ref.watch(ustalarProvider(_allUstalarFilter)).isLoading;
 });
+
+/// The request behind [mockMastersProvider]; invalidate it to retry.
+final ProviderOrFamily mastersSource = ustalarProvider(_allUstalarFilter);
 
 /// Maps a backend [Usta] onto the UI's [MockMaster] shape. Fields the server
 /// doesn't provide ([MockMaster.experienceYears], [MockMaster.isOnline]) are

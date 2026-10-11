@@ -649,6 +649,8 @@
   "@shopBackToShop": {
     "description": "S7 order confirmation: text button returning to the shop home ('Back to shop')."
   },
+  "mastersNotFound": "Мастер не найден",
+  "shopNoResults": "Ничего не найдено",
   "shopSearchResultsTitle": "Результаты поиска",
   "@shopSearchResultsTitle": {
     "description": "E10 search results: app bar title ('Search results')."

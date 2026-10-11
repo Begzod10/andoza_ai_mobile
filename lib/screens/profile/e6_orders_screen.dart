@@ -39,7 +39,6 @@ class _E6OrdersScreenState extends ConsumerState<E6OrdersScreen> {
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
-        automaticallyImplyLeading: false,
         title: Text(l10n.profileMenuOrders, style: DesignTokens.heading3),
       ),
       body: PeriodicRefresh(

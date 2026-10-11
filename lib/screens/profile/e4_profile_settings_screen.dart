@@ -72,21 +72,6 @@ class E4ProfileSettingsScreen extends ConsumerWidget {
                       name ?? l10n.profileDefaultName,
                       style: DesignTokens.heading3,
                     ),
-                    const SizedBox(width: DesignTokens.spacingXs),
-                    Semantics(
-                      button: true,
-                      label: l10n.a11yEditProfile,
-                      child: InkWell(
-                        onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(l10n.profileComingSoon)),
-                        ),
-                        child: const Icon(
-                          Icons.edit_outlined,
-                          size: 18,
-                          color: DesignTokens.textGray,
-                        ),
-                      ),
-                    ),
                   ],
                 ),
                 if (phone != null)
@@ -155,25 +140,6 @@ class E4ProfileSettingsScreen extends ConsumerWidget {
             icon: Icons.shopping_bag_outlined,
             label: l10n.profileMenuOrders,
             onTap: () => context.push('/profile/e6'),
-          ),
-          _MenuTile(
-            icon: Icons.bookmark_border,
-            label: l10n.profileMenuSavedDesigns,
-            onTap: () => context.push('/profile/e11'),
-          ),
-          _MenuTile(
-            icon: Icons.location_on_outlined,
-            label: l10n.profileMenuAddresses,
-            onTap: () => ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(l10n.profileComingSoon))),
-          ),
-          _MenuTile(
-            icon: Icons.credit_card_outlined,
-            label: l10n.profileMenuPaymentMethods,
-            onTap: () => ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(l10n.profileComingSoon))),
           ),
           _MenuTile(
             icon: Icons.language_outlined,

@@ -144,19 +144,6 @@ class S7OrderConfirmationScreen extends ConsumerWidget {
           const SizedBox(height: DesignTokens.spacingXl),
           SizedBox(
             width: double.infinity,
-            height: DesignTokens.buttonHeightLarge,
-            child: OutlinedButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(l10n.profileComingSoon)),
-                );
-              },
-              child: Text(l10n.shopHandToMaster),
-            ),
-          ),
-          const SizedBox(height: DesignTokens.spacingSm),
-          SizedBox(
-            width: double.infinity,
             child: TextButton(
               onPressed: () => context.go('/shop/s1'),
               child: Text(l10n.shopBackToShop),

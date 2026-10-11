@@ -994,6 +994,18 @@ abstract class AppLocalizations {
   /// **'Do\'konga qaytish'**
   String get shopBackToShop;
 
+  /// U4/U5 opened without a craftsman (deep link / restored route)
+  ///
+  /// In uz, this message translates to:
+  /// **'Usta topilmadi'**
+  String get mastersNotFound;
+
+  /// Shop list: loaded fine, but nothing matches
+  ///
+  /// In uz, this message translates to:
+  /// **'Hech narsa topilmadi'**
+  String get shopNoResults;
+
   /// E10 search results: app bar title ('Search results').
   ///
   /// In uz, this message translates to:

@@ -496,6 +496,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get shopBackToShop => 'Вернуться в магазин';
 
   @override
+  String get mastersNotFound => 'Мастер не найден';
+
+  @override
+  String get shopNoResults => 'Ничего не найдено';
+
+  @override
   String get shopSearchResultsTitle => 'Результаты поиска';
 
   @override

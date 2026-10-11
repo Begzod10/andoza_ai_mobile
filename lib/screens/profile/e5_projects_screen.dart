@@ -5,6 +5,8 @@ import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/design_selection_model.dart';
 import '../../widgets/design/stage_progress_line.dart';
+import '../../providers/apartment_provider.dart';
+import '../../widgets/common/load_status.dart';
 import '../../widgets/empty_state_pattern.dart';
 import '../home/home_empty_screen.dart';
 import '../room_setup/new_project_sheet.dart';
@@ -32,9 +34,15 @@ class _E5ProjectsScreenState extends ConsumerState<E5ProjectsScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final projects = ref.watch(projectsProvider).maybeWhen(
-      data: (list) => list,
-      orElse: () => const <ProjectItem>[],
+    final projectsAsync = ref.watch(projectsProvider);
+    final projects = projectsAsync.valueOrNull ?? const <ProjectItem>[];
+    // While loading or after a failure the list is empty too — that must not
+    // read as "you have no projects".
+    final status = loadStatus(
+      isEmpty: projects.isEmpty,
+      loading: projectsAsync.isLoading,
+      error: projectsAsync.error,
+      onRetry: () => ref.invalidate(apartmentsProvider),
     );
     final visible = switch (_filter) {
       _ProjectFilter.all => projects,
@@ -80,7 +88,7 @@ class _E5ProjectsScreenState extends ConsumerState<E5ProjectsScreen> {
             ),
           ),
           Expanded(
-            child: visible.isEmpty
+            child: status ?? (visible.isEmpty
                 ? Padding(
                     padding: const EdgeInsets.all(
                       DesignTokens.screenPaddingHorizontal,
@@ -104,7 +112,7 @@ class _E5ProjectsScreenState extends ConsumerState<E5ProjectsScreen> {
                         const SizedBox(height: DesignTokens.spacingMd),
                     itemBuilder: (context, index) =>
                         _ProjectCard(project: visible[index]),
-                  ),
+                  )),
           ),
         ],
       ),
@@ -156,9 +164,19 @@ class _ProjectCard extends StatelessWidget {
     return Semantics(
       button: true,
       child: InkWell(
-      // Same "continue an already-assessed project → B2" rule as A2's
-      // Davom etish button (button-wiring table) — not back to B1.
-      onTap: () => context.go('/design/b2'),
+      // Same as Home's "Davom etish": this project's latest room in the
+      // Studio. (It used to `go('/design/b2')` — another editor, no room id,
+      // and the back stack wiped.)
+      onTap: () {
+        final roomId = project.studioRoomId;
+        if (roomId != null) {
+          context.push('/studio/$roomId');
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(l10n.homeNoRoomYet)),
+          );
+        }
+      },
       borderRadius: BorderRadius.circular(DesignTokens.radiusLg),
       child: Container(
         padding: const EdgeInsets.all(DesignTokens.spacingMd),

@@ -7,6 +7,7 @@ import '../../providers/cart_provider.dart';
 import '../../providers/shop_provider.dart';
 import '../../utils/currency.dart';
 import '../../widgets/common/app_image.dart';
+import '../../widgets/common/load_status.dart';
 
 enum _ResultFilter { all, forMyProject, cheapest, rating }
 
@@ -39,6 +40,12 @@ class _E10SearchResultsScreenState
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final catalog = ref.watch(shopCatalogProvider);
+    final status = loadStatus(
+      isEmpty: catalog.isEmpty,
+      loading: ref.watch(shopCatalogLoadingProvider),
+      error: ref.watch(shopCatalogErrorProvider),
+      onRetry: () => shopCatalogSources.forEach(ref.invalidate),
+    );
     final query = _controller.text.trim().toLowerCase();
 
     var results = query.isEmpty
@@ -141,7 +148,17 @@ class _E10SearchResultsScreenState
             ),
           ),
           Expanded(
-            child: ListView.separated(
+            child: status ??
+                (results.isEmpty
+                    ? Center(
+                        child: Text(
+                          l10n.shopNoResults,
+                          style: DesignTokens.bodyMedium.copyWith(
+                            color: DesignTokens.textGray,
+                          ),
+                        ),
+                      )
+                    : ListView.separated(
               padding: const EdgeInsets.all(
                 DesignTokens.screenPaddingHorizontal,
               ),
@@ -150,7 +167,7 @@ class _E10SearchResultsScreenState
                   const SizedBox(height: DesignTokens.spacingSm),
               itemBuilder: (context, index) =>
                   _ResultRow(product: results[index]),
-            ),
+            )),
           ),
         ],
       ),

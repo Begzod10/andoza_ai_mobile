@@ -252,10 +252,6 @@ final shopCatalogProvider = Provider<List<Product>>((ref) {
 /// only the catalog can't tell "backend down" from "no results". Watch this
 /// alongside it to show an error + retry instead of a misleading empty state;
 /// it's `null` while loading and on success.
-///
-/// Follow-up (not done here — the S1/S2 shop screens are outside this change's
-/// ownership): have those screens watch this + [shopCatalogLoadingProvider] and
-/// render an error/retry view.
 final shopCatalogErrorProvider = Provider<Object?>((ref) {
   return ref.watch(storesProvider).error ??
       ref.watch(materialsProvider(null)).error;
@@ -267,6 +263,12 @@ final shopCatalogLoadingProvider = Provider<bool>((ref) {
   return ref.watch(storesProvider).isLoading ||
       ref.watch(materialsProvider(null)).isLoading;
 });
+
+/// The requests behind [shopCatalogProvider]; invalidate these to retry.
+final List<ProviderOrFamily> shopCatalogSources = [
+  storesProvider,
+  materialsProvider(null),
+];
 
 /// S2's grouped-by-stage list — only stages with a real (non-null)
 /// project quantity for at least one product appear, so a stage the
