@@ -269,7 +269,7 @@ class _E1EstimationIntroScreenState
                           child: OutlinedButton.icon(
                             onPressed: () => context.push('/studio/$roomId'),
                             icon: const Icon(Icons.view_in_ar_outlined),
-                            label: const Text('3D Studio'),
+                            label: Text(l10n.estimateOpen3dStudio),
                           ),
                         ),
                       ],

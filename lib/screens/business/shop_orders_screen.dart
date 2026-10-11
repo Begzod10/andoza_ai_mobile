@@ -48,6 +48,7 @@ class ShopOrdersScreen extends ConsumerWidget {
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
         leading: IconButton(
+          tooltip: AppLocalizations.of(context)!.actionBack,
           icon: const Icon(Icons.arrow_back),
           onPressed: () =>
               context.canPop() ? context.pop() : context.go('/business'),

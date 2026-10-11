@@ -2451,4 +2451,52 @@ class AppLocalizationsUz extends AppLocalizations {
   String scanFailedReason(String reason) {
     return 'Sabab: $reason';
   }
+
+  @override
+  String get shopCategoryBoyoq => 'Bo\'yoq';
+
+  @override
+  String get shopCategoryOboy => 'Oboy';
+
+  @override
+  String get shopCategoryLaminat => 'Laminat';
+
+  @override
+  String get shopCategoryKafel => 'Kafel';
+
+  @override
+  String get shopCategoryParket => 'Parket';
+
+  @override
+  String get shopCategoryGips => 'Gips';
+
+  @override
+  String get shopCategorySement => 'Sement';
+
+  @override
+  String get shopCategorySantexnika => 'Santexnika';
+
+  @override
+  String get shopCategoryElektr => 'Elektr';
+
+  @override
+  String get tradeBoshqa => 'Boshqa usta';
+
+  @override
+  String get qualityTierEkonom => 'Ekonom';
+
+  @override
+  String get qualityTierStandart => 'Standart';
+
+  @override
+  String get qualityTierPremium => 'Premium';
+
+  @override
+  String get estimateOpen3dStudio => '3D Studio';
+
+  @override
+  String get actionDelete => 'O\'chirish';
+
+  @override
+  String get mapAttribution => '© OpenStreetMap hissadorlari';
 }

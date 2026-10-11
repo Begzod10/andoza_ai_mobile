@@ -1,5 +1,7 @@
+import 'package:flutter/widgets.dart' show Locale;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod/riverpod.dart';
+import 'package:tamir_uy_mobile_flutter/l10n/app_localizations.dart';
 import 'package:tamir_uy_mobile_flutter/models/api/usta.dart';
 import 'package:tamir_uy_mobile_flutter/providers/catalog_provider.dart';
 import 'package:tamir_uy_mobile_flutter/providers/masters_provider.dart';
@@ -118,7 +120,7 @@ void main() {
 
     test('every trade has a non-empty label, an emoji and a colour', () {
       for (final trade in Trade.values) {
-        expect(trade.label, isNotEmpty, reason: '${trade.name} has no label');
+        expect(trade.label(lookupAppLocalizations(const Locale('uz'))), isNotEmpty, reason: '${trade.name} has no label');
         expect(trade.emoji, isNotEmpty, reason: '${trade.name} has no emoji');
         // Opaque ARGB — a 0 colour would paint an invisible pin.
         expect(trade.colorValue & 0xFF000000, 0xFF000000,

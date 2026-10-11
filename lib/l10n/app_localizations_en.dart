@@ -2455,4 +2455,52 @@ class AppLocalizationsEn extends AppLocalizations {
   String scanFailedReason(String reason) {
     return 'Reason: $reason';
   }
+
+  @override
+  String get shopCategoryBoyoq => 'Paint';
+
+  @override
+  String get shopCategoryOboy => 'Wallpaper';
+
+  @override
+  String get shopCategoryLaminat => 'Laminate';
+
+  @override
+  String get shopCategoryKafel => 'Tiles';
+
+  @override
+  String get shopCategoryParket => 'Parquet';
+
+  @override
+  String get shopCategoryGips => 'Plaster';
+
+  @override
+  String get shopCategorySement => 'Cement';
+
+  @override
+  String get shopCategorySantexnika => 'Plumbing';
+
+  @override
+  String get shopCategoryElektr => 'Electrical';
+
+  @override
+  String get tradeBoshqa => 'Other tradesperson';
+
+  @override
+  String get qualityTierEkonom => 'Economy';
+
+  @override
+  String get qualityTierStandart => 'Standard';
+
+  @override
+  String get qualityTierPremium => 'Premium';
+
+  @override
+  String get estimateOpen3dStudio => '3D Studio';
+
+  @override
+  String get actionDelete => 'Delete';
+
+  @override
+  String get mapAttribution => '© OpenStreetMap contributors';
 }

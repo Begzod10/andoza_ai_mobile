@@ -19,16 +19,16 @@ enum ShopCategory {
 }
 
 extension ShopCategoryInfo on ShopCategory {
-  String get label => switch (this) {
-    ShopCategory.boyoq => 'Bo\'yoq',
-    ShopCategory.oboy => 'Oboy',
-    ShopCategory.laminat => 'Laminat',
-    ShopCategory.kafel => 'Kafel',
-    ShopCategory.parket => 'Parket',
-    ShopCategory.gips => 'Gips',
-    ShopCategory.sement => 'Sement',
-    ShopCategory.santexnika => 'Santexnika',
-    ShopCategory.elektr => 'Elektr',
+  String label(AppLocalizations l10n) => switch (this) {
+    ShopCategory.boyoq => l10n.shopCategoryBoyoq,
+    ShopCategory.oboy => l10n.shopCategoryOboy,
+    ShopCategory.laminat => l10n.shopCategoryLaminat,
+    ShopCategory.kafel => l10n.shopCategoryKafel,
+    ShopCategory.parket => l10n.shopCategoryParket,
+    ShopCategory.gips => l10n.shopCategoryGips,
+    ShopCategory.sement => l10n.shopCategorySement,
+    ShopCategory.santexnika => l10n.shopCategorySantexnika,
+    ShopCategory.elektr => l10n.shopCategoryElektr,
   };
 }
 

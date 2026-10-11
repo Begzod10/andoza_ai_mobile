@@ -4515,6 +4515,102 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Sabab: {reason}'**
   String scanFailedReason(String reason);
+
+  /// No description provided for @shopCategoryBoyoq.
+  ///
+  /// In uz, this message translates to:
+  /// **'Bo\'yoq'**
+  String get shopCategoryBoyoq;
+
+  /// No description provided for @shopCategoryOboy.
+  ///
+  /// In uz, this message translates to:
+  /// **'Oboy'**
+  String get shopCategoryOboy;
+
+  /// No description provided for @shopCategoryLaminat.
+  ///
+  /// In uz, this message translates to:
+  /// **'Laminat'**
+  String get shopCategoryLaminat;
+
+  /// No description provided for @shopCategoryKafel.
+  ///
+  /// In uz, this message translates to:
+  /// **'Kafel'**
+  String get shopCategoryKafel;
+
+  /// No description provided for @shopCategoryParket.
+  ///
+  /// In uz, this message translates to:
+  /// **'Parket'**
+  String get shopCategoryParket;
+
+  /// No description provided for @shopCategoryGips.
+  ///
+  /// In uz, this message translates to:
+  /// **'Gips'**
+  String get shopCategoryGips;
+
+  /// No description provided for @shopCategorySement.
+  ///
+  /// In uz, this message translates to:
+  /// **'Sement'**
+  String get shopCategorySement;
+
+  /// No description provided for @shopCategorySantexnika.
+  ///
+  /// In uz, this message translates to:
+  /// **'Santexnika'**
+  String get shopCategorySantexnika;
+
+  /// No description provided for @shopCategoryElektr.
+  ///
+  /// In uz, this message translates to:
+  /// **'Elektr'**
+  String get shopCategoryElektr;
+
+  /// No description provided for @tradeBoshqa.
+  ///
+  /// In uz, this message translates to:
+  /// **'Boshqa usta'**
+  String get tradeBoshqa;
+
+  /// No description provided for @qualityTierEkonom.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ekonom'**
+  String get qualityTierEkonom;
+
+  /// No description provided for @qualityTierStandart.
+  ///
+  /// In uz, this message translates to:
+  /// **'Standart'**
+  String get qualityTierStandart;
+
+  /// No description provided for @qualityTierPremium.
+  ///
+  /// In uz, this message translates to:
+  /// **'Premium'**
+  String get qualityTierPremium;
+
+  /// No description provided for @estimateOpen3dStudio.
+  ///
+  /// In uz, this message translates to:
+  /// **'3D Studio'**
+  String get estimateOpen3dStudio;
+
+  /// No description provided for @actionDelete.
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'chirish'**
+  String get actionDelete;
+
+  /// No description provided for @mapAttribution.
+  ///
+  /// In uz, this message translates to:
+  /// **'© OpenStreetMap hissadorlari'**
+  String get mapAttribution;
 }
 
 class _AppLocalizationsDelegate

@@ -96,17 +96,33 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                       : Image.file(File(f.path), fit: BoxFit.cover),
                 ),
                 if (f != null && !busy)
+                  // 22px badge, 48px hit area (Material minimum tap target):
+                  // the transparent padding around it catches the tap.
                   Positioned(
-                    top: 2,
-                    right: 2,
-                    child: GestureDetector(
-                      onTap: () => setState(() => _extras.remove(view)),
-                      child: Tooltip(
-                        message: l.addProductAngleRemove,
-                        child: const CircleAvatar(
-                          radius: 11,
-                          backgroundColor: Colors.black54,
-                          child: Icon(Icons.close, size: 14, color: Colors.white),
+                    top: 0,
+                    right: 0,
+                    child: Tooltip(
+                      message: l.addProductAngleRemove,
+                      child: Semantics(
+                        button: true,
+                        child: GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: () => setState(() => _extras.remove(view)),
+                          child: const SizedBox(
+                            width: 48,
+                            height: 48,
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: Padding(
+                                padding: EdgeInsets.all(2),
+                                child: CircleAvatar(
+                                  radius: 11,
+                                  backgroundColor: Colors.black54,
+                                  child: Icon(Icons.close, size: 14, color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),

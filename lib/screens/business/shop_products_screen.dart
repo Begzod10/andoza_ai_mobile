@@ -7,6 +7,7 @@ import '../../l10n/app_localizations.dart';
 import '../../models/business_profile.dart';
 import '../../providers/business_provider.dart';
 import 'business_labels.dart';
+import '../../widgets/common/app_image.dart';
 
 /// "Mahsulotlarim": the shop's own 3D models in every moderation status, with
 /// the few things an owner may change on a phone — name, price, hiding an
@@ -23,6 +24,7 @@ class ShopProductsScreen extends ConsumerWidget {
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
         leading: IconButton(
+          tooltip: AppLocalizations.of(context)!.actionBack,
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.canPop() ? context.pop() : context.go('/business'),
         ),
@@ -113,10 +115,12 @@ class _ProductTile extends ConsumerWidget {
                           color: DesignTokens.backgroundLight,
                           child: Icon(Icons.chair_alt_outlined, color: DesignTokens.textMuted),
                         )
-                      : Image.network(
-                          product.thumbnailUrl!,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, _, _) => const ColoredBox(
+                      : AppImage(
+                          url: product.thumbnailUrl!,
+                          width: 56,
+                          height: 56,
+                          placeholder: const ColoredBox(color: DesignTokens.backgroundLight),
+                          errorWidget: const ColoredBox(
                             color: DesignTokens.backgroundLight,
                             child: Icon(Icons.chair_alt_outlined, color: DesignTokens.textMuted),
                           ),

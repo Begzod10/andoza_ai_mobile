@@ -193,7 +193,7 @@ class _TierCard extends StatelessWidget {
                   : DesignTokens.textMuted,
             ),
             const SizedBox(width: DesignTokens.spacingSm),
-            Expanded(child: Text(tier.label, style: DesignTokens.subtitle2)),
+            Expanded(child: Text(tier.label(AppLocalizations.of(context)!), style: DesignTokens.subtitle2)),
             Text(
               formatSom(total.round()),
               style: DesignTokens.subtitle2.copyWith(

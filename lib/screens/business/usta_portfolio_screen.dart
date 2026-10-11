@@ -8,6 +8,7 @@ import '../../l10n/app_localizations.dart';
 import '../../models/business_profile.dart';
 import '../../providers/business_provider.dart';
 import '../../utils/error_mapper.dart';
+import '../../widgets/common/app_image.dart';
 
 /// "Portfolio": the usta's own photos of finished work. Add from camera or
 /// gallery (with an optional caption), long-press a photo to delete it.
@@ -129,6 +130,7 @@ class _UstaPortfolioScreenState extends ConsumerState<UstaPortfolioScreen> {
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
         leading: IconButton(
+          tooltip: AppLocalizations.of(context)!.actionBack,
           icon: const Icon(Icons.arrow_back),
           onPressed: () => context.canPop() ? context.pop() : context.go('/business'),
         ),
@@ -194,10 +196,12 @@ class _PortfolioTile extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
         child: Stack(fit: StackFit.expand, children: [
-          Image.network(
-            item.imageUrl,
-            fit: BoxFit.cover,
-            errorBuilder: (_, _, _) => const ColoredBox(
+          AppImage(
+            url: item.imageUrl,
+            // Static (not the default spinner): matches the old blank-while-
+            // loading behaviour and keeps the grid calm while tiles stream in.
+            placeholder: const ColoredBox(color: DesignTokens.white),
+            errorWidget: const ColoredBox(
               color: DesignTokens.white,
               child: Icon(Icons.image_not_supported_outlined, color: DesignTokens.textMuted),
             ),
@@ -222,7 +226,7 @@ class _PortfolioTile extends StatelessWidget {
             top: 2,
             right: 2,
             child: IconButton(
-              tooltip: l10n.shopProductDelete,
+              tooltip: l10n.actionDelete,
               visualDensity: VisualDensity.compact,
               style: IconButton.styleFrom(backgroundColor: Colors.black45),
               icon: const Icon(Icons.delete_outline, color: Colors.white, size: 20),

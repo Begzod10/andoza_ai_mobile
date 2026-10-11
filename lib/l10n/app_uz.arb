@@ -2702,5 +2702,21 @@
   "deleteAccountPasswordHint": "Telefon kodi bilan kirgan bo'lsangiz, bo'sh qoldiring",
   "deleteAccountDone": "Hisobingiz o'chirildi",
   "scanFailedReason": "Sabab: {reason}",
-  "@scanFailedReason": {"placeholders": {"reason": {"type": "String"}}}
+  "@scanFailedReason": {"placeholders": {"reason": {"type": "String"}}},
+  "shopCategoryBoyoq": "Bo'yoq",
+  "shopCategoryOboy": "Oboy",
+  "shopCategoryLaminat": "Laminat",
+  "shopCategoryKafel": "Kafel",
+  "shopCategoryParket": "Parket",
+  "shopCategoryGips": "Gips",
+  "shopCategorySement": "Sement",
+  "shopCategorySantexnika": "Santexnika",
+  "shopCategoryElektr": "Elektr",
+  "tradeBoshqa": "Boshqa usta",
+  "qualityTierEkonom": "Ekonom",
+  "qualityTierStandart": "Standart",
+  "qualityTierPremium": "Premium",
+  "estimateOpen3dStudio": "3D Studio",
+  "actionDelete": "O'chirish",
+  "mapAttribution": "© OpenStreetMap hissadorlari"
 }

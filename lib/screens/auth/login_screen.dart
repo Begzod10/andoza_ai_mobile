@@ -604,6 +604,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       obscureText: obscure,
       decoration: _inputDecoration(hint).copyWith(
         suffixIcon: IconButton(
+          tooltip: obscure
+              ? AppLocalizations.of(context)!.loginShowPassword
+              : AppLocalizations.of(context)!.loginHidePassword,
           icon: Icon(
             obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined,
             size: 20,

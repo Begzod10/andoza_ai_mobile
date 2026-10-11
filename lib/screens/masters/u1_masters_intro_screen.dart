@@ -9,6 +9,7 @@ import '../../l10n/app_localizations.dart';
 import '../../providers/masters_provider.dart';
 import '../../widgets/common/app_image.dart';
 import '../../widgets/common/load_status.dart';
+import '../../widgets/common/osm_attribution.dart';
 
 /// U1: Ustalar map view — craftsman pins color-coded by trade, search,
 /// profession filter chips, map/list toggle. Privacy rule: pins show
@@ -57,10 +58,7 @@ class _U1MastersIntroScreenState extends ConsumerState<U1MastersIntroScreen> {
                 initialZoom: 12,
               ),
               children: [
-                TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'andozaai.com',
-                ),
+                osmTileLayer(),
                 MarkerClusterLayerWidget(
                   options: MarkerClusterLayerOptions(
                     maxClusterRadius: 45,
@@ -126,6 +124,7 @@ class _U1MastersIntroScreenState extends ConsumerState<U1MastersIntroScreen> {
                     },
                   ),
                 ),
+                const OsmAttribution(),
               ],
             ),
           ),
@@ -180,7 +179,7 @@ class _U1MastersIntroScreenState extends ConsumerState<U1MastersIntroScreen> {
                                 left: DesignTokens.spacingSm,
                               ),
                               child: _TradeChip(
-                                label: '${trade.emoji} ${trade.label}',
+                                label: '${trade.emoji} ${trade.label(l10n)}',
                                 selected: _filter == trade,
                                 onTap: () => setState(() => _filter = trade),
                               ),
@@ -334,7 +333,7 @@ class _PinSheet extends StatelessWidget {
                   children: [
                     Text(master.master.name, style: DesignTokens.subtitle1),
                     Text(
-                      '${master.trade.emoji} ${master.trade.label}',
+                      '${master.trade.emoji} ${master.trade.label(l10n)}',
                       style: DesignTokens.body2,
                     ),
                   ],

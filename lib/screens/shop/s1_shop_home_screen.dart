@@ -182,7 +182,7 @@ class _S1ShopHomeScreenState extends ConsumerState<S1ShopHomeScreen> {
                         left: DesignTokens.spacingSm,
                       ),
                       child: _CategoryChip(
-                        label: category.label,
+                        label: category.label(l10n),
                         selected: _filter == category,
                         onTap: () => setState(() => _filter = category),
                       ),

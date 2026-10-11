@@ -9,6 +9,7 @@ import '../../providers/business_provider.dart';
 import '../../providers/masters_provider.dart';
 import 'master_not_found.dart';
 import '../../widgets/common/app_image.dart';
+import '../../widgets/common/osm_attribution.dart';
 
 /// U4: full craftsman profile — stat cards, portfolio, services, a
 /// location mini-map showing only the approximate zone (never an exact
@@ -72,7 +73,7 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          '${m.trade.emoji} ${m.trade.label}',
+                          '${m.trade.emoji} ${m.trade.label(l10n)}',
                           style: DesignTokens.subtitle1,
                         ),
                         if (m.isVerified) ...[
@@ -144,10 +145,10 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                                   borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
                                   child: AspectRatio(
                                     aspectRatio: 1,
-                                    child: Image.network(
-                                      items[i].imageUrl,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (_, _, _) => const ColoredBox(
+                                    child: AppImage(
+                                      url: items[i].imageUrl,
+                                      placeholder: const ColoredBox(color: DesignTokens.white),
+                                      errorWidget: const ColoredBox(
                                         color: DesignTokens.white,
                                         child: Icon(Icons.image_not_supported_outlined,
                                             color: DesignTokens.textMuted),
@@ -163,7 +164,7 @@ class U4ReviewRatingScreen extends ConsumerWidget {
               const SizedBox(height: DesignTokens.spacingLg),
               Text(l10n.mastersServices, style: DesignTokens.subtitle1),
               const SizedBox(height: DesignTokens.spacingSm),
-              _ServiceRow(label: l10n.mastersServiceTrade(m.trade.label)),
+              _ServiceRow(label: l10n.mastersServiceTrade(m.trade.label(l10n))),
               _ServiceRow(label: l10n.mastersServiceConsultation),
               const SizedBox(height: DesignTokens.spacingLg),
               Text(l10n.mastersLocation, style: DesignTokens.subtitle1),
@@ -196,12 +197,7 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                       ),
                     ),
                     children: [
-                      TileLayer(
-                        urlTemplate:
-                            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                        userAgentPackageName:
-                            'andozaai.com',
-                      ),
+                      osmTileLayer(),
                       CircleLayer(
                         circles: [
                           CircleMarker(
@@ -219,6 +215,7 @@ class U4ReviewRatingScreen extends ConsumerWidget {
                           ),
                         ],
                       ),
+                      const OsmAttribution(),
                     ],
                   ),
                 ),

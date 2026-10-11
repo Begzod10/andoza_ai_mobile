@@ -38,7 +38,10 @@ class DesignTokens {
   static const Color darkBg = Color(0xFF0B0E13);
   static const Color textGray = Color(0xFF5A6785);
   static const Color textDark = Color(0xFF1A2340);
-  static const Color textMuted = Color(0xFF98A2BC);
+  /// Muted body text (captions, helper lines). Was #98A2BC (2.55:1 on white,
+  /// failing WCAG AA); #67728E is 4.80:1 on white and 4.59:1 on
+  /// [backgroundLight] while staying lighter than [textGray].
+  static const Color textMuted = Color(0xFF67728E);
   static const Color white = Color(0xFFFFFFFF);
   static const Color errorRed = Color(0xFFEF4444);
   static const Color successGreen = Color(0xFF16A34A);
@@ -48,7 +51,12 @@ class DesignTokens {
   static const Color primaryTint = Color(0xFFE3EAFB);
   static const Color existingStateGray = Color(0xFFC4CCE0);
   static const Color dividerGray = Color(0xFFCBD5E1);
+  /// Disabled controls only (exempt from text contrast rules).
   static const Color disabledGray = Color(0xFF94A3B8);
+
+  /// Input placeholder text. People read hints, so it needs 4.5:1 too:
+  /// #64748B is 4.76:1 on white (disabledGray #94A3B8 was 2.56:1).
+  static const Color hintGray = Color(0xFF64748B);
   static const Color shadowGray = Color(0xFF0F172A);
 
   /// Delta-mechanic semantic colors: `DesignTokens.delta.completed`, etc.
@@ -336,7 +344,7 @@ class AndozaTheme {
           ),
         ),
         hintStyle: DesignTokens.body2.copyWith(
-          color: DesignTokens.disabledGray,
+          color: DesignTokens.hintGray,
         ),
       ),
       chipTheme: ChipThemeData(

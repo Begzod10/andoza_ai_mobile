@@ -2656,5 +2656,21 @@
   "deleteAccountPasswordHint": "If you sign in with a phone code, leave this empty",
   "deleteAccountDone": "Your account was deleted",
   "scanFailedReason": "Reason: {reason}",
-  "@scanFailedReason": {"placeholders": {"reason": {"type": "String"}}}
+  "@scanFailedReason": {"placeholders": {"reason": {"type": "String"}}},
+  "shopCategoryBoyoq": "Paint",
+  "shopCategoryOboy": "Wallpaper",
+  "shopCategoryLaminat": "Laminate",
+  "shopCategoryKafel": "Tiles",
+  "shopCategoryParket": "Parquet",
+  "shopCategoryGips": "Plaster",
+  "shopCategorySement": "Cement",
+  "shopCategorySantexnika": "Plumbing",
+  "shopCategoryElektr": "Electrical",
+  "tradeBoshqa": "Other tradesperson",
+  "qualityTierEkonom": "Economy",
+  "qualityTierStandart": "Standard",
+  "qualityTierPremium": "Premium",
+  "estimateOpen3dStudio": "3D Studio",
+  "actionDelete": "Delete",
+  "mapAttribution": "© OpenStreetMap contributors"
 }
