@@ -4,7 +4,7 @@ import 'room_model.dart' as rm;
 
 /// Where a [RoomPlan] came from. The unified output of every room-capture
 /// method (so all four flows can produce the same contract).
-enum RoomSource { lidar, photo, wizard, sketch, drag }
+enum RoomSource { lidar, photo, wizard, sketch, drag, arcore }
 
 /// A door/window opening on a [RoomWall]. Mirrors the fields the backend
 /// [WallElementCreate] and the client [rm.Door]/[rm.Window] carry, kept as a
