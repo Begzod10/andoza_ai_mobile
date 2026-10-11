@@ -149,4 +149,14 @@ void main() {
     expect(raw.trackingLossCount, 2);
     expect(raw.durationSec, 95);
   });
+
+  test('moves the plan to the origin like the iOS scan does', () {
+    // ARCore's world origin is wherever the session started, so raw corners
+    // are often negative; the saved plan starts at (0, 0).
+    final plan = _ok(buildArcorePlan(_raw([[-3.2, -1.5], [0.8, -1.5], [0.8, 1.5], [-3.2, 1.5]])));
+    final minX = plan.corners.map((c) => c.x).reduce(math.min);
+    final minY = plan.corners.map((c) => c.y).reduce(math.min);
+    expect(minX, closeTo(0, 1e-9));
+    expect(minY, closeTo(0, 1e-9));
+  });
 }

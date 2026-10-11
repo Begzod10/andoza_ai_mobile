@@ -72,7 +72,11 @@ ArPlanResult buildArcorePlan(ArScanRaw raw, {String name = 'Xona'}) {
   if (pts.length < 3) return const ArPlanRejected('too_few_corners');
   if (isSelfIntersecting(pts)) return const ArPlanRejected('self_intersecting');
 
-  final corners = [for (final p in pts) Vec2(_cm(p.x), _cm(p.y))];
+  // ARCore's origin is wherever the session started; start the plan at (0, 0)
+  // like the iOS converter does.
+  final minX = pts.map((p) => p.x).reduce(math.min);
+  final minY = pts.map((p) => p.y).reduce(math.min);
+  final corners = [for (final p in pts) Vec2(_cm(p.x - minX), _cm(p.y - minY))];
   final n = corners.length;
   return ArPlanOk(RoomPlan(
     corners: List.unmodifiable(corners),

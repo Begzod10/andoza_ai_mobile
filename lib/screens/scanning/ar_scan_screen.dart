@@ -30,7 +30,7 @@ class ArScanScreen extends ConsumerStatefulWidget {
 
 enum _Problem { notInstalled, cameraDenied, unsupported, rejected, failed }
 
-class _ArScanScreenState extends ConsumerState<ArScanScreen> {
+class _ArScanScreenState extends ConsumerState<ArScanScreen> with WidgetsBindingObserver {
   bool _busy = true;
   _Problem? _problem;
   String? _message;
@@ -38,7 +38,20 @@ class _ArScanScreenState extends ConsumerState<ArScanScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) => _start());
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  /// Back from the Play Store after installing ARCore: check again by itself.
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && _problem == _Problem.notInstalled && !_busy) _start();
   }
 
   Map<String, String> _strings(AppLocalizations l10n) => {
@@ -71,7 +84,9 @@ class _ArScanScreenState extends ConsumerState<ArScanScreen> {
       _show(switch (support.reason) {
         'arcore_not_installed' => _Problem.notInstalled,
         'camera_denied' => _Problem.cameraDenied,
-        _ => _Problem.unsupported,
+        'unsupported_device' || 'not_implemented' => _Problem.unsupported,
+        // An inconclusive check (offline, timed out) is worth another try.
+        _ => _Problem.failed,
       });
       return;
     }

@@ -9,7 +9,7 @@ class ArScanSupport {
   final bool supported;
 
   /// `ok` | `arcore_not_installed` | `unsupported_device` | `camera_denied` |
-  /// `not_implemented` (no native handler, e.g. iOS).
+  /// `check_failed` (inconclusive, retry) | `not_implemented` (no native handler, e.g. iOS).
   final String reason;
 }
 

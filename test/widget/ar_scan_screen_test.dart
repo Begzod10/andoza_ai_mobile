@@ -15,13 +15,17 @@ import '../support/localized_pump.dart';
 
 class _FakeArScan implements ArScanService {
   _FakeArScan({this.support = const ArScanSupport(true, 'ok'), this.raw, this.error});
-  final ArScanSupport support;
+  ArScanSupport support;
+  int checks = 0;
   final Map<String, dynamic>? raw;
   final ArScanException? error;
   Map<String, String>? lastStrings;
 
   @override
-  Future<ArScanSupport> checkSupport() async => support;
+  Future<ArScanSupport> checkSupport() async {
+    checks++;
+    return support;
+  }
 
   @override
   Future<void> openAppSettings() async {}
@@ -124,5 +128,22 @@ void main() {
       expect(arScanRejectionText(l10n, r), isNot(r));
     }
     expect(RoomSource.values, contains(RoomSource.arcore));
+  });
+
+  testWidgets('an inconclusive ARCore check can be retried, not "unsupported"', (tester) async {
+    await _pump(tester, _FakeArScan(support: const ArScanSupport(false, 'check_failed')));
+    expect(find.text(l10n.arScanUnsupported), findsNothing);
+    expect(find.text(l10n.arScanRescan), findsOneWidget);
+  });
+
+  testWidgets('coming back from installing ARCore checks again by itself', (tester) async {
+    final fake = _FakeArScan(support: const ArScanSupport(false, 'arcore_not_installed'));
+    await _pump(tester, fake);
+    expect(fake.checks, 1);
+    fake.support = const ArScanSupport(false, 'arcore_not_installed');
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+    await tester.pumpAndSettle();
+    expect(fake.checks, 2);
   });
 }

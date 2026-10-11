@@ -62,7 +62,9 @@ class ArScanChannel(private val activity: Activity) {
             ArCoreApk.Availability.SUPPORTED_INSTALLED -> "ok"
             ArCoreApk.Availability.SUPPORTED_NOT_INSTALLED,
             ArCoreApk.Availability.SUPPORTED_APK_TOO_OLD -> "arcore_not_installed"
-            else -> "unsupported_device"
+            ArCoreApk.Availability.UNSUPPORTED_DEVICE_NOT_CAPABLE -> "unsupported_device"
+            // Still checking / timed out / error (e.g. offline): retryable, not a verdict.
+            else -> "check_failed"
         }
         result.success(mapOf("supported" to (reason == "ok"), "reason" to reason))
     }
