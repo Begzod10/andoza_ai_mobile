@@ -107,6 +107,7 @@ class ApiClient {
     '/auth/otp/request',
     '/auth/otp/verify',
     '/auth/register',
+    '/auth/google',
   };
 
   static bool _isAuthPath(String path) =>

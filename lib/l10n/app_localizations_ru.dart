@@ -154,6 +154,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get loginHaveAccount => 'Уже есть аккаунт? ';
 
   @override
+  String get loginWithGoogle => 'Войти через Google';
+
+  @override
+  String get loginGoogleFailed =>
+      'Не удалось войти через Google. Попробуйте ещё раз.';
+
+  @override
   String get loginOr => 'или';
 
   @override

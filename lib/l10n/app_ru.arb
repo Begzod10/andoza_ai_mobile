@@ -193,6 +193,8 @@
   "@loginHaveAccount": {
     "description": "Register: prompt preceding the sign-in link ('Already have an account? ')."
   },
+  "loginWithGoogle": "Войти через Google",
+  "loginGoogleFailed": "Не удалось войти через Google. Попробуйте ещё раз.",
   "loginOr": "или",
   "@loginOr": {
     "description": "Login: 'or' divider between the OTP and username entry points."

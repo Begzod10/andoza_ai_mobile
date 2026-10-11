@@ -154,6 +154,13 @@ class AppLocalizationsUz extends AppLocalizations {
   String get loginHaveAccount => 'Allaqachon akkauntingiz bormi? ';
 
   @override
+  String get loginWithGoogle => 'Google bilan kirish';
+
+  @override
+  String get loginGoogleFailed =>
+      'Google orqali kirib bo\'lmadi. Qayta urinib ko\'ring.';
+
+  @override
   String get loginOr => 'yoki';
 
   @override

@@ -11,6 +11,7 @@ import '../../providers/auth_provider.dart';
 import '../../providers/business_provider.dart';
 import '../../repositories/auth_repository.dart';
 import '../../services/api_client.dart';
+import '../../services/google_sign_in_service.dart';
 import '../../utils/error_mapper.dart';
 
 /// Login screen — a Flutter port of the web `/login` page: phone-OTP by default,
@@ -209,6 +210,41 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     return mapErrorToMessage(
       ApiException(message: error.message, statusCode: error.statusCode),
     );
+  }
+
+  /// Google sign-in: the plugin hands us an ID token, the backend
+  /// (`POST /auth/google`) swaps it for an andoza session, and — like OTP and
+  /// register — we flip [authStateProvider] so the router redirect navigates
+  /// onward exactly as after a password login. A dismissed account picker is
+  /// not an error: nothing happens.
+  Future<void> _googleLogin() async {
+    final l10n = AppLocalizations.of(context)!;
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    try {
+      final idToken = await ref.read(googleSignInServiceProvider).getIdToken();
+      if (idToken == null) return;
+      final res = await _repo.loginWithGoogle(idToken);
+      ref.read(authStateProvider.notifier).setSession(res);
+    } catch (e) {
+      if (mounted) setState(() => _error = _googleErrorMessage(l10n, e));
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
+  }
+
+  /// A rejected token (401) or a plugin failure reads as "Google sign-in
+  /// failed"; network/5xx/503-not-configured go through [mapErrorToMessage]
+  /// like the password login does.
+  String _googleErrorMessage(AppLocalizations l10n, Object error) {
+    if (error is AuthException && error.statusCode != 401) {
+      return mapErrorToMessage(
+        ApiException(message: error.message, statusCode: error.statusCode),
+      );
+    }
+    return l10n.loginGoogleFailed;
   }
 
   Future<void> _register() async {
@@ -444,6 +480,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         _errorText(),
         const SizedBox(height: DesignTokens.spacing24),
         _primaryButton(l10n.loginSignIn, _loading ? null : _login),
+        ..._googleSection(l10n),
         const SizedBox(height: DesignTokens.spacing16),
         Center(
           child: Wrap(
@@ -485,6 +522,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         _errorText(),
         const SizedBox(height: DesignTokens.spacing24),
         _primaryButton(l10n.loginRegister, _loading ? null : _register),
+        ..._googleSection(l10n),
         const SizedBox(height: DesignTokens.spacing16),
         Center(
           child: Wrap(
@@ -503,6 +541,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   // ── small widgets ───────────────────────────────────────────────────────
+  /// "yoki" divider + "Google bilan kirish". Hidden where Google sign-in isn't
+  /// configured (iOS until GOOGLE_IOS_CLIENT_ID is set — see
+  /// [GoogleSignInService.isAvailable]).
+  List<Widget> _googleSection(AppLocalizations l10n) {
+    if (!GoogleSignInService.isAvailable) return const [];
+    return [
+      const SizedBox(height: DesignTokens.spacing16),
+      const _OrDivider(),
+      const SizedBox(height: DesignTokens.spacing16),
+      _outlinedButton(
+        l10n.loginWithGoogle,
+        _loading ? null : _googleLogin,
+        leading: const _GoogleMark(),
+      ),
+    ];
+  }
+
   Widget _roleOption(BusinessKind? kind, IconData icon, String title, String desc) {
     final selected = _businessKind == kind;
     return Padding(
@@ -653,7 +708,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  Widget _outlinedButton(String label, VoidCallback onPressed) {
+  Widget _outlinedButton(String label, VoidCallback? onPressed, {Widget? leading}) {
     return SizedBox(
       width: double.infinity,
       child: OutlinedButton(
@@ -663,7 +718,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           side: const BorderSide(color: DesignTokens.border),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(DesignTokens.radiusMedium)),
         ),
-        child: Text(label, style: DesignTokens.bodyMedium.copyWith(color: DesignTokens.textSecondary, fontWeight: FontWeight.w600)),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (leading != null) ...[leading, const SizedBox(width: DesignTokens.spacing12)],
+            Flexible(
+              child: Text(label, style: DesignTokens.bodyMedium.copyWith(color: DesignTokens.textSecondary, fontWeight: FontWeight.w600)),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -714,7 +777,7 @@ class _VersionLabel extends StatelessWidget {
   }
 }
 
-/// Static "yoki" divider between the OTP and username entry points.
+/// Static "yoki" divider between alternative sign-in entry points.
 class _OrDivider extends StatelessWidget {
   const _OrDivider();
 
@@ -728,5 +791,30 @@ class _OrDivider extends StatelessWidget {
       ),
       const Expanded(child: Divider(color: DesignTokens.border)),
     ]);
+  }
+}
+
+/// The Google "G", drawn as text in Google blue — avoids shipping an SVG
+/// dependency for one glyph.
+class _GoogleMark extends StatelessWidget {
+  const _GoogleMark();
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      width: 20,
+      height: 20,
+      child: Center(
+        child: Text(
+          'G',
+          style: TextStyle(
+            color: Color(0xFF4285F4),
+            fontSize: 18,
+            fontWeight: FontWeight.w800,
+            height: 1,
+          ),
+        ),
+      ),
+    );
   }
 }
