@@ -97,15 +97,19 @@ class ArScanActivity : Activity(), GLSurfaceView.Renderer {
     private val capture = FloorPlanCapture()
     private val anchors = mutableListOf<Anchor>()
     private var lastFloorHit: HitResult? = null
-    private var liveHeight: Float? = null
+    @Volatile private var liveHeight: Float? = null
+    @Volatile private var tracking = false
     private var wasTracking = false
-    private var step = Step.FIND_FLOOR
+    @Volatile private var step = Step.FIND_FLOOR
+    // Set when anchors stopped tracking and corners were dropped; stays up
+    // until the user adds or undoes a corner (a one-frame hint is never seen).
+    @Volatile private var cornersLost = false
     private var viewportW = 0
     private var viewportH = 0
     private var viewportChanged = false
 
     private val startedAt = SystemClock.elapsedRealtime()
-    private var finished = false
+    @Volatile private var finished = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -188,18 +192,23 @@ class ArScanActivity : Activity(), GLSurfaceView.Renderer {
     }
 
     /** UI from the current state (UI thread). */
-    private fun render(trackingHint: String? = null, snapping: Boolean = false) {
-        val n = capture.corners.size
+    private fun render(
+        trackingHint: String? = null,
+        snapping: Boolean = false,
+        n: Int = 0,
+        height: Float? = null,
+        notice: String? = null, // informational: shown, but doesn't block adding corners
+    ) {
         stepLabel.text = when (step) {
             Step.FIND_FLOOR -> "1/3"
             Step.CORNERS -> "2/3"
             Step.HEIGHT -> "3/3"
         }
-        hint.text = trackingHint ?: when (step) {
+        hint.text = trackingHint ?: notice ?: when (step) {
             Step.FIND_FLOOR ->
                 if (SystemClock.elapsedRealtime() - startedAt > FLOOR_HINT_AFTER_MS) s("arScanFloorHint") else s("arScanFindFloor")
             Step.CORNERS -> if (snapping) s("arScanSnapToFirst") else s("arScanCornersHint")
-            Step.HEIGHT -> liveHeight?.let { "${s("arScanAimCeiling")} · ${ArOverlayView.metres(it)}" } ?: s("arScanAimCeiling")
+            Step.HEIGHT -> height?.let { "${s("arScanAimCeiling")} · ${ArOverlayView.metres(it)}" } ?: s("arScanAimCeiling")
         }
         when (step) {
             Step.FIND_FLOOR, Step.CORNERS -> {
@@ -209,7 +218,7 @@ class ArScanActivity : Activity(), GLSurfaceView.Renderer {
             }
             Step.HEIGHT -> {
                 leftButton.text = s("arScanUndo"); leftButton.isEnabled = true
-                mainButton.text = s("arScanConfirm"); mainButton.isEnabled = liveHeight != null
+                mainButton.text = s("arScanConfirm"); mainButton.isEnabled = height != null
                 rightButton.text = s("arScanEnterManually"); rightButton.isEnabled = true
             }
         }
@@ -217,14 +226,24 @@ class ArScanActivity : Activity(), GLSurfaceView.Renderer {
     }
 
     // ── actions (UI thread → GL thread) ────────────────────────────────────
-    private fun onMain() = surface.queueEvent {
-        when (step) {
-            Step.FIND_FLOOR, Step.CORNERS -> addCorner()
-            Step.HEIGHT -> liveHeight?.let { h -> runOnUiThread { finishWith(h, measured = true) } }
+    /** Runs [block] on the GL thread; ARCore can throw there (tracking lost, session paused). */
+    private fun onGl(block: () -> Unit) = surface.queueEvent {
+        try {
+            if (!finished && session != null) block()
+        } catch (e: Exception) {
+            Log.w(TAG, "action failed", e)
         }
     }
 
-    private fun onLeft() = surface.queueEvent {
+    private fun onMain() = onGl {
+        when (step) {
+            Step.FIND_FLOOR, Step.CORNERS -> addCorner()
+            Step.HEIGHT -> liveHeight?.let { finishWith(it, measured = true) }
+        }
+    }
+
+    private fun onLeft() = onGl {
+        cornersLost = false
         if (step == Step.HEIGHT) {
             step = Step.CORNERS
         } else if (capture.undo()) {
@@ -237,19 +256,20 @@ class ArScanActivity : Activity(), GLSurfaceView.Renderer {
             val labels = PRESET_HEIGHTS.map { ArOverlayView.metres(it) }.toTypedArray()
             AlertDialog.Builder(this)
                 .setTitle(s("arScanEnterManually"))
-                .setItems(labels) { _, i -> finishWith(PRESET_HEIGHTS[i], measured = false) }
+                .setItems(labels) { _, i -> onGl { finishWith(PRESET_HEIGHTS[i], measured = false) } }
                 .show()
         } else {
-            surface.queueEvent { if (capture.corners.size >= 3) step = Step.HEIGHT }
+            onGl { if (capture.corners.size >= 3) step = Step.HEIGHT }
         }
     }
 
     /** GL thread. */
     private fun addCorner() {
         val hit = lastFloorHit ?: return
-        if (!capture.canAddCorner(tracking = true)) return
+        if (!capture.canAddCorner(tracking = tracking)) return
         val anchor = hit.createAnchor()
         val t = anchor.pose
+        cornersLost = false
         when (capture.addCorner(Vec3(t.tx(), t.ty(), t.tz()))) {
             AddResult.REJECTED_NOT_TRACKING -> anchor.detach()
             AddResult.CLOSED -> { anchors.add(anchor); step = Step.HEIGHT }
@@ -269,6 +289,7 @@ class ArScanActivity : Activity(), GLSurfaceView.Renderer {
     override fun onBackPressed() = confirmExit()
 
     // ── results ───────────────────────────────────────────────────────────
+    /** GL thread: snapshot the result there, then leave on the UI thread. */
     private fun finishWith(height: Float, measured: Boolean) {
         if (finished) return
         val seconds = ((SystemClock.elapsedRealtime() - startedAt) / 1000).toInt()
@@ -284,8 +305,10 @@ class ArScanActivity : Activity(), GLSurfaceView.Renderer {
         }.toString()
         Log.i(TAG, json)
         finished = true
-        setResult(RESULT_OK, Intent().putExtra(EXTRA_RESULT, json))
-        finish()
+        runOnUiThread {
+            setResult(RESULT_OK, Intent().putExtra(EXTRA_RESULT, json))
+            finish()
+        }
     }
 
     private fun cancel() {
@@ -394,20 +417,20 @@ class ArScanActivity : Activity(), GLSurfaceView.Renderer {
             background.draw(frame)
             val camera = frame.camera
 
-            val tracking = camera.trackingState == TrackingState.TRACKING
+            tracking = camera.trackingState == TrackingState.TRACKING
             if (wasTracking && !tracking) capture.trackingLossCount++
             wasTracking = tracking
 
             // Anchors drift as ARCore refines its map — keep corners in step;
             // stopped anchors are dropped together with their corners.
-            val before = capture.corners.size
-            capture.updatePositions(anchors.map {
+            val lost = capture.updatePositions(anchors.map {
                 if (it.trackingState == TrackingState.STOPPED) null else Vec3(it.pose.tx(), it.pose.ty(), it.pose.tz())
             })
-            if (capture.corners.size != before) {
-                val alive = anchors.filter { it.trackingState != TrackingState.STOPPED }
-                anchors.filter { it.trackingState == TrackingState.STOPPED }.forEach { it.detach() }
-                anchors.clear(); anchors.addAll(alive)
+            if (lost > 0) {
+                val keep = anchors.size - lost
+                anchors.subList(keep, anchors.size).forEach { it.detach() }
+                while (anchors.size > keep) anchors.removeAt(anchors.size - 1)
+                cornersLost = true
                 if (step == Step.HEIGHT) step = Step.CORNERS
             }
 
@@ -449,15 +472,17 @@ class ArScanActivity : Activity(), GLSurfaceView.Renderer {
                 TrackingFailureReason.NONE -> null
                 else -> s("arScanTrackingLost")
             }
-            val lostCorners = capture.corners.size != before
             val state = OverlayState(
                 corners = projected, labels = labels, reticleOnFloor = reticle != null,
                 snapping = snapping, closed = capture.isClosed, heightAxis = axis,
                 heightLabel = liveHeight?.let { ArOverlayView.metres(it) },
             )
+            val n = corners.size
+            val height = liveHeight
+            val notice = if (cornersLost) s("arScanCornersLost") else null
             runOnUiThread {
                 overlay.state = state
-                render(trackingHint ?: if (lostCorners) s("arScanCornersLost") else null, snapping)
+                render(trackingHint, snapping, n, height, notice)
             }
         } catch (e: Exception) {
             Log.w(TAG, "frame failed", e)

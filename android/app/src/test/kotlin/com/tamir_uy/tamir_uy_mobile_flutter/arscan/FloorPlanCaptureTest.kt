@@ -60,13 +60,37 @@ class FloorPlanCaptureTest {
         assertFalse(c.canAddCorner(tracking = true))
     }
 
-    @Test fun `drops anchors that stopped tracking`() {
+    @Test fun `a lost corner drops it and everything after it so re-marking stays in order`() {
         val c = FloorPlanCapture()
         square(c)
         c.addCorner(Vec3(0.1f, 0f, 0.1f))
-        c.updatePositions(listOf(Vec3(0f, 0f, 0f), null, Vec3(4f, 0f, 3f), Vec3(0f, 0f, 3f), Vec3(0.1f, 0f, 0.1f)))
-        assertEquals(4, c.corners.size)
+        val lost = c.updatePositions(listOf(Vec3(0f, 0f, 0f), null, Vec3(4f, 0f, 3f), Vec3(0f, 0f, 3f), Vec3(0.1f, 0f, 0.1f)))
+        assertEquals(4, lost)
+        assertEquals(1, c.corners.size)
         assertFalse(c.isClosed)
+        assertEquals(0, c.updatePositions(listOf(Vec3(0f, 0f, 0f))))
+    }
+
+    @Test fun `reading the result while frames refresh the corners never breaks`() {
+        val c = FloorPlanCapture()
+        square(c)
+        val positions = c.corners
+        var failure: Throwable? = null
+        val writer = Thread {
+            repeat(200_000) { c.updatePositions(positions) }
+        }
+        writer.start()
+        try {
+            while (writer.isAlive) {
+                @Suppress("UNCHECKED_CAST")
+                val corners = c.toResult(2.7f, true, 1)["corners"] as List<List<Double>>
+                assertEquals(4, corners.size)
+            }
+        } catch (t: Throwable) {
+            failure = t
+        }
+        writer.join()
+        assertNull(failure)
     }
 
     @Test fun `measures height along the vertical axis`() {

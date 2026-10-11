@@ -16,19 +16,21 @@ enum class AddResult { ADDED, CLOSED, REJECTED_NOT_TRACKING }
  */
 class FloorPlanCapture(val snapDistanceM: Float = 0.20f) {
 
-    private val points = mutableListOf<Vec3>()
+    // Swapped whole, never mutated in place: the GL thread refreshes it every
+    // frame while the UI thread may read it (a tap on "Tasdiqlash").
+    @Volatile private var points: List<Vec3> = emptyList()
 
     /** Height of the floor plane — the first corner's Y; later corners are pinned to it. */
-    var floorY: Float? = null
+    @Volatile var floorY: Float? = null
         private set
 
-    val corners: List<Vec3> get() = points.toList()
+    val corners: List<Vec3> get() = points
 
     /**
      * True once the user snapped back onto the first corner. The last point is
      * then the snapping tap itself (the loop's closure error), not a corner.
      */
-    var isClosed: Boolean = false
+    @Volatile var isClosed: Boolean = false
         private set
 
     var trackingLossCount: Int = 0
@@ -43,7 +45,7 @@ class FloorPlanCapture(val snapDistanceM: Float = 0.20f) {
         if (isClosed) return AddResult.REJECTED_NOT_TRACKING
         val y = floorY ?: p.y.also { floorY = it }
         val snap = wouldSnap(p)
-        points.add(Vec3(p.x, y, p.z))
+        points = points + Vec3(p.x, y, p.z)
         if (snap) {
             isClosed = true
             return AddResult.CLOSED
@@ -53,7 +55,7 @@ class FloorPlanCapture(val snapDistanceM: Float = 0.20f) {
 
     fun undo(): Boolean {
         if (points.isEmpty()) return false
-        points.removeAt(points.size - 1)
+        points = points.dropLast(1)
         isClosed = false
         if (points.isEmpty()) floorY = null
         return true
@@ -61,16 +63,20 @@ class FloorPlanCapture(val snapDistanceM: Float = 0.20f) {
 
     /**
      * Refresh corners from their anchors (ARCore improves its map as the user
-     * walks). `null` = the anchor stopped tracking: that corner is dropped and
-     * the outline has to be closed again.
+     * walks). `null` = that anchor stopped tracking: it and every corner after
+     * it are dropped, so re-marking continues the outline in order. Returns how
+     * many corners were dropped (the caller drops the same anchors).
      */
-    fun updatePositions(positions: List<Vec3?>) {
-        if (positions.size != points.size) return
-        val y = floorY ?: return
-        val kept = positions.filterNotNull().map { Vec3(it.x, y, it.z) }
-        if (kept.size != points.size) isClosed = false
-        points.clear()
-        points.addAll(kept)
+    fun updatePositions(positions: List<Vec3?>): Int {
+        val current = points
+        if (positions.size != current.size) return 0
+        val y = floorY ?: return 0
+        val firstLost = positions.indexOfFirst { it == null }
+        val keep = if (firstLost < 0) positions.size else firstLost
+        points = positions.take(keep).map { Vec3(it!!.x, y, it.z) }
+        val lost = current.size - keep
+        if (lost > 0) isClosed = false
+        return lost
     }
 
     /**
