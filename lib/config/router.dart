@@ -106,7 +106,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       if (isAuthenticated &&
           pending != null &&
           (isLoginRoute || state.matchedLocation == '/')) {
-        ref.read(pendingPushRouteProvider.notifier).state = null;
+        // Clear after routing, not during it: writing a provider inside the
+        // redirect can trip Riverpod's "modified during build" assertion.
+        Future.microtask(
+          () => ref.read(pendingPushRouteProvider.notifier).state = null,
+        );
         return pending == state.matchedLocation ? null : pending;
       }
 

@@ -45,12 +45,17 @@ class PushService {
     this._repo, {
     required this.locale,
     required this.platform,
+    this.timeout = const Duration(seconds: 4),
   });
 
   final MessagingClient _messaging;
   final PushRepository _repo;
   final String Function() locale;
   final String platform;
+
+  /// Upper bound on the network-bound parts of sign-out, so an offline phone
+  /// never stalls logout.
+  final Duration timeout;
   StreamSubscription<String>? _refreshSub;
 
   Future<void> registerCurrent() async {
@@ -83,8 +88,11 @@ class PushService {
   Future<void> unregister() async {
     stopListening();
     try {
-      final token = await _messaging.getToken();
-      if (token != null && token.isNotEmpty) await _repo.unregister(token);
+      await () async {
+        final token = await _messaging.getToken();
+        if (token != null && token.isNotEmpty) await _repo.unregister(token);
+      }()
+          .timeout(timeout);
     } catch (e) {
       debugPrint('Push unregister failed: $e');
     }
@@ -96,7 +104,7 @@ class PushService {
   Future<void> discardLocalToken() async {
     stopListening();
     try {
-      await _messaging.deleteToken();
+      await _messaging.deleteToken().timeout(timeout);
     } catch (e) {
       debugPrint('Push deleteToken failed: $e');
     }

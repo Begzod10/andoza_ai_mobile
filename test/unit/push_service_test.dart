@@ -24,6 +24,7 @@ class FakeRepo implements PushRepository {
   FakeRepo(this.log);
   final List<String> log;
   bool failRegister = false;
+  Completer<void>? hangUnregister;
 
   @override
   Future<void> register(String token, String platform, String locale) async {
@@ -32,7 +33,10 @@ class FakeRepo implements PushRepository {
   }
 
   @override
-  Future<void> unregister(String token) async => log.add('repo.unregister $token');
+  Future<void> unregister(String token) async {
+    if (hangUnregister != null) return hangUnregister!.future;
+    log.add('repo.unregister $token');
+  }
 }
 
 class FakeAuthRepo implements AuthRepository {
@@ -82,6 +86,22 @@ void main() {
       'messaging.deleteToken',
       'authRepo.logout',
     ]);
+  });
+
+  test('logout still completes when the server never answers', () async {
+    repo.hangUnregister = Completer<void>(); // never completed
+    final slow = PushService(
+      messaging,
+      repo,
+      locale: () => 'ru',
+      platform: 'android',
+      timeout: const Duration(milliseconds: 50),
+    );
+    final notifier = AuthNotifier(FakeAuthRepo(log))
+      ..beforeLogout = slow.unregister;
+    await notifier.logout().timeout(const Duration(seconds: 2));
+    expect(log, ['messaging.deleteToken', 'authRepo.logout']);
+    expect(notifier.state, isA<AuthInitial>());
   });
 
   test('a dead session only drops the local token', () async {
