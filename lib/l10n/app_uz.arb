@@ -2726,5 +2726,21 @@
   "qualityTierPremium": "Premium",
   "estimateOpen3dStudio": "3D Studio",
   "actionDelete": "O'chirish",
-  "mapAttribution": "© OpenStreetMap hissadorlari"
+  "mapAttribution": "© OpenStreetMap hissadorlari",
+  "pushPromptTitle": "Xabar beraylikmi?",
+  "@pushPromptTitle": {"description": "Title of the one-time dialog asking whether to send push notifications."},
+  "pushPromptBody": "Dizayningiz tayyor bo'lganda yoki buyurtma holati o'zgarganda xabar beramiz.",
+  "@pushPromptBody": {"description": "Body of the one-time push notification dialog."},
+  "pushPromptYes": "Ha",
+  "@pushPromptYes": {"description": "Confirm button of the push notification dialog; triggers the system permission request."},
+  "pushPromptLater": "Keyinroq",
+  "@pushPromptLater": {"description": "Dismiss button of the push notification dialog."},
+  "settingsNotificationsTitle": "Bildirishnomalar",
+  "@settingsNotificationsTitle": {"description": "Settings screen: notifications row title; opens system settings."},
+  "settingsNotificationsOn": "Yoqilgan",
+  "@settingsNotificationsOn": {"description": "Settings screen: notifications row subtitle when permission is granted."},
+  "settingsNotificationsOff": "O'chirilgan",
+  "@settingsNotificationsOff": {"description": "Settings screen: notifications row subtitle when permission is not granted."},
+  "pushChannelName": "Andoza yangiliklari",
+  "@pushChannelName": {"description": "Android notification channel name shown in system settings."}
 }

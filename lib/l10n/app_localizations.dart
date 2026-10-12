@@ -4623,6 +4623,54 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'© OpenStreetMap hissadorlari'**
   String get mapAttribution;
+
+  /// Title of the one-time dialog asking whether to send push notifications.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xabar beraylikmi?'**
+  String get pushPromptTitle;
+
+  /// Body of the one-time push notification dialog.
+  ///
+  /// In uz, this message translates to:
+  /// **'Dizayningiz tayyor bo\'lganda yoki buyurtma holati o\'zgarganda xabar beramiz.'**
+  String get pushPromptBody;
+
+  /// Confirm button of the push notification dialog; triggers the system permission request.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ha'**
+  String get pushPromptYes;
+
+  /// Dismiss button of the push notification dialog.
+  ///
+  /// In uz, this message translates to:
+  /// **'Keyinroq'**
+  String get pushPromptLater;
+
+  /// Settings screen: notifications row title; opens system settings.
+  ///
+  /// In uz, this message translates to:
+  /// **'Bildirishnomalar'**
+  String get settingsNotificationsTitle;
+
+  /// Settings screen: notifications row subtitle when permission is granted.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yoqilgan'**
+  String get settingsNotificationsOn;
+
+  /// Settings screen: notifications row subtitle when permission is not granted.
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'chirilgan'**
+  String get settingsNotificationsOff;
+
+  /// Android notification channel name shown in system settings.
+  ///
+  /// In uz, this message translates to:
+  /// **'Andoza yangiliklari'**
+  String get pushChannelName;
 }
 
 class _AppLocalizationsDelegate

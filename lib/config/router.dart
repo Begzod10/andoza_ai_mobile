@@ -1,3 +1,4 @@
+import '../widgets/push_permission_prompt.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod/riverpod.dart';
@@ -138,7 +139,9 @@ final routerProvider = Provider<GoRouter>((ref) {
             // tab positioned left of the previous one).
             pageBuilder: (context, state) => NoTransitionPage(
               name: state.path,
-              child: const HomeWithProjectsScreen(),
+              child: const PushPermissionPrompt(
+                child: HomeWithProjectsScreen(),
+              ),
             ),
           ),
           // No separate "history" concept in the spec — orders are the

@@ -2674,5 +2674,13 @@
   "qualityTierPremium": "Премиум",
   "estimateOpen3dStudio": "3D-студия",
   "actionDelete": "Удалить",
-  "mapAttribution": "© участники OpenStreetMap"
+  "mapAttribution": "© участники OpenStreetMap",
+  "pushPromptTitle": "Сообщать вам?",
+  "pushPromptBody": "Сообщим, когда дизайн будет готов или изменится статус заказа.",
+  "pushPromptYes": "Да",
+  "pushPromptLater": "Позже",
+  "settingsNotificationsTitle": "Уведомления",
+  "settingsNotificationsOn": "Включены",
+  "settingsNotificationsOff": "Выключены",
+  "pushChannelName": "Новости Andoza"
 }

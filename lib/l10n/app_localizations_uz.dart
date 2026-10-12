@@ -2506,4 +2506,29 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get mapAttribution => '© OpenStreetMap hissadorlari';
+
+  @override
+  String get pushPromptTitle => 'Xabar beraylikmi?';
+
+  @override
+  String get pushPromptBody =>
+      'Dizayningiz tayyor bo\'lganda yoki buyurtma holati o\'zgarganda xabar beramiz.';
+
+  @override
+  String get pushPromptYes => 'Ha';
+
+  @override
+  String get pushPromptLater => 'Keyinroq';
+
+  @override
+  String get settingsNotificationsTitle => 'Bildirishnomalar';
+
+  @override
+  String get settingsNotificationsOn => 'Yoqilgan';
+
+  @override
+  String get settingsNotificationsOff => 'O\'chirilgan';
+
+  @override
+  String get pushChannelName => 'Andoza yangiliklari';
 }

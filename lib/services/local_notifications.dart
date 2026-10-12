@@ -7,9 +7,6 @@ import 'push_router.dart';
 /// Android channel the backend sends to (and the manifest's default).
 const pushChannelId = 'andoza_updates';
 
-/// User-visible channel name.
-const pushChannelName = 'Andoza yangiliklari';
-
 /// Shows pushes that arrive while the app is open (the OS only shows them
 /// itself when the app is in the background). Never asks for the
 /// notification permission.
@@ -20,15 +17,22 @@ class LocalNotifications {
   final FlutterLocalNotificationsPlugin _plugin;
   var _nextId = 0;
 
-  static const _android = AndroidNotificationDetails(
+  String _channelName = 'Andoza';
+
+  AndroidNotificationDetails get _android => AndroidNotificationDetails(
     pushChannelId,
-    pushChannelName,
+    _channelName,
     icon: '@drawable/ic_notification',
     importance: Importance.high,
     priority: Priority.high,
   );
 
-  Future<void> init({required void Function(String? payload) onTap}) async {
+  /// [channelName] is the localized, user-visible Android channel name.
+  Future<void> init({
+    required void Function(String? payload) onTap,
+    String? channelName,
+  }) async {
+    if (channelName != null) _channelName = channelName;
     await _plugin.initialize(
       settings: const InitializationSettings(
         android: AndroidInitializationSettings('@drawable/ic_notification'),
@@ -45,9 +49,9 @@ class LocalNotifications {
           AndroidFlutterLocalNotificationsPlugin
         >()
         ?.createNotificationChannel(
-          const AndroidNotificationChannel(
+          AndroidNotificationChannel(
             pushChannelId,
-            pushChannelName,
+            _channelName,
             importance: Importance.high,
           ),
         );
@@ -68,9 +72,9 @@ class LocalNotifications {
         id: _nextId++,
         title: n.title,
         body: n.body,
-        notificationDetails: const NotificationDetails(
+        notificationDetails: NotificationDetails(
           android: _android,
-          iOS: DarwinNotificationDetails(),
+          iOS: const DarwinNotificationDetails(),
         ),
         payload: safePushRoute(message.data),
       );

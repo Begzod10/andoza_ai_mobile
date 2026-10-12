@@ -6,7 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../config/router.dart';
+import '../l10n/app_localizations.dart';
 import '../providers/auth_provider.dart';
+import '../providers/locale_provider.dart';
 import 'firebase_setup.dart';
 import 'local_notifications.dart';
 
@@ -60,10 +62,14 @@ class PushTapHandler {
 
   /// Wires FirebaseMessaging and local notifications to [router]. Only call
   /// when Firebase is ready.
-  Future<void> attach(GoRouter router, LocalNotifications local) async {
+  Future<void> attach(
+    GoRouter router,
+    LocalNotifications local, {
+    String? channelName,
+  }) async {
     navigate = router.go;
     try {
-      await local.init(onTap: openRoute);
+      await local.init(onTap: openRoute, channelName: channelName);
       _subs
         ..add(FirebaseMessaging.onMessageOpenedApp.listen(openMessage))
         ..add(FirebaseMessaging.onMessage.listen(local.showForeground));
@@ -92,6 +98,12 @@ class PushTapHandler {
 final pushNotificationsProvider = Provider<void>((ref) {
   if (!ref.watch(firebaseReadyProvider)) return;
   final handler = PushTapHandler(ref.read);
-  handler.attach(ref.read(routerProvider), LocalNotifications());
+  handler.attach(
+    ref.read(routerProvider),
+    LocalNotifications(),
+    channelName: lookupAppLocalizations(
+      ref.read(localeProvider),
+    ).pushChannelName,
+  );
   ref.onDispose(handler.detach);
 });

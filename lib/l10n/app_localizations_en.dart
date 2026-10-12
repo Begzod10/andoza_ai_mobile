@@ -2510,4 +2510,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mapAttribution => '© OpenStreetMap contributors';
+
+  @override
+  String get pushPromptTitle => 'Shall we notify you?';
+
+  @override
+  String get pushPromptBody =>
+      'We\'ll tell you when your design is ready or your order status changes.';
+
+  @override
+  String get pushPromptYes => 'Yes';
+
+  @override
+  String get pushPromptLater => 'Later';
+
+  @override
+  String get settingsNotificationsTitle => 'Notifications';
+
+  @override
+  String get settingsNotificationsOn => 'On';
+
+  @override
+  String get settingsNotificationsOff => 'Off';
+
+  @override
+  String get pushChannelName => 'Andoza updates';
 }

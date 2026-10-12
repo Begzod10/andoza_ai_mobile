@@ -2510,4 +2510,29 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get mapAttribution => '© участники OpenStreetMap';
+
+  @override
+  String get pushPromptTitle => 'Сообщать вам?';
+
+  @override
+  String get pushPromptBody =>
+      'Сообщим, когда дизайн будет готов или изменится статус заказа.';
+
+  @override
+  String get pushPromptYes => 'Да';
+
+  @override
+  String get pushPromptLater => 'Позже';
+
+  @override
+  String get settingsNotificationsTitle => 'Уведомления';
+
+  @override
+  String get settingsNotificationsOn => 'Включены';
+
+  @override
+  String get settingsNotificationsOff => 'Выключены';
+
+  @override
+  String get pushChannelName => 'Новости Andoza';
 }

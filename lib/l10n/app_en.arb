@@ -2674,5 +2674,13 @@
   "qualityTierPremium": "Premium",
   "estimateOpen3dStudio": "3D Studio",
   "actionDelete": "Delete",
-  "mapAttribution": "© OpenStreetMap contributors"
+  "mapAttribution": "© OpenStreetMap contributors",
+  "pushPromptTitle": "Shall we notify you?",
+  "pushPromptBody": "We'll tell you when your design is ready or your order status changes.",
+  "pushPromptYes": "Yes",
+  "pushPromptLater": "Later",
+  "settingsNotificationsTitle": "Notifications",
+  "settingsNotificationsOn": "On",
+  "settingsNotificationsOff": "Off",
+  "pushChannelName": "Andoza updates"
 }
