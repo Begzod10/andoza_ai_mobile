@@ -4,8 +4,11 @@ import 'config/design_tokens.dart';
 import 'config/router.dart';
 import 'l10n/app_localizations.dart';
 import 'providers/locale_provider.dart';
+import 'services/firebase_setup.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initFirebase();
   runApp(const ProviderScope(child: MyApp()));
 }
 
