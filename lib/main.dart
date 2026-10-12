@@ -5,6 +5,7 @@ import 'config/router.dart';
 import 'l10n/app_localizations.dart';
 import 'providers/locale_provider.dart';
 import 'services/firebase_setup.dart';
+import 'services/push_router.dart';
 import 'services/push_service.dart';
 import 'services/session_telemetry.dart';
 
@@ -28,6 +29,7 @@ class MyApp extends ConsumerWidget {
     final locale = ref.watch(localeProvider);
     ref.watch(sessionTelemetryProvider);
     ref.watch(pushRegistrationProvider);
+    ref.watch(pushNotificationsProvider);
 
     return MaterialApp.router(
       title: 'Andoza AI Mobile',

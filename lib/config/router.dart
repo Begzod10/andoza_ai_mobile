@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod/riverpod.dart';
 import '../providers/auth_provider.dart';
 import '../services/analytics_service.dart';
+import '../services/push_router.dart';
 import '../screens/app_shell.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/room_setup/room_wizard_screen.dart';
@@ -96,6 +97,16 @@ final routerProvider = Provider<GoRouter>((ref) {
       // Redirect unauthenticated users to login
       if (!isAuthenticated && !isLoginRoute) {
         return '/login';
+      }
+
+      // A push tapped while signed out (or during splash) opens once the
+      // user lands: after sign-in on /login, or splash's hand-off to '/'.
+      final pending = ref.read(pendingPushRouteProvider);
+      if (isAuthenticated &&
+          pending != null &&
+          (isLoginRoute || state.matchedLocation == '/')) {
+        ref.read(pendingPushRouteProvider.notifier).state = null;
+        return pending == state.matchedLocation ? null : pending;
       }
 
       // Redirect authenticated users away from login

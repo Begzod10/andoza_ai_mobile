@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- ARCore floor-plan scanning (arscan.ArScanActivity). -->
     <uses-permission android:name="android.permission.CAMERA" />
+    <!-- Push notifications (Android 13+ asks the user at runtime). -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- AR is optional so the app still installs on non-AR devices/emulators. -->
     <uses-feature android:name="android.hardware.camera.ar" android:required="false" />
     <application
@@ -69,6 +71,13 @@
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="false" />
+        <!-- Pushes shown by the OS (app in background) use our channel and icon. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="andoza_updates" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification" />
         <!-- ARCore is optional: the app runs (reporting "unsupported") without it. -->
         <meta-data
             android:name="com.google.ar.core"
