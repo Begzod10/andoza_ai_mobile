@@ -5,6 +5,7 @@ import 'config/router.dart';
 import 'l10n/app_localizations.dart';
 import 'providers/locale_provider.dart';
 import 'services/firebase_setup.dart';
+import 'services/session_telemetry.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +20,7 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
     final locale = ref.watch(localeProvider);
+    ref.watch(sessionTelemetryProvider);
 
     return MaterialApp.router(
       title: 'Andoza AI Mobile',
