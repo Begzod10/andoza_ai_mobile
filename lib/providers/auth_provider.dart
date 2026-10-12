@@ -3,6 +3,7 @@ import '../config/app_config.dart';
 import '../models/user_model.dart';
 import '../repositories/auth_repository.dart';
 import '../services/api_client.dart';
+import '../services/push_service.dart';
 import '../services/secure_storage.dart';
 
 // Secure Storage provider
@@ -54,7 +55,12 @@ final Provider<AuthRepository> authRepositoryProvider =
 final StateNotifierProvider<AuthNotifier, AuthState> authStateProvider =
     StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   final repository = ref.watch(authRepositoryProvider);
-  return AuthNotifier(repository);
+  final notifier = AuthNotifier(repository);
+  // Read lazily: pushService depends on apiClient, which depends back on this.
+  notifier.beforeLogout = () => ref.read(pushServiceProvider).unregister();
+  notifier.onSessionEnded =
+      () => ref.read(pushServiceProvider).discardLocalToken();
+  return notifier;
 });
 
 // Current user provider
@@ -70,6 +76,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
   AuthNotifier(this._repository) : super(const AuthInitial());
 
   final AuthRepository _repository;
+
+  /// Awaited first in [logout], while the session is still valid (push token
+  /// removal needs auth). Must not throw.
+  Future<void> Function()? beforeLogout;
+
+  /// Awaited when the session ended without a usable server call
+  /// ([handleUnauthorized], [completeAccountDeletion]). Must not throw.
+  Future<void> Function()? onSessionEnded;
 
   Future<void> login(String email, String password) async {
     state = const AuthLoading();
@@ -105,11 +119,13 @@ class AuthNotifier extends StateNotifier<AuthState> {
   /// login's AuthLoading/AuthError (a failed login must not force-clear).
   Future<void> handleUnauthorized() async {
     if (state is! AuthAuthenticated) return;
+    await onSessionEnded?.call();
     await _repository.clearSession();
     state = const AuthInitial();
   }
 
   Future<void> logout() async {
+    await beforeLogout?.call();
     await _repository.logout();
     state = const AuthInitial();
   }
@@ -118,6 +134,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   /// secure storage) via the shared clear path, then unauthenticated so the
   /// router drops to /login. No server call — the account no longer exists.
   Future<void> completeAccountDeletion() async {
+    await onSessionEnded?.call();
     await _repository.clearSession();
     state = const AuthInitial();
   }

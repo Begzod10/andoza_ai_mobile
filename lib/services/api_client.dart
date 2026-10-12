@@ -271,9 +271,9 @@ class ApiClient {
     }
   }
 
-  Future<void> delete(String path) async {
+  Future<void> delete(String path, {dynamic data}) async {
     try {
-      await _dio.delete<dynamic>(path);
+      await _dio.delete<dynamic>(path, data: data);
     } on DioException catch (e) {
       throw _handleDioError(e);
     }
