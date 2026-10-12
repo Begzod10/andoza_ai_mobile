@@ -1,7 +1,9 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod/riverpod.dart';
 import '../providers/auth_provider.dart';
+import '../services/firebase_setup.dart';
 import '../screens/app_shell.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/room_setup/room_wizard_screen.dart';
@@ -77,6 +79,11 @@ final routerProvider = Provider<GoRouter>((ref) {
     navigatorKey: _rootNavigatorKey,
     initialLocation: '/splash',
     refreshListenable: refreshNotifier,
+    // Screen views go to Analytics only in a release build whose Firebase
+    // came up; otherwise there is no observer at all.
+    observers: ref.read(firebaseReadyProvider) && telemetryEnabled()
+        ? [FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance)]
+        : null,
     redirect: (context, state) {
       final authState = ref.read(authStateProvider);
       final isAuthenticated = authState is AuthAuthenticated;

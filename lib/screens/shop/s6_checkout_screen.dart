@@ -8,6 +8,7 @@ import '../../utils/error_mapper.dart';
 import '../../models/shop_model.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/orders_provider.dart';
+import '../../services/analytics_service.dart';
 import '../../utils/currency.dart';
 
 /// Matches a canonical UUID — used to decide whether a cart product's id is a
@@ -99,6 +100,7 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
       byDealer.putIfAbsent(line.dealer.id, () => []).add(line);
     }
 
+    final analytics = ref.read(analyticsProvider);
     final created = <ServerOrder>[];
     String? failedDealer;
     Object? failure;
@@ -122,6 +124,8 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
           ],
         );
         created.add(order);
+        // One order per dealer: log each one the server accepted.
+        analytics.orderPlaced(dealerLines.length);
         final cart = ref.read(cartProvider.notifier);
         for (final line in dealerLines) {
           cart.remove(line.product.id, line.dealer.id);

@@ -6,6 +6,7 @@ import 'package:logger/logger.dart';
 
 import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
+import '../../services/analytics_service.dart';
 import '../../features/room_scan/pending_scan_store.dart';
 import '../../features/room_scan/room_scan_converter.dart';
 import '../../features/room_scan/room_scan_service.dart';
@@ -74,6 +75,7 @@ class _RoomScanScreenState extends ConsumerState<RoomScanScreen> {
         context.pop();
         return;
       }
+      ref.read(analyticsProvider).scanFinished('lidar');
       final draft = RoomScanConverter.toRoomDraft(result.room);
       if (!draft.plan.isValid) {
         setState(() => _error = draft.plan.invalidReason ??

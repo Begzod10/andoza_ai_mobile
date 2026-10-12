@@ -9,8 +9,13 @@ import 'services/session_telemetry.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initFirebase();
-  runApp(const ProviderScope(child: MyApp()));
+  final ready = await initFirebase();
+  runApp(
+    ProviderScope(
+      overrides: [firebaseReadyProvider.overrideWithValue(ready)],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends ConsumerWidget {

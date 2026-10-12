@@ -2,17 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:tamir_uy_mobile_flutter/models/room_plan.dart';
 import 'package:tamir_uy_mobile_flutter/services/analytics_service.dart';
 
-class FakeSink implements AnalyticsSink {
-  final events = <(String, Map<String, Object>?)>[];
-  final userIds = <String?>[];
-
-  @override
-  Future<void> logEvent(String name, [Map<String, Object>? params]) async =>
-      events.add((name, params));
-
-  @override
-  Future<void> setUserId(String? id) async => userIds.add(id);
-}
+import '../support/fake_analytics_sink.dart';
 
 void main() {
   test('each event has its exact name and params', () async {

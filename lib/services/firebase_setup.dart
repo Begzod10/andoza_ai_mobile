@@ -2,8 +2,12 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../firebase_options.dart';
+
+/// Whether [initFirebase] succeeded; overridden in `main` with its result.
+final firebaseReadyProvider = Provider<bool>((ref) => false);
 
 /// Whether Crashlytics/Analytics collect in this build.
 bool telemetryEnabled({bool release = kReleaseMode}) => release;

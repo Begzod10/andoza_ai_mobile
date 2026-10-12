@@ -10,6 +10,7 @@ import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/business_provider.dart';
 import '../../repositories/auth_repository.dart';
+import '../../services/analytics_service.dart';
 import '../../services/api_client.dart';
 import '../../services/google_sign_in_service.dart';
 import '../../utils/error_mapper.dart';
@@ -137,7 +138,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     });
     try {
       final res = await _repo.verifyOtp(_sentPhone, code);
+      final analytics = ref.read(analyticsProvider);
       ref.read(authStateProvider.notifier).setSession(res);
+      analytics.login('password');
     } catch (_) {
       setState(() {
         _error = l10n.loginErrorInvalidCode;
@@ -192,6 +195,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         );
     if (!mounted) return;
     final state = ref.read(authStateProvider);
+    if (state is AuthAuthenticated) ref.read(analyticsProvider).login('password');
     setState(() {
       _loading = false;
       if (state is AuthError) _error = _loginErrorMessage(l10n, state);
@@ -227,7 +231,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       final idToken = await ref.read(googleSignInServiceProvider).getIdToken();
       if (idToken == null) return;
       final res = await _repo.loginWithGoogle(idToken);
+      final analytics = ref.read(analyticsProvider);
       ref.read(authStateProvider.notifier).setSession(res);
+      analytics.login('google');
     } catch (e) {
       if (mounted) setState(() => _error = _googleErrorMessage(l10n, e));
     } finally {
@@ -272,7 +278,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       // application itself is the next screen (the app shell opens it), where
       // it can be filled in — or left for later without losing the account.
       ref.read(pendingBusinessSetupProvider.notifier).state = _businessKind;
+      final analytics = ref.read(analyticsProvider);
       ref.read(authStateProvider.notifier).setSession(res);
+      analytics.login('password');
     } catch (e) {
       // 409 Conflict = username already taken — classify by the real status
       // code (carried on AuthException), not a fragile message substring.

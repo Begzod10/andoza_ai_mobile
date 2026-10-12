@@ -6,6 +6,7 @@ import '../../providers/business_provider.dart';
 import '../../providers/estimate_provider.dart';
 import '../../providers/room_provider.dart';
 import '../../providers/masters_provider.dart';
+import '../../services/analytics_service.dart';
 import 'master_not_found.dart';
 import '../../utils/currency.dart';
 
@@ -40,6 +41,7 @@ class _U5BookingConfirmationScreenState
     final messenger = ScaffoldMessenger.of(context);
     final navigator = Navigator.of(context);
     final roomId = ref.read(activeRoomProvider)?.id;
+    final analytics = ref.read(analyticsProvider);
     setState(() => _sending = true);
     try {
       await ref.read(businessRepositoryProvider).sendLead(
@@ -47,6 +49,7 @@ class _U5BookingConfirmationScreenState
             roomId: roomId != null && _uuid.hasMatch(roomId) ? roomId : null,
             message: _commentController.text,
           );
+      analytics.leadSent();
       navigator.pop();
       messenger.showSnackBar(SnackBar(content: Text(l10n.mastersEstimateSent)));
     } catch (_) {
