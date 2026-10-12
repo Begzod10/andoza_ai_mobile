@@ -82,6 +82,10 @@
 	<string>632412937266-nb16ekesaj9ubuahnmio29187nu5uhre.apps.googleusercontent.com</string>
 	<key>GIDServerClientID</key>
 	<string>632412937266-ruq48osgghaa4jn0fk8vjd7mr270ccb0.apps.googleusercontent.com</string>
+	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
+	<false/>
+	<key>FirebaseCrashlyticsCollectionEnabled</key>
+	<false/>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

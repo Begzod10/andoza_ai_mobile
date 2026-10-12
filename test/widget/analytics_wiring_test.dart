@@ -169,7 +169,7 @@ void main() {
     expect(await handoffRoomPlan(ref, plan), 'room-1');
     await tester.pump();
     expect(sink.events.map((e) => '${e.$1} ${e.$2}').toList(), [
-      'room_created {method: sketch}',
+      'room_created {method: draw}',
     ]);
   });
 }

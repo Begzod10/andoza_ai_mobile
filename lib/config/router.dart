@@ -1,9 +1,8 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod/riverpod.dart';
 import '../providers/auth_provider.dart';
-import '../services/firebase_setup.dart';
+import '../services/analytics_service.dart';
 import '../screens/app_shell.dart';
 import '../screens/auth/login_screen.dart';
 import '../screens/room_setup/room_wizard_screen.dart';
@@ -74,6 +73,7 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final routerProvider = Provider<GoRouter>((ref) {
   final refreshNotifier = _GoRouterRefreshNotifier(ref);
   ref.onDispose(refreshNotifier.dispose);
+  final newScreenViewObserver = ref.read(screenViewObserverFactoryProvider);
 
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -81,9 +81,7 @@ final routerProvider = Provider<GoRouter>((ref) {
     refreshListenable: refreshNotifier,
     // Screen views go to Analytics only in a release build whose Firebase
     // came up; otherwise there is no observer at all.
-    observers: ref.read(firebaseReadyProvider) && telemetryEnabled()
-        ? [FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance)]
-        : null,
+    observers: newScreenViewObserver == null ? null : [newScreenViewObserver()],
     redirect: (context, state) {
       final authState = ref.read(authStateProvider);
       final isAuthenticated = authState is AuthAuthenticated;
@@ -114,6 +112,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
       ShellRoute(
+        // The shell has its own navigator, so it needs its own observer
+        // instance or its tab/inner screens never reach Analytics.
+        observers: newScreenViewObserver == null
+            ? null
+            : [newScreenViewObserver()],
         builder: (context, state, child) => AppShell(child: child),
         routes: [
           GoRoute(
@@ -122,8 +125,10 @@ final routerProvider = Provider<GoRouter>((ref) {
             // slide in either direction (the default MaterialPage transition
             // always slides in from the right, even on the way "back" to a
             // tab positioned left of the previous one).
-            pageBuilder: (context, state) =>
-                const NoTransitionPage(child: HomeWithProjectsScreen()),
+            pageBuilder: (context, state) => NoTransitionPage(
+              name: state.path,
+              child: const HomeWithProjectsScreen(),
+            ),
           ),
           // No separate "history" concept in the spec — orders are the
           // only history this app tracks, so /history shows the same
@@ -134,8 +139,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/profile',
-            pageBuilder: (context, state) =>
-                const NoTransitionPage(child: E4ProfileSettingsScreen()),
+            pageBuilder: (context, state) => NoTransitionPage(
+              name: state.path,
+              child: const E4ProfileSettingsScreen(),
+            ),
           ),
           GoRoute(
             path: '/setup/dimensions',
@@ -254,8 +261,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           // Shop Routes (S1-S7)
           GoRoute(
             path: '/shop/s1',
-            pageBuilder: (context, state) =>
-                const NoTransitionPage(child: S1ShopHomeScreen()),
+            pageBuilder: (context, state) => NoTransitionPage(
+              name: state.path,
+              child: const S1ShopHomeScreen(),
+            ),
           ),
           // E10 (Qidiruv natijalari) is a Do'kon search-results screen,
           // not an estimate screen — the old /estimation/e10 path/file was
@@ -300,8 +309,10 @@ final routerProvider = Provider<GoRouter>((ref) {
           // _PinSheet).
           GoRoute(
             path: '/masters/u1',
-            pageBuilder: (context, state) =>
-                const NoTransitionPage(child: U1MastersIntroScreen()),
+            pageBuilder: (context, state) => NoTransitionPage(
+              name: state.path,
+              child: const U1MastersIntroScreen(),
+            ),
           ),
           GoRoute(
             path: '/masters/u3',
@@ -389,7 +400,9 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/business/apply/:kind',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => BusinessApplyScreen(
-          kind: state.pathParameters['kind'] == 'usta' ? BusinessKind.usta : BusinessKind.shop,
+          kind: state.pathParameters['kind'] == 'usta'
+              ? BusinessKind.usta
+              : BusinessKind.shop,
         ),
       ),
       // E7/E8 are full-screen dark onboarding takeovers per spec — kept

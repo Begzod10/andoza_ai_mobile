@@ -2,9 +2,11 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart' show NavigatorObserver;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/room_plan.dart';
+import 'firebase_setup.dart';
 
 abstract class AnalyticsSink {
   Future<void> logEvent(String name, [Map<String, Object>? params]);
@@ -13,13 +15,28 @@ abstract class AnalyticsSink {
   Future<void> setUserId(String? id);
 }
 
-/// Forwards to Firebase; a silent no-op when Firebase isn't initialised.
+/// Forwards to Firebase; a silent no-op unless this build collects telemetry
+/// ([telemetryEnabled]) and Firebase is initialised.
 class FirebaseAnalyticsSink implements AnalyticsSink {
+  FirebaseAnalyticsSink({
+    this.release = kReleaseMode,
+    bool Function()? firebaseReady,
+    FirebaseAnalytics Function()? analytics,
+  }) : _firebaseReady = firebaseReady ?? (() => Firebase.apps.isNotEmpty),
+       _analytics = analytics ?? (() => FirebaseAnalytics.instance);
+
+  /// Whether this is a release build (injectable for tests).
+  final bool release;
+  final bool Function() _firebaseReady;
+  final FirebaseAnalytics Function() _analytics;
+
+  bool get _active => telemetryEnabled(release: release) && _firebaseReady();
+
   @override
   Future<void> logEvent(String name, [Map<String, Object>? params]) async {
-    if (Firebase.apps.isEmpty) return;
+    if (!_active) return;
     try {
-      await FirebaseAnalytics.instance.logEvent(name: name, parameters: params);
+      await _analytics().logEvent(name: name, parameters: params);
     } catch (e) {
       debugPrint('Analytics logEvent failed: $e');
     }
@@ -27,9 +44,9 @@ class FirebaseAnalyticsSink implements AnalyticsSink {
 
   @override
   Future<void> setUserId(String? id) async {
-    if (Firebase.apps.isEmpty) return;
+    if (!_active) return;
     try {
-      await FirebaseAnalytics.instance.setUserId(id: id);
+      await _analytics().setUserId(id: id);
       await FirebaseCrashlytics.instance.setUserIdentifier(id ?? '');
     } catch (e) {
       debugPrint('Analytics setUserId failed: $e');
@@ -45,8 +62,15 @@ class AnalyticsService {
   Future<void> login(String method) =>
       _sink.logEvent('login', {'method': method});
 
+  /// method: 'wizard' | 'draw' | 'lidar' | 'arcore' | 'photo' (sketch and
+  /// drag are both hand-drawn rooms, reported as 'draw').
   Future<void> roomCreated(RoomSource source) =>
-      _sink.logEvent('room_created', {'method': source.name});
+      _sink.logEvent('room_created', {'method': _roomMethod(source)});
+
+  static String _roomMethod(RoomSource source) => switch (source) {
+    RoomSource.sketch || RoomSource.drag => 'draw',
+    _ => source.name,
+  };
 
   /// [kind]: 'lidar' | 'arcore'.
   Future<void> scanFinished(String kind) =>
@@ -67,3 +91,13 @@ final analyticsSinkProvider = Provider<AnalyticsSink>(
 final analyticsProvider = Provider<AnalyticsService>(
   (ref) => AnalyticsService(ref.watch(analyticsSinkProvider)),
 );
+
+/// Makes one screen-view observer per navigator, or null when screen views
+/// must not be sent (Firebase down or telemetry off for this build).
+final screenViewObserverFactoryProvider =
+    Provider<NavigatorObserver Function()?>(
+      (ref) => ref.watch(firebaseReadyProvider) && telemetryEnabled()
+          ? () =>
+                FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance)
+          : null,
+    );
