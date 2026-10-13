@@ -39,7 +39,12 @@ jobs:
           pod --version
 
       - name: Flutter pub get
-        run: flutter pub get
+        # Flutter 3.47 copies each plugin into build/ios/SourcePackages with
+        # rsync; macos-14's rsync 2.6.9 cannot create that missing parent on a
+        # fresh checkout ("mkdir ... failed: No such file or directory").
+        run: |
+          mkdir -p build/ios/SourcePackages
+          flutter pub get
 
       - name: Code generation (freezed / json_serializable / riverpod)
         run: dart run build_runner build --delete-conflicting-outputs
