@@ -112,8 +112,29 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
     );
   }
 
+  /// The ceiling heights the wizard accepts (the API takes 1.8–6 m).
+  static const _ceilingMin = 2.0;
+  static const _ceilingMax = 5.0;
+
+  /// False while the typed height is not a number in range: the field says
+  /// why and "Keyingi" waits. It used to clamp silently, so 99 showed as 99
+  /// but 5 m was used.
+  bool _ceilingOk = true;
+
   void _setCeiling(double h) {
-    setState(() => _height = h.clamp(2.0, 5.0));
+    setState(() {
+      _height = h;
+      _ceilingOk = true;
+    });
+  }
+
+  void _setCeilingText(String raw) {
+    final h = double.tryParse(raw.trim().replaceAll(',', '.'));
+    if (h == null || h < _ceilingMin || h > _ceilingMax) {
+      setState(() => _ceilingOk = false);
+    } else {
+      _setCeiling(h);
+    }
   }
 
   /// Edit wall [index]'s length. A/C set the length dimension, B/D the width —
@@ -215,7 +236,13 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
                         _ceilingController.text = h.toStringAsFixed(2);
                         _setCeiling(h);
                       },
-                      onExact: (h) => _setCeiling(h),
+                      onExact: _setCeilingText,
+                      error: _ceilingOk
+                          ? null
+                          : l10n.wizardCeilingOutOfRange(
+                              _ceilingMin.toStringAsFixed(0),
+                              _ceilingMax.toStringAsFixed(0),
+                            ),
                     )
                   : (_step <= 4
                       ? _WallStep(
@@ -254,7 +281,9 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
                       child: SizedBox(
                         height: DesignTokens.buttonHeightLarge,
                         child: ElevatedButton(
-                          onPressed: () => setState(() => _step++),
+                          onPressed: _step == 0 && !_ceilingOk
+                              ? null
+                              : () => setState(() => _step++),
                           child: Text(l10n.actionNext),
                         ),
                       ),
@@ -374,13 +403,15 @@ class _CeilingStep extends StatelessWidget {
     required this.current,
     required this.onPick,
     required this.onExact,
+    this.error,
   });
 
   final TextEditingController controller;
   final List<double> presets;
   final double current;
   final ValueChanged<double> onPick;
-  final ValueChanged<double> onExact;
+  final ValueChanged<String> onExact;
+  final String? error;
 
   @override
   Widget build(BuildContext context) {
@@ -419,11 +450,11 @@ class _CeilingStep extends StatelessWidget {
         TextField(
           controller: controller,
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
-          decoration: const InputDecoration(border: OutlineInputBorder()),
-          onChanged: (v) {
-            final parsed = double.tryParse(v);
-            if (parsed != null) onExact(parsed);
-          },
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            errorText: error,
+          ),
+          onChanged: onExact,
         ),
       ],
     );

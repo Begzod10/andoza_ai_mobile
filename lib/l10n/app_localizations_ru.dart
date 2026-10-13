@@ -1450,6 +1450,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get wizardExactValue => 'Точное значение (м)';
 
   @override
+  String wizardCeilingOutOfRange(String min, String max) {
+    return 'Высота потолка должна быть от $min до $max м';
+  }
+
+  @override
   String wizardWallTitle(String letter) {
     return 'Стена $letter';
   }

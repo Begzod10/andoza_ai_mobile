@@ -1816,6 +1816,7 @@
     "description": "3D wizard ceiling step hint ('Usually between 2.5–3.2 metres')."
   },
   "wizardExactValue": "Exact value (m)",
+  "wizardCeilingOutOfRange": "Ceiling height must be between {min} m and {max} m",
   "@wizardExactValue": {
     "description": "3D wizard ceiling step: exact-value field label."
   },

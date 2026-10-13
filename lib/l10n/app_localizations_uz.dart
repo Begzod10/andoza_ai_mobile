@@ -1443,6 +1443,11 @@ class AppLocalizationsUz extends AppLocalizations {
   String get wizardExactValue => 'Aniq qiymat (m)';
 
   @override
+  String wizardCeilingOutOfRange(String min, String max) {
+    return 'Shift balandligi $min m dan $max m gacha bo\'lishi kerak';
+  }
+
+  @override
   String wizardWallTitle(String letter) {
     return '$letter devor';
   }

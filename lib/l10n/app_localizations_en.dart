@@ -1456,6 +1456,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get wizardExactValue => 'Exact value (m)';
 
   @override
+  String wizardCeilingOutOfRange(String min, String max) {
+    return 'Ceiling height must be between $min m and $max m';
+  }
+
+  @override
   String wizardWallTitle(String letter) {
     return 'Wall $letter';
   }

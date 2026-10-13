@@ -2698,6 +2698,12 @@ abstract class AppLocalizations {
   /// **'Aniq qiymat (m)'**
   String get wizardExactValue;
 
+  /// Room wizard, ceiling step: the typed height is not a number in the accepted range; Next stays disabled.
+  ///
+  /// In uz, this message translates to:
+  /// **'Shift balandligi {min} m dan {max} m gacha bo\'lishi kerak'**
+  String wizardCeilingOutOfRange(String min, String max);
+
   /// 3D wizard wall step heading, e.g. 'A devor'.
   ///
   /// In uz, this message translates to:
