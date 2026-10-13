@@ -25,14 +25,28 @@ class _EditUstaScreenState extends ConsumerState<EditUstaScreen> {
   final _telegram = TextEditingController();
   final _priceMin = TextEditingController();
   final _priceMax = TextEditingController();
+  late final _fields = [_name, _district, _phone, _telegram, _priceMin, _priceMax];
   UstaTrade _trade = UstaTrade.elektrik;
   bool _loaded = false;
   bool _saving = false;
   String? _error;
 
   @override
+  void initState() {
+    super.initState();
+    // A message about the last save no longer holds once a field changes.
+    for (final c in _fields) {
+      c.addListener(_clearError);
+    }
+  }
+
+  void _clearError() {
+    if (_error != null) setState(() => _error = null);
+  }
+
+  @override
   void dispose() {
-    for (final c in [_name, _district, _phone, _telegram, _priceMin, _priceMax]) {
+    for (final c in _fields) {
       c.dispose();
     }
     super.dispose();
@@ -139,11 +153,14 @@ class _EditUstaScreenState extends ConsumerState<EditUstaScreen> {
                 const SizedBox(height: DesignTokens.spacingSm),
                 TextField(controller: _telegram, decoration: InputDecoration(labelText: l10n.businessFieldTelegram)),
                 const SizedBox(height: DesignTokens.spacingSm),
+                Text(l10n.businessFieldPriceTitle, style: DesignTokens.subtitle2),
+                const SizedBox(height: DesignTokens.spacingSm),
                 Row(children: [
                   Expanded(
                     child: TextField(
                       controller: _priceMin,
                       keyboardType: TextInputType.number,
+                      inputFormatters: priceInputFormatters,
                       decoration: InputDecoration(labelText: l10n.businessFieldPriceMin),
                     ),
                   ),
@@ -152,6 +169,7 @@ class _EditUstaScreenState extends ConsumerState<EditUstaScreen> {
                     child: TextField(
                       controller: _priceMax,
                       keyboardType: TextInputType.number,
+                      inputFormatters: priceInputFormatters,
                       decoration: InputDecoration(labelText: l10n.businessFieldPriceMax),
                     ),
                   ),

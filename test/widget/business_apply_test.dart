@@ -112,8 +112,8 @@ void main() {
 
     await tester.enterText(find.widgetWithText(TextField, 'Ismingiz yoki jamoa nomi'), 'Aziz usta');
     await tester.enterText(find.widgetWithText(TextField, 'Telefon (+998...)'), '+998901234567');
-    await tester.enterText(find.widgetWithText(TextField, "Narx: dan (so'm)"), '500000');
-    await tester.enterText(find.widgetWithText(TextField, "Narx: gacha (so'm)"), '100000');
+    await tester.enterText(find.widgetWithText(TextField, 'Dan'), '500000');
+    await tester.enterText(find.widgetWithText(TextField, 'Gacha'), '100000');
     await tester.tap(find.text('Arizani yuborish'));
     await tester.pumpAndSettle();
 
@@ -170,5 +170,32 @@ void main() {
     await tester.tap(find.text('Arizani yuborish'));
     await tester.pumpAndSettle();
     expect(repo.shop?['phone'], '+998901234567');
+  });
+
+  testWidgets('an error goes away as soon as a field is edited', (tester) async {
+    _tall(tester);
+    final repo = _FakeRepo();
+    await tester.pumpWidget(_app(BusinessKind.usta, repo));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.widgetWithText(TextField, 'Ismingiz yoki jamoa nomi'), 'Aziz usta');
+    await tester.tap(find.text('Arizani yuborish'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining("Telefon raqami noto'g'ri"), findsOneWidget);
+
+    await tester.enterText(find.widgetWithText(TextField, 'Telefon (+998...)'), '+998901234567');
+    await tester.pump();
+    expect(find.textContaining("Telefon raqami noto'g'ri"), findsNothing);
+  });
+
+  testWidgets('a price longer than 12 digits cannot be typed', (tester) async {
+    _tall(tester);
+    await tester.pumpWidget(_app(BusinessKind.usta, _FakeRepo()));
+    await tester.pumpAndSettle();
+
+    final max = find.widgetWithText(TextField, 'Gacha');
+    await tester.enterText(max, '1' * 20);
+    await tester.pump();
+    expect(tester.widget<TextField>(max).controller!.text, '1' * 12);
   });
 }
