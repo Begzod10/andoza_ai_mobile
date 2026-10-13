@@ -38,6 +38,15 @@ class MyApp extends ConsumerWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       routerConfig: router,
+      // A tap on empty space closes the keyboard. iOS number and phone pads
+      // have no return key, so without this a phone or ceiling field could
+      // not be dismissed and kept the buttons under it hidden. Taps on
+      // controls still go to the controls: they win the gesture arena.
+      builder: (context, child) => GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: child,
+      ),
     );
   }
 }

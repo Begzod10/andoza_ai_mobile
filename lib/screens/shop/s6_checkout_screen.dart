@@ -62,6 +62,7 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
 
   /// Set when the phone was refused, cleared as soon as it is edited.
   bool _phoneInvalid = false;
+  final _phoneKey = GlobalKey();
 
   @override
   void initState() {
@@ -109,6 +110,18 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
     final phone = normalizeUzPhone(_phoneController.text);
     if (phone == null) {
       setState(() => _phoneInvalid = true);
+      // The field sits low in the list, and with the keyboard up its error
+      // fell behind the total panel: bring both into view.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final field = _phoneKey.currentContext;
+        if (field != null && field.mounted) {
+          Scrollable.ensureVisible(
+            field,
+            alignment: 0.2,
+            duration: const Duration(milliseconds: 250),
+          );
+        }
+      });
       return;
     }
 
@@ -232,6 +245,7 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
                 ),
                 const SizedBox(height: DesignTokens.spacingSm),
                 TextField(
+                  key: _phoneKey,
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
                   onChanged: (_) {
@@ -240,6 +254,7 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
                   decoration: InputDecoration(
                     hintText: l10n.shopPhoneHint,
                     errorText: _phoneInvalid ? l10n.phoneErrorInvalid : null,
+                    errorMaxLines: 2,
                   ),
                 ),
                 const SizedBox(height: DesignTokens.spacingLg),
