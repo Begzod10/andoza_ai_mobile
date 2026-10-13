@@ -108,11 +108,11 @@ jobs:
           plutil -p ios/ExportOptions.plist | sed "s|${IOS_TEAM_ID}|***TEAM_ID***|g"
 
       - name: Flutter pub get
-        # Flutter 3.47 copies each plugin into build/ios/SourcePackages with
+        # Flutter 3.47 copies each plugin into build/{ios,macos}/SourcePackages with
         # rsync; macos-14's rsync 2.6.9 cannot create that missing parent on a
         # fresh checkout ("mkdir ... failed: No such file or directory").
         run: |
-          mkdir -p build/ios/SourcePackages
+          mkdir -p build/ios/SourcePackages build/macos/SourcePackages
           flutter pub get
 
       - name: Code generation (freezed / json_serializable / riverpod)
