@@ -17,7 +17,7 @@ Tegishli hujjatlar:
 
 | Qism | Paket | Nima uchun |
 |---|---|---|
-| Til va SDK | Dart `^3.12.1`, Flutter 3.44.8 (CI'da) | |
+| Til va SDK | Dart `^3.13.0`, Flutter 3.47.5 (CI'da) | |
 | Holat | `flutter_riverpod` 2.x | Provider, StateNotifier, Notifier |
 | Navigatsiya | `go_router` 12.x | Yo'llar va autentifikatsiya yo'naltirishi |
 | HTTP | `dio` 5.x | API klient. AI quruvchi uchun SSE: `services/sse_client.dart` |
