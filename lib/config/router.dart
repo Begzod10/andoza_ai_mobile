@@ -1,7 +1,9 @@
 import '../widgets/push_permission_prompt.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod/riverpod.dart';
+
 import '../providers/auth_provider.dart';
 import '../services/analytics_service.dart';
 import '../services/push_router.dart';
@@ -176,27 +178,6 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/setup/summary',
             builder: (context, state) => const RoomSummaryScreen(),
-          ),
-          GoRoute(
-            path: '/scanning/photo',
-            builder: (context, state) => const PhotoScanningScreen(),
-          ),
-          // RoomPlan (LiDAR) capture — the parametric flow behind the "LiDAR
-          // skaner" entry. Probes support, presents the native scanner, and
-          // reviews the converted room.
-          GoRoute(
-            path: '/scanning/roomplan',
-            builder: (context, state) => const RoomScanScreen(),
-          ),
-          GoRoute(
-            // Android camera measurement (ARCore) — see ArScanScreen.
-            path: '/scanning/arcore',
-            builder: (context, state) => const ArScanScreen(),
-          ),
-          GoRoute(
-            path: '/scanning/roomplan/review',
-            builder: (context, state) =>
-                RoomScanReviewPage(args: state.extra! as RoomScanReviewArgs),
           ),
           // Batch B Routes (Room state & entering the 3D room) — B1 kept
           // (matches spec), B1-alt/B2/B3 are genuinely missing and get
@@ -396,6 +377,33 @@ final routerProvider = Provider<GoRouter>((ref) {
             builder: (context, state) => const ShopProductsScreen(),
           ),
         ],
+      ),
+      // Scanners are full screen (camera / native capture): outside the shell
+      // so the bottom bar does not show through them.
+      GoRoute(
+        path: '/scanning/photo',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const PhotoScanningScreen(),
+      ),
+      // RoomPlan (LiDAR) capture — the parametric flow behind the "LiDAR
+      // skaner" entry. Probes support, presents the native scanner, and
+      // reviews the converted room.
+      GoRoute(
+        path: '/scanning/roomplan',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const RoomScanScreen(),
+      ),
+      GoRoute(
+        // Android camera measurement (ARCore) — see ArScanScreen.
+        path: '/scanning/arcore',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const ArScanScreen(),
+      ),
+      GoRoute(
+        path: '/scanning/roomplan/review',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) =>
+            RoomScanReviewPage(args: state.extra! as RoomScanReviewArgs),
       ),
       // The shop / usta application is a full-screen form, outside the shell
       // like the other takeovers (see the E7/E8 note below).

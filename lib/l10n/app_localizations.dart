@@ -3115,7 +3115,7 @@ abstract class AppLocalizations {
   /// Unsupported-device sheet body explaining LiDAR requirements and offering alternatives.
   ///
   /// In uz, this message translates to:
-  /// **'LiDAR skaner faqat iPhone 12 Pro, 13 Pro, 14 Pro, 15 Pro, 16 Pro yoki iPad Pro\'da ishlaydi. Xonani boshqa usulda qo\'shing:'**
+  /// **'LiDAR skaner faqat LiDAR\'li qurilmalarda ishlaydi: iPhone Pro (12 Pro va undan yangilari) yoki iPad Pro. Xonani boshqa usulda qo\'shing:'**
   String get scanLidarUnavailableBody;
 
   /// Room-scan screen: 'Scanning the room…' progress label.

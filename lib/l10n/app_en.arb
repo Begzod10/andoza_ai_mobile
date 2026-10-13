@@ -2146,7 +2146,7 @@
   "@scanLidarUnavailableTitle": {
     "description": "Unsupported-device sheet title ('LiDAR not available')."
   },
-  "scanLidarUnavailableBody": "LiDAR scanning only works on iPhone 12 Pro, 13 Pro, 14 Pro, 15 Pro, 16 Pro or iPad Pro. Add the room another way:",
+  "scanLidarUnavailableBody": "LiDAR scanning only works on devices with LiDAR: iPhone Pro (12 Pro or newer) or iPad Pro. Add the room another way:",
   "@scanLidarUnavailableBody": {
     "description": "Unsupported-device sheet body explaining LiDAR requirements and offering alternatives."
   },

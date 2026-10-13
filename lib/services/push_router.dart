@@ -70,9 +70,22 @@ class PushTapHandler {
     navigate = router.go;
     try {
       await local.init(onTap: openRoute, channelName: channelName);
-      _subs
-        ..add(FirebaseMessaging.onMessageOpenedApp.listen(openMessage))
-        ..add(FirebaseMessaging.onMessage.listen(local.showForeground));
+      _subs.add(FirebaseMessaging.onMessageOpenedApp.listen(openMessage));
+      if (defaultTargetPlatform == TargetPlatform.iOS) {
+        // iOS shows nothing for a push that arrives while the app is open
+        // unless told to; a re-post through local notifications was dropped
+        // too (shouldPresentAlert: NO). Let the system show the push itself:
+        // one banner, and a tap comes back through onMessageOpenedApp.
+        await FirebaseMessaging.instance
+            .setForegroundNotificationPresentationOptions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
+      } else {
+        // Android never shows an FCM notification in the foreground.
+        _subs.add(FirebaseMessaging.onMessage.listen(local.showForeground));
+      }
       final initial = await FirebaseMessaging.instance.getInitialMessage();
       if (initial != null) {
         openMessage(initial);

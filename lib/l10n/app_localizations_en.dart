@@ -1700,7 +1700,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get scanLidarUnavailableBody =>
-      'LiDAR scanning only works on iPhone 12 Pro, 13 Pro, 14 Pro, 15 Pro, 16 Pro or iPad Pro. Add the room another way:';
+      'LiDAR scanning only works on devices with LiDAR: iPhone Pro (12 Pro or newer) or iPad Pro. Add the room another way:';
 
   @override
   String get scanInProgress => 'Scanning room…';
