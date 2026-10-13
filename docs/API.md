@@ -47,6 +47,30 @@ Hammasi `/api/v1` ga nisbatan. Har bir mavzu uchun bitta repository fayli (`lib/
 o'zi yuboradi. Ilova unga faqat tokenlarni beradi, qarang:
 [ARCHITECTURE.md](ARCHITECTURE.md#3d-studiya-webview).
 
+## Server rad etadigan qiymatlar
+
+Server quyidagilarni **422** bilan qaytaradi. Ilova ularni yuborishdan oldin o'zi
+tekshiradi, shunda forma nima noto'g'ri ekanini aytadi:
+
+- **Telefon** (`/orders`, `/leads` `contact_phone`, `/seller/store`, `/usta/profile`):
+  bo'sh joy, `-`, `(`, `)` olib tashlangach `^\+?998\d{9}$` bo'lishi kerak. Server uni
+  `+998XXXXXXXXX` ko'rinishida saqlaydi. Tekshiruv `lib/utils/phone.dart`da
+  (`normalizeUzPhone`), web'dagi nusxasi `frontend/src/lib/phone.ts`.
+  Checkout va usta chaqirishda telefon majburiy, do'kon formalarida ixtiyoriy.
+- **Buyurtma miqdori:** 0 dan katta va 100 000 gacha. Savat bu chegaradan oshirmaydi
+  (`maxLineQuantity`).
+- **Ro'yxatdan o'tish:** username 3–50 belgi (bo'sh joylarsiz), parol kamida 6 belgi.
+- **Bo'sh nom:** faqat bo'sh joydan iborat do'kon yoki usta nomi.
+
+422 javobidagi `detail` ikki xil bo'ladi. Pydantic ro'yxati (`[{loc, msg, type}]`)
+inglizcha, shuning uchun foydalanuvchiga umumiy xabar ko'rsatiladi. Oddiy satr
+(masalan, `"Noto'g'ri qiymat yuborildi."`) esa `mapErrorWithServerDetail` orqali
+o'z holicha ko'rsatiladi.
+
+`POST /leads`da `room_id` sifatida saqlangan xonaning server id'si yuboriladi
+(`roomPersistenceProvider`). Server shu xonaning oxirgi saqlangan smetasini
+biriktiradi.
+
 ## Yangi endpoint qo'shish
 
 1. Mos `lib/repositories/<mavzu>_repository.dart` ga metod qo'shing. `ApiClient` orqali chaqiring, to'g'ridan-to'g'ri Dio yaratmang.
