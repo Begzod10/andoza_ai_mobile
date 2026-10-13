@@ -11,6 +11,7 @@ import '../../l10n/app_localizations.dart';
 import '../../providers/business_provider.dart';
 import '../../services/api_client.dart';
 import '../../widgets/common/unsaved_changes_guard.dart';
+import '../../utils/error_mapper.dart';
 
 const _categories = ['divan', 'stol', 'stul', 'karavot', 'shkaf', 'lampa', 'boshqa'];
 const _rooms = ['mehmonxona', 'oshxona', 'yotoqxona', 'hammom', 'balkon'];
@@ -171,6 +172,9 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
       switch (e.statusCode) {
         case 503:
           return l.addProductUnavailable;
+        // The model the app downloaded is not a real .glb; the server says so.
+        case 415:
+          return mapErrorWithServerDetail(e);
         case 429:
           return e.message.isNotEmpty && e.message.contains('Tasdiqlanmagan') ? l.addProductTooMany : l.addProductLimit;
       }
