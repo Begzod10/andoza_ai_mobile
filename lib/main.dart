@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'config/design_tokens.dart';
 import 'config/router.dart';
@@ -42,10 +43,16 @@ class MyApp extends ConsumerWidget {
       // have no return key, so without this a phone or ceiling field could
       // not be dismissed and kept the buttons under it hidden. Taps on
       // controls still go to the controls: they win the gesture arena.
-      builder: (context, child) => GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: child,
+      builder: (context, child) => AnnotatedRegion<SystemUiOverlayStyle>(
+        // The app is light: dark status-bar icons by default. A dark screen
+        // (the 360° scan) declares light icons over this; without a default
+        // here its light icons stuck after leaving it, white on white.
+        value: SystemUiOverlayStyle.dark,
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: child,
+        ),
       ),
     );
   }
