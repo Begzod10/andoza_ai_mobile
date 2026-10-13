@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tamir_uy_mobile_flutter/l10n/app_localizations.dart';
 import 'package:tamir_uy_mobile_flutter/providers/room_provider.dart';
 import 'package:tamir_uy_mobile_flutter/screens/room_setup/room_wizard_screen.dart';
+import 'package:tamir_uy_mobile_flutter/widgets/room/isometric_room_view.dart';
 
 /// Minimal router so the wizard's `context.go('/estimation/e1')` on "Smeta
 /// ko'rish" resolves without pulling in the real estimation screen.
@@ -149,5 +150,29 @@ void main() {
     await tester.pump();
     expect(find.textContaining('Shift balandligi'), findsNothing);
     expect(nextEnabled(), isTrue);
+  });
+
+  testWidgets('the room preview steps aside while the keyboard is up',
+      (tester) async {
+    await _enlarge(tester);
+    await tester.pumpWidget(
+      ProviderScope(
+        child: MaterialApp.router(
+          routerConfig: _router(),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: const Locale('uz'),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.byType(IsometricRoomView), findsOneWidget);
+
+    // A keyboard over the bottom of the screen (physical pixels).
+    tester.view.viewInsets = const FakeViewPadding(bottom: 900);
+    addTearDown(tester.view.resetViewInsets);
+    await tester.pumpAndSettle();
+    expect(find.byType(IsometricRoomView), findsNothing);
+    expect(find.byType(TextField), findsOneWidget);
   });
 }

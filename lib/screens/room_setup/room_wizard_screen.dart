@@ -176,6 +176,9 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
     final activeIndex = (_step >= 1 && _step <= 4) ? _step - 1 : null;
     final activeWall =
         activeIndex != null ? _wallMeasurement(activeIndex) : null;
+    // With the keyboard up the 240 pt preview left the field and its error
+    // a sliver of screen; the preview steps aside while typing.
+    final keyboardOpen = MediaQuery.viewInsetsOf(context).bottom > 0;
 
     return PopScope(
       // System back / iOS swipe goes one step back, like the AppBar arrow,
@@ -201,7 +204,7 @@ class _RoomWizardScreenState extends ConsumerState<RoomWizardScreen> {
         children: [
           // Isometric room preview (hidden on the summary step, which has its
           // own celebratory header).
-          if (_step < _totalSteps - 1)
+          if (_step < _totalSteps - 1 && !keyboardOpen)
             SizedBox(
               height: 240,
               width: double.infinity,

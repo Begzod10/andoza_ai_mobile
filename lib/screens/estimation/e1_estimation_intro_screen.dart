@@ -103,13 +103,13 @@ class _E1EstimationIntroScreenState
         ? _backendSavingsLabel(backendDelta!, l10n)
         : (stageLabel(savingsStage.name) ?? l10n.estimateStageFallback);
 
-    // Real server smeta total once the room is persisted; the header keeps
-    // showing the local total until then (and if the backend is unreachable).
-    final backendEstimate = roomId == null
-        ? null
-        : ref.watch(estimatePreviewProvider(roomId)).valueOrNull;
-    final displayTotal =
-        backendEstimate?.totalUzs.toDouble() ?? estimate.totalPrice;
+    // The header is the whole-renovation estimate: materials + labour, the
+    // same figure as the stage list below and the usta's summary in U5. The
+    // server preview used to replace it once the room was saved, but that
+    // prices only what was picked in the Studio and has no labour, so the
+    // card read "703 000" over a 14 + 7 million split. The server smeta still
+    // backs the PDF and the snapshot an usta receives.
+    final displayTotal = estimate.totalPrice;
     final serverRoom = roomId == null
         ? null
         : ref.watch(serverRoomProvider(roomId)).valueOrNull;

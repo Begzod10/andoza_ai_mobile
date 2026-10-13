@@ -174,6 +174,8 @@ class _U5BookingConfirmationScreenState
                       labelText: l10n.mastersPhoneLabel,
                       hintText: '+998 90 123 45 67',
                       errorText: _phoneInvalid ? l10n.phoneErrorInvalid : null,
+                    // The example number does not fit one line on a phone.
+                    errorMaxLines: 2,
                       border: const OutlineInputBorder(),
                     ),
                   ),
