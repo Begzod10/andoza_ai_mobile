@@ -228,6 +228,7 @@
     "description": "Login error: the username or password is incorrect."
   },
   "loginErrorUsernameShort": "Имя пользователя должно содержать не менее 3 символов.",
+  "loginErrorUsernameLong": "Имя пользователя должно быть не длиннее 50 символов.",
   "@loginErrorUsernameShort": {
     "description": "Register error: username must be at least 3 characters."
   },
@@ -822,6 +823,8 @@
     }
   },
   "mastersCommentHint": "Комментарий (необязательно)",
+  "phoneErrorInvalid": "Неверный номер телефона. Пример: +998 90 123 45 67",
+  "mastersPhoneLabel": "Ваш номер телефона",
   "@mastersCommentHint": {
     "description": "U5 send-smeta sheet: optional comment field hint."
   },
@@ -1282,6 +1285,8 @@
     "description": "E1 estimation: fallback label in the savings banner for already-done work ('Some work')."
   },
   "estimateStageFallback": "Этап",
+  "estimateFloorUnpriced": "Тип пола выбран, но товар не выбран — пол не вошёл в смету.",
+  "estimateFloorPick": "Выбрать пол",
   "@estimateStageFallback": {
     "description": "E1 estimation: generic fallback stage label in the savings banner ('Stage')."
   },
@@ -1813,6 +1818,7 @@
     "description": "3D wizard ceiling step hint ('Usually between 2.5–3.2 metres')."
   },
   "wizardExactValue": "Точное значение (м)",
+  "wizardCeilingOutOfRange": "Высота потолка должна быть от {min} до {max} м",
   "@wizardExactValue": {
     "description": "3D wizard ceiling step: exact-value field label."
   },
@@ -2668,6 +2674,8 @@
   "shopCategorySement": "Цемент",
   "shopCategorySantexnika": "Сантехника",
   "shopCategoryElektr": "Электрика",
+  "shopCategoryEshik": "Двери",
+  "shopCategoryDeraza": "Окна",
   "tradeBoshqa": "Другой мастер",
   "qualityTierEkonom": "Эконом",
   "qualityTierStandart": "Стандарт",

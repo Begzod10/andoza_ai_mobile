@@ -7,6 +7,7 @@ import '../../l10n/app_localizations.dart';
 import '../../models/business_profile.dart';
 import '../../providers/business_provider.dart';
 import 'business_labels.dart';
+import '../../utils/phone.dart';
 
 /// Edit the usta's own public profile. Rating, verified and moderation status
 /// are not here — they are not the usta's to change.
@@ -51,6 +52,17 @@ class _EditUstaScreenState extends ConsumerState<EditUstaScreen> {
   Future<void> _save() async {
     final l10n = AppLocalizations.of(context)!;
     final router = GoRouter.of(context);
+    // A name of spaces alone is refused by the API with a 422, and a number
+    // has to be an Uzbek one; say which, here.
+    if (_name.text.trim().isEmpty) {
+      setState(() => _error = l10n.businessErrorName);
+      return;
+    }
+    final phone = normalizeUzPhone(_phone.text);
+    if (phone == null && !isPhoneBlank(_phone.text)) {
+      setState(() => _error = l10n.phoneErrorInvalid);
+      return;
+    }
     setState(() {
       _saving = true;
       _error = null;
@@ -66,10 +78,10 @@ class _EditUstaScreenState extends ConsumerState<EditUstaScreen> {
     }
     try {
       await ref.read(businessRepositoryProvider).updateUsta(
-            name: _name.text,
+            name: _name.text.trim(),
             trade: _trade,
             district: _district.text.trim(),
-            phone: _phone.text,
+            phone: phone,
             telegram: _telegram.text.trim(),
             priceMin: min,
             priceMax: max,

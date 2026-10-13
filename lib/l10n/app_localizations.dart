@@ -448,6 +448,12 @@ abstract class AppLocalizations {
   /// **'Login kamida 3 ta belgidan iborat bo\'lishi kerak.'**
   String get loginErrorUsernameShort;
 
+  /// Register error: username is longer than the 50 characters the server accepts.
+  ///
+  /// In uz, this message translates to:
+  /// **'Login 50 ta belgidan oshmasin.'**
+  String get loginErrorUsernameLong;
+
   /// Register error: password must be at least 6 characters.
   ///
   /// In uz, this message translates to:
@@ -1384,6 +1390,18 @@ abstract class AppLocalizations {
   /// **'Izoh (ixtiyoriy)'**
   String get mastersCommentHint;
 
+  /// Shared form error (checkout, call-an-usta, shop/usta forms): the phone is not an Uzbek number; same text as the web app.
+  ///
+  /// In uz, this message translates to:
+  /// **'Telefon raqami noto\'g\'ri. Masalan: +998 90 123 45 67'**
+  String get phoneErrorInvalid;
+
+  /// U5 send-to-usta screen: label of the phone field the usta calls back on.
+  ///
+  /// In uz, this message translates to:
+  /// **'Telefon raqamingiz'**
+  String get mastersPhoneLabel;
+
   /// U5 send-smeta sheet: note explaining the master will review and propose a price.
   ///
   /// In uz, this message translates to:
@@ -2032,6 +2050,18 @@ abstract class AppLocalizations {
   /// **'Bosqich'**
   String get estimateStageFallback;
 
+  /// E1 smeta: warning banner when the Studio has a floor type but no floor product, so the floor is missing from the estimate.
+  ///
+  /// In uz, this message translates to:
+  /// **'Pol turi tanlangan, lekin mahsulot tanlanmagan — pol smetaga kirmadi.'**
+  String get estimateFloorUnpriced;
+
+  /// E1 smeta: button on the floor warning that opens the Studio to pick a floor product.
+  ///
+  /// In uz, this message translates to:
+  /// **'Polni tanlash'**
+  String get estimateFloorPick;
+
   /// Estimate adjust: E1 tooltip and E3 app bar title ('Adjust estimate').
   ///
   /// In uz, this message translates to:
@@ -2679,6 +2709,12 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Aniq qiymat (m)'**
   String get wizardExactValue;
+
+  /// Room wizard, ceiling step: the typed height is not a number in the accepted range; Next stays disabled.
+  ///
+  /// In uz, this message translates to:
+  /// **'Shift balandligi {min} m dan {max} m gacha bo\'lishi kerak'**
+  String wizardCeilingOutOfRange(String min, String max);
 
   /// 3D wizard wall step heading, e.g. 'A devor'.
   ///
@@ -4581,6 +4617,18 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Elektr'**
   String get shopCategoryElektr;
+
+  /// Shop category chip/label: doors (server category `eshik`).
+  ///
+  /// In uz, this message translates to:
+  /// **'Eshik'**
+  String get shopCategoryEshik;
+
+  /// Shop category chip/label: windows (server category `deraza`).
+  ///
+  /// In uz, this message translates to:
+  /// **'Deraza'**
+  String get shopCategoryDeraza;
 
   /// No description provided for @tradeBoshqa.
   ///

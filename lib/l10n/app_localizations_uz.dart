@@ -189,6 +189,9 @@ class AppLocalizationsUz extends AppLocalizations {
       'Login kamida 3 ta belgidan iborat bo\'lishi kerak.';
 
   @override
+  String get loginErrorUsernameLong => 'Login 50 ta belgidan oshmasin.';
+
+  @override
   String get loginErrorPasswordShort =>
       'Parol kamida 6 ta belgidan iborat bo\'lishi kerak.';
 
@@ -718,6 +721,13 @@ class AppLocalizationsUz extends AppLocalizations {
   String get mastersCommentHint => 'Izoh (ixtiyoriy)';
 
   @override
+  String get phoneErrorInvalid =>
+      'Telefon raqami noto\'g\'ri. Masalan: +998 90 123 45 67';
+
+  @override
+  String get mastersPhoneLabel => 'Telefon raqamingiz';
+
+  @override
   String get mastersEstimateNote =>
       'Usta smetani ko\'rib, o\'z narxini taklif qiladi';
 
@@ -1062,6 +1072,13 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get estimateStageFallback => 'Bosqich';
+
+  @override
+  String get estimateFloorUnpriced =>
+      'Pol turi tanlangan, lekin mahsulot tanlanmagan — pol smetaga kirmadi.';
+
+  @override
+  String get estimateFloorPick => 'Polni tanlash';
 
   @override
   String get estimateAdjust => 'Smeta sozlash';
@@ -1431,6 +1448,11 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get wizardExactValue => 'Aniq qiymat (m)';
+
+  @override
+  String wizardCeilingOutOfRange(String min, String max) {
+    return 'Shift balandligi $min m dan $max m gacha bo\'lishi kerak';
+  }
 
   @override
   String wizardWallTitle(String letter) {
@@ -2485,6 +2507,12 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get shopCategoryElektr => 'Elektr';
+
+  @override
+  String get shopCategoryEshik => 'Eshik';
+
+  @override
+  String get shopCategoryDeraza => 'Deraza';
 
   @override
   String get tradeBoshqa => 'Boshqa usta';

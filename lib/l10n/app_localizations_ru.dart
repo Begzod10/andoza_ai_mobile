@@ -191,6 +191,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Имя пользователя должно содержать не менее 3 символов.';
 
   @override
+  String get loginErrorUsernameLong =>
+      'Имя пользователя должно быть не длиннее 50 символов.';
+
+  @override
   String get loginErrorPasswordShort =>
       'Пароль должен содержать не менее 6 символов.';
 
@@ -718,6 +722,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get mastersCommentHint => 'Комментарий (необязательно)';
 
   @override
+  String get phoneErrorInvalid =>
+      'Неверный номер телефона. Пример: +998 90 123 45 67';
+
+  @override
+  String get mastersPhoneLabel => 'Ваш номер телефона';
+
+  @override
   String get mastersEstimateNote =>
       'Мастер рассмотрит смету и предложит свою цену';
 
@@ -1070,6 +1081,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get estimateStageFallback => 'Этап';
+
+  @override
+  String get estimateFloorUnpriced =>
+      'Тип пола выбран, но товар не выбран — пол не вошёл в смету.';
+
+  @override
+  String get estimateFloorPick => 'Выбрать пол';
 
   @override
   String get estimateAdjust => 'Настройка сметы';
@@ -1437,6 +1455,11 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get wizardExactValue => 'Точное значение (м)';
+
+  @override
+  String wizardCeilingOutOfRange(String min, String max) {
+    return 'Высота потолка должна быть от $min до $max м';
+  }
 
   @override
   String wizardWallTitle(String letter) {
@@ -2489,6 +2512,12 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get shopCategoryElektr => 'Электрика';
+
+  @override
+  String get shopCategoryEshik => 'Двери';
+
+  @override
+  String get shopCategoryDeraza => 'Окна';
 
   @override
   String get tradeBoshqa => 'Другой мастер';

@@ -228,6 +228,7 @@
     "description": "Login error: the username or password is incorrect."
   },
   "loginErrorUsernameShort": "Username must be at least 3 characters.",
+  "loginErrorUsernameLong": "Username must be at most 50 characters.",
   "@loginErrorUsernameShort": {
     "description": "Register error: username must be at least 3 characters."
   },
@@ -822,6 +823,8 @@
     }
   },
   "mastersCommentHint": "Comment (optional)",
+  "phoneErrorInvalid": "Invalid phone number. Example: +998 90 123 45 67",
+  "mastersPhoneLabel": "Your phone number",
   "@mastersCommentHint": {
     "description": "U5 send-smeta sheet: optional comment field hint."
   },
@@ -1282,6 +1285,8 @@
     "description": "E1 estimation: fallback label in the savings banner for already-done work ('Some work')."
   },
   "estimateStageFallback": "Stage",
+  "estimateFloorUnpriced": "A floor type is chosen but no product is, so the floor is not in this estimate.",
+  "estimateFloorPick": "Pick a floor",
   "@estimateStageFallback": {
     "description": "E1 estimation: generic fallback stage label in the savings banner ('Stage')."
   },
@@ -1813,6 +1818,7 @@
     "description": "3D wizard ceiling step hint ('Usually between 2.5–3.2 metres')."
   },
   "wizardExactValue": "Exact value (m)",
+  "wizardCeilingOutOfRange": "Ceiling height must be between {min} m and {max} m",
   "@wizardExactValue": {
     "description": "3D wizard ceiling step: exact-value field label."
   },
@@ -2668,6 +2674,8 @@
   "shopCategorySement": "Cement",
   "shopCategorySantexnika": "Plumbing",
   "shopCategoryElektr": "Electrical",
+  "shopCategoryEshik": "Doors",
+  "shopCategoryDeraza": "Windows",
   "tradeBoshqa": "Other tradesperson",
   "qualityTierEkonom": "Economy",
   "qualityTierStandart": "Standard",

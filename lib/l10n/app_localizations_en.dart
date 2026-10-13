@@ -192,6 +192,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Username must be at least 3 characters.';
 
   @override
+  String get loginErrorUsernameLong =>
+      'Username must be at most 50 characters.';
+
+  @override
   String get loginErrorPasswordShort =>
       'Password must be at least 6 characters.';
 
@@ -725,6 +729,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mastersCommentHint => 'Comment (optional)';
 
   @override
+  String get phoneErrorInvalid =>
+      'Invalid phone number. Example: +998 90 123 45 67';
+
+  @override
+  String get mastersPhoneLabel => 'Your phone number';
+
+  @override
   String get mastersEstimateNote =>
       'The master will review the estimate and propose their price';
 
@@ -1074,6 +1085,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get estimateStageFallback => 'Stage';
+
+  @override
+  String get estimateFloorUnpriced =>
+      'A floor type is chosen but no product is, so the floor is not in this estimate.';
+
+  @override
+  String get estimateFloorPick => 'Pick a floor';
 
   @override
   String get estimateAdjust => 'Adjust estimate';
@@ -1443,6 +1461,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get wizardExactValue => 'Exact value (m)';
+
+  @override
+  String wizardCeilingOutOfRange(String min, String max) {
+    return 'Ceiling height must be between $min m and $max m';
+  }
 
   @override
   String wizardWallTitle(String letter) {
@@ -2489,6 +2512,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shopCategoryElektr => 'Electrical';
+
+  @override
+  String get shopCategoryEshik => 'Doors';
+
+  @override
+  String get shopCategoryDeraza => 'Windows';
 
   @override
   String get tradeBoshqa => 'Other tradesperson';

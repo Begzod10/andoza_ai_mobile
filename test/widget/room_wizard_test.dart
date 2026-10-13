@@ -119,4 +119,35 @@ void main() {
       closeTo(3.0, 1e-9),
     );
   });
+
+  testWidgets('a ceiling height out of range is said, and Keyingi waits',
+      (tester) async {
+    await _enlarge(tester);
+    await tester.pumpWidget(
+      ProviderScope(
+        child: MaterialApp.router(
+          routerConfig: _router(),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          locale: const Locale('uz'),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    final next = find.widgetWithText(ElevatedButton, 'Keyingi');
+    bool nextEnabled() => tester.widget<ElevatedButton>(next).onPressed != null;
+
+    await tester.enterText(find.byType(TextField), '99');
+    await tester.pump();
+    expect(find.textContaining('Shift balandligi 2 m dan 5 m gacha'),
+        findsOneWidget);
+    expect(nextEnabled(), isFalse);
+
+    // A comma is how a decimal is typed on many Uzbek keyboards.
+    await tester.enterText(find.byType(TextField), '3,1');
+    await tester.pump();
+    expect(find.textContaining('Shift balandligi'), findsNothing);
+    expect(nextEnabled(), isTrue);
+  });
 }

@@ -110,6 +110,11 @@ class _E1EstimationIntroScreenState
         : ref.watch(estimatePreviewProvider(roomId)).valueOrNull;
     final displayTotal =
         backendEstimate?.totalUzs.toDouble() ?? estimate.totalPrice;
+    final serverRoom = roomId == null
+        ? null
+        : ref.watch(serverRoomProvider(roomId)).valueOrNull;
+    final floorUnpriced =
+        serverRoom != null && floorChosenButUnpriced(serverRoom);
 
     return Scaffold(
       backgroundColor: DesignTokens.backgroundLight,
@@ -137,6 +142,12 @@ class _E1EstimationIntroScreenState
                 DesignTokens.screenPaddingHorizontal,
               ),
               children: [
+                if (floorUnpriced) ...[
+                  _FloorUnpricedBanner(
+                    onPick: () => context.push('/studio/$roomId'),
+                  ),
+                  const SizedBox(height: DesignTokens.spacingMd),
+                ],
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(DesignTokens.spacingLg),
@@ -406,6 +417,41 @@ class _StageRow extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// Shown when the Studio has a floor type but no floor product: the smeta
+/// below has no floor in it, and this says so and leads back to pick one.
+class _FloorUnpricedBanner extends StatelessWidget {
+  const _FloorUnpricedBanner({required this.onPick});
+
+  final VoidCallback onPick;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    return Container(
+      padding: const EdgeInsets.all(DesignTokens.spacingMd),
+      decoration: BoxDecoration(
+        color: DesignTokens.accentOrange.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(DesignTokens.radiusMd),
+        border: Border.all(color: DesignTokens.accentOrange),
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.warning_amber_rounded,
+              color: DesignTokens.accentOrange),
+          const SizedBox(width: DesignTokens.spacingSm),
+          Expanded(
+            child: Text(l10n.estimateFloorUnpriced, style: DesignTokens.body2),
+          ),
+          TextButton(
+            onPressed: onPick,
+            child: Text(l10n.estimateFloorPick),
+          ),
+        ],
       ),
     );
   }

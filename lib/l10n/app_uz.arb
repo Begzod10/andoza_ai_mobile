@@ -243,6 +243,8 @@
   "@loginErrorUsernameShort": {
     "description": "Register error: username must be at least 3 characters."
   },
+  "loginErrorUsernameLong": "Login 50 ta belgidan oshmasin.",
+  "@loginErrorUsernameLong": {"description": "Register error: username is longer than the 50 characters the server accepts."},
   "loginErrorPasswordShort": "Parol kamida 6 ta belgidan iborat bo'lishi kerak.",
   "@loginErrorPasswordShort": {
     "description": "Register error: password must be at least 6 characters."
@@ -946,6 +948,10 @@
   "@mastersCommentHint": {
     "description": "U5 send-smeta sheet: optional comment field hint."
   },
+  "phoneErrorInvalid": "Telefon raqami noto'g'ri. Masalan: +998 90 123 45 67",
+  "@phoneErrorInvalid": {"description": "Shared form error (checkout, call-an-usta, shop/usta forms): the phone is not an Uzbek number; same text as the web app."},
+  "mastersPhoneLabel": "Telefon raqamingiz",
+  "@mastersPhoneLabel": {"description": "U5 send-to-usta screen: label of the phone field the usta calls back on."},
   "mastersEstimateNote": "Usta smetani ko'rib, o'z narxini taklif qiladi",
   "@mastersEstimateNote": {
     "description": "U5 send-smeta sheet: note explaining the master will review and propose a price."
@@ -1399,6 +1405,10 @@
   "@estimateStageFallback": {
     "description": "E1 estimation: generic fallback stage label in the savings banner ('Stage')."
   },
+  "estimateFloorUnpriced": "Pol turi tanlangan, lekin mahsulot tanlanmagan — pol smetaga kirmadi.",
+  "@estimateFloorUnpriced": {"description": "E1 smeta: warning banner when the Studio has a floor type but no floor product, so the floor is missing from the estimate."},
+  "estimateFloorPick": "Polni tanlash",
+  "@estimateFloorPick": {"description": "E1 smeta: button on the floor warning that opens the Studio to pick a floor product."},
   "estimateAdjust": "Smeta sozlash",
   "@estimateAdjust": {
     "description": "Estimate adjust: E1 tooltip and E3 app bar title ('Adjust estimate')."
@@ -1897,6 +1907,8 @@
   "@wizardExactValue": {
     "description": "3D wizard ceiling step: exact-value field label."
   },
+  "wizardCeilingOutOfRange": "Shift balandligi {min} m dan {max} m gacha bo'lishi kerak",
+  "@wizardCeilingOutOfRange": {"description": "Room wizard, ceiling step: the typed height is not a number in the accepted range; Next stays disabled.", "placeholders": {"min": {"type": "String"}, "max": {"type": "String"}}},
   "wizardWallTitle": "{letter} devor",
   "@wizardWallTitle": {
     "description": "3D wizard wall step heading, e.g. 'A devor'.",
@@ -2720,6 +2732,10 @@
   "shopCategorySement": "Sement",
   "shopCategorySantexnika": "Santexnika",
   "shopCategoryElektr": "Elektr",
+  "shopCategoryEshik": "Eshik",
+  "@shopCategoryEshik": {"description": "Shop category chip/label: doors (server category `eshik`)."},
+  "shopCategoryDeraza": "Deraza",
+  "@shopCategoryDeraza": {"description": "Shop category chip/label: windows (server category `deraza`)."},
   "tradeBoshqa": "Boshqa usta",
   "qualityTierEkonom": "Ekonom",
   "qualityTierStandart": "Standart",
