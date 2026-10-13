@@ -4606,6 +4606,18 @@ abstract class AppLocalizations {
   /// **'Elektr'**
   String get shopCategoryElektr;
 
+  /// Shop category chip/label: doors (server category `eshik`).
+  ///
+  /// In uz, this message translates to:
+  /// **'Eshik'**
+  String get shopCategoryEshik;
+
+  /// Shop category chip/label: windows (server category `deraza`).
+  ///
+  /// In uz, this message translates to:
+  /// **'Deraza'**
+  String get shopCategoryDeraza;
+
   /// No description provided for @tradeBoshqa.
   ///
   /// In uz, this message translates to:

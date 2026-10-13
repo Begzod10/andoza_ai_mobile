@@ -2507,6 +2507,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get shopCategoryElektr => 'Электрика';
 
   @override
+  String get shopCategoryEshik => 'Двери';
+
+  @override
+  String get shopCategoryDeraza => 'Окна';
+
+  @override
   String get tradeBoshqa => 'Другой мастер';
 
   @override

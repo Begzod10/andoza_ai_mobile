@@ -2672,6 +2672,8 @@
   "shopCategorySement": "Cement",
   "shopCategorySantexnika": "Plumbing",
   "shopCategoryElektr": "Electrical",
+  "shopCategoryEshik": "Doors",
+  "shopCategoryDeraza": "Windows",
   "tradeBoshqa": "Other tradesperson",
   "qualityTierEkonom": "Economy",
   "qualityTierStandart": "Standard",

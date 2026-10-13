@@ -2502,6 +2502,12 @@ class AppLocalizationsUz extends AppLocalizations {
   String get shopCategoryElektr => 'Elektr';
 
   @override
+  String get shopCategoryEshik => 'Eshik';
+
+  @override
+  String get shopCategoryDeraza => 'Deraza';
+
+  @override
   String get tradeBoshqa => 'Boshqa usta';
 
   @override

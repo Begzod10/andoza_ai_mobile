@@ -2507,6 +2507,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get shopCategoryElektr => 'Electrical';
 
   @override
+  String get shopCategoryEshik => 'Doors';
+
+  @override
+  String get shopCategoryDeraza => 'Windows';
+
+  @override
   String get tradeBoshqa => 'Other tradesperson';
 
   @override
