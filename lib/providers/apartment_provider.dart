@@ -17,6 +17,26 @@ final roomStateRepositoryProvider = Provider<RoomStateRepository>((ref) {
 });
 
 /// The current user's apartments (each with its rooms).
+/// The room as the server has it now (`GET /rooms/{id}`): surfaces and the
+/// Studio's design state change in the web Studio, so a copy taken when the
+/// room was saved is stale.
+final serverRoomProvider =
+    FutureProvider.autoDispose.family<RoomOut, String>((ref, roomId) {
+  return ref.watch(apartmentRepositoryProvider).getRoom(roomId);
+});
+
+/// A floor type was picked in the Studio but no floor product was, so the
+/// smeta prices no floor at all — silently, until this was checked. The web
+/// smeta warns on the same rule (`SmetaPage.tsx`).
+bool floorChosenButUnpriced(RoomOut room) {
+  final design = room.state?['designState'];
+  if (design is! Map) return false;
+  final configured = design['floorConfigured'] == true;
+  final type = design['floorType'];
+  final hasType = type is String && type.isNotEmpty;
+  return configured && hasType && room.surfaces?['floor'] == null;
+}
+
 final apartmentsProvider = FutureProvider.autoDispose<List<Apartment>>((ref) {
   return ref.watch(apartmentRepositoryProvider).listApartments();
 });

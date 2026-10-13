@@ -1087,6 +1087,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get estimateStageFallback => 'Stage';
 
   @override
+  String get estimateFloorUnpriced =>
+      'A floor type is chosen but no product is, so the floor is not in this estimate.';
+
+  @override
+  String get estimateFloorPick => 'Pick a floor';
+
+  @override
   String get estimateAdjust => 'Adjust estimate';
 
   @override

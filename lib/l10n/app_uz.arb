@@ -1405,6 +1405,10 @@
   "@estimateStageFallback": {
     "description": "E1 estimation: generic fallback stage label in the savings banner ('Stage')."
   },
+  "estimateFloorUnpriced": "Pol turi tanlangan, lekin mahsulot tanlanmagan — pol smetaga kirmadi.",
+  "@estimateFloorUnpriced": {"description": "E1 smeta: warning banner when the Studio has a floor type but no floor product, so the floor is missing from the estimate."},
+  "estimateFloorPick": "Polni tanlash",
+  "@estimateFloorPick": {"description": "E1 smeta: button on the floor warning that opens the Studio to pick a floor product."},
   "estimateAdjust": "Smeta sozlash",
   "@estimateAdjust": {
     "description": "Estimate adjust: E1 tooltip and E3 app bar title ('Adjust estimate')."

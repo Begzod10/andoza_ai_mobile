@@ -2050,6 +2050,18 @@ abstract class AppLocalizations {
   /// **'Bosqich'**
   String get estimateStageFallback;
 
+  /// E1 smeta: warning banner when the Studio has a floor type but no floor product, so the floor is missing from the estimate.
+  ///
+  /// In uz, this message translates to:
+  /// **'Pol turi tanlangan, lekin mahsulot tanlanmagan — pol smetaga kirmadi.'**
+  String get estimateFloorUnpriced;
+
+  /// E1 smeta: button on the floor warning that opens the Studio to pick a floor product.
+  ///
+  /// In uz, this message translates to:
+  /// **'Polni tanlash'**
+  String get estimateFloorPick;
+
   /// Estimate adjust: E1 tooltip and E3 app bar title ('Adjust estimate').
   ///
   /// In uz, this message translates to:

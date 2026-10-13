@@ -1285,6 +1285,8 @@
     "description": "E1 estimation: fallback label in the savings banner for already-done work ('Some work')."
   },
   "estimateStageFallback": "Stage",
+  "estimateFloorUnpriced": "A floor type is chosen but no product is, so the floor is not in this estimate.",
+  "estimateFloorPick": "Pick a floor",
   "@estimateStageFallback": {
     "description": "E1 estimation: generic fallback stage label in the savings banner ('Stage')."
   },

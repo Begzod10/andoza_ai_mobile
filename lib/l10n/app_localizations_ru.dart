@@ -1083,6 +1083,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get estimateStageFallback => 'Этап';
 
   @override
+  String get estimateFloorUnpriced =>
+      'Тип пола выбран, но товар не выбран — пол не вошёл в смету.';
+
+  @override
+  String get estimateFloorPick => 'Выбрать пол';
+
+  @override
   String get estimateAdjust => 'Настройка сметы';
 
   @override

@@ -1074,6 +1074,13 @@ class AppLocalizationsUz extends AppLocalizations {
   String get estimateStageFallback => 'Bosqich';
 
   @override
+  String get estimateFloorUnpriced =>
+      'Pol turi tanlangan, lekin mahsulot tanlanmagan — pol smetaga kirmadi.';
+
+  @override
+  String get estimateFloorPick => 'Polni tanlash';
+
+  @override
   String get estimateAdjust => 'Smeta sozlash';
 
   @override

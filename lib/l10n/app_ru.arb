@@ -1285,6 +1285,8 @@
     "description": "E1 estimation: fallback label in the savings banner for already-done work ('Some work')."
   },
   "estimateStageFallback": "Этап",
+  "estimateFloorUnpriced": "Тип пола выбран, но товар не выбран — пол не вошёл в смету.",
+  "estimateFloorPick": "Выбрать пол",
   "@estimateStageFallback": {
     "description": "E1 estimation: generic fallback stage label in the savings banner ('Stage')."
   },
