@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -158,6 +157,10 @@ class _BusinessApplyScreenState extends ConsumerState<BusinessApplyScreen> {
             _field(_telegram, l10n.businessFieldTelegram),
             if (_isUsta) ...[
               const SizedBox(height: DesignTokens.spacingMd),
+              // A heading over two short labels: "Narx: dan (so'm)" did not
+              // fit half the screen and was cut to "Narx: dan (so…".
+              Text(l10n.businessFieldPriceTitle, style: DesignTokens.subtitle2),
+              const SizedBox(height: DesignTokens.spacingSm),
               Row(
                 children: [
                   Expanded(child: _field(_priceMin, l10n.businessFieldPriceMin, digits: true)),
@@ -219,7 +222,11 @@ class _BusinessApplyScreenState extends ConsumerState<BusinessApplyScreen> {
         controller: c,
         enabled: !_busy,
         keyboardType: keyboard ?? (digits ? TextInputType.number : null),
-        inputFormatters: digits ? [FilteringTextInputFormatter.digitsOnly] : null,
+        inputFormatters: digits ? priceInputFormatters : null,
         decoration: _decoration(label),
+        // A message about the last submit no longer holds once a field changes.
+        onChanged: (_) {
+          if (_error != null) setState(() => _error = null);
+        },
       );
 }

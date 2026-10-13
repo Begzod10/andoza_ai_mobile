@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -1980,10 +1981,13 @@ class AppLocalizationsUz extends AppLocalizations {
   String get businessFieldTelegram => 'Telegram (ixtiyoriy)';
 
   @override
-  String get businessFieldPriceMin => 'Narx: dan (so\'m)';
+  String get businessFieldPriceMin => 'Dan';
 
   @override
-  String get businessFieldPriceMax => 'Narx: gacha (so\'m)';
+  String get businessFieldPriceMax => 'Gacha';
+
+  @override
+  String get businessFieldPriceTitle => 'Narx (so\'m)';
 
   @override
   String get businessSubmit => 'Arizani yuborish';

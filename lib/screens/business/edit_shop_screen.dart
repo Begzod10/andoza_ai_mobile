@@ -21,13 +21,27 @@ class _EditShopScreenState extends ConsumerState<EditShopScreen> {
   final _district = TextEditingController();
   final _phone = TextEditingController();
   final _telegram = TextEditingController();
+  late final _fields = [_name, _district, _phone, _telegram];
   bool _loaded = false;
   bool _saving = false;
   String? _error;
 
   @override
+  void initState() {
+    super.initState();
+    // A message about the last save no longer holds once a field changes.
+    for (final c in _fields) {
+      c.addListener(_clearError);
+    }
+  }
+
+  void _clearError() {
+    if (_error != null) setState(() => _error = null);
+  }
+
+  @override
   void dispose() {
-    for (final c in [_name, _district, _phone, _telegram]) {
+    for (final c in _fields) {
       c.dispose();
     }
     super.dispose();

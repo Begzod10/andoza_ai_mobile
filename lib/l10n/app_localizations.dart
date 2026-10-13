@@ -3643,14 +3643,20 @@ abstract class AppLocalizations {
   /// No description provided for @businessFieldPriceMin.
   ///
   /// In uz, this message translates to:
-  /// **'Narx: dan (so\'m)'**
+  /// **'Dan'**
   String get businessFieldPriceMin;
 
   /// No description provided for @businessFieldPriceMax.
   ///
   /// In uz, this message translates to:
-  /// **'Narx: gacha (so\'m)'**
+  /// **'Gacha'**
   String get businessFieldPriceMax;
+
+  /// Usta apply/edit forms: heading above the two price fields (from / up to), so the fields themselves can carry short labels that fit half the width.
+  ///
+  /// In uz, this message translates to:
+  /// **'Narx (so\'m)'**
+  String get businessFieldPriceTitle;
 
   /// No description provided for @businessSubmit.
   ///
