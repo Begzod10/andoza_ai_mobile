@@ -6,7 +6,7 @@ va [RELEASE_SIGNING.md](RELEASE_SIGNING.md) (Android kalit).
 
 ## Talablar
 
-- Flutter **3.44.8** stable (CI shu versiyani ishlatadi), Dart `^3.12.1`.
+- Flutter **3.47.5** stable (CI shu versiyani ishlatadi), Dart `^3.13.0`.
 - Android: Java 17, Android SDK (minSdk 24).
 - iOS: macOS va Xcode, minimal iOS **15.0**. LiDAR skaner iOS 16+ va LiDAR'li iPhone/iPad'da ishlaydi.
 
