@@ -191,6 +191,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Имя пользователя должно содержать не менее 3 символов.';
 
   @override
+  String get loginErrorUsernameLong =>
+      'Имя пользователя должно быть не длиннее 50 символов.';
+
+  @override
   String get loginErrorPasswordShort =>
       'Пароль должен содержать не менее 6 символов.';
 
@@ -716,6 +720,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get mastersCommentHint => 'Комментарий (необязательно)';
+
+  @override
+  String get phoneErrorInvalid =>
+      'Неверный номер телефона. Пример: +998 90 123 45 67';
+
+  @override
+  String get mastersPhoneLabel => 'Ваш номер телефона';
 
   @override
   String get mastersEstimateNote =>

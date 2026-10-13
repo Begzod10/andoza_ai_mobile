@@ -448,6 +448,12 @@ abstract class AppLocalizations {
   /// **'Login kamida 3 ta belgidan iborat bo\'lishi kerak.'**
   String get loginErrorUsernameShort;
 
+  /// Register error: username is longer than the 50 characters the server accepts.
+  ///
+  /// In uz, this message translates to:
+  /// **'Login 50 ta belgidan oshmasin.'**
+  String get loginErrorUsernameLong;
+
   /// Register error: password must be at least 6 characters.
   ///
   /// In uz, this message translates to:
@@ -1383,6 +1389,18 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Izoh (ixtiyoriy)'**
   String get mastersCommentHint;
+
+  /// Shared form error (checkout, call-an-usta, shop/usta forms): the phone is not an Uzbek number; same text as the web app.
+  ///
+  /// In uz, this message translates to:
+  /// **'Telefon raqami noto\'g\'ri. Masalan: +998 90 123 45 67'**
+  String get phoneErrorInvalid;
+
+  /// U5 send-to-usta screen: label of the phone field the usta calls back on.
+  ///
+  /// In uz, this message translates to:
+  /// **'Telefon raqamingiz'**
+  String get mastersPhoneLabel;
 
   /// U5 send-smeta sheet: note explaining the master will review and propose a price.
   ///

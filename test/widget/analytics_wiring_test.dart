@@ -21,15 +21,18 @@ class _FakeBusiness implements BusinessRepository {
   _FakeBusiness({this.fail = false});
   final bool fail;
   final sent = <String?>[];
+  final phones = <String?>[];
 
   @override
   Future<void> sendLead(
     String ustaId, {
     String? roomId,
     String? message,
+    String? contactPhone,
   }) async {
     if (fail) throw Exception('offline');
     sent.add(message);
+    phones.add(contactPhone);
   }
 
   @override
@@ -110,9 +113,14 @@ Future<void> _pumpU5(
   await tester.pumpAndSettle();
 }
 
-Future<void> _tapSend(WidgetTester tester) async {
+Future<void> _tapSend(
+  WidgetTester tester, {
+  String phone = '+998 90 123-45-67',
+}) async {
   final l10n = await AppLocalizations.delegate.load(const Locale('uz'));
-  await tester.enterText(find.byType(TextField), 'Ertaga keling, manzil: X');
+  // U5 has two fields: the phone the usta calls back on, then the comment.
+  await tester.enterText(find.byType(TextField).first, phone);
+  await tester.enterText(find.byType(TextField).last, 'Ertaga keling, manzil: X');
   await tester.tap(find.text(l10n.mastersSend));
   await tester.pumpAndSettle();
 }
@@ -125,7 +133,21 @@ void main() {
     await _tapSend(tester);
 
     expect(repo.sent, hasLength(1));
+    expect(repo.phones, ['+998901234567']);
     expect(sink.events, [('lead_sent', null)]);
+  });
+
+  testWidgets('a phone that is not Uzbek is refused before sending',
+      (tester) async {
+    final l10n = await AppLocalizations.delegate.load(const Locale('uz'));
+    final sink = FakeSink();
+    final repo = _FakeBusiness();
+    await _pumpU5(tester, sink, repo);
+    await _tapSend(tester, phone: '123');
+
+    expect(repo.sent, isEmpty);
+    expect(find.text(l10n.phoneErrorInvalid), findsOneWidget);
+    expect(sink.events, isEmpty);
   });
 
   testWidgets('a failed lead logs nothing', (tester) async {

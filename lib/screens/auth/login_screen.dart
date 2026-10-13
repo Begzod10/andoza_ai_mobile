@@ -260,6 +260,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       setState(() => _error = l10n.loginErrorUsernameShort);
       return;
     }
+    // The API takes 3–50 characters (after trimming) and refuses more with a
+    // 422, which would otherwise surface as a vague "registration failed".
+    if (u.length > 50) {
+      setState(() => _error = l10n.loginErrorUsernameLong);
+      return;
+    }
     if (_password.text.length < 6) {
       setState(() => _error = l10n.loginErrorPasswordShort);
       return;

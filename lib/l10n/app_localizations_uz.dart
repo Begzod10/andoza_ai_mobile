@@ -189,6 +189,9 @@ class AppLocalizationsUz extends AppLocalizations {
       'Login kamida 3 ta belgidan iborat bo\'lishi kerak.';
 
   @override
+  String get loginErrorUsernameLong => 'Login 50 ta belgidan oshmasin.';
+
+  @override
   String get loginErrorPasswordShort =>
       'Parol kamida 6 ta belgidan iborat bo\'lishi kerak.';
 
@@ -716,6 +719,13 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get mastersCommentHint => 'Izoh (ixtiyoriy)';
+
+  @override
+  String get phoneErrorInvalid =>
+      'Telefon raqami noto\'g\'ri. Masalan: +998 90 123 45 67';
+
+  @override
+  String get mastersPhoneLabel => 'Telefon raqamingiz';
 
   @override
   String get mastersEstimateNote =>

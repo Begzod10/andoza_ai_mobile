@@ -228,6 +228,7 @@
     "description": "Login error: the username or password is incorrect."
   },
   "loginErrorUsernameShort": "Username must be at least 3 characters.",
+  "loginErrorUsernameLong": "Username must be at most 50 characters.",
   "@loginErrorUsernameShort": {
     "description": "Register error: username must be at least 3 characters."
   },
@@ -822,6 +823,8 @@
     }
   },
   "mastersCommentHint": "Comment (optional)",
+  "phoneErrorInvalid": "Invalid phone number. Example: +998 90 123 45 67",
+  "mastersPhoneLabel": "Your phone number",
   "@mastersCommentHint": {
     "description": "U5 send-smeta sheet: optional comment field hint."
   },

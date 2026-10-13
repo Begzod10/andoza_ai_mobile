@@ -8,6 +8,7 @@ import '../../l10n/app_localizations.dart';
 import '../../models/business_profile.dart';
 import '../../providers/business_provider.dart';
 import '../../services/api_client.dart';
+import '../../utils/phone.dart';
 import 'business_labels.dart';
 import '../../widgets/common/unsaved_changes_guard.dart';
 
@@ -52,14 +53,16 @@ class _BusinessApplyScreenState extends ConsumerState<BusinessApplyScreen> {
     super.dispose();
   }
 
-  // 12 digits, as the server's phone rule: 998 + 9.
-  bool get _phoneOk => RegExp(r'^\+?998\d{9}$').hasMatch(_phone.text.trim());
-
   Future<void> _submit() async {
     final l10n = AppLocalizations.of(context)!;
     final name = _name.text.trim();
     if (name.isEmpty) return setState(() => _error = l10n.businessErrorName);
-    if (_isUsta && !_phoneOk) return setState(() => _error = l10n.businessErrorPhone);
+    // An usta must leave a number; a shop may leave none, but one it gives has
+    // to be callable — the API refuses anything else with a 422.
+    final phone = normalizeUzPhone(_phone.text);
+    if (phone == null && (_isUsta || !isPhoneBlank(_phone.text))) {
+      return setState(() => _error = l10n.phoneErrorInvalid);
+    }
     final min = int.tryParse(_priceMin.text.trim());
     final max = int.tryParse(_priceMax.text.trim());
     if (min != null && max != null && max < min) {
@@ -75,7 +78,7 @@ class _BusinessApplyScreenState extends ConsumerState<BusinessApplyScreen> {
         await repo.applyUsta(
           name: name,
           trade: _trade,
-          phone: _phone.text.trim().startsWith('+') ? _phone.text.trim() : '+${_phone.text.trim()}',
+          phone: phone!,
           district: _district.text,
           telegram: _telegram.text,
           priceMin: min,
@@ -85,7 +88,7 @@ class _BusinessApplyScreenState extends ConsumerState<BusinessApplyScreen> {
         await repo.applyShop(
           name: name,
           district: _district.text,
-          phone: _phoneOk ? _phone.text.trim() : null,
+          phone: phone,
           telegram: _telegram.text,
         );
       }

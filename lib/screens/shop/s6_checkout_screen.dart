@@ -6,10 +6,12 @@ import '../../l10n/app_localizations.dart';
 import '../../models/api/api.dart';
 import '../../utils/error_mapper.dart';
 import '../../models/shop_model.dart';
+import '../../providers/auth_provider.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/orders_provider.dart';
 import '../../services/analytics_service.dart';
 import '../../utils/currency.dart';
+import '../../utils/phone.dart';
 
 /// Matches a canonical UUID — used to decide whether a cart product's id is a
 /// real backend material UUID (send as `material_id`) or a local/synthetic
@@ -57,6 +59,19 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
   );
   final _phoneController = TextEditingController();
   _PaymentMethod _method = _PaymentMethod.payme;
+
+  /// Set when the phone was refused, cleared as soon as it is edited.
+  bool _phoneInvalid = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // The shop calls this number about delivery: start from the account's
+    // own phone when it has one (OTP accounts do, username accounts don't).
+    final auth = ref.read(authStateProvider);
+    final phone = auth is AuthAuthenticated ? auth.user.phone : null;
+    if (phone != null) _phoneController.text = phone;
+  }
   bool _isPlacing = false;
 
   @override
@@ -89,10 +104,17 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
       return;
     }
 
+    // The shop needs a number it can call, and the API refuses one that is
+    // not Uzbek with a 422: say so here, by the field.
+    final phone = normalizeUzPhone(_phoneController.text);
+    if (phone == null) {
+      setState(() => _phoneInvalid = true);
+      return;
+    }
+
     setState(() => _isPlacing = true);
     final repo = ref.read(ordersRepositoryProvider);
     final address = _addressController.text.trim();
-    final phone = _phoneController.text.trim();
     final method = _method.wire;
 
     final byDealer = <String, List<CartLine>>{};
@@ -110,7 +132,7 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
         final order = await repo.createOrder(
           dealerName: dealer.name,
           deliveryAddress: address.isEmpty ? null : address,
-          phone: phone.isEmpty ? null : phone,
+          phone: phone,
           paymentMethod: method,
           lines: [
             for (final line in dealerLines)
@@ -212,7 +234,13 @@ class _S6CheckoutScreenState extends ConsumerState<S6CheckoutScreen> {
                 TextField(
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(hintText: l10n.shopPhoneHint),
+                  onChanged: (_) {
+                    if (_phoneInvalid) setState(() => _phoneInvalid = false);
+                  },
+                  decoration: InputDecoration(
+                    hintText: l10n.shopPhoneHint,
+                    errorText: _phoneInvalid ? l10n.phoneErrorInvalid : null,
+                  ),
                 ),
                 const SizedBox(height: DesignTokens.spacingLg),
                 Text(l10n.shopPaymentMethod, style: DesignTokens.subtitle2),

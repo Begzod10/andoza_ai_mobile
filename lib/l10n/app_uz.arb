@@ -243,6 +243,8 @@
   "@loginErrorUsernameShort": {
     "description": "Register error: username must be at least 3 characters."
   },
+  "loginErrorUsernameLong": "Login 50 ta belgidan oshmasin.",
+  "@loginErrorUsernameLong": {"description": "Register error: username is longer than the 50 characters the server accepts."},
   "loginErrorPasswordShort": "Parol kamida 6 ta belgidan iborat bo'lishi kerak.",
   "@loginErrorPasswordShort": {
     "description": "Register error: password must be at least 6 characters."
@@ -946,6 +948,10 @@
   "@mastersCommentHint": {
     "description": "U5 send-smeta sheet: optional comment field hint."
   },
+  "phoneErrorInvalid": "Telefon raqami noto'g'ri. Masalan: +998 90 123 45 67",
+  "@phoneErrorInvalid": {"description": "Shared form error (checkout, call-an-usta, shop/usta forms): the phone is not an Uzbek number; same text as the web app."},
+  "mastersPhoneLabel": "Telefon raqamingiz",
+  "@mastersPhoneLabel": {"description": "U5 send-to-usta screen: label of the phone field the usta calls back on."},
   "mastersEstimateNote": "Usta smetani ko'rib, o'z narxini taklif qiladi",
   "@mastersEstimateNote": {
     "description": "U5 send-smeta sheet: note explaining the master will review and propose a price."

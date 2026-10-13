@@ -79,7 +79,7 @@ void main() {
     await tester.enterText(find.widgetWithText(TextField, 'Ismingiz yoki jamoa nomi'), 'Aziz usta');
     await tester.tap(find.text('Arizani yuborish'));
     await tester.pumpAndSettle();
-    expect(find.textContaining("Telefonni +998 bilan to'liq kiriting"), findsOneWidget);
+    expect(find.textContaining("Telefon raqami noto'g'ri"), findsOneWidget);
     expect(repo.usta, isNull);
   });
 
@@ -148,6 +148,27 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(repo.shop?['name'], 'Mebel Plus');
+    expect(repo.shop?['phone'], isNull); // the bare "+998" prefix is no number
     expect(find.text('biznes sahifasi'), findsOneWidget);
+  });
+
+  testWidgets('a shop phone is optional, but a wrong one is refused, not dropped', (tester) async {
+    _tall(tester);
+    final repo = _FakeRepo();
+    await tester.pumpWidget(_app(BusinessKind.shop, repo));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.widgetWithText(TextField, "Do'kon nomi"), 'Mebel Plus');
+    final phone = find.widgetWithText(TextField, 'Telefon (+998...)');
+    await tester.enterText(phone, 'abc');
+    await tester.tap(find.text('Arizani yuborish'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining("Telefon raqami noto'g'ri"), findsOneWidget);
+    expect(repo.shop, isNull);
+
+    await tester.enterText(phone, '+998 90 123-45-67');
+    await tester.tap(find.text('Arizani yuborish'));
+    await tester.pumpAndSettle();
+    expect(repo.shop?['phone'], '+998901234567');
   });
 }

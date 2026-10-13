@@ -192,6 +192,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Username must be at least 3 characters.';
 
   @override
+  String get loginErrorUsernameLong =>
+      'Username must be at most 50 characters.';
+
+  @override
   String get loginErrorPasswordShort =>
       'Password must be at least 6 characters.';
 
@@ -723,6 +727,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mastersCommentHint => 'Comment (optional)';
+
+  @override
+  String get phoneErrorInvalid =>
+      'Invalid phone number. Example: +998 90 123 45 67';
+
+  @override
+  String get mastersPhoneLabel => 'Your phone number';
 
   @override
   String get mastersEstimateNote =>

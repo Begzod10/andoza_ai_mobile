@@ -228,6 +228,7 @@
     "description": "Login error: the username or password is incorrect."
   },
   "loginErrorUsernameShort": "Имя пользователя должно содержать не менее 3 символов.",
+  "loginErrorUsernameLong": "Имя пользователя должно быть не длиннее 50 символов.",
   "@loginErrorUsernameShort": {
     "description": "Register error: username must be at least 3 characters."
   },
@@ -822,6 +823,8 @@
     }
   },
   "mastersCommentHint": "Комментарий (необязательно)",
+  "phoneErrorInvalid": "Неверный номер телефона. Пример: +998 90 123 45 67",
+  "mastersPhoneLabel": "Ваш номер телефона",
   "@mastersCommentHint": {
     "description": "U5 send-smeta sheet: optional comment field hint."
   },
