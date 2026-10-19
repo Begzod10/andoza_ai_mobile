@@ -2587,4 +2587,38 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get sharePinNotPinHint =>
       'Open the pin in the Pinterest app and choose Share → Andoza AI.';
+
+  @override
+  String get furnitureStylesLabel => 'Styles';
+
+  @override
+  String get furnitureStylesAll => 'Suits every style';
+
+  @override
+  String get furnitureStyleNeoklassika => 'Neoclassical';
+
+  @override
+  String get furnitureStyleKlassik => 'Classic';
+
+  @override
+  String get furnitureStyleZamonaviy => 'Modern';
+
+  @override
+  String get furnitureStyleHitech => 'Hi-Tech';
+
+  @override
+  String get furnitureStyleMinimalist => 'Minimalist';
+
+  @override
+  String get furnitureStyleSkandinav => 'Scandinavian';
+
+  @override
+  String get furnitureStyleLoft => 'Loft';
+
+  @override
+  String get furnitureStyleMilliy => 'National';
+
+  @override
+  String get estimateFloorStandIn =>
+      'No floor product is chosen, so the price is the shops\' median floor (approximate).';
 }

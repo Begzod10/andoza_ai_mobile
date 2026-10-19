@@ -2583,4 +2583,38 @@ class AppLocalizationsUz extends AppLocalizations {
   @override
   String get sharePinNotPinHint =>
       'Pinterest ilovasida pinni oching va \"Ulashish\" → Andoza AI ni tanlang.';
+
+  @override
+  String get furnitureStylesLabel => 'Uslublar';
+
+  @override
+  String get furnitureStylesAll => 'Hamma uslubga mos';
+
+  @override
+  String get furnitureStyleNeoklassika => 'Neoklassika';
+
+  @override
+  String get furnitureStyleKlassik => 'Klassik';
+
+  @override
+  String get furnitureStyleZamonaviy => 'Zamonaviy';
+
+  @override
+  String get furnitureStyleHitech => 'Hi-Tech';
+
+  @override
+  String get furnitureStyleMinimalist => 'Minimalist';
+
+  @override
+  String get furnitureStyleSkandinav => 'Skandinav';
+
+  @override
+  String get furnitureStyleLoft => 'Loft';
+
+  @override
+  String get furnitureStyleMilliy => 'Milliy';
+
+  @override
+  String get estimateFloorStandIn =>
+      'Pol mahsuloti tanlanmagan — narx do\'kondagi o\'rtacha poldan olindi (taxminiy).';
 }

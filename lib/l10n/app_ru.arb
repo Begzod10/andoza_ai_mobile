@@ -2697,5 +2697,16 @@
   "sharePinHint": "AI-дизайнер в Студии откроется с этим пином.",
   "sharePinNoRooms": "Комнат пока нет. Сначала добавьте комнату через «+».",
   "sharePinNotPin": "Это не ссылка на пин Pinterest",
-  "sharePinNotPinHint": "Откройте пин в приложении Pinterest и выберите «Поделиться» → Andoza AI."
+  "sharePinNotPinHint": "Откройте пин в приложении Pinterest и выберите «Поделиться» → Andoza AI.",
+  "furnitureStylesLabel": "Стили",
+  "furnitureStylesAll": "Подходит ко всем стилям",
+  "furnitureStyleNeoklassika": "Неоклассика",
+  "furnitureStyleKlassik": "Классика",
+  "furnitureStyleZamonaviy": "Современный",
+  "furnitureStyleHitech": "Хай-тек",
+  "furnitureStyleMinimalist": "Минимализм",
+  "furnitureStyleSkandinav": "Скандинавский",
+  "furnitureStyleLoft": "Лофт",
+  "furnitureStyleMilliy": "Национальный",
+  "estimateFloorStandIn": "Товар для пола не выбран — цена взята по средней в магазинах (примерно)."
 }

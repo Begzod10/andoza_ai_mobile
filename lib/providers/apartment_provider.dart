@@ -25,16 +25,34 @@ final serverRoomProvider =
   return ref.watch(apartmentRepositoryProvider).getRoom(roomId);
 });
 
-/// A floor type was picked in the Studio but no floor product was, so the
-/// smeta prices no floor at all — silently, until this was checked. The web
-/// smeta warns on the same rule (`SmetaPage.tsx`).
-bool floorChosenButUnpriced(RoomOut room) {
+/// What the smeta says about a floor whose type was picked in the Studio
+/// without a product.
+enum FloorNote {
+  /// The server priced it from the median shop product: a stand-in, approximate.
+  standIn,
+
+  /// The server has no floor line for it: the floor is not in the smeta.
+  leftOut,
+}
+
+/// The floor note for [room] given the server smeta's [lines], or null when
+/// there is nothing to say (a floor product chosen, no floor type, or a bare
+/// concrete floor). The web smeta's `floorNote` (`SmetaPage.tsx`), handoff §7.2.
+FloorNote? floorNote(RoomOut room, List<EstimateLine>? lines) {
   final design = room.state?['designState'];
-  if (design is! Map) return false;
-  final configured = design['floorConfigured'] == true;
+  if (design is! Map) return null;
   final type = design['floorType'];
-  final hasType = type is String && type.isNotEmpty;
-  return configured && hasType && room.surfaces?['floor'] == null;
+  if (design['floorConfigured'] != true ||
+      type is! String ||
+      type.isEmpty ||
+      type == 'concrete' ||
+      room.surfaces?['floor'] != null) {
+    return null;
+  }
+  const floorCategories = {'laminat', 'parket', 'plitka'};
+  final priced = (lines ?? const <EstimateLine>[])
+      .any((l) => floorCategories.contains(l.category));
+  return priced ? FloorNote.standIn : FloorNote.leftOut;
 }
 
 final apartmentsProvider = FutureProvider.autoDispose<List<Apartment>>((ref) {
