@@ -57,6 +57,13 @@ yo'q. Shuning uchun haqiqiy qurilmada server manzili **HTTPS** bo'lishi kerak.
 Android'da `andozaai://` deep link'lari yoqilgan. Impeller o'chirilgan:
 emulyatorlarda u ilovani yiqitardi.
 
+**iOS Share Extension** (`ios/ShareExtension`, "Share → Andoza AI"):
+- Ilova ichidagi ikkinchi target. Bundle id: `com.tamiruy.tamirUyMobileFlutter.ShareExtension`, team va avtomatik imzolash Runner bilan bir xil.
+- Versiyani `Generated.xcconfig` dan oladi, shuning uchun u har doim ilova versiyasiga teng bo'ladi.
+- App Group kerak emas: ulashilgan matn ilovaga `andozaai-share://pin?text=…` URL'i orqali beriladi.
+- Xcode'dan archive qilinganda (Automatic signing) extension'ning App ID va profili avtomatik yaratiladi.
+- CI'da qo'lda imzolash (`ios.yml`) uchun extension'ga ham alohida App Store provisioning profile va `ExportOptions.plist`'da ikkinchi qator kerak bo'ladi.
+
 ## Versiya
 
 `pubspec.yaml` dagi `version: 1.0.0+N` qo'lda oshiriladi (`+N` — build raqami,
