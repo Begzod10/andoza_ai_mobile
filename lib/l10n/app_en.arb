@@ -2697,5 +2697,16 @@
   "sharePinHint": "The Studio's AI designer opens with this pin.",
   "sharePinNoRooms": "No rooms yet. Add one with \"+\" first.",
   "sharePinNotPin": "This is not a Pinterest pin link",
-  "sharePinNotPinHint": "Open the pin in the Pinterest app and choose Share → Andoza AI."
+  "sharePinNotPinHint": "Open the pin in the Pinterest app and choose Share → Andoza AI.",
+  "furnitureStylesLabel": "Styles",
+  "furnitureStylesAll": "Suits every style",
+  "furnitureStyleNeoklassika": "Neoclassical",
+  "furnitureStyleKlassik": "Classic",
+  "furnitureStyleZamonaviy": "Modern",
+  "furnitureStyleHitech": "Hi-Tech",
+  "furnitureStyleMinimalist": "Minimalist",
+  "furnitureStyleSkandinav": "Scandinavian",
+  "furnitureStyleLoft": "Loft",
+  "furnitureStyleMilliy": "National",
+  "estimateFloorStandIn": "No floor product is chosen, so the price is the shops' median floor (approximate)."
 }

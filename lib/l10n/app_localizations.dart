@@ -4761,6 +4761,72 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Pinterest ilovasida pinni oching va \"Ulashish\" → Andoza AI ni tanlang.'**
   String get sharePinNotPinHint;
+
+  /// Seller product forms: heading above the furniture style chips.
+  ///
+  /// In uz, this message translates to:
+  /// **'Uslublar'**
+  String get furnitureStylesLabel;
+
+  /// Seller product forms: shown under the style chips when none is picked.
+  ///
+  /// In uz, this message translates to:
+  /// **'Hamma uslubga mos'**
+  String get furnitureStylesAll;
+
+  /// Furniture style chip (API id neoklassika).
+  ///
+  /// In uz, this message translates to:
+  /// **'Neoklassika'**
+  String get furnitureStyleNeoklassika;
+
+  /// Furniture style chip (API id klassik).
+  ///
+  /// In uz, this message translates to:
+  /// **'Klassik'**
+  String get furnitureStyleKlassik;
+
+  /// Furniture style chip (API id zamonaviy).
+  ///
+  /// In uz, this message translates to:
+  /// **'Zamonaviy'**
+  String get furnitureStyleZamonaviy;
+
+  /// Furniture style chip (API id hitech).
+  ///
+  /// In uz, this message translates to:
+  /// **'Hi-Tech'**
+  String get furnitureStyleHitech;
+
+  /// Furniture style chip (API id minimalist).
+  ///
+  /// In uz, this message translates to:
+  /// **'Minimalist'**
+  String get furnitureStyleMinimalist;
+
+  /// Furniture style chip (API id skandinav).
+  ///
+  /// In uz, this message translates to:
+  /// **'Skandinav'**
+  String get furnitureStyleSkandinav;
+
+  /// Furniture style chip (API id loft).
+  ///
+  /// In uz, this message translates to:
+  /// **'Loft'**
+  String get furnitureStyleLoft;
+
+  /// Furniture style chip (API id milliy).
+  ///
+  /// In uz, this message translates to:
+  /// **'Milliy'**
+  String get furnitureStyleMilliy;
+
+  /// E1 smeta: floor type chosen without a product; the server priced it from the median shop product.
+  ///
+  /// In uz, this message translates to:
+  /// **'Pol mahsuloti tanlanmagan — narx do\'kondagi o\'rtacha poldan olindi (taxminiy).'**
+  String get estimateFloorStandIn;
 }
 
 class _AppLocalizationsDelegate

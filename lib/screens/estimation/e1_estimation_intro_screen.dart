@@ -113,8 +113,12 @@ class _E1EstimationIntroScreenState
     final serverRoom = roomId == null
         ? null
         : ref.watch(serverRoomProvider(roomId)).valueOrNull;
-    final floorUnpriced =
-        serverRoom != null && floorChosenButUnpriced(serverRoom);
+    // The server smeta prices a floor type picked without a product from the
+    // median shop product; the note says whether it did.
+    final serverLines = roomId == null
+        ? null
+        : ref.watch(estimatePreviewProvider(roomId)).valueOrNull?.lines;
+    final floor = serverRoom == null ? null : floorNote(serverRoom, serverLines);
 
     return Scaffold(
       backgroundColor: DesignTokens.backgroundLight,
@@ -142,8 +146,9 @@ class _E1EstimationIntroScreenState
                 DesignTokens.screenPaddingHorizontal,
               ),
               children: [
-                if (floorUnpriced) ...[
-                  _FloorUnpricedBanner(
+                if (floor != null) ...[
+                  _FloorNoteBanner(
+                    note: floor,
                     onPick: () => context.push('/studio/$roomId'),
                   ),
                   const SizedBox(height: DesignTokens.spacingMd),
@@ -422,11 +427,13 @@ class _StageRow extends StatelessWidget {
   }
 }
 
-/// Shown when the Studio has a floor type but no floor product: the smeta
-/// below has no floor in it, and this says so and leads back to pick one.
-class _FloorUnpricedBanner extends StatelessWidget {
-  const _FloorUnpricedBanner({required this.onPick});
+/// Shown when the Studio has a floor type but no floor product: the server
+/// either priced it from the median shop product (approximate) or left it out.
+/// Either way it leads back to the Studio to pick one.
+class _FloorNoteBanner extends StatelessWidget {
+  const _FloorNoteBanner({required this.note, required this.onPick});
 
+  final FloorNote note;
   final VoidCallback onPick;
 
   @override
@@ -445,7 +452,12 @@ class _FloorUnpricedBanner extends StatelessWidget {
               color: DesignTokens.accentOrange),
           const SizedBox(width: DesignTokens.spacingSm),
           Expanded(
-            child: Text(l10n.estimateFloorUnpriced, style: DesignTokens.body2),
+            child: Text(
+              note == FloorNote.standIn
+                  ? l10n.estimateFloorStandIn
+                  : l10n.estimateFloorUnpriced,
+              style: DesignTokens.body2,
+            ),
           ),
           TextButton(
             onPressed: onPick,

@@ -71,6 +71,12 @@ o'z holicha ko'rsatiladi.
 (`roomPersistenceProvider`). Server shu xonaning oxirgi saqlangan smetasini
 biriktiradi.
 
+**Mebel uslublari** (`styles`): `neoklassika`, `klassik`, `zamonaviy`, `hitech`,
+`minimalist`, `skandinav`, `loft`, `milliy` (`furnitureStyles`). Hech biri
+tanlanmasa, model hamma uslubga mos. `POST /seller/furniture` (multipart) ularni
+vergul bilan bitta `styles` maydonida oladi; `PATCH /seller/furniture/{id}`
+`styles: [...]` ro'yxatini oladi: `[]` tozalaydi, maydon yo'q bo'lsa o'zgarmaydi.
+
 ## Yangi endpoint qo'shish
 
 1. Mos `lib/repositories/<mavzu>_repository.dart` ga metod qo'shing. `ApiClient` orqali chaqiring, to'g'ridan-to'g'ri Dio yaratmang.
