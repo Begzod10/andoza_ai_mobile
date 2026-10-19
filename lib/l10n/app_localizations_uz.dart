@@ -2563,4 +2563,24 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get pushChannelName => 'Andoza yangiliklari';
+
+  @override
+  String get sharePinTitle => 'Pinterest pin';
+
+  @override
+  String get sharePinChooseRoom => 'Qaysi xonaga qo\'llaymiz?';
+
+  @override
+  String get sharePinHint => 'Studio\'dagi AI dizayner shu pin bilan ochiladi.';
+
+  @override
+  String get sharePinNoRooms =>
+      'Hali xona yo\'q. Avval \"+\" orqali xona qo\'shing.';
+
+  @override
+  String get sharePinNotPin => 'Bu Pinterest pin havolasi emas';
+
+  @override
+  String get sharePinNotPinHint =>
+      'Pinterest ilovasida pinni oching va \"Ulashish\" → Andoza AI ni tanlang.';
 }

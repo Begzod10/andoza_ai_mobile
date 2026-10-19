@@ -2691,5 +2691,11 @@
   "settingsNotificationsTitle": "Notifications",
   "settingsNotificationsOn": "On",
   "settingsNotificationsOff": "Off",
-  "pushChannelName": "Andoza updates"
+  "pushChannelName": "Andoza updates",
+  "sharePinTitle": "Pinterest pin",
+  "sharePinChooseRoom": "Which room is it for?",
+  "sharePinHint": "The Studio's AI designer opens with this pin.",
+  "sharePinNoRooms": "No rooms yet. Add one with \"+\" first.",
+  "sharePinNotPin": "This is not a Pinterest pin link",
+  "sharePinNotPinHint": "Open the pin in the Pinterest app and choose Share → Andoza AI."
 }

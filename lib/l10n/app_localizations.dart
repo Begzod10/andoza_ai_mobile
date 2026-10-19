@@ -4725,6 +4725,42 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Andoza yangiliklari'**
   String get pushChannelName;
+
+  /// Share screen (a pin shared from the Pinterest app): app-bar title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Pinterest pin'**
+  String get sharePinTitle;
+
+  /// Share screen: heading above the list of the user's rooms.
+  ///
+  /// In uz, this message translates to:
+  /// **'Qaysi xonaga qo\'llaymiz?'**
+  String get sharePinChooseRoom;
+
+  /// Share screen: what happens after a room is picked.
+  ///
+  /// In uz, this message translates to:
+  /// **'Studio\'dagi AI dizayner shu pin bilan ochiladi.'**
+  String get sharePinHint;
+
+  /// Share screen: shown when the user has no rooms to apply the pin to.
+  ///
+  /// In uz, this message translates to:
+  /// **'Hali xona yo\'q. Avval \"+\" orqali xona qo\'shing.'**
+  String get sharePinNoRooms;
+
+  /// Share screen: the shared text has no Pinterest pin link (same wording as the API's 422).
+  ///
+  /// In uz, this message translates to:
+  /// **'Bu Pinterest pin havolasi emas'**
+  String get sharePinNotPin;
+
+  /// Share screen: how to share a pin, under the not-a-pin message.
+  ///
+  /// In uz, this message translates to:
+  /// **'Pinterest ilovasida pinni oching va \"Ulashish\" → Andoza AI ni tanlang.'**
+  String get sharePinNotPinHint;
 }
 
 class _AppLocalizationsDelegate

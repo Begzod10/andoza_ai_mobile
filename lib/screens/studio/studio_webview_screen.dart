@@ -42,8 +42,14 @@ class StudioWebViewScreen extends ConsumerStatefulWidget {
   /// [focus] opens the room on its own, without the flat's other rooms around
   /// it (the web studio's `?focus=1`).
   // ignore: prefer_const_constructors_in_immutables
-  StudioWebViewScreen.studio({required String roomId, bool focus = false, Key? key})
-      : this(path: focus ? '/studio/$roomId?focus=1' : '/studio/$roomId', key: key);
+  /// [aiPin] opens the studio's AI designer with that Pinterest pin already
+  /// taken (the web studio's `?ai_pin=`), after "Share → Andoza AI".
+  StudioWebViewScreen.studio({
+    required String roomId,
+    bool focus = false,
+    String? aiPin,
+    Key? key,
+  }) : this(path: studioRoomPath(roomId, focus: focus, aiPin: aiPin), key: key);
 
   /// The frontend route to open (e.g. `/wizard`, `/studio/{roomId}`).
   final String path;
@@ -55,6 +61,19 @@ class StudioWebViewScreen extends ConsumerStatefulWidget {
   @override
   ConsumerState<StudioWebViewScreen> createState() =>
       _StudioWebViewScreenState();
+}
+
+/// The studio path for a room: `?focus=1` opens it alone, `?ai_pin=` opens
+/// the AI designer with a Pinterest pin.
+String studioRoomPath(String roomId, {bool focus = false, String? aiPin}) {
+  final query = {
+    if (focus) 'focus': '1',
+    'ai_pin': ?aiPin,
+  };
+  return Uri(
+    path: '/studio/$roomId',
+    queryParameters: query.isEmpty ? null : query,
+  ).toString();
 }
 
 /// The web page to open for [path]. `app=1` tells the page it is inside the

@@ -2568,4 +2568,24 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get pushChannelName => 'Новости Andoza';
+
+  @override
+  String get sharePinTitle => 'Пин из Pinterest';
+
+  @override
+  String get sharePinChooseRoom => 'К какой комнате применить?';
+
+  @override
+  String get sharePinHint => 'AI-дизайнер в Студии откроется с этим пином.';
+
+  @override
+  String get sharePinNoRooms =>
+      'Комнат пока нет. Сначала добавьте комнату через «+».';
+
+  @override
+  String get sharePinNotPin => 'Это не ссылка на пин Pinterest';
+
+  @override
+  String get sharePinNotPinHint =>
+      'Откройте пин в приложении Pinterest и выберите «Поделиться» → Andoza AI.';
 }

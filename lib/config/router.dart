@@ -17,6 +17,7 @@ import '../screens/home/home_with_projects_screen.dart';
 import '../screens/room_setup/dimensions_entry_screen.dart';
 import '../screens/room_setup/wall_measurements_screen.dart';
 import '../screens/room_setup/room_summary_screen.dart';
+import '../screens/share/share_pin_screen.dart';
 import '../screens/scanning/ar_scan_screen.dart';
 import '../screens/scanning/photo_scanning_screen.dart';
 import '../screens/scanning/room_scan_screen.dart';
@@ -461,6 +462,16 @@ final routerProvider = Provider<GoRouter>((ref) {
           roomId: state.pathParameters['roomId']!,
           // `?focus=1`: open this room alone (used right after a scan).
           focus: state.uri.queryParameters['focus'] == '1',
+          aiPin: state.uri.queryParameters['ai_pin'],
+        ),
+      ),
+      // "Share → Andoza AI" from the Pinterest app: pick the room, then the
+      // studio opens its AI designer with the pin (lib/services/share_intent.dart).
+      GoRoute(
+        path: '/share/pin',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => SharePinScreen(
+          text: state.uri.queryParameters['text'] ?? '',
         ),
       ),
       // Native room-capture wizard (full-screen, outside the ShellRoute so the

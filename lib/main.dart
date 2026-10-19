@@ -9,6 +9,7 @@ import 'services/firebase_setup.dart';
 import 'services/push_router.dart';
 import 'services/push_service.dart';
 import 'services/session_telemetry.dart';
+import 'services/share_intent.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +32,7 @@ class MyApp extends ConsumerWidget {
     ref.watch(sessionTelemetryProvider);
     ref.watch(pushRegistrationProvider);
     ref.watch(pushNotificationsProvider);
+    ref.watch(shareIntentProvider);
 
     return MaterialApp.router(
       title: 'Andoza AI Mobile',

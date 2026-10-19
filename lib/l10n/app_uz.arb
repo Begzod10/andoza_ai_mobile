@@ -2760,5 +2760,17 @@
   "settingsNotificationsOff": "O'chirilgan",
   "@settingsNotificationsOff": {"description": "Settings screen: notifications row subtitle when permission is not granted."},
   "pushChannelName": "Andoza yangiliklari",
-  "@pushChannelName": {"description": "Android notification channel name shown in system settings."}
+  "@pushChannelName": {"description": "Android notification channel name shown in system settings."},
+  "sharePinTitle": "Pinterest pin",
+  "@sharePinTitle": {"description": "Share screen (a pin shared from the Pinterest app): app-bar title."},
+  "sharePinChooseRoom": "Qaysi xonaga qo'llaymiz?",
+  "@sharePinChooseRoom": {"description": "Share screen: heading above the list of the user's rooms."},
+  "sharePinHint": "Studio'dagi AI dizayner shu pin bilan ochiladi.",
+  "@sharePinHint": {"description": "Share screen: what happens after a room is picked."},
+  "sharePinNoRooms": "Hali xona yo'q. Avval \"+\" orqali xona qo'shing.",
+  "@sharePinNoRooms": {"description": "Share screen: shown when the user has no rooms to apply the pin to."},
+  "sharePinNotPin": "Bu Pinterest pin havolasi emas",
+  "@sharePinNotPin": {"description": "Share screen: the shared text has no Pinterest pin link (same wording as the API's 422)."},
+  "sharePinNotPinHint": "Pinterest ilovasida pinni oching va \"Ulashish\" → Andoza AI ni tanlang.",
+  "@sharePinNotPinHint": {"description": "Share screen: how to share a pin, under the not-a-pin message."}
 }
