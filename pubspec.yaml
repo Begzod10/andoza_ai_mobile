@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+15
+version: 1.0.0+16
 
 environment:
   sdk: ^3.13.0
@@ -70,6 +70,8 @@ dependencies:
 
   # WebView host for the 3D Studio (embeds the React/Three.js editor)
   webview_flutter: ^4.10.0
+  # Android file chooser for the Studio's image uploads (AndroidWebViewController).
+  webview_flutter_android: ^4.13.0
 
   # Image picking for wallpaper uploads to the shared library
   image_picker: ^1.1.2

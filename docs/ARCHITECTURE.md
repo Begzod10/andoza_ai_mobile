@@ -90,6 +90,7 @@ Frontend shu parametrga qarab o'zining "orqaga" tugmasini yashiradi.
 - Studiya `/studio/*` dan chiqsa (masalan `/projects` yoki `/login` ga), ekran yopiladi va ilovaga qaytiladi.
 - "Orqaga" bosilganda ilova `window.__captureRoomThumbnail?.()` ni chaqiradi (xona rasmini saqlash) va 150 ms dan keyin yopiladi.
 - JS'dan ilovaga xabar kanali yo'q.
+- **Fayl yuklash (`<input type="file">`).** Studiyadagi rasm yuklashlar (rasmdan AI dizayn, pol teksturasi, mebel fotosi) iOS'da WKWebView'ning o'z oynasi orqali ishlaydi. Android WebView esa ilova javob bermaguncha bu tugmalarni e'tiborsiz qoldiradi. Shuning uchun Android'da `AndroidWebViewController.setOnShowFileSelector` ulangan (`screens/studio/webview_file_chooser.dart`): foydalanuvchi kamera yoki galereyani tanlaydi, `image_picker` rasmni 2048 px gacha kichraytirib, JPEG qilib beradi. Faqat rasm qabul qiladigan input'larga javob beriladi.
 
 ## LiDAR skaner (iOS RoomPlan)
 
