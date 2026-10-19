@@ -96,6 +96,23 @@
 				<string>com.googleusercontent.apps.632412937266-nb16ekesaj9ubuahnmio29187nu5uhre</string>
 			</array>
 		</dict>
+		<dict>
+			<!-- The Share Extension hands a shared Pinterest pin to the app:
+			     andozaai-share://pin?text=… (SceneDelegate → ShareChannel). -->
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.tamiruy.tamirUyMobileFlutter.share</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>andozaai-share</string>
+			</array>
+		</dict>
 	</array>
+	<!-- No Flutter route pushes from URLs: a URL opening the app would skip the
+	     splash (which restores the session) and land on login. The only app URL
+	     is the share one above, handled natively. -->
+	<key>FlutterDeepLinkingEnabled</key>
+	<false/>
 </dict>
 </plist>

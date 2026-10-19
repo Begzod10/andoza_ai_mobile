@@ -33,7 +33,9 @@ String? findPinUrl(String text) {
 String sharePinRoute(String text) =>
     Uri(path: '/share/pin', queryParameters: {'text': text}).toString();
 
-/// Native side: `ShareChannel.kt` (Android). iOS has no share extension yet.
+/// Native side: `ShareChannel.kt` (Android, the share intent) and
+/// `ShareChannel.swift` (iOS, fed by the Share Extension through
+/// `andozaai-share://pin?text=…`).
 const shareChannel = MethodChannel('andoza/share');
 
 /// Text shared to the app ("Share → Andoza AI") opens [sharePinRoute]: at
@@ -69,16 +71,19 @@ class ShareIntentHandler {
       final initial = await channel.invokeMethod<String>('take');
       if (initial != null && initial.trim().isNotEmpty) open(initial);
     } on MissingPluginException {
-      // iOS and tests: no share channel.
+      // Tests and platforms without the share channel.
     } catch (e) {
       debugPrint('Share intent setup failed: $e');
     }
   }
 }
 
-/// Keep-alive, watched by the app: wires shares to the router on Android.
+/// Keep-alive, watched by the app: wires shares to the router.
 final shareIntentProvider = Provider<void>((ref) {
-  if (defaultTargetPlatform != TargetPlatform.android) return;
+  if (defaultTargetPlatform != TargetPlatform.android &&
+      defaultTargetPlatform != TargetPlatform.iOS) {
+    return;
+  }
   final handler = ShareIntentHandler(ref.read);
   handler.navigate = (route) => ref.read(routerProvider).push(route);
   handler.attach(shareChannel);

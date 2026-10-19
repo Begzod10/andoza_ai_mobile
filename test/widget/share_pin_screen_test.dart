@@ -90,4 +90,10 @@ void main() {
     await _pump(tester, text: _share, flats: [_flat(const [])]);
     expect(find.textContaining('Hali xona yo\'q'), findsOneWidget);
   });
+
+  testWidgets('opened alone (a share at launch) it can be closed to home',
+      (tester) async {
+    await _pump(tester, text: _share, flats: [_flat(const [])]);
+    expect(find.byTooltip('Yopish'), findsOneWidget);
+  });
 }

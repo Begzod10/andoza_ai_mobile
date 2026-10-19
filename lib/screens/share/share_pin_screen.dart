@@ -29,6 +29,15 @@ class SharePinScreen extends ConsumerWidget {
       appBar: AppBar(
         backgroundColor: DesignTokens.backgroundLight,
         elevation: 0,
+        // Opened by a share at launch, the screen is alone on the stack: a
+        // close button leads home instead of leaving no way out.
+        leading: context.canPop()
+            ? null
+            : IconButton(
+                icon: const Icon(Icons.close),
+                tooltip: l10n.actionClose,
+                onPressed: () => context.go('/'),
+              ),
         title: Text(l10n.sharePinTitle, style: DesignTokens.heading3),
       ),
       body: SafeArea(

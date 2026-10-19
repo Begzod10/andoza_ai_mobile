@@ -94,14 +94,14 @@ Frontend shu parametrga qarab o'zining "orqaga" tugmasini yashiradi.
 
 ## "Share → Andoza AI" (Pinterest pin)
 
-Pinterest ilovasida pin ulashilganda (masalan `"Check out this Pin! https://pin.it/AbCd12"`), Android uni ilovaga yuboradi:
+Pinterest ilovasida pin ulashilganda (masalan `"Check out this Pin! https://pin.it/AbCd12"`), matn ilovaga ikki yo'l bilan keladi va keyingi qadamlar ikkala platformada bir xil:
 
-1. `MainActivity` `ACTION_SEND` / `text/plain` intent'ni qabul qiladi va `ShareChannel` (`andoza/share` kanali) orqali Dart'ga beradi. Ilova ishga tushganda kelgan share `take` chaqirilguncha kutib turadi. Ilova ochiq paytda kelgani esa darhol `shared` bilan yuboriladi.
+1. Matn `andoza/share` kanali orqali Dart'ga beriladi. Ilova ishga tushganda kelgan share Dart `take` chaqirguncha kutib turadi. Ilova ochiq paytda kelgani esa darhol `shared` bilan yuboriladi.
+   - **Android:** `MainActivity` `ACTION_SEND` / `text/plain` intent'ni qabul qiladi va `ShareChannel.kt` orqali uzatadi.
+   - **iOS:** `ios/ShareExtension` (`ShareViewController`) ulashilgan havola yoki matnni o'qiydi va ilovani `andozaai-share://pin?text=…` bilan ochadi. Extension `UIApplication.shared`ni chaqira olmaydi, shuning uchun ilova obyekti responder zanjiri orqali topiladi. `SceneDelegate` URL'ni `ShareChannel.swift`ga beradi. `Info.plist`da `FlutterDeepLinkingEnabled = false`: URL bilan ochilgan ilova splash'ni o'tkazib yubormasligi kerak, aks holda sessiya tiklanmay login ekrani chiqadi.
 2. `services/share_intent.dart` share'ni `/share/pin?text=…` sahifasiga yo'naltiradi. Foydalanuvchi login qilmagan bo'lsa, sahifa kirgandan keyin ochiladi. Bunda push bilan bir xil mexanizm ishlatiladi: `pendingPushRouteProvider`.
 3. `screens/share/share_pin_screen.dart` matndan pin havolasini ajratadi (web'dagi `findPinUrl` bilan bir xil qoida) va qaysi xonaga qo'llashni so'raydi.
 4. Tanlangan xona Studio'da `/studio/<id>?ai_pin=<havola>` bilan ochiladi. Web Studio AI dizaynerni shu pin bilan ochadi, reja web'dagidek tuziladi va qo'llanadi.
-
-iOS'da Share Extension hali yo'q. Uning uchun Apple Developer hisobida App Group va alohida provisioning profile kerak.
 
 ## LiDAR skaner (iOS RoomPlan)
 
