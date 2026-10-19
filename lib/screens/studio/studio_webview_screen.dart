@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
 
 import '../../config/app_config.dart';
 import '../../config/design_tokens.dart';
@@ -11,6 +13,7 @@ import '../../l10n/app_localizations.dart';
 import '../../models/user_model.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/common/error_view.dart';
+import 'webview_file_chooser.dart';
 
 /// Embeds a web page from the React/Three.js frontend (the 3D Studio or the
 /// room-capture wizard) in a WebView, authenticated as the current mobile user.
@@ -173,8 +176,48 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
           },
         ),
       );
+    // Android's WebView ignores <input type="file"> unless the app answers it,
+    // so every Studio image upload did nothing there. iOS has its own picker.
+    final platform = controller.platform;
+    if (platform is AndroidWebViewController) {
+      platform.setOnShowFileSelector(
+        (params) => answerFileSelector(
+          acceptTypes: params.acceptTypes,
+          multiple: params.mode == FileSelectorMode.openMultiple,
+          capture: params.isCaptureEnabled,
+          chooseSource: _chooseImageSource,
+          pick: pickWithImagePicker,
+        ),
+      );
+    }
     setState(() => _controller = controller);
     _bootstrap(auth, controller);
+  }
+
+  /// Camera or gallery, for an image upload in the Studio (Android).
+  Future<ImageSource?> _chooseImageSource() {
+    if (!mounted) return Future.value();
+    final l10n = AppLocalizations.of(context)!;
+    return showModalBottomSheet<ImageSource>(
+      context: context,
+      builder: (ctx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_camera_outlined),
+              title: Text(l10n.addProductCamera),
+              onTap: () => Navigator.pop(ctx, ImageSource.camera),
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library_outlined),
+              title: Text(l10n.addProductGallery),
+              onTap: () => Navigator.pop(ctx, ImageSource.gallery),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<void> _bootstrap(
