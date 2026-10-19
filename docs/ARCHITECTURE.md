@@ -92,6 +92,17 @@ Frontend shu parametrga qarab o'zining "orqaga" tugmasini yashiradi.
 - JS'dan ilovaga xabar kanali yo'q.
 - **Fayl yuklash (`<input type="file">`).** Studiyadagi rasm yuklashlar (rasmdan AI dizayn, pol teksturasi, mebel fotosi) iOS'da WKWebView'ning o'z oynasi orqali ishlaydi. Android WebView esa ilova javob bermaguncha bu tugmalarni e'tiborsiz qoldiradi. Shuning uchun Android'da `AndroidWebViewController.setOnShowFileSelector` ulangan (`screens/studio/webview_file_chooser.dart`): foydalanuvchi kamera yoki galereyani tanlaydi, `image_picker` rasmni 2048 px gacha kichraytirib, JPEG qilib beradi. Faqat rasm qabul qiladigan input'larga javob beriladi.
 
+## "Share → Andoza AI" (Pinterest pin)
+
+Pinterest ilovasida pin ulashilganda (masalan `"Check out this Pin! https://pin.it/AbCd12"`), Android uni ilovaga yuboradi:
+
+1. `MainActivity` `ACTION_SEND` / `text/plain` intent'ni qabul qiladi va `ShareChannel` (`andoza/share` kanali) orqali Dart'ga beradi. Ilova ishga tushganda kelgan share `take` chaqirilguncha kutib turadi. Ilova ochiq paytda kelgani esa darhol `shared` bilan yuboriladi.
+2. `services/share_intent.dart` share'ni `/share/pin?text=…` sahifasiga yo'naltiradi. Foydalanuvchi login qilmagan bo'lsa, sahifa kirgandan keyin ochiladi. Bunda push bilan bir xil mexanizm ishlatiladi: `pendingPushRouteProvider`.
+3. `screens/share/share_pin_screen.dart` matndan pin havolasini ajratadi (web'dagi `findPinUrl` bilan bir xil qoida) va qaysi xonaga qo'llashni so'raydi.
+4. Tanlangan xona Studio'da `/studio/<id>?ai_pin=<havola>` bilan ochiladi. Web Studio AI dizaynerni shu pin bilan ochadi, reja web'dagidek tuziladi va qo'llanadi.
+
+iOS'da Share Extension hali yo'q. Uning uchun Apple Developer hisobida App Group va alohida provisioning profile kerak.
+
 ## LiDAR skaner (iOS RoomPlan)
 
 **Kanal:** `andoza/roomscan` (`ios/Runner/RoomScan/RoomScanPlugin.swift`).

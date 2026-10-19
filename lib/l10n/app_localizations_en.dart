@@ -2568,4 +2568,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pushChannelName => 'Andoza updates';
+
+  @override
+  String get sharePinTitle => 'Pinterest pin';
+
+  @override
+  String get sharePinChooseRoom => 'Which room is it for?';
+
+  @override
+  String get sharePinHint => 'The Studio\'s AI designer opens with this pin.';
+
+  @override
+  String get sharePinNoRooms => 'No rooms yet. Add one with \"+\" first.';
+
+  @override
+  String get sharePinNotPin => 'This is not a Pinterest pin link';
+
+  @override
+  String get sharePinNotPinHint =>
+      'Open the pin in the Pinterest app and choose Share → Andoza AI.';
 }

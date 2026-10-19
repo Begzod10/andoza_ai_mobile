@@ -2691,5 +2691,11 @@
   "settingsNotificationsTitle": "Уведомления",
   "settingsNotificationsOn": "Включены",
   "settingsNotificationsOff": "Выключены",
-  "pushChannelName": "Новости Andoza"
+  "pushChannelName": "Новости Andoza",
+  "sharePinTitle": "Пин из Pinterest",
+  "sharePinChooseRoom": "К какой комнате применить?",
+  "sharePinHint": "AI-дизайнер в Студии откроется с этим пином.",
+  "sharePinNoRooms": "Комнат пока нет. Сначала добавьте комнату через «+».",
+  "sharePinNotPin": "Это не ссылка на пин Pinterest",
+  "sharePinNotPinHint": "Откройте пин в приложении Pinterest и выберите «Поделиться» → Andoza AI."
 }
