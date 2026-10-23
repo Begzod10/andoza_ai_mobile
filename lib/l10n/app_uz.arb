@@ -1512,6 +1512,10 @@
   "@studioAiHint": {
     "description": "AI builder sheet: example prompt hint in the request text field."
   },
+  "studioAiStyleLabel": "Uslub (ixtiyoriy)",
+  "@studioAiStyleLabel": {
+    "description": "AI builder sheet: heading over the optional furniture style chips; the chosen style is put in front of the request."
+  },
   "studioGenerating": "Ishlanmoqda…",
   "@studioGenerating": {
     "description": "AI builder sheet: generate button label while the AI is working."

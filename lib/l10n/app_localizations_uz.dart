@@ -1159,6 +1159,9 @@ class AppLocalizationsUz extends AppLocalizations {
       'Masalan: \"Devorlarni iliq bej rangga bo\'ya va divan qo\'sh\"';
 
   @override
+  String get studioAiStyleLabel => 'Uslub (ixtiyoriy)';
+
+  @override
   String get studioGenerating => 'Ishlanmoqda…';
 
   @override
