@@ -1172,6 +1172,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'For example: \"Paint the walls warm beige and add a sofa\"';
 
   @override
+  String get studioAiStyleLabel => 'Style (optional)';
+
+  @override
   String get studioGenerating => 'Generating…';
 
   @override

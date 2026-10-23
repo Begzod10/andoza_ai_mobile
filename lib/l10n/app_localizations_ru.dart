@@ -1167,6 +1167,9 @@ class AppLocalizationsRu extends AppLocalizations {
       'Например: \"Покрась стены в тёплый бежевый и добавь диван\"';
 
   @override
+  String get studioAiStyleLabel => 'Стиль (необязательно)';
+
+  @override
   String get studioGenerating => 'Обрабатывается…';
 
   @override

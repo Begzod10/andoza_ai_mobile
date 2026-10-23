@@ -1400,6 +1400,7 @@
   "@studioAiHint": {
     "description": "AI builder sheet: example prompt hint in the request text field."
   },
+  "studioAiStyleLabel": "Style (optional)",
   "studioGenerating": "Generating…",
   "@studioGenerating": {
     "description": "AI builder sheet: generate button label while the AI is working."

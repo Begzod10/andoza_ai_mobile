@@ -2200,6 +2200,12 @@ abstract class AppLocalizations {
   /// **'Masalan: \"Devorlarni iliq bej rangga bo\'ya va divan qo\'sh\"'**
   String get studioAiHint;
 
+  /// AI builder sheet: heading over the optional furniture style chips; the chosen style is put in front of the request.
+  ///
+  /// In uz, this message translates to:
+  /// **'Uslub (ixtiyoriy)'**
+  String get studioAiStyleLabel;
+
   /// AI builder sheet: generate button label while the AI is working.
   ///
   /// In uz, this message translates to:
