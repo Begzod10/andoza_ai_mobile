@@ -78,6 +78,35 @@ String studioPageUrl(String base, String path) {
   return '$base$path${sep}app=1';
 }
 
+/// The colour at the bottom of the web studio's 3D view.
+const _studioFloorColor = Color(0xFF0F1B2A);
+
+/// The first opaque background colour from the element at the page's bottom
+/// middle up to the root, as CSS gives it ("rgb(237, 227, 250)").
+const _bottomColorJs = '''
+(function () {
+  var el = document.elementFromPoint(window.innerWidth / 2, window.innerHeight - 2);
+  for (; el; el = el.parentElement) {
+    var c = getComputedStyle(el).backgroundColor;
+    if (c && c !== 'transparent' && !/rgba\\(.*,\\s*0\\)\$/.test(c)) return c;
+  }
+  return '';
+})()
+''';
+
+/// The colour in a CSS `rgb(r, g, b)` / `rgba(r, g, b, a)` string (quotes
+/// around it allowed, as a WebView may return them), or null.
+Color? parseCssRgb(String css) {
+  final m = RegExp(r'rgba?\((\d+),\s*(\d+),\s*(\d+)').firstMatch(css);
+  if (m == null) return null;
+  return Color.fromARGB(
+    255,
+    int.parse(m.group(1)!),
+    int.parse(m.group(2)!),
+    int.parse(m.group(3)!),
+  );
+}
+
 class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
   // Nullable + built synchronously in _init before any await, so build() never
   // reads it uninitialised (a late field would throw LateInitializationError on
@@ -93,6 +122,11 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
   bool _exiting = false;
   bool _loading = true;
   String? _error;
+  // Whether the page shown is the 3D studio itself (`/studio/...`), not the
+  // smeta (`/smeta/...`), whose title sits where the back button would.
+  bool _onStudioPage = true;
+  // The colour of the strip under the page, matched to the page's bottom.
+  Color _bottomColor = _studioFloorColor;
 
   String get _targetUrl => studioPageUrl(AppConfig.studioBaseUrl, widget.path);
 
@@ -154,7 +188,9 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
           onUrlChange: (change) {
             if (_studioReady && _hasLeftStudio(change.url)) {
               _returnToApp();
+              return;
             }
+            _pageChanged(change.url);
           },
           onPageFinished: (url) async {
             // On the first load of the origin, seed the auth flag then navigate
@@ -175,6 +211,7 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
               _studioReady = true;
             }
             if (mounted && _loading) setState(() => _loading = false);
+            _pageChanged(url);
           },
           onWebResourceError: (err) {
             // Ignore sub-resource errors; only surface a hard main-frame fail.
@@ -206,6 +243,39 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
     }
     setState(() => _controller = controller);
     _bootstrap(auth, controller);
+  }
+
+  /// Follows the page shown: the back button only over the 3D studio, and
+  /// the strip under the page in that page's bottom colour.
+  Future<void> _pageChanged(String? url) async {
+    final path = Uri.tryParse(url ?? '')?.path;
+    if (path == null || path.isEmpty) return;
+    final onStudio = path.startsWith('/studio');
+    var color = _studioFloorColor;
+    if (!onStudio) {
+      // A client-side route change lands before the new page has drawn.
+      await Future<void>.delayed(const Duration(milliseconds: 300));
+      color = await _pageBottomColor() ?? DesignTokens.white;
+    }
+    if (!mounted) return;
+    setState(() {
+      _onStudioPage = onStudio;
+      _bottomColor = color;
+    });
+  }
+
+  /// The background colour at the bottom middle of the page, or null.
+  Future<Color?> _pageBottomColor() async {
+    final controller = _controller;
+    if (controller == null) return null;
+    try {
+      final result = await controller.runJavaScriptReturningResult(
+        _bottomColorJs,
+      );
+      return parseCssRgb(result.toString());
+    } catch (_) {
+      return null;
+    }
   }
 
   /// Camera or gallery, for an image upload in the Studio (Android).
@@ -446,45 +516,64 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
       // out sits there.
       child: Scaffold(
         backgroundColor: DesignTokens.white,
-        body: SafeArea(
-          bottom: false,
-          child: Stack(
-            children: [
-              if (_error == null && _controller != null)
-                WebViewWidget(controller: _controller!),
-              if (_loading && _error == null)
-                const Center(child: CircularProgressIndicator()),
-              if (_error != null)
-                ErrorView(
-                  message: _error!,
-                  onRetry: _retry,
-                  icon: Icons.view_in_ar_outlined,
-                ),
-              // Always offer a way out: the web page hides its own back button
-              // inside the app, and a Studio opened with `go` (e.g. from the
-              // room wizard) has nothing to pop.
-              // 40 pt, so it clears the toolbar's 3D/Smeta switch beside it.
-              Positioned(
-                top: DesignTokens.spacingSm,
-                left: DesignTokens.spacingXs,
-                child: Material(
-                  color: DesignTokens.white,
-                  shape: const CircleBorder(),
-                  elevation: 2,
-                  child: SizedBox.square(
-                    dimension: 40,
-                    child: BackButton(
-                      onPressed: _onBackPressed,
-                      style: IconButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        iconSize: 20,
+        body: Column(
+          children: [
+            Expanded(
+              child: SafeArea(
+                bottom: false,
+                child: Stack(
+                  children: [
+                    if (_error == null && _controller != null)
+                      WebViewWidget(controller: _controller!),
+                    if (_loading && _error == null)
+                      const Center(child: CircularProgressIndicator()),
+                    if (_error != null)
+                      ErrorView(
+                        message: _error!,
+                        onRetry: _retry,
+                        icon: Icons.view_in_ar_outlined,
                       ),
-                    ),
-                  ),
+                    // Always offer a way out: the web page hides its own
+                    // back button inside the app, and a Studio opened with
+                    // `go` (e.g. from the room wizard) has nothing to pop.
+                    // 40 pt, so it clears the toolbar's 3D/Smeta switch.
+                    // Not over the smeta page, whose title is there; its
+                    // 3D/Smeta switch leads back, and system back works.
+                    if (_onStudioPage || _error != null)
+                      Positioned(
+                        top: DesignTokens.spacingSm,
+                        left: DesignTokens.spacingXs,
+                        child: Material(
+                          color: DesignTokens.white,
+                          shape: const CircleBorder(),
+                          elevation: 2,
+                          child: SizedBox.square(
+                            dimension: 40,
+                            child: BackButton(
+                              onPressed: _onBackPressed,
+                              style: IconButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                iconSize: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+            // The page stops above the home indicator (iOS) and the system
+            // navigation bar (Android, drawn over the app edge to edge): the
+            // studio's buttons sit at its bottom edge, and there a swipe went
+            // home or the 3-button bar covered them. The strip is the 3D
+            // view's floor colour (or the other page's bottom colour), so it
+            // reads as part of the page.
+            Container(
+              height: MediaQuery.paddingOf(context).bottom,
+              color: _bottomColor,
+            ),
+          ],
         ),
       ),
     );
