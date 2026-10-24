@@ -32,7 +32,6 @@ import 'webview_file_chooser.dart';
 class StudioWebViewScreen extends ConsumerStatefulWidget {
   const StudioWebViewScreen({
     required this.path,
-    this.title,
     super.key,
   });
 
@@ -54,10 +53,6 @@ class StudioWebViewScreen extends ConsumerStatefulWidget {
   /// The frontend route to open (e.g. `/wizard`, `/studio/{roomId}`).
   final String path;
 
-  /// The app-bar label. Defaults to [AppLocalizations.studioWebViewTitle]
-  /// when omitted.
-  final String? title;
-
   @override
   ConsumerState<StudioWebViewScreen> createState() =>
       _StudioWebViewScreenState();
@@ -77,7 +72,7 @@ String studioRoomPath(String roomId, {bool focus = false, String? aiPin}) {
 }
 
 /// The web page to open for [path]. `app=1` tells the page it is inside the
-/// app, so it hides its own back button — this screen's AppBar already has one.
+/// app, so it hides its own back button — this screen draws one over the page.
 String studioPageUrl(String base, String path) {
   final sep = path.contains('?') ? '&' : '?';
   return '$base$path${sep}app=1';
@@ -417,7 +412,7 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
     return "localStorage.setItem('uy-tamir-auth', ${jsonEncode(payload)});";
   }
 
-  /// Intercepts the AppBar back button and the system back gesture — both go
+  /// Intercepts the back button over the page and the system back gesture — both go
   /// through the Navigator's pop, which this blocks (`canPop: false`) so the
   /// thumbnail capture can fire before the WebView is torn down. Without
   /// this, only an in-studio (web) navigation away triggers a capture (via
@@ -441,34 +436,55 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) {
         if (!didPop) _onBackPressed();
       },
+      // No app bar: the page gets the whole screen under the status bar
+      // (the web studio has its own toolbar). Its left end is free, so the way
+      // out sits there.
       child: Scaffold(
-        appBar: AppBar(
-          // Always offer a way out: the web page hides its own back button
-          // inside the app, and a Studio opened with `go` (e.g. from the room
-          // wizard) has nothing to pop, so the default arrow wouldn't show.
-          leading: BackButton(onPressed: _onBackPressed),
-          title: Text(widget.title ?? l10n.studioWebViewTitle),
-          backgroundColor: DesignTokens.white,
-        ),
-        body: Stack(
-          children: [
-            if (_error == null && _controller != null)
-              WebViewWidget(controller: _controller!),
-            if (_loading && _error == null)
-              const Center(child: CircularProgressIndicator()),
-            if (_error != null)
-              ErrorView(
-                message: _error!,
-                onRetry: _retry,
-                icon: Icons.view_in_ar_outlined,
+        backgroundColor: DesignTokens.white,
+        body: SafeArea(
+          bottom: false,
+          child: Stack(
+            children: [
+              if (_error == null && _controller != null)
+                WebViewWidget(controller: _controller!),
+              if (_loading && _error == null)
+                const Center(child: CircularProgressIndicator()),
+              if (_error != null)
+                ErrorView(
+                  message: _error!,
+                  onRetry: _retry,
+                  icon: Icons.view_in_ar_outlined,
+                ),
+              // Always offer a way out: the web page hides its own back button
+              // inside the app, and a Studio opened with `go` (e.g. from the
+              // room wizard) has nothing to pop.
+              // 40 pt, so it clears the toolbar's 3D/Smeta switch beside it.
+              Positioned(
+                top: DesignTokens.spacingSm,
+                left: DesignTokens.spacingXs,
+                child: Material(
+                  color: DesignTokens.white,
+                  shape: const CircleBorder(),
+                  elevation: 2,
+                  child: SizedBox.square(
+                    dimension: 40,
+                    child: BackButton(
+                      onPressed: _onBackPressed,
+                      style: IconButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        iconSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-          ],
+            ],
+          ),
         ),
       ),
     );
