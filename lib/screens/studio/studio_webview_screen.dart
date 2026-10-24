@@ -127,6 +127,9 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
   bool _onStudioPage = true;
   // The colour of the strip under the page, matched to the page's bottom.
   Color _bottomColor = _studioFloorColor;
+  // Counts [_pageChanged] calls, so a slow one (it waits for the page to draw)
+  // cannot overwrite what a later one found.
+  int _pageSeq = 0;
 
   String get _targetUrl => studioPageUrl(AppConfig.studioBaseUrl, widget.path);
 
@@ -190,7 +193,9 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
               _returnToApp();
               return;
             }
-            _pageChanged(change.url);
+            // Before the studio is up, the URL only bounces through the
+            // bootstrap pages ('/', /login); the studio's own load reports it.
+            if (_studioReady) _pageChanged(change.url);
           },
           onPageFinished: (url) async {
             // On the first load of the origin, seed the auth flag then navigate
@@ -211,7 +216,7 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
               _studioReady = true;
             }
             if (mounted && _loading) setState(() => _loading = false);
-            _pageChanged(url);
+            if (_studioReady) _pageChanged(url);
           },
           onWebResourceError: (err) {
             // Ignore sub-resource errors; only surface a hard main-frame fail.
@@ -250,6 +255,7 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
   Future<void> _pageChanged(String? url) async {
     final path = Uri.tryParse(url ?? '')?.path;
     if (path == null || path.isEmpty) return;
+    final seq = ++_pageSeq;
     final onStudio = path.startsWith('/studio');
     var color = _studioFloorColor;
     if (!onStudio) {
@@ -257,7 +263,7 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
       await Future<void>.delayed(const Duration(milliseconds: 300));
       color = await _pageBottomColor() ?? DesignTokens.white;
     }
-    if (!mounted) return;
+    if (!mounted || seq != _pageSeq) return;
     setState(() {
       _onStudioPage = onStudio;
       _bottomColor = color;
