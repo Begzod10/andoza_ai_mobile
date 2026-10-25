@@ -63,6 +63,6 @@ jobs:
       - name: Build APK (release, debug-signed)
         run: |
           flutter build apk --release \
-            --dart-define=API_URL=https://andoza.jumaniyozov.uz/api/v1 \
-            --dart-define=API_BASE_URL=https://andoza.jumaniyozov.uz \
-            --dart-define=STUDIO_BASE_URL=https://andoza.jumaniyozov.uz
+            --dart-define=API_URL=https://andozaai.uz/api/v1 \
+            --dart-define=API_BASE_URL=https://andozaai.uz \
+            --dart-define=STUDIO_BASE_URL=https://andozaai.uz

@@ -121,9 +121,9 @@ Add under **Settings → Secrets and variables → Actions** (or via `gh` below)
 | `ASC_KEY_BASE64` | §3 |
 | `ASC_KEY_ID` | §3 |
 | `ASC_ISSUER_ID` | §3 |
-| `API_URL_PROD` | prod API base, e.g. `https://andoza.jumaniyozov.uz/api/v1` |
-| `API_BASE_URL_PROD` | *(optional but recommended)* prod API host, e.g. `https://andoza.jumaniyozov.uz` |
-| `STUDIO_BASE_URL_PROD` | *(optional but recommended)* prod web-studio origin, e.g. `https://andoza.jumaniyozov.uz` |
+| `API_URL_PROD` | prod API base, e.g. `https://andozaai.uz/api/v1` |
+| `API_BASE_URL_PROD` | *(optional but recommended)* prod API host, e.g. `https://andozaai.uz` |
+| `STUDIO_BASE_URL_PROD` | *(optional but recommended)* prod web-studio origin, e.g. `https://andozaai.uz` |
 
 > Why the two optional ones: the app reads `API_BASE_URL` and `STUDIO_BASE_URL` too
 > (the studio WebView URL). If you omit them the build still succeeds but the studio
@@ -142,9 +142,9 @@ gh secret set IOS_TEAM_ID           --body 'ABCDE12345'
 gh secret set ASC_KEY_BASE64        < asc_key.b64
 gh secret set ASC_KEY_ID            --body 'XXXXXXXXXX'
 gh secret set ASC_ISSUER_ID         --body '69a6de00-...'
-gh secret set API_URL_PROD          --body 'https://andoza.jumaniyozov.uz/api/v1'
-gh secret set API_BASE_URL_PROD     --body 'https://andoza.jumaniyozov.uz'
-gh secret set STUDIO_BASE_URL_PROD  --body 'https://andoza.jumaniyozov.uz'
+gh secret set API_URL_PROD          --body 'https://andozaai.uz/api/v1'
+gh secret set API_BASE_URL_PROD     --body 'https://andozaai.uz'
+gh secret set STUDIO_BASE_URL_PROD  --body 'https://andozaai.uz'
 ```
 
 Then delete every local `.key/.csr/.cer/.pem/.p12/.p8/.mobileprovision/*.b64` file —
@@ -213,9 +213,9 @@ you **must** override them via `--dart-define` (or the CI secrets in §4 for Tes
 
 ```bash
 flutter run -d <ios-device> \
-  --dart-define=API_URL=https://andoza.jumaniyozov.uz/api/v1 \
-  --dart-define=API_BASE_URL=https://andoza.jumaniyozov.uz \
-  --dart-define=STUDIO_BASE_URL=https://andoza.jumaniyozov.uz
+  --dart-define=API_URL=https://andozaai.uz/api/v1 \
+  --dart-define=API_BASE_URL=https://andozaai.uz \
+  --dart-define=STUDIO_BASE_URL=https://andozaai.uz
 ```
 
 - **`STUDIO_BASE_URL` in particular**: its default is the emulator's
@@ -224,7 +224,7 @@ flutter run -d <ios-device> \
   it at a host the device can actually reach (the prod studio origin, or your dev
   machine's LAN IP while iterating).
 - **App Transport Security**: the prod API and studio are served over **HTTPS**
-  (`https://andoza.jumaniyozov.uz`), and `ios/Runner/Info.plist` has **no** ATS exception
+  (`https://andozaai.uz`), and `ios/Runner/Info.plist` has **no** ATS exception
   (the old `189.74.96.11` cleartext exception was removed). A plain-HTTP host — a dev
   machine's LAN IP, for example — is therefore blocked on a real iPhone; serve it over
   HTTPS or add a narrowly scoped `NSExceptionDomains` entry for local testing only and

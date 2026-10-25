@@ -34,9 +34,9 @@ Haqiqiy qurilma yoki production uchun:
 
 ```bash
 flutter run \
-  --dart-define=API_URL=https://andoza.jumaniyozov.uz/api/v1 \
-  --dart-define=API_BASE_URL=https://andoza.jumaniyozov.uz \
-  --dart-define=STUDIO_BASE_URL=https://andoza.jumaniyozov.uz
+  --dart-define=API_URL=https://andozaai.uz/api/v1 \
+  --dart-define=API_BASE_URL=https://andozaai.uz \
+  --dart-define=STUDIO_BASE_URL=https://andozaai.uz
 ```
 
 Android HTTP (shifrlanmagan) ulanishni faqat `10.0.2.2`, `localhost`, `127.0.0.1`

@@ -10,7 +10,7 @@ import '../../l10n/app_localizations.dart';
 import '../../services/push_permission.dart';
 
 /// Public privacy policy page on the web app.
-const _privacyPolicyUrl = 'https://andoza.jumaniyozov.uz/privacy';
+const _privacyPolicyUrl = 'https://andozaai.uz/privacy';
 
 /// E9: App Preferences & Settings
 /// Customize app behavior, notifications, and display settings
