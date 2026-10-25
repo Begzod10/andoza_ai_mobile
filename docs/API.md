@@ -1,9 +1,14 @@
 # Backend bilan aloqa
 
 Ilova `andoza_ai` backend'iga (FastAPI) ulanadi. Productionda:
-`https://andoza.jumaniyozov.uz/api/v1`. Manzillar build vaqtida
+`https://andozaai.uz/api/v1`. Manzillar build vaqtida
 `--dart-define` orqali beriladi, qarang: [BUILD_AND_RELEASE.md](BUILD_AND_RELEASE.md).
 Backend tomonidagi hujjatlar: `andoza_ai/docs/` (ARCHITECTURE, DATA_MODEL, INTEGRATIONS).
+
+Eski `andoza.jumaniyozov.uz` (1.0.0+24 gacha) API va media uchun hali ishlaydi, lekin
+uning sahifalari 301 bilan `andozaai.uz` ga yo'naltiriladi. Studio WebView faqat
+`STUDIO_BASE_URL` domeniga o'tishga ruxsat beradi, shuning uchun eski domenli build'larda
+Studio "Frame load interrupted" bilan ochilmaydi (handoff §9.1).
 
 ## Klient (`lib/services/api_client.dart`)
 
