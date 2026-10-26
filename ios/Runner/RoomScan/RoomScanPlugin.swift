@@ -39,6 +39,8 @@ final class RoomScanPlugin: NSObject {
       result(Self.isSupportedPayload())
     case "scanRoom":
       scanRoom(result: result)
+    case "scanRooms":
+      scanRooms(arguments: call.arguments, result: result)
     case "scanObject":
       scanObject(result: result)
     default:
@@ -65,6 +67,47 @@ final class RoomScanPlugin: NSObject {
       os_log("isSupported = false (iOS < 16)", log: log, type: .info)
       return ["supported": false, "reason": "ios_too_old"]
     }
+  }
+
+  /// Several rooms in one session (iOS 17+): `{rooms: [{json, usdzPath}],
+  /// version: "roomplan-1", partial: Bool}`, `nil` on cancel.
+  private func scanRooms(arguments: Any?, result: @escaping FlutterResult) {
+    guard !isPresenting else {
+      result(FlutterError(code: "busy", message: "Skaner allaqachon ochiq", details: nil))
+      return
+    }
+    guard #available(iOS 17, *) else {
+      result(FlutterError(code: "ios_too_old", message: "Bir nechta xona iOS 17 yoki undan yangi versiyani talab qiladi", details: nil))
+      return
+    }
+    guard RoomCaptureSession.isSupported else {
+      result(FlutterError(code: "scan_failed", message: "Qurilma RoomPlan'ni qo'llab-quvvatlamaydi", details: nil))
+      return
+    }
+    guard let host = Self.topViewController() else {
+      result(FlutterError(code: "scan_failed", message: "Ekranni topib bo'lmadi", details: nil))
+      return
+    }
+
+    isPresenting = true
+    let controller = MultiRoomScanViewController(labels: MultiRoomScanLabels(arguments)) { [weak self] outcome in
+      guard let self = self else { return }
+      self.isPresenting = false
+      self.activeController = nil
+      switch outcome {
+      case .success(let payload):
+        os_log("scanRooms success", log: Self.log, type: .info)
+        result(payload)
+      case .cancelled:
+        result(nil)
+      case .failed(let message):
+        os_log("scanRooms failed: %{public}@", log: Self.log, type: .error, message)
+        result(FlutterError(code: "scan_failed", message: message, details: nil))
+      }
+    }
+    activeController = controller
+    controller.modalPresentationStyle = .fullScreen
+    host.present(controller, animated: true)
   }
 
   private func scanRoom(result: @escaping FlutterResult) {

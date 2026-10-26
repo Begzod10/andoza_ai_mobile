@@ -27,6 +27,7 @@
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		A1000000000000000000B0DE /* RoomScanPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000C0DE /* RoomScanPlugin.swift */; };
 		A2000000000000000000B0DE /* RoomScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000C0DE /* RoomScanViewController.swift */; };
+		A2000000000000000000B0DF /* MultiRoomScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000C0DF /* MultiRoomScanViewController.swift */; };
 		A3000000000000000000B0DE /* ObjectScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3000000000000000000C0DE /* ObjectScanViewController.swift */; };
 		ECEDD6224CB6E4CDBDB35301 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A84F5A862E48592A02384EB /* Pods_Runner.framework */; };
 		FB21FEBF783ED75E22D0A1F7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11504CB6C736B6489D180D63 /* Foundation.framework */; };
@@ -108,6 +109,7 @@
 		98E715413DCAF6AF01977745 /* Pods-RunnerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.debug.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A1000000000000000000C0DE /* RoomScanPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomScan/RoomScanPlugin.swift; sourceTree = "<group>"; };
 		A2000000000000000000C0DE /* RoomScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomScan/RoomScanViewController.swift; sourceTree = "<group>"; };
+		A2000000000000000000C0DF /* MultiRoomScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomScan/MultiRoomScanViewController.swift; sourceTree = "<group>"; };
 		A3000000000000000000C0DE /* ObjectScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomScan/ObjectScanViewController.swift; sourceTree = "<group>"; };
 		CCC80626940CB6C56B3BC10F /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		D7E78F6A210583F751795846 /* Pods-RunnerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.release.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				7884E8672EC3CC0400C636F2 /* SceneDelegate.swift */,
 				A1000000000000000000C0DE /* RoomScanPlugin.swift */,
 				A2000000000000000000C0DE /* RoomScanViewController.swift */,
+				A2000000000000000000C0DF /* MultiRoomScanViewController.swift */,
 				A3000000000000000000C0DE /* ObjectScanViewController.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
 				20F32AD942BE54BEB28ED8EB /* LidarMethodChannel.swift */,
@@ -509,6 +512,7 @@
 				8DE8056573A83E083F147432 /* DepthScanViewController.swift in Sources */,
 				A1000000000000000000B0DE /* RoomScanPlugin.swift in Sources */,
 				A2000000000000000000B0DE /* RoomScanViewController.swift in Sources */,
+				A2000000000000000000B0DF /* MultiRoomScanViewController.swift in Sources */,
 				A3000000000000000000B0DE /* ObjectScanViewController.swift in Sources */,
 				8B23F7FF5749B9C17DC23A5C /* ShareChannel.swift in Sources */,
 			);
