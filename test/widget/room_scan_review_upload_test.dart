@@ -54,7 +54,10 @@ class _FailingScanService implements RoomScanService {
       throw const RoomScanException('upload_failed', 'boom');
 
   @override
-  Future<Map<String, dynamic>> upload(String roomId, ScanResult scan) async =>
+  Future<MultiScanResult?> scanRooms({required Map<String, String> labels}) async => null;
+
+  @override
+  Future<Map<String, dynamic>> upload(String roomId, ScanResult scan, {String? scanGroup}) async =>
       throw const RoomScanException('upload_failed', 'HTTP 500');
 
   @override
