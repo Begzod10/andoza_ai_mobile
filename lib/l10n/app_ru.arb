@@ -2709,5 +2709,17 @@
   "furnitureStyleSkandinav": "Скандинавский",
   "furnitureStyleLoft": "Лофт",
   "furnitureStyleMilliy": "Национальный",
-  "estimateFloorStandIn": "Товар для пола не выбран — цена взята по средней в магазинах (примерно)."
+  "estimateFloorStandIn": "Товар для пола не выбран — цена взята по средней в магазинах (примерно).",
+  "scanChoiceTitle": "Что сканируем?",
+  "scanChoiceOneRoom": "Одну комнату",
+  "scanChoiceFlat": "Несколько комнат (квартира)",
+  "scanChoiceFlatHint": "Сканируйте комнаты подряд — они встанут на свои места в плане",
+  "scanNextRoom": "Следующая комната",
+  "scanFinish": "Готово",
+  "scanRoomN": "Комната {n}",
+  "flatReviewTitle": "Отсканированные комнаты",
+  "flatReviewRoomName": "Название комнаты",
+  "flatReviewContinue": "Открыть в студии",
+  "flatReviewPartial": "Сканирование прервалось — сохранено комнат: {n}",
+  "flatReviewDropped": "Не удалось распознать комнат: {n}, они не добавлены"
 }

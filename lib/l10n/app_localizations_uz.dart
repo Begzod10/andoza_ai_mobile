@@ -2620,4 +2620,47 @@ class AppLocalizationsUz extends AppLocalizations {
   @override
   String get estimateFloorStandIn =>
       'Pol mahsuloti tanlanmagan — narx do\'kondagi o\'rtacha poldan olindi (taxminiy).';
+
+  @override
+  String get scanChoiceTitle => 'Nimani skanerlaymiz?';
+
+  @override
+  String get scanChoiceOneRoom => 'Bitta xona';
+
+  @override
+  String get scanChoiceFlat => 'Bir nechta xona (kvartira)';
+
+  @override
+  String get scanChoiceFlatHint =>
+      'Xonalarni ketma-ket skanerlang — ular rejada o\'z joyiga tushadi';
+
+  @override
+  String get scanNextRoom => 'Keyingi xona';
+
+  @override
+  String get scanFinish => 'Tugatish';
+
+  @override
+  String scanRoomN(int n) {
+    return '$n-xona';
+  }
+
+  @override
+  String get flatReviewTitle => 'Skanerlangan xonalar';
+
+  @override
+  String get flatReviewRoomName => 'Xona nomi';
+
+  @override
+  String get flatReviewContinue => 'Studiyada ochish';
+
+  @override
+  String flatReviewPartial(int n) {
+    return 'Skaner to\'xtadi — $n ta xona saqlandi';
+  }
+
+  @override
+  String flatReviewDropped(int n) {
+    return '$n ta xona o\'qilmadi va qo\'shilmadi';
+  }
 }

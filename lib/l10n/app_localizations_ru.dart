@@ -2625,4 +2625,47 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get estimateFloorStandIn =>
       'Товар для пола не выбран — цена взята по средней в магазинах (примерно).';
+
+  @override
+  String get scanChoiceTitle => 'Что сканируем?';
+
+  @override
+  String get scanChoiceOneRoom => 'Одну комнату';
+
+  @override
+  String get scanChoiceFlat => 'Несколько комнат (квартира)';
+
+  @override
+  String get scanChoiceFlatHint =>
+      'Сканируйте комнаты подряд — они встанут на свои места в плане';
+
+  @override
+  String get scanNextRoom => 'Следующая комната';
+
+  @override
+  String get scanFinish => 'Готово';
+
+  @override
+  String scanRoomN(int n) {
+    return 'Комната $n';
+  }
+
+  @override
+  String get flatReviewTitle => 'Отсканированные комнаты';
+
+  @override
+  String get flatReviewRoomName => 'Название комнаты';
+
+  @override
+  String get flatReviewContinue => 'Открыть в студии';
+
+  @override
+  String flatReviewPartial(int n) {
+    return 'Сканирование прервалось — сохранено комнат: $n';
+  }
+
+  @override
+  String flatReviewDropped(int n) {
+    return 'Не удалось распознать комнат: $n, они не добавлены';
+  }
 }
