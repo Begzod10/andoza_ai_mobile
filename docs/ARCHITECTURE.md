@@ -107,8 +107,9 @@ Pinterest ilovasida pin ulashilganda (masalan `"Check out this Pin! https://pin.
 
 **Kanal:** `andoza/roomscan` (`ios/Runner/RoomScan/RoomScanPlugin.swift`).
 Metodlar:
-- `isSupported` → `{supported, reason}`, `reason` qiymati `no_lidar` yoki `ios_too_old`;
+- `isSupported` → `{supported, reason, multiRoom}`, `reason` qiymati `no_lidar` yoki `ios_too_old`; `multiRoom` faqat LiDAR va iOS 17+ da `true`;
 - `scanRoom` → `{json, usdzPath, version: "roomplan-1"}`, bekor qilinsa `null`;
+- `scanRooms` (iOS 17+, argument `{labels}`) → `{rooms: [{json, usdzPath}], version, partial}`, bekor qilinsa `null` (`MultiRoomScanViewController.swift`);
 - `scanObject` → `{usdzPath}` (iOS 17 Object Capture, hozircha hech qaysi ekran chaqirmaydi).
 
 **Oqim:**
@@ -124,6 +125,12 @@ Metodlar:
 Server skanerni o'zi qayta o'giradi va xona geometriyasini yangilaydi.
 Xuddi shu xona 30 daqiqa ichida qayta skanerlansa, server oldingi tegilmagan
 nusxani olib tashlaydi (`andoza_ai` backend, `room_scan_dedupe`).
+
+**Ko'p xonali skaner** (`multiRoom == true` bo'lsa, skaner ekrani "Bitta xona" / "Bir nechta xona" tanlovini ko'rsatadi, aks holda tanlov yo'q):
+1. Bitta ARSession ichida xonalar ketma-ket skanerlanadi ("Keyingi xona", "Tugatish"), shuning uchun hammasi bitta dunyo koordinatasida. Oxirida `StructureBuilder` ularni birga tozalaydi; xato bersa, olingan xonalar o'zi ishlatiladi. Ilova fonga o'tsa, tugagan xonalar saqlanadi (`partial`).
+2. Har bir xona odatdagidek o'giriladi; `RoomScanDraft.worldOrigin` xonaning dunyodagi o'rnini saqlaydi, `flatLayoutPositions` (`features/room_scan/flat_layout.dart`) undan `state.layoutPos` ni (xona markazi, metr) hisoblaydi — web studiya xonalarni shu bo'yicha joylaydi.
+3. Natija `PendingScanStore.saveFlat` ga saqlanadi va `/scanning/roomplan/review-flat` (`FlatScanReviewPage`) ochiladi: xonalar rejada, har biriga nom.
+4. `handoffScannedFlat` (`services/flat_scan_handoff.dart`) hamma xonani bitta kvartirada yaratadi va `layoutPos` ni yozadi; skanerlar bitta `scan_group` bilan yuklanadi (backend ularni bir-birining nusxasi deb o'chirmaydi); studiya butun kvartira bilan ochiladi (`/studio/{birinchi id}`, `focus` siz).
 
 **Android:** `andoza/roomscan` u yerda yo'q, shuning uchun foydalanuvchiga foto
 rejimi yoki xonani chizish taklif qilinadi.
