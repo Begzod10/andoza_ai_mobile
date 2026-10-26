@@ -2667,4 +2667,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String flatReviewDropped(int n) {
     return '$n rooms could not be read and were left out';
   }
+
+  @override
+  String flatReviewSavedSome(int saved, int total) {
+    return '$saved of $total rooms saved — scan the rest again';
+  }
 }

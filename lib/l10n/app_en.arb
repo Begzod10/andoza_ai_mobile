@@ -2721,5 +2721,6 @@
   "flatReviewRoomName": "Room name",
   "flatReviewContinue": "Open in the studio",
   "flatReviewPartial": "The scan stopped — {n} rooms kept",
-  "flatReviewDropped": "{n} rooms could not be read and were left out"
+  "flatReviewDropped": "{n} rooms could not be read and were left out",
+  "flatReviewSavedSome": "{saved} of {total} rooms saved — scan the rest again"
 }

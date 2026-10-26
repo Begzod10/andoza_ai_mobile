@@ -2721,5 +2721,6 @@
   "flatReviewRoomName": "Название комнаты",
   "flatReviewContinue": "Открыть в студии",
   "flatReviewPartial": "Сканирование прервалось — сохранено комнат: {n}",
-  "flatReviewDropped": "Не удалось распознать комнат: {n}, они не добавлены"
+  "flatReviewDropped": "Не удалось распознать комнат: {n}, они не добавлены",
+  "flatReviewSavedSome": "Сохранено комнат: {saved} из {total} — остальные отсканируйте заново"
 }

@@ -2849,5 +2849,10 @@
   "@flatReviewDropped": {
     "description": "Multi-room review: n scanned rooms could not be converted into a plan.",
     "placeholders": { "n": { "type": "int" } }
+  },
+  "flatReviewSavedSome": "{total} ta xonadan {saved} tasi saqlandi — qolganlarini qayta skanerlang",
+  "@flatReviewSavedSome": {
+    "description": "Multi-room review: saving stopped part-way; only some rooms were saved (the rest are lost and must be scanned again).",
+    "placeholders": { "saved": { "type": "int" }, "total": { "type": "int" } }
   }
 }

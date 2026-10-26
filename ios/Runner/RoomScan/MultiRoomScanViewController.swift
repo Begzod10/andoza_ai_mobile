@@ -42,8 +42,10 @@ final class MultiRoomScanViewController: UIViewController {
   private let captureConfig = RoomCaptureSession.Configuration()
 
   private var rooms: [CapturedRoom] = []
-  /// A room is being captured (between run and its processed result).
+  /// A room is being captured (between run and "Keyingi xona"/"Tugatish").
   private var capturing = false
+  /// A finished room is being processed (until captureView(didPresent:)).
+  private var processing = false
   /// "Tugatish" was tapped: merge once the current room's result arrives.
   private var finishing = false
   private var didFinish = false
@@ -179,6 +181,7 @@ final class MultiRoomScanViewController: UIViewController {
   @objc private func nextTapped() {
     guard capturing, !finishing else { return }
     capturing = false
+    processing = true
     updateCounter()
     roomCaptureView.captureSession.stop(pauseARSession: false)
   }
@@ -189,8 +192,13 @@ final class MultiRoomScanViewController: UIViewController {
     updateCounter()
     if capturing {
       capturing = false
+      processing = true
       // The last room's result arrives in captureView(didPresent:), then merge.
       roomCaptureView.captureSession.stop()
+    } else if processing {
+      // "Tugatish" right after "Keyingi xona": the previous room is still
+      // being processed — merge once it arrives, so it is not lost. (The AR
+      // session is paused in finish().)
     } else {
       merge(partial: false)
     }
@@ -214,6 +222,7 @@ final class MultiRoomScanViewController: UIViewController {
   }
 
   private func roomFinished(_ room: CapturedRoom?) {
+    processing = false
     if let room = room { rooms.append(room) }
     if finishing {
       if rooms.isEmpty { finish(.cancelled) } else { merge(partial: false) }
@@ -226,6 +235,11 @@ final class MultiRoomScanViewController: UIViewController {
   /// captured are already in one world frame (one ARSession), so use them.
   private func merge(partial: Bool) {
     guard !didFinish, !merging else { return }
+    // Never report success without a room.
+    guard !rooms.isEmpty else {
+      finish(.cancelled)
+      return
+    }
     merging = true
     let captured = rooms
     Task { @MainActor in

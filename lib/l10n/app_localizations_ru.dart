@@ -2668,4 +2668,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String flatReviewDropped(int n) {
     return 'Не удалось распознать комнат: $n, они не добавлены';
   }
+
+  @override
+  String flatReviewSavedSome(int saved, int total) {
+    return 'Сохранено комнат: $saved из $total — остальные отсканируйте заново';
+  }
 }

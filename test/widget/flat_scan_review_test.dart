@@ -28,11 +28,18 @@ class _FakePersistence extends RoomPersistenceNotifier {
 }
 
 class _FakeRepo extends ApartmentRepository {
-  _FakeRepo() : super(ApiClient(baseUrl: 'http://test'));
+  _FakeRepo({this.failCreate = false}) : super(ApiClient(baseUrl: 'http://test'));
+  final bool failCreate;
   final names = <String, String>{};
   var _n = 1;
   @override
-  Future<RoomOut> createRoom(String apartmentId, RoomCreate body) async => _room('r${++_n}');
+  Future<RoomOut> createRoom(String apartmentId, RoomCreate body) async {
+    if (failCreate) throw Exception('HTTP 500');
+    return _room('r${++_n}');
+  }
+
+  @override
+  Future<List<RoomOut>> listRooms(String apartmentId) async => const [];
   @override
   Future<RoomOut> updateRoom(String roomId,
       {String? name,
@@ -71,13 +78,13 @@ const _scan = ScanResult(
 Uri? _lastStudio;
 
 Future<(_RecordingScan scan, _FakeRepo repo)> _pump(
-    WidgetTester tester, FlatScanReviewArgs args) async {
+    WidgetTester tester, FlatScanReviewArgs args, {_FakeRepo? repo}) async {
   _lastStudio = null;
   tester.view.physicalSize = const Size(800, 2400);
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
   final scan = _RecordingScan();
-  final repo = _FakeRepo();
+  repo ??= _FakeRepo();
   final router = GoRouter(initialLocation: '/review', routes: [
     GoRoute(path: '/review', builder: (_, _) => FlatScanReviewPage(args: args)),
     GoRoute(
@@ -137,5 +144,20 @@ void main() {
             drafts: [box(4, 3)], scans: const [_scan], partial: true, dropped: 2));
     expect(find.text("Skaner to'xtadi — 1 ta xona saqlandi"), findsOneWidget);
     expect(find.text("2 ta xona o'qilmadi va qo'shilmadi"), findsOneWidget);
+  });
+
+  testWidgets('rooms that could not be saved are reported', (tester) async {
+    final args = FlatScanReviewArgs(
+        drafts: [box(4, 3), box(3, 3, ox: 4.1), box(3, 3, ox: 7.2)],
+        scans: const [_scan, _scan, _scan]);
+    await _pump(tester, args, repo: _FakeRepo(failCreate: true));
+    await tester.runAsync(() async {
+      await tester.tap(find.text('Studiyada ochish'));
+      await Future<void>.delayed(const Duration(milliseconds: 500));
+    });
+    await tester.pumpAndSettle();
+    expect(find.text('studio r1'), findsOneWidget);
+    expect(find.text('3 ta xonadan 1 tasi saqlandi — qolganlarini qayta skanerlang'),
+        findsOneWidget);
   });
 }

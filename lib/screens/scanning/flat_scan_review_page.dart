@@ -129,6 +129,10 @@ class _FlatScanReviewPageState extends ConsumerState<FlatScanReviewPage> {
     }
     // The whole flat, not one room on its own (no `focus`).
     router.pushReplacement('/studio/${ids.first}');
+    if (ids.length < _drafts.length) {
+      messenger.showSnackBar(SnackBar(
+          content: Text(l10n.flatReviewSavedSome(ids.length, _drafts.length))));
+    }
     if (uploadError != null) {
       messenger.showSnackBar(SnackBar(content: Text(l10n.scanReviewUploadFailed(uploadError))));
     }

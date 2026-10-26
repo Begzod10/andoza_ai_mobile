@@ -23,8 +23,13 @@ class _FakePersistence extends RoomPersistenceNotifier {
 }
 
 class _FakeRepo extends ApartmentRepository {
-  _FakeRepo({this.failOn}) : super(ApiClient(baseUrl: 'http://test'));
+  _FakeRepo({this.failOn, this.existing = const []}) : super(ApiClient(baseUrl: 'http://test'));
   final int? failOn;
+  final List<RoomOut> existing;
+
+  @override
+  Future<List<RoomOut>> listRooms(String apartmentId) async =>
+      [...existing, for (final id in states.keys) _room(id)];
   final created = <String>[]; // apartment ids
   final states = <String, Map<String, dynamic>>{};
   final names = <String, String>{};
@@ -109,5 +114,35 @@ void main() {
       throwsA(isA<FlatHandoffException>()
           .having((e) => e.createdIds, 'createdIds', ['r1'])),
     );
+  });
+
+  testWidgets("the flat is placed past the project's rooms already there",
+      (tester) async {
+    final repo = _FakeRepo(existing: [
+      RoomOut(
+        id: 'old',
+        apartmentId: 'a1',
+        name: 'Oshxona',
+        updatedAt: DateTime(2026),
+        geometry: {
+          'walls': [],
+          'vertices': [
+            [0, 0],
+            [4, 0],
+            [4, 3],
+            [0, 3],
+          ],
+        },
+        state: {
+          'layoutPos': {'x': 2.0, 'z': 1.5},
+        },
+      ),
+    ]);
+    final ref = await _pump(tester, repo);
+    await handoffScannedFlat(ref, drafts, names: ['A', 'B'], ceilings: [2.7, 2.7]);
+    // Old room's right edge 4 m + 1 m gap = 5 m shift.
+    expect((repo.states['r1']!['layoutPos'] as Map)['x'], closeTo(7.0, 1e-6));
+    expect((repo.states['r2']!['layoutPos'] as Map)['x'], closeTo(10.6, 1e-6));
+    expect((repo.states['r1']!['layoutPos'] as Map)['z'], closeTo(1.5, 1e-6));
   });
 }

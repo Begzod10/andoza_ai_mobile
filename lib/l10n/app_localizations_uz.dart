@@ -2663,4 +2663,9 @@ class AppLocalizationsUz extends AppLocalizations {
   String flatReviewDropped(int n) {
     return '$n ta xona o\'qilmadi va qo\'shilmadi';
   }
+
+  @override
+  String flatReviewSavedSome(int saved, int total) {
+    return '$total ta xonadan $saved tasi saqlandi — qolganlarini qayta skanerlang';
+  }
 }

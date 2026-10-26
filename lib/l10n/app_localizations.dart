@@ -4905,6 +4905,12 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'{n} ta xona o\'qilmadi va qo\'shilmadi'**
   String flatReviewDropped(int n);
+
+  /// Multi-room review: saving stopped part-way; only some rooms were saved (the rest are lost and must be scanned again).
+  ///
+  /// In uz, this message translates to:
+  /// **'{total} ta xonadan {saved} tasi saqlandi — qolganlarini qayta skanerlang'**
+  String flatReviewSavedSome(int saved, int total);
 }
 
 class _AppLocalizationsDelegate
