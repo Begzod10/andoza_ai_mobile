@@ -19,7 +19,12 @@ class ScanSupport {
   /// [supported].
   final String? reason;
 
-  const ScanSupport(this.supported, this.reason);
+  /// Whether several rooms can be scanned in one session and merged
+  /// (RoomPlan's StructureBuilder: LiDAR and iOS 17+). False when the native
+  /// side does not say, so older builds keep the single-room scan.
+  final bool multiRoom;
+
+  const ScanSupport(this.supported, this.reason, {this.multiRoom = false});
 }
 
 /// A completed RoomPlan capture handed back from the native side.
@@ -76,7 +81,11 @@ class RoomScanService {
       final supported = res?['supported'] == true;
       final reason = res?['reason'] as String?;
       _logger.i('roomscan isSupported → supported=$supported reason=$reason');
-      return ScanSupport(supported, supported ? null : (reason ?? 'unsupported'));
+      return ScanSupport(
+        supported,
+        supported ? null : (reason ?? 'unsupported'),
+        multiRoom: supported && res?['multiRoom'] == true,
+      );
     } on MissingPluginException {
       // No native handler (Android, or iOS build without the module).
       return const ScanSupport(false, 'not_implemented');

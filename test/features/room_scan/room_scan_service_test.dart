@@ -36,6 +36,19 @@ void main() {
       expect(s.reason, 'no_lidar');
     });
 
+    test('checkSupport reads multiRoom', () async {
+      mock((call) async =>
+          <String, dynamic>{'supported': true, 'reason': null, 'multiRoom': true});
+      final s = await service.checkSupport();
+      expect(s.multiRoom, isTrue);
+    });
+
+    test('checkSupport defaults multiRoom to false', () async {
+      mock((call) async => <String, dynamic>{'supported': true, 'reason': null});
+      final s = await service.checkSupport();
+      expect(s.multiRoom, isFalse);
+    });
+
     test('no native handler (Android) → not_implemented, never throws', () async {
       // No mock handler installed → MissingPluginException path.
       final s = await service.checkSupport();

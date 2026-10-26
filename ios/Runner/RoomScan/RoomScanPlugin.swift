@@ -46,12 +46,17 @@ final class RoomScanPlugin: NSObject {
     }
   }
 
-  /// `{supported: Bool, reason: "no_lidar" | "ios_too_old" | null}`
+  /// `{supported: Bool, reason: "no_lidar" | "ios_too_old" | null, multiRoom: Bool}`
+  /// — `multiRoom`: several rooms in one session, merged by StructureBuilder
+  /// (iOS 17+).
   private static func isSupportedPayload() -> [String: Any] {
     if #available(iOS 16, *) {
       if RoomCaptureSession.isSupported {
-        os_log("isSupported = true", log: log, type: .info)
-        return ["supported": true, "reason": NSNull()]
+        var multiRoom = false
+        if #available(iOS 17, *) { multiRoom = true }
+        os_log("isSupported = true, multiRoom = %{public}@", log: log, type: .info,
+               multiRoom ? "true" : "false")
+        return ["supported": true, "reason": NSNull(), "multiRoom": multiRoom]
       } else {
         os_log("isSupported = false (no LiDAR)", log: log, type: .info)
         return ["supported": false, "reason": "no_lidar"]
