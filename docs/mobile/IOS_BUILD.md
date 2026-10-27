@@ -201,6 +201,21 @@ What to look for in `xcodebuild.log`:
   Keep the Podfile and the Xcode target on the same value.
 - Impeller stays at its iOS default (on). The Android-only `EnableImpeller=false` flag
   must not be copied to iOS.
+- **iPhone only** (`TARGETED_DEVICE_FAMILY = 1` on Runner and ShareExtension): App
+  Store review then needs no iPad screenshots and does not test on iPad.
+- App Store review items already in the project: Sign in with Apple next to Google on
+  the login screen (`services/apple_sign_in_service.dart`, backend `POST /auth/apple`);
+  "Shikoyat qilish" / "Bloklash" on a craftsman profile and "Shikoyat qilish" on a
+  product (guideline 1.2, `features/moderation/`); camera/photo permission texts in
+  `Runner/{en,ru,uz}.lproj/InfoPlist.strings` (the English one is also the fallback in
+  `Info.plist`); `Runner/PrivacyInfo.xcprivacy`; `ITSAppUsesNonExemptEncryption = false`.
+- **`Runner/Runner.entitlements` is not wired yet.** It holds Sign in with Apple and
+  `aps-environment` (push), which the free personal team `24GC58FD74` cannot sign. Once
+  the paid Apple Developer team signs the app: enable *Sign in with Apple* and *Push
+  Notifications* on the App ID, set `CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements`
+  on the Runner target (all three configurations), upload an APNs key to Firebase, and
+  set the backend's `APPLE_CLIENT_IDS` to the bundle id. Until then the Apple button
+  shows on iOS but its sheet fails.
 
 ---
 

@@ -2798,5 +2798,73 @@
   "furnitureStyleMilliy": "Milliy",
   "@furnitureStyleMilliy": {"description": "Furniture style chip (API id milliy)."},
   "estimateFloorStandIn": "Pol mahsuloti tanlanmagan — narx do'kondagi o'rtacha poldan olindi (taxminiy).",
-  "@estimateFloorStandIn": {"description": "E1 smeta: floor type chosen without a product; the server priced it from the median shop product."}
+  "@estimateFloorStandIn": {"description": "E1 smeta: floor type chosen without a product; the server priced it from the median shop product."},
+  "loginWithApple": "Apple bilan kirish",
+  "@loginWithApple": {
+    "description": "Login: black button (iOS only) that signs in with an Apple ID."
+  },
+  "loginAppleFailed": "Apple orqali kirib bo'lmadi. Qayta urinib ko'ring.",
+  "@loginAppleFailed": {
+    "description": "Login error: Sign in with Apple failed (invalid token or Apple error)."
+  },
+  "reportAction": "Shikoyat qilish",
+  "@reportAction": {
+    "description": "Menu item on a craftsman profile / product: opens the report sheet."
+  },
+  "reportTitle": "Shikoyat",
+  "@reportTitle": {
+    "description": "Report sheet: title."
+  },
+  "reportHint": "Nima noto'g'ri? Shikoyatingizni moderatorlar ko'rib chiqadi.",
+  "@reportHint": {
+    "description": "Report sheet: one-line explanation under the title."
+  },
+  "reportReasonSpam": "Spam yoki reklama",
+  "@reportReasonSpam": {
+    "description": "Report reason option."
+  },
+  "reportReasonInappropriate": "Nomaqbul kontent",
+  "@reportReasonInappropriate": {
+    "description": "Report reason option: offensive or objectionable material."
+  },
+  "reportReasonFraud": "Firibgarlik",
+  "@reportReasonFraud": {
+    "description": "Report reason option."
+  },
+  "reportReasonOther": "Boshqa",
+  "@reportReasonOther": {
+    "description": "Report reason option."
+  },
+  "reportDetails": "Izoh (ixtiyoriy)",
+  "@reportDetails": {
+    "description": "Report sheet: label of the optional free-text field."
+  },
+  "reportSend": "Yuborish",
+  "@reportSend": {
+    "description": "Report sheet: submit button."
+  },
+  "reportSent": "Rahmat! Shikoyatingiz yuborildi.",
+  "@reportSent": {
+    "description": "Snackbar after a report was sent."
+  },
+  "blockUstaAction": "Bloklash",
+  "@blockUstaAction": {
+    "description": "Menu item on a craftsman profile: hide this craftsman."
+  },
+  "blockUstaTitle": "Ustani bloklaysizmi?",
+  "@blockUstaTitle": {
+    "description": "Block confirmation dialog: title."
+  },
+  "blockUstaBody": "U endi xaritada va ro'yxatda sizga ko'rinmaydi.",
+  "@blockUstaBody": {
+    "description": "Block confirmation dialog: what blocking does."
+  },
+  "blockUstaConfirm": "Bloklash",
+  "@blockUstaConfirm": {
+    "description": "Block confirmation dialog: confirm button."
+  },
+  "blockUstaDone": "Usta bloklandi",
+  "@blockUstaDone": {
+    "description": "Snackbar after blocking a craftsman."
+  }
 }

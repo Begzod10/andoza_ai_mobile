@@ -4833,6 +4833,108 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Pol mahsuloti tanlanmagan — narx do\'kondagi o\'rtacha poldan olindi (taxminiy).'**
   String get estimateFloorStandIn;
+
+  /// Login: black button (iOS only) that signs in with an Apple ID.
+  ///
+  /// In uz, this message translates to:
+  /// **'Apple bilan kirish'**
+  String get loginWithApple;
+
+  /// Login error: Sign in with Apple failed (invalid token or Apple error).
+  ///
+  /// In uz, this message translates to:
+  /// **'Apple orqali kirib bo\'lmadi. Qayta urinib ko\'ring.'**
+  String get loginAppleFailed;
+
+  /// Menu item on a craftsman profile / product: opens the report sheet.
+  ///
+  /// In uz, this message translates to:
+  /// **'Shikoyat qilish'**
+  String get reportAction;
+
+  /// Report sheet: title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Shikoyat'**
+  String get reportTitle;
+
+  /// Report sheet: one-line explanation under the title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Nima noto\'g\'ri? Shikoyatingizni moderatorlar ko\'rib chiqadi.'**
+  String get reportHint;
+
+  /// Report reason option.
+  ///
+  /// In uz, this message translates to:
+  /// **'Spam yoki reklama'**
+  String get reportReasonSpam;
+
+  /// Report reason option: offensive or objectionable material.
+  ///
+  /// In uz, this message translates to:
+  /// **'Nomaqbul kontent'**
+  String get reportReasonInappropriate;
+
+  /// Report reason option.
+  ///
+  /// In uz, this message translates to:
+  /// **'Firibgarlik'**
+  String get reportReasonFraud;
+
+  /// Report reason option.
+  ///
+  /// In uz, this message translates to:
+  /// **'Boshqa'**
+  String get reportReasonOther;
+
+  /// Report sheet: label of the optional free-text field.
+  ///
+  /// In uz, this message translates to:
+  /// **'Izoh (ixtiyoriy)'**
+  String get reportDetails;
+
+  /// Report sheet: submit button.
+  ///
+  /// In uz, this message translates to:
+  /// **'Yuborish'**
+  String get reportSend;
+
+  /// Snackbar after a report was sent.
+  ///
+  /// In uz, this message translates to:
+  /// **'Rahmat! Shikoyatingiz yuborildi.'**
+  String get reportSent;
+
+  /// Menu item on a craftsman profile: hide this craftsman.
+  ///
+  /// In uz, this message translates to:
+  /// **'Bloklash'**
+  String get blockUstaAction;
+
+  /// Block confirmation dialog: title.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ustani bloklaysizmi?'**
+  String get blockUstaTitle;
+
+  /// Block confirmation dialog: what blocking does.
+  ///
+  /// In uz, this message translates to:
+  /// **'U endi xaritada va ro\'yxatda sizga ko\'rinmaydi.'**
+  String get blockUstaBody;
+
+  /// Block confirmation dialog: confirm button.
+  ///
+  /// In uz, this message translates to:
+  /// **'Bloklash'**
+  String get blockUstaConfirm;
+
+  /// Snackbar after blocking a craftsman.
+  ///
+  /// In uz, this message translates to:
+  /// **'Usta bloklandi'**
+  String get blockUstaDone;
 }
 
 class _AppLocalizationsDelegate

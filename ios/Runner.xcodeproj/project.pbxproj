@@ -13,6 +13,7 @@
 		20CCE2E17F2554800687ABB9 /* RoomMeasurerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCBD382C50E0F36A6D66347 /* RoomMeasurerTests.swift */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
+		3C5C6557A5F23A1D0C06113F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 317943F902B657F0DB3C1D83 /* PrivacyInfo.xcprivacy */; };
 		4B58EC42FC7CE751E94FABFF /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9207F12D68A24C704A911B35 /* ShareViewController.swift */; };
 		54091664C6045F83FFF2D545 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1388EFADC7404D481D7BD3E /* Pods_RunnerTests.framework */; };
 		5AF3702046F44877314F7AB9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0FFC27748538616323A984ED /* GoogleService-Info.plist */; };
@@ -28,6 +29,7 @@
 		A1000000000000000000B0DE /* RoomScanPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000C0DE /* RoomScanPlugin.swift */; };
 		A2000000000000000000B0DE /* RoomScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000000000000000000C0DE /* RoomScanViewController.swift */; };
 		A3000000000000000000B0DE /* ObjectScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3000000000000000000C0DE /* ObjectScanViewController.swift */; };
+		C50C904BB18A88711DC360B4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 49A5E2075CF014CCA35036E9 /* InfoPlist.strings */; };
 		ECEDD6224CB6E4CDBDB35301 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A84F5A862E48592A02384EB /* Pods_Runner.framework */; };
 		FB21FEBF783ED75E22D0A1F7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11504CB6C736B6489D180D63 /* Foundation.framework */; };
 /* End PBXBuildFile section */
@@ -81,12 +83,15 @@
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		20F32AD942BE54BEB28ED8EB /* LidarMethodChannel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LidarMethodChannel.swift; sourceTree = "<group>"; };
+		317943F902B657F0DB3C1D83 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		325058477526C0C1D82D2D12 /* ru */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		331C807B294A618700263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
 		331C8081294A63A400263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A84F5A862E48592A02384EB /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
 		4296918B11715CD08D34D6CD /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 		52D6D2F5A45642182BEFD187 /* ShareExtension.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ShareExtension.xcconfig; sourceTree = "<group>"; };
+		585F77471D46BFB7C97FBFBD /* Runner.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		5ACFF558DDCF314650E21B71 /* ShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F6F1B068C685A98276493C7 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -109,8 +114,10 @@
 		A1000000000000000000C0DE /* RoomScanPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomScan/RoomScanPlugin.swift; sourceTree = "<group>"; };
 		A2000000000000000000C0DE /* RoomScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomScan/RoomScanViewController.swift; sourceTree = "<group>"; };
 		A3000000000000000000C0DE /* ObjectScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomScan/ObjectScanViewController.swift; sourceTree = "<group>"; };
+		C1692B46FC40C947283A4299 /* uz */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = uz; path = uz.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CCC80626940CB6C56B3BC10F /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		D7E78F6A210583F751795846 /* Pods-RunnerTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RunnerTests.release.xcconfig"; path = "Target Support Files/Pods-RunnerTests/Pods-RunnerTests.release.xcconfig"; sourceTree = "<group>"; };
+		DBBFD47C4D2AFBA9FD1EABBD /* en */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DFCBD382C50E0F36A6D66347 /* RoomMeasurerTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RoomMeasurerTests.swift; sourceTree = "<group>"; };
 		F1388EFADC7404D481D7BD3E /* Pods_RunnerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RunnerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -231,6 +238,9 @@
 				7A0ED7D36E7CA45458487B0D /* RoomMeasurer.swift */,
 				8BD55CC0C7CF134ACE631E49 /* DepthScanViewController.swift */,
 				0B00224FD6C5A0C1363DE445 /* ShareChannel.swift */,
+				49A5E2075CF014CCA35036E9 /* InfoPlist.strings */,
+				317943F902B657F0DB3C1D83 /* PrivacyInfo.xcprivacy */,
+				585F77471D46BFB7C97FBFBD /* Runner.entitlements */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -347,6 +357,8 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
+				uz,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
 			packageReferences = (
@@ -387,6 +399,8 @@
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
 				5AF3702046F44877314F7AB9 /* GoogleService-Info.plist in Resources */,
+				C50C904BB18A88711DC360B4 /* InfoPlist.strings in Resources */,
+				3C5C6557A5F23A1D0C06113F /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -539,6 +553,16 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		49A5E2075CF014CCA35036E9 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DBBFD47C4D2AFBA9FD1EABBD /* en */,
+				325058477526C0C1D82D2D12 /* ru */,
+				C1692B46FC40C947283A4299 /* uz */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		97C146FA1CF9000F007C117D /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -579,7 +603,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -604,7 +628,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Profile;
@@ -679,6 +703,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Profile;
@@ -754,7 +779,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -889,6 +914,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -911,6 +937,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

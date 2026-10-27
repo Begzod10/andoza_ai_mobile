@@ -2709,5 +2709,22 @@
   "furnitureStyleSkandinav": "Скандинавский",
   "furnitureStyleLoft": "Лофт",
   "furnitureStyleMilliy": "Национальный",
-  "estimateFloorStandIn": "Товар для пола не выбран — цена взята по средней в магазинах (примерно)."
+  "estimateFloorStandIn": "Товар для пола не выбран — цена взята по средней в магазинах (примерно).",
+  "loginWithApple": "Войти через Apple",
+  "loginAppleFailed": "Не удалось войти через Apple. Попробуйте ещё раз.",
+  "reportAction": "Пожаловаться",
+  "reportTitle": "Жалоба",
+  "reportHint": "Что не так? Модераторы рассмотрят жалобу.",
+  "reportReasonSpam": "Спам или реклама",
+  "reportReasonInappropriate": "Неприемлемый контент",
+  "reportReasonFraud": "Мошенничество",
+  "reportReasonOther": "Другое",
+  "reportDetails": "Комментарий (необязательно)",
+  "reportSend": "Отправить",
+  "reportSent": "Спасибо! Жалоба отправлена.",
+  "blockUstaAction": "Заблокировать",
+  "blockUstaTitle": "Заблокировать мастера?",
+  "blockUstaBody": "Он больше не будет виден вам на карте и в списке.",
+  "blockUstaConfirm": "Заблокировать",
+  "blockUstaDone": "Мастер заблокирован"
 }

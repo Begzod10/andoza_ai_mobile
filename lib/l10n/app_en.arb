@@ -2709,5 +2709,22 @@
   "furnitureStyleSkandinav": "Scandinavian",
   "furnitureStyleLoft": "Loft",
   "furnitureStyleMilliy": "National",
-  "estimateFloorStandIn": "No floor product is chosen, so the price is the shops' median floor (approximate)."
+  "estimateFloorStandIn": "No floor product is chosen, so the price is the shops' median floor (approximate).",
+  "loginWithApple": "Sign in with Apple",
+  "loginAppleFailed": "Couldn't sign in with Apple. Please try again.",
+  "reportAction": "Report",
+  "reportTitle": "Report",
+  "reportHint": "What's wrong? Our moderators will review your report.",
+  "reportReasonSpam": "Spam or advertising",
+  "reportReasonInappropriate": "Inappropriate content",
+  "reportReasonFraud": "Fraud or scam",
+  "reportReasonOther": "Other",
+  "reportDetails": "Details (optional)",
+  "reportSend": "Send",
+  "reportSent": "Thanks! Your report has been sent.",
+  "blockUstaAction": "Block",
+  "blockUstaTitle": "Block this craftsman?",
+  "blockUstaBody": "They will no longer appear on your map or list.",
+  "blockUstaConfirm": "Block",
+  "blockUstaDone": "Craftsman blocked"
 }
