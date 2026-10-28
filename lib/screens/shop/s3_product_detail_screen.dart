@@ -10,6 +10,7 @@ import '../../providers/cart_provider.dart';
 import '../../providers/shop_provider.dart';
 import '../../utils/currency.dart';
 import '../../widgets/common/app_image.dart';
+import 'furniture_detail_screen.dart' show StoreLinkRow;
 
 /// S3: Mahsulot kartasi — product detail with a blue recommendation card
 /// showing the real computed project quantity (never a hardcoded guess)
@@ -246,6 +247,13 @@ class _S3ProductDetailScreenState extends ConsumerState<S3ProductDetailScreen> {
                   ),
                   ),
                 ),
+                if (product.storeId != null) ...[
+                  const SizedBox(height: DesignTokens.spacingSm),
+                  StoreLinkRow(
+                    storeId: product.storeId!,
+                    storeName: product.brand.isEmpty ? null : product.brand,
+                  ),
+                ],
               ],
             ),
           ),

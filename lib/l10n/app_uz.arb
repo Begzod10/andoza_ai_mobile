@@ -2866,5 +2866,75 @@
   "blockUstaDone": "Usta bloklandi",
   "@blockUstaDone": {
     "description": "Snackbar after blocking a craftsman."
+  },
+  "shopFurnitureSection": "Mebel",
+  "@shopFurnitureSection": {
+    "description": "Heading of the shops' furniture (3D models) section on the shop home and a shop's page."
+  },
+  "shopFurnitureNoPrice": "Narxi kelishiladi",
+  "@shopFurnitureNoPrice": {
+    "description": "Furniture card/page when the shop set no price."
+  },
+  "storePageOpen": "{name} do'koni",
+  "@storePageOpen": {
+    "description": "Row on a product page that opens the page of the shop selling it.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "storeLoadFailed": "Do'konni ochib bo'lmadi",
+  "@storeLoadFailed": {
+    "description": "A shop's page could not load, or the shop is closed."
+  },
+  "storeCall": "Qo'ng'iroq",
+  "@storeCall": {
+    "description": "Call button on a shop's page."
+  },
+  "storeTelegram": "Telegram",
+  "@storeTelegram": {
+    "description": "Telegram button on a shop's page."
+  },
+  "storeNoProducts": "Bu do'konda hozircha mahsulot yo'q",
+  "@storeNoProducts": {
+    "description": "A shop's page with no products."
+  },
+  "storeReport": "Do'kon haqida shikoyat",
+  "@storeReport": {
+    "description": "Menu item on a shop's page that reports the shop."
+  },
+  "furnitureSize": "O'lchami",
+  "@furnitureSize": {
+    "description": "Label of the size row on a furniture page."
+  },
+  "furnitureSizeValue": "{size} sm",
+  "@furnitureSizeValue": {
+    "description": "A furniture size, e.g. \"220 × 90 × 80 cm\".",
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "furniturePlaceInRoom": "Xonamga qo'yish",
+  "@furniturePlaceInRoom": {
+    "description": "Button that opens one of the user's rooms in the Studio with this furniture placed in it."
+  },
+  "furniturePickRoom": "Qaysi xonaga qo'yamiz?",
+  "@furniturePickRoom": {
+    "description": "Title of the room picker before placing furniture."
+  },
+  "furnitureNoRooms": "Avval xona yarating yoki skanerlang",
+  "@furnitureNoRooms": {
+    "description": "Shown when the user has no room to place furniture in."
+  },
+  "furnitureNoModel": "Bu mahsulotning 3D modeli yo'q, uni xonaga qo'yib bo'lmaydi",
+  "@furnitureNoModel": {
+    "description": "Furniture page of a photo-only listing."
+  },
+  "furnitureLoadFailed": "Mahsulotni ochib bo'lmadi",
+  "@furnitureLoadFailed": {
+    "description": "A furniture page could not load, or the item is off sale."
   }
 }

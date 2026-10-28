@@ -2678,4 +2678,54 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get blockUstaDone => 'Мастер заблокирован';
+
+  @override
+  String get shopFurnitureSection => 'Мебель';
+
+  @override
+  String get shopFurnitureNoPrice => 'Цена по договорённости';
+
+  @override
+  String storePageOpen(String name) {
+    return 'Магазин «$name»';
+  }
+
+  @override
+  String get storeLoadFailed => 'Не удалось открыть магазин';
+
+  @override
+  String get storeCall => 'Позвонить';
+
+  @override
+  String get storeTelegram => 'Telegram';
+
+  @override
+  String get storeNoProducts => 'В этом магазине пока нет товаров';
+
+  @override
+  String get storeReport => 'Пожаловаться на магазин';
+
+  @override
+  String get furnitureSize => 'Размер';
+
+  @override
+  String furnitureSizeValue(String size) {
+    return '$size см';
+  }
+
+  @override
+  String get furniturePlaceInRoom => 'Поставить в мою комнату';
+
+  @override
+  String get furniturePickRoom => 'В какую комнату поставить?';
+
+  @override
+  String get furnitureNoRooms => 'Сначала создайте или отсканируйте комнату';
+
+  @override
+  String get furnitureNoModel =>
+      'У этого товара нет 3D-модели, его нельзя поставить в комнату';
+
+  @override
+  String get furnitureLoadFailed => 'Не удалось открыть товар';
 }

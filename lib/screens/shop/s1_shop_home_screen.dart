@@ -5,10 +5,12 @@ import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/shop_model.dart';
 import '../../providers/cart_provider.dart';
+import '../../providers/catalog_provider.dart';
 import '../../providers/shop_provider.dart';
 import '../../utils/currency.dart';
 import '../../widgets/common/app_image.dart';
 import '../../widgets/common/load_status.dart';
+import 'furniture_card.dart';
 
 /// S1: Do'kon bosh — search, project-linked banner ("SIZNING
 /// LOYIHANGIZ"), category chips, 2-col product grid with "Loyihada" tags
@@ -195,6 +197,9 @@ class _S1ShopHomeScreenState extends ConsumerState<S1ShopHomeScreen> {
             ),
           ),
           const SizedBox(height: DesignTokens.spacingLg),
+          // Shops' own furniture (3D models). Not one of the material
+          // categories, so it shows under "Barchasi" only.
+          if (_filter == null) _FurnitureRail(query: _query),
           if (status != null)
             status
           else if (products.isEmpty)
@@ -233,6 +238,46 @@ class _S1ShopHomeScreenState extends ConsumerState<S1ShopHomeScreen> {
   }
 }
 
+
+/// "Mebel": a horizontal rail of the shops' furniture, matching the search
+/// box. Hidden while it loads, on an error and when there is none — the
+/// materials below are the screen's main content and keep their own states.
+class _FurnitureRail extends ConsumerWidget {
+  const _FurnitureRail({required this.query});
+
+  final String query;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
+    final needle = query.toLowerCase();
+    final items = (ref.watch(furnitureProvider(null)).valueOrNull ?? const [])
+        .where((f) => needle.isEmpty || f.nameUz.toLowerCase().contains(needle))
+        .toList();
+    if (items.isEmpty) return const SizedBox.shrink();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(l10n.shopFurnitureSection, style: DesignTokens.heading3),
+        const SizedBox(height: DesignTokens.spacingMd),
+        SizedBox(
+          height: 244,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: items.length,
+            separatorBuilder: (_, _) =>
+                const SizedBox(width: DesignTokens.spacingMd),
+            itemBuilder: (context, index) =>
+                SizedBox(width: 160, child: FurnitureCard(item: items[index])),
+          ),
+        ),
+        const SizedBox(height: DesignTokens.spacingLg),
+        Text(l10n.shopMaterials, style: DesignTokens.heading3),
+        const SizedBox(height: DesignTokens.spacingMd),
+      ],
+    );
+  }
+}
 
 class _CategoryChip extends StatelessWidget {
   const _CategoryChip({

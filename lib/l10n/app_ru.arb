@@ -2726,5 +2726,34 @@
   "blockUstaTitle": "Заблокировать мастера?",
   "blockUstaBody": "Он больше не будет виден вам на карте и в списке.",
   "blockUstaConfirm": "Заблокировать",
-  "blockUstaDone": "Мастер заблокирован"
+  "blockUstaDone": "Мастер заблокирован",
+  "shopFurnitureSection": "Мебель",
+  "shopFurnitureNoPrice": "Цена по договорённости",
+  "storePageOpen": "Магазин «{name}»",
+  "@storePageOpen": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "storeLoadFailed": "Не удалось открыть магазин",
+  "storeCall": "Позвонить",
+  "storeTelegram": "Telegram",
+  "storeNoProducts": "В этом магазине пока нет товаров",
+  "storeReport": "Пожаловаться на магазин",
+  "furnitureSize": "Размер",
+  "furnitureSizeValue": "{size} см",
+  "@furnitureSizeValue": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "furniturePlaceInRoom": "Поставить в мою комнату",
+  "furniturePickRoom": "В какую комнату поставить?",
+  "furnitureNoRooms": "Сначала создайте или отсканируйте комнату",
+  "furnitureNoModel": "У этого товара нет 3D-модели, его нельзя поставить в комнату",
+  "furnitureLoadFailed": "Не удалось открыть товар"
 }

@@ -49,7 +49,7 @@ Native kod: `ios/Runner/RoomScan/` (RoomPlan skaner, Swift), `android/` (Kotlin)
 
 ## Ekranlar va navigatsiya
 
-`lib/config/router.dart` da 59 ta yo'l. Ilova `/splash` dan ochiladi.
+`lib/config/router.dart` da 61 ta yo'l. Ilova `/splash` dan ochiladi.
 **Login qilmagan foydalanuvchi** `/login` ga yo'naltiriladi. Login qilgan
 foydalanuvchi `/login` ga kirsa, bosh sahifaga qaytariladi. `/splash` va
 `/login` dan boshqa hamma yo'llar login talab qiladi.
@@ -66,7 +66,7 @@ menyu uni davom ettirishni taklif qiladi.
 | Skaner | `/scanning/roomplan`, `/scanning/roomplan/review`, `/scanning/photo` | LiDAR skaner (iPhone Pro), natijani ko'rish, foto rejimi |
 | 3D studiya | `/studio/:roomId` | WebView, pastda batafsil. `/design/*`, `/interior/*`, `/electrical/*` — studiyaga yo'naltiradigan eski yo'llar. |
 | Smeta | `/estimation/e1`, `/e2`, `/e3` | Jami, bosqichlar bo'yicha, sifat darajalari |
-| Do'kon | `/shop/s1`…`/shop/s7`, `/shop/search` | Katalog, mahsulot, narxlarni solishtirish, savat, rasmiylashtirish, buyurtma holati |
+| Do'kon | `/shop/s1`…`/shop/s7`, `/shop/search`, `/shop/store/:storeId`, `/shop/furniture/:id` | Katalog (materiallar va do'konlar mebeli), mahsulot, narxlarni solishtirish, savat, rasmiylashtirish, buyurtma holati; do'konning ochiq sahifasi va mebel sahifasi ("Xonamga qo'yish" xonani Studio'da `?place=<mebel id>` bilan ochadi, mebel xonaga o'zi qo'yiladi) |
 | Buyurtmalar | `/profile/e6`, `/history` | Buyurtmalar tarixi |
 | Ustalar | `/masters/u1`, `/u3`, `/u4`, `/u5` | Xarita, ro'yxat, profil, ustaga smeta yuborish |
 | Profil | `/profile`, `/profile/settings`, `/onboarding/e7`, `/onboarding/e8` | Til, versiya, maxfiylik, hisobni o'chirish |

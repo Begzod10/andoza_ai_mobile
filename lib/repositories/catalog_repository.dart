@@ -35,9 +35,11 @@ class CatalogRepository {
     );
   }
 
-  /// Paginated furniture / 3D-model catalog, optionally filtered by [category].
+  /// Paginated furniture / 3D-model catalog — shops' own models — optionally
+  /// filtered by [category] and/or one shop ([storeId]).
   Future<PaginatedFurniture> getFurniture({
     String? category,
+    String? storeId,
     int page = 1,
     int perPage = 20,
   }) {
@@ -45,11 +47,20 @@ class CatalogRepository {
       '/furniture',
       queryParameters: _params({
         'category': category,
+        'store': storeId,
         'page': page,
         'per_page': perPage,
       }),
       fromJson: (json) =>
           PaginatedFurniture.fromJson(json as Map<String, dynamic>),
+    );
+  }
+
+  /// One live furniture item (`GET /furniture/{id}`); 404 once it is off sale.
+  Future<Furniture> getFurnitureItem(String id) {
+    return _client.get<Furniture>(
+      '/furniture/$id',
+      fromJson: (json) => Furniture.fromJson(json as Map<String, dynamic>),
     );
   }
 
@@ -72,6 +83,14 @@ class CatalogRepository {
       fromJson: (json) => (json as List<dynamic>)
           .map((e) => Store.fromJson(e as Map<String, dynamic>))
           .toList(),
+    );
+  }
+
+  /// One open shop (`GET /stores/{id}`), for its page; 404 when it is closed.
+  Future<Store> getStore(String id) {
+    return _client.get<Store>(
+      '/stores/$id',
+      fromJson: (json) => Store.fromJson(json as Map<String, dynamic>),
     );
   }
 

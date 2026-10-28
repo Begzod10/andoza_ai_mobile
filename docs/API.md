@@ -40,7 +40,7 @@ Hammasi `/api/v1` ga nisbatan. Har bir mavzu uchun bitta repository fayli (`lib/
 | Smeta | `POST /rooms/{id}/estimate/preview`, `POST /rooms/{id}/estimate`; `GET /rooms/{id}/estimates`, `GET /estimates/{id}`; `GET /rooms/{id}/estimate/pdf` | `estimate_repository.dart` |
 | AI | `POST /rooms/{id}/ai-build` (SSE oqim; tanlangan uslub so'rov boshiga `"Hi-Tech uslubida. "` deb qo'shiladi, `styledPrompt`); `POST /rooms/{id}/smeta/ask` | `ai_repository.dart` |
 | Skaner | `POST /rooms/{id}/room-scan` (multipart: `usdz`, `room_json`); `POST /rooms/{id}/room-scan/objects`; `POST /rooms/{id}/thumbnail` | `features/room_scan/room_scan_service.dart` |
-| Katalog | `GET /materials`, `/materials/{id}/offers`, `/furniture`, `/stores`, `/ustalar` | `catalog_repository.dart` |
+| Katalog | `GET /materials`, `/materials/{id}/offers`, `/furniture` (`?store=` bitta do'konniki), `/furniture/{id}`, `/stores`, `/stores/{id}`, `/ustalar` | `catalog_repository.dart` |
 | Buyurtmalar | `GET/POST /orders` | `orders_repository.dart` |
 | Oboylar | `GET /wallpapers`; `POST /wallpapers` (multipart) | `wallpaper_repository.dart` |
 | Biznes: rollar | `GET /account/roles` | `business_repository.dart` |
