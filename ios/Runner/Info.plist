@@ -104,7 +104,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.tamiruy.tamirUyMobileFlutter.share</string>
+			<string>uz.andozaai.app.share</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>andozaai-share</string>

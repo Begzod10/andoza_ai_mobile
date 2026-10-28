@@ -48,7 +48,7 @@ yo'q. Shuning uchun haqiqiy qurilmada server manzili **HTTPS** bo'lishi kerak.
 
 | | Android | iOS |
 |---|---|---|
-| Ilova ID | `andozaai.com` (`applicationId`) | `com.tamiruy.tamirUyMobileFlutter` (bundle id) |
+| Ilova ID | `andozaai.com` (`applicationId`) | `uz.andozaai.app` (bundle id) |
 | Kod paketi | `com.tamir_uy.tamir_uy_mobile_flutter` (namespace) | — |
 | Nomi | Andoza AI | Andoza AI |
 | Minimal versiya | Android 7.0 (SDK 24) | iOS 15.0 |
@@ -58,7 +58,7 @@ Android'da `andozaai://` deep link'lari yoqilgan. Impeller o'chirilgan:
 emulyatorlarda u ilovani yiqitardi.
 
 **iOS Share Extension** (`ios/ShareExtension`, "Share → Andoza AI"):
-- Ilova ichidagi ikkinchi target. Bundle id: `com.tamiruy.tamirUyMobileFlutter.ShareExtension`, team va avtomatik imzolash Runner bilan bir xil.
+- Ilova ichidagi ikkinchi target. Bundle id: `uz.andozaai.app.ShareExtension`, team va avtomatik imzolash Runner bilan bir xil.
 - Versiyani `Generated.xcconfig` dan oladi, shuning uchun u har doim ilova versiyasiga teng bo'ladi.
 - App Group kerak emas: ulashilgan matn ilovaga `andozaai-share://pin?text=…` URL'i orqali beriladi.
 - Xcode'dan archive qilinganda (Automatic signing) extension'ning App ID va profili avtomatik yaratiladi.
