@@ -12,6 +12,7 @@ import '../../providers/business_provider.dart';
 import '../../repositories/auth_repository.dart';
 import '../../services/analytics_service.dart';
 import '../../services/api_client.dart';
+import '../../services/apple_sign_in_service.dart';
 import '../../services/google_sign_in_service.dart';
 import '../../utils/error_mapper.dart';
 
@@ -235,22 +236,46 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ref.read(authStateProvider.notifier).setSession(res);
       analytics.login('google');
     } catch (e) {
-      if (mounted) setState(() => _error = _googleErrorMessage(l10n, e));
+      if (mounted) {
+        setState(() => _error = _socialErrorMessage(e, l10n.loginGoogleFailed));
+      }
     } finally {
       if (mounted) setState(() => _loading = false);
     }
   }
 
-  /// A rejected token (401) or a plugin failure reads as "Google sign-in
-  /// failed"; network/5xx/503-not-configured go through [mapErrorToMessage]
-  /// like the password login does.
-  String _googleErrorMessage(AppLocalizations l10n, Object error) {
+  Future<void> _appleLogin() async {
+    final l10n = AppLocalizations.of(context)!;
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
+    try {
+      final cred = await ref.read(appleSignInServiceProvider).getCredential();
+      if (cred == null) return;
+      final res = await _repo.loginWithApple(cred.identityToken, name: cred.name);
+      final analytics = ref.read(analyticsProvider);
+      ref.read(authStateProvider.notifier).setSession(res);
+      analytics.login('apple');
+    } catch (e) {
+      if (mounted) {
+        setState(() => _error = _socialErrorMessage(e, l10n.loginAppleFailed));
+      }
+    } finally {
+      if (mounted) setState(() => _loading = false);
+    }
+  }
+
+  /// A rejected token (401) or a plugin failure reads as [failed] ("Google /
+  /// Apple sign-in failed"); network/5xx/503-not-configured go through
+  /// [mapErrorToMessage] like the password login does.
+  String _socialErrorMessage(Object error, String failed) {
     if (error is AuthException && error.statusCode != 401) {
       return mapErrorToMessage(
         ApiException(message: error.message, statusCode: error.statusCode),
       );
     }
-    return l10n.loginGoogleFailed;
+    return failed;
   }
 
   Future<void> _register() async {
@@ -494,7 +519,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         _errorText(),
         const SizedBox(height: DesignTokens.spacing24),
         _primaryButton(l10n.loginSignIn, _loading ? null : _login),
-        ..._googleSection(l10n),
+        ..._socialSection(l10n),
         const SizedBox(height: DesignTokens.spacing16),
         Center(
           child: Wrap(
@@ -536,7 +561,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         _errorText(),
         const SizedBox(height: DesignTokens.spacing24),
         _primaryButton(l10n.loginRegister, _loading ? null : _register),
-        ..._googleSection(l10n),
+        ..._socialSection(l10n),
         const SizedBox(height: DesignTokens.spacing16),
         Center(
           child: Wrap(
@@ -555,21 +580,53 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   // ── small widgets ───────────────────────────────────────────────────────
-  /// "yoki" divider + "Google bilan kirish". Hidden where Google sign-in isn't
-  /// configured (iOS until GOOGLE_IOS_CLIENT_ID is set — see
-  /// [GoogleSignInService.isAvailable]).
-  List<Widget> _googleSection(AppLocalizations l10n) {
-    if (!GoogleSignInService.isAvailable) return const [];
+  /// "yoki" divider + "Apple bilan kirish" (iOS, see
+  /// [AppleSignInService.isAvailable]) + "Google bilan kirish" (hidden where
+  /// Google sign-in isn't configured — see [GoogleSignInService.isAvailable]).
+  List<Widget> _socialSection(AppLocalizations l10n) {
+    final apple = AppleSignInService.isAvailable;
+    final google = GoogleSignInService.isAvailable;
+    if (!apple && !google) return const [];
     return [
       const SizedBox(height: DesignTokens.spacing16),
       const _OrDivider(),
       const SizedBox(height: DesignTokens.spacing16),
-      _outlinedButton(
-        l10n.loginWithGoogle,
-        _loading ? null : _googleLogin,
-        leading: const _GoogleMark(),
-      ),
+      if (apple) _appleButton(l10n.loginWithApple, _loading ? null : _appleLogin),
+      if (apple && google) const SizedBox(height: DesignTokens.spacing12),
+      if (google)
+        _outlinedButton(
+          l10n.loginWithGoogle,
+          _loading ? null : _googleLogin,
+          leading: const _GoogleMark(),
+        ),
     ];
+  }
+
+  /// Apple's own look (black, white logo and text), as its guidelines ask —
+  /// and at least as prominent as the Google button below it.
+  Widget _appleButton(String label, VoidCallback? onPressed) {
+    return SizedBox(
+      width: double.infinity,
+      child: FilledButton(
+        onPressed: onPressed,
+        style: FilledButton.styleFrom(
+          backgroundColor: Colors.black,
+          foregroundColor: DesignTokens.white,
+          padding: const EdgeInsets.symmetric(vertical: 13),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(DesignTokens.radiusMedium)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.apple, size: 22),
+            const SizedBox(width: DesignTokens.spacing8),
+            Flexible(
+              child: Text(label, style: DesignTokens.bodyMedium.copyWith(color: DesignTokens.white, fontWeight: FontWeight.w600)),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _roleOption(BusinessKind? kind, IconData icon, String title, String desc) {

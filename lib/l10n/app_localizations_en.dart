@@ -2624,4 +2624,57 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get estimateFloorStandIn =>
       'No floor product is chosen, so the price is the shops\' median floor (approximate).';
+
+  @override
+  String get loginWithApple => 'Sign in with Apple';
+
+  @override
+  String get loginAppleFailed =>
+      'Couldn\'t sign in with Apple. Please try again.';
+
+  @override
+  String get reportAction => 'Report';
+
+  @override
+  String get reportTitle => 'Report';
+
+  @override
+  String get reportHint =>
+      'What\'s wrong? Our moderators will review your report.';
+
+  @override
+  String get reportReasonSpam => 'Spam or advertising';
+
+  @override
+  String get reportReasonInappropriate => 'Inappropriate content';
+
+  @override
+  String get reportReasonFraud => 'Fraud or scam';
+
+  @override
+  String get reportReasonOther => 'Other';
+
+  @override
+  String get reportDetails => 'Details (optional)';
+
+  @override
+  String get reportSend => 'Send';
+
+  @override
+  String get reportSent => 'Thanks! Your report has been sent.';
+
+  @override
+  String get blockUstaAction => 'Block';
+
+  @override
+  String get blockUstaTitle => 'Block this craftsman?';
+
+  @override
+  String get blockUstaBody => 'They will no longer appear on your map or list.';
+
+  @override
+  String get blockUstaConfirm => 'Block';
+
+  @override
+  String get blockUstaDone => 'Craftsman blocked';
 }

@@ -2620,4 +2620,58 @@ class AppLocalizationsUz extends AppLocalizations {
   @override
   String get estimateFloorStandIn =>
       'Pol mahsuloti tanlanmagan — narx do\'kondagi o\'rtacha poldan olindi (taxminiy).';
+
+  @override
+  String get loginWithApple => 'Apple bilan kirish';
+
+  @override
+  String get loginAppleFailed =>
+      'Apple orqali kirib bo\'lmadi. Qayta urinib ko\'ring.';
+
+  @override
+  String get reportAction => 'Shikoyat qilish';
+
+  @override
+  String get reportTitle => 'Shikoyat';
+
+  @override
+  String get reportHint =>
+      'Nima noto\'g\'ri? Shikoyatingizni moderatorlar ko\'rib chiqadi.';
+
+  @override
+  String get reportReasonSpam => 'Spam yoki reklama';
+
+  @override
+  String get reportReasonInappropriate => 'Nomaqbul kontent';
+
+  @override
+  String get reportReasonFraud => 'Firibgarlik';
+
+  @override
+  String get reportReasonOther => 'Boshqa';
+
+  @override
+  String get reportDetails => 'Izoh (ixtiyoriy)';
+
+  @override
+  String get reportSend => 'Yuborish';
+
+  @override
+  String get reportSent => 'Rahmat! Shikoyatingiz yuborildi.';
+
+  @override
+  String get blockUstaAction => 'Bloklash';
+
+  @override
+  String get blockUstaTitle => 'Ustani bloklaysizmi?';
+
+  @override
+  String get blockUstaBody =>
+      'U endi xaritada va ro\'yxatda sizga ko\'rinmaydi.';
+
+  @override
+  String get blockUstaConfirm => 'Bloklash';
+
+  @override
+  String get blockUstaDone => 'Usta bloklandi';
 }

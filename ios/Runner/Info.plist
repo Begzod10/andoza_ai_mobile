@@ -14,6 +14,12 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>en</string>
+		<string>ru</string>
+		<string>uz</string>
+	</array>
 	<key>CFBundleName</key>
 	<string>tamir_uy_mobile_flutter</string>
 	<key>CFBundlePackageType</key>
@@ -24,14 +30,17 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<!-- HTTPS only, standard encryption: no export-compliance question per build. -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<false/>
 	<key>NSCameraUsageDescription</key>
-	<string>Xonani LiDAR bilan skanerlash va oboy uchun rasmga olishda kamera ishlatiladi.</string>
+	<string>The camera is used to scan your room with LiDAR and to photograph wallpaper.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Oboy rasmini kutubxonaga qo'shish uchun galereyaga ruxsat kerak.</string>
+	<string>Photo library access lets you add a wallpaper or room photo from your gallery.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -67,13 +76,6 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-	</array>
 	<!-- Google Sign-In. GIDClientID = the iOS OAuth client; GIDServerClientID =
 	     the web client (the ID token's audience, verified by POST /auth/google).
 	     The URL scheme is the reversed iOS client id, needed for the OAuth
@@ -102,7 +104,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.tamiruy.tamirUyMobileFlutter.share</string>
+			<string>uz.andozaai.app.share</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>andozaai-share</string>

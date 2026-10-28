@@ -2625,4 +2625,57 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get estimateFloorStandIn =>
       'Товар для пола не выбран — цена взята по средней в магазинах (примерно).';
+
+  @override
+  String get loginWithApple => 'Войти через Apple';
+
+  @override
+  String get loginAppleFailed =>
+      'Не удалось войти через Apple. Попробуйте ещё раз.';
+
+  @override
+  String get reportAction => 'Пожаловаться';
+
+  @override
+  String get reportTitle => 'Жалоба';
+
+  @override
+  String get reportHint => 'Что не так? Модераторы рассмотрят жалобу.';
+
+  @override
+  String get reportReasonSpam => 'Спам или реклама';
+
+  @override
+  String get reportReasonInappropriate => 'Неприемлемый контент';
+
+  @override
+  String get reportReasonFraud => 'Мошенничество';
+
+  @override
+  String get reportReasonOther => 'Другое';
+
+  @override
+  String get reportDetails => 'Комментарий (необязательно)';
+
+  @override
+  String get reportSend => 'Отправить';
+
+  @override
+  String get reportSent => 'Спасибо! Жалоба отправлена.';
+
+  @override
+  String get blockUstaAction => 'Заблокировать';
+
+  @override
+  String get blockUstaTitle => 'Заблокировать мастера?';
+
+  @override
+  String get blockUstaBody =>
+      'Он больше не будет виден вам на карте и в списке.';
+
+  @override
+  String get blockUstaConfirm => 'Заблокировать';
+
+  @override
+  String get blockUstaDone => 'Мастер заблокирован';
 }
