@@ -210,13 +210,11 @@ What to look for in `xcodebuild.log`:
   `Runner/{en,ru,uz}.lproj/InfoPlist.strings` (the English one is also the fallback in
   `Info.plist`); `Runner/PrivacyInfo.xcprivacy`; `ITSAppUsesNonExemptEncryption = false`.
 - **Bundle id moved to `uz.andozaai.app`** (2026-10-28; was
-  `com.tamiruy.tamirUyMobileFlutter`, never published). Still pointing at the old id,
-  to redo for the new one: Firebase iOS app (`flutterfire configure
-  --ios-bundle-id=uz.andozaai.app` regenerates `ios/Runner/GoogleService-Info.plist` and
-  `lib/firebase_options.dart`; push needs it), and the Google Sign-In iOS OAuth client
-  (new client → `GIDClientID` and the reversed-client-id URL scheme in `Info.plist`,
-  `AppConfig.googleIosClientId`, the backend's `GOOGLE_CLIENT_IDS`). Until then Google
-  sign-in on iOS may be refused for the new bundle.
+  `com.tamiruy.tamirUyMobileFlutter`, never published). Firebase has an iOS app for it
+  ("Andoza AI iOS", `GoogleService-Info.plist` and `lib/firebase_options.dart`), and the
+  Google Sign-In iOS OAuth client ("iOS upload", `632412937266-nb16…`) now carries this
+  bundle id, so its client id is unchanged. The old Firebase iOS app is still listed
+  and unused.
 - **`Runner/Runner.entitlements` is not wired yet.** It holds Sign in with Apple and
   `aps-environment` (push), which the free personal team `24GC58FD74` cannot sign. Once
   the paid Apple Developer team signs the app: enable *Sign in with Apple* and *Push

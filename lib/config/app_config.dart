@@ -36,9 +36,7 @@ class AppConfig {
         '632412937266-ruq48osgghaa4jn0fk8vjd7mr270ccb0.apps.googleusercontent.com',
   );
 
-  /// Google Sign-In iOS OAuth client id. This one was made for the old bundle id
-  /// (com.tamiruy.tamirUyMobileFlutter); the app is now uz.andozaai.app, so it
-  /// must be replaced by a client for the new id (docs/mobile/IOS_BUILD.md).
+  /// Google Sign-In iOS OAuth client id ("iOS upload", bundle uz.andozaai.app).
   /// Must match GIDClientID and the reversed-client-id URL scheme in
   /// ios/Runner/Info.plist. If overridden to empty, the Google button is hidden
   /// on iOS (the native SDK cannot start without it).
