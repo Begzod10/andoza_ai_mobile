@@ -2677,4 +2677,54 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get blockUstaDone => 'Craftsman blocked';
+
+  @override
+  String get shopFurnitureSection => 'Furniture';
+
+  @override
+  String get shopFurnitureNoPrice => 'Price on request';
+
+  @override
+  String storePageOpen(String name) {
+    return '$name shop';
+  }
+
+  @override
+  String get storeLoadFailed => 'Couldn\'t open the shop';
+
+  @override
+  String get storeCall => 'Call';
+
+  @override
+  String get storeTelegram => 'Telegram';
+
+  @override
+  String get storeNoProducts => 'This shop has no products yet';
+
+  @override
+  String get storeReport => 'Report this shop';
+
+  @override
+  String get furnitureSize => 'Size';
+
+  @override
+  String furnitureSizeValue(String size) {
+    return '$size cm';
+  }
+
+  @override
+  String get furniturePlaceInRoom => 'Place in my room';
+
+  @override
+  String get furniturePickRoom => 'Which room?';
+
+  @override
+  String get furnitureNoRooms => 'Create or scan a room first';
+
+  @override
+  String get furnitureNoModel =>
+      'This product has no 3D model, so it can\'t be placed in a room';
+
+  @override
+  String get furnitureLoadFailed => 'Couldn\'t open the product';
 }

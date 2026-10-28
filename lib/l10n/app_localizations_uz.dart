@@ -2674,4 +2674,54 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get blockUstaDone => 'Usta bloklandi';
+
+  @override
+  String get shopFurnitureSection => 'Mebel';
+
+  @override
+  String get shopFurnitureNoPrice => 'Narxi kelishiladi';
+
+  @override
+  String storePageOpen(String name) {
+    return '$name do\'koni';
+  }
+
+  @override
+  String get storeLoadFailed => 'Do\'konni ochib bo\'lmadi';
+
+  @override
+  String get storeCall => 'Qo\'ng\'iroq';
+
+  @override
+  String get storeTelegram => 'Telegram';
+
+  @override
+  String get storeNoProducts => 'Bu do\'konda hozircha mahsulot yo\'q';
+
+  @override
+  String get storeReport => 'Do\'kon haqida shikoyat';
+
+  @override
+  String get furnitureSize => 'O\'lchami';
+
+  @override
+  String furnitureSizeValue(String size) {
+    return '$size sm';
+  }
+
+  @override
+  String get furniturePlaceInRoom => 'Xonamga qo\'yish';
+
+  @override
+  String get furniturePickRoom => 'Qaysi xonaga qo\'yamiz?';
+
+  @override
+  String get furnitureNoRooms => 'Avval xona yarating yoki skanerlang';
+
+  @override
+  String get furnitureNoModel =>
+      'Bu mahsulotning 3D modeli yo\'q, uni xonaga qo\'yib bo\'lmaydi';
+
+  @override
+  String get furnitureLoadFailed => 'Mahsulotni ochib bo\'lmadi';
 }

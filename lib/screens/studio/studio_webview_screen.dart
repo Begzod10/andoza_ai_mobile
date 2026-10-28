@@ -43,12 +43,18 @@ class StudioWebViewScreen extends ConsumerStatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
   /// [aiPin] opens the studio's AI designer with that Pinterest pin already
   /// taken (the web studio's `?ai_pin=`), after "Share → Andoza AI".
+  /// [place] is a shop's furniture id the studio puts into the room as it
+  /// opens (the web studio's `?place=`), from "Xonamga qo'yish".
   StudioWebViewScreen.studio({
     required String roomId,
     bool focus = false,
     String? aiPin,
+    String? place,
     Key? key,
-  }) : this(path: studioRoomPath(roomId, focus: focus, aiPin: aiPin), key: key);
+  }) : this(
+         path: studioRoomPath(roomId, focus: focus, aiPin: aiPin, place: place),
+         key: key,
+       );
 
   /// The frontend route to open (e.g. `/wizard`, `/studio/{roomId}`).
   final String path;
@@ -59,11 +65,17 @@ class StudioWebViewScreen extends ConsumerStatefulWidget {
 }
 
 /// The studio path for a room: `?focus=1` opens it alone, `?ai_pin=` opens
-/// the AI designer with a Pinterest pin.
-String studioRoomPath(String roomId, {bool focus = false, String? aiPin}) {
+/// the AI designer with a Pinterest pin, `?place=` puts a shop's furniture in.
+String studioRoomPath(
+  String roomId, {
+  bool focus = false,
+  String? aiPin,
+  String? place,
+}) {
   final query = {
     if (focus) 'focus': '1',
     'ai_pin': ?aiPin,
+    'place': ?place,
   };
   return Uri(
     path: '/studio/$roomId',

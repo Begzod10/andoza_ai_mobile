@@ -4935,6 +4935,96 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Usta bloklandi'**
   String get blockUstaDone;
+
+  /// Heading of the shops' furniture (3D models) section on the shop home and a shop's page.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mebel'**
+  String get shopFurnitureSection;
+
+  /// Furniture card/page when the shop set no price.
+  ///
+  /// In uz, this message translates to:
+  /// **'Narxi kelishiladi'**
+  String get shopFurnitureNoPrice;
+
+  /// Row on a product page that opens the page of the shop selling it.
+  ///
+  /// In uz, this message translates to:
+  /// **'{name} do\'koni'**
+  String storePageOpen(String name);
+
+  /// A shop's page could not load, or the shop is closed.
+  ///
+  /// In uz, this message translates to:
+  /// **'Do\'konni ochib bo\'lmadi'**
+  String get storeLoadFailed;
+
+  /// Call button on a shop's page.
+  ///
+  /// In uz, this message translates to:
+  /// **'Qo\'ng\'iroq'**
+  String get storeCall;
+
+  /// Telegram button on a shop's page.
+  ///
+  /// In uz, this message translates to:
+  /// **'Telegram'**
+  String get storeTelegram;
+
+  /// A shop's page with no products.
+  ///
+  /// In uz, this message translates to:
+  /// **'Bu do\'konda hozircha mahsulot yo\'q'**
+  String get storeNoProducts;
+
+  /// Menu item on a shop's page that reports the shop.
+  ///
+  /// In uz, this message translates to:
+  /// **'Do\'kon haqida shikoyat'**
+  String get storeReport;
+
+  /// Label of the size row on a furniture page.
+  ///
+  /// In uz, this message translates to:
+  /// **'O\'lchami'**
+  String get furnitureSize;
+
+  /// A furniture size, e.g. "220 × 90 × 80 cm".
+  ///
+  /// In uz, this message translates to:
+  /// **'{size} sm'**
+  String furnitureSizeValue(String size);
+
+  /// Button that opens one of the user's rooms in the Studio with this furniture placed in it.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xonamga qo\'yish'**
+  String get furniturePlaceInRoom;
+
+  /// Title of the room picker before placing furniture.
+  ///
+  /// In uz, this message translates to:
+  /// **'Qaysi xonaga qo\'yamiz?'**
+  String get furniturePickRoom;
+
+  /// Shown when the user has no room to place furniture in.
+  ///
+  /// In uz, this message translates to:
+  /// **'Avval xona yarating yoki skanerlang'**
+  String get furnitureNoRooms;
+
+  /// Furniture page of a photo-only listing.
+  ///
+  /// In uz, this message translates to:
+  /// **'Bu mahsulotning 3D modeli yo\'q, uni xonaga qo\'yib bo\'lmaydi'**
+  String get furnitureNoModel;
+
+  /// A furniture page could not load, or the item is off sale.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mahsulotni ochib bo\'lmadi'**
+  String get furnitureLoadFailed;
 }
 
 class _AppLocalizationsDelegate

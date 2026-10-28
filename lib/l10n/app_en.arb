@@ -2726,5 +2726,34 @@
   "blockUstaTitle": "Block this craftsman?",
   "blockUstaBody": "They will no longer appear on your map or list.",
   "blockUstaConfirm": "Block",
-  "blockUstaDone": "Craftsman blocked"
+  "blockUstaDone": "Craftsman blocked",
+  "shopFurnitureSection": "Furniture",
+  "shopFurnitureNoPrice": "Price on request",
+  "storePageOpen": "{name} shop",
+  "@storePageOpen": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "storeLoadFailed": "Couldn't open the shop",
+  "storeCall": "Call",
+  "storeTelegram": "Telegram",
+  "storeNoProducts": "This shop has no products yet",
+  "storeReport": "Report this shop",
+  "furnitureSize": "Size",
+  "furnitureSizeValue": "{size} cm",
+  "@furnitureSizeValue": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "furniturePlaceInRoom": "Place in my room",
+  "furniturePickRoom": "Which room?",
+  "furnitureNoRooms": "Create or scan a room first",
+  "furnitureNoModel": "This product has no 3D model, so it can't be placed in a room",
+  "furnitureLoadFailed": "Couldn't open the product"
 }
