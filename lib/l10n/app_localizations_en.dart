@@ -2626,6 +2626,54 @@ class AppLocalizationsEn extends AppLocalizations {
       'No floor product is chosen, so the price is the shops\' median floor (approximate).';
 
   @override
+  String get scanChoiceTitle => 'What are we scanning?';
+
+  @override
+  String get scanChoiceOneRoom => 'One room';
+
+  @override
+  String get scanChoiceFlat => 'Several rooms (apartment)';
+
+  @override
+  String get scanChoiceFlatHint =>
+      'Scan the rooms one after another — they land in place on the plan';
+
+  @override
+  String get scanNextRoom => 'Next room';
+
+  @override
+  String get scanFinish => 'Finish';
+
+  @override
+  String scanRoomN(int n) {
+    return 'Room $n';
+  }
+
+  @override
+  String get flatReviewTitle => 'Scanned rooms';
+
+  @override
+  String get flatReviewRoomName => 'Room name';
+
+  @override
+  String get flatReviewContinue => 'Open in the studio';
+
+  @override
+  String flatReviewPartial(int n) {
+    return 'The scan stopped — $n rooms kept';
+  }
+
+  @override
+  String flatReviewDropped(int n) {
+    return '$n rooms could not be read and were left out';
+  }
+
+  @override
+  String flatReviewSavedSome(int saved, int total) {
+    return '$saved of $total rooms saved — scan the rest again';
+  }
+
+  @override
   String get loginWithApple => 'Sign in with Apple';
 
   @override

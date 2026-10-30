@@ -21,6 +21,7 @@ import '../screens/share/share_pin_screen.dart';
 import '../screens/scanning/ar_scan_screen.dart';
 import '../screens/scanning/photo_scanning_screen.dart';
 import '../screens/scanning/room_scan_screen.dart';
+import '../screens/scanning/flat_scan_review_page.dart';
 import '../screens/scanning/room_scan_review_page.dart';
 import '../screens/design/b1_room_intro_screen.dart';
 import '../screens/design/b2_room_entry_screen.dart';
@@ -421,6 +422,12 @@ final routerProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) =>
             RoomScanReviewPage(args: state.extra! as RoomScanReviewArgs),
+      ),
+      GoRoute(
+        path: '/scanning/roomplan/review-flat',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) =>
+            FlatScanReviewPage(args: state.extra! as FlatScanReviewArgs),
       ),
       // The shop / usta application is a full-screen form, outside the shell
       // like the other takeovers (see the E7/E8 note below).

@@ -4834,6 +4834,84 @@ abstract class AppLocalizations {
   /// **'Pol mahsuloti tanlanmagan — narx do\'kondagi o\'rtacha poldan olindi (taxminiy).'**
   String get estimateFloorStandIn;
 
+  /// Scan screen: title of the sheet choosing one room or several rooms (iPhones that support it).
+  ///
+  /// In uz, this message translates to:
+  /// **'Nimani skanerlaymiz?'**
+  String get scanChoiceTitle;
+
+  /// Scan choice sheet: option to scan a single room.
+  ///
+  /// In uz, this message translates to:
+  /// **'Bitta xona'**
+  String get scanChoiceOneRoom;
+
+  /// Scan choice sheet: option to scan several rooms in one session.
+  ///
+  /// In uz, this message translates to:
+  /// **'Bir nechta xona (kvartira)'**
+  String get scanChoiceFlat;
+
+  /// Scan choice sheet: hint under the several-rooms option.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xonalarni ketma-ket skanerlang — ular rejada o\'z joyiga tushadi'**
+  String get scanChoiceFlatHint;
+
+  /// Multi-room scanner button: finish this room and start the next.
+  ///
+  /// In uz, this message translates to:
+  /// **'Keyingi xona'**
+  String get scanNextRoom;
+
+  /// Multi-room scanner button: end the session.
+  ///
+  /// In uz, this message translates to:
+  /// **'Tugatish'**
+  String get scanFinish;
+
+  /// Multi-room scanner: the current room's number, and the default name of scanned room n.
+  ///
+  /// In uz, this message translates to:
+  /// **'{n}-xona'**
+  String scanRoomN(int n);
+
+  /// Title of the review page after a multi-room scan.
+  ///
+  /// In uz, this message translates to:
+  /// **'Skanerlangan xonalar'**
+  String get flatReviewTitle;
+
+  /// Multi-room review: label of a room's name field.
+  ///
+  /// In uz, this message translates to:
+  /// **'Xona nomi'**
+  String get flatReviewRoomName;
+
+  /// Multi-room review: button that saves the rooms and opens the 3D studio.
+  ///
+  /// In uz, this message translates to:
+  /// **'Studiyada ochish'**
+  String get flatReviewContinue;
+
+  /// Multi-room review: the session ended early (app went to the background); n rooms were kept.
+  ///
+  /// In uz, this message translates to:
+  /// **'Skaner to\'xtadi — {n} ta xona saqlandi'**
+  String flatReviewPartial(int n);
+
+  /// Multi-room review: n scanned rooms could not be converted into a plan.
+  ///
+  /// In uz, this message translates to:
+  /// **'{n} ta xona o\'qilmadi va qo\'shilmadi'**
+  String flatReviewDropped(int n);
+
+  /// Multi-room review: saving stopped part-way; only some rooms were saved (the rest are lost and must be scanned again).
+  ///
+  /// In uz, this message translates to:
+  /// **'{total} ta xonadan {saved} tasi saqlandi — qolganlarini qayta skanerlang'**
+  String flatReviewSavedSome(int saved, int total);
+
   /// Login: black button (iOS only) that signs in with an Apple ID.
   ///
   /// In uz, this message translates to:

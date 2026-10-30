@@ -2799,6 +2799,62 @@
   "@furnitureStyleMilliy": {"description": "Furniture style chip (API id milliy)."},
   "estimateFloorStandIn": "Pol mahsuloti tanlanmagan — narx do'kondagi o'rtacha poldan olindi (taxminiy).",
   "@estimateFloorStandIn": {"description": "E1 smeta: floor type chosen without a product; the server priced it from the median shop product."},
+  "scanChoiceTitle": "Nimani skanerlaymiz?",
+  "@scanChoiceTitle": {
+    "description": "Scan screen: title of the sheet choosing one room or several rooms (iPhones that support it)."
+  },
+  "scanChoiceOneRoom": "Bitta xona",
+  "@scanChoiceOneRoom": {
+    "description": "Scan choice sheet: option to scan a single room."
+  },
+  "scanChoiceFlat": "Bir nechta xona (kvartira)",
+  "@scanChoiceFlat": {
+    "description": "Scan choice sheet: option to scan several rooms in one session."
+  },
+  "scanChoiceFlatHint": "Xonalarni ketma-ket skanerlang — ular rejada o'z joyiga tushadi",
+  "@scanChoiceFlatHint": {
+    "description": "Scan choice sheet: hint under the several-rooms option."
+  },
+  "scanNextRoom": "Keyingi xona",
+  "@scanNextRoom": {
+    "description": "Multi-room scanner button: finish this room and start the next."
+  },
+  "scanFinish": "Tugatish",
+  "@scanFinish": {
+    "description": "Multi-room scanner button: end the session."
+  },
+  "scanRoomN": "{n}-xona",
+  "@scanRoomN": {
+    "description": "Multi-room scanner: the current room's number, and the default name of scanned room n.",
+    "placeholders": { "n": { "type": "int" } }
+  },
+  "flatReviewTitle": "Skanerlangan xonalar",
+  "@flatReviewTitle": {
+    "description": "Title of the review page after a multi-room scan."
+  },
+  "flatReviewRoomName": "Xona nomi",
+  "@flatReviewRoomName": {
+    "description": "Multi-room review: label of a room's name field."
+  },
+  "flatReviewContinue": "Studiyada ochish",
+  "@flatReviewContinue": {
+    "description": "Multi-room review: button that saves the rooms and opens the 3D studio."
+  },
+  "flatReviewPartial": "Skaner to'xtadi — {n} ta xona saqlandi",
+  "@flatReviewPartial": {
+    "description": "Multi-room review: the session ended early (app went to the background); n rooms were kept.",
+    "placeholders": { "n": { "type": "int" } }
+  },
+  "flatReviewDropped": "{n} ta xona o'qilmadi va qo'shilmadi",
+  "@flatReviewDropped": {
+    "description": "Multi-room review: n scanned rooms could not be converted into a plan.",
+    "placeholders": { "n": { "type": "int" } }
+  },
+  "flatReviewSavedSome": "{total} ta xonadan {saved} tasi saqlandi — qolganlarini qayta skanerlang",
+  "@flatReviewSavedSome": {
+    "description": "Multi-room review: saving stopped part-way; only some rooms were saved (the rest are lost and must be scanned again).",
+    "placeholders": { "saved": { "type": "int" }, "total": { "type": "int" } }
+  },
   "loginWithApple": "Apple bilan kirish",
   "@loginWithApple": {
     "description": "Login: black button (iOS only) that signs in with an Apple ID."

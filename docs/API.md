@@ -39,7 +39,7 @@ Hammasi `/api/v1` ga nisbatan. Har bir mavzu uchun bitta repository fayli (`lib/
 | Bezak va elektr | `GET/PUT /rooms/{id}/decoration`; `GET/PUT /rooms/{id}/electrical` | `decoration_repository.dart`, `electrical_repository.dart` |
 | Smeta | `POST /rooms/{id}/estimate/preview`, `POST /rooms/{id}/estimate`; `GET /rooms/{id}/estimates`, `GET /estimates/{id}`; `GET /rooms/{id}/estimate/pdf` | `estimate_repository.dart` |
 | AI | `POST /rooms/{id}/ai-build` (SSE oqim; tanlangan uslub so'rov boshiga `"Hi-Tech uslubida. "` deb qo'shiladi, `styledPrompt`); `POST /rooms/{id}/smeta/ask` | `ai_repository.dart` |
-| Skaner | `POST /rooms/{id}/room-scan` (multipart: `usdz`, `room_json`); `POST /rooms/{id}/room-scan/objects`; `POST /rooms/{id}/thumbnail` | `features/room_scan/room_scan_service.dart` |
+| Skaner | `POST /rooms/{id}/room-scan` (multipart: `usdz`, `room_json`, ixtiyoriy `scan_group` — ko'p xonali sessiya); `POST /rooms/{id}/room-scan/objects`; `POST /rooms/{id}/thumbnail` | `features/room_scan/room_scan_service.dart` |
 | Katalog | `GET /materials`, `/materials/{id}/offers`, `/furniture` (`?store=` bitta do'konniki), `/furniture/{id}`, `/stores`, `/stores/{id}`, `/ustalar` | `catalog_repository.dart` |
 | Buyurtmalar | `GET/POST /orders` | `orders_repository.dart` |
 | Oboylar | `GET /wallpapers`; `POST /wallpapers` (multipart) | `wallpaper_repository.dart` |

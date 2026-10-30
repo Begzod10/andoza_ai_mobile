@@ -63,7 +63,10 @@ class _ThumbnailFailingScanService implements RoomScanService {
       const {};
 
   @override
-  Future<Map<String, dynamic>> upload(String roomId, ScanResult scan) async =>
+  Future<MultiScanResult?> scanRooms({required Map<String, String> labels}) async => null;
+
+  @override
+  Future<Map<String, dynamic>> upload(String roomId, ScanResult scan, {String? scanGroup}) async =>
       const {};
 
   @override
