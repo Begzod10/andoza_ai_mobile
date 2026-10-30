@@ -51,7 +51,11 @@ final Provider<AuthRepository> authRepositoryProvider =
     Provider<AuthRepository>((ref) {
   final apiClient = ref.watch(apiClientProvider);
   final storage = ref.watch(secureStorageProvider);
-  return AuthRepositoryImpl(apiClient, storage);
+  return AuthRepositoryImpl(
+    apiClient,
+    storage,
+    language: () => ref.read(localeProvider).languageCode,
+  );
 });
 
 // Auth state provider

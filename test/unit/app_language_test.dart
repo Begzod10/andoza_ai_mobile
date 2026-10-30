@@ -5,6 +5,7 @@ import 'dart:ui' show Locale;
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tamir_uy_mobile_flutter/models/user_model.dart';
@@ -15,10 +16,13 @@ import 'package:tamir_uy_mobile_flutter/repositories/auth_repository.dart';
 import 'package:tamir_uy_mobile_flutter/repositories/push_repository.dart';
 import 'package:tamir_uy_mobile_flutter/services/api_client.dart';
 import 'package:tamir_uy_mobile_flutter/services/push_service.dart';
+import 'package:tamir_uy_mobile_flutter/services/secure_storage.dart';
 
-/// Records every request and answers 200 with an empty JSON object.
+/// Records every request. Auth calls get a session back, everything else an
+/// empty object; [failPatch] makes `PATCH /auth/me` answer 503.
 class _RecordingAdapter implements HttpClientAdapter {
   final requests = <RequestOptions>[];
+  bool failPatch = false;
 
   @override
   Future<ResponseBody> fetch(
@@ -27,9 +31,13 @@ class _RecordingAdapter implements HttpClientAdapter {
     Future<void>? cancelFuture,
   ) async {
     requests.add(options);
+    final failed = failPatch && options.method == 'PATCH';
+    final body = options.path.startsWith('/auth/')
+        ? {'access_token': 'a', 'refresh_token': 'r', 'user': {'id': 'u1'}}
+        : <String, Object>{};
     return ResponseBody.fromString(
-      jsonEncode(<String, Object>{}),
-      200,
+      jsonEncode(failed ? {'detail': 'down'} : body),
+      failed ? 503 : 200,
       headers: {
         Headers.contentTypeHeader: [Headers.jsonContentType],
       },
@@ -40,7 +48,11 @@ class _RecordingAdapter implements HttpClientAdapter {
   void close({bool force = false}) {}
 }
 
-class _NoRepo implements AuthRepository {
+/// Answers `/auth/me` with an account in [language].
+class _Repo implements AuthRepository {
+  String? language = 'uz';
+  @override
+  Future<User?> getCurrentUser() async => User(id: 'u1', language: language);
   @override
   dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
 }
@@ -72,10 +84,12 @@ void main() {
 
   late _RecordingAdapter adapter;
   late _PushRepo pushRepo;
+  late _Repo repo;
 
   ProviderContainer container() {
     adapter = _RecordingAdapter();
     pushRepo = _PushRepo();
+    repo = _Repo();
     final c = ProviderContainer(overrides: [
       apiClientProvider.overrideWith((ref) {
         final client = ApiClient(
@@ -85,7 +99,7 @@ void main() {
         client.httpDioForTest.httpClientAdapter = adapter;
         return client;
       }),
-      authRepositoryProvider.overrideWithValue(_NoRepo()),
+      authRepositoryProvider.overrideWithValue(repo),
       pushServiceProvider.overrideWithValue(
         PushService(_Messaging(), pushRepo, locale: () => 'x', platform: 'ios'),
       ),
@@ -122,18 +136,30 @@ void main() {
     c.read(accountLanguageSyncProvider);
     c.read(authStateProvider.notifier).setSession(_session);
     await _settle();
-    expect(accountSaves(), isEmpty, reason: 'the phone language is not a choice');
+    expect(accountSaves(), isEmpty);
 
     await c.read(localeProvider.notifier).setLocale(const Locale('ru'));
     await _settle();
     expect(accountSaves(), [
       {'language': 'ru'},
     ]);
+    expect(c.read(localeProvider.notifier).pending, isFalse);
   });
 
-  test('a language picked before signing in is saved at sign-in', () async {
-    SharedPreferences.setMockInitialValues({'app_locale': 'en'});
+  test("at sign-in the account's language wins over the app's", () async {
     final c = container();
+    repo.language = 'ru';
+    c.read(accountLanguageSyncProvider);
+    c.read(authStateProvider.notifier).setSession(_session);
+    await _settle();
+    expect(c.read(localeProvider), const Locale('ru'));
+    expect(accountSaves(), isEmpty);
+  });
+
+  test('a choice the account has not saved yet wins at sign-in and is saved', () async {
+    SharedPreferences.setMockInitialValues({'app_locale': 'en', 'app_locale_pending': true});
+    final c = container();
+    repo.language = 'ru';
     c.read(accountLanguageSyncProvider);
     c.read(localeProvider);
     await _settle(); // the persisted choice loads
@@ -141,9 +167,37 @@ void main() {
 
     c.read(authStateProvider.notifier).setSession(_session);
     await _settle();
+    expect(c.read(localeProvider), const Locale('en'));
     expect(accountSaves(), [
       {'language': 'en'},
     ]);
+    expect(c.read(localeProvider.notifier).pending, isFalse);
+  });
+
+  test('a failed save keeps the choice pending', () async {
+    final c = container();
+    adapter.failPatch = true;
+    c.read(accountLanguageSyncProvider);
+    c.read(authStateProvider.notifier).setSession(_session);
+    await _settle();
+    await c.read(localeProvider.notifier).setLocale(const Locale('en'));
+    await _settle();
+    expect(c.read(localeProvider.notifier).pending, isTrue);
+    final prefs = await SharedPreferences.getInstance();
+    expect(prefs.getBool('app_locale_pending'), isTrue);
+  });
+
+  test('sign-up, Google and Apple send the app language for a new account', () async {
+    FlutterSecureStorage.setMockInitialValues({});
+    adapter = _RecordingAdapter();
+    final client = ApiClient(baseUrl: 'http://test.local/api/v1');
+    client.httpDioForTest.httpClientAdapter = adapter;
+    final authRepo = AuthRepositoryImpl(client, SecureStorageService(), language: () => 'ru');
+
+    await authRepo.register('ali', 'secret1', null);
+    await authRepo.loginWithGoogle('g-token');
+    await authRepo.loginWithApple('a-token');
+    expect(adapter.requests.map((r) => (r.data as Map)['language']), ['ru', 'ru', 'ru']);
   });
 
   test('a language change registers the push token again', () async {
