@@ -13,6 +13,9 @@ import 'package:tamir_uy_mobile_flutter/screens/shop/furniture_detail_screen.dar
 import 'package:tamir_uy_mobile_flutter/screens/shop/s1_shop_home_screen.dart';
 import 'package:tamir_uy_mobile_flutter/screens/shop/store_page_screen.dart';
 
+/// The queries sent to the furniture search, in order.
+final searches = <String>[];
+
 const _store = Store(
   id: 's1',
   name: 'Mebel Plus',
@@ -126,6 +129,16 @@ Future<List<Uri>> _pump(
         }),
         storeFurnitureProvider.overrideWith((ref, id) async => storeFurniture),
         furnitureProvider.overrideWith((ref, category) async => allFurniture),
+        // The server's `q`: a name search over the whole catalog.
+        furnitureSearchProvider.overrideWith((ref, query) async {
+          searches.add(query);
+          return allFurniture.where((f) => f.nameUz.toLowerCase().contains(query.toLowerCase())).toList();
+        }),
+        shopSearchProvider.overrideWith(
+          (ref, query) => AsyncValue.data(
+            materials.where((p) => p.name.toLowerCase().contains(query.toLowerCase())).toList(),
+          ),
+        ),
         furnitureItemProvider.overrideWith(
           (ref, id) async => storeFurniture.firstWhere((f) => f.id == id),
         ),
@@ -280,10 +293,14 @@ void main() {
       expect(find.text("Xonamga qo'yish"), findsOneWidget);
     });
 
-    testWidgets('the search narrows the furniture too', (tester) async {
+    testWidgets('the search asks the server once typing pauses', (tester) async {
+      searches.clear();
       await _pump(tester, '/shop/s1');
-      await tester.enterText(find.byType(TextField), 'stol');
+      await tester.enterText(find.byType(TextField), 'st');
+      await tester.enterText(find.byType(TextField), ' stol ');
+      await tester.pump(const Duration(milliseconds: 400)); // the debounce
       await tester.pumpAndSettle();
+      expect(searches, ['stol']);
       expect(find.text('Burchak divan'), findsNothing);
       expect(find.text('Mebel'), findsNothing);
     });

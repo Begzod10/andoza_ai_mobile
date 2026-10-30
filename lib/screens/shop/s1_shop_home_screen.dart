@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -24,29 +26,48 @@ class S1ShopHomeScreen extends ConsumerStatefulWidget {
 
 class _S1ShopHomeScreenState extends ConsumerState<S1ShopHomeScreen> {
   ShopCategory? _filter;
-  String _query = '';
+  // What the server is asked for: the typed text, once typing pauses.
+  String _search = '';
+  Timer? _debounce;
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
+  }
+
+  void _onQuery(String text) {
+    _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 350), () {
+      if (mounted) setState(() => _search = shopSearchQuery(text));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final catalog = ref.watch(shopCatalogProvider);
-    final status = loadStatus(
-      isEmpty: catalog.isEmpty,
-      loading: ref.watch(shopCatalogLoadingProvider),
-      error: ref.watch(shopCatalogErrorProvider),
-      onRetry: () => shopCatalogSources.forEach(ref.invalidate),
-    );
+    // A search goes to the server, so it covers the whole catalog.
+    final found = _search.isEmpty ? null : ref.watch(shopSearchProvider(_search));
+    final source = found == null ? catalog : (found.valueOrNull ?? const <Product>[]);
+    final status = found == null
+        ? loadStatus(
+            isEmpty: catalog.isEmpty,
+            loading: ref.watch(shopCatalogLoadingProvider),
+            error: ref.watch(shopCatalogErrorProvider),
+            onRetry: () => shopCatalogSources.forEach(ref.invalidate),
+          )
+        : loadStatus(
+            isEmpty: source.isEmpty,
+            loading: found.isLoading,
+            error: found.error,
+            onRetry: () => ref.invalidate(materialSearchProvider(_search)),
+          );
     final cartCount = ref.watch(cartLineCountProvider);
     final projectItems = catalog.where((p) => p.isInProject).toList();
 
-    final products = catalog.where((p) {
-      if (_filter != null && p.category != _filter) return false;
-      if (_query.isNotEmpty &&
-          !p.name.toLowerCase().contains(_query.toLowerCase())) {
-        return false;
-      }
-      return true;
-    }).toList();
+    final products =
+        source.where((p) => _filter == null || p.category == _filter).toList();
 
     return Scaffold(
       backgroundColor: DesignTokens.backgroundLight,
@@ -152,7 +173,7 @@ class _S1ShopHomeScreenState extends ConsumerState<S1ShopHomeScreen> {
                 hintText: l10n.shopSearchHint,
                 prefixIcon: const Icon(Icons.search),
               ),
-              onChanged: (value) => setState(() => _query = value),
+              onChanged: _onQuery,
               onSubmitted: (value) =>
                   context.push('/shop/search', extra: value),
             ),
@@ -199,7 +220,7 @@ class _S1ShopHomeScreenState extends ConsumerState<S1ShopHomeScreen> {
           const SizedBox(height: DesignTokens.spacingLg),
           // Shops' own furniture (3D models). Not one of the material
           // categories, so it shows under "Barchasi" only.
-          if (_filter == null) _FurnitureRail(query: _query),
+          if (_filter == null) _FurnitureRail(query: _search),
           if (status != null)
             status
           else if (products.isEmpty)
@@ -250,10 +271,11 @@ class _FurnitureRail extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
-    final needle = query.toLowerCase();
-    final items = (ref.watch(furnitureProvider(null)).valueOrNull ?? const [])
-        .where((f) => needle.isEmpty || f.nameUz.toLowerCase().contains(needle))
-        .toList();
+    final items = (query.isEmpty
+                ? ref.watch(furnitureProvider(null))
+                : ref.watch(furnitureSearchProvider(query)))
+            .valueOrNull ??
+        const [];
     if (items.isEmpty) return const SizedBox.shrink();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

@@ -19,6 +19,7 @@ class CatalogRepository {
   Future<PaginatedMaterials> getMaterials({
     String? category,
     String? storeId,
+    String? query,
     int page = 1,
     int perPage = 20,
   }) {
@@ -27,6 +28,7 @@ class CatalogRepository {
       queryParameters: _params({
         'category': category,
         'store': storeId,
+        'q': query,
         'page': page,
         'per_page': perPage,
       }),
@@ -40,6 +42,7 @@ class CatalogRepository {
   Future<PaginatedFurniture> getFurniture({
     String? category,
     String? storeId,
+    String? query,
     int page = 1,
     int perPage = 20,
   }) {
@@ -48,12 +51,50 @@ class CatalogRepository {
       queryParameters: _params({
         'category': category,
         'store': storeId,
+        'q': query,
         'page': page,
         'per_page': perPage,
       }),
       fromJson: (json) =>
           PaginatedFurniture.fromJson(json as Map<String, dynamic>),
     );
+  }
+
+  /// Every active material matching the filters, page after page (the
+  /// server caps a page at 100), up to [maxPages] pages. [query] is the
+  /// server-side name search (`q`, at most 100 characters).
+  Future<List<Material>> getAllMaterials({String? category, String? query, int maxPages = 10}) {
+    return _allPages(
+      (page) async {
+        final r = await getMaterials(category: category, query: query, page: page, perPage: 100);
+        return (items: r.items, total: r.total);
+      },
+      maxPages,
+    );
+  }
+
+  /// Every live furniture item matching the filters, as [getAllMaterials].
+  Future<List<Furniture>> getAllFurniture({String? category, String? query, int maxPages = 10}) {
+    return _allPages(
+      (page) async {
+        final r = await getFurniture(category: category, query: query, page: page, perPage: 100);
+        return (items: r.items, total: r.total);
+      },
+      maxPages,
+    );
+  }
+
+  static Future<List<T>> _allPages<T>(
+    Future<({List<T> items, int total})> Function(int page) fetch,
+    int maxPages,
+  ) async {
+    final all = <T>[];
+    for (var page = 1; page <= maxPages; page++) {
+      final r = await fetch(page);
+      all.addAll(r.items);
+      if (r.items.isEmpty || all.length >= r.total) break;
+    }
+    return all;
   }
 
   /// One live furniture item (`GET /furniture/{id}`); 404 once it is off sale.
