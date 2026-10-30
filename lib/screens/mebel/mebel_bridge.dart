@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:ui' show Rect;
 
 import 'package:path_provider/path_provider.dart';
+import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -65,18 +67,32 @@ String mebelCsvFileName(String name) {
   return safe.toLowerCase().endsWith('.csv') ? safe : '$safe.csv';
 }
 
-/// Writes the CSV to a temporary file and opens the share sheet. The text
-/// already starts with a UTF-8 byte-order mark, so Excel reads Cyrillic.
-Future<void> shareMebelCsv(MebelCsv csv) async {
+/// [text] starting with a UTF-8 byte-order mark, which Excel needs to read
+/// Cyrillic. The page writes one, but `Response.text()` (how the bridge reads
+/// the blob) drops it.
+String withCsvBom(String text) => text.startsWith('\uFEFF') ? text : '\uFEFF$text';
+
+/// Writes the CSV to a temporary file and opens the share sheet.
+/// [origin] is where the sheet points from: iOS 26 refuses to open one
+/// without it ("sharePositionOrigin: argument must be set").
+Future<void> shareMebelCsv(MebelCsv csv, {required Rect origin}) async {
   final dir = await getTemporaryDirectory();
   final file = File('${dir.path}/${mebelCsvFileName(csv.name)}');
-  await file.writeAsString(csv.text, encoding: utf8, flush: true);
-  await Share.shareXFiles([XFile(file.path, mimeType: 'text/csv')]);
+  await file.writeAsString(withCsvBom(csv.text), encoding: utf8, flush: true);
+  await Share.shareXFiles(
+    [XFile(file.path, mimeType: 'text/csv')],
+    sharePositionOrigin: origin,
+  );
 }
 
 /// Opens the system print dialog (with "Save as PDF") for the page's
 /// printout. Its stylesheets load from the studio origin, so the print
-/// layout (A4 landscape) applies.
+/// styles apply.
+///
+/// The dialog starts in A4 landscape, which the page's own `@page` asks for
+/// and the HTML conversion does not read: in portrait the cut list's edge
+/// banding columns fell off the page. Changing the orientation in the dialog
+/// lays the printout out again ([Printing.layoutPdf]'s dynamic layout).
 ///
 /// `convertHtml` is marked deprecated but still maintained on Android and iOS
 /// (5.15.1 fixed it for iOS 26); it is the one way to print a page that only
@@ -84,6 +100,7 @@ Future<void> shareMebelCsv(MebelCsv csv) async {
 Future<void> printMebelHtml(String html) {
   return Printing.layoutPdf(
     name: 'Andoza mebel',
+    format: PdfPageFormat.a4.landscape,
     // ignore: deprecated_member_use
     onLayout: (format) => Printing.convertHtml(
       html: html,

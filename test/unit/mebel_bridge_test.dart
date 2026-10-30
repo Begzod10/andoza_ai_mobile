@@ -11,6 +11,11 @@ void main() {
     expect(parseMebelCsv('[1]'), isNull);
   });
 
+  test('the CSV keeps one byte-order mark, which the blob read drops', () {
+    expect(withCsvBom('ID;Detal'), '\uFEFFID;Detal');
+    expect(withCsvBom('\uFEFFID;Detal'), '\uFEFFID;Detal');
+  });
+
   test('the CSV file name is safe and ends in .csv', () {
     expect(mebelCsvFileName('Oshxona.csv'), 'Oshxona.csv');
     expect(mebelCsvFileName('Oshxona — Fasad'), 'Oshxona — Fasad.csv');

@@ -110,8 +110,10 @@ hisoblaydi, ilova ularni qayta yozmaydi.
 - **PDF va CSV** (`mebel_bridge.dart`): WebView `window.print()` va
   `<a download href="blob:…">` ni bajarmaydi. Har sahifa yuklanganda JS ularni
   ushlaydi. Chop etish HTML'i `printing` paketi orqali tizimning chop etish
-  oynasiga ("PDF sifatida saqlash" bor), CSV esa vaqtinchalik faylga yozilib,
-  "Ulashish" oynasiga beriladi.
+  oynasiga ("PDF sifatida saqlash" bor) A4 albom formatida beriladi. CSV
+  vaqtinchalik faylga yozilib, "Ulashish" oynasiga beriladi. Blob'ni o'qishda
+  BOM tushib qoladi, shuning uchun u qayta qo'shiladi (Excel kirillni shu bilan
+  o'qiydi). iOS 26 ulashish oynasini `sharePositionOrigin` siz ochmaydi.
 
 ## "Share → Andoza AI" (Pinterest pin)
 

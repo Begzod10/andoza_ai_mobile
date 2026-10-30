@@ -72,7 +72,7 @@ class _MebelWebViewScreenState extends ConsumerState<MebelWebViewScreen> {
       ..addJavaScriptChannel(mebelPrintChannel, onMessageReceived: (m) => _export(() => printMebelHtml(m.message)))
       ..addJavaScriptChannel(mebelDownloadChannel, onMessageReceived: (m) {
         final csv = parseMebelCsv(m.message);
-        if (csv != null) _export(() => shareMebelCsv(csv));
+        if (csv != null) _export(() => shareMebelCsv(csv, origin: _shareOrigin()));
       })
       ..setNavigationDelegate(
         NavigationDelegate(
@@ -124,10 +124,18 @@ class _MebelWebViewScreenState extends ConsumerState<MebelWebViewScreen> {
     await controller.loadRequest(Uri.parse(AppConfig.studioBaseUrl));
   }
 
+  /// The screen's area, for the share sheet to point from.
+  Rect _shareOrigin() {
+    final box = context.findRenderObject() as RenderBox?;
+    if (box == null || !box.hasSize) return const Rect.fromLTWH(0, 0, 1, 1);
+    return box.localToGlobal(Offset.zero) & box.size;
+  }
+
   Future<void> _export(Future<void> Function() run) async {
     try {
       await run();
-    } catch (_) {
+    } catch (e) {
+      debugPrint('Mebel export failed: $e');
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(AppLocalizations.of(context)!.mebelExportFailed)),
