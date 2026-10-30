@@ -12,6 +12,7 @@ import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/user_model.dart';
 import '../../providers/auth_provider.dart';
+import '../../providers/locale_provider.dart';
 import '../../widgets/common/error_view.dart';
 import 'webview_file_chooser.dart';
 
@@ -85,9 +86,14 @@ String studioRoomPath(
 
 /// The web page to open for [path]. `app=1` tells the page it is inside the
 /// app, so it hides its own back button — this screen draws one over the page.
-String studioPageUrl(String base, String path) {
+/// `lang=` opens it in the app's language rather than the account's or the
+/// phone's; the page then saves that language on the account.
+String studioPageUrl(String base, String path, {String? language}) {
   final sep = path.contains('?') ? '&' : '?';
-  return '$base$path${sep}app=1';
+  final lang = language == null
+      ? ''
+      : '&lang=${Uri.encodeQueryComponent(language)}';
+  return '$base$path${sep}app=1$lang';
 }
 
 /// The colour at the bottom of the web studio's 3D view.
@@ -143,7 +149,11 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
   // cannot overwrite what a later one found.
   int _pageSeq = 0;
 
-  String get _targetUrl => studioPageUrl(AppConfig.studioBaseUrl, widget.path);
+  String get _targetUrl => studioPageUrl(
+    AppConfig.studioBaseUrl,
+    widget.path,
+    language: ref.read(localeProvider).languageCode,
+  );
 
   @override
   void initState() {

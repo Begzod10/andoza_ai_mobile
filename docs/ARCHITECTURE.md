@@ -77,6 +77,8 @@ menyu uni davom ettirishni taklif qiladi.
 `screens/studio/studio_webview_screen.dart` veb-studiyani
 `${STUDIO_BASE_URL}/studio/<roomId>` manzilida, `app=1` parametri bilan ochadi.
 Frontend shu parametrga qarab o'zining "orqaga" tugmasini yashiradi.
+`lang=` parametri ilovada tanlangan tilni uzatadi (`localeProvider`). Studio shu
+tilda ochiladi va uni akkauntga saqlaydi.
 
 **Autentifikatsiya ko'prigi:**
 1. `WebViewCookieManager` `token` cookie'siga ilovaning access token'ini yozadi.
