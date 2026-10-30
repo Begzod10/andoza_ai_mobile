@@ -2722,5 +2722,51 @@
   "flatReviewContinue": "Open in the studio",
   "flatReviewPartial": "The scan stopped — {n} rooms kept",
   "flatReviewDropped": "{n} rooms could not be read and were left out",
-  "flatReviewSavedSome": "{saved} of {total} rooms saved — scan the rest again"
+  "flatReviewSavedSome": "{saved} of {total} rooms saved — scan the rest again",
+  "loginWithApple": "Sign in with Apple",
+  "loginAppleFailed": "Couldn't sign in with Apple. Please try again.",
+  "reportAction": "Report",
+  "reportTitle": "Report",
+  "reportHint": "What's wrong? Our moderators will review your report.",
+  "reportReasonSpam": "Spam or advertising",
+  "reportReasonInappropriate": "Inappropriate content",
+  "reportReasonFraud": "Fraud or scam",
+  "reportReasonOther": "Other",
+  "reportDetails": "Details (optional)",
+  "reportSend": "Send",
+  "reportSent": "Thanks! Your report has been sent.",
+  "blockUstaAction": "Block",
+  "blockUstaTitle": "Block this craftsman?",
+  "blockUstaBody": "They will no longer appear on your map or list.",
+  "blockUstaConfirm": "Block",
+  "blockUstaDone": "Craftsman blocked",
+  "shopFurnitureSection": "Furniture",
+  "shopFurnitureNoPrice": "Price on request",
+  "storePageOpen": "{name} shop",
+  "@storePageOpen": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "storeLoadFailed": "Couldn't open the shop",
+  "storeCall": "Call",
+  "storeTelegram": "Telegram",
+  "storeNoProducts": "This shop has no products yet",
+  "storeReport": "Report this shop",
+  "furnitureSize": "Size",
+  "furnitureSizeValue": "{size} cm",
+  "@furnitureSizeValue": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "furniturePlaceInRoom": "Place in my room",
+  "furniturePickRoom": "Which room?",
+  "furnitureNoRooms": "Create or scan a room first",
+  "furnitureNoModel": "This product has no 3D model, so it can't be placed in a room",
+  "furnitureLoadFailed": "Couldn't open the product"
 }

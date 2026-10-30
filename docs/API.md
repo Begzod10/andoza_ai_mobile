@@ -33,20 +33,21 @@ Hammasi `/api/v1` ga nisbatan. Har bir mavzu uchun bitta repository fayli (`lib/
 
 | Mavzu | So'rovlar | Fayl |
 |---|---|---|
-| Kirish | `POST /auth/login`, `/auth/register`, `/auth/otp/request`, `/auth/otp/verify`, `/auth/refresh`, `/auth/logout`, `/auth/delete-account`; `GET /auth/me` | `auth_repository.dart`, `services/api_client.dart` |
+| Kirish | `POST /auth/login`, `/auth/register`, `/auth/otp/request`, `/auth/otp/verify`, `/auth/google` (`id_token`), `/auth/apple` (`identity_token`, `name` faqat birinchi kirishda; faqat iOS), `/auth/refresh`, `/auth/logout`, `/auth/delete-account`; `GET /auth/me` | `auth_repository.dart`, `services/api_client.dart` |
 | Kvartira va xonalar | `GET/POST /apartments`; `GET/PATCH/DELETE /apartments/{id}`; `GET/POST /apartments/{id}/rooms`; `GET/PATCH/DELETE /rooms/{id}` | `apartment_repository.dart` |
 | Xona holati | `GET/POST/PATCH /rooms/{id}/state`; `GET /rooms/{id}/delta` | `room_state_repository.dart` |
 | Bezak va elektr | `GET/PUT /rooms/{id}/decoration`; `GET/PUT /rooms/{id}/electrical` | `decoration_repository.dart`, `electrical_repository.dart` |
 | Smeta | `POST /rooms/{id}/estimate/preview`, `POST /rooms/{id}/estimate`; `GET /rooms/{id}/estimates`, `GET /estimates/{id}`; `GET /rooms/{id}/estimate/pdf` | `estimate_repository.dart` |
 | AI | `POST /rooms/{id}/ai-build` (SSE oqim; tanlangan uslub so'rov boshiga `"Hi-Tech uslubida. "` deb qo'shiladi, `styledPrompt`); `POST /rooms/{id}/smeta/ask` | `ai_repository.dart` |
 | Skaner | `POST /rooms/{id}/room-scan` (multipart: `usdz`, `room_json`, ixtiyoriy `scan_group` — ko'p xonali sessiya); `POST /rooms/{id}/room-scan/objects`; `POST /rooms/{id}/thumbnail` | `features/room_scan/room_scan_service.dart` |
-| Katalog | `GET /materials`, `/materials/{id}/offers`, `/furniture`, `/stores`, `/ustalar` | `catalog_repository.dart` |
+| Katalog | `GET /materials`, `/materials/{id}/offers`, `/furniture` (`?store=` bitta do'konniki), `/furniture/{id}`, `/stores`, `/stores/{id}`, `/ustalar` | `catalog_repository.dart` |
 | Buyurtmalar | `GET/POST /orders` | `orders_repository.dart` |
 | Oboylar | `GET /wallpapers`; `POST /wallpapers` (multipart) | `wallpaper_repository.dart` |
 | Biznes: rollar | `GET /account/roles` | `business_repository.dart` |
 | Biznes: do'kon | `GET/POST/PATCH /seller/store`, `POST /seller/store/resubmit`; `GET/POST /seller/furniture`, `PATCH/DELETE /seller/furniture/{id}`; `GET /seller/inquiries`, `PATCH /seller/inquiries/{id}`; `GET /seller/orders`, `PATCH /seller/orders/{id}/status`; `GET /seller/stats` | `business_repository.dart` |
 | Biznes: rasmdan model | `POST /models/from-photo`; `GET /jobs/{id}`; `GET /models/from-photo/glb` | `business_repository.dart` |
 | Biznes: usta | `GET/POST/PATCH /usta/profile`, `POST /usta/profile/resubmit`; `GET/POST /usta/portfolio`, `DELETE /usta/portfolio/{id}`; `GET /ustalar/{id}/portfolio`; `GET /usta/leads`, `PATCH /usta/leads/{id}`; `POST /leads` | `business_repository.dart` |
+| Shikoyat | `POST /reports` (`target_type`: `usta` / `product` / `seller` / `portfolio_item` / `wallpaper`, `target_id`, `reason`: `spam` / `inappropriate` / `fraud` / `other`, `details?`). Ustani bloklash faqat qurilmada (`blocked_ustalar`, SharedPreferences) | `features/moderation/report_repository.dart` |
 
 3D studiya WebView ichida veb-frontend orqali ishlaydi va o'z so'rovlarini
 o'zi yuboradi. Ilova unga faqat tokenlarni beradi, qarang:

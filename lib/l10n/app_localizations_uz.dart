@@ -2668,4 +2668,108 @@ class AppLocalizationsUz extends AppLocalizations {
   String flatReviewSavedSome(int saved, int total) {
     return '$total ta xonadan $saved tasi saqlandi — qolganlarini qayta skanerlang';
   }
+
+  @override
+  String get loginWithApple => 'Apple bilan kirish';
+
+  @override
+  String get loginAppleFailed =>
+      'Apple orqali kirib bo\'lmadi. Qayta urinib ko\'ring.';
+
+  @override
+  String get reportAction => 'Shikoyat qilish';
+
+  @override
+  String get reportTitle => 'Shikoyat';
+
+  @override
+  String get reportHint =>
+      'Nima noto\'g\'ri? Shikoyatingizni moderatorlar ko\'rib chiqadi.';
+
+  @override
+  String get reportReasonSpam => 'Spam yoki reklama';
+
+  @override
+  String get reportReasonInappropriate => 'Nomaqbul kontent';
+
+  @override
+  String get reportReasonFraud => 'Firibgarlik';
+
+  @override
+  String get reportReasonOther => 'Boshqa';
+
+  @override
+  String get reportDetails => 'Izoh (ixtiyoriy)';
+
+  @override
+  String get reportSend => 'Yuborish';
+
+  @override
+  String get reportSent => 'Rahmat! Shikoyatingiz yuborildi.';
+
+  @override
+  String get blockUstaAction => 'Bloklash';
+
+  @override
+  String get blockUstaTitle => 'Ustani bloklaysizmi?';
+
+  @override
+  String get blockUstaBody =>
+      'U endi xaritada va ro\'yxatda sizga ko\'rinmaydi.';
+
+  @override
+  String get blockUstaConfirm => 'Bloklash';
+
+  @override
+  String get blockUstaDone => 'Usta bloklandi';
+
+  @override
+  String get shopFurnitureSection => 'Mebel';
+
+  @override
+  String get shopFurnitureNoPrice => 'Narxi kelishiladi';
+
+  @override
+  String storePageOpen(String name) {
+    return '$name do\'koni';
+  }
+
+  @override
+  String get storeLoadFailed => 'Do\'konni ochib bo\'lmadi';
+
+  @override
+  String get storeCall => 'Qo\'ng\'iroq';
+
+  @override
+  String get storeTelegram => 'Telegram';
+
+  @override
+  String get storeNoProducts => 'Bu do\'konda hozircha mahsulot yo\'q';
+
+  @override
+  String get storeReport => 'Do\'kon haqida shikoyat';
+
+  @override
+  String get furnitureSize => 'O\'lchami';
+
+  @override
+  String furnitureSizeValue(String size) {
+    return '$size sm';
+  }
+
+  @override
+  String get furniturePlaceInRoom => 'Xonamga qo\'yish';
+
+  @override
+  String get furniturePickRoom => 'Qaysi xonaga qo\'yamiz?';
+
+  @override
+  String get furnitureNoRooms => 'Avval xona yarating yoki skanerlang';
+
+  @override
+  String get furnitureNoModel =>
+      'Bu mahsulotning 3D modeli yo\'q, uni xonaga qo\'yib bo\'lmaydi';
+
+  @override
+  String get furnitureLoadFailed => 'Mahsulotni ochib bo\'lmadi';
 }

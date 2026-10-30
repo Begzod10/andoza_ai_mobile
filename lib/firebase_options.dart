@@ -59,12 +59,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBWMIjaCYNpcHibmiezvXQSK60EMpPN7MY',
-    appId: '1:632412937266:ios:72c871426d0cc34c35702b',
+    appId: '1:632412937266:ios:ee0c8617713bce5235702b',
     messagingSenderId: '632412937266',
     projectId: 'andoza-ai',
     storageBucket: 'andoza-ai.firebasestorage.app',
     androidClientId: '632412937266-rr23j1qbft3per7nfipap4jqmv1i57gf.apps.googleusercontent.com',
     iosClientId: '632412937266-nb16ekesaj9ubuahnmio29187nu5uhre.apps.googleusercontent.com',
-    iosBundleId: 'com.tamiruy.tamirUyMobileFlutter',
+    iosBundleId: 'uz.andozaai.app',
   );
 }

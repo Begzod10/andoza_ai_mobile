@@ -2673,4 +2673,107 @@ class AppLocalizationsRu extends AppLocalizations {
   String flatReviewSavedSome(int saved, int total) {
     return 'Сохранено комнат: $saved из $total — остальные отсканируйте заново';
   }
+
+  @override
+  String get loginWithApple => 'Войти через Apple';
+
+  @override
+  String get loginAppleFailed =>
+      'Не удалось войти через Apple. Попробуйте ещё раз.';
+
+  @override
+  String get reportAction => 'Пожаловаться';
+
+  @override
+  String get reportTitle => 'Жалоба';
+
+  @override
+  String get reportHint => 'Что не так? Модераторы рассмотрят жалобу.';
+
+  @override
+  String get reportReasonSpam => 'Спам или реклама';
+
+  @override
+  String get reportReasonInappropriate => 'Неприемлемый контент';
+
+  @override
+  String get reportReasonFraud => 'Мошенничество';
+
+  @override
+  String get reportReasonOther => 'Другое';
+
+  @override
+  String get reportDetails => 'Комментарий (необязательно)';
+
+  @override
+  String get reportSend => 'Отправить';
+
+  @override
+  String get reportSent => 'Спасибо! Жалоба отправлена.';
+
+  @override
+  String get blockUstaAction => 'Заблокировать';
+
+  @override
+  String get blockUstaTitle => 'Заблокировать мастера?';
+
+  @override
+  String get blockUstaBody =>
+      'Он больше не будет виден вам на карте и в списке.';
+
+  @override
+  String get blockUstaConfirm => 'Заблокировать';
+
+  @override
+  String get blockUstaDone => 'Мастер заблокирован';
+
+  @override
+  String get shopFurnitureSection => 'Мебель';
+
+  @override
+  String get shopFurnitureNoPrice => 'Цена по договорённости';
+
+  @override
+  String storePageOpen(String name) {
+    return 'Магазин «$name»';
+  }
+
+  @override
+  String get storeLoadFailed => 'Не удалось открыть магазин';
+
+  @override
+  String get storeCall => 'Позвонить';
+
+  @override
+  String get storeTelegram => 'Telegram';
+
+  @override
+  String get storeNoProducts => 'В этом магазине пока нет товаров';
+
+  @override
+  String get storeReport => 'Пожаловаться на магазин';
+
+  @override
+  String get furnitureSize => 'Размер';
+
+  @override
+  String furnitureSizeValue(String size) {
+    return '$size см';
+  }
+
+  @override
+  String get furniturePlaceInRoom => 'Поставить в мою комнату';
+
+  @override
+  String get furniturePickRoom => 'В какую комнату поставить?';
+
+  @override
+  String get furnitureNoRooms => 'Сначала создайте или отсканируйте комнату';
+
+  @override
+  String get furnitureNoModel =>
+      'У этого товара нет 3D-модели, его нельзя поставить в комнату';
+
+  @override
+  String get furnitureLoadFailed => 'Не удалось открыть товар';
 }

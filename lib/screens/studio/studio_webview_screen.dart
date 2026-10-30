@@ -12,6 +12,7 @@ import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../models/user_model.dart';
 import '../../providers/auth_provider.dart';
+import '../../providers/locale_provider.dart';
 import '../../widgets/common/error_view.dart';
 import 'webview_file_chooser.dart';
 
@@ -43,12 +44,18 @@ class StudioWebViewScreen extends ConsumerStatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
   /// [aiPin] opens the studio's AI designer with that Pinterest pin already
   /// taken (the web studio's `?ai_pin=`), after "Share → Andoza AI".
+  /// [place] is a shop's furniture id the studio puts into the room as it
+  /// opens (the web studio's `?place=`), from "Xonamga qo'yish".
   StudioWebViewScreen.studio({
     required String roomId,
     bool focus = false,
     String? aiPin,
+    String? place,
     Key? key,
-  }) : this(path: studioRoomPath(roomId, focus: focus, aiPin: aiPin), key: key);
+  }) : this(
+         path: studioRoomPath(roomId, focus: focus, aiPin: aiPin, place: place),
+         key: key,
+       );
 
   /// The frontend route to open (e.g. `/wizard`, `/studio/{roomId}`).
   final String path;
@@ -59,11 +66,17 @@ class StudioWebViewScreen extends ConsumerStatefulWidget {
 }
 
 /// The studio path for a room: `?focus=1` opens it alone, `?ai_pin=` opens
-/// the AI designer with a Pinterest pin.
-String studioRoomPath(String roomId, {bool focus = false, String? aiPin}) {
+/// the AI designer with a Pinterest pin, `?place=` puts a shop's furniture in.
+String studioRoomPath(
+  String roomId, {
+  bool focus = false,
+  String? aiPin,
+  String? place,
+}) {
   final query = {
     if (focus) 'focus': '1',
     'ai_pin': ?aiPin,
+    'place': ?place,
   };
   return Uri(
     path: '/studio/$roomId',
@@ -73,9 +86,14 @@ String studioRoomPath(String roomId, {bool focus = false, String? aiPin}) {
 
 /// The web page to open for [path]. `app=1` tells the page it is inside the
 /// app, so it hides its own back button — this screen draws one over the page.
-String studioPageUrl(String base, String path) {
+/// `lang=` opens it in the app's language rather than the account's or the
+/// phone's; the page then saves that language on the account.
+String studioPageUrl(String base, String path, {String? language}) {
   final sep = path.contains('?') ? '&' : '?';
-  return '$base$path${sep}app=1';
+  final lang = language == null
+      ? ''
+      : '&lang=${Uri.encodeQueryComponent(language)}';
+  return '$base$path${sep}app=1$lang';
 }
 
 /// The colour at the bottom of the web studio's 3D view.
@@ -131,7 +149,11 @@ class _StudioWebViewScreenState extends ConsumerState<StudioWebViewScreen> {
   // cannot overwrite what a later one found.
   int _pageSeq = 0;
 
-  String get _targetUrl => studioPageUrl(AppConfig.studioBaseUrl, widget.path);
+  String get _targetUrl => studioPageUrl(
+    AppConfig.studioBaseUrl,
+    widget.path,
+    language: ref.read(localeProvider).languageCode,
+  );
 
   @override
   void initState() {

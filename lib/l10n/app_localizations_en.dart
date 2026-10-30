@@ -2672,4 +2672,107 @@ class AppLocalizationsEn extends AppLocalizations {
   String flatReviewSavedSome(int saved, int total) {
     return '$saved of $total rooms saved — scan the rest again';
   }
+
+  @override
+  String get loginWithApple => 'Sign in with Apple';
+
+  @override
+  String get loginAppleFailed =>
+      'Couldn\'t sign in with Apple. Please try again.';
+
+  @override
+  String get reportAction => 'Report';
+
+  @override
+  String get reportTitle => 'Report';
+
+  @override
+  String get reportHint =>
+      'What\'s wrong? Our moderators will review your report.';
+
+  @override
+  String get reportReasonSpam => 'Spam or advertising';
+
+  @override
+  String get reportReasonInappropriate => 'Inappropriate content';
+
+  @override
+  String get reportReasonFraud => 'Fraud or scam';
+
+  @override
+  String get reportReasonOther => 'Other';
+
+  @override
+  String get reportDetails => 'Details (optional)';
+
+  @override
+  String get reportSend => 'Send';
+
+  @override
+  String get reportSent => 'Thanks! Your report has been sent.';
+
+  @override
+  String get blockUstaAction => 'Block';
+
+  @override
+  String get blockUstaTitle => 'Block this craftsman?';
+
+  @override
+  String get blockUstaBody => 'They will no longer appear on your map or list.';
+
+  @override
+  String get blockUstaConfirm => 'Block';
+
+  @override
+  String get blockUstaDone => 'Craftsman blocked';
+
+  @override
+  String get shopFurnitureSection => 'Furniture';
+
+  @override
+  String get shopFurnitureNoPrice => 'Price on request';
+
+  @override
+  String storePageOpen(String name) {
+    return '$name shop';
+  }
+
+  @override
+  String get storeLoadFailed => 'Couldn\'t open the shop';
+
+  @override
+  String get storeCall => 'Call';
+
+  @override
+  String get storeTelegram => 'Telegram';
+
+  @override
+  String get storeNoProducts => 'This shop has no products yet';
+
+  @override
+  String get storeReport => 'Report this shop';
+
+  @override
+  String get furnitureSize => 'Size';
+
+  @override
+  String furnitureSizeValue(String size) {
+    return '$size cm';
+  }
+
+  @override
+  String get furniturePlaceInRoom => 'Place in my room';
+
+  @override
+  String get furniturePickRoom => 'Which room?';
+
+  @override
+  String get furnitureNoRooms => 'Create or scan a room first';
+
+  @override
+  String get furnitureNoModel =>
+      'This product has no 3D model, so it can\'t be placed in a room';
+
+  @override
+  String get furnitureLoadFailed => 'Couldn\'t open the product';
 }

@@ -36,6 +36,7 @@ import '../screens/electrical/d1_electrical_intro_screen.dart';
 import '../screens/electrical/d8_electrical_summary_screen.dart';
 import '../screens/electrical/d9_cost_estimate_screen.dart';
 import '../screens/electrical/d10_final_confirmation_screen.dart';
+import '../models/api/api.dart' show Furniture;
 import '../models/estimate_model.dart';
 import '../screens/estimation/e1_estimation_intro_screen.dart';
 import '../screens/estimation/e2_material_costs_screen.dart';
@@ -61,6 +62,8 @@ import '../screens/shop/s5_shopping_cart_screen.dart';
 import '../screens/shop/s6_checkout_screen.dart';
 import '../screens/business/shop_orders_screen.dart';
 import '../screens/shop/s7_order_confirmation_screen.dart';
+import '../screens/shop/furniture_detail_screen.dart';
+import '../screens/shop/store_page_screen.dart';
 import '../providers/masters_provider.dart';
 import '../screens/masters/u1_masters_intro_screen.dart';
 import '../screens/masters/u3_request_booking_screen.dart';
@@ -292,6 +295,19 @@ final routerProvider = Provider<GoRouter>((ref) {
             builder: (context, state) =>
                 S4DealerComparisonScreen(product: state.extra as Product),
           ),
+          // A shop's public page, and one of its pieces of furniture.
+          GoRoute(
+            path: '/shop/store/:storeId',
+            builder: (context, state) =>
+                StorePageScreen(storeId: state.pathParameters['storeId']!),
+          ),
+          GoRoute(
+            path: '/shop/furniture/:id',
+            builder: (context, state) => FurnitureDetailScreen(
+              id: state.pathParameters['id']!,
+              initial: state.extra as Furniture?,
+            ),
+          ),
           GoRoute(
             path: '/shop/s5',
             builder: (context, state) => const S5ShoppingCartScreen(),
@@ -470,6 +486,8 @@ final routerProvider = Provider<GoRouter>((ref) {
           // `?focus=1`: open this room alone (used right after a scan).
           focus: state.uri.queryParameters['focus'] == '1',
           aiPin: state.uri.queryParameters['ai_pin'],
+          // `?place=<furniture id>`: put a shop's model into the room.
+          place: state.uri.queryParameters['place'],
         ),
       ),
       // "Share → Andoza AI" from the Pinterest app: pick the room, then the

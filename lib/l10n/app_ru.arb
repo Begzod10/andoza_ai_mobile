@@ -2722,5 +2722,51 @@
   "flatReviewContinue": "Открыть в студии",
   "flatReviewPartial": "Сканирование прервалось — сохранено комнат: {n}",
   "flatReviewDropped": "Не удалось распознать комнат: {n}, они не добавлены",
-  "flatReviewSavedSome": "Сохранено комнат: {saved} из {total} — остальные отсканируйте заново"
+  "flatReviewSavedSome": "Сохранено комнат: {saved} из {total} — остальные отсканируйте заново",
+  "loginWithApple": "Войти через Apple",
+  "loginAppleFailed": "Не удалось войти через Apple. Попробуйте ещё раз.",
+  "reportAction": "Пожаловаться",
+  "reportTitle": "Жалоба",
+  "reportHint": "Что не так? Модераторы рассмотрят жалобу.",
+  "reportReasonSpam": "Спам или реклама",
+  "reportReasonInappropriate": "Неприемлемый контент",
+  "reportReasonFraud": "Мошенничество",
+  "reportReasonOther": "Другое",
+  "reportDetails": "Комментарий (необязательно)",
+  "reportSend": "Отправить",
+  "reportSent": "Спасибо! Жалоба отправлена.",
+  "blockUstaAction": "Заблокировать",
+  "blockUstaTitle": "Заблокировать мастера?",
+  "blockUstaBody": "Он больше не будет виден вам на карте и в списке.",
+  "blockUstaConfirm": "Заблокировать",
+  "blockUstaDone": "Мастер заблокирован",
+  "shopFurnitureSection": "Мебель",
+  "shopFurnitureNoPrice": "Цена по договорённости",
+  "storePageOpen": "Магазин «{name}»",
+  "@storePageOpen": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "storeLoadFailed": "Не удалось открыть магазин",
+  "storeCall": "Позвонить",
+  "storeTelegram": "Telegram",
+  "storeNoProducts": "В этом магазине пока нет товаров",
+  "storeReport": "Пожаловаться на магазин",
+  "furnitureSize": "Размер",
+  "furnitureSizeValue": "{size} см",
+  "@furnitureSizeValue": {
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "furniturePlaceInRoom": "Поставить в мою комнату",
+  "furniturePickRoom": "В какую комнату поставить?",
+  "furnitureNoRooms": "Сначала создайте или отсканируйте комнату",
+  "furnitureNoModel": "У этого товара нет 3D-модели, его нельзя поставить в комнату",
+  "furnitureLoadFailed": "Не удалось открыть товар"
 }

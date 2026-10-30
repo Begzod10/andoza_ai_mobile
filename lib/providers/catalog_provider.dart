@@ -28,6 +28,29 @@ final furnitureProvider =
   return result.items;
 });
 
+/// One shop's own furniture / 3D models, for its page.
+final storeFurnitureProvider = FutureProvider.autoDispose
+    .family<List<Furniture>, String>((ref, storeId) async {
+      final repo = ref.watch(catalogRepositoryProvider);
+      final result = await repo.getFurniture(storeId: storeId, perPage: 100);
+      return result.items;
+    });
+
+/// One furniture item by id — for its page when it was opened without the
+/// item in hand (a deep link, or a list that has since changed).
+final furnitureItemProvider = FutureProvider.autoDispose
+    .family<Furniture, String>((ref, id) {
+      return ref.watch(catalogRepositoryProvider).getFurnitureItem(id);
+    });
+
+/// One open shop, for its page.
+final storeProvider = FutureProvider.autoDispose.family<Store, String>((
+  ref,
+  id,
+) {
+  return ref.watch(catalogRepositoryProvider).getStore(id);
+});
+
 /// All active partner stores.
 final storesProvider = FutureProvider.autoDispose<List<Store>>((ref) {
   return ref.watch(catalogRepositoryProvider).getStores();

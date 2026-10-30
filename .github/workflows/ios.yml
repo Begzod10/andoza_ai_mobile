@@ -9,7 +9,7 @@ name: iOS Build & TestFlight
 #   IOS_P12_PASSWORD     password used when the .p12 was exported
 #   IOS_PROFILE_BASE64   base64 of the App Store provisioning .mobileprovision
 #   IOS_TEAM_ID          10-char Apple Developer Team ID
-#   IOS_BUNDLE_ID        com.tamiruy.tamirUyMobileFlutter  (the iOS bundle id)
+#   IOS_BUNDLE_ID        uz.andozaai.app  (the iOS bundle id)
 #   IOS_PROFILE_NAME     the provisioning profile's exact name
 #   ASC_KEY_BASE64       base64 of the App Store Connect API key AuthKey_XXXX.p8
 #   ASC_KEY_ID           the API key id (the XXXX in the filename)
