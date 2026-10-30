@@ -22,6 +22,7 @@ Studio "Frame load interrupted" bilan ochilmaydi (handoff §9.1).
   - Bir vaqtda kelgan bir nechta 401 bitta yangilashga birlashadi.
   - Yangilash muvaffaqiyatsiz bo'lsa, tokenlar o'chiriladi va foydalanuvchi login sahifasiga qaytariladi.
 - **Xatolar:** `ApiException` ga o'raladi. Foydalanuvchiga ko'rinadigan matnni `utils/error_mapper.dart` beradi.
+- **Til:** har bir so'rov `Accept-Language: uz|ru|en` (ilova tili) bilan ketadi, shuning uchun server xato matnlarini shu tilda qaytaradi. Tanlangan til akkauntga `PATCH /auth/me {language}` bilan yoziladi.
 - **Log:** faqat debug rejimida, faqat metod, yo'l va status. So'rov va javob tanasi log qilinmaydi.
 - **Tokenlar:** `flutter_secure_storage` da (`services/secure_storage.dart`), kalitlar `auth_token`, `refresh_token`, `user_id`.
   - Android'da EncryptedSharedPreferences.
@@ -33,7 +34,7 @@ Hammasi `/api/v1` ga nisbatan. Har bir mavzu uchun bitta repository fayli (`lib/
 
 | Mavzu | So'rovlar | Fayl |
 |---|---|---|
-| Kirish | `POST /auth/login`, `/auth/register`, `/auth/otp/request`, `/auth/otp/verify`, `/auth/google` (`id_token`), `/auth/apple` (`identity_token`, `name` faqat birinchi kirishda; faqat iOS), `/auth/refresh`, `/auth/logout`, `/auth/delete-account`; `GET /auth/me` | `auth_repository.dart`, `services/api_client.dart` |
+| Kirish | `POST /auth/login`, `/auth/register`, `/auth/otp/request`, `/auth/otp/verify`, `/auth/google` (`id_token`), `/auth/apple` (`identity_token`, `name` faqat birinchi kirishda; faqat iOS), `/auth/refresh`, `/auth/logout`, `/auth/delete-account`; `GET /auth/me`, `PATCH /auth/me` (`language`) | `auth_repository.dart`, `services/api_client.dart` |
 | Kvartira va xonalar | `GET/POST /apartments`; `GET/PATCH/DELETE /apartments/{id}`; `GET/POST /apartments/{id}/rooms`; `GET/PATCH/DELETE /rooms/{id}` | `apartment_repository.dart` |
 | Xona holati | `GET/POST/PATCH /rooms/{id}/state`; `GET /rooms/{id}/delta` | `room_state_repository.dart` |
 | Bezak va elektr | `GET/PUT /rooms/{id}/decoration`; `GET/PUT /rooms/{id}/electrical` | `decoration_repository.dart`, `electrical_repository.dart` |

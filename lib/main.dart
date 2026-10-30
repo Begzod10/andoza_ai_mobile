@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'config/design_tokens.dart';
 import 'config/router.dart';
 import 'l10n/app_localizations.dart';
+import 'providers/account_language_provider.dart';
 import 'providers/locale_provider.dart';
 import 'services/firebase_setup.dart';
 import 'services/push_router.dart';
@@ -31,6 +32,7 @@ class MyApp extends ConsumerWidget {
     final locale = ref.watch(localeProvider);
     ref.watch(sessionTelemetryProvider);
     ref.watch(pushRegistrationProvider);
+    ref.watch(accountLanguageSyncProvider);
     ref.watch(pushNotificationsProvider);
     ref.watch(shareIntentProvider);
 

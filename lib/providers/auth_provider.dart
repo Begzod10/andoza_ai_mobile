@@ -5,6 +5,7 @@ import '../repositories/auth_repository.dart';
 import '../services/api_client.dart';
 import '../services/push_service.dart';
 import '../services/secure_storage.dart';
+import 'locale_provider.dart';
 
 // Secure Storage provider
 final secureStorageProvider = Provider<SecureStorageService>((ref) {
@@ -40,6 +41,8 @@ final Provider<ApiClient> apiClientProvider = Provider<ApiClient>((ref) {
     onTokensCleared: () async {
       await storage.clear();
     },
+    // Read per request, so a language change applies to the next call.
+    language: () => ref.read(localeProvider).languageCode,
   );
 });
 

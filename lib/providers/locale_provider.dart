@@ -1,3 +1,5 @@
+import 'dart:ui' show PlatformDispatcher;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,31 +14,48 @@ const supportedAppLocales = [
   Locale('en'),
 ];
 
-/// The user's selected app language. Null means "follow system" until the
-/// first load completes; [LocaleNotifier] then resolves and persists a
-/// concrete locale so the app always has an explicit choice after that.
+/// The supported language matching [system] (the phone's first language),
+/// else Uzbek.
+Locale appLocaleFor(Locale system) => supportedAppLocales.firstWhere(
+      (l) => l.languageCode == system.languageCode,
+      orElse: () => supportedAppLocales.first,
+    );
+
+/// The app language: the one the user picked, else the phone's when the app
+/// has it, else Uzbek.
 final localeProvider = NotifierProvider<LocaleNotifier, Locale>(
   LocaleNotifier.new,
 );
 
 class LocaleNotifier extends Notifier<Locale> {
+  /// True once the user has picked a language, now or in an earlier session.
+  /// Until then the app follows the phone, and that is not saved anywhere.
+  bool chosen = false;
+
   @override
   Locale build() {
-    // Default to Uzbek until the persisted preference (if any) loads.
+    // The phone's language until the persisted choice (if any) loads.
     _loadPersisted();
-    return supportedAppLocales.first;
+    return appLocaleFor(PlatformDispatcher.instance.locale);
   }
 
   Future<void> _loadPersisted() async {
-    final prefs = await SharedPreferences.getInstance();
+    final SharedPreferences prefs;
+    try {
+      prefs = await SharedPreferences.getInstance();
+    } catch (_) {
+      return; // No storage (e.g. a plain Dart test): stay on the phone's.
+    }
     final code = prefs.getString(_prefsKeyLocale);
     final match = supportedAppLocales.where((l) => l.languageCode == code);
-    if (match.isNotEmpty) {
+    if (match.isNotEmpty && !chosen) {
+      chosen = true;
       state = match.first;
     }
   }
 
   Future<void> setLocale(Locale locale) async {
+    chosen = true;
     state = locale;
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_prefsKeyLocale, locale.languageCode);
