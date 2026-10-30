@@ -2992,5 +2992,17 @@
   "furnitureLoadFailed": "Mahsulotni ochib bo'lmadi",
   "@furnitureLoadFailed": {
     "description": "A furniture page could not load, or the item is off sale."
+  },
+  "profileMenuMebel": "Mebel ishlab chiqarish",
+  "@profileMenuMebel": {
+    "description": "Profile menu: opens the web furniture workshop (cabinet parts, cut lists, price) in a WebView. Same text as the web's profile.mebel."
+  },
+  "profileMenuMebelHint": "Ustaxonalar uchun: shkaf detallari, kromka va narx",
+  "@profileMenuMebelHint": {
+    "description": "Profile menu: line under the furniture-workshop entry. Same text as the web's profile.mebel_izoh."
+  },
+  "mebelExportFailed": "Faylni ochib bo'lmadi",
+  "@mebelExportFailed": {
+    "description": "Furniture workshop: the PDF or CSV export could not be opened or shared."
   }
 }

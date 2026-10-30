@@ -49,7 +49,7 @@ Native kod: `ios/Runner/RoomScan/` (RoomPlan skaner, Swift), `android/` (Kotlin)
 
 ## Ekranlar va navigatsiya
 
-`lib/config/router.dart` da 61 ta yo'l. Ilova `/splash` dan ochiladi.
+`lib/config/router.dart` da 62 ta yo'l. Ilova `/splash` dan ochiladi.
 **Login qilmagan foydalanuvchi** `/login` ga yo'naltiriladi. Login qilgan
 foydalanuvchi `/login` ga kirsa, bosh sahifaga qaytariladi. `/splash` va
 `/login` dan boshqa hamma yo'llar login talab qiladi.
@@ -70,6 +70,7 @@ menyu uni davom ettirishni taklif qiladi.
 | Buyurtmalar | `/profile/e6`, `/history` | Buyurtmalar tarixi |
 | Ustalar | `/masters/u1`, `/u3`, `/u4`, `/u5` | Xarita, ro'yxat, profil, ustaga smeta yuborish |
 | Profil | `/profile`, `/profile/settings`, `/onboarding/e7`, `/onboarding/e8` | Til, versiya, maxfiylik, hisobni o'chirish |
+| Mebel ustaxonasi | `/mebel` | WebView, pastda batafsil |
 | Biznes (do'kon yoki usta egasi) | `/business` va `/business/*` | Murojaatlar, buyurtmalar, statistika, portfolio, mahsulotlar, ariza |
 
 ## 3D studiya (WebView)
@@ -93,6 +94,24 @@ tilda ochiladi va uni akkauntga saqlaydi.
 - "Orqaga" bosilganda ilova `window.__captureRoomThumbnail?.()` ni chaqiradi (xona rasmini saqlash) va 150 ms dan keyin yopiladi.
 - JS'dan ilovaga xabar kanali yo'q.
 - **Fayl yuklash (`<input type="file">`).** Studiyadagi rasm yuklashlar (rasmdan AI dizayn, pol teksturasi, mebel fotosi) iOS'da WKWebView'ning o'z oynasi orqali ishlaydi. Android WebView esa ilova javob bermaguncha bu tugmalarni e'tiborsiz qoldiradi. Shuning uchun Android'da `AndroidWebViewController.setOnShowFileSelector` ulangan (`screens/studio/webview_file_chooser.dart`): foydalanuvchi kamera yoki galereyani tanlaydi, `image_picker` rasmni 2048 px gacha kichraytirib, JPEG qilib beradi. Faqat rasm qabul qiladigan input'larga javob beriladi.
+
+## Mebel ustaxonasi (WebView)
+
+`screens/mebel/mebel_webview_screen.dart` web'dagi `/mebel` bo'limini
+`?app=1&lang=<ilova tili>` bilan ochadi. Kirish nuqtasi Profil ekranidagi
+"Mebel ishlab chiqarish" qatori. Detallar, raskroy va chizmalarni web sahifa
+hisoblaydi, ilova ularni qayta yozmaydi.
+
+- **Sessiya:** Studio'dagidek uzatiladi (`screens/studio/studio_session.dart`:
+  token cookie'lari va `uy-tamir-auth`). Studiya origin'idan tashqariga o'tish
+  bloklanadi, `/mebel` dan chiqish (masalan sessiya tugab `/login`) ekranni yopadi.
+- **Orqaga:** WebView'da orqaga yo'l bo'lsa sahifa orqaga qaytadi (loyiha →
+  ro'yxat), bo'lmasa ekran yopiladi. Sahifa o'zi saqlaydi, so'ralmaydi.
+- **PDF va CSV** (`mebel_bridge.dart`): WebView `window.print()` va
+  `<a download href="blob:…">` ni bajarmaydi. Har sahifa yuklanganda JS ularni
+  ushlaydi. Chop etish HTML'i `printing` paketi orqali tizimning chop etish
+  oynasiga ("PDF sifatida saqlash" bor), CSV esa vaqtinchalik faylga yozilib,
+  "Ulashish" oynasiga beriladi.
 
 ## "Share → Andoza AI" (Pinterest pin)
 

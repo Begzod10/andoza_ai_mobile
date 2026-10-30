@@ -5103,6 +5103,24 @@ abstract class AppLocalizations {
   /// In uz, this message translates to:
   /// **'Mahsulotni ochib bo\'lmadi'**
   String get furnitureLoadFailed;
+
+  /// Profile menu: opens the web furniture workshop (cabinet parts, cut lists, price) in a WebView. Same text as the web's profile.mebel.
+  ///
+  /// In uz, this message translates to:
+  /// **'Mebel ishlab chiqarish'**
+  String get profileMenuMebel;
+
+  /// Profile menu: line under the furniture-workshop entry. Same text as the web's profile.mebel_izoh.
+  ///
+  /// In uz, this message translates to:
+  /// **'Ustaxonalar uchun: shkaf detallari, kromka va narx'**
+  String get profileMenuMebelHint;
+
+  /// Furniture workshop: the PDF or CSV export could not be opened or shared.
+  ///
+  /// In uz, this message translates to:
+  /// **'Faylni ochib bo\'lmadi'**
+  String get mebelExportFailed;
 }
 
 class _AppLocalizationsDelegate

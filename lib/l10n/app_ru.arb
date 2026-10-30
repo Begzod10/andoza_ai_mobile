@@ -2768,5 +2768,8 @@
   "furniturePickRoom": "В какую комнату поставить?",
   "furnitureNoRooms": "Сначала создайте или отсканируйте комнату",
   "furnitureNoModel": "У этого товара нет 3D-модели, его нельзя поставить в комнату",
-  "furnitureLoadFailed": "Не удалось открыть товар"
+  "furnitureLoadFailed": "Не удалось открыть товар",
+  "profileMenuMebel": "Производство мебели",
+  "profileMenuMebelHint": "Для цехов: детали шкафа, кромка и цена",
+  "mebelExportFailed": "Не удалось открыть файл"
 }
