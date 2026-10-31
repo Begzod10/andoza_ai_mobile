@@ -9,12 +9,14 @@ import '../../config/design_tokens.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/business_provider.dart';
+import '../../providers/locale_provider.dart';
 import '../../repositories/auth_repository.dart';
 import '../../services/analytics_service.dart';
 import '../../services/api_client.dart';
 import '../../services/apple_sign_in_service.dart';
 import '../../services/google_sign_in_service.dart';
 import '../../utils/error_mapper.dart';
+import '../settings/language_picker_sheet.dart';
 
 /// Login screen — a Flutter port of the web `/login` page: phone-OTP by default,
 /// with a 6-digit code step, plus username/password login and registration.
@@ -339,22 +341,32 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           // Top-anchored, not centred: the card's height differs per step
           // (phone / code / username / register), and a centred column moved the
           // logo up and down every time the step changed.
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(
-                DesignTokens.spacing24, 72, DesignTokens.spacing24, DesignTokens.spacing32),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const _BrandHeader(),
-                  const SizedBox(height: DesignTokens.spacing32),
-                  _card(),
-                  const SizedBox(height: DesignTokens.spacing24),
-                  const _VersionLabel(),
-                ],
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.topCenter,
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.fromLTRB(
+                    DesignTokens.spacing24, 72, DesignTokens.spacing24, DesignTokens.spacing32),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const _BrandHeader(),
+                      const SizedBox(height: DesignTokens.spacing32),
+                      _card(),
+                      const SizedBox(height: DesignTokens.spacing24),
+                      const _VersionLabel(),
+                    ],
+                  ),
+                ),
               ),
-            ),
+              // The profile's language row is out of reach before sign-in.
+              const Positioned(
+                top: DesignTokens.spacing8,
+                right: DesignTokens.spacing8,
+                child: _LanguageButton(),
+              ),
+            ],
           ),
         ),
       ),
@@ -813,6 +825,26 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 /// Static brand header above the auth card: a mark, the product name and a
 /// one-line tagline. Extracted as a `const` widget so the per-keystroke /
 /// per-cooldown rebuilds of the stateful screen never rebuild it.
+/// The current language; opens the language picker.
+class _LanguageButton extends ConsumerWidget {
+  const _LanguageButton();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final locale = ref.watch(localeProvider);
+    return Tooltip(
+      message: AppLocalizations.of(context)!.profileMenuLanguage,
+      child: TextButton(
+        onPressed: () => showLanguagePickerSheet(context, ref),
+        child: Text(
+          '${languageFlagEmoji(locale)} ${languageDisplayName(locale)}',
+          style: DesignTokens.subtitle2,
+        ),
+      ),
+    );
+  }
+}
+
 class _BrandHeader extends StatelessWidget {
   const _BrandHeader();
 

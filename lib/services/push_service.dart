@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui' show Locale;
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -146,4 +147,11 @@ final pushRegistrationProvider = Provider<void>((ref) {
 
   apply(ref.read(authStateProvider));
   ref.listen<AuthState>(authStateProvider, (_, next) => apply(next));
+  // Pushes are written in the language the token was registered with, so a
+  // language change registers it again.
+  ref.listen<Locale>(localeProvider, (prev, next) {
+    if (active && prev?.languageCode != next.languageCode) {
+      service.registerCurrent();
+    }
+  });
 });
