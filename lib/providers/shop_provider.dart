@@ -247,6 +247,23 @@ final shopCatalogProvider = Provider<List<Product>>((ref) {
       );
 });
 
+/// Catalog products whose name matches [query] (trimmed, at most 100
+/// characters), searched by the server (`q`) over the whole catalog rather
+/// than over what [shopCatalogProvider] loaded.
+final shopSearchProvider =
+    Provider.autoDispose.family<AsyncValue<List<Product>>, String>((ref, query) {
+  final stores = ref.watch(storesProvider).valueOrNull ?? const <Store>[];
+  return ref
+      .watch(materialSearchProvider(query))
+      .whenData((materials) => _mapToProducts(materials, stores, ref));
+});
+
+/// [text] as a catalog search: trimmed, cut to the server's 100 characters.
+String shopSearchQuery(String text) {
+  final q = text.trim();
+  return q.length > 100 ? q.substring(0, 100) : q;
+}
+
 /// The error that made [shopCatalogProvider] empty, if any. [shopCatalogProvider]
 /// itself collapses loading AND error into an empty list, so a screen watching
 /// only the catalog can't tell "backend down" from "no results". Watch this

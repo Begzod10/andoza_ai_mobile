@@ -9,23 +9,30 @@ final catalogRepositoryProvider = Provider<CatalogRepository>((ref) {
   return CatalogRepository(ref.watch(apiClientProvider));
 });
 
-/// Active materials, optionally filtered by category (null = all).
-///
-/// Pulls up to 100 in one page — the seeded catalog is small and the material
-/// rail wants the whole list at once.
+/// Active materials, optionally filtered by category (null = all). All pages:
+/// the catalog outgrew one page of 100 (the demo shops alone add ~270).
 final materialsProvider =
-    FutureProvider.autoDispose.family<List<Material>, String?>((ref, category) async {
-  final repo = ref.watch(catalogRepositoryProvider);
-  final result = await repo.getMaterials(category: category, perPage: 100);
-  return result.items;
+    FutureProvider.autoDispose.family<List<Material>, String?>((ref, category) {
+  return ref.watch(catalogRepositoryProvider).getAllMaterials(category: category);
+});
+
+/// Materials whose name matches a search, found by the server (`q`), so the
+/// whole catalog is searched, not just what was loaded.
+final materialSearchProvider =
+    FutureProvider.autoDispose.family<List<Material>, String>((ref, query) {
+  return ref.watch(catalogRepositoryProvider).getAllMaterials(query: query);
 });
 
 /// Furniture / 3D-model catalog, optionally filtered by category (null = all).
 final furnitureProvider =
-    FutureProvider.autoDispose.family<List<Furniture>, String?>((ref, category) async {
-  final repo = ref.watch(catalogRepositoryProvider);
-  final result = await repo.getFurniture(category: category, perPage: 100);
-  return result.items;
+    FutureProvider.autoDispose.family<List<Furniture>, String?>((ref, category) {
+  return ref.watch(catalogRepositoryProvider).getAllFurniture(category: category);
+});
+
+/// Furniture whose name matches a search, found by the server (`q`).
+final furnitureSearchProvider =
+    FutureProvider.autoDispose.family<List<Furniture>, String>((ref, query) {
+  return ref.watch(catalogRepositoryProvider).getAllFurniture(query: query);
 });
 
 /// One shop's own furniture / 3D models, for its page.
