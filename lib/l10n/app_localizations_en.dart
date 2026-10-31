@@ -2775,4 +2775,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get furnitureLoadFailed => 'Couldn\'t open the product';
+
+  @override
+  String get profileMenuMebel => 'Furniture manufacturing';
+
+  @override
+  String get profileMenuMebelHint =>
+      'For workshops: cabinet parts, edge banding and price';
+
+  @override
+  String get mebelExportFailed => 'Couldn\'t open the file';
 }

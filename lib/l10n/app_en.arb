@@ -2768,5 +2768,8 @@
   "furniturePickRoom": "Which room?",
   "furnitureNoRooms": "Create or scan a room first",
   "furnitureNoModel": "This product has no 3D model, so it can't be placed in a room",
-  "furnitureLoadFailed": "Couldn't open the product"
+  "furnitureLoadFailed": "Couldn't open the product",
+  "profileMenuMebel": "Furniture manufacturing",
+  "profileMenuMebelHint": "For workshops: cabinet parts, edge banding and price",
+  "mebelExportFailed": "Couldn't open the file"
 }

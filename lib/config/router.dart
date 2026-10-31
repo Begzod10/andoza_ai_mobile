@@ -73,6 +73,7 @@ import '../screens/profile/e4_profile_settings_screen.dart';
 import '../screens/profile/e5_projects_screen.dart';
 import '../screens/profile/e6_orders_screen.dart';
 import '../screens/profile/e11_saved_designs_screen.dart';
+import '../screens/mebel/mebel_webview_screen.dart';
 import '../screens/onboarding/e7_onboarding_welcome_screen.dart';
 import '../screens/onboarding/e8_tutorial_tour_screen.dart';
 import '../screens/onboarding/e9_preferences_settings_screen.dart';
@@ -428,6 +429,12 @@ final routerProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) =>
             FlatScanReviewPage(args: state.extra! as FlatScanReviewArgs),
+      ),
+      // The web mebel workshop, full screen like the Studio.
+      GoRoute(
+        path: '/mebel',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const MebelWebViewScreen(),
       ),
       // The shop / usta application is a full-screen form, outside the shell
       // like the other takeovers (see the E7/E8 note below).

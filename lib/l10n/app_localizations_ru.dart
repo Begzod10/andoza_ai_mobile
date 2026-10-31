@@ -2776,4 +2776,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get furnitureLoadFailed => 'Не удалось открыть товар';
+
+  @override
+  String get profileMenuMebel => 'Производство мебели';
+
+  @override
+  String get profileMenuMebelHint => 'Для цехов: детали шкафа, кромка и цена';
+
+  @override
+  String get mebelExportFailed => 'Не удалось открыть файл';
 }

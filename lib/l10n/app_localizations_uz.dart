@@ -2772,4 +2772,14 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get furnitureLoadFailed => 'Mahsulotni ochib bo\'lmadi';
+
+  @override
+  String get profileMenuMebel => 'Mebel ishlab chiqarish';
+
+  @override
+  String get profileMenuMebelHint =>
+      'Ustaxonalar uchun: shkaf detallari, kromka va narx';
+
+  @override
+  String get mebelExportFailed => 'Faylni ochib bo\'lmadi';
 }
